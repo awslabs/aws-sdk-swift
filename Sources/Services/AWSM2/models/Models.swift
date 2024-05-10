@@ -182,23 +182,6 @@ extension M2ClientTypes {
 
 extension M2ClientTypes.ApplicationSummary {
 
-    static func write(value: M2ClientTypes.ApplicationSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["applicationArn"].write(value.applicationArn)
-        try writer["applicationId"].write(value.applicationId)
-        try writer["applicationVersion"].write(value.applicationVersion)
-        try writer["creationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["deploymentStatus"].write(value.deploymentStatus)
-        try writer["description"].write(value.description)
-        try writer["engineType"].write(value.engineType)
-        try writer["environmentId"].write(value.environmentId)
-        try writer["lastStartTime"].writeTimestamp(value.lastStartTime, format: .epochSeconds)
-        try writer["name"].write(value.name)
-        try writer["roleArn"].write(value.roleArn)
-        try writer["status"].write(value.status)
-        try writer["versionStatus"].write(value.versionStatus)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.ApplicationSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = M2ClientTypes.ApplicationSummary()
@@ -325,14 +308,6 @@ extension M2ClientTypes {
 
 extension M2ClientTypes.ApplicationVersionSummary {
 
-    static func write(value: M2ClientTypes.ApplicationVersionSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["applicationVersion"].write(value.applicationVersion)
-        try writer["creationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["status"].write(value.status)
-        try writer["statusReason"].write(value.statusReason)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.ApplicationVersionSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = M2ClientTypes.ApplicationVersionSummary()
@@ -376,18 +351,6 @@ extension M2ClientTypes {
 }
 
 extension M2ClientTypes.BatchJobDefinition {
-
-    static func write(value: M2ClientTypes.BatchJobDefinition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .filebatchjobdefinition(filebatchjobdefinition):
-                try writer["fileBatchJobDefinition"].write(filebatchjobdefinition, with: M2ClientTypes.FileBatchJobDefinition.write(value:to:))
-            case let .scriptbatchjobdefinition(scriptbatchjobdefinition):
-                try writer["scriptBatchJobDefinition"].write(scriptbatchjobdefinition, with: M2ClientTypes.ScriptBatchJobDefinition.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.BatchJobDefinition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -470,20 +433,6 @@ extension M2ClientTypes {
 }
 
 extension M2ClientTypes.BatchJobExecutionSummary {
-
-    static func write(value: M2ClientTypes.BatchJobExecutionSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["applicationId"].write(value.applicationId)
-        try writer["batchJobIdentifier"].write(value.batchJobIdentifier, with: M2ClientTypes.BatchJobIdentifier.write(value:to:))
-        try writer["endTime"].writeTimestamp(value.endTime, format: .epochSeconds)
-        try writer["executionId"].write(value.executionId)
-        try writer["jobId"].write(value.jobId)
-        try writer["jobName"].write(value.jobName)
-        try writer["jobType"].write(value.jobType)
-        try writer["returnCode"].write(value.returnCode)
-        try writer["startTime"].writeTimestamp(value.startTime, format: .epochSeconds)
-        try writer["status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.BatchJobExecutionSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1201,17 +1150,6 @@ extension M2ClientTypes.DataSet {
         try writer["relativePath"].write(value.relativePath)
         try writer["storageType"].write(value.storageType)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.DataSet {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = M2ClientTypes.DataSet()
-        value.storageType = try reader["storageType"].readIfPresent()
-        value.datasetName = try reader["datasetName"].readIfPresent()
-        value.datasetOrg = try reader["datasetOrg"].readIfPresent(with: M2ClientTypes.DatasetOrgAttributes.read(from:))
-        value.relativePath = try reader["relativePath"].readIfPresent()
-        value.recordLength = try reader["recordLength"].readIfPresent(with: M2ClientTypes.RecordLength.read(from:))
-        return value
-    }
 }
 
 extension M2ClientTypes {
@@ -1262,19 +1200,6 @@ extension M2ClientTypes.DataSetImportConfig {
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.DataSetImportConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "s3Location":
-                return .s3location(try reader["s3Location"].read())
-            case "dataSets":
-                return .datasets(try reader["dataSets"].readList(memberReadingClosure: M2ClientTypes.DataSetImportItem.read(from:), memberNodeInfo: "member", isFlattened: false))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
 }
 
 extension M2ClientTypes {
@@ -1295,14 +1220,6 @@ extension M2ClientTypes.DataSetImportItem {
         guard let value else { return }
         try writer["dataSet"].write(value.dataSet, with: M2ClientTypes.DataSet.write(value:to:))
         try writer["externalLocation"].write(value.externalLocation, with: M2ClientTypes.ExternalLocation.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.DataSetImportItem {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = M2ClientTypes.DataSetImportItem()
-        value.dataSet = try reader["dataSet"].readIfPresent(with: M2ClientTypes.DataSet.read(from:))
-        value.externalLocation = try reader["externalLocation"].readIfPresent(with: M2ClientTypes.ExternalLocation.read(from:))
-        return value
     }
 }
 
@@ -1329,15 +1246,6 @@ extension M2ClientTypes {
 }
 
 extension M2ClientTypes.DataSetImportSummary {
-
-    static func write(value: M2ClientTypes.DataSetImportSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["failed"].write(value.failed)
-        try writer["inProgress"].write(value.inProgress)
-        try writer["pending"].write(value.pending)
-        try writer["succeeded"].write(value.succeeded)
-        try writer["total"].write(value.total)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.DataSetImportSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1390,14 +1298,6 @@ extension M2ClientTypes {
 
 extension M2ClientTypes.DataSetImportTask {
 
-    static func write(value: M2ClientTypes.DataSetImportTask?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["status"].write(value.status)
-        try writer["statusReason"].write(value.statusReason)
-        try writer["summary"].write(value.summary, with: M2ClientTypes.DataSetImportSummary.write(value:to:))
-        try writer["taskId"].write(value.taskId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.DataSetImportTask {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = M2ClientTypes.DataSetImportTask()
@@ -1441,16 +1341,6 @@ extension M2ClientTypes {
 }
 
 extension M2ClientTypes.DataSetSummary {
-
-    static func write(value: M2ClientTypes.DataSetSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["creationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["dataSetName"].write(value.dataSetName)
-        try writer["dataSetOrg"].write(value.dataSetOrg)
-        try writer["format"].write(value.format)
-        try writer["lastReferencedTime"].writeTimestamp(value.lastReferencedTime, format: .epochSeconds)
-        try writer["lastUpdatedTime"].writeTimestamp(value.lastUpdatedTime, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.DataSetSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1540,22 +1430,6 @@ extension M2ClientTypes {
 
 extension M2ClientTypes.DatasetDetailOrgAttributes {
 
-    static func write(value: M2ClientTypes.DatasetDetailOrgAttributes?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .gdg(gdg):
-                try writer["gdg"].write(gdg, with: M2ClientTypes.GdgDetailAttributes.write(value:to:))
-            case let .po(po):
-                try writer["po"].write(po, with: M2ClientTypes.PoDetailAttributes.write(value:to:))
-            case let .ps(ps):
-                try writer["ps"].write(ps, with: M2ClientTypes.PsDetailAttributes.write(value:to:))
-            case let .vsam(vsam):
-                try writer["vsam"].write(vsam, with: M2ClientTypes.VsamDetailAttributes.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.DatasetDetailOrgAttributes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
@@ -1607,23 +1481,6 @@ extension M2ClientTypes.DatasetOrgAttributes {
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.DatasetOrgAttributes {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "vsam":
-                return .vsam(try reader["vsam"].read(with: M2ClientTypes.VsamAttributes.read(from:)))
-            case "gdg":
-                return .gdg(try reader["gdg"].read(with: M2ClientTypes.GdgAttributes.read(from:)))
-            case "po":
-                return .po(try reader["po"].read(with: M2ClientTypes.PoAttributes.read(from:)))
-            case "ps":
-                return .ps(try reader["ps"].read(with: M2ClientTypes.PsAttributes.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
 }
 
 extension M2ClientTypes {
@@ -1653,19 +1510,6 @@ extension M2ClientTypes.Definition {
                 try writer["s3Location"].write(s3location)
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.Definition {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "s3Location":
-                return .s3location(try reader["s3Location"].read())
-            case "content":
-                return .content(try reader["content"].read())
-            default:
-                return .sdkUnknown(name ?? "")
         }
     }
 }
@@ -1852,13 +1696,6 @@ enum DeleteEnvironmentOutputError {
 
 extension M2ClientTypes.DeployedVersionSummary {
 
-    static func write(value: M2ClientTypes.DeployedVersionSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["applicationVersion"].write(value.applicationVersion)
-        try writer["status"].write(value.status)
-        try writer["statusReason"].write(value.statusReason)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.DeployedVersionSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = M2ClientTypes.DeployedVersionSummary()
@@ -1932,17 +1769,6 @@ extension M2ClientTypes {
 }
 
 extension M2ClientTypes.DeploymentSummary {
-
-    static func write(value: M2ClientTypes.DeploymentSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["applicationId"].write(value.applicationId)
-        try writer["applicationVersion"].write(value.applicationVersion)
-        try writer["creationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["deploymentId"].write(value.deploymentId)
-        try writer["environmentId"].write(value.environmentId)
-        try writer["status"].write(value.status)
-        try writer["statusReason"].write(value.statusReason)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.DeploymentSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2075,12 +1901,6 @@ extension M2ClientTypes {
 
 extension M2ClientTypes.EngineVersionsSummary {
 
-    static func write(value: M2ClientTypes.EngineVersionsSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["engineType"].write(value.engineType)
-        try writer["engineVersion"].write(value.engineVersion)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.EngineVersionsSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = M2ClientTypes.EngineVersionsSummary()
@@ -2152,18 +1972,6 @@ extension M2ClientTypes {
 }
 
 extension M2ClientTypes.EnvironmentSummary {
-
-    static func write(value: M2ClientTypes.EnvironmentSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["creationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["engineType"].write(value.engineType)
-        try writer["engineVersion"].write(value.engineVersion)
-        try writer["environmentArn"].write(value.environmentArn)
-        try writer["environmentId"].write(value.environmentId)
-        try writer["instanceType"].write(value.instanceType)
-        try writer["name"].write(value.name)
-        try writer["status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.EnvironmentSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2281,17 +2089,6 @@ extension M2ClientTypes.ExternalLocation {
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.ExternalLocation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "s3Location":
-                return .s3location(try reader["s3Location"].read())
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
 }
 
 extension M2ClientTypes {
@@ -2305,12 +2102,6 @@ extension M2ClientTypes {
 }
 
 extension M2ClientTypes.FileBatchJobDefinition {
-
-    static func write(value: M2ClientTypes.FileBatchJobDefinition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["fileName"].write(value.fileName)
-        try writer["folderPath"].write(value.folderPath)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.FileBatchJobDefinition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2426,14 +2217,6 @@ extension M2ClientTypes.GdgAttributes {
         try writer["limit"].write(value.limit)
         try writer["rollDisposition"].write(value.rollDisposition)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.GdgAttributes {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = M2ClientTypes.GdgAttributes()
-        value.limit = try reader["limit"].readIfPresent() ?? 0
-        value.rollDisposition = try reader["rollDisposition"].readIfPresent()
-        return value
-    }
 }
 
 extension M2ClientTypes {
@@ -2457,12 +2240,6 @@ extension M2ClientTypes {
 }
 
 extension M2ClientTypes.GdgDetailAttributes {
-
-    static func write(value: M2ClientTypes.GdgDetailAttributes?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["limit"].write(value.limit)
-        try writer["rollDisposition"].write(value.rollDisposition)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.GdgDetailAttributes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3569,16 +3346,6 @@ extension M2ClientTypes {
 }
 
 extension M2ClientTypes.JobStep {
-
-    static func write(value: M2ClientTypes.JobStep?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["procStepName"].write(value.procStepName)
-        try writer["procStepNumber"].write(value.procStepNumber)
-        try writer["stepCondCode"].write(value.stepCondCode)
-        try writer["stepName"].write(value.stepName)
-        try writer["stepNumber"].write(value.stepNumber)
-        try writer["stepRestartable"].write(value.stepRestartable)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.JobStep {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4762,12 +4529,6 @@ enum ListTagsForResourceOutputError {
 
 extension M2ClientTypes.LogGroupSummary {
 
-    static func write(value: M2ClientTypes.LogGroupSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["logGroupName"].write(value.logGroupName)
-        try writer["logType"].write(value.logType)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.LogGroupSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = M2ClientTypes.LogGroupSummary()
@@ -4803,12 +4564,6 @@ public enum M2ClientTypes {}
 
 extension M2ClientTypes.MaintenanceSchedule {
 
-    static func write(value: M2ClientTypes.MaintenanceSchedule?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["endTime"].writeTimestamp(value.endTime, format: .epochSeconds)
-        try writer["startTime"].writeTimestamp(value.startTime, format: .epochSeconds)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.MaintenanceSchedule {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = M2ClientTypes.MaintenanceSchedule()
@@ -4839,12 +4594,6 @@ extension M2ClientTypes {
 }
 
 extension M2ClientTypes.PendingMaintenance {
-
-    static func write(value: M2ClientTypes.PendingMaintenance?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["engineVersion"].write(value.engineVersion)
-        try writer["schedule"].write(value.schedule, with: M2ClientTypes.MaintenanceSchedule.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.PendingMaintenance {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4883,15 +4632,6 @@ extension M2ClientTypes.PoAttributes {
         try writer["format"].write(value.format)
         try writer["memberFileExtensions"].writeList(value.memberFileExtensions, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.PoAttributes {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = M2ClientTypes.PoAttributes()
-        value.format = try reader["format"].readIfPresent()
-        value.encoding = try reader["encoding"].readIfPresent()
-        value.memberFileExtensions = try reader["memberFileExtensions"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
 }
 
 extension M2ClientTypes {
@@ -4921,12 +4661,6 @@ extension M2ClientTypes {
 }
 
 extension M2ClientTypes.PoDetailAttributes {
-
-    static func write(value: M2ClientTypes.PoDetailAttributes?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["encoding"].write(value.encoding)
-        try writer["format"].write(value.format)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.PoDetailAttributes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5011,14 +4745,6 @@ extension M2ClientTypes.PsAttributes {
         try writer["encoding"].write(value.encoding)
         try writer["format"].write(value.format)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.PsAttributes {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = M2ClientTypes.PsAttributes()
-        value.format = try reader["format"].readIfPresent()
-        value.encoding = try reader["encoding"].readIfPresent()
-        return value
-    }
 }
 
 extension M2ClientTypes {
@@ -5043,12 +4769,6 @@ extension M2ClientTypes {
 }
 
 extension M2ClientTypes.PsDetailAttributes {
-
-    static func write(value: M2ClientTypes.PsDetailAttributes?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["encoding"].write(value.encoding)
-        try writer["format"].write(value.format)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.PsDetailAttributes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5087,14 +4807,6 @@ extension M2ClientTypes.RecordLength {
         guard let value else { return }
         try writer["max"].write(value.max)
         try writer["min"].write(value.min)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.RecordLength {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = M2ClientTypes.RecordLength()
-        value.min = try reader["min"].readIfPresent() ?? 0
-        value.max = try reader["max"].readIfPresent() ?? 0
-        return value
     }
 }
 
@@ -5253,11 +4965,6 @@ extension M2ClientTypes {
 }
 
 extension M2ClientTypes.ScriptBatchJobDefinition {
-
-    static func write(value: M2ClientTypes.ScriptBatchJobDefinition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["scriptName"].write(value.scriptName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.ScriptBatchJobDefinition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6099,12 +5806,6 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
 extension M2ClientTypes.ValidationExceptionField {
 
-    static func write(value: M2ClientTypes.ValidationExceptionField?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.message)
-        try writer["name"].write(value.name)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.ValidationExceptionField {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = M2ClientTypes.ValidationExceptionField()
@@ -6188,17 +5889,6 @@ extension M2ClientTypes.VsamAttributes {
         try writer["format"].write(value.format)
         try writer["primaryKey"].write(value.primaryKey, with: M2ClientTypes.PrimaryKey.write(value:to:))
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.VsamAttributes {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = M2ClientTypes.VsamAttributes()
-        value.format = try reader["format"].readIfPresent()
-        value.encoding = try reader["encoding"].readIfPresent()
-        value.compressed = try reader["compressed"].readIfPresent() ?? false
-        value.primaryKey = try reader["primaryKey"].readIfPresent(with: M2ClientTypes.PrimaryKey.read(from:))
-        value.alternateKeys = try reader["alternateKeys"].readListIfPresent(memberReadingClosure: M2ClientTypes.AlternateKey.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
 }
 
 extension M2ClientTypes {
@@ -6235,16 +5925,6 @@ extension M2ClientTypes {
 }
 
 extension M2ClientTypes.VsamDetailAttributes {
-
-    static func write(value: M2ClientTypes.VsamDetailAttributes?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["alternateKeys"].writeList(value.alternateKeys, memberWritingClosure: M2ClientTypes.AlternateKey.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["cacheAtStartup"].write(value.cacheAtStartup)
-        try writer["compressed"].write(value.compressed)
-        try writer["encoding"].write(value.encoding)
-        try writer["primaryKey"].write(value.primaryKey, with: M2ClientTypes.PrimaryKey.write(value:to:))
-        try writer["recordFormat"].write(value.recordFormat)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.VsamDetailAttributes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

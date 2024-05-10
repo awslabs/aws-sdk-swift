@@ -40,16 +40,6 @@ extension CloudWatchClientTypes {
 
 extension CloudWatchClientTypes.AlarmHistoryItem {
 
-    static func write(value: CloudWatchClientTypes.AlarmHistoryItem?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["AlarmName"].write(value.alarmName)
-        try writer["AlarmType"].write(value.alarmType)
-        try writer["HistoryData"].write(value.historyData)
-        try writer["HistoryItemType"].write(value.historyItemType)
-        try writer["HistorySummary"].write(value.historySummary)
-        try writer["Timestamp"].writeTimestamp(value.timestamp, format: .dateTime)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> CloudWatchClientTypes.AlarmHistoryItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudWatchClientTypes.AlarmHistoryItem()
@@ -130,19 +120,6 @@ extension CloudWatchClientTypes {
 }
 
 extension CloudWatchClientTypes.AnomalyDetector {
-
-    static func write(value: CloudWatchClientTypes.AnomalyDetector?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Configuration"].write(value.configuration, with: CloudWatchClientTypes.AnomalyDetectorConfiguration.write(value:to:))
-        try writer["Dimensions"].writeList(value.dimensions, memberWritingClosure: CloudWatchClientTypes.Dimension.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["MetricCharacteristics"].write(value.metricCharacteristics, with: CloudWatchClientTypes.MetricCharacteristics.write(value:to:))
-        try writer["MetricMathAnomalyDetector"].write(value.metricMathAnomalyDetector, with: CloudWatchClientTypes.MetricMathAnomalyDetector.write(value:to:))
-        try writer["MetricName"].write(value.metricName)
-        try writer["Namespace"].write(value.namespace)
-        try writer["SingleMetricAnomalyDetector"].write(value.singleMetricAnomalyDetector, with: CloudWatchClientTypes.SingleMetricAnomalyDetector.write(value:to:))
-        try writer["Stat"].write(value.stat)
-        try writer["StateValue"].write(value.stateValue)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> CloudWatchClientTypes.AnomalyDetector {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -361,29 +338,6 @@ extension CloudWatchClientTypes {
 
 extension CloudWatchClientTypes.CompositeAlarm {
 
-    static func write(value: CloudWatchClientTypes.CompositeAlarm?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["ActionsEnabled"].write(value.actionsEnabled)
-        try writer["ActionsSuppressedBy"].write(value.actionsSuppressedBy)
-        try writer["ActionsSuppressedReason"].write(value.actionsSuppressedReason)
-        try writer["ActionsSuppressor"].write(value.actionsSuppressor)
-        try writer["ActionsSuppressorExtensionPeriod"].write(value.actionsSuppressorExtensionPeriod)
-        try writer["ActionsSuppressorWaitPeriod"].write(value.actionsSuppressorWaitPeriod)
-        try writer["AlarmActions"].writeList(value.alarmActions, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["AlarmArn"].write(value.alarmArn)
-        try writer["AlarmConfigurationUpdatedTimestamp"].writeTimestamp(value.alarmConfigurationUpdatedTimestamp, format: .dateTime)
-        try writer["AlarmDescription"].write(value.alarmDescription)
-        try writer["AlarmName"].write(value.alarmName)
-        try writer["AlarmRule"].write(value.alarmRule)
-        try writer["InsufficientDataActions"].writeList(value.insufficientDataActions, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["OKActions"].writeList(value.okActions, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["StateReason"].write(value.stateReason)
-        try writer["StateReasonData"].write(value.stateReasonData)
-        try writer["StateTransitionedTimestamp"].writeTimestamp(value.stateTransitionedTimestamp, format: .dateTime)
-        try writer["StateUpdatedTimestamp"].writeTimestamp(value.stateUpdatedTimestamp, format: .dateTime)
-        try writer["StateValue"].write(value.stateValue)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> CloudWatchClientTypes.CompositeAlarm {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudWatchClientTypes.CompositeAlarm()
@@ -537,14 +491,6 @@ public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSCl
 
 extension CloudWatchClientTypes.DashboardEntry {
 
-    static func write(value: CloudWatchClientTypes.DashboardEntry?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["DashboardArn"].write(value.dashboardArn)
-        try writer["DashboardName"].write(value.dashboardName)
-        try writer["LastModified"].writeTimestamp(value.lastModified, format: .dateTime)
-        try writer["Size"].write(value.size)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> CloudWatchClientTypes.DashboardEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudWatchClientTypes.DashboardEntry()
@@ -664,12 +610,6 @@ public struct DashboardNotFoundError: ClientRuntime.ModeledError, AWSClientRunti
 
 extension CloudWatchClientTypes.DashboardValidationMessage {
 
-    static func write(value: CloudWatchClientTypes.DashboardValidationMessage?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["DataPath"].write(value.dataPath)
-        try writer["Message"].write(value.message)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> CloudWatchClientTypes.DashboardValidationMessage {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudWatchClientTypes.DashboardValidationMessage()
@@ -700,18 +640,6 @@ extension CloudWatchClientTypes {
 }
 
 extension CloudWatchClientTypes.Datapoint {
-
-    static func write(value: CloudWatchClientTypes.Datapoint?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Average"].write(value.average)
-        try writer["ExtendedStatistics"].writeMap(value.extendedStatistics, valueWritingClosure: Swift.Double.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["Maximum"].write(value.maximum)
-        try writer["Minimum"].write(value.minimum)
-        try writer["SampleCount"].write(value.sampleCount)
-        try writer["Sum"].write(value.sum)
-        try writer["Timestamp"].writeTimestamp(value.timestamp, format: .dateTime)
-        try writer["Unit"].write(value.unit)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> CloudWatchClientTypes.Datapoint {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1671,14 +1599,6 @@ extension CloudWatchClientTypes.DimensionFilter {
         guard let value else { return }
         try writer["Name"].write(value.name)
         try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudWatchClientTypes.DimensionFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudWatchClientTypes.DimensionFilter()
-        value.name = try reader["Name"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
-        return value
     }
 }
 
@@ -2713,15 +2633,6 @@ extension CloudWatchClientTypes {
 
 extension CloudWatchClientTypes.InsightRule {
 
-    static func write(value: CloudWatchClientTypes.InsightRule?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Definition"].write(value.definition)
-        try writer["ManagedRule"].write(value.managedRule)
-        try writer["Name"].write(value.name)
-        try writer["Schema"].write(value.schema)
-        try writer["State"].write(value.state)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> CloudWatchClientTypes.InsightRule {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudWatchClientTypes.InsightRule()
@@ -2772,13 +2683,6 @@ extension CloudWatchClientTypes {
 
 extension CloudWatchClientTypes.InsightRuleContributor {
 
-    static func write(value: CloudWatchClientTypes.InsightRuleContributor?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["ApproximateAggregateValue"].write(value.approximateAggregateValue)
-        try writer["Datapoints"].writeList(value.datapoints, memberWritingClosure: CloudWatchClientTypes.InsightRuleContributorDatapoint.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Keys"].writeList(value.keys, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> CloudWatchClientTypes.InsightRuleContributor {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudWatchClientTypes.InsightRuleContributor()
@@ -2818,12 +2722,6 @@ extension CloudWatchClientTypes {
 
 extension CloudWatchClientTypes.InsightRuleContributorDatapoint {
 
-    static func write(value: CloudWatchClientTypes.InsightRuleContributorDatapoint?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["ApproximateValue"].write(value.approximateValue)
-        try writer["Timestamp"].writeTimestamp(value.timestamp, format: .dateTime)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> CloudWatchClientTypes.InsightRuleContributorDatapoint {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudWatchClientTypes.InsightRuleContributorDatapoint()
@@ -2856,18 +2754,6 @@ extension CloudWatchClientTypes {
 }
 
 extension CloudWatchClientTypes.InsightRuleMetricDatapoint {
-
-    static func write(value: CloudWatchClientTypes.InsightRuleMetricDatapoint?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Average"].write(value.average)
-        try writer["MaxContributorValue"].write(value.maxContributorValue)
-        try writer["Maximum"].write(value.maximum)
-        try writer["Minimum"].write(value.minimum)
-        try writer["SampleCount"].write(value.sampleCount)
-        try writer["Sum"].write(value.sum)
-        try writer["Timestamp"].writeTimestamp(value.timestamp, format: .dateTime)
-        try writer["UniqueContributors"].write(value.uniqueContributors)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> CloudWatchClientTypes.InsightRuleMetricDatapoint {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3124,13 +3010,6 @@ extension CloudWatchClientTypes.LabelOptions {
     static func write(value: CloudWatchClientTypes.LabelOptions?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
         try writer["Timezone"].write(value.timezone)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudWatchClientTypes.LabelOptions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudWatchClientTypes.LabelOptions()
-        value.timezone = try reader["Timezone"].readIfPresent()
-        return value
     }
 }
 
@@ -3654,15 +3533,6 @@ extension CloudWatchClientTypes.ManagedRule {
         try writer["Tags"].writeList(value.tags, memberWritingClosure: CloudWatchClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["TemplateName"].write(value.templateName)
     }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudWatchClientTypes.ManagedRule {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudWatchClientTypes.ManagedRule()
-        value.templateName = try reader["TemplateName"].readIfPresent()
-        value.resourceARN = try reader["ResourceARN"].readIfPresent()
-        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: CloudWatchClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
 }
 
 extension CloudWatchClientTypes {
@@ -3692,13 +3562,6 @@ extension CloudWatchClientTypes {
 }
 
 extension CloudWatchClientTypes.ManagedRuleDescription {
-
-    static func write(value: CloudWatchClientTypes.ManagedRuleDescription?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["ResourceARN"].write(value.resourceARN)
-        try writer["RuleState"].write(value.ruleState, with: CloudWatchClientTypes.ManagedRuleState.write(value:to:))
-        try writer["TemplateName"].write(value.templateName)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> CloudWatchClientTypes.ManagedRuleDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3736,12 +3599,6 @@ extension CloudWatchClientTypes {
 
 extension CloudWatchClientTypes.ManagedRuleState {
 
-    static func write(value: CloudWatchClientTypes.ManagedRuleState?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["RuleName"].write(value.ruleName)
-        try writer["State"].write(value.state)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> CloudWatchClientTypes.ManagedRuleState {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudWatchClientTypes.ManagedRuleState()
@@ -3774,12 +3631,6 @@ extension CloudWatchClientTypes {
 }
 
 extension CloudWatchClientTypes.MessageData {
-
-    static func write(value: CloudWatchClientTypes.MessageData?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Code"].write(value.code)
-        try writer["Value"].write(value.value)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> CloudWatchClientTypes.MessageData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3854,39 +3705,6 @@ extension CloudWatchClientTypes {
 }
 
 extension CloudWatchClientTypes.MetricAlarm {
-
-    static func write(value: CloudWatchClientTypes.MetricAlarm?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["ActionsEnabled"].write(value.actionsEnabled)
-        try writer["AlarmActions"].writeList(value.alarmActions, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["AlarmArn"].write(value.alarmArn)
-        try writer["AlarmConfigurationUpdatedTimestamp"].writeTimestamp(value.alarmConfigurationUpdatedTimestamp, format: .dateTime)
-        try writer["AlarmDescription"].write(value.alarmDescription)
-        try writer["AlarmName"].write(value.alarmName)
-        try writer["ComparisonOperator"].write(value.comparisonOperator)
-        try writer["DatapointsToAlarm"].write(value.datapointsToAlarm)
-        try writer["Dimensions"].writeList(value.dimensions, memberWritingClosure: CloudWatchClientTypes.Dimension.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["EvaluateLowSampleCountPercentile"].write(value.evaluateLowSampleCountPercentile)
-        try writer["EvaluationPeriods"].write(value.evaluationPeriods)
-        try writer["EvaluationState"].write(value.evaluationState)
-        try writer["ExtendedStatistic"].write(value.extendedStatistic)
-        try writer["InsufficientDataActions"].writeList(value.insufficientDataActions, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["MetricName"].write(value.metricName)
-        try writer["Metrics"].writeList(value.metrics, memberWritingClosure: CloudWatchClientTypes.MetricDataQuery.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Namespace"].write(value.namespace)
-        try writer["OKActions"].writeList(value.okActions, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Period"].write(value.period)
-        try writer["StateReason"].write(value.stateReason)
-        try writer["StateReasonData"].write(value.stateReasonData)
-        try writer["StateTransitionedTimestamp"].writeTimestamp(value.stateTransitionedTimestamp, format: .dateTime)
-        try writer["StateUpdatedTimestamp"].writeTimestamp(value.stateUpdatedTimestamp, format: .dateTime)
-        try writer["StateValue"].write(value.stateValue)
-        try writer["Statistic"].write(value.statistic)
-        try writer["Threshold"].write(value.threshold)
-        try writer["ThresholdMetricId"].write(value.thresholdMetricId)
-        try writer["TreatMissingData"].write(value.treatMissingData)
-        try writer["Unit"].write(value.unit)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> CloudWatchClientTypes.MetricAlarm {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4153,16 +3971,6 @@ extension CloudWatchClientTypes {
 
 extension CloudWatchClientTypes.MetricDataResult {
 
-    static func write(value: CloudWatchClientTypes.MetricDataResult?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Id"].write(value.id)
-        try writer["Label"].write(value.label)
-        try writer["Messages"].writeList(value.messages, memberWritingClosure: CloudWatchClientTypes.MessageData.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["StatusCode"].write(value.statusCode)
-        try writer["Timestamps"].writeList(value.timestamps, memberWritingClosure: timestampWritingClosure(format: .dateTime), memberNodeInfo: "member", isFlattened: false)
-        try writer["Values"].writeList(value.values, memberWritingClosure: Swift.Double.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> CloudWatchClientTypes.MetricDataResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudWatchClientTypes.MetricDataResult()
@@ -4225,21 +4033,6 @@ extension CloudWatchClientTypes.MetricDatum {
         try writer["Unit"].write(value.unit)
         try writer["Value"].write(value.value)
         try writer["Values"].writeList(value.values, memberWritingClosure: Swift.Double.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudWatchClientTypes.MetricDatum {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudWatchClientTypes.MetricDatum()
-        value.metricName = try reader["MetricName"].readIfPresent()
-        value.dimensions = try reader["Dimensions"].readListIfPresent(memberReadingClosure: CloudWatchClientTypes.Dimension.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.timestamp = try reader["Timestamp"].readTimestampIfPresent(format: .dateTime)
-        value.value = try reader["Value"].readIfPresent()
-        value.statisticValues = try reader["StatisticValues"].readIfPresent(with: CloudWatchClientTypes.StatisticSet.read(from:))
-        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: Swift.Double.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.counts = try reader["Counts"].readListIfPresent(memberReadingClosure: Swift.Double.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.unit = try reader["Unit"].readIfPresent()
-        value.storageResolution = try reader["StorageResolution"].readIfPresent()
-        return value
     }
 }
 
@@ -4382,17 +4175,6 @@ extension CloudWatchClientTypes {
 }
 
 extension CloudWatchClientTypes.MetricStreamEntry {
-
-    static func write(value: CloudWatchClientTypes.MetricStreamEntry?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["CreationDate"].writeTimestamp(value.creationDate, format: .dateTime)
-        try writer["FirehoseArn"].write(value.firehoseArn)
-        try writer["LastUpdateDate"].writeTimestamp(value.lastUpdateDate, format: .dateTime)
-        try writer["Name"].write(value.name)
-        try writer["OutputFormat"].write(value.outputFormat)
-        try writer["State"].write(value.state)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> CloudWatchClientTypes.MetricStreamEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4635,14 +4417,6 @@ public struct MissingRequiredParameterException: ClientRuntime.ModeledError, AWS
 }
 
 extension CloudWatchClientTypes.PartialFailure {
-
-    static func write(value: CloudWatchClientTypes.PartialFailure?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["ExceptionType"].write(value.exceptionType)
-        try writer["FailureCode"].write(value.failureCode)
-        try writer["FailureDescription"].write(value.failureDescription)
-        try writer["FailureResource"].write(value.failureResource)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> CloudWatchClientTypes.PartialFailure {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6224,16 +5998,6 @@ extension CloudWatchClientTypes.StatisticSet {
         try writer["Minimum"].write(value.minimum)
         try writer["SampleCount"].write(value.sampleCount)
         try writer["Sum"].write(value.sum)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudWatchClientTypes.StatisticSet {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudWatchClientTypes.StatisticSet()
-        value.sampleCount = try reader["SampleCount"].readIfPresent()
-        value.sum = try reader["Sum"].readIfPresent()
-        value.minimum = try reader["Minimum"].readIfPresent()
-        value.maximum = try reader["Maximum"].readIfPresent()
-        return value
     }
 }
 

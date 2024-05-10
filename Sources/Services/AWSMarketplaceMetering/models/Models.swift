@@ -1132,13 +1132,6 @@ extension MarketplaceMeteringClientTypes {
 
 extension MarketplaceMeteringClientTypes.UsageRecordResult {
 
-    static func write(value: MarketplaceMeteringClientTypes.UsageRecordResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MeteringRecordId"].write(value.meteringRecordId)
-        try writer["Status"].write(value.status)
-        try writer["UsageRecord"].write(value.usageRecord, with: MarketplaceMeteringClientTypes.UsageRecord.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceMeteringClientTypes.UsageRecordResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MarketplaceMeteringClientTypes.UsageRecordResult()

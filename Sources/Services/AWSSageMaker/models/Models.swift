@@ -92,17 +92,6 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes.ActionSummary {
 
-    static func write(value: SageMakerClientTypes.ActionSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ActionArn"].write(value.actionArn)
-        try writer["ActionName"].write(value.actionName)
-        try writer["ActionType"].write(value.actionType)
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["LastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .epochSeconds)
-        try writer["Source"].write(value.source, with: SageMakerClientTypes.ActionSource.write(value:to:))
-        try writer["Status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ActionSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.ActionSummary()
@@ -465,12 +454,6 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes.AgentVersion {
 
-    static func write(value: SageMakerClientTypes.AgentVersion?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AgentCount"].write(value.agentCount)
-        try writer["Version"].write(value.version)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.AgentVersion {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.AgentVersion()
@@ -732,12 +715,6 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes.AlgorithmStatusDetails {
 
-    static func write(value: SageMakerClientTypes.AlgorithmStatusDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ImageScanStatuses"].writeList(value.imageScanStatuses, memberWritingClosure: SageMakerClientTypes.AlgorithmStatusItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ValidationStatuses"].writeList(value.validationStatuses, memberWritingClosure: SageMakerClientTypes.AlgorithmStatusItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.AlgorithmStatusDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.AlgorithmStatusDetails()
@@ -768,13 +745,6 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes.AlgorithmStatusItem {
-
-    static func write(value: SageMakerClientTypes.AlgorithmStatusItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["FailureReason"].write(value.failureReason)
-        try writer["Name"].write(value.name)
-        try writer["Status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.AlgorithmStatusItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -813,15 +783,6 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes.AlgorithmSummary {
-
-    static func write(value: SageMakerClientTypes.AlgorithmSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AlgorithmArn"].write(value.algorithmArn)
-        try writer["AlgorithmDescription"].write(value.algorithmDescription)
-        try writer["AlgorithmName"].write(value.algorithmName)
-        try writer["AlgorithmStatus"].write(value.algorithmStatus)
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.AlgorithmSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1582,18 +1543,6 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes.AppDetails {
 
-    static func write(value: SageMakerClientTypes.AppDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AppName"].write(value.appName)
-        try writer["AppType"].write(value.appType)
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["DomainId"].write(value.domainId)
-        try writer["ResourceSpec"].write(value.resourceSpec, with: SageMakerClientTypes.ResourceSpec.write(value:to:))
-        try writer["SpaceName"].write(value.spaceName)
-        try writer["Status"].write(value.status)
-        try writer["UserProfileName"].write(value.userProfileName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.AppDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.AppDetails()
@@ -1654,17 +1603,6 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes.AppImageConfigDetails {
-
-    static func write(value: SageMakerClientTypes.AppImageConfigDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AppImageConfigArn"].write(value.appImageConfigArn)
-        try writer["AppImageConfigName"].write(value.appImageConfigName)
-        try writer["CodeEditorAppImageConfig"].write(value.codeEditorAppImageConfig, with: SageMakerClientTypes.CodeEditorAppImageConfig.write(value:to:))
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["JupyterLabAppImageConfig"].write(value.jupyterLabAppImageConfig, with: SageMakerClientTypes.JupyterLabAppImageConfig.write(value:to:))
-        try writer["KernelGatewayImageConfig"].write(value.kernelGatewayImageConfig, with: SageMakerClientTypes.KernelGatewayImageConfig.write(value:to:))
-        try writer["LastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.AppImageConfigDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2548,16 +2486,6 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes.ArtifactSummary {
 
-    static func write(value: SageMakerClientTypes.ArtifactSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ArtifactArn"].write(value.artifactArn)
-        try writer["ArtifactName"].write(value.artifactName)
-        try writer["ArtifactType"].write(value.artifactType)
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["LastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .epochSeconds)
-        try writer["Source"].write(value.source, with: SageMakerClientTypes.ArtifactSource.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ArtifactSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.ArtifactSummary()
@@ -2755,19 +2683,6 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes.AssociationSummary {
-
-    static func write(value: SageMakerClientTypes.AssociationSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AssociationType"].write(value.associationType)
-        try writer["CreatedBy"].write(value.createdBy, with: SageMakerClientTypes.UserContext.write(value:to:))
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["DestinationArn"].write(value.destinationArn)
-        try writer["DestinationName"].write(value.destinationName)
-        try writer["DestinationType"].write(value.destinationType)
-        try writer["SourceArn"].write(value.sourceArn)
-        try writer["SourceName"].write(value.sourceName)
-        try writer["SourceType"].write(value.sourceType)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.AssociationSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3320,22 +3235,6 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes.AutoMLCandidate {
 
-    static func write(value: SageMakerClientTypes.AutoMLCandidate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CandidateName"].write(value.candidateName)
-        try writer["CandidateProperties"].write(value.candidateProperties, with: SageMakerClientTypes.CandidateProperties.write(value:to:))
-        try writer["CandidateStatus"].write(value.candidateStatus)
-        try writer["CandidateSteps"].writeList(value.candidateSteps, memberWritingClosure: SageMakerClientTypes.AutoMLCandidateStep.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["EndTime"].writeTimestamp(value.endTime, format: .epochSeconds)
-        try writer["FailureReason"].write(value.failureReason)
-        try writer["FinalAutoMLJobObjectiveMetric"].write(value.finalAutoMLJobObjectiveMetric, with: SageMakerClientTypes.FinalAutoMLJobObjectiveMetric.write(value:to:))
-        try writer["InferenceContainerDefinitions"].writeMap(value.inferenceContainerDefinitions, valueWritingClosure: listWritingClosure(memberWritingClosure: SageMakerClientTypes.AutoMLContainerDefinition.write(value:to:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["InferenceContainers"].writeList(value.inferenceContainers, memberWritingClosure: SageMakerClientTypes.AutoMLContainerDefinition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["LastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .epochSeconds)
-        try writer["ObjectiveStatus"].write(value.objectiveStatus)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.AutoMLCandidate {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.AutoMLCandidate()
@@ -3469,13 +3368,6 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes.AutoMLCandidateStep {
 
-    static func write(value: SageMakerClientTypes.AutoMLCandidateStep?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CandidateStepArn"].write(value.candidateStepArn)
-        try writer["CandidateStepName"].write(value.candidateStepName)
-        try writer["CandidateStepType"].write(value.candidateStepType)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.AutoMLCandidateStep {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.AutoMLCandidateStep()
@@ -3607,13 +3499,6 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes.AutoMLContainerDefinition {
 
-    static func write(value: SageMakerClientTypes.AutoMLContainerDefinition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Environment"].writeMap(value.environment, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["Image"].write(value.image)
-        try writer["ModelDataUrl"].write(value.modelDataUrl)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.AutoMLContainerDefinition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.AutoMLContainerDefinition()
@@ -3714,12 +3599,6 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes.AutoMLJobArtifacts {
-
-    static func write(value: SageMakerClientTypes.AutoMLJobArtifacts?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CandidateDefinitionNotebookLocation"].write(value.candidateDefinitionNotebookLocation)
-        try writer["DataExplorationNotebookLocation"].write(value.dataExplorationNotebookLocation)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.AutoMLJobArtifacts {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4138,11 +4017,6 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes.AutoMLJobStepMetadata {
 
-    static func write(value: SageMakerClientTypes.AutoMLJobStepMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.AutoMLJobStepMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.AutoMLJobStepMetadata()
@@ -4168,19 +4042,6 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes.AutoMLJobSummary {
-
-    static func write(value: SageMakerClientTypes.AutoMLJobSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AutoMLJobArn"].write(value.autoMLJobArn)
-        try writer["AutoMLJobName"].write(value.autoMLJobName)
-        try writer["AutoMLJobSecondaryStatus"].write(value.autoMLJobSecondaryStatus)
-        try writer["AutoMLJobStatus"].write(value.autoMLJobStatus)
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["EndTime"].writeTimestamp(value.endTime, format: .epochSeconds)
-        try writer["FailureReason"].write(value.failureReason)
-        try writer["LastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .epochSeconds)
-        try writer["PartialFailureReasons"].writeList(value.partialFailureReasons, memberWritingClosure: SageMakerClientTypes.AutoMLPartialFailureReason.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.AutoMLJobSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4502,11 +4363,6 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes.AutoMLPartialFailureReason {
 
-    static func write(value: SageMakerClientTypes.AutoMLPartialFailureReason?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["PartialFailureMessage"].write(value.partialFailureMessage)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.AutoMLPartialFailureReason {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.AutoMLPartialFailureReason()
@@ -4630,18 +4486,6 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes.AutoMLProblemTypeResolvedAttributes {
 
-    static func write(value: SageMakerClientTypes.AutoMLProblemTypeResolvedAttributes?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .tabularresolvedattributes(tabularresolvedattributes):
-                try writer["TabularResolvedAttributes"].write(tabularresolvedattributes, with: SageMakerClientTypes.TabularResolvedAttributes.write(value:to:))
-            case let .textgenerationresolvedattributes(textgenerationresolvedattributes):
-                try writer["TextGenerationResolvedAttributes"].write(textgenerationresolvedattributes, with: SageMakerClientTypes.TextGenerationResolvedAttributes.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.AutoMLProblemTypeResolvedAttributes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
@@ -4699,13 +4543,6 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes.AutoMLResolvedAttributes {
-
-    static func write(value: SageMakerClientTypes.AutoMLResolvedAttributes?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AutoMLJobObjective"].write(value.autoMLJobObjective, with: SageMakerClientTypes.AutoMLJobObjective.write(value:to:))
-        try writer["AutoMLProblemTypeResolvedAttributes"].write(value.autoMLProblemTypeResolvedAttributes, with: SageMakerClientTypes.AutoMLProblemTypeResolvedAttributes.write(value:to:))
-        try writer["CompletionCriteria"].write(value.completionCriteria, with: SageMakerClientTypes.AutoMLJobCompletionCriteria.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.AutoMLResolvedAttributes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5150,12 +4987,6 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes.BatchDescribeModelPackageError {
 
-    static func write(value: SageMakerClientTypes.BatchDescribeModelPackageError?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ErrorCode"].write(value.errorCode)
-        try writer["ErrorResponse"].write(value.errorResponse)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.BatchDescribeModelPackageError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.BatchDescribeModelPackageError()
@@ -5258,18 +5089,6 @@ enum BatchDescribeModelPackageOutputError {
 }
 
 extension SageMakerClientTypes.BatchDescribeModelPackageSummary {
-
-    static func write(value: SageMakerClientTypes.BatchDescribeModelPackageSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["InferenceSpecification"].write(value.inferenceSpecification, with: SageMakerClientTypes.InferenceSpecification.write(value:to:))
-        try writer["ModelApprovalStatus"].write(value.modelApprovalStatus)
-        try writer["ModelPackageArn"].write(value.modelPackageArn)
-        try writer["ModelPackageDescription"].write(value.modelPackageDescription)
-        try writer["ModelPackageGroupName"].write(value.modelPackageGroupName)
-        try writer["ModelPackageStatus"].write(value.modelPackageStatus)
-        try writer["ModelPackageVersion"].write(value.modelPackageVersion)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.BatchDescribeModelPackageSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5615,11 +5434,6 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes.CacheHitResult {
 
-    static func write(value: SageMakerClientTypes.CacheHitResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["SourcePipelineExecutionArn"].write(value.sourcePipelineExecutionArn)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.CacheHitResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.CacheHitResult()
@@ -5645,13 +5459,6 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes.CallbackStepMetadata {
-
-    static func write(value: SageMakerClientTypes.CallbackStepMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CallbackToken"].write(value.callbackToken)
-        try writer["OutputParameters"].writeList(value.outputParameters, memberWritingClosure: SageMakerClientTypes.OutputParameter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["SqsQueueUrl"].write(value.sqsQueueUrl)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.CallbackStepMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5688,13 +5495,6 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes.CandidateArtifactLocations {
-
-    static func write(value: SageMakerClientTypes.CandidateArtifactLocations?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BacktestResults"].write(value.backtestResults)
-        try writer["Explainability"].write(value.explainability)
-        try writer["ModelInsights"].write(value.modelInsights)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.CandidateArtifactLocations {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5772,12 +5572,6 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes.CandidateProperties {
-
-    static func write(value: SageMakerClientTypes.CandidateProperties?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CandidateArtifactLocations"].write(value.candidateArtifactLocations, with: SageMakerClientTypes.CandidateArtifactLocations.write(value:to:))
-        try writer["CandidateMetrics"].writeList(value.candidateMetrics, memberWritingClosure: SageMakerClientTypes.MetricDatum.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.CandidateProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6468,18 +6262,6 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes.ClarifyCheckStepMetadata {
 
-    static func write(value: SageMakerClientTypes.ClarifyCheckStepMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BaselineUsedForDriftCheckConstraints"].write(value.baselineUsedForDriftCheckConstraints)
-        try writer["CalculatedBaselineConstraints"].write(value.calculatedBaselineConstraints)
-        try writer["CheckJobArn"].write(value.checkJobArn)
-        try writer["CheckType"].write(value.checkType)
-        try writer["ModelPackageGroupName"].write(value.modelPackageGroupName)
-        try writer["RegisterNewBaseline"].write(value.registerNewBaseline)
-        try writer["SkipCheck"].write(value.skipCheck)
-        try writer["ViolationReport"].write(value.violationReport)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ClarifyCheckStepMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.ClarifyCheckStepMetadata()
@@ -7088,17 +6870,6 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes.ClusterInstanceGroupDetails {
 
-    static func write(value: SageMakerClientTypes.ClusterInstanceGroupDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CurrentCount"].write(value.currentCount)
-        try writer["ExecutionRole"].write(value.executionRole)
-        try writer["InstanceGroupName"].write(value.instanceGroupName)
-        try writer["InstanceType"].write(value.instanceType)
-        try writer["LifeCycleConfig"].write(value.lifeCycleConfig, with: SageMakerClientTypes.ClusterLifeCycleConfig.write(value:to:))
-        try writer["TargetCount"].write(value.targetCount)
-        try writer["ThreadsPerCore"].write(value.threadsPerCore)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ClusterInstanceGroupDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.ClusterInstanceGroupDetails()
@@ -7163,18 +6934,6 @@ extension SageMakerClientTypes.ClusterInstanceGroupSpecification {
         try writer["InstanceType"].write(value.instanceType)
         try writer["LifeCycleConfig"].write(value.lifeCycleConfig, with: SageMakerClientTypes.ClusterLifeCycleConfig.write(value:to:))
         try writer["ThreadsPerCore"].write(value.threadsPerCore)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ClusterInstanceGroupSpecification {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SageMakerClientTypes.ClusterInstanceGroupSpecification()
-        value.instanceCount = try reader["InstanceCount"].readIfPresent()
-        value.instanceGroupName = try reader["InstanceGroupName"].readIfPresent()
-        value.instanceType = try reader["InstanceType"].readIfPresent()
-        value.lifeCycleConfig = try reader["LifeCycleConfig"].readIfPresent(with: SageMakerClientTypes.ClusterLifeCycleConfig.read(from:))
-        value.executionRole = try reader["ExecutionRole"].readIfPresent()
-        value.threadsPerCore = try reader["ThreadsPerCore"].readIfPresent()
-        return value
     }
 }
 
@@ -7259,12 +7018,6 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes.ClusterInstanceStatusDetails {
-
-    static func write(value: SageMakerClientTypes.ClusterInstanceStatusDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.message)
-        try writer["Status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ClusterInstanceStatusDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7475,17 +7228,6 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes.ClusterNodeDetails {
 
-    static func write(value: SageMakerClientTypes.ClusterNodeDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["InstanceGroupName"].write(value.instanceGroupName)
-        try writer["InstanceId"].write(value.instanceId)
-        try writer["InstanceStatus"].write(value.instanceStatus, with: SageMakerClientTypes.ClusterInstanceStatusDetails.write(value:to:))
-        try writer["InstanceType"].write(value.instanceType)
-        try writer["LaunchTime"].writeTimestamp(value.launchTime, format: .epochSeconds)
-        try writer["LifeCycleConfig"].write(value.lifeCycleConfig, with: SageMakerClientTypes.ClusterLifeCycleConfig.write(value:to:))
-        try writer["ThreadsPerCore"].write(value.threadsPerCore)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ClusterNodeDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.ClusterNodeDetails()
@@ -7541,15 +7283,6 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes.ClusterNodeSummary {
-
-    static func write(value: SageMakerClientTypes.ClusterNodeSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["InstanceGroupName"].write(value.instanceGroupName)
-        try writer["InstanceId"].write(value.instanceId)
-        try writer["InstanceStatus"].write(value.instanceStatus, with: SageMakerClientTypes.ClusterInstanceStatusDetails.write(value:to:))
-        try writer["InstanceType"].write(value.instanceType)
-        try writer["LaunchTime"].writeTimestamp(value.launchTime, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ClusterNodeSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7676,14 +7409,6 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes.ClusterSummary {
-
-    static func write(value: SageMakerClientTypes.ClusterSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ClusterArn"].write(value.clusterArn)
-        try writer["ClusterName"].write(value.clusterName)
-        try writer["ClusterStatus"].write(value.clusterStatus)
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ClusterSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7904,15 +7629,6 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes.CodeRepositorySummary {
-
-    static func write(value: SageMakerClientTypes.CodeRepositorySummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CodeRepositoryArn"].write(value.codeRepositoryArn)
-        try writer["CodeRepositoryName"].write(value.codeRepositoryName)
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["GitConfig"].write(value.gitConfig, with: SageMakerClientTypes.GitConfig.write(value:to:))
-        try writer["LastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.CodeRepositorySummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8197,21 +7913,6 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes.CompilationJobSummary {
 
-    static func write(value: SageMakerClientTypes.CompilationJobSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CompilationEndTime"].writeTimestamp(value.compilationEndTime, format: .epochSeconds)
-        try writer["CompilationJobArn"].write(value.compilationJobArn)
-        try writer["CompilationJobName"].write(value.compilationJobName)
-        try writer["CompilationJobStatus"].write(value.compilationJobStatus)
-        try writer["CompilationStartTime"].writeTimestamp(value.compilationStartTime, format: .epochSeconds)
-        try writer["CompilationTargetDevice"].write(value.compilationTargetDevice)
-        try writer["CompilationTargetPlatformAccelerator"].write(value.compilationTargetPlatformAccelerator)
-        try writer["CompilationTargetPlatformArch"].write(value.compilationTargetPlatformArch)
-        try writer["CompilationTargetPlatformOs"].write(value.compilationTargetPlatformOs)
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["LastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .epochSeconds)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.CompilationJobSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.CompilationJobSummary()
@@ -8381,11 +8082,6 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes.ConditionStepMetadata {
-
-    static func write(value: SageMakerClientTypes.ConditionStepMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Outcome"].write(value.outcome)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ConditionStepMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8681,16 +8377,6 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes.ContextSummary {
-
-    static func write(value: SageMakerClientTypes.ContextSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ContextArn"].write(value.contextArn)
-        try writer["ContextName"].write(value.contextName)
-        try writer["ContextType"].write(value.contextType)
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["LastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .epochSeconds)
-        try writer["Source"].write(value.source, with: SageMakerClientTypes.ContextSource.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ContextSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -14982,13 +14668,6 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes.CustomizedMetricSpecification {
 
-    static func write(value: SageMakerClientTypes.CustomizedMetricSpecification?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MetricName"].write(value.metricName)
-        try writer["Namespace"].write(value.namespace)
-        try writer["Statistic"].write(value.statistic)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.CustomizedMetricSpecification {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.CustomizedMetricSpecification()
@@ -15096,15 +14775,6 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes.DataCaptureConfigSummary {
-
-    static func write(value: SageMakerClientTypes.DataCaptureConfigSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CaptureStatus"].write(value.captureStatus)
-        try writer["CurrentSamplingPercentage"].write(value.currentSamplingPercentage)
-        try writer["DestinationS3Uri"].write(value.destinationS3Uri)
-        try writer["EnableCapture"].write(value.enableCapture)
-        try writer["KmsKeyId"].write(value.kmsKeyId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.DataCaptureConfigSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -15658,15 +15328,6 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes.DebugRuleEvaluationStatus {
-
-    static func write(value: SageMakerClientTypes.DebugRuleEvaluationStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["LastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .epochSeconds)
-        try writer["RuleConfigurationName"].write(value.ruleConfigurationName)
-        try writer["RuleEvaluationJobArn"].write(value.ruleEvaluationJobArn)
-        try writer["RuleEvaluationStatus"].write(value.ruleEvaluationStatus)
-        try writer["StatusDetails"].write(value.statusDetails)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.DebugRuleEvaluationStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -18741,13 +18402,6 @@ enum DeleteWorkteamOutputError {
 
 extension SageMakerClientTypes.DeployedImage {
 
-    static func write(value: SageMakerClientTypes.DeployedImage?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ResolutionTime"].writeTimestamp(value.resolutionTime, format: .epochSeconds)
-        try writer["ResolvedImage"].write(value.resolvedImage)
-        try writer["SpecifiedImage"].write(value.specifiedImage)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.DeployedImage {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.DeployedImage()
@@ -18827,12 +18481,6 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes.DeploymentRecommendation {
 
-    static func write(value: SageMakerClientTypes.DeploymentRecommendation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["RealTimeInferenceRecommendations"].writeList(value.realTimeInferenceRecommendations, memberWritingClosure: SageMakerClientTypes.RealTimeInferenceRecommendation.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["RecommendationStatus"].write(value.recommendationStatus)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.DeploymentRecommendation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.DeploymentRecommendation()
@@ -18871,15 +18519,6 @@ extension SageMakerClientTypes.DeploymentStage {
         try writer["DeviceSelectionConfig"].write(value.deviceSelectionConfig, with: SageMakerClientTypes.DeviceSelectionConfig.write(value:to:))
         try writer["StageName"].write(value.stageName)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.DeploymentStage {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SageMakerClientTypes.DeploymentStage()
-        value.stageName = try reader["StageName"].readIfPresent()
-        value.deviceSelectionConfig = try reader["DeviceSelectionConfig"].readIfPresent(with: SageMakerClientTypes.DeviceSelectionConfig.read(from:))
-        value.deploymentConfig = try reader["DeploymentConfig"].readIfPresent(with: SageMakerClientTypes.EdgeDeploymentConfig.read(from:))
-        return value
-    }
 }
 
 extension SageMakerClientTypes {
@@ -18909,14 +18548,6 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes.DeploymentStageStatusSummary {
-
-    static func write(value: SageMakerClientTypes.DeploymentStageStatusSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DeploymentConfig"].write(value.deploymentConfig, with: SageMakerClientTypes.EdgeDeploymentConfig.write(value:to:))
-        try writer["DeploymentStatus"].write(value.deploymentStatus, with: SageMakerClientTypes.EdgeDeploymentStatus.write(value:to:))
-        try writer["DeviceSelectionConfig"].write(value.deviceSelectionConfig, with: SageMakerClientTypes.DeviceSelectionConfig.write(value:to:))
-        try writer["StageName"].write(value.stageName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.DeploymentStageStatusSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -19021,11 +18652,6 @@ enum DeregisterDevicesOutputError {
 }
 
 extension SageMakerClientTypes.DerivedInformation {
-
-    static func write(value: SageMakerClientTypes.DerivedInformation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DerivedDataInputConfig"].write(value.derivedDataInputConfig)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.DerivedInformation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -27095,16 +26721,6 @@ extension SageMakerClientTypes.DesiredWeightAndCapacity {
         try writer["ServerlessUpdateConfig"].write(value.serverlessUpdateConfig, with: SageMakerClientTypes.ProductionVariantServerlessUpdateConfig.write(value:to:))
         try writer["VariantName"].write(value.variantName)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.DesiredWeightAndCapacity {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SageMakerClientTypes.DesiredWeightAndCapacity()
-        value.variantName = try reader["VariantName"].readIfPresent()
-        value.desiredWeight = try reader["DesiredWeight"].readIfPresent()
-        value.desiredInstanceCount = try reader["DesiredInstanceCount"].readIfPresent()
-        value.serverlessUpdateConfig = try reader["ServerlessUpdateConfig"].readIfPresent(with: SageMakerClientTypes.ProductionVariantServerlessUpdateConfig.read(from:))
-        return value
-    }
 }
 
 extension SageMakerClientTypes {
@@ -27216,15 +26832,6 @@ extension SageMakerClientTypes.Device {
         try writer["DeviceName"].write(value.deviceName)
         try writer["IotThingName"].write(value.iotThingName)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.Device {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SageMakerClientTypes.Device()
-        value.deviceName = try reader["DeviceName"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.iotThingName = try reader["IotThingName"].readIfPresent()
-        return value
-    }
 }
 
 extension SageMakerClientTypes {
@@ -27295,21 +26902,6 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes.DeviceDeploymentSummary {
-
-    static func write(value: SageMakerClientTypes.DeviceDeploymentSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DeployedStageName"].write(value.deployedStageName)
-        try writer["DeploymentStartTime"].writeTimestamp(value.deploymentStartTime, format: .epochSeconds)
-        try writer["Description"].write(value.description)
-        try writer["DeviceArn"].write(value.deviceArn)
-        try writer["DeviceDeploymentStatus"].write(value.deviceDeploymentStatus)
-        try writer["DeviceDeploymentStatusMessage"].write(value.deviceDeploymentStatusMessage)
-        try writer["DeviceFleetName"].write(value.deviceFleetName)
-        try writer["DeviceName"].write(value.deviceName)
-        try writer["EdgeDeploymentPlanArn"].write(value.edgeDeploymentPlanArn)
-        try writer["EdgeDeploymentPlanName"].write(value.edgeDeploymentPlanName)
-        try writer["StageName"].write(value.stageName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.DeviceDeploymentSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -27391,14 +26983,6 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes.DeviceFleetSummary {
-
-    static func write(value: SageMakerClientTypes.DeviceFleetSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["DeviceFleetArn"].write(value.deviceFleetArn)
-        try writer["DeviceFleetName"].write(value.deviceFleetName)
-        try writer["LastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.DeviceFleetSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -27493,12 +27077,6 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes.DeviceStats {
 
-    static func write(value: SageMakerClientTypes.DeviceStats?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ConnectedDeviceCount"].write(value.connectedDeviceCount)
-        try writer["RegisteredDeviceCount"].write(value.registeredDeviceCount)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.DeviceStats {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.DeviceStats()
@@ -27564,19 +27142,6 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes.DeviceSummary {
-
-    static func write(value: SageMakerClientTypes.DeviceSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AgentVersion"].write(value.agentVersion)
-        try writer["Description"].write(value.description)
-        try writer["DeviceArn"].write(value.deviceArn)
-        try writer["DeviceFleetName"].write(value.deviceFleetName)
-        try writer["DeviceName"].write(value.deviceName)
-        try writer["IotThingName"].write(value.iotThingName)
-        try writer["LatestHeartbeat"].writeTimestamp(value.latestHeartbeat, format: .epochSeconds)
-        try writer["Models"].writeList(value.models, memberWritingClosure: SageMakerClientTypes.EdgeModelSummary.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["RegistrationTime"].writeTimestamp(value.registrationTime, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.DeviceSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -27899,17 +27464,6 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes.DomainDetails {
 
-    static func write(value: SageMakerClientTypes.DomainDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["DomainArn"].write(value.domainArn)
-        try writer["DomainId"].write(value.domainId)
-        try writer["DomainName"].write(value.domainName)
-        try writer["LastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .epochSeconds)
-        try writer["Status"].write(value.status)
-        try writer["Url"].write(value.url)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.DomainDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.DomainDetails()
@@ -28021,16 +27575,6 @@ extension SageMakerClientTypes.DomainSettingsForUpdate {
         try writer["ExecutionRoleIdentityConfig"].write(value.executionRoleIdentityConfig)
         try writer["RStudioServerProDomainSettingsForUpdate"].write(value.rStudioServerProDomainSettingsForUpdate, with: SageMakerClientTypes.RStudioServerProDomainSettingsForUpdate.write(value:to:))
         try writer["SecurityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.DomainSettingsForUpdate {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SageMakerClientTypes.DomainSettingsForUpdate()
-        value.rStudioServerProDomainSettingsForUpdate = try reader["RStudioServerProDomainSettingsForUpdate"].readIfPresent(with: SageMakerClientTypes.RStudioServerProDomainSettingsForUpdate.read(from:))
-        value.executionRoleIdentityConfig = try reader["ExecutionRoleIdentityConfig"].readIfPresent()
-        value.securityGroupIds = try reader["SecurityGroupIds"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.dockerSettings = try reader["DockerSettings"].readIfPresent(with: SageMakerClientTypes.DockerSettings.read(from:))
-        return value
     }
 }
 
@@ -28312,15 +27856,6 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes.DynamicScalingConfiguration {
 
-    static func write(value: SageMakerClientTypes.DynamicScalingConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MaxCapacity"].write(value.maxCapacity)
-        try writer["MinCapacity"].write(value.minCapacity)
-        try writer["ScaleInCooldown"].write(value.scaleInCooldown)
-        try writer["ScaleOutCooldown"].write(value.scaleOutCooldown)
-        try writer["ScalingPolicies"].writeList(value.scalingPolicies, memberWritingClosure: SageMakerClientTypes.ScalingPolicy.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.DynamicScalingConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.DynamicScalingConfiguration()
@@ -28437,14 +27972,6 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes.EMRStepMetadata {
 
-    static func write(value: SageMakerClientTypes.EMRStepMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ClusterId"].write(value.clusterId)
-        try writer["LogFilePath"].write(value.logFilePath)
-        try writer["StepId"].write(value.stepId)
-        try writer["StepName"].write(value.stepName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.EMRStepMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.EMRStepMetadata()
@@ -28517,13 +28044,6 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes.Edge {
-
-    static func write(value: SageMakerClientTypes.Edge?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AssociationType"].write(value.associationType)
-        try writer["DestinationArn"].write(value.destinationArn)
-        try writer["SourceArn"].write(value.sourceArn)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.Edge {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -28632,18 +28152,6 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes.EdgeDeploymentPlanSummary {
 
-    static func write(value: SageMakerClientTypes.EdgeDeploymentPlanSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["DeviceFleetName"].write(value.deviceFleetName)
-        try writer["EdgeDeploymentFailed"].write(value.edgeDeploymentFailed)
-        try writer["EdgeDeploymentPending"].write(value.edgeDeploymentPending)
-        try writer["EdgeDeploymentPlanArn"].write(value.edgeDeploymentPlanArn)
-        try writer["EdgeDeploymentPlanName"].write(value.edgeDeploymentPlanName)
-        try writer["EdgeDeploymentSuccess"].write(value.edgeDeploymentSuccess)
-        try writer["LastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .epochSeconds)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.EdgeDeploymentPlanSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.EdgeDeploymentPlanSummary()
@@ -28711,16 +28219,6 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes.EdgeDeploymentStatus {
 
-    static func write(value: SageMakerClientTypes.EdgeDeploymentStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EdgeDeploymentFailedInStage"].write(value.edgeDeploymentFailedInStage)
-        try writer["EdgeDeploymentPendingInStage"].write(value.edgeDeploymentPendingInStage)
-        try writer["EdgeDeploymentStageStartTime"].writeTimestamp(value.edgeDeploymentStageStartTime, format: .epochSeconds)
-        try writer["EdgeDeploymentStatusMessage"].write(value.edgeDeploymentStatusMessage)
-        try writer["EdgeDeploymentSuccessInStage"].write(value.edgeDeploymentSuccessInStage)
-        try writer["StageStatus"].write(value.stageStatus)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.EdgeDeploymentStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.EdgeDeploymentStatus()
@@ -28776,14 +28274,6 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes.EdgeModel {
 
-    static func write(value: SageMakerClientTypes.EdgeModel?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["LatestInference"].writeTimestamp(value.latestInference, format: .epochSeconds)
-        try writer["LatestSampleTime"].writeTimestamp(value.latestSampleTime, format: .epochSeconds)
-        try writer["ModelName"].write(value.modelName)
-        try writer["ModelVersion"].write(value.modelVersion)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.EdgeModel {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.EdgeModel()
@@ -28826,16 +28316,6 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes.EdgeModelStat {
-
-    static func write(value: SageMakerClientTypes.EdgeModelStat?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ActiveDeviceCount"].write(value.activeDeviceCount)
-        try writer["ConnectedDeviceCount"].write(value.connectedDeviceCount)
-        try writer["ModelName"].write(value.modelName)
-        try writer["ModelVersion"].write(value.modelVersion)
-        try writer["OfflineDeviceCount"].write(value.offlineDeviceCount)
-        try writer["SamplingDeviceCount"].write(value.samplingDeviceCount)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.EdgeModelStat {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -28893,12 +28373,6 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes.EdgeModelSummary {
-
-    static func write(value: SageMakerClientTypes.EdgeModelSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ModelName"].write(value.modelName)
-        try writer["ModelVersion"].write(value.modelVersion)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.EdgeModelSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -29035,18 +28509,6 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes.EdgePackagingJobSummary {
 
-    static func write(value: SageMakerClientTypes.EdgePackagingJobSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CompilationJobName"].write(value.compilationJobName)
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["EdgePackagingJobArn"].write(value.edgePackagingJobArn)
-        try writer["EdgePackagingJobName"].write(value.edgePackagingJobName)
-        try writer["EdgePackagingJobStatus"].write(value.edgePackagingJobStatus)
-        try writer["LastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .epochSeconds)
-        try writer["ModelName"].write(value.modelName)
-        try writer["ModelVersion"].write(value.modelVersion)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.EdgePackagingJobSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.EdgePackagingJobSummary()
@@ -29110,14 +28572,6 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes.EdgePresetDeploymentOutput {
-
-    static func write(value: SageMakerClientTypes.EdgePresetDeploymentOutput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Artifact"].write(value.artifact)
-        try writer["Status"].write(value.status)
-        try writer["StatusMessage"].write(value.statusMessage)
-        try writer["Type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.EdgePresetDeploymentOutput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -29263,22 +28717,6 @@ enum EnableSagemakerServicecatalogPortfolioOutputError {
 
 extension SageMakerClientTypes.Endpoint {
 
-    static func write(value: SageMakerClientTypes.Endpoint?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["DataCaptureConfig"].write(value.dataCaptureConfig, with: SageMakerClientTypes.DataCaptureConfigSummary.write(value:to:))
-        try writer["EndpointArn"].write(value.endpointArn)
-        try writer["EndpointConfigName"].write(value.endpointConfigName)
-        try writer["EndpointName"].write(value.endpointName)
-        try writer["EndpointStatus"].write(value.endpointStatus)
-        try writer["FailureReason"].write(value.failureReason)
-        try writer["LastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .epochSeconds)
-        try writer["MonitoringSchedules"].writeList(value.monitoringSchedules, memberWritingClosure: SageMakerClientTypes.MonitoringSchedule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ProductionVariants"].writeList(value.productionVariants, memberWritingClosure: SageMakerClientTypes.ProductionVariantSummary.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ShadowProductionVariants"].writeList(value.shadowProductionVariants, memberWritingClosure: SageMakerClientTypes.ProductionVariantSummary.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Tags"].writeList(value.tags, memberWritingClosure: SageMakerClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.Endpoint {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.Endpoint()
@@ -29395,13 +28833,6 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes.EndpointConfigSummary {
-
-    static func write(value: SageMakerClientTypes.EndpointConfigSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["EndpointConfigArn"].write(value.endpointConfigArn)
-        try writer["EndpointConfigName"].write(value.endpointConfigName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.EndpointConfigSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -29615,14 +29046,6 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes.EndpointMetadata {
 
-    static func write(value: SageMakerClientTypes.EndpointMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EndpointConfigName"].write(value.endpointConfigName)
-        try writer["EndpointName"].write(value.endpointName)
-        try writer["EndpointStatus"].write(value.endpointStatus)
-        try writer["FailureReason"].write(value.failureReason)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.EndpointMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.EndpointMetadata()
@@ -29664,15 +29087,6 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes.EndpointOutputConfiguration {
-
-    static func write(value: SageMakerClientTypes.EndpointOutputConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EndpointName"].write(value.endpointName)
-        try writer["InitialInstanceCount"].write(value.initialInstanceCount)
-        try writer["InstanceType"].write(value.instanceType)
-        try writer["ServerlessConfig"].write(value.serverlessConfig, with: SageMakerClientTypes.ProductionVariantServerlessConfig.write(value:to:))
-        try writer["VariantName"].write(value.variantName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.EndpointOutputConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -29721,12 +29135,6 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes.EndpointPerformance {
-
-    static func write(value: SageMakerClientTypes.EndpointPerformance?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EndpointInfo"].write(value.endpointInfo, with: SageMakerClientTypes.EndpointInfo.write(value:to:))
-        try writer["Metrics"].write(value.metrics, with: SageMakerClientTypes.InferenceMetrics.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.EndpointPerformance {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -29845,15 +29253,6 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes.EndpointSummary {
 
-    static func write(value: SageMakerClientTypes.EndpointSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["EndpointArn"].write(value.endpointArn)
-        try writer["EndpointName"].write(value.endpointName)
-        try writer["EndpointStatus"].write(value.endpointStatus)
-        try writer["LastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .epochSeconds)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.EndpointSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.EndpointSummary()
@@ -29923,13 +29322,6 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes.EnvironmentParameter {
-
-    static func write(value: SageMakerClientTypes.EnvironmentParameter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Key"].write(value.key)
-        try writer["Value"].write(value.value)
-        try writer["ValueType"].write(value.valueType)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.EnvironmentParameter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -30076,20 +29468,6 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes.Experiment {
 
-    static func write(value: SageMakerClientTypes.Experiment?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedBy"].write(value.createdBy, with: SageMakerClientTypes.UserContext.write(value:to:))
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["Description"].write(value.description)
-        try writer["DisplayName"].write(value.displayName)
-        try writer["ExperimentArn"].write(value.experimentArn)
-        try writer["ExperimentName"].write(value.experimentName)
-        try writer["LastModifiedBy"].write(value.lastModifiedBy, with: SageMakerClientTypes.UserContext.write(value:to:))
-        try writer["LastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .epochSeconds)
-        try writer["Source"].write(value.source, with: SageMakerClientTypes.ExperimentSource.write(value:to:))
-        try writer["Tags"].writeList(value.tags, memberWritingClosure: SageMakerClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.Experiment {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.Experiment()
@@ -30216,12 +29594,6 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes.ExperimentSource {
 
-    static func write(value: SageMakerClientTypes.ExperimentSource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["SourceArn"].write(value.sourceArn)
-        try writer["SourceType"].write(value.sourceType)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ExperimentSource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.ExperimentSource()
@@ -30253,16 +29625,6 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes.ExperimentSummary {
-
-    static func write(value: SageMakerClientTypes.ExperimentSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["DisplayName"].write(value.displayName)
-        try writer["ExperimentArn"].write(value.experimentArn)
-        try writer["ExperimentName"].write(value.experimentName)
-        try writer["ExperimentSource"].write(value.experimentSource, with: SageMakerClientTypes.ExperimentSource.write(value:to:))
-        try writer["LastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ExperimentSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -30376,11 +29738,6 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes.FailStepMetadata {
-
-    static func write(value: SageMakerClientTypes.FailStepMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ErrorMessage"].write(value.errorMessage)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.FailStepMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -30498,26 +29855,6 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes.FeatureGroup {
-
-    static func write(value: SageMakerClientTypes.FeatureGroup?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["Description"].write(value.description)
-        try writer["EventTimeFeatureName"].write(value.eventTimeFeatureName)
-        try writer["FailureReason"].write(value.failureReason)
-        try writer["FeatureDefinitions"].writeList(value.featureDefinitions, memberWritingClosure: SageMakerClientTypes.FeatureDefinition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["FeatureGroupArn"].write(value.featureGroupArn)
-        try writer["FeatureGroupName"].write(value.featureGroupName)
-        try writer["FeatureGroupStatus"].write(value.featureGroupStatus)
-        try writer["LastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .epochSeconds)
-        try writer["LastUpdateStatus"].write(value.lastUpdateStatus, with: SageMakerClientTypes.LastUpdateStatus.write(value:to:))
-        try writer["OfflineStoreConfig"].write(value.offlineStoreConfig, with: SageMakerClientTypes.OfflineStoreConfig.write(value:to:))
-        try writer["OfflineStoreStatus"].write(value.offlineStoreStatus, with: SageMakerClientTypes.OfflineStoreStatus.write(value:to:))
-        try writer["OnlineStoreConfig"].write(value.onlineStoreConfig, with: SageMakerClientTypes.OnlineStoreConfig.write(value:to:))
-        try writer["RecordIdentifierFeatureName"].write(value.recordIdentifierFeatureName)
-        try writer["RoleArn"].write(value.roleArn)
-        try writer["Tags"].writeList(value.tags, memberWritingClosure: SageMakerClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.FeatureGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -30725,15 +30062,6 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes.FeatureGroupSummary {
 
-    static func write(value: SageMakerClientTypes.FeatureGroupSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["FeatureGroupArn"].write(value.featureGroupArn)
-        try writer["FeatureGroupName"].write(value.featureGroupName)
-        try writer["FeatureGroupStatus"].write(value.featureGroupStatus)
-        try writer["OfflineStoreStatus"].write(value.offlineStoreStatus, with: SageMakerClientTypes.OfflineStoreStatus.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.FeatureGroupSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.FeatureGroupSummary()
@@ -30782,18 +30110,6 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes.FeatureMetadata {
-
-    static func write(value: SageMakerClientTypes.FeatureMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["Description"].write(value.description)
-        try writer["FeatureGroupArn"].write(value.featureGroupArn)
-        try writer["FeatureGroupName"].write(value.featureGroupName)
-        try writer["FeatureName"].write(value.featureName)
-        try writer["FeatureType"].write(value.featureType)
-        try writer["LastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .epochSeconds)
-        try writer["Parameters"].writeList(value.parameters, memberWritingClosure: SageMakerClientTypes.FeatureParameter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.FeatureMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -31210,15 +30526,6 @@ extension SageMakerClientTypes.Filter {
         try writer["Operator"].write(value.`operator`)
         try writer["Value"].write(value.value)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.Filter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SageMakerClientTypes.Filter()
-        value.name = try reader["Name"].readIfPresent()
-        value.`operator` = try reader["Operator"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
-        return value
-    }
 }
 
 extension SageMakerClientTypes {
@@ -31291,14 +30598,6 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes.FinalAutoMLJobObjectiveMetric {
 
-    static func write(value: SageMakerClientTypes.FinalAutoMLJobObjectiveMetric?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MetricName"].write(value.metricName)
-        try writer["StandardMetricName"].write(value.standardMetricName)
-        try writer["Type"].write(value.type)
-        try writer["Value"].write(value.value)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.FinalAutoMLJobObjectiveMetric {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.FinalAutoMLJobObjectiveMetric()
@@ -31341,13 +30640,6 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes.FinalHyperParameterTuningJobObjectiveMetric {
-
-    static func write(value: SageMakerClientTypes.FinalHyperParameterTuningJobObjectiveMetric?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MetricName"].write(value.metricName)
-        try writer["Type"].write(value.type)
-        try writer["Value"].write(value.value)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.FinalHyperParameterTuningJobObjectiveMetric {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -31490,15 +30782,6 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes.FlowDefinitionSummary {
-
-    static func write(value: SageMakerClientTypes.FlowDefinitionSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["FailureReason"].write(value.failureReason)
-        try writer["FlowDefinitionArn"].write(value.flowDefinitionArn)
-        try writer["FlowDefinitionName"].write(value.flowDefinitionName)
-        try writer["FlowDefinitionStatus"].write(value.flowDefinitionStatus)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.FlowDefinitionSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -32162,13 +31445,6 @@ extension SageMakerClientTypes.GitConfigForUpdate {
         guard let value else { return }
         try writer["SecretArn"].write(value.secretArn)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.GitConfigForUpdate {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SageMakerClientTypes.GitConfigForUpdate()
-        value.secretArn = try reader["SecretArn"].readIfPresent()
-        return value
-    }
 }
 
 extension SageMakerClientTypes {
@@ -32220,12 +31496,6 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes.HubContentDependency {
 
-    static func write(value: SageMakerClientTypes.HubContentDependency?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DependencyCopyPath"].write(value.dependencyCopyPath)
-        try writer["DependencyOriginPath"].write(value.dependencyOriginPath)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.HubContentDependency {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.HubContentDependency()
@@ -32256,20 +31526,6 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes.HubContentInfo {
-
-    static func write(value: SageMakerClientTypes.HubContentInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["DocumentSchemaVersion"].write(value.documentSchemaVersion)
-        try writer["HubContentArn"].write(value.hubContentArn)
-        try writer["HubContentDescription"].write(value.hubContentDescription)
-        try writer["HubContentDisplayName"].write(value.hubContentDisplayName)
-        try writer["HubContentName"].write(value.hubContentName)
-        try writer["HubContentSearchKeywords"].writeList(value.hubContentSearchKeywords, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["HubContentStatus"].write(value.hubContentStatus)
-        try writer["HubContentType"].write(value.hubContentType)
-        try writer["HubContentVersion"].write(value.hubContentVersion)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.HubContentInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -32450,18 +31706,6 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes.HubInfo {
-
-    static func write(value: SageMakerClientTypes.HubInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["HubArn"].write(value.hubArn)
-        try writer["HubDescription"].write(value.hubDescription)
-        try writer["HubDisplayName"].write(value.hubDisplayName)
-        try writer["HubName"].write(value.hubName)
-        try writer["HubSearchKeywords"].writeList(value.hubSearchKeywords, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["HubStatus"].write(value.hubStatus)
-        try writer["LastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.HubInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -33754,13 +32998,6 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes.HumanTaskUiSummary {
 
-    static func write(value: SageMakerClientTypes.HumanTaskUiSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["HumanTaskUiArn"].write(value.humanTaskUiArn)
-        try writer["HumanTaskUiName"].write(value.humanTaskUiName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.HumanTaskUiSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.HumanTaskUiSummary()
@@ -34092,22 +33329,6 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes.HyperParameterTrainingJobSummary {
 
-    static func write(value: SageMakerClientTypes.HyperParameterTrainingJobSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["FailureReason"].write(value.failureReason)
-        try writer["FinalHyperParameterTuningJobObjectiveMetric"].write(value.finalHyperParameterTuningJobObjectiveMetric, with: SageMakerClientTypes.FinalHyperParameterTuningJobObjectiveMetric.write(value:to:))
-        try writer["ObjectiveStatus"].write(value.objectiveStatus)
-        try writer["TrainingEndTime"].writeTimestamp(value.trainingEndTime, format: .epochSeconds)
-        try writer["TrainingJobArn"].write(value.trainingJobArn)
-        try writer["TrainingJobDefinitionName"].write(value.trainingJobDefinitionName)
-        try writer["TrainingJobName"].write(value.trainingJobName)
-        try writer["TrainingJobStatus"].write(value.trainingJobStatus)
-        try writer["TrainingStartTime"].writeTimestamp(value.trainingStartTime, format: .epochSeconds)
-        try writer["TunedHyperParameters"].writeMap(value.tunedHyperParameters, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["TuningJobName"].write(value.tuningJobName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.HyperParameterTrainingJobSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.HyperParameterTrainingJobSummary()
@@ -34279,12 +33500,6 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes.HyperParameterTuningJobCompletionDetails {
 
-    static func write(value: SageMakerClientTypes.HyperParameterTuningJobCompletionDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ConvergenceDetectedTime"].writeTimestamp(value.convergenceDetectedTime, format: .epochSeconds)
-        try writer["NumberOfTrainingJobsObjectiveNotImproving"].write(value.numberOfTrainingJobsObjectiveNotImproving)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.HyperParameterTuningJobCompletionDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.HyperParameterTuningJobCompletionDetails()
@@ -34391,11 +33606,6 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes.HyperParameterTuningJobConsumedResources {
 
-    static func write(value: SageMakerClientTypes.HyperParameterTuningJobConsumedResources?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["RuntimeInSeconds"].write(value.runtimeInSeconds)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.HyperParameterTuningJobConsumedResources {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.HyperParameterTuningJobConsumedResources()
@@ -34490,28 +33700,6 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes.HyperParameterTuningJobSearchEntity {
-
-    static func write(value: SageMakerClientTypes.HyperParameterTuningJobSearchEntity?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BestTrainingJob"].write(value.bestTrainingJob, with: SageMakerClientTypes.HyperParameterTrainingJobSummary.write(value:to:))
-        try writer["ConsumedResources"].write(value.consumedResources, with: SageMakerClientTypes.HyperParameterTuningJobConsumedResources.write(value:to:))
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["FailureReason"].write(value.failureReason)
-        try writer["HyperParameterTuningEndTime"].writeTimestamp(value.hyperParameterTuningEndTime, format: .epochSeconds)
-        try writer["HyperParameterTuningJobArn"].write(value.hyperParameterTuningJobArn)
-        try writer["HyperParameterTuningJobConfig"].write(value.hyperParameterTuningJobConfig, with: SageMakerClientTypes.HyperParameterTuningJobConfig.write(value:to:))
-        try writer["HyperParameterTuningJobName"].write(value.hyperParameterTuningJobName)
-        try writer["HyperParameterTuningJobStatus"].write(value.hyperParameterTuningJobStatus)
-        try writer["LastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .epochSeconds)
-        try writer["ObjectiveStatusCounters"].write(value.objectiveStatusCounters, with: SageMakerClientTypes.ObjectiveStatusCounters.write(value:to:))
-        try writer["OverallBestTrainingJob"].write(value.overallBestTrainingJob, with: SageMakerClientTypes.HyperParameterTrainingJobSummary.write(value:to:))
-        try writer["Tags"].writeList(value.tags, memberWritingClosure: SageMakerClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["TrainingJobDefinition"].write(value.trainingJobDefinition, with: SageMakerClientTypes.HyperParameterTrainingJobDefinition.write(value:to:))
-        try writer["TrainingJobDefinitions"].writeList(value.trainingJobDefinitions, memberWritingClosure: SageMakerClientTypes.HyperParameterTrainingJobDefinition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["TrainingJobStatusCounters"].write(value.trainingJobStatusCounters, with: SageMakerClientTypes.TrainingJobStatusCounters.write(value:to:))
-        try writer["TuningJobCompletionDetails"].write(value.tuningJobCompletionDetails, with: SageMakerClientTypes.HyperParameterTuningJobCompletionDetails.write(value:to:))
-        try writer["WarmStartConfig"].write(value.warmStartConfig, with: SageMakerClientTypes.HyperParameterTuningJobWarmStartConfig.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.HyperParameterTuningJobSearchEntity {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -34769,20 +33957,6 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes.HyperParameterTuningJobSummary {
-
-    static func write(value: SageMakerClientTypes.HyperParameterTuningJobSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["HyperParameterTuningEndTime"].writeTimestamp(value.hyperParameterTuningEndTime, format: .epochSeconds)
-        try writer["HyperParameterTuningJobArn"].write(value.hyperParameterTuningJobArn)
-        try writer["HyperParameterTuningJobName"].write(value.hyperParameterTuningJobName)
-        try writer["HyperParameterTuningJobStatus"].write(value.hyperParameterTuningJobStatus)
-        try writer["LastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .epochSeconds)
-        try writer["ObjectiveStatusCounters"].write(value.objectiveStatusCounters, with: SageMakerClientTypes.ObjectiveStatusCounters.write(value:to:))
-        try writer["ResourceLimits"].write(value.resourceLimits, with: SageMakerClientTypes.ResourceLimits.write(value:to:))
-        try writer["Strategy"].write(value.strategy)
-        try writer["TrainingJobStatusCounters"].write(value.trainingJobStatusCounters, with: SageMakerClientTypes.TrainingJobStatusCounters.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.HyperParameterTuningJobSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -35042,13 +34216,6 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes.IamIdentity {
 
-    static func write(value: SageMakerClientTypes.IamIdentity?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["PrincipalId"].write(value.principalId)
-        try writer["SourceIdentity"].write(value.sourceIdentity)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.IamIdentity {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.IamIdentity()
@@ -35127,18 +34294,6 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes.Image {
-
-    static func write(value: SageMakerClientTypes.Image?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["Description"].write(value.description)
-        try writer["DisplayName"].write(value.displayName)
-        try writer["FailureReason"].write(value.failureReason)
-        try writer["ImageArn"].write(value.imageArn)
-        try writer["ImageName"].write(value.imageName)
-        try writer["ImageStatus"].write(value.imageStatus)
-        try writer["LastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.Image {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -35386,17 +34541,6 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes.ImageVersion {
-
-    static func write(value: SageMakerClientTypes.ImageVersion?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["FailureReason"].write(value.failureReason)
-        try writer["ImageArn"].write(value.imageArn)
-        try writer["ImageVersionArn"].write(value.imageVersionArn)
-        try writer["ImageVersionStatus"].write(value.imageVersionStatus)
-        try writer["LastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .epochSeconds)
-        try writer["Version"].write(value.version)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ImageVersion {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -35747,15 +34891,6 @@ extension SageMakerClientTypes.InferenceComponentContainerSpecification {
         try writer["Environment"].writeMap(value.environment, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["Image"].write(value.image)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.InferenceComponentContainerSpecification {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SageMakerClientTypes.InferenceComponentContainerSpecification()
-        value.image = try reader["Image"].readIfPresent()
-        value.artifactUrl = try reader["ArtifactUrl"].readIfPresent()
-        value.environment = try reader["Environment"].readMapIfPresent(valueReadingClosure: Swift.String.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
 }
 
 extension SageMakerClientTypes {
@@ -35783,13 +34918,6 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes.InferenceComponentContainerSpecificationSummary {
-
-    static func write(value: SageMakerClientTypes.InferenceComponentContainerSpecificationSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ArtifactUrl"].write(value.artifactUrl)
-        try writer["DeployedImage"].write(value.deployedImage, with: SageMakerClientTypes.DeployedImage.write(value:to:))
-        try writer["Environment"].writeMap(value.environment, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.InferenceComponentContainerSpecificationSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -35831,13 +34959,6 @@ extension SageMakerClientTypes.InferenceComponentRuntimeConfig {
         guard let value else { return }
         try writer["CopyCount"].write(value.copyCount)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.InferenceComponentRuntimeConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SageMakerClientTypes.InferenceComponentRuntimeConfig()
-        value.copyCount = try reader["CopyCount"].readIfPresent()
-        return value
-    }
 }
 
 extension SageMakerClientTypes {
@@ -35858,12 +34979,6 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes.InferenceComponentRuntimeConfigSummary {
-
-    static func write(value: SageMakerClientTypes.InferenceComponentRuntimeConfigSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CurrentCopyCount"].write(value.currentCopyCount)
-        try writer["DesiredCopyCount"].write(value.desiredCopyCount)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.InferenceComponentRuntimeConfigSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -35936,16 +35051,6 @@ extension SageMakerClientTypes.InferenceComponentSpecification {
         try writer["ModelName"].write(value.modelName)
         try writer["StartupParameters"].write(value.startupParameters, with: SageMakerClientTypes.InferenceComponentStartupParameters.write(value:to:))
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.InferenceComponentSpecification {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SageMakerClientTypes.InferenceComponentSpecification()
-        value.modelName = try reader["ModelName"].readIfPresent()
-        value.container = try reader["Container"].readIfPresent(with: SageMakerClientTypes.InferenceComponentContainerSpecification.read(from:))
-        value.startupParameters = try reader["StartupParameters"].readIfPresent(with: SageMakerClientTypes.InferenceComponentStartupParameters.read(from:))
-        value.computeResourceRequirements = try reader["ComputeResourceRequirements"].readIfPresent(with: SageMakerClientTypes.InferenceComponentComputeResourceRequirements.read(from:))
-        return value
-    }
 }
 
 extension SageMakerClientTypes {
@@ -35978,14 +35083,6 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes.InferenceComponentSpecificationSummary {
-
-    static func write(value: SageMakerClientTypes.InferenceComponentSpecificationSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ComputeResourceRequirements"].write(value.computeResourceRequirements, with: SageMakerClientTypes.InferenceComponentComputeResourceRequirements.write(value:to:))
-        try writer["Container"].write(value.container, with: SageMakerClientTypes.InferenceComponentContainerSpecificationSummary.write(value:to:))
-        try writer["ModelName"].write(value.modelName)
-        try writer["StartupParameters"].write(value.startupParameters, with: SageMakerClientTypes.InferenceComponentStartupParameters.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.InferenceComponentSpecificationSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -36103,18 +35200,6 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes.InferenceComponentSummary {
-
-    static func write(value: SageMakerClientTypes.InferenceComponentSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["EndpointArn"].write(value.endpointArn)
-        try writer["EndpointName"].write(value.endpointName)
-        try writer["InferenceComponentArn"].write(value.inferenceComponentArn)
-        try writer["InferenceComponentName"].write(value.inferenceComponentName)
-        try writer["InferenceComponentStatus"].write(value.inferenceComponentStatus)
-        try writer["LastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .epochSeconds)
-        try writer["VariantName"].write(value.variantName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.InferenceComponentSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -36409,20 +35494,6 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes.InferenceExperimentSummary {
 
-    static func write(value: SageMakerClientTypes.InferenceExperimentSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CompletionTime"].writeTimestamp(value.completionTime, format: .epochSeconds)
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["Description"].write(value.description)
-        try writer["LastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .epochSeconds)
-        try writer["Name"].write(value.name)
-        try writer["RoleArn"].write(value.roleArn)
-        try writer["Schedule"].write(value.schedule, with: SageMakerClientTypes.InferenceExperimentSchedule.write(value:to:))
-        try writer["Status"].write(value.status)
-        try writer["StatusReason"].write(value.statusReason)
-        try writer["Type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.InferenceExperimentSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.InferenceExperimentSummary()
@@ -36526,12 +35597,6 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes.InferenceMetrics {
 
-    static func write(value: SageMakerClientTypes.InferenceMetrics?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MaxInvocations"].write(value.maxInvocations)
-        try writer["ModelLatency"].write(value.modelLatency)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.InferenceMetrics {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.InferenceMetrics()
@@ -36564,16 +35629,6 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes.InferenceRecommendation {
-
-    static func write(value: SageMakerClientTypes.InferenceRecommendation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EndpointConfiguration"].write(value.endpointConfiguration, with: SageMakerClientTypes.EndpointOutputConfiguration.write(value:to:))
-        try writer["InvocationEndTime"].writeTimestamp(value.invocationEndTime, format: .epochSeconds)
-        try writer["InvocationStartTime"].writeTimestamp(value.invocationStartTime, format: .epochSeconds)
-        try writer["Metrics"].write(value.metrics, with: SageMakerClientTypes.RecommendationMetrics.write(value:to:))
-        try writer["ModelConfiguration"].write(value.modelConfiguration, with: SageMakerClientTypes.ModelConfiguration.write(value:to:))
-        try writer["RecommendationId"].write(value.recommendationId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.InferenceRecommendation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -36628,23 +35683,6 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes.InferenceRecommendationsJob {
-
-    static func write(value: SageMakerClientTypes.InferenceRecommendationsJob?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CompletionTime"].writeTimestamp(value.completionTime, format: .epochSeconds)
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["FailureReason"].write(value.failureReason)
-        try writer["JobArn"].write(value.jobArn)
-        try writer["JobDescription"].write(value.jobDescription)
-        try writer["JobName"].write(value.jobName)
-        try writer["JobType"].write(value.jobType)
-        try writer["LastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .epochSeconds)
-        try writer["ModelName"].write(value.modelName)
-        try writer["ModelPackageVersionArn"].write(value.modelPackageVersionArn)
-        try writer["RoleArn"].write(value.roleArn)
-        try writer["SamplePayloadUrl"].write(value.samplePayloadUrl)
-        try writer["Status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.InferenceRecommendationsJob {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -36739,14 +35777,6 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes.InferenceRecommendationsJobStep {
-
-    static func write(value: SageMakerClientTypes.InferenceRecommendationsJobStep?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["InferenceBenchmark"].write(value.inferenceBenchmark, with: SageMakerClientTypes.RecommendationJobInferenceBenchmark.write(value:to:))
-        try writer["JobName"].write(value.jobName)
-        try writer["Status"].write(value.status)
-        try writer["StepType"].write(value.stepType)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.InferenceRecommendationsJobStep {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -38137,15 +37167,6 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes.LabelCounters {
 
-    static func write(value: SageMakerClientTypes.LabelCounters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["FailedNonRetryableError"].write(value.failedNonRetryableError)
-        try writer["HumanLabeled"].write(value.humanLabeled)
-        try writer["MachineLabeled"].write(value.machineLabeled)
-        try writer["TotalLabeled"].write(value.totalLabeled)
-        try writer["Unlabeled"].write(value.unlabeled)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.LabelCounters {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.LabelCounters()
@@ -38191,13 +37212,6 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes.LabelCountersForWorkteam {
-
-    static func write(value: SageMakerClientTypes.LabelCountersForWorkteam?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["HumanLabeled"].write(value.humanLabeled)
-        try writer["PendingHuman"].write(value.pendingHuman)
-        try writer["Total"].write(value.total)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.LabelCountersForWorkteam {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -38355,16 +37369,6 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes.LabelingJobForWorkteamSummary {
 
-    static func write(value: SageMakerClientTypes.LabelingJobForWorkteamSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["JobReferenceCode"].write(value.jobReferenceCode)
-        try writer["LabelCounters"].write(value.labelCounters, with: SageMakerClientTypes.LabelCountersForWorkteam.write(value:to:))
-        try writer["LabelingJobName"].write(value.labelingJobName)
-        try writer["NumberOfHumanWorkersPerDataObject"].write(value.numberOfHumanWorkersPerDataObject)
-        try writer["WorkRequesterAccountId"].write(value.workRequesterAccountId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.LabelingJobForWorkteamSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.LabelingJobForWorkteamSummary()
@@ -38456,12 +37460,6 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes.LabelingJobOutput {
-
-    static func write(value: SageMakerClientTypes.LabelingJobOutput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["FinalActiveLearningModelArn"].write(value.finalActiveLearningModelArn)
-        try writer["OutputDatasetS3Uri"].write(value.outputDatasetS3Uri)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.LabelingJobOutput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -38730,22 +37728,6 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes.LabelingJobSummary {
 
-    static func write(value: SageMakerClientTypes.LabelingJobSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AnnotationConsolidationLambdaArn"].write(value.annotationConsolidationLambdaArn)
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["FailureReason"].write(value.failureReason)
-        try writer["InputConfig"].write(value.inputConfig, with: SageMakerClientTypes.LabelingJobInputConfig.write(value:to:))
-        try writer["LabelCounters"].write(value.labelCounters, with: SageMakerClientTypes.LabelCounters.write(value:to:))
-        try writer["LabelingJobArn"].write(value.labelingJobArn)
-        try writer["LabelingJobName"].write(value.labelingJobName)
-        try writer["LabelingJobOutput"].write(value.labelingJobOutput, with: SageMakerClientTypes.LabelingJobOutput.write(value:to:))
-        try writer["LabelingJobStatus"].write(value.labelingJobStatus)
-        try writer["LastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .epochSeconds)
-        try writer["PreHumanTaskLambdaArn"].write(value.preHumanTaskLambdaArn)
-        try writer["WorkteamArn"].write(value.workteamArn)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.LabelingJobSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.LabelingJobSummary()
@@ -38835,12 +37817,6 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes.LambdaStepMetadata {
 
-    static func write(value: SageMakerClientTypes.LambdaStepMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["OutputParameters"].writeList(value.outputParameters, memberWritingClosure: SageMakerClientTypes.OutputParameter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.LambdaStepMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.LambdaStepMetadata()
@@ -38871,12 +37847,6 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes.LastUpdateStatus {
-
-    static func write(value: SageMakerClientTypes.LastUpdateStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["FailureReason"].write(value.failureReason)
-        try writer["Status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.LastUpdateStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -38942,15 +37912,6 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes.LineageGroupSummary {
-
-    static func write(value: SageMakerClientTypes.LineageGroupSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["DisplayName"].write(value.displayName)
-        try writer["LastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .epochSeconds)
-        try writer["LineageGroupArn"].write(value.lineageGroupArn)
-        try writer["LineageGroupName"].write(value.lineageGroupName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.LineageGroupSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -47308,13 +46269,6 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes.MetricData {
 
-    static func write(value: SageMakerClientTypes.MetricData?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MetricName"].write(value.metricName)
-        try writer["Timestamp"].writeTimestamp(value.timestamp, format: .epochSeconds)
-        try writer["Value"].write(value.value)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.MetricData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.MetricData()
@@ -47350,14 +46304,6 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes.MetricDatum {
-
-    static func write(value: SageMakerClientTypes.MetricDatum?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MetricName"].write(value.metricName)
-        try writer["Set"].write(value.`set`)
-        try writer["StandardMetricName"].write(value.standardMetricName)
-        try writer["Value"].write(value.value)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.MetricDatum {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -47472,18 +46418,6 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes.MetricSpecification {
 
-    static func write(value: SageMakerClientTypes.MetricSpecification?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .customized(customized):
-                try writer["Customized"].write(customized, with: SageMakerClientTypes.CustomizedMetricSpecification.write(value:to:))
-            case let .predefined(predefined):
-                try writer["Predefined"].write(predefined, with: SageMakerClientTypes.PredefinedMetricSpecification.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.MetricSpecification {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
@@ -47556,21 +46490,6 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes.Model {
-
-    static func write(value: SageMakerClientTypes.Model?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Containers"].writeList(value.containers, memberWritingClosure: SageMakerClientTypes.ContainerDefinition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["DeploymentRecommendation"].write(value.deploymentRecommendation, with: SageMakerClientTypes.DeploymentRecommendation.write(value:to:))
-        try writer["EnableNetworkIsolation"].write(value.enableNetworkIsolation)
-        try writer["ExecutionRoleArn"].write(value.executionRoleArn)
-        try writer["InferenceExecutionConfig"].write(value.inferenceExecutionConfig, with: SageMakerClientTypes.InferenceExecutionConfig.write(value:to:))
-        try writer["ModelArn"].write(value.modelArn)
-        try writer["ModelName"].write(value.modelName)
-        try writer["PrimaryContainer"].write(value.primaryContainer, with: SageMakerClientTypes.ContainerDefinition.write(value:to:))
-        try writer["Tags"].writeList(value.tags, memberWritingClosure: SageMakerClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["VpcConfig"].write(value.vpcConfig, with: SageMakerClientTypes.VpcConfig.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.Model {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -47716,11 +46635,6 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes.ModelArtifacts {
-
-    static func write(value: SageMakerClientTypes.ModelArtifacts?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["S3ModelArtifacts"].write(value.s3ModelArtifacts)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ModelArtifacts {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -47910,24 +46824,6 @@ extension SageMakerClientTypes.ModelCard: Swift.CustomDebugStringConvertible {
 
 extension SageMakerClientTypes.ModelCard {
 
-    static func write(value: SageMakerClientTypes.ModelCard?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Content"].write(value.content)
-        try writer["CreatedBy"].write(value.createdBy, with: SageMakerClientTypes.UserContext.write(value:to:))
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["LastModifiedBy"].write(value.lastModifiedBy, with: SageMakerClientTypes.UserContext.write(value:to:))
-        try writer["LastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .epochSeconds)
-        try writer["ModelCardArn"].write(value.modelCardArn)
-        try writer["ModelCardName"].write(value.modelCardName)
-        try writer["ModelCardStatus"].write(value.modelCardStatus)
-        try writer["ModelCardVersion"].write(value.modelCardVersion)
-        try writer["ModelId"].write(value.modelId)
-        try writer["ModelPackageGroupName"].write(value.modelPackageGroupName)
-        try writer["RiskRating"].write(value.riskRating)
-        try writer["SecurityConfig"].write(value.securityConfig, with: SageMakerClientTypes.ModelCardSecurityConfig.write(value:to:))
-        try writer["Tags"].writeList(value.tags, memberWritingClosure: SageMakerClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ModelCard {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.ModelCard()
@@ -48026,11 +46922,6 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes.ModelCardExportArtifacts {
-
-    static func write(value: SageMakerClientTypes.ModelCardExportArtifacts?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["S3ExportArtifacts"].write(value.s3ExportArtifacts)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ModelCardExportArtifacts {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -48155,17 +47046,6 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes.ModelCardExportJobSummary {
-
-    static func write(value: SageMakerClientTypes.ModelCardExportJobSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["LastModifiedAt"].writeTimestamp(value.lastModifiedAt, format: .epochSeconds)
-        try writer["ModelCardExportJobArn"].write(value.modelCardExportJobArn)
-        try writer["ModelCardExportJobName"].write(value.modelCardExportJobName)
-        try writer["ModelCardName"].write(value.modelCardName)
-        try writer["ModelCardVersion"].write(value.modelCardVersion)
-        try writer["Status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ModelCardExportJobSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -48431,15 +47311,6 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes.ModelCardSummary {
 
-    static func write(value: SageMakerClientTypes.ModelCardSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["LastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .epochSeconds)
-        try writer["ModelCardArn"].write(value.modelCardArn)
-        try writer["ModelCardName"].write(value.modelCardName)
-        try writer["ModelCardStatus"].write(value.modelCardStatus)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ModelCardSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.ModelCardSummary()
@@ -48524,16 +47395,6 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes.ModelCardVersionSummary {
-
-    static func write(value: SageMakerClientTypes.ModelCardVersionSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["LastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .epochSeconds)
-        try writer["ModelCardArn"].write(value.modelCardArn)
-        try writer["ModelCardName"].write(value.modelCardName)
-        try writer["ModelCardStatus"].write(value.modelCardStatus)
-        try writer["ModelCardVersion"].write(value.modelCardVersion)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ModelCardVersionSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -48666,13 +47527,6 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes.ModelConfiguration {
 
-    static func write(value: SageMakerClientTypes.ModelConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CompilationJobName"].write(value.compilationJobName)
-        try writer["EnvironmentParameters"].writeList(value.environmentParameters, memberWritingClosure: SageMakerClientTypes.EnvironmentParameter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["InferenceSpecificationName"].write(value.inferenceSpecificationName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ModelConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.ModelConfiguration()
@@ -48708,15 +47562,6 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes.ModelDashboardEndpoint {
-
-    static func write(value: SageMakerClientTypes.ModelDashboardEndpoint?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["EndpointArn"].write(value.endpointArn)
-        try writer["EndpointName"].write(value.endpointName)
-        try writer["EndpointStatus"].write(value.endpointStatus)
-        try writer["LastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ModelDashboardEndpoint {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -48769,11 +47614,6 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes.ModelDashboardIndicatorAction {
 
-    static func write(value: SageMakerClientTypes.ModelDashboardIndicatorAction?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Enabled"].write(value.enabled)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ModelDashboardIndicatorAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.ModelDashboardIndicatorAction()
@@ -48799,15 +47639,6 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes.ModelDashboardModel {
-
-    static func write(value: SageMakerClientTypes.ModelDashboardModel?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Endpoints"].writeList(value.endpoints, memberWritingClosure: SageMakerClientTypes.ModelDashboardEndpoint.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["LastBatchTransformJob"].write(value.lastBatchTransformJob, with: SageMakerClientTypes.TransformJob.write(value:to:))
-        try writer["Model"].write(value.model, with: SageMakerClientTypes.Model.write(value:to:))
-        try writer["ModelCard"].write(value.modelCard, with: SageMakerClientTypes.ModelDashboardModelCard.write(value:to:))
-        try writer["MonitoringSchedules"].writeList(value.monitoringSchedules, memberWritingClosure: SageMakerClientTypes.ModelDashboardMonitoringSchedule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ModelDashboardModel {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -48854,22 +47685,6 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes.ModelDashboardModelCard {
-
-    static func write(value: SageMakerClientTypes.ModelDashboardModelCard?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedBy"].write(value.createdBy, with: SageMakerClientTypes.UserContext.write(value:to:))
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["LastModifiedBy"].write(value.lastModifiedBy, with: SageMakerClientTypes.UserContext.write(value:to:))
-        try writer["LastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .epochSeconds)
-        try writer["ModelCardArn"].write(value.modelCardArn)
-        try writer["ModelCardName"].write(value.modelCardName)
-        try writer["ModelCardStatus"].write(value.modelCardStatus)
-        try writer["ModelCardVersion"].write(value.modelCardVersion)
-        try writer["ModelId"].write(value.modelId)
-        try writer["RiskRating"].write(value.riskRating)
-        try writer["SecurityConfig"].write(value.securityConfig, with: SageMakerClientTypes.ModelCardSecurityConfig.write(value:to:))
-        try writer["Tags"].writeList(value.tags, memberWritingClosure: SageMakerClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ModelDashboardModelCard {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -48951,22 +47766,6 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes.ModelDashboardMonitoringSchedule {
-
-    static func write(value: SageMakerClientTypes.ModelDashboardMonitoringSchedule?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BatchTransformInput"].write(value.batchTransformInput, with: SageMakerClientTypes.BatchTransformInput.write(value:to:))
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["EndpointName"].write(value.endpointName)
-        try writer["FailureReason"].write(value.failureReason)
-        try writer["LastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .epochSeconds)
-        try writer["LastMonitoringExecutionSummary"].write(value.lastMonitoringExecutionSummary, with: SageMakerClientTypes.MonitoringExecutionSummary.write(value:to:))
-        try writer["MonitoringAlertSummaries"].writeList(value.monitoringAlertSummaries, memberWritingClosure: SageMakerClientTypes.MonitoringAlertSummary.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["MonitoringScheduleArn"].write(value.monitoringScheduleArn)
-        try writer["MonitoringScheduleConfig"].write(value.monitoringScheduleConfig, with: SageMakerClientTypes.MonitoringScheduleConfig.write(value:to:))
-        try writer["MonitoringScheduleName"].write(value.monitoringScheduleName)
-        try writer["MonitoringScheduleStatus"].write(value.monitoringScheduleStatus)
-        try writer["MonitoringType"].write(value.monitoringType)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ModelDashboardMonitoringSchedule {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -49154,11 +47953,6 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes.ModelDeployResult {
 
-    static func write(value: SageMakerClientTypes.ModelDeployResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EndpointName"].write(value.endpointName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ModelDeployResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.ModelDeployResult()
@@ -49184,11 +47978,6 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes.ModelDigests {
-
-    static func write(value: SageMakerClientTypes.ModelDigests?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ArtifactDigest"].write(value.artifactDigest)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ModelDigests {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -49477,14 +48266,6 @@ extension SageMakerClientTypes.ModelMetadataFilter {
         try writer["Name"].write(value.name)
         try writer["Value"].write(value.value)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ModelMetadataFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SageMakerClientTypes.ModelMetadataFilter()
-        value.name = try reader["Name"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
-        return value
-    }
 }
 
 extension SageMakerClientTypes {
@@ -49551,13 +48332,6 @@ extension SageMakerClientTypes.ModelMetadataSearchExpression {
         guard let value else { return }
         try writer["Filters"].writeList(value.filters, memberWritingClosure: SageMakerClientTypes.ModelMetadataFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ModelMetadataSearchExpression {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SageMakerClientTypes.ModelMetadataSearchExpression()
-        value.filters = try reader["Filters"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.ModelMetadataFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
 }
 
 extension SageMakerClientTypes {
@@ -49577,15 +48351,6 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes.ModelMetadataSummary {
-
-    static func write(value: SageMakerClientTypes.ModelMetadataSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Domain"].write(value.domain)
-        try writer["Framework"].write(value.framework)
-        try writer["FrameworkVersion"].write(value.frameworkVersion)
-        try writer["Model"].write(value.model)
-        try writer["Task"].write(value.task)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ModelMetadataSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -49686,38 +48451,6 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes.ModelPackage {
-
-    static func write(value: SageMakerClientTypes.ModelPackage?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AdditionalInferenceSpecifications"].writeList(value.additionalInferenceSpecifications, memberWritingClosure: SageMakerClientTypes.AdditionalInferenceSpecificationDefinition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ApprovalDescription"].write(value.approvalDescription)
-        try writer["CertifyForMarketplace"].write(value.certifyForMarketplace)
-        try writer["CreatedBy"].write(value.createdBy, with: SageMakerClientTypes.UserContext.write(value:to:))
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["CustomerMetadataProperties"].writeMap(value.customerMetadataProperties, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["Domain"].write(value.domain)
-        try writer["DriftCheckBaselines"].write(value.driftCheckBaselines, with: SageMakerClientTypes.DriftCheckBaselines.write(value:to:))
-        try writer["InferenceSpecification"].write(value.inferenceSpecification, with: SageMakerClientTypes.InferenceSpecification.write(value:to:))
-        try writer["LastModifiedBy"].write(value.lastModifiedBy, with: SageMakerClientTypes.UserContext.write(value:to:))
-        try writer["LastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .epochSeconds)
-        try writer["MetadataProperties"].write(value.metadataProperties, with: SageMakerClientTypes.MetadataProperties.write(value:to:))
-        try writer["ModelApprovalStatus"].write(value.modelApprovalStatus)
-        try writer["ModelMetrics"].write(value.modelMetrics, with: SageMakerClientTypes.ModelMetrics.write(value:to:))
-        try writer["ModelPackageArn"].write(value.modelPackageArn)
-        try writer["ModelPackageDescription"].write(value.modelPackageDescription)
-        try writer["ModelPackageGroupName"].write(value.modelPackageGroupName)
-        try writer["ModelPackageName"].write(value.modelPackageName)
-        try writer["ModelPackageStatus"].write(value.modelPackageStatus)
-        try writer["ModelPackageStatusDetails"].write(value.modelPackageStatusDetails, with: SageMakerClientTypes.ModelPackageStatusDetails.write(value:to:))
-        try writer["ModelPackageVersion"].write(value.modelPackageVersion)
-        try writer["SamplePayloadUrl"].write(value.samplePayloadUrl)
-        try writer["SkipModelValidation"].write(value.skipModelValidation)
-        try writer["SourceAlgorithmSpecification"].write(value.sourceAlgorithmSpecification, with: SageMakerClientTypes.SourceAlgorithmSpecification.write(value:to:))
-        try writer["SourceUri"].write(value.sourceUri)
-        try writer["Tags"].writeList(value.tags, memberWritingClosure: SageMakerClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Task"].write(value.task)
-        try writer["ValidationSpecification"].write(value.validationSpecification, with: SageMakerClientTypes.ModelPackageValidationSpecification.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ModelPackage {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -49994,17 +48727,6 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes.ModelPackageGroup {
 
-    static func write(value: SageMakerClientTypes.ModelPackageGroup?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedBy"].write(value.createdBy, with: SageMakerClientTypes.UserContext.write(value:to:))
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["ModelPackageGroupArn"].write(value.modelPackageGroupArn)
-        try writer["ModelPackageGroupDescription"].write(value.modelPackageGroupDescription)
-        try writer["ModelPackageGroupName"].write(value.modelPackageGroupName)
-        try writer["ModelPackageGroupStatus"].write(value.modelPackageGroupStatus)
-        try writer["Tags"].writeList(value.tags, memberWritingClosure: SageMakerClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ModelPackageGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.ModelPackageGroup()
@@ -50145,15 +48867,6 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes.ModelPackageGroupSummary {
 
-    static func write(value: SageMakerClientTypes.ModelPackageGroupSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["ModelPackageGroupArn"].write(value.modelPackageGroupArn)
-        try writer["ModelPackageGroupDescription"].write(value.modelPackageGroupDescription)
-        try writer["ModelPackageGroupName"].write(value.modelPackageGroupName)
-        try writer["ModelPackageGroupStatus"].write(value.modelPackageGroupStatus)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ModelPackageGroupSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.ModelPackageGroupSummary()
@@ -50273,12 +48986,6 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes.ModelPackageStatusDetails {
 
-    static func write(value: SageMakerClientTypes.ModelPackageStatusDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ImageScanStatuses"].writeList(value.imageScanStatuses, memberWritingClosure: SageMakerClientTypes.ModelPackageStatusItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ValidationStatuses"].writeList(value.validationStatuses, memberWritingClosure: SageMakerClientTypes.ModelPackageStatusItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ModelPackageStatusDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.ModelPackageStatusDetails()
@@ -50310,13 +49017,6 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes.ModelPackageStatusItem {
-
-    static func write(value: SageMakerClientTypes.ModelPackageStatusItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["FailureReason"].write(value.failureReason)
-        try writer["Name"].write(value.name)
-        try writer["Status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ModelPackageStatusItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -50355,18 +49055,6 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes.ModelPackageSummary {
-
-    static func write(value: SageMakerClientTypes.ModelPackageSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["ModelApprovalStatus"].write(value.modelApprovalStatus)
-        try writer["ModelPackageArn"].write(value.modelPackageArn)
-        try writer["ModelPackageDescription"].write(value.modelPackageDescription)
-        try writer["ModelPackageGroupName"].write(value.modelPackageGroupName)
-        try writer["ModelPackageName"].write(value.modelPackageName)
-        try writer["ModelPackageStatus"].write(value.modelPackageStatus)
-        try writer["ModelPackageVersion"].write(value.modelPackageVersion)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ModelPackageSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -50802,11 +49490,6 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes.ModelStepMetadata {
 
-    static func write(value: SageMakerClientTypes.ModelStepMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ModelStepMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.ModelStepMetadata()
@@ -50832,13 +49515,6 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes.ModelSummary {
-
-    static func write(value: SageMakerClientTypes.ModelSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["ModelArn"].write(value.modelArn)
-        try writer["ModelName"].write(value.modelName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ModelSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -50918,15 +49594,6 @@ extension SageMakerClientTypes.ModelVariantConfig {
         try writer["ModelName"].write(value.modelName)
         try writer["VariantName"].write(value.variantName)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ModelVariantConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SageMakerClientTypes.ModelVariantConfig()
-        value.modelName = try reader["ModelName"].readIfPresent()
-        value.variantName = try reader["VariantName"].readIfPresent()
-        value.infrastructureConfig = try reader["InfrastructureConfig"].readIfPresent(with: SageMakerClientTypes.ModelInfrastructureConfig.read(from:))
-        return value
-    }
 }
 
 extension SageMakerClientTypes {
@@ -50957,14 +49624,6 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes.ModelVariantConfigSummary {
-
-    static func write(value: SageMakerClientTypes.ModelVariantConfigSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["InfrastructureConfig"].write(value.infrastructureConfig, with: SageMakerClientTypes.ModelInfrastructureConfig.write(value:to:))
-        try writer["ModelName"].write(value.modelName)
-        try writer["Status"].write(value.status)
-        try writer["VariantName"].write(value.variantName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ModelVariantConfigSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -51060,11 +49719,6 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes.MonitoringAlertActions {
 
-    static func write(value: SageMakerClientTypes.MonitoringAlertActions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ModelDashboardIndicator"].write(value.modelDashboardIndicator, with: SageMakerClientTypes.ModelDashboardIndicatorAction.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.MonitoringAlertActions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.MonitoringAlertActions()
@@ -51120,14 +49774,6 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes.MonitoringAlertHistorySummary {
-
-    static func write(value: SageMakerClientTypes.MonitoringAlertHistorySummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AlertStatus"].write(value.alertStatus)
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["MonitoringAlertName"].write(value.monitoringAlertName)
-        try writer["MonitoringScheduleName"].write(value.monitoringScheduleName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.MonitoringAlertHistorySummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -51203,17 +49849,6 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes.MonitoringAlertSummary {
-
-    static func write(value: SageMakerClientTypes.MonitoringAlertSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Actions"].write(value.actions, with: SageMakerClientTypes.MonitoringAlertActions.write(value:to:))
-        try writer["AlertStatus"].write(value.alertStatus)
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["DatapointsToAlert"].write(value.datapointsToAlert)
-        try writer["EvaluationPeriod"].write(value.evaluationPeriod)
-        try writer["LastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .epochSeconds)
-        try writer["MonitoringAlertName"].write(value.monitoringAlertName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.MonitoringAlertSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -51567,20 +50202,6 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes.MonitoringExecutionSummary {
 
-    static func write(value: SageMakerClientTypes.MonitoringExecutionSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["EndpointName"].write(value.endpointName)
-        try writer["FailureReason"].write(value.failureReason)
-        try writer["LastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .epochSeconds)
-        try writer["MonitoringExecutionStatus"].write(value.monitoringExecutionStatus)
-        try writer["MonitoringJobDefinitionName"].write(value.monitoringJobDefinitionName)
-        try writer["MonitoringScheduleName"].write(value.monitoringScheduleName)
-        try writer["MonitoringType"].write(value.monitoringType)
-        try writer["ProcessingJobArn"].write(value.processingJobArn)
-        try writer["ScheduledTime"].writeTimestamp(value.scheduledTime, format: .epochSeconds)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.MonitoringExecutionSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.MonitoringExecutionSummary()
@@ -51838,14 +50459,6 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes.MonitoringJobDefinitionSummary {
-
-    static func write(value: SageMakerClientTypes.MonitoringJobDefinitionSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["EndpointName"].write(value.endpointName)
-        try writer["MonitoringJobDefinitionArn"].write(value.monitoringJobDefinitionArn)
-        try writer["MonitoringJobDefinitionName"].write(value.monitoringJobDefinitionName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.MonitoringJobDefinitionSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -52168,21 +50781,6 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes.MonitoringSchedule {
 
-    static func write(value: SageMakerClientTypes.MonitoringSchedule?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["EndpointName"].write(value.endpointName)
-        try writer["FailureReason"].write(value.failureReason)
-        try writer["LastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .epochSeconds)
-        try writer["LastMonitoringExecutionSummary"].write(value.lastMonitoringExecutionSummary, with: SageMakerClientTypes.MonitoringExecutionSummary.write(value:to:))
-        try writer["MonitoringScheduleArn"].write(value.monitoringScheduleArn)
-        try writer["MonitoringScheduleConfig"].write(value.monitoringScheduleConfig, with: SageMakerClientTypes.MonitoringScheduleConfig.write(value:to:))
-        try writer["MonitoringScheduleName"].write(value.monitoringScheduleName)
-        try writer["MonitoringScheduleStatus"].write(value.monitoringScheduleStatus)
-        try writer["MonitoringType"].write(value.monitoringType)
-        try writer["Tags"].writeList(value.tags, memberWritingClosure: SageMakerClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.MonitoringSchedule {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.MonitoringSchedule()
@@ -52348,18 +50946,6 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes.MonitoringScheduleSummary {
-
-    static func write(value: SageMakerClientTypes.MonitoringScheduleSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["EndpointName"].write(value.endpointName)
-        try writer["LastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .epochSeconds)
-        try writer["MonitoringJobDefinitionName"].write(value.monitoringJobDefinitionName)
-        try writer["MonitoringScheduleArn"].write(value.monitoringScheduleArn)
-        try writer["MonitoringScheduleName"].write(value.monitoringScheduleName)
-        try writer["MonitoringScheduleStatus"].write(value.monitoringScheduleStatus)
-        try writer["MonitoringType"].write(value.monitoringType)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.MonitoringScheduleSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -52601,14 +51187,6 @@ extension SageMakerClientTypes.NestedFilters {
         try writer["Filters"].writeList(value.filters, memberWritingClosure: SageMakerClientTypes.Filter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["NestedPropertyName"].write(value.nestedPropertyName)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.NestedFilters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SageMakerClientTypes.NestedFilters()
-        value.nestedPropertyName = try reader["NestedPropertyName"].readIfPresent()
-        value.filters = try reader["Filters"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.Filter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
 }
 
 extension SageMakerClientTypes {
@@ -52786,14 +51364,6 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes.NotebookInstanceLifecycleConfigSummary {
-
-    static func write(value: SageMakerClientTypes.NotebookInstanceLifecycleConfigSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["LastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .epochSeconds)
-        try writer["NotebookInstanceLifecycleConfigArn"].write(value.notebookInstanceLifecycleConfigArn)
-        try writer["NotebookInstanceLifecycleConfigName"].write(value.notebookInstanceLifecycleConfigName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.NotebookInstanceLifecycleConfigSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -52977,20 +51547,6 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes.NotebookInstanceSummary {
 
-    static func write(value: SageMakerClientTypes.NotebookInstanceSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AdditionalCodeRepositories"].writeList(value.additionalCodeRepositories, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["DefaultCodeRepository"].write(value.defaultCodeRepository)
-        try writer["InstanceType"].write(value.instanceType)
-        try writer["LastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .epochSeconds)
-        try writer["NotebookInstanceArn"].write(value.notebookInstanceArn)
-        try writer["NotebookInstanceLifecycleConfigName"].write(value.notebookInstanceLifecycleConfigName)
-        try writer["NotebookInstanceName"].write(value.notebookInstanceName)
-        try writer["NotebookInstanceStatus"].write(value.notebookInstanceStatus)
-        try writer["Url"].write(value.url)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.NotebookInstanceSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.NotebookInstanceSummary()
@@ -53158,13 +51714,6 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes.ObjectiveStatusCounters {
 
-    static func write(value: SageMakerClientTypes.ObjectiveStatusCounters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Failed"].write(value.failed)
-        try writer["Pending"].write(value.pending)
-        try writer["Succeeded"].write(value.succeeded)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ObjectiveStatusCounters {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.ObjectiveStatusCounters()
@@ -53251,12 +51800,6 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes.OfflineStoreStatus {
 
-    static func write(value: SageMakerClientTypes.OfflineStoreStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BlockedReason"].write(value.blockedReason)
-        try writer["Status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.OfflineStoreStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.OfflineStoreStatus()
@@ -53338,20 +51881,6 @@ extension SageMakerClientTypes.OidcConfig {
         try writer["TokenEndpoint"].write(value.tokenEndpoint)
         try writer["UserInfoEndpoint"].write(value.userInfoEndpoint)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.OidcConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SageMakerClientTypes.OidcConfig()
-        value.clientId = try reader["ClientId"].readIfPresent()
-        value.clientSecret = try reader["ClientSecret"].readIfPresent()
-        value.issuer = try reader["Issuer"].readIfPresent()
-        value.authorizationEndpoint = try reader["AuthorizationEndpoint"].readIfPresent()
-        value.tokenEndpoint = try reader["TokenEndpoint"].readIfPresent()
-        value.userInfoEndpoint = try reader["UserInfoEndpoint"].readIfPresent()
-        value.logoutEndpoint = try reader["LogoutEndpoint"].readIfPresent()
-        value.jwksUri = try reader["JwksUri"].readIfPresent()
-        return value
-    }
 }
 
 extension SageMakerClientTypes {
@@ -53407,17 +51936,6 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes.OidcConfigForResponse {
-
-    static func write(value: SageMakerClientTypes.OidcConfigForResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AuthorizationEndpoint"].write(value.authorizationEndpoint)
-        try writer["ClientId"].write(value.clientId)
-        try writer["Issuer"].write(value.issuer)
-        try writer["JwksUri"].write(value.jwksUri)
-        try writer["LogoutEndpoint"].write(value.logoutEndpoint)
-        try writer["TokenEndpoint"].write(value.tokenEndpoint)
-        try writer["UserInfoEndpoint"].write(value.userInfoEndpoint)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.OidcConfigForResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -53562,13 +52080,6 @@ extension SageMakerClientTypes.OnlineStoreConfigUpdate {
     static func write(value: SageMakerClientTypes.OnlineStoreConfigUpdate?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["TtlDuration"].write(value.ttlDuration, with: SageMakerClientTypes.TtlDuration.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.OnlineStoreConfigUpdate {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SageMakerClientTypes.OnlineStoreConfigUpdate()
-        value.ttlDuration = try reader["TtlDuration"].readIfPresent(with: SageMakerClientTypes.TtlDuration.read(from:))
-        return value
     }
 }
 
@@ -54029,11 +52540,6 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes.OwnershipSettingsSummary {
 
-    static func write(value: SageMakerClientTypes.OwnershipSettingsSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["OwnerUserProfileName"].write(value.ownerUserProfileName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.OwnershipSettingsSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.OwnershipSettingsSummary()
@@ -54259,12 +52765,6 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes.Parent {
 
-    static func write(value: SageMakerClientTypes.Parent?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ExperimentName"].write(value.experimentName)
-        try writer["TrialName"].write(value.trialName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.Parent {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.Parent()
@@ -54327,14 +52827,6 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes.PendingDeploymentSummary {
 
-    static func write(value: SageMakerClientTypes.PendingDeploymentSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EndpointConfigName"].write(value.endpointConfigName)
-        try writer["ProductionVariants"].writeList(value.productionVariants, memberWritingClosure: SageMakerClientTypes.PendingProductionVariantSummary.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ShadowProductionVariants"].writeList(value.shadowProductionVariants, memberWritingClosure: SageMakerClientTypes.PendingProductionVariantSummary.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["StartTime"].writeTimestamp(value.startTime, format: .epochSeconds)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.PendingDeploymentSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.PendingDeploymentSummary()
@@ -54376,23 +52868,6 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes.PendingProductionVariantSummary {
-
-    static func write(value: SageMakerClientTypes.PendingProductionVariantSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AcceleratorType"].write(value.acceleratorType)
-        try writer["CurrentInstanceCount"].write(value.currentInstanceCount)
-        try writer["CurrentServerlessConfig"].write(value.currentServerlessConfig, with: SageMakerClientTypes.ProductionVariantServerlessConfig.write(value:to:))
-        try writer["CurrentWeight"].write(value.currentWeight)
-        try writer["DeployedImages"].writeList(value.deployedImages, memberWritingClosure: SageMakerClientTypes.DeployedImage.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["DesiredInstanceCount"].write(value.desiredInstanceCount)
-        try writer["DesiredServerlessConfig"].write(value.desiredServerlessConfig, with: SageMakerClientTypes.ProductionVariantServerlessConfig.write(value:to:))
-        try writer["DesiredWeight"].write(value.desiredWeight)
-        try writer["InstanceType"].write(value.instanceType)
-        try writer["ManagedInstanceScaling"].write(value.managedInstanceScaling, with: SageMakerClientTypes.ProductionVariantManagedInstanceScaling.write(value:to:))
-        try writer["RoutingConfig"].write(value.routingConfig, with: SageMakerClientTypes.ProductionVariantRoutingConfig.write(value:to:))
-        try writer["VariantName"].write(value.variantName)
-        try writer["VariantStatus"].writeList(value.variantStatus, memberWritingClosure: SageMakerClientTypes.ProductionVariantStatus.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.PendingProductionVariantSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -54524,23 +52999,6 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes.Pipeline {
 
-    static func write(value: SageMakerClientTypes.Pipeline?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedBy"].write(value.createdBy, with: SageMakerClientTypes.UserContext.write(value:to:))
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["LastModifiedBy"].write(value.lastModifiedBy, with: SageMakerClientTypes.UserContext.write(value:to:))
-        try writer["LastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .epochSeconds)
-        try writer["LastRunTime"].writeTimestamp(value.lastRunTime, format: .epochSeconds)
-        try writer["ParallelismConfiguration"].write(value.parallelismConfiguration, with: SageMakerClientTypes.ParallelismConfiguration.write(value:to:))
-        try writer["PipelineArn"].write(value.pipelineArn)
-        try writer["PipelineDescription"].write(value.pipelineDescription)
-        try writer["PipelineDisplayName"].write(value.pipelineDisplayName)
-        try writer["PipelineName"].write(value.pipelineName)
-        try writer["PipelineStatus"].write(value.pipelineStatus)
-        try writer["RoleArn"].write(value.roleArn)
-        try writer["Tags"].writeList(value.tags, memberWritingClosure: SageMakerClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.Pipeline {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.Pipeline()
@@ -54633,15 +53091,6 @@ extension SageMakerClientTypes.PipelineDefinitionS3Location {
         try writer["ObjectKey"].write(value.objectKey)
         try writer["VersionId"].write(value.versionId)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.PipelineDefinitionS3Location {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SageMakerClientTypes.PipelineDefinitionS3Location()
-        value.bucket = try reader["Bucket"].readIfPresent()
-        value.objectKey = try reader["ObjectKey"].readIfPresent()
-        value.versionId = try reader["VersionId"].readIfPresent()
-        return value
-    }
 }
 
 extension SageMakerClientTypes {
@@ -54671,24 +53120,6 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes.PipelineExecution {
-
-    static func write(value: SageMakerClientTypes.PipelineExecution?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedBy"].write(value.createdBy, with: SageMakerClientTypes.UserContext.write(value:to:))
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["FailureReason"].write(value.failureReason)
-        try writer["LastModifiedBy"].write(value.lastModifiedBy, with: SageMakerClientTypes.UserContext.write(value:to:))
-        try writer["LastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .epochSeconds)
-        try writer["ParallelismConfiguration"].write(value.parallelismConfiguration, with: SageMakerClientTypes.ParallelismConfiguration.write(value:to:))
-        try writer["PipelineArn"].write(value.pipelineArn)
-        try writer["PipelineExecutionArn"].write(value.pipelineExecutionArn)
-        try writer["PipelineExecutionDescription"].write(value.pipelineExecutionDescription)
-        try writer["PipelineExecutionDisplayName"].write(value.pipelineExecutionDisplayName)
-        try writer["PipelineExecutionStatus"].write(value.pipelineExecutionStatus)
-        try writer["PipelineExperimentConfig"].write(value.pipelineExperimentConfig, with: SageMakerClientTypes.PipelineExperimentConfig.write(value:to:))
-        try writer["PipelineParameters"].writeList(value.pipelineParameters, memberWritingClosure: SageMakerClientTypes.Parameter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["SelectiveExecutionConfig"].write(value.selectiveExecutionConfig, with: SageMakerClientTypes.SelectiveExecutionConfig.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.PipelineExecution {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -54820,21 +53251,6 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes.PipelineExecutionStep {
 
-    static func write(value: SageMakerClientTypes.PipelineExecutionStep?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AttemptCount"].write(value.attemptCount)
-        try writer["CacheHitResult"].write(value.cacheHitResult, with: SageMakerClientTypes.CacheHitResult.write(value:to:))
-        try writer["EndTime"].writeTimestamp(value.endTime, format: .epochSeconds)
-        try writer["FailureReason"].write(value.failureReason)
-        try writer["Metadata"].write(value.metadata, with: SageMakerClientTypes.PipelineExecutionStepMetadata.write(value:to:))
-        try writer["SelectiveExecutionResult"].write(value.selectiveExecutionResult, with: SageMakerClientTypes.SelectiveExecutionResult.write(value:to:))
-        try writer["StartTime"].writeTimestamp(value.startTime, format: .epochSeconds)
-        try writer["StepDescription"].write(value.stepDescription)
-        try writer["StepDisplayName"].write(value.stepDisplayName)
-        try writer["StepName"].write(value.stepName)
-        try writer["StepStatus"].write(value.stepStatus)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.PipelineExecutionStep {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.PipelineExecutionStep()
@@ -54910,24 +53326,6 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes.PipelineExecutionStepMetadata {
-
-    static func write(value: SageMakerClientTypes.PipelineExecutionStepMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AutoMLJob"].write(value.autoMLJob, with: SageMakerClientTypes.AutoMLJobStepMetadata.write(value:to:))
-        try writer["Callback"].write(value.callback, with: SageMakerClientTypes.CallbackStepMetadata.write(value:to:))
-        try writer["ClarifyCheck"].write(value.clarifyCheck, with: SageMakerClientTypes.ClarifyCheckStepMetadata.write(value:to:))
-        try writer["Condition"].write(value.condition, with: SageMakerClientTypes.ConditionStepMetadata.write(value:to:))
-        try writer["EMR"].write(value.emr, with: SageMakerClientTypes.EMRStepMetadata.write(value:to:))
-        try writer["Fail"].write(value.fail, with: SageMakerClientTypes.FailStepMetadata.write(value:to:))
-        try writer["Lambda"].write(value.lambda, with: SageMakerClientTypes.LambdaStepMetadata.write(value:to:))
-        try writer["Model"].write(value.model, with: SageMakerClientTypes.ModelStepMetadata.write(value:to:))
-        try writer["ProcessingJob"].write(value.processingJob, with: SageMakerClientTypes.ProcessingJobStepMetadata.write(value:to:))
-        try writer["QualityCheck"].write(value.qualityCheck, with: SageMakerClientTypes.QualityCheckStepMetadata.write(value:to:))
-        try writer["RegisterModel"].write(value.registerModel, with: SageMakerClientTypes.RegisterModelStepMetadata.write(value:to:))
-        try writer["TrainingJob"].write(value.trainingJob, with: SageMakerClientTypes.TrainingJobStepMetadata.write(value:to:))
-        try writer["TransformJob"].write(value.transformJob, with: SageMakerClientTypes.TransformJobStepMetadata.write(value:to:))
-        try writer["TuningJob"].write(value.tuningJob, with: SageMakerClientTypes.TuningJobStepMetaData.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.PipelineExecutionStepMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -55052,16 +53450,6 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes.PipelineExecutionSummary {
 
-    static func write(value: SageMakerClientTypes.PipelineExecutionSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["PipelineExecutionArn"].write(value.pipelineExecutionArn)
-        try writer["PipelineExecutionDescription"].write(value.pipelineExecutionDescription)
-        try writer["PipelineExecutionDisplayName"].write(value.pipelineExecutionDisplayName)
-        try writer["PipelineExecutionFailureReason"].write(value.pipelineExecutionFailureReason)
-        try writer["PipelineExecutionStatus"].write(value.pipelineExecutionStatus)
-        try writer["StartTime"].writeTimestamp(value.startTime, format: .epochSeconds)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.PipelineExecutionSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.PipelineExecutionSummary()
@@ -55112,12 +53500,6 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes.PipelineExperimentConfig {
-
-    static func write(value: SageMakerClientTypes.PipelineExperimentConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ExperimentName"].write(value.experimentName)
-        try writer["TrialName"].write(value.trialName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.PipelineExperimentConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -55180,18 +53562,6 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes.PipelineSummary {
 
-    static func write(value: SageMakerClientTypes.PipelineSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["LastExecutionTime"].writeTimestamp(value.lastExecutionTime, format: .epochSeconds)
-        try writer["LastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .epochSeconds)
-        try writer["PipelineArn"].write(value.pipelineArn)
-        try writer["PipelineDescription"].write(value.pipelineDescription)
-        try writer["PipelineDisplayName"].write(value.pipelineDisplayName)
-        try writer["PipelineName"].write(value.pipelineName)
-        try writer["RoleArn"].write(value.roleArn)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.PipelineSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.PipelineSummary()
@@ -55252,11 +53622,6 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes.PredefinedMetricSpecification {
-
-    static func write(value: SageMakerClientTypes.PredefinedMetricSpecification?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["PredefinedMetricType"].write(value.predefinedMetricType)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.PredefinedMetricSpecification {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -55607,32 +53972,6 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes.ProcessingJob {
 
-    static func write(value: SageMakerClientTypes.ProcessingJob?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AppSpecification"].write(value.appSpecification, with: SageMakerClientTypes.AppSpecification.write(value:to:))
-        try writer["AutoMLJobArn"].write(value.autoMLJobArn)
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["Environment"].writeMap(value.environment, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["ExitMessage"].write(value.exitMessage)
-        try writer["ExperimentConfig"].write(value.experimentConfig, with: SageMakerClientTypes.ExperimentConfig.write(value:to:))
-        try writer["FailureReason"].write(value.failureReason)
-        try writer["LastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .epochSeconds)
-        try writer["MonitoringScheduleArn"].write(value.monitoringScheduleArn)
-        try writer["NetworkConfig"].write(value.networkConfig, with: SageMakerClientTypes.NetworkConfig.write(value:to:))
-        try writer["ProcessingEndTime"].writeTimestamp(value.processingEndTime, format: .epochSeconds)
-        try writer["ProcessingInputs"].writeList(value.processingInputs, memberWritingClosure: SageMakerClientTypes.ProcessingInput.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ProcessingJobArn"].write(value.processingJobArn)
-        try writer["ProcessingJobName"].write(value.processingJobName)
-        try writer["ProcessingJobStatus"].write(value.processingJobStatus)
-        try writer["ProcessingOutputConfig"].write(value.processingOutputConfig, with: SageMakerClientTypes.ProcessingOutputConfig.write(value:to:))
-        try writer["ProcessingResources"].write(value.processingResources, with: SageMakerClientTypes.ProcessingResources.write(value:to:))
-        try writer["ProcessingStartTime"].writeTimestamp(value.processingStartTime, format: .epochSeconds)
-        try writer["RoleArn"].write(value.roleArn)
-        try writer["StoppingCondition"].write(value.stoppingCondition, with: SageMakerClientTypes.ProcessingStoppingCondition.write(value:to:))
-        try writer["Tags"].writeList(value.tags, memberWritingClosure: SageMakerClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["TrainingJobArn"].write(value.trainingJobArn)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ProcessingJob {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.ProcessingJob()
@@ -55809,11 +54148,6 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes.ProcessingJobStepMetadata {
 
-    static func write(value: SageMakerClientTypes.ProcessingJobStepMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ProcessingJobStepMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.ProcessingJobStepMetadata()
@@ -55839,18 +54173,6 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes.ProcessingJobSummary {
-
-    static func write(value: SageMakerClientTypes.ProcessingJobSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["ExitMessage"].write(value.exitMessage)
-        try writer["FailureReason"].write(value.failureReason)
-        try writer["LastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .epochSeconds)
-        try writer["ProcessingEndTime"].writeTimestamp(value.processingEndTime, format: .epochSeconds)
-        try writer["ProcessingJobArn"].write(value.processingJobArn)
-        try writer["ProcessingJobName"].write(value.processingJobName)
-        try writer["ProcessingJobStatus"].write(value.processingJobStatus)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ProcessingJobSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -57267,14 +55589,6 @@ extension SageMakerClientTypes.ProductionVariantServerlessUpdateConfig {
         try writer["MaxConcurrency"].write(value.maxConcurrency)
         try writer["ProvisionedConcurrency"].write(value.provisionedConcurrency)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ProductionVariantServerlessUpdateConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SageMakerClientTypes.ProductionVariantServerlessUpdateConfig()
-        value.maxConcurrency = try reader["MaxConcurrency"].readIfPresent()
-        value.provisionedConcurrency = try reader["ProvisionedConcurrency"].readIfPresent()
-        return value
-    }
 }
 
 extension SageMakerClientTypes {
@@ -57298,13 +55612,6 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes.ProductionVariantStatus {
-
-    static func write(value: SageMakerClientTypes.ProductionVariantStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["StartTime"].writeTimestamp(value.startTime, format: .epochSeconds)
-        try writer["Status"].write(value.status)
-        try writer["StatusMessage"].write(value.statusMessage)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ProductionVariantStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -57352,21 +55659,6 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes.ProductionVariantSummary {
-
-    static func write(value: SageMakerClientTypes.ProductionVariantSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CurrentInstanceCount"].write(value.currentInstanceCount)
-        try writer["CurrentServerlessConfig"].write(value.currentServerlessConfig, with: SageMakerClientTypes.ProductionVariantServerlessConfig.write(value:to:))
-        try writer["CurrentWeight"].write(value.currentWeight)
-        try writer["DeployedImages"].writeList(value.deployedImages, memberWritingClosure: SageMakerClientTypes.DeployedImage.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["DesiredInstanceCount"].write(value.desiredInstanceCount)
-        try writer["DesiredServerlessConfig"].write(value.desiredServerlessConfig, with: SageMakerClientTypes.ProductionVariantServerlessConfig.write(value:to:))
-        try writer["DesiredWeight"].write(value.desiredWeight)
-        try writer["ManagedInstanceScaling"].write(value.managedInstanceScaling, with: SageMakerClientTypes.ProductionVariantManagedInstanceScaling.write(value:to:))
-        try writer["RoutingConfig"].write(value.routingConfig, with: SageMakerClientTypes.ProductionVariantRoutingConfig.write(value:to:))
-        try writer["VariantName"].write(value.variantName)
-        try writer["VariantStatus"].writeList(value.variantStatus, memberWritingClosure: SageMakerClientTypes.ProductionVariantStatus.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ProductionVariantSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -57501,16 +55793,6 @@ extension SageMakerClientTypes.ProfilerConfigForUpdate {
         try writer["ProfilingParameters"].writeMap(value.profilingParameters, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["S3OutputPath"].write(value.s3OutputPath)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ProfilerConfigForUpdate {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SageMakerClientTypes.ProfilerConfigForUpdate()
-        value.s3OutputPath = try reader["S3OutputPath"].readIfPresent()
-        value.profilingIntervalInMilliseconds = try reader["ProfilingIntervalInMilliseconds"].readIfPresent()
-        value.profilingParameters = try reader["ProfilingParameters"].readMapIfPresent(valueReadingClosure: Swift.String.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.disableProfiler = try reader["DisableProfiler"].readIfPresent()
-        return value
-    }
 }
 
 extension SageMakerClientTypes {
@@ -57612,15 +55894,6 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes.ProfilerRuleEvaluationStatus {
 
-    static func write(value: SageMakerClientTypes.ProfilerRuleEvaluationStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["LastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .epochSeconds)
-        try writer["RuleConfigurationName"].write(value.ruleConfigurationName)
-        try writer["RuleEvaluationJobArn"].write(value.ruleEvaluationJobArn)
-        try writer["RuleEvaluationStatus"].write(value.ruleEvaluationStatus)
-        try writer["StatusDetails"].write(value.statusDetails)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ProfilerRuleEvaluationStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.ProfilerRuleEvaluationStatus()
@@ -57696,22 +55969,6 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes.Project {
-
-    static func write(value: SageMakerClientTypes.Project?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedBy"].write(value.createdBy, with: SageMakerClientTypes.UserContext.write(value:to:))
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["LastModifiedBy"].write(value.lastModifiedBy, with: SageMakerClientTypes.UserContext.write(value:to:))
-        try writer["LastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .epochSeconds)
-        try writer["ProjectArn"].write(value.projectArn)
-        try writer["ProjectDescription"].write(value.projectDescription)
-        try writer["ProjectId"].write(value.projectId)
-        try writer["ProjectName"].write(value.projectName)
-        try writer["ProjectStatus"].write(value.projectStatus)
-        try writer["ServiceCatalogProvisionedProductDetails"].write(value.serviceCatalogProvisionedProductDetails, with: SageMakerClientTypes.ServiceCatalogProvisionedProductDetails.write(value:to:))
-        try writer["ServiceCatalogProvisioningDetails"].write(value.serviceCatalogProvisioningDetails, with: SageMakerClientTypes.ServiceCatalogProvisioningDetails.write(value:to:))
-        try writer["Tags"].writeList(value.tags, memberWritingClosure: SageMakerClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.Project {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -57908,16 +56165,6 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes.ProjectSummary {
 
-    static func write(value: SageMakerClientTypes.ProjectSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["ProjectArn"].write(value.projectArn)
-        try writer["ProjectDescription"].write(value.projectDescription)
-        try writer["ProjectId"].write(value.projectId)
-        try writer["ProjectName"].write(value.projectName)
-        try writer["ProjectStatus"].write(value.projectStatus)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ProjectSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.ProjectSummary()
@@ -57978,13 +56225,6 @@ extension SageMakerClientTypes.PropertyNameQuery {
         guard let value else { return }
         try writer["PropertyNameHint"].write(value.propertyNameHint)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.PropertyNameQuery {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SageMakerClientTypes.PropertyNameQuery()
-        value.propertyNameHint = try reader["PropertyNameHint"].readIfPresent()
-        return value
-    }
 }
 
 extension SageMakerClientTypes {
@@ -58005,11 +56245,6 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes.PropertyNameSuggestion {
-
-    static func write(value: SageMakerClientTypes.PropertyNameSuggestion?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["PropertyName"].write(value.propertyName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.PropertyNameSuggestion {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -58377,20 +56612,6 @@ enum PutModelPackageGroupPolicyOutputError {
 
 extension SageMakerClientTypes.QualityCheckStepMetadata {
 
-    static func write(value: SageMakerClientTypes.QualityCheckStepMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BaselineUsedForDriftCheckConstraints"].write(value.baselineUsedForDriftCheckConstraints)
-        try writer["BaselineUsedForDriftCheckStatistics"].write(value.baselineUsedForDriftCheckStatistics)
-        try writer["CalculatedBaselineConstraints"].write(value.calculatedBaselineConstraints)
-        try writer["CalculatedBaselineStatistics"].write(value.calculatedBaselineStatistics)
-        try writer["CheckJobArn"].write(value.checkJobArn)
-        try writer["CheckType"].write(value.checkType)
-        try writer["ModelPackageGroupName"].write(value.modelPackageGroupName)
-        try writer["RegisterNewBaseline"].write(value.registerNewBaseline)
-        try writer["SkipCheck"].write(value.skipCheck)
-        try writer["ViolationReport"].write(value.violationReport)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.QualityCheckStepMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.QualityCheckStepMetadata()
@@ -58471,19 +56692,6 @@ extension SageMakerClientTypes.QueryFilters {
         try writer["ModifiedBefore"].writeTimestamp(value.modifiedBefore, format: .epochSeconds)
         try writer["Properties"].writeMap(value.properties, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["Types"].writeList(value.types, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.QueryFilters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SageMakerClientTypes.QueryFilters()
-        value.types = try reader["Types"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.lineageTypes = try reader["LineageTypes"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.LineageType.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.createdBefore = try reader["CreatedBefore"].readTimestampIfPresent(format: .epochSeconds)
-        value.createdAfter = try reader["CreatedAfter"].readTimestampIfPresent(format: .epochSeconds)
-        value.modifiedBefore = try reader["ModifiedBefore"].readTimestampIfPresent(format: .epochSeconds)
-        value.modifiedAfter = try reader["ModifiedAfter"].readTimestampIfPresent(format: .epochSeconds)
-        value.properties = try reader["Properties"].readMapIfPresent(valueReadingClosure: Swift.String.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
     }
 }
 
@@ -58805,16 +57013,6 @@ extension SageMakerClientTypes.RStudioServerProDomainSettingsForUpdate {
         try writer["RStudioConnectUrl"].write(value.rStudioConnectUrl)
         try writer["RStudioPackageManagerUrl"].write(value.rStudioPackageManagerUrl)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.RStudioServerProDomainSettingsForUpdate {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SageMakerClientTypes.RStudioServerProDomainSettingsForUpdate()
-        value.domainExecutionRoleArn = try reader["DomainExecutionRoleArn"].readIfPresent()
-        value.defaultResourceSpec = try reader["DefaultResourceSpec"].readIfPresent(with: SageMakerClientTypes.ResourceSpec.read(from:))
-        value.rStudioConnectUrl = try reader["RStudioConnectUrl"].readIfPresent()
-        value.rStudioPackageManagerUrl = try reader["RStudioPackageManagerUrl"].readIfPresent()
-        return value
-    }
 }
 
 extension SageMakerClientTypes {
@@ -58917,13 +57115,6 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes.RealTimeInferenceRecommendation {
 
-    static func write(value: SageMakerClientTypes.RealTimeInferenceRecommendation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Environment"].writeMap(value.environment, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["InstanceType"].write(value.instanceType)
-        try writer["RecommendationId"].write(value.recommendationId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.RealTimeInferenceRecommendation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.RealTimeInferenceRecommendation()
@@ -58965,13 +57156,6 @@ extension SageMakerClientTypes.RecommendationJobCompiledOutputConfig {
     static func write(value: SageMakerClientTypes.RecommendationJobCompiledOutputConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["S3OutputUri"].write(value.s3OutputUri)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.RecommendationJobCompiledOutputConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SageMakerClientTypes.RecommendationJobCompiledOutputConfig()
-        value.s3OutputUri = try reader["S3OutputUri"].readIfPresent()
-        return value
     }
 }
 
@@ -59077,17 +57261,6 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes.RecommendationJobInferenceBenchmark {
-
-    static func write(value: SageMakerClientTypes.RecommendationJobInferenceBenchmark?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EndpointConfiguration"].write(value.endpointConfiguration, with: SageMakerClientTypes.EndpointOutputConfiguration.write(value:to:))
-        try writer["EndpointMetrics"].write(value.endpointMetrics, with: SageMakerClientTypes.InferenceMetrics.write(value:to:))
-        try writer["FailureReason"].write(value.failureReason)
-        try writer["InvocationEndTime"].writeTimestamp(value.invocationEndTime, format: .epochSeconds)
-        try writer["InvocationStartTime"].writeTimestamp(value.invocationStartTime, format: .epochSeconds)
-        try writer["Metrics"].write(value.metrics, with: SageMakerClientTypes.RecommendationMetrics.write(value:to:))
-        try writer["ModelConfiguration"].write(value.modelConfiguration, with: SageMakerClientTypes.ModelConfiguration.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.RecommendationJobInferenceBenchmark {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -59246,14 +57419,6 @@ extension SageMakerClientTypes.RecommendationJobOutputConfig {
         guard let value else { return }
         try writer["CompiledOutputConfig"].write(value.compiledOutputConfig, with: SageMakerClientTypes.RecommendationJobCompiledOutputConfig.write(value:to:))
         try writer["KmsKeyId"].write(value.kmsKeyId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.RecommendationJobOutputConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SageMakerClientTypes.RecommendationJobOutputConfig()
-        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
-        value.compiledOutputConfig = try reader["CompiledOutputConfig"].readIfPresent(with: SageMakerClientTypes.RecommendationJobCompiledOutputConfig.read(from:))
-        return value
     }
 }
 
@@ -59553,17 +57718,6 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes.RecommendationMetrics {
-
-    static func write(value: SageMakerClientTypes.RecommendationMetrics?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CostPerHour"].write(value.costPerHour)
-        try writer["CostPerInference"].write(value.costPerInference)
-        try writer["CpuUtilization"].write(value.cpuUtilization)
-        try writer["MaxInvocations"].write(value.maxInvocations)
-        try writer["MemoryUtilization"].write(value.memoryUtilization)
-        try writer["ModelLatency"].write(value.modelLatency)
-        try writer["ModelSetupTime"].write(value.modelSetupTime)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.RecommendationMetrics {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -59940,11 +58094,6 @@ enum RegisterDevicesOutputError {
 
 extension SageMakerClientTypes.RegisterModelStepMetadata {
 
-    static func write(value: SageMakerClientTypes.RegisterModelStepMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.RegisterModelStepMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.RegisterModelStepMetadata()
@@ -60005,13 +58154,6 @@ extension SageMakerClientTypes.RemoteDebugConfigForUpdate {
     static func write(value: SageMakerClientTypes.RemoteDebugConfigForUpdate?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["EnableRemoteDebug"].write(value.enableRemoteDebug)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.RemoteDebugConfigForUpdate {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SageMakerClientTypes.RemoteDebugConfigForUpdate()
-        value.enableRemoteDebug = try reader["EnableRemoteDebug"].readIfPresent()
-        return value
     }
 }
 
@@ -60126,13 +58268,6 @@ extension SageMakerClientTypes.RenderableTask {
         guard let value else { return }
         try writer["Input"].write(value.input)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.RenderableTask {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SageMakerClientTypes.RenderableTask()
-        value.input = try reader["Input"].readIfPresent()
-        return value
-    }
 }
 
 extension SageMakerClientTypes {
@@ -60153,12 +58288,6 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes.RenderingError {
-
-    static func write(value: SageMakerClientTypes.RenderingError?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Code"].write(value.code)
-        try writer["Message"].write(value.message)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.RenderingError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -60255,13 +58384,6 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes.ResolvedAttributes {
 
-    static func write(value: SageMakerClientTypes.ResolvedAttributes?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AutoMLJobObjective"].write(value.autoMLJobObjective, with: SageMakerClientTypes.AutoMLJobObjective.write(value:to:))
-        try writer["CompletionCriteria"].write(value.completionCriteria, with: SageMakerClientTypes.AutoMLJobCompletionCriteria.write(value:to:))
-        try writer["ProblemType"].write(value.problemType)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ResolvedAttributes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.ResolvedAttributes()
@@ -60297,14 +58419,6 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes.ResourceCatalog {
-
-    static func write(value: SageMakerClientTypes.ResourceCatalog?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["Description"].write(value.description)
-        try writer["ResourceCatalogArn"].write(value.resourceCatalogArn)
-        try writer["ResourceCatalogName"].write(value.resourceCatalogName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ResourceCatalog {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -60484,13 +58598,6 @@ extension SageMakerClientTypes.ResourceConfigForUpdate {
     static func write(value: SageMakerClientTypes.ResourceConfigForUpdate?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["KeepAlivePeriodInSeconds"].write(value.keepAlivePeriodInSeconds)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ResourceConfigForUpdate {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SageMakerClientTypes.ResourceConfigForUpdate()
-        value.keepAlivePeriodInSeconds = try reader["KeepAlivePeriodInSeconds"].readIfPresent()
-        return value
     }
 }
 
@@ -60801,13 +58908,6 @@ extension SageMakerClientTypes.RetentionPolicy {
     static func write(value: SageMakerClientTypes.RetentionPolicy?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["HomeEfsFileSystem"].write(value.homeEfsFileSystem)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.RetentionPolicy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SageMakerClientTypes.RetentionPolicy()
-        value.homeEfsFileSystem = try reader["HomeEfsFileSystem"].readIfPresent()
-        return value
     }
 }
 
@@ -61433,16 +59533,6 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes.ScalingPolicy {
 
-    static func write(value: SageMakerClientTypes.ScalingPolicy?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .targettracking(targettracking):
-                try writer["TargetTracking"].write(targettracking, with: SageMakerClientTypes.TargetTrackingScalingPolicyConfiguration.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ScalingPolicy {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
@@ -61466,12 +59556,6 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes.ScalingPolicyMetric {
-
-    static func write(value: SageMakerClientTypes.ScalingPolicyMetric?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["InvocationsPerInstance"].write(value.invocationsPerInstance)
-        try writer["ModelLatency"].write(value.modelLatency)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ScalingPolicyMetric {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -61658,16 +59742,6 @@ extension SageMakerClientTypes.SearchExpression {
         try writer["Operator"].write(value.`operator`)
         try writer["SubExpressions"].writeList(value.subExpressions, memberWritingClosure: SageMakerClientTypes.SearchExpression.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.SearchExpression {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SageMakerClientTypes.SearchExpression()
-        value.filters = try reader["Filters"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.Filter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.nestedFilters = try reader["NestedFilters"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.NestedFilters.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.subExpressions = try reader["SubExpressions"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.SearchExpression.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.`operator` = try reader["Operator"].readIfPresent()
-        return value
-    }
 }
 
 extension SageMakerClientTypes {
@@ -61812,25 +59886,6 @@ enum SearchOutputError {
 }
 
 extension SageMakerClientTypes.SearchRecord {
-
-    static func write(value: SageMakerClientTypes.SearchRecord?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Endpoint"].write(value.endpoint, with: SageMakerClientTypes.Endpoint.write(value:to:))
-        try writer["Experiment"].write(value.experiment, with: SageMakerClientTypes.Experiment.write(value:to:))
-        try writer["FeatureGroup"].write(value.featureGroup, with: SageMakerClientTypes.FeatureGroup.write(value:to:))
-        try writer["FeatureMetadata"].write(value.featureMetadata, with: SageMakerClientTypes.FeatureMetadata.write(value:to:))
-        try writer["HyperParameterTuningJob"].write(value.hyperParameterTuningJob, with: SageMakerClientTypes.HyperParameterTuningJobSearchEntity.write(value:to:))
-        try writer["Model"].write(value.model, with: SageMakerClientTypes.ModelDashboardModel.write(value:to:))
-        try writer["ModelCard"].write(value.modelCard, with: SageMakerClientTypes.ModelCard.write(value:to:))
-        try writer["ModelPackage"].write(value.modelPackage, with: SageMakerClientTypes.ModelPackage.write(value:to:))
-        try writer["ModelPackageGroup"].write(value.modelPackageGroup, with: SageMakerClientTypes.ModelPackageGroup.write(value:to:))
-        try writer["Pipeline"].write(value.pipeline, with: SageMakerClientTypes.Pipeline.write(value:to:))
-        try writer["PipelineExecution"].write(value.pipelineExecution, with: SageMakerClientTypes.PipelineExecution.write(value:to:))
-        try writer["Project"].write(value.project, with: SageMakerClientTypes.Project.write(value:to:))
-        try writer["TrainingJob"].write(value.trainingJob, with: SageMakerClientTypes.TrainingJob.write(value:to:))
-        try writer["Trial"].write(value.trial, with: SageMakerClientTypes.Trial.write(value:to:))
-        try writer["TrialComponent"].write(value.trialComponent, with: SageMakerClientTypes.TrialComponent.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.SearchRecord {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -62033,14 +60088,6 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes.SecondaryStatusTransition {
 
-    static func write(value: SageMakerClientTypes.SecondaryStatusTransition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EndTime"].writeTimestamp(value.endTime, format: .epochSeconds)
-        try writer["StartTime"].writeTimestamp(value.startTime, format: .epochSeconds)
-        try writer["Status"].write(value.status)
-        try writer["StatusMessage"].write(value.statusMessage)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.SecondaryStatusTransition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.SecondaryStatusTransition()
@@ -62216,11 +60263,6 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes.SelectiveExecutionResult {
-
-    static func write(value: SageMakerClientTypes.SelectiveExecutionResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["SourcePipelineExecutionArn"].write(value.sourcePipelineExecutionArn)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.SelectiveExecutionResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -62404,12 +60446,6 @@ enum SendPipelineExecutionStepSuccessOutputError {
 
 extension SageMakerClientTypes.ServiceCatalogProvisionedProductDetails {
 
-    static func write(value: SageMakerClientTypes.ServiceCatalogProvisionedProductDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ProvisionedProductId"].write(value.provisionedProductId)
-        try writer["ProvisionedProductStatusMessage"].write(value.provisionedProductStatusMessage)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ServiceCatalogProvisionedProductDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.ServiceCatalogProvisionedProductDetails()
@@ -62506,14 +60542,6 @@ extension SageMakerClientTypes.ServiceCatalogProvisioningUpdateDetails {
         try writer["ProvisioningArtifactId"].write(value.provisioningArtifactId)
         try writer["ProvisioningParameters"].writeList(value.provisioningParameters, memberWritingClosure: SageMakerClientTypes.ProvisioningParameter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ServiceCatalogProvisioningUpdateDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SageMakerClientTypes.ServiceCatalogProvisioningUpdateDetails()
-        value.provisioningArtifactId = try reader["ProvisioningArtifactId"].readIfPresent()
-        value.provisioningParameters = try reader["ProvisioningParameters"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.ProvisioningParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
 }
 
 extension SageMakerClientTypes {
@@ -62541,13 +60569,6 @@ extension SageMakerClientTypes.SessionChainingConfig {
     static func write(value: SageMakerClientTypes.SessionChainingConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["EnableSessionTagChaining"].write(value.enableSessionTagChaining)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.SessionChainingConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SageMakerClientTypes.SessionChainingConfig()
-        value.enableSessionTagChaining = try reader["EnableSessionTagChaining"].readIfPresent()
-        return value
     }
 }
 
@@ -63323,19 +61344,6 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes.SpaceDetails {
 
-    static func write(value: SageMakerClientTypes.SpaceDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["DomainId"].write(value.domainId)
-        try writer["LastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .epochSeconds)
-        try writer["OwnershipSettingsSummary"].write(value.ownershipSettingsSummary, with: SageMakerClientTypes.OwnershipSettingsSummary.write(value:to:))
-        try writer["SpaceDisplayName"].write(value.spaceDisplayName)
-        try writer["SpaceName"].write(value.spaceName)
-        try writer["SpaceSettingsSummary"].write(value.spaceSettingsSummary, with: SageMakerClientTypes.SpaceSettingsSummary.write(value:to:))
-        try writer["SpaceSharingSettingsSummary"].write(value.spaceSharingSettingsSummary, with: SageMakerClientTypes.SpaceSharingSettingsSummary.write(value:to:))
-        try writer["Status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.SpaceDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.SpaceDetails()
@@ -63506,12 +61514,6 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes.SpaceSettingsSummary {
 
-    static func write(value: SageMakerClientTypes.SpaceSettingsSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AppType"].write(value.appType)
-        try writer["SpaceStorageSettings"].write(value.spaceStorageSettings, with: SageMakerClientTypes.SpaceStorageSettings.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.SpaceSettingsSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.SpaceSettingsSummary()
@@ -63574,11 +61576,6 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes.SpaceSharingSettingsSummary {
-
-    static func write(value: SageMakerClientTypes.SpaceSharingSettingsSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["SharingType"].write(value.sharingType)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.SpaceSharingSettingsSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -65186,15 +63183,6 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes.StudioLifecycleConfigDetails {
 
-    static func write(value: SageMakerClientTypes.StudioLifecycleConfigDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["LastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .epochSeconds)
-        try writer["StudioLifecycleConfigAppType"].write(value.studioLifecycleConfigAppType)
-        try writer["StudioLifecycleConfigArn"].write(value.studioLifecycleConfigArn)
-        try writer["StudioLifecycleConfigName"].write(value.studioLifecycleConfigName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.StudioLifecycleConfigDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.StudioLifecycleConfigDetails()
@@ -65304,15 +63292,6 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes.SubscribedWorkteam {
 
-    static func write(value: SageMakerClientTypes.SubscribedWorkteam?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ListingId"].write(value.listingId)
-        try writer["MarketplaceDescription"].write(value.marketplaceDescription)
-        try writer["MarketplaceTitle"].write(value.marketplaceTitle)
-        try writer["SellerName"].write(value.sellerName)
-        try writer["WorkteamArn"].write(value.workteamArn)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.SubscribedWorkteam {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.SubscribedWorkteam()
@@ -65363,13 +63342,6 @@ extension SageMakerClientTypes.SuggestionQuery {
     static func write(value: SageMakerClientTypes.SuggestionQuery?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["PropertyNameQuery"].write(value.propertyNameQuery, with: SageMakerClientTypes.PropertyNameQuery.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.SuggestionQuery {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SageMakerClientTypes.SuggestionQuery()
-        value.propertyNameQuery = try reader["PropertyNameQuery"].readIfPresent(with: SageMakerClientTypes.PropertyNameQuery.read(from:))
-        return value
     }
 }
 
@@ -65497,11 +63469,6 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes.TabularResolvedAttributes {
-
-    static func write(value: SageMakerClientTypes.TabularResolvedAttributes?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ProblemType"].write(value.problemType)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.TabularResolvedAttributes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -65873,12 +63840,6 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes.TargetTrackingScalingPolicyConfiguration {
 
-    static func write(value: SageMakerClientTypes.TargetTrackingScalingPolicyConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MetricSpecification"].write(value.metricSpecification, with: SageMakerClientTypes.MetricSpecification.write(value:to:))
-        try writer["TargetValue"].write(value.targetValue)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.TargetTrackingScalingPolicyConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.TargetTrackingScalingPolicyConfiguration()
@@ -66088,11 +64049,6 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes.TextGenerationResolvedAttributes {
 
-    static func write(value: SageMakerClientTypes.TextGenerationResolvedAttributes?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BaseModelName"].write(value.baseModelName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.TextGenerationResolvedAttributes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.TextGenerationResolvedAttributes()
@@ -66125,15 +64081,6 @@ extension SageMakerClientTypes.ThroughputConfig {
         try writer["ProvisionedWriteCapacityUnits"].write(value.provisionedWriteCapacityUnits)
         try writer["ThroughputMode"].write(value.throughputMode)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ThroughputConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SageMakerClientTypes.ThroughputConfig()
-        value.throughputMode = try reader["ThroughputMode"].readIfPresent()
-        value.provisionedReadCapacityUnits = try reader["ProvisionedReadCapacityUnits"].readIfPresent()
-        value.provisionedWriteCapacityUnits = try reader["ProvisionedWriteCapacityUnits"].readIfPresent()
-        return value
-    }
 }
 
 extension SageMakerClientTypes {
@@ -66162,13 +64109,6 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes.ThroughputConfigDescription {
-
-    static func write(value: SageMakerClientTypes.ThroughputConfigDescription?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ProvisionedReadCapacityUnits"].write(value.provisionedReadCapacityUnits)
-        try writer["ProvisionedWriteCapacityUnits"].write(value.provisionedWriteCapacityUnits)
-        try writer["ThroughputMode"].write(value.throughputMode)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ThroughputConfigDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -66212,15 +64152,6 @@ extension SageMakerClientTypes.ThroughputConfigUpdate {
         try writer["ProvisionedReadCapacityUnits"].write(value.provisionedReadCapacityUnits)
         try writer["ProvisionedWriteCapacityUnits"].write(value.provisionedWriteCapacityUnits)
         try writer["ThroughputMode"].write(value.throughputMode)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ThroughputConfigUpdate {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SageMakerClientTypes.ThroughputConfigUpdate()
-        value.throughputMode = try reader["ThroughputMode"].readIfPresent()
-        value.provisionedReadCapacityUnits = try reader["ProvisionedReadCapacityUnits"].readIfPresent()
-        value.provisionedWriteCapacityUnits = try reader["ProvisionedWriteCapacityUnits"].readIfPresent()
-        return value
     }
 }
 
@@ -66971,48 +64902,6 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes.TrainingJob {
 
-    static func write(value: SageMakerClientTypes.TrainingJob?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AlgorithmSpecification"].write(value.algorithmSpecification, with: SageMakerClientTypes.AlgorithmSpecification.write(value:to:))
-        try writer["AutoMLJobArn"].write(value.autoMLJobArn)
-        try writer["BillableTimeInSeconds"].write(value.billableTimeInSeconds)
-        try writer["CheckpointConfig"].write(value.checkpointConfig, with: SageMakerClientTypes.CheckpointConfig.write(value:to:))
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["DebugHookConfig"].write(value.debugHookConfig, with: SageMakerClientTypes.DebugHookConfig.write(value:to:))
-        try writer["DebugRuleConfigurations"].writeList(value.debugRuleConfigurations, memberWritingClosure: SageMakerClientTypes.DebugRuleConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["DebugRuleEvaluationStatuses"].writeList(value.debugRuleEvaluationStatuses, memberWritingClosure: SageMakerClientTypes.DebugRuleEvaluationStatus.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["EnableInterContainerTrafficEncryption"].write(value.enableInterContainerTrafficEncryption)
-        try writer["EnableManagedSpotTraining"].write(value.enableManagedSpotTraining)
-        try writer["EnableNetworkIsolation"].write(value.enableNetworkIsolation)
-        try writer["Environment"].writeMap(value.environment, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["ExperimentConfig"].write(value.experimentConfig, with: SageMakerClientTypes.ExperimentConfig.write(value:to:))
-        try writer["FailureReason"].write(value.failureReason)
-        try writer["FinalMetricDataList"].writeList(value.finalMetricDataList, memberWritingClosure: SageMakerClientTypes.MetricData.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["HyperParameters"].writeMap(value.hyperParameters, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["InputDataConfig"].writeList(value.inputDataConfig, memberWritingClosure: SageMakerClientTypes.Channel.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["LabelingJobArn"].write(value.labelingJobArn)
-        try writer["LastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .epochSeconds)
-        try writer["ModelArtifacts"].write(value.modelArtifacts, with: SageMakerClientTypes.ModelArtifacts.write(value:to:))
-        try writer["OutputDataConfig"].write(value.outputDataConfig, with: SageMakerClientTypes.OutputDataConfig.write(value:to:))
-        try writer["ProfilerConfig"].write(value.profilerConfig, with: SageMakerClientTypes.ProfilerConfig.write(value:to:))
-        try writer["ResourceConfig"].write(value.resourceConfig, with: SageMakerClientTypes.ResourceConfig.write(value:to:))
-        try writer["RetryStrategy"].write(value.retryStrategy, with: SageMakerClientTypes.RetryStrategy.write(value:to:))
-        try writer["RoleArn"].write(value.roleArn)
-        try writer["SecondaryStatus"].write(value.secondaryStatus)
-        try writer["SecondaryStatusTransitions"].writeList(value.secondaryStatusTransitions, memberWritingClosure: SageMakerClientTypes.SecondaryStatusTransition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["StoppingCondition"].write(value.stoppingCondition, with: SageMakerClientTypes.StoppingCondition.write(value:to:))
-        try writer["Tags"].writeList(value.tags, memberWritingClosure: SageMakerClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["TensorBoardOutputConfig"].write(value.tensorBoardOutputConfig, with: SageMakerClientTypes.TensorBoardOutputConfig.write(value:to:))
-        try writer["TrainingEndTime"].writeTimestamp(value.trainingEndTime, format: .epochSeconds)
-        try writer["TrainingJobArn"].write(value.trainingJobArn)
-        try writer["TrainingJobName"].write(value.trainingJobName)
-        try writer["TrainingJobStatus"].write(value.trainingJobStatus)
-        try writer["TrainingStartTime"].writeTimestamp(value.trainingStartTime, format: .epochSeconds)
-        try writer["TrainingTimeInSeconds"].write(value.trainingTimeInSeconds)
-        try writer["TuningJobArn"].write(value.tuningJobArn)
-        try writer["VpcConfig"].write(value.vpcConfig, with: SageMakerClientTypes.VpcConfig.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.TrainingJob {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.TrainingJob()
@@ -67453,15 +65342,6 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes.TrainingJobStatusCounters {
 
-    static func write(value: SageMakerClientTypes.TrainingJobStatusCounters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Completed"].write(value.completed)
-        try writer["InProgress"].write(value.inProgress)
-        try writer["NonRetryableError"].write(value.nonRetryableError)
-        try writer["RetryableError"].write(value.retryableError)
-        try writer["Stopped"].write(value.stopped)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.TrainingJobStatusCounters {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.TrainingJobStatusCounters()
@@ -67508,11 +65388,6 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes.TrainingJobStepMetadata {
 
-    static func write(value: SageMakerClientTypes.TrainingJobStepMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.TrainingJobStepMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.TrainingJobStepMetadata()
@@ -67538,17 +65413,6 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes.TrainingJobSummary {
-
-    static func write(value: SageMakerClientTypes.TrainingJobSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["LastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .epochSeconds)
-        try writer["TrainingEndTime"].writeTimestamp(value.trainingEndTime, format: .epochSeconds)
-        try writer["TrainingJobArn"].write(value.trainingJobArn)
-        try writer["TrainingJobName"].write(value.trainingJobName)
-        try writer["TrainingJobStatus"].write(value.trainingJobStatus)
-        try writer["WarmPoolStatus"].write(value.warmPoolStatus, with: SageMakerClientTypes.WarmPoolStatus.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.TrainingJobSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -68149,32 +66013,6 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes.TransformJob {
 
-    static func write(value: SageMakerClientTypes.TransformJob?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AutoMLJobArn"].write(value.autoMLJobArn)
-        try writer["BatchStrategy"].write(value.batchStrategy)
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["DataCaptureConfig"].write(value.dataCaptureConfig, with: SageMakerClientTypes.BatchDataCaptureConfig.write(value:to:))
-        try writer["DataProcessing"].write(value.dataProcessing, with: SageMakerClientTypes.DataProcessing.write(value:to:))
-        try writer["Environment"].writeMap(value.environment, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["ExperimentConfig"].write(value.experimentConfig, with: SageMakerClientTypes.ExperimentConfig.write(value:to:))
-        try writer["FailureReason"].write(value.failureReason)
-        try writer["LabelingJobArn"].write(value.labelingJobArn)
-        try writer["MaxConcurrentTransforms"].write(value.maxConcurrentTransforms)
-        try writer["MaxPayloadInMB"].write(value.maxPayloadInMB)
-        try writer["ModelClientConfig"].write(value.modelClientConfig, with: SageMakerClientTypes.ModelClientConfig.write(value:to:))
-        try writer["ModelName"].write(value.modelName)
-        try writer["Tags"].writeList(value.tags, memberWritingClosure: SageMakerClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["TransformEndTime"].writeTimestamp(value.transformEndTime, format: .epochSeconds)
-        try writer["TransformInput"].write(value.transformInput, with: SageMakerClientTypes.TransformInput.write(value:to:))
-        try writer["TransformJobArn"].write(value.transformJobArn)
-        try writer["TransformJobName"].write(value.transformJobName)
-        try writer["TransformJobStatus"].write(value.transformJobStatus)
-        try writer["TransformOutput"].write(value.transformOutput, with: SageMakerClientTypes.TransformOutput.write(value:to:))
-        try writer["TransformResources"].write(value.transformResources, with: SageMakerClientTypes.TransformResources.write(value:to:))
-        try writer["TransformStartTime"].writeTimestamp(value.transformStartTime, format: .epochSeconds)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.TransformJob {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.TransformJob()
@@ -68431,11 +66269,6 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes.TransformJobStepMetadata {
 
-    static func write(value: SageMakerClientTypes.TransformJobStepMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.TransformJobStepMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.TransformJobStepMetadata()
@@ -68461,17 +66294,6 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes.TransformJobSummary {
-
-    static func write(value: SageMakerClientTypes.TransformJobSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["FailureReason"].write(value.failureReason)
-        try writer["LastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .epochSeconds)
-        try writer["TransformEndTime"].writeTimestamp(value.transformEndTime, format: .epochSeconds)
-        try writer["TransformJobArn"].write(value.transformJobArn)
-        try writer["TransformJobName"].write(value.transformJobName)
-        try writer["TransformJobStatus"].write(value.transformJobStatus)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.TransformJobSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -68690,22 +66512,6 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes.Trial {
 
-    static func write(value: SageMakerClientTypes.Trial?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedBy"].write(value.createdBy, with: SageMakerClientTypes.UserContext.write(value:to:))
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["DisplayName"].write(value.displayName)
-        try writer["ExperimentName"].write(value.experimentName)
-        try writer["LastModifiedBy"].write(value.lastModifiedBy, with: SageMakerClientTypes.UserContext.write(value:to:))
-        try writer["LastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .epochSeconds)
-        try writer["MetadataProperties"].write(value.metadataProperties, with: SageMakerClientTypes.MetadataProperties.write(value:to:))
-        try writer["Source"].write(value.source, with: SageMakerClientTypes.TrialSource.write(value:to:))
-        try writer["Tags"].writeList(value.tags, memberWritingClosure: SageMakerClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["TrialArn"].write(value.trialArn)
-        try writer["TrialComponentSummaries"].writeList(value.trialComponentSummaries, memberWritingClosure: SageMakerClientTypes.TrialComponentSimpleSummary.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["TrialName"].write(value.trialName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.Trial {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.Trial()
@@ -68786,31 +66592,6 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes.TrialComponent {
-
-    static func write(value: SageMakerClientTypes.TrialComponent?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedBy"].write(value.createdBy, with: SageMakerClientTypes.UserContext.write(value:to:))
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["DisplayName"].write(value.displayName)
-        try writer["EndTime"].writeTimestamp(value.endTime, format: .epochSeconds)
-        try writer["InputArtifacts"].writeMap(value.inputArtifacts, valueWritingClosure: SageMakerClientTypes.TrialComponentArtifact.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["LastModifiedBy"].write(value.lastModifiedBy, with: SageMakerClientTypes.UserContext.write(value:to:))
-        try writer["LastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .epochSeconds)
-        try writer["LineageGroupArn"].write(value.lineageGroupArn)
-        try writer["MetadataProperties"].write(value.metadataProperties, with: SageMakerClientTypes.MetadataProperties.write(value:to:))
-        try writer["Metrics"].writeList(value.metrics, memberWritingClosure: SageMakerClientTypes.TrialComponentMetricSummary.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["OutputArtifacts"].writeMap(value.outputArtifacts, valueWritingClosure: SageMakerClientTypes.TrialComponentArtifact.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["Parameters"].writeMap(value.parameters, valueWritingClosure: SageMakerClientTypes.TrialComponentParameterValue.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["Parents"].writeList(value.parents, memberWritingClosure: SageMakerClientTypes.Parent.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["RunName"].write(value.runName)
-        try writer["Source"].write(value.source, with: SageMakerClientTypes.TrialComponentSource.write(value:to:))
-        try writer["SourceDetail"].write(value.sourceDetail, with: SageMakerClientTypes.TrialComponentSourceDetail.write(value:to:))
-        try writer["StartTime"].writeTimestamp(value.startTime, format: .epochSeconds)
-        try writer["Status"].write(value.status, with: SageMakerClientTypes.TrialComponentStatus.write(value:to:))
-        try writer["Tags"].writeList(value.tags, memberWritingClosure: SageMakerClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["TrialComponentArn"].write(value.trialComponentArn)
-        try writer["TrialComponentName"].write(value.trialComponentName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.TrialComponent {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -68976,19 +66757,6 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes.TrialComponentMetricSummary {
 
-    static func write(value: SageMakerClientTypes.TrialComponentMetricSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Avg"].write(value.avg)
-        try writer["Count"].write(value.count)
-        try writer["Last"].write(value.last)
-        try writer["Max"].write(value.max)
-        try writer["MetricName"].write(value.metricName)
-        try writer["Min"].write(value.min)
-        try writer["SourceArn"].write(value.sourceArn)
-        try writer["StdDev"].write(value.stdDev)
-        try writer["TimeStamp"].writeTimestamp(value.timeStamp, format: .epochSeconds)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.TrialComponentMetricSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.TrialComponentMetricSummary()
@@ -69134,15 +66902,6 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes.TrialComponentSimpleSummary {
 
-    static func write(value: SageMakerClientTypes.TrialComponentSimpleSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedBy"].write(value.createdBy, with: SageMakerClientTypes.UserContext.write(value:to:))
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["TrialComponentArn"].write(value.trialComponentArn)
-        try writer["TrialComponentName"].write(value.trialComponentName)
-        try writer["TrialComponentSource"].write(value.trialComponentSource, with: SageMakerClientTypes.TrialComponentSource.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.TrialComponentSimpleSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.TrialComponentSimpleSummary()
@@ -69189,12 +66948,6 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes.TrialComponentSource {
 
-    static func write(value: SageMakerClientTypes.TrialComponentSource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["SourceArn"].write(value.sourceArn)
-        try writer["SourceType"].write(value.sourceType)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.TrialComponentSource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.TrialComponentSource()
@@ -69226,14 +66979,6 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes.TrialComponentSourceDetail {
-
-    static func write(value: SageMakerClientTypes.TrialComponentSourceDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ProcessingJob"].write(value.processingJob, with: SageMakerClientTypes.ProcessingJob.write(value:to:))
-        try writer["SourceArn"].write(value.sourceArn)
-        try writer["TrainingJob"].write(value.trainingJob, with: SageMakerClientTypes.TrainingJob.write(value:to:))
-        try writer["TransformJob"].write(value.transformJob, with: SageMakerClientTypes.TransformJob.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.TrialComponentSourceDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -69312,21 +67057,6 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes.TrialComponentSummary {
-
-    static func write(value: SageMakerClientTypes.TrialComponentSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedBy"].write(value.createdBy, with: SageMakerClientTypes.UserContext.write(value:to:))
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["DisplayName"].write(value.displayName)
-        try writer["EndTime"].writeTimestamp(value.endTime, format: .epochSeconds)
-        try writer["LastModifiedBy"].write(value.lastModifiedBy, with: SageMakerClientTypes.UserContext.write(value:to:))
-        try writer["LastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .epochSeconds)
-        try writer["StartTime"].writeTimestamp(value.startTime, format: .epochSeconds)
-        try writer["Status"].write(value.status, with: SageMakerClientTypes.TrialComponentStatus.write(value:to:))
-        try writer["TrialComponentArn"].write(value.trialComponentArn)
-        try writer["TrialComponentName"].write(value.trialComponentName)
-        try writer["TrialComponentSource"].write(value.trialComponentSource, with: SageMakerClientTypes.TrialComponentSource.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.TrialComponentSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -69410,12 +67140,6 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes.TrialSource {
 
-    static func write(value: SageMakerClientTypes.TrialSource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["SourceArn"].write(value.sourceArn)
-        try writer["SourceType"].write(value.sourceType)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.TrialSource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.TrialSource()
@@ -69447,16 +67171,6 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes.TrialSummary {
-
-    static func write(value: SageMakerClientTypes.TrialSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["DisplayName"].write(value.displayName)
-        try writer["LastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .epochSeconds)
-        try writer["TrialArn"].write(value.trialArn)
-        try writer["TrialName"].write(value.trialName)
-        try writer["TrialSource"].write(value.trialSource, with: SageMakerClientTypes.TrialSource.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.TrialSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -69628,11 +67342,6 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes.TuningJobStepMetaData {
 
-    static func write(value: SageMakerClientTypes.TuningJobStepMetaData?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.TuningJobStepMetaData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.TuningJobStepMetaData()
@@ -69765,13 +67474,6 @@ extension SageMakerClientTypes.UiTemplate {
         guard let value else { return }
         try writer["Content"].write(value.content)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.UiTemplate {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SageMakerClientTypes.UiTemplate()
-        value.content = try reader["Content"].readIfPresent()
-        return value
-    }
 }
 
 extension SageMakerClientTypes {
@@ -69792,12 +67494,6 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes.UiTemplateInfo {
-
-    static func write(value: SageMakerClientTypes.UiTemplateInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ContentSha256"].write(value.contentSha256)
-        try writer["Url"].write(value.url)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.UiTemplateInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -72982,14 +70678,6 @@ enum UpdateWorkteamOutputError {
 
 extension SageMakerClientTypes.UserContext {
 
-    static func write(value: SageMakerClientTypes.UserContext?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DomainId"].write(value.domainId)
-        try writer["IamIdentity"].write(value.iamIdentity, with: SageMakerClientTypes.IamIdentity.write(value:to:))
-        try writer["UserProfileArn"].write(value.userProfileArn)
-        try writer["UserProfileName"].write(value.userProfileName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.UserContext {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.UserContext()
@@ -73030,15 +70718,6 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes.UserProfileDetails {
-
-    static func write(value: SageMakerClientTypes.UserProfileDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["DomainId"].write(value.domainId)
-        try writer["LastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .epochSeconds)
-        try writer["Status"].write(value.status)
-        try writer["UserProfileName"].write(value.userProfileName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.UserProfileDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -73290,13 +70969,6 @@ extension SageMakerClientTypes.VariantProperty {
         guard let value else { return }
         try writer["VariantPropertyType"].write(value.variantPropertyType)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.VariantProperty {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SageMakerClientTypes.VariantProperty()
-        value.variantPropertyType = try reader["VariantPropertyType"].readIfPresent()
-        return value
-    }
 }
 
 extension SageMakerClientTypes {
@@ -73464,13 +71136,6 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes.Vertex {
 
-    static func write(value: SageMakerClientTypes.Vertex?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["LineageType"].write(value.lineageType)
-        try writer["Type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.Vertex {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.Vertex()
@@ -73511,14 +71176,6 @@ extension SageMakerClientTypes.VisibilityConditions {
         guard let value else { return }
         try writer["Key"].write(value.key)
         try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.VisibilityConditions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SageMakerClientTypes.VisibilityConditions()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
-        return value
     }
 }
 
@@ -73619,13 +71276,6 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes.WarmPoolStatus {
 
-    static func write(value: SageMakerClientTypes.WarmPoolStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ResourceRetainedBillableTimeInSeconds"].write(value.resourceRetainedBillableTimeInSeconds)
-        try writer["ReusedByJob"].write(value.reusedByJob)
-        try writer["Status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.WarmPoolStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.WarmPoolStatus()
@@ -73670,21 +71320,6 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes.Workforce {
-
-    static func write(value: SageMakerClientTypes.Workforce?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CognitoConfig"].write(value.cognitoConfig, with: SageMakerClientTypes.CognitoConfig.write(value:to:))
-        try writer["CreateDate"].writeTimestamp(value.createDate, format: .epochSeconds)
-        try writer["FailureReason"].write(value.failureReason)
-        try writer["LastUpdatedDate"].writeTimestamp(value.lastUpdatedDate, format: .epochSeconds)
-        try writer["OidcConfig"].write(value.oidcConfig, with: SageMakerClientTypes.OidcConfigForResponse.write(value:to:))
-        try writer["SourceIpConfig"].write(value.sourceIpConfig, with: SageMakerClientTypes.SourceIpConfig.write(value:to:))
-        try writer["Status"].write(value.status)
-        try writer["SubDomain"].write(value.subDomain)
-        try writer["WorkforceArn"].write(value.workforceArn)
-        try writer["WorkforceName"].write(value.workforceName)
-        try writer["WorkforceVpcConfig"].write(value.workforceVpcConfig, with: SageMakerClientTypes.WorkforceVpcConfigResponse.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.Workforce {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -73809,15 +71444,6 @@ extension SageMakerClientTypes.WorkforceVpcConfigRequest {
         try writer["Subnets"].writeList(value.subnets, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["VpcId"].write(value.vpcId)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.WorkforceVpcConfigRequest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SageMakerClientTypes.WorkforceVpcConfigRequest()
-        value.vpcId = try reader["VpcId"].readIfPresent()
-        value.securityGroupIds = try reader["SecurityGroupIds"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.subnets = try reader["Subnets"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
 }
 
 extension SageMakerClientTypes {
@@ -73845,14 +71471,6 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes.WorkforceVpcConfigResponse {
-
-    static func write(value: SageMakerClientTypes.WorkforceVpcConfigResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["SecurityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Subnets"].writeList(value.subnets, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["VpcEndpointId"].write(value.vpcEndpointId)
-        try writer["VpcId"].write(value.vpcId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.WorkforceVpcConfigResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -73934,20 +71552,6 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes.Workteam {
-
-    static func write(value: SageMakerClientTypes.Workteam?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreateDate"].writeTimestamp(value.createDate, format: .epochSeconds)
-        try writer["Description"].write(value.description)
-        try writer["LastUpdatedDate"].writeTimestamp(value.lastUpdatedDate, format: .epochSeconds)
-        try writer["MemberDefinitions"].writeList(value.memberDefinitions, memberWritingClosure: SageMakerClientTypes.MemberDefinition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["NotificationConfiguration"].write(value.notificationConfiguration, with: SageMakerClientTypes.NotificationConfiguration.write(value:to:))
-        try writer["ProductListingIds"].writeList(value.productListingIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["SubDomain"].write(value.subDomain)
-        try writer["WorkforceArn"].write(value.workforceArn)
-        try writer["WorkteamArn"].write(value.workteamArn)
-        try writer["WorkteamName"].write(value.workteamName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.Workteam {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

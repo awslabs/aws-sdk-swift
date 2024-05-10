@@ -12,13 +12,6 @@ extension CodePipelineClientTypes.AWSSessionCredentials: Swift.CustomDebugString
 
 extension CodePipelineClientTypes.AWSSessionCredentials {
 
-    static func write(value: CodePipelineClientTypes.AWSSessionCredentials?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["accessKeyId"].write(value.accessKeyId)
-        try writer["secretAccessKey"].write(value.secretAccessKey)
-        try writer["sessionToken"].write(value.sessionToken)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodePipelineClientTypes.AWSSessionCredentials {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodePipelineClientTypes.AWSSessionCredentials()
@@ -259,11 +252,6 @@ extension CodePipelineClientTypes {
 
 extension CodePipelineClientTypes.ActionConfiguration {
 
-    static func write(value: CodePipelineClientTypes.ActionConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["configuration"].writeMap(value.configuration, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodePipelineClientTypes.ActionConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodePipelineClientTypes.ActionConfiguration()
@@ -394,12 +382,6 @@ extension CodePipelineClientTypes {
 
 extension CodePipelineClientTypes.ActionContext {
 
-    static func write(value: CodePipelineClientTypes.ActionContext?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["actionExecutionId"].write(value.actionExecutionId)
-        try writer["name"].write(value.name)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodePipelineClientTypes.ActionContext {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodePipelineClientTypes.ActionContext()
@@ -518,20 +500,6 @@ extension CodePipelineClientTypes {
 
 extension CodePipelineClientTypes.ActionExecution {
 
-    static func write(value: CodePipelineClientTypes.ActionExecution?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["actionExecutionId"].write(value.actionExecutionId)
-        try writer["errorDetails"].write(value.errorDetails, with: CodePipelineClientTypes.ErrorDetails.write(value:to:))
-        try writer["externalExecutionId"].write(value.externalExecutionId)
-        try writer["externalExecutionUrl"].write(value.externalExecutionUrl)
-        try writer["lastStatusChange"].writeTimestamp(value.lastStatusChange, format: .epochSeconds)
-        try writer["lastUpdatedBy"].write(value.lastUpdatedBy)
-        try writer["percentComplete"].write(value.percentComplete)
-        try writer["status"].write(value.status)
-        try writer["summary"].write(value.summary)
-        try writer["token"].write(value.token)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodePipelineClientTypes.ActionExecution {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodePipelineClientTypes.ActionExecution()
@@ -602,21 +570,6 @@ extension CodePipelineClientTypes {
 }
 
 extension CodePipelineClientTypes.ActionExecutionDetail {
-
-    static func write(value: CodePipelineClientTypes.ActionExecutionDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["actionExecutionId"].write(value.actionExecutionId)
-        try writer["actionName"].write(value.actionName)
-        try writer["input"].write(value.input, with: CodePipelineClientTypes.ActionExecutionInput.write(value:to:))
-        try writer["lastUpdateTime"].writeTimestamp(value.lastUpdateTime, format: .epochSeconds)
-        try writer["output"].write(value.output, with: CodePipelineClientTypes.ActionExecutionOutput.write(value:to:))
-        try writer["pipelineExecutionId"].write(value.pipelineExecutionId)
-        try writer["pipelineVersion"].write(value.pipelineVersion)
-        try writer["stageName"].write(value.stageName)
-        try writer["startTime"].writeTimestamp(value.startTime, format: .epochSeconds)
-        try writer["status"].write(value.status)
-        try writer["updatedBy"].write(value.updatedBy)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodePipelineClientTypes.ActionExecutionDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -699,14 +652,6 @@ extension CodePipelineClientTypes.ActionExecutionFilter {
         try writer["latestInPipelineExecution"].write(value.latestInPipelineExecution, with: CodePipelineClientTypes.LatestInPipelineExecutionFilter.write(value:to:))
         try writer["pipelineExecutionId"].write(value.pipelineExecutionId)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodePipelineClientTypes.ActionExecutionFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodePipelineClientTypes.ActionExecutionFilter()
-        value.pipelineExecutionId = try reader["pipelineExecutionId"].readIfPresent()
-        value.latestInPipelineExecution = try reader["latestInPipelineExecution"].readIfPresent(with: CodePipelineClientTypes.LatestInPipelineExecutionFilter.read(from:))
-        return value
-    }
 }
 
 extension CodePipelineClientTypes {
@@ -730,17 +675,6 @@ extension CodePipelineClientTypes {
 }
 
 extension CodePipelineClientTypes.ActionExecutionInput {
-
-    static func write(value: CodePipelineClientTypes.ActionExecutionInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["actionTypeId"].write(value.actionTypeId, with: CodePipelineClientTypes.ActionTypeId.write(value:to:))
-        try writer["configuration"].writeMap(value.configuration, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["inputArtifacts"].writeList(value.inputArtifacts, memberWritingClosure: CodePipelineClientTypes.ArtifactDetail.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["namespace"].write(value.namespace)
-        try writer["region"].write(value.region)
-        try writer["resolvedConfiguration"].writeMap(value.resolvedConfiguration, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["roleArn"].write(value.roleArn)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodePipelineClientTypes.ActionExecutionInput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -798,13 +732,6 @@ extension CodePipelineClientTypes {
 
 extension CodePipelineClientTypes.ActionExecutionOutput {
 
-    static func write(value: CodePipelineClientTypes.ActionExecutionOutput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["executionResult"].write(value.executionResult, with: CodePipelineClientTypes.ActionExecutionResult.write(value:to:))
-        try writer["outputArtifacts"].writeList(value.outputArtifacts, memberWritingClosure: CodePipelineClientTypes.ArtifactDetail.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["outputVariables"].writeMap(value.outputVariables, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodePipelineClientTypes.ActionExecutionOutput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodePipelineClientTypes.ActionExecutionOutput()
@@ -840,14 +767,6 @@ extension CodePipelineClientTypes {
 }
 
 extension CodePipelineClientTypes.ActionExecutionResult {
-
-    static func write(value: CodePipelineClientTypes.ActionExecutionResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["errorDetails"].write(value.errorDetails, with: CodePipelineClientTypes.ErrorDetails.write(value:to:))
-        try writer["externalExecutionId"].write(value.externalExecutionId)
-        try writer["externalExecutionSummary"].write(value.externalExecutionSummary)
-        try writer["externalExecutionUrl"].write(value.externalExecutionUrl)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodePipelineClientTypes.ActionExecutionResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1043,15 +962,6 @@ extension CodePipelineClientTypes {
 
 extension CodePipelineClientTypes.ActionState {
 
-    static func write(value: CodePipelineClientTypes.ActionState?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["actionName"].write(value.actionName)
-        try writer["currentRevision"].write(value.currentRevision, with: CodePipelineClientTypes.ActionRevision.write(value:to:))
-        try writer["entityUrl"].write(value.entityUrl)
-        try writer["latestExecution"].write(value.latestExecution, with: CodePipelineClientTypes.ActionExecution.write(value:to:))
-        try writer["revisionUrl"].write(value.revisionUrl)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodePipelineClientTypes.ActionState {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodePipelineClientTypes.ActionState()
@@ -1097,15 +1007,6 @@ extension CodePipelineClientTypes {
 }
 
 extension CodePipelineClientTypes.ActionType {
-
-    static func write(value: CodePipelineClientTypes.ActionType?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["actionConfigurationProperties"].writeList(value.actionConfigurationProperties, memberWritingClosure: CodePipelineClientTypes.ActionConfigurationProperty.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["id"].write(value.id, with: CodePipelineClientTypes.ActionTypeId.write(value:to:))
-        try writer["inputArtifactDetails"].write(value.inputArtifactDetails, with: CodePipelineClientTypes.ArtifactDetails.write(value:to:))
-        try writer["outputArtifactDetails"].write(value.outputArtifactDetails, with: CodePipelineClientTypes.ArtifactDetails.write(value:to:))
-        try writer["settings"].write(value.settings, with: CodePipelineClientTypes.ActionTypeSettings.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodePipelineClientTypes.ActionType {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1729,14 +1630,6 @@ extension CodePipelineClientTypes.ApprovalResult {
         try writer["status"].write(value.status)
         try writer["summary"].write(value.summary)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodePipelineClientTypes.ApprovalResult {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodePipelineClientTypes.ApprovalResult()
-        value.summary = try reader["summary"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        return value
-    }
 }
 
 extension CodePipelineClientTypes {
@@ -1793,13 +1686,6 @@ extension CodePipelineClientTypes {
 
 extension CodePipelineClientTypes.Artifact {
 
-    static func write(value: CodePipelineClientTypes.Artifact?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["location"].write(value.location, with: CodePipelineClientTypes.ArtifactLocation.write(value:to:))
-        try writer["name"].write(value.name)
-        try writer["revision"].write(value.revision)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodePipelineClientTypes.Artifact {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodePipelineClientTypes.Artifact()
@@ -1835,12 +1721,6 @@ extension CodePipelineClientTypes {
 }
 
 extension CodePipelineClientTypes.ArtifactDetail {
-
-    static func write(value: CodePipelineClientTypes.ArtifactDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-        try writer["s3location"].write(value.s3location, with: CodePipelineClientTypes.S3Location.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodePipelineClientTypes.ArtifactDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1912,12 +1792,6 @@ extension CodePipelineClientTypes {
 
 extension CodePipelineClientTypes.ArtifactLocation {
 
-    static func write(value: CodePipelineClientTypes.ArtifactLocation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["s3Location"].write(value.s3Location, with: CodePipelineClientTypes.S3ArtifactLocation.write(value:to:))
-        try writer["type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodePipelineClientTypes.ArtifactLocation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodePipelineClientTypes.ArtifactLocation()
@@ -1975,16 +1849,6 @@ extension CodePipelineClientTypes {
 }
 
 extension CodePipelineClientTypes.ArtifactRevision {
-
-    static func write(value: CodePipelineClientTypes.ArtifactRevision?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["created"].writeTimestamp(value.created, format: .epochSeconds)
-        try writer["name"].write(value.name)
-        try writer["revisionChangeIdentifier"].write(value.revisionChangeIdentifier)
-        try writer["revisionId"].write(value.revisionId)
-        try writer["revisionSummary"].write(value.revisionSummary)
-        try writer["revisionUrl"].write(value.revisionUrl)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodePipelineClientTypes.ArtifactRevision {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2498,16 +2362,6 @@ extension CodePipelineClientTypes.CurrentRevision {
         try writer["created"].writeTimestamp(value.created, format: .epochSeconds)
         try writer["revision"].write(value.revision)
         try writer["revisionSummary"].write(value.revisionSummary)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodePipelineClientTypes.CurrentRevision {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodePipelineClientTypes.CurrentRevision()
-        value.revision = try reader["revision"].readIfPresent()
-        value.changeIdentifier = try reader["changeIdentifier"].readIfPresent()
-        value.created = try reader["created"].readTimestampIfPresent(format: .epochSeconds)
-        value.revisionSummary = try reader["revisionSummary"].readIfPresent()
-        return value
     }
 }
 
@@ -3023,12 +2877,6 @@ extension CodePipelineClientTypes {
 
 extension CodePipelineClientTypes.ErrorDetails {
 
-    static func write(value: CodePipelineClientTypes.ErrorDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["code"].write(value.code)
-        try writer["message"].write(value.message)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodePipelineClientTypes.ErrorDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodePipelineClientTypes.ErrorDetails()
@@ -3065,15 +2913,6 @@ extension CodePipelineClientTypes.ExecutionDetails {
         try writer["externalExecutionId"].write(value.externalExecutionId)
         try writer["percentComplete"].write(value.percentComplete)
         try writer["summary"].write(value.summary)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodePipelineClientTypes.ExecutionDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodePipelineClientTypes.ExecutionDetails()
-        value.summary = try reader["summary"].readIfPresent()
-        value.externalExecutionId = try reader["externalExecutionId"].readIfPresent()
-        value.percentComplete = try reader["percentComplete"].readIfPresent()
-        return value
     }
 }
 
@@ -3135,12 +2974,6 @@ extension CodePipelineClientTypes {
 }
 
 extension CodePipelineClientTypes.ExecutionTrigger {
-
-    static func write(value: CodePipelineClientTypes.ExecutionTrigger?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["triggerDetail"].write(value.triggerDetail)
-        try writer["triggerType"].write(value.triggerType)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodePipelineClientTypes.ExecutionTrigger {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3306,15 +3139,6 @@ extension CodePipelineClientTypes.FailureDetails {
         try writer["externalExecutionId"].write(value.externalExecutionId)
         try writer["message"].write(value.message)
         try writer["type"].write(value.type)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodePipelineClientTypes.FailureDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodePipelineClientTypes.FailureDetails()
-        value.type = try reader["type"].readIfPresent()
-        value.message = try reader["message"].readIfPresent()
-        value.externalExecutionId = try reader["externalExecutionId"].readIfPresent()
-        return value
     }
 }
 
@@ -4712,14 +4536,6 @@ public struct InvalidWebhookFilterPatternException: ClientRuntime.ModeledError, 
 
 extension CodePipelineClientTypes.Job {
 
-    static func write(value: CodePipelineClientTypes.Job?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["accountId"].write(value.accountId)
-        try writer["data"].write(value.data, with: CodePipelineClientTypes.JobData.write(value:to:))
-        try writer["id"].write(value.id)
-        try writer["nonce"].write(value.nonce)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodePipelineClientTypes.Job {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodePipelineClientTypes.Job()
@@ -4765,18 +4581,6 @@ extension CodePipelineClientTypes.JobData: Swift.CustomDebugStringConvertible {
 }
 
 extension CodePipelineClientTypes.JobData {
-
-    static func write(value: CodePipelineClientTypes.JobData?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["actionConfiguration"].write(value.actionConfiguration, with: CodePipelineClientTypes.ActionConfiguration.write(value:to:))
-        try writer["actionTypeId"].write(value.actionTypeId, with: CodePipelineClientTypes.ActionTypeId.write(value:to:))
-        try writer["artifactCredentials"].write(value.artifactCredentials, with: CodePipelineClientTypes.AWSSessionCredentials.write(value:to:))
-        try writer["continuationToken"].write(value.continuationToken)
-        try writer["encryptionKey"].write(value.encryptionKey, with: CodePipelineClientTypes.EncryptionKey.write(value:to:))
-        try writer["inputArtifacts"].writeList(value.inputArtifacts, memberWritingClosure: CodePipelineClientTypes.Artifact.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["outputArtifacts"].writeList(value.outputArtifacts, memberWritingClosure: CodePipelineClientTypes.Artifact.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["pipelineContext"].write(value.pipelineContext, with: CodePipelineClientTypes.PipelineContext.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodePipelineClientTypes.JobData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4838,13 +4642,6 @@ extension CodePipelineClientTypes {
 }
 
 extension CodePipelineClientTypes.JobDetails {
-
-    static func write(value: CodePipelineClientTypes.JobDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["accountId"].write(value.accountId)
-        try writer["data"].write(value.data, with: CodePipelineClientTypes.JobData.write(value:to:))
-        try writer["id"].write(value.id)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodePipelineClientTypes.JobDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5038,14 +4835,6 @@ extension CodePipelineClientTypes.LatestInPipelineExecutionFilter {
         guard let value else { return }
         try writer["pipelineExecutionId"].write(value.pipelineExecutionId)
         try writer["startTimeRange"].write(value.startTimeRange)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodePipelineClientTypes.LatestInPipelineExecutionFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodePipelineClientTypes.LatestInPipelineExecutionFilter()
-        value.pipelineExecutionId = try reader["pipelineExecutionId"].readIfPresent()
-        value.startTimeRange = try reader["startTimeRange"].readIfPresent()
-        return value
     }
 }
 
@@ -5540,17 +5329,6 @@ enum ListTagsForResourceOutputError {
 
 extension CodePipelineClientTypes.ListWebhookItem {
 
-    static func write(value: CodePipelineClientTypes.ListWebhookItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["definition"].write(value.definition, with: CodePipelineClientTypes.WebhookDefinition.write(value:to:))
-        try writer["errorCode"].write(value.errorCode)
-        try writer["errorMessage"].write(value.errorMessage)
-        try writer["lastTriggered"].writeTimestamp(value.lastTriggered, format: .epochSeconds)
-        try writer["tags"].writeList(value.tags, memberWritingClosure: CodePipelineClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["url"].write(value.url)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodePipelineClientTypes.ListWebhookItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodePipelineClientTypes.ListWebhookItem()
@@ -5792,15 +5570,6 @@ public struct OutputVariablesSizeExceededException: ClientRuntime.ModeledError, 
 
 extension CodePipelineClientTypes.PipelineContext {
 
-    static func write(value: CodePipelineClientTypes.PipelineContext?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["action"].write(value.action, with: CodePipelineClientTypes.ActionContext.write(value:to:))
-        try writer["pipelineArn"].write(value.pipelineArn)
-        try writer["pipelineExecutionId"].write(value.pipelineExecutionId)
-        try writer["pipelineName"].write(value.pipelineName)
-        try writer["stage"].write(value.stage, with: CodePipelineClientTypes.StageContext.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodePipelineClientTypes.PipelineContext {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodePipelineClientTypes.PipelineContext()
@@ -5942,21 +5711,6 @@ extension CodePipelineClientTypes {
 
 extension CodePipelineClientTypes.PipelineExecution {
 
-    static func write(value: CodePipelineClientTypes.PipelineExecution?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["artifactRevisions"].writeList(value.artifactRevisions, memberWritingClosure: CodePipelineClientTypes.ArtifactRevision.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["executionMode"].write(value.executionMode)
-        try writer["executionType"].write(value.executionType)
-        try writer["pipelineExecutionId"].write(value.pipelineExecutionId)
-        try writer["pipelineName"].write(value.pipelineName)
-        try writer["pipelineVersion"].write(value.pipelineVersion)
-        try writer["rollbackMetadata"].write(value.rollbackMetadata, with: CodePipelineClientTypes.PipelineRollbackMetadata.write(value:to:))
-        try writer["status"].write(value.status)
-        try writer["statusSummary"].write(value.statusSummary)
-        try writer["trigger"].write(value.trigger, with: CodePipelineClientTypes.ExecutionTrigger.write(value:to:))
-        try writer["variables"].writeList(value.variables, memberWritingClosure: CodePipelineClientTypes.ResolvedPipelineVariable.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodePipelineClientTypes.PipelineExecution {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodePipelineClientTypes.PipelineExecution()
@@ -6050,13 +5804,6 @@ extension CodePipelineClientTypes.PipelineExecutionFilter {
     static func write(value: CodePipelineClientTypes.PipelineExecutionFilter?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["succeededInStage"].write(value.succeededInStage, with: CodePipelineClientTypes.SucceededInStageFilter.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodePipelineClientTypes.PipelineExecutionFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodePipelineClientTypes.PipelineExecutionFilter()
-        value.succeededInStage = try reader["succeededInStage"].readIfPresent(with: CodePipelineClientTypes.SucceededInStageFilter.read(from:))
-        return value
     }
 }
 
@@ -6235,21 +5982,6 @@ extension CodePipelineClientTypes {
 
 extension CodePipelineClientTypes.PipelineExecutionSummary {
 
-    static func write(value: CodePipelineClientTypes.PipelineExecutionSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["executionMode"].write(value.executionMode)
-        try writer["executionType"].write(value.executionType)
-        try writer["lastUpdateTime"].writeTimestamp(value.lastUpdateTime, format: .epochSeconds)
-        try writer["pipelineExecutionId"].write(value.pipelineExecutionId)
-        try writer["rollbackMetadata"].write(value.rollbackMetadata, with: CodePipelineClientTypes.PipelineRollbackMetadata.write(value:to:))
-        try writer["sourceRevisions"].writeList(value.sourceRevisions, memberWritingClosure: CodePipelineClientTypes.SourceRevision.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["startTime"].writeTimestamp(value.startTime, format: .epochSeconds)
-        try writer["status"].write(value.status)
-        try writer["statusSummary"].write(value.statusSummary)
-        try writer["stopTrigger"].write(value.stopTrigger, with: CodePipelineClientTypes.StopExecutionTrigger.write(value:to:))
-        try writer["trigger"].write(value.trigger, with: CodePipelineClientTypes.ExecutionTrigger.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodePipelineClientTypes.PipelineExecutionSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodePipelineClientTypes.PipelineExecutionSummary()
@@ -6337,14 +6069,6 @@ extension CodePipelineClientTypes {
 }
 
 extension CodePipelineClientTypes.PipelineMetadata {
-
-    static func write(value: CodePipelineClientTypes.PipelineMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["created"].writeTimestamp(value.created, format: .epochSeconds)
-        try writer["pipelineArn"].write(value.pipelineArn)
-        try writer["pollingDisabledAt"].writeTimestamp(value.pollingDisabledAt, format: .epochSeconds)
-        try writer["updated"].writeTimestamp(value.updated, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodePipelineClientTypes.PipelineMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6463,11 +6187,6 @@ public struct PipelineNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
 extension CodePipelineClientTypes.PipelineRollbackMetadata {
 
-    static func write(value: CodePipelineClientTypes.PipelineRollbackMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["rollbackTargetPipelineExecutionId"].write(value.rollbackTargetPipelineExecutionId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodePipelineClientTypes.PipelineRollbackMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodePipelineClientTypes.PipelineRollbackMetadata()
@@ -6493,16 +6212,6 @@ extension CodePipelineClientTypes {
 }
 
 extension CodePipelineClientTypes.PipelineSummary {
-
-    static func write(value: CodePipelineClientTypes.PipelineSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["created"].writeTimestamp(value.created, format: .epochSeconds)
-        try writer["executionMode"].write(value.executionMode)
-        try writer["name"].write(value.name)
-        try writer["pipelineType"].write(value.pipelineType)
-        try writer["updated"].writeTimestamp(value.updated, format: .epochSeconds)
-        try writer["version"].write(value.version)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodePipelineClientTypes.PipelineSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6662,14 +6371,6 @@ extension CodePipelineClientTypes.PipelineVariable {
         guard let value else { return }
         try writer["name"].write(value.name)
         try writer["value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodePipelineClientTypes.PipelineVariable {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodePipelineClientTypes.PipelineVariable()
-        value.name = try reader["name"].readIfPresent()
-        value.value = try reader["value"].readIfPresent()
-        return value
     }
 }
 
@@ -7582,12 +7283,6 @@ public struct RequestFailedException: ClientRuntime.ModeledError, AWSClientRunti
 
 extension CodePipelineClientTypes.ResolvedPipelineVariable {
 
-    static func write(value: CodePipelineClientTypes.ResolvedPipelineVariable?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-        try writer["resolvedValue"].write(value.resolvedValue)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodePipelineClientTypes.ResolvedPipelineVariable {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodePipelineClientTypes.ResolvedPipelineVariable()
@@ -7860,12 +7555,6 @@ enum RollbackStageOutputError {
 
 extension CodePipelineClientTypes.S3ArtifactLocation {
 
-    static func write(value: CodePipelineClientTypes.S3ArtifactLocation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["bucketName"].write(value.bucketName)
-        try writer["objectKey"].write(value.objectKey)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodePipelineClientTypes.S3ArtifactLocation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodePipelineClientTypes.S3ArtifactLocation()
@@ -7899,12 +7588,6 @@ extension CodePipelineClientTypes {
 
 extension CodePipelineClientTypes.S3Location {
 
-    static func write(value: CodePipelineClientTypes.S3Location?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["bucket"].write(value.bucket)
-        try writer["key"].write(value.key)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodePipelineClientTypes.S3Location {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodePipelineClientTypes.S3Location()
@@ -7935,14 +7618,6 @@ extension CodePipelineClientTypes {
 }
 
 extension CodePipelineClientTypes.SourceRevision {
-
-    static func write(value: CodePipelineClientTypes.SourceRevision?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["actionName"].write(value.actionName)
-        try writer["revisionId"].write(value.revisionId)
-        try writer["revisionSummary"].write(value.revisionSummary)
-        try writer["revisionUrl"].write(value.revisionUrl)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodePipelineClientTypes.SourceRevision {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7991,15 +7666,6 @@ extension CodePipelineClientTypes.SourceRevisionOverride {
         try writer["actionName"].write(value.actionName)
         try writer["revisionType"].write(value.revisionType)
         try writer["revisionValue"].write(value.revisionValue)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodePipelineClientTypes.SourceRevisionOverride {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodePipelineClientTypes.SourceRevisionOverride()
-        value.actionName = try reader["actionName"].readIfPresent()
-        value.revisionType = try reader["revisionType"].readIfPresent()
-        value.revisionValue = try reader["revisionValue"].readIfPresent()
-        return value
     }
 }
 
@@ -8064,11 +7730,6 @@ extension CodePipelineClientTypes {
 }
 
 extension CodePipelineClientTypes.StageContext {
-
-    static func write(value: CodePipelineClientTypes.StageContext?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodePipelineClientTypes.StageContext {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8146,13 +7807,6 @@ extension CodePipelineClientTypes {
 }
 
 extension CodePipelineClientTypes.StageExecution {
-
-    static func write(value: CodePipelineClientTypes.StageExecution?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["pipelineExecutionId"].write(value.pipelineExecutionId)
-        try writer["status"].write(value.status)
-        try writer["type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodePipelineClientTypes.StageExecution {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8339,16 +7993,6 @@ extension CodePipelineClientTypes {
 }
 
 extension CodePipelineClientTypes.StageState {
-
-    static func write(value: CodePipelineClientTypes.StageState?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["actionStates"].writeList(value.actionStates, memberWritingClosure: CodePipelineClientTypes.ActionState.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["inboundExecution"].write(value.inboundExecution, with: CodePipelineClientTypes.StageExecution.write(value:to:))
-        try writer["inboundExecutions"].writeList(value.inboundExecutions, memberWritingClosure: CodePipelineClientTypes.StageExecution.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["inboundTransitionState"].write(value.inboundTransitionState, with: CodePipelineClientTypes.TransitionState.write(value:to:))
-        try writer["latestExecution"].write(value.latestExecution, with: CodePipelineClientTypes.StageExecution.write(value:to:))
-        try writer["stageName"].write(value.stageName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodePipelineClientTypes.StageState {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8547,11 +8191,6 @@ extension CodePipelineClientTypes {
 
 extension CodePipelineClientTypes.StopExecutionTrigger {
 
-    static func write(value: CodePipelineClientTypes.StopExecutionTrigger?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["reason"].write(value.reason)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodePipelineClientTypes.StopExecutionTrigger {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodePipelineClientTypes.StopExecutionTrigger()
@@ -8667,13 +8306,6 @@ extension CodePipelineClientTypes.SucceededInStageFilter {
     static func write(value: CodePipelineClientTypes.SucceededInStageFilter?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["stageName"].write(value.stageName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodePipelineClientTypes.SucceededInStageFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodePipelineClientTypes.SucceededInStageFilter()
-        value.stageName = try reader["stageName"].readIfPresent()
-        return value
     }
 }
 
@@ -8799,12 +8431,6 @@ enum TagResourceOutputError {
 
 extension CodePipelineClientTypes.ThirdPartyJob {
 
-    static func write(value: CodePipelineClientTypes.ThirdPartyJob?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["clientId"].write(value.clientId)
-        try writer["jobId"].write(value.jobId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodePipelineClientTypes.ThirdPartyJob {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodePipelineClientTypes.ThirdPartyJob()
@@ -8840,18 +8466,6 @@ extension CodePipelineClientTypes.ThirdPartyJobData: Swift.CustomDebugStringConv
 }
 
 extension CodePipelineClientTypes.ThirdPartyJobData {
-
-    static func write(value: CodePipelineClientTypes.ThirdPartyJobData?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["actionConfiguration"].write(value.actionConfiguration, with: CodePipelineClientTypes.ActionConfiguration.write(value:to:))
-        try writer["actionTypeId"].write(value.actionTypeId, with: CodePipelineClientTypes.ActionTypeId.write(value:to:))
-        try writer["artifactCredentials"].write(value.artifactCredentials, with: CodePipelineClientTypes.AWSSessionCredentials.write(value:to:))
-        try writer["continuationToken"].write(value.continuationToken)
-        try writer["encryptionKey"].write(value.encryptionKey, with: CodePipelineClientTypes.EncryptionKey.write(value:to:))
-        try writer["inputArtifacts"].writeList(value.inputArtifacts, memberWritingClosure: CodePipelineClientTypes.Artifact.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["outputArtifacts"].writeList(value.outputArtifacts, memberWritingClosure: CodePipelineClientTypes.Artifact.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["pipelineContext"].write(value.pipelineContext, with: CodePipelineClientTypes.PipelineContext.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodePipelineClientTypes.ThirdPartyJobData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8913,13 +8527,6 @@ extension CodePipelineClientTypes {
 }
 
 extension CodePipelineClientTypes.ThirdPartyJobDetails {
-
-    static func write(value: CodePipelineClientTypes.ThirdPartyJobDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["data"].write(value.data, with: CodePipelineClientTypes.ThirdPartyJobData.write(value:to:))
-        try writer["id"].write(value.id)
-        try writer["nonce"].write(value.nonce)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodePipelineClientTypes.ThirdPartyJobDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8993,14 +8600,6 @@ public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime
 }
 
 extension CodePipelineClientTypes.TransitionState {
-
-    static func write(value: CodePipelineClientTypes.TransitionState?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["disabledReason"].write(value.disabledReason)
-        try writer["enabled"].write(value.enabled)
-        try writer["lastChangedAt"].writeTimestamp(value.lastChangedAt, format: .epochSeconds)
-        try writer["lastChangedBy"].write(value.lastChangedBy)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodePipelineClientTypes.TransitionState {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

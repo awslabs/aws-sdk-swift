@@ -8,16 +8,6 @@ public enum AppConfigDataClientTypes {}
 
 extension AppConfigDataClientTypes.BadRequestDetails {
 
-    static func write(value: AppConfigDataClientTypes.BadRequestDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .invalidparameters(invalidparameters):
-                try writer["InvalidParameters"].writeMap(invalidparameters, valueWritingClosure: AppConfigDataClientTypes.InvalidParameterDetail.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AppConfigDataClientTypes.BadRequestDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
@@ -268,11 +258,6 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 }
 
 extension AppConfigDataClientTypes.InvalidParameterDetail {
-
-    static func write(value: AppConfigDataClientTypes.InvalidParameterDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Problem"].write(value.problem)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppConfigDataClientTypes.InvalidParameterDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

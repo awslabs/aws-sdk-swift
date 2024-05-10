@@ -8,12 +8,6 @@ public enum APIGatewayClientTypes {}
 
 extension APIGatewayClientTypes.AccessLogSettings {
 
-    static func write(value: APIGatewayClientTypes.AccessLogSettings?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["destinationArn"].write(value.destinationArn)
-        try writer["format"].write(value.format)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> APIGatewayClientTypes.AccessLogSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = APIGatewayClientTypes.AccessLogSettings()
@@ -44,20 +38,6 @@ extension APIGatewayClientTypes {
 }
 
 extension APIGatewayClientTypes.ApiKey {
-
-    static func write(value: APIGatewayClientTypes.ApiKey?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["createdDate"].writeTimestamp(value.createdDate, format: .epochSeconds)
-        try writer["customerId"].write(value.customerId)
-        try writer["description"].write(value.description)
-        try writer["enabled"].write(value.enabled)
-        try writer["id"].write(value.id)
-        try writer["lastUpdatedDate"].writeTimestamp(value.lastUpdatedDate, format: .epochSeconds)
-        try writer["name"].write(value.name)
-        try writer["stageKeys"].writeList(value.stageKeys, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["value"].write(value.value)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> APIGatewayClientTypes.ApiKey {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -230,20 +210,6 @@ extension APIGatewayClientTypes {
 
 extension APIGatewayClientTypes.Authorizer {
 
-    static func write(value: APIGatewayClientTypes.Authorizer?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["authType"].write(value.authType)
-        try writer["authorizerCredentials"].write(value.authorizerCredentials)
-        try writer["authorizerResultTtlInSeconds"].write(value.authorizerResultTtlInSeconds)
-        try writer["authorizerUri"].write(value.authorizerUri)
-        try writer["id"].write(value.id)
-        try writer["identitySource"].write(value.identitySource)
-        try writer["identityValidationExpression"].write(value.identityValidationExpression)
-        try writer["name"].write(value.name)
-        try writer["providerARNs"].writeList(value.providerARNs, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> APIGatewayClientTypes.Authorizer {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = APIGatewayClientTypes.Authorizer()
@@ -385,13 +351,6 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 extension APIGatewayClientTypes.BasePathMapping {
-
-    static func write(value: APIGatewayClientTypes.BasePathMapping?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["basePath"].write(value.basePath)
-        try writer["restApiId"].write(value.restApiId)
-        try writer["stage"].write(value.stage)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> APIGatewayClientTypes.BasePathMapping {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -566,16 +525,6 @@ extension APIGatewayClientTypes {
 }
 
 extension APIGatewayClientTypes.ClientCertificate {
-
-    static func write(value: APIGatewayClientTypes.ClientCertificate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["clientCertificateId"].write(value.clientCertificateId)
-        try writer["createdDate"].writeTimestamp(value.createdDate, format: .epochSeconds)
-        try writer["description"].write(value.description)
-        try writer["expirationDate"].writeTimestamp(value.expirationDate, format: .epochSeconds)
-        try writer["pemEncodedCertificate"].write(value.pemEncodedCertificate)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> APIGatewayClientTypes.ClientCertificate {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4067,14 +4016,6 @@ enum DeleteVpcLinkOutputError {
 
 extension APIGatewayClientTypes.Deployment {
 
-    static func write(value: APIGatewayClientTypes.Deployment?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["apiSummary"].writeMap(value.apiSummary, valueWritingClosure: mapWritingClosure(valueWritingClosure: APIGatewayClientTypes.MethodSnapshot.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["createdDate"].writeTimestamp(value.createdDate, format: .epochSeconds)
-        try writer["description"].write(value.description)
-        try writer["id"].write(value.id)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> APIGatewayClientTypes.Deployment {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = APIGatewayClientTypes.Deployment()
@@ -4122,15 +4063,6 @@ extension APIGatewayClientTypes.DeploymentCanarySettings {
         try writer["stageVariableOverrides"].writeMap(value.stageVariableOverrides, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["useStageCache"].write(value.useStageCache)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> APIGatewayClientTypes.DeploymentCanarySettings {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = APIGatewayClientTypes.DeploymentCanarySettings()
-        value.percentTraffic = try reader["percentTraffic"].readIfPresent() ?? 0
-        value.stageVariableOverrides = try reader["stageVariableOverrides"].readMapIfPresent(valueReadingClosure: Swift.String.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.useStageCache = try reader["useStageCache"].readIfPresent() ?? false
-        return value
-    }
 }
 
 extension APIGatewayClientTypes {
@@ -4158,13 +4090,6 @@ extension APIGatewayClientTypes {
 }
 
 extension APIGatewayClientTypes.DocumentationPart {
-
-    static func write(value: APIGatewayClientTypes.DocumentationPart?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["id"].write(value.id)
-        try writer["location"].write(value.location, with: APIGatewayClientTypes.DocumentationPartLocation.write(value:to:))
-        try writer["properties"].write(value.properties)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> APIGatewayClientTypes.DocumentationPart {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4318,13 +4243,6 @@ extension APIGatewayClientTypes {
 
 extension APIGatewayClientTypes.DocumentationVersion {
 
-    static func write(value: APIGatewayClientTypes.DocumentationVersion?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["createdDate"].writeTimestamp(value.createdDate, format: .epochSeconds)
-        try writer["description"].write(value.description)
-        try writer["version"].write(value.version)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> APIGatewayClientTypes.DocumentationVersion {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = APIGatewayClientTypes.DocumentationVersion()
@@ -4360,27 +4278,6 @@ extension APIGatewayClientTypes {
 }
 
 extension APIGatewayClientTypes.DomainName {
-
-    static func write(value: APIGatewayClientTypes.DomainName?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["certificateArn"].write(value.certificateArn)
-        try writer["certificateName"].write(value.certificateName)
-        try writer["certificateUploadDate"].writeTimestamp(value.certificateUploadDate, format: .epochSeconds)
-        try writer["distributionDomainName"].write(value.distributionDomainName)
-        try writer["distributionHostedZoneId"].write(value.distributionHostedZoneId)
-        try writer["domainName"].write(value.domainName)
-        try writer["domainNameStatus"].write(value.domainNameStatus)
-        try writer["domainNameStatusMessage"].write(value.domainNameStatusMessage)
-        try writer["endpointConfiguration"].write(value.endpointConfiguration, with: APIGatewayClientTypes.EndpointConfiguration.write(value:to:))
-        try writer["mutualTlsAuthentication"].write(value.mutualTlsAuthentication, with: APIGatewayClientTypes.MutualTlsAuthentication.write(value:to:))
-        try writer["ownershipVerificationCertificateArn"].write(value.ownershipVerificationCertificateArn)
-        try writer["regionalCertificateArn"].write(value.regionalCertificateArn)
-        try writer["regionalCertificateName"].write(value.regionalCertificateName)
-        try writer["regionalDomainName"].write(value.regionalDomainName)
-        try writer["regionalHostedZoneId"].write(value.regionalHostedZoneId)
-        try writer["securityPolicy"].write(value.securityPolicy)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> APIGatewayClientTypes.DomainName {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4723,15 +4620,6 @@ enum FlushStageCacheOutputError {
 }
 
 extension APIGatewayClientTypes.GatewayResponse {
-
-    static func write(value: APIGatewayClientTypes.GatewayResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["defaultResponse"].write(value.defaultResponse)
-        try writer["responseParameters"].writeMap(value.responseParameters, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["responseTemplates"].writeMap(value.responseTemplates, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["responseType"].write(value.responseType)
-        try writer["statusCode"].write(value.statusCode)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> APIGatewayClientTypes.GatewayResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -10110,25 +9998,6 @@ enum ImportRestApiOutputError {
 
 extension APIGatewayClientTypes.Integration {
 
-    static func write(value: APIGatewayClientTypes.Integration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["cacheKeyParameters"].writeList(value.cacheKeyParameters, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["cacheNamespace"].write(value.cacheNamespace)
-        try writer["connectionId"].write(value.connectionId)
-        try writer["connectionType"].write(value.connectionType)
-        try writer["contentHandling"].write(value.contentHandling)
-        try writer["credentials"].write(value.credentials)
-        try writer["httpMethod"].write(value.httpMethod)
-        try writer["integrationResponses"].writeMap(value.integrationResponses, valueWritingClosure: APIGatewayClientTypes.IntegrationResponse.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["passthroughBehavior"].write(value.passthroughBehavior)
-        try writer["requestParameters"].writeMap(value.requestParameters, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["requestTemplates"].writeMap(value.requestTemplates, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["timeoutInMillis"].write(value.timeoutInMillis)
-        try writer["tlsConfig"].write(value.tlsConfig, with: APIGatewayClientTypes.TlsConfig.write(value:to:))
-        try writer["type"].write(value.type)
-        try writer["uri"].write(value.uri)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> APIGatewayClientTypes.Integration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = APIGatewayClientTypes.Integration()
@@ -10224,15 +10093,6 @@ extension APIGatewayClientTypes {
 }
 
 extension APIGatewayClientTypes.IntegrationResponse {
-
-    static func write(value: APIGatewayClientTypes.IntegrationResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["contentHandling"].write(value.contentHandling)
-        try writer["responseParameters"].writeMap(value.responseParameters, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["responseTemplates"].writeMap(value.responseTemplates, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["selectionPattern"].write(value.selectionPattern)
-        try writer["statusCode"].write(value.statusCode)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> APIGatewayClientTypes.IntegrationResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -10394,21 +10254,6 @@ extension APIGatewayClientTypes {
 
 extension APIGatewayClientTypes.Method {
 
-    static func write(value: APIGatewayClientTypes.Method?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["apiKeyRequired"].write(value.apiKeyRequired)
-        try writer["authorizationScopes"].writeList(value.authorizationScopes, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["authorizationType"].write(value.authorizationType)
-        try writer["authorizerId"].write(value.authorizerId)
-        try writer["httpMethod"].write(value.httpMethod)
-        try writer["methodIntegration"].write(value.methodIntegration, with: APIGatewayClientTypes.Integration.write(value:to:))
-        try writer["methodResponses"].writeMap(value.methodResponses, valueWritingClosure: APIGatewayClientTypes.MethodResponse.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["operationName"].write(value.operationName)
-        try writer["requestModels"].writeMap(value.requestModels, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["requestParameters"].writeMap(value.requestParameters, valueWritingClosure: Swift.Bool.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["requestValidatorId"].write(value.requestValidatorId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> APIGatewayClientTypes.Method {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = APIGatewayClientTypes.Method()
@@ -10485,13 +10330,6 @@ extension APIGatewayClientTypes {
 
 extension APIGatewayClientTypes.MethodResponse {
 
-    static func write(value: APIGatewayClientTypes.MethodResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["responseModels"].writeMap(value.responseModels, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["responseParameters"].writeMap(value.responseParameters, valueWritingClosure: Swift.Bool.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["statusCode"].write(value.statusCode)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> APIGatewayClientTypes.MethodResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = APIGatewayClientTypes.MethodResponse()
@@ -10527,20 +10365,6 @@ extension APIGatewayClientTypes {
 }
 
 extension APIGatewayClientTypes.MethodSetting {
-
-    static func write(value: APIGatewayClientTypes.MethodSetting?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["cacheDataEncrypted"].write(value.cacheDataEncrypted)
-        try writer["cacheTtlInSeconds"].write(value.cacheTtlInSeconds)
-        try writer["cachingEnabled"].write(value.cachingEnabled)
-        try writer["dataTraceEnabled"].write(value.dataTraceEnabled)
-        try writer["loggingLevel"].write(value.loggingLevel)
-        try writer["metricsEnabled"].write(value.metricsEnabled)
-        try writer["requireAuthorizationForCacheControl"].write(value.requireAuthorizationForCacheControl)
-        try writer["throttlingBurstLimit"].write(value.throttlingBurstLimit)
-        try writer["throttlingRateLimit"].write(value.throttlingRateLimit)
-        try writer["unauthorizedCacheControlHeaderStrategy"].write(value.unauthorizedCacheControlHeaderStrategy)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> APIGatewayClientTypes.MethodSetting {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -10613,12 +10437,6 @@ extension APIGatewayClientTypes {
 
 extension APIGatewayClientTypes.MethodSnapshot {
 
-    static func write(value: APIGatewayClientTypes.MethodSnapshot?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["apiKeyRequired"].write(value.apiKeyRequired)
-        try writer["authorizationType"].write(value.authorizationType)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> APIGatewayClientTypes.MethodSnapshot {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = APIGatewayClientTypes.MethodSnapshot()
@@ -10649,15 +10467,6 @@ extension APIGatewayClientTypes {
 }
 
 extension APIGatewayClientTypes.Model {
-
-    static func write(value: APIGatewayClientTypes.Model?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["contentType"].write(value.contentType)
-        try writer["description"].write(value.description)
-        try writer["id"].write(value.id)
-        try writer["name"].write(value.name)
-        try writer["schema"].write(value.schema)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> APIGatewayClientTypes.Model {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -10705,13 +10514,6 @@ extension APIGatewayClientTypes {
 
 extension APIGatewayClientTypes.MutualTlsAuthentication {
 
-    static func write(value: APIGatewayClientTypes.MutualTlsAuthentication?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["truststoreUri"].write(value.truststoreUri)
-        try writer["truststoreVersion"].write(value.truststoreVersion)
-        try writer["truststoreWarnings"].writeList(value.truststoreWarnings, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> APIGatewayClientTypes.MutualTlsAuthentication {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = APIGatewayClientTypes.MutualTlsAuthentication()
@@ -10752,14 +10554,6 @@ extension APIGatewayClientTypes.MutualTlsAuthenticationInput {
         guard let value else { return }
         try writer["truststoreUri"].write(value.truststoreUri)
         try writer["truststoreVersion"].write(value.truststoreVersion)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> APIGatewayClientTypes.MutualTlsAuthenticationInput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = APIGatewayClientTypes.MutualTlsAuthenticationInput()
-        value.truststoreUri = try reader["truststoreUri"].readIfPresent()
-        value.truststoreVersion = try reader["truststoreVersion"].readIfPresent()
-        return value
     }
 }
 
@@ -10870,16 +10664,6 @@ extension APIGatewayClientTypes.PatchOperation {
         try writer["op"].write(value.op)
         try writer["path"].write(value.path)
         try writer["value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> APIGatewayClientTypes.PatchOperation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = APIGatewayClientTypes.PatchOperation()
-        value.op = try reader["op"].readIfPresent()
-        value.path = try reader["path"].readIfPresent()
-        value.value = try reader["value"].readIfPresent()
-        value.from = try reader["from"].readIfPresent()
-        return value
     }
 }
 
@@ -11992,14 +11776,6 @@ extension APIGatewayClientTypes {
 
 extension APIGatewayClientTypes.RequestValidator {
 
-    static func write(value: APIGatewayClientTypes.RequestValidator?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["id"].write(value.id)
-        try writer["name"].write(value.name)
-        try writer["validateRequestBody"].write(value.validateRequestBody)
-        try writer["validateRequestParameters"].write(value.validateRequestParameters)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> APIGatewayClientTypes.RequestValidator {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = APIGatewayClientTypes.RequestValidator()
@@ -12040,15 +11816,6 @@ extension APIGatewayClientTypes {
 }
 
 extension APIGatewayClientTypes.Resource {
-
-    static func write(value: APIGatewayClientTypes.Resource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["id"].write(value.id)
-        try writer["parentId"].write(value.parentId)
-        try writer["path"].write(value.path)
-        try writer["pathPart"].write(value.pathPart)
-        try writer["resourceMethods"].writeMap(value.resourceMethods, valueWritingClosure: APIGatewayClientTypes.Method.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> APIGatewayClientTypes.Resource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -12095,24 +11862,6 @@ extension APIGatewayClientTypes {
 }
 
 extension APIGatewayClientTypes.RestApi {
-
-    static func write(value: APIGatewayClientTypes.RestApi?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["apiKeySource"].write(value.apiKeySource)
-        try writer["binaryMediaTypes"].writeList(value.binaryMediaTypes, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["createdDate"].writeTimestamp(value.createdDate, format: .epochSeconds)
-        try writer["description"].write(value.description)
-        try writer["disableExecuteApiEndpoint"].write(value.disableExecuteApiEndpoint)
-        try writer["endpointConfiguration"].write(value.endpointConfiguration, with: APIGatewayClientTypes.EndpointConfiguration.write(value:to:))
-        try writer["id"].write(value.id)
-        try writer["minimumCompressionSize"].write(value.minimumCompressionSize)
-        try writer["name"].write(value.name)
-        try writer["policy"].write(value.policy)
-        try writer["rootResourceId"].write(value.rootResourceId)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["version"].write(value.version)
-        try writer["warnings"].writeList(value.warnings, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> APIGatewayClientTypes.RestApi {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -12205,15 +11954,6 @@ extension APIGatewayClientTypes {
 
 extension APIGatewayClientTypes.SdkConfigurationProperty {
 
-    static func write(value: APIGatewayClientTypes.SdkConfigurationProperty?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["defaultValue"].write(value.defaultValue)
-        try writer["description"].write(value.description)
-        try writer["friendlyName"].write(value.friendlyName)
-        try writer["name"].write(value.name)
-        try writer["required"].write(value.`required`)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> APIGatewayClientTypes.SdkConfigurationProperty {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = APIGatewayClientTypes.SdkConfigurationProperty()
@@ -12259,14 +11999,6 @@ extension APIGatewayClientTypes {
 }
 
 extension APIGatewayClientTypes.SdkType {
-
-    static func write(value: APIGatewayClientTypes.SdkType?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["configurationProperties"].writeList(value.configurationProperties, memberWritingClosure: APIGatewayClientTypes.SdkConfigurationProperty.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["description"].write(value.description)
-        try writer["friendlyName"].write(value.friendlyName)
-        try writer["id"].write(value.id)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> APIGatewayClientTypes.SdkType {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -12383,27 +12115,6 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
 
 extension APIGatewayClientTypes.Stage {
 
-    static func write(value: APIGatewayClientTypes.Stage?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["accessLogSettings"].write(value.accessLogSettings, with: APIGatewayClientTypes.AccessLogSettings.write(value:to:))
-        try writer["cacheClusterEnabled"].write(value.cacheClusterEnabled)
-        try writer["cacheClusterSize"].write(value.cacheClusterSize)
-        try writer["cacheClusterStatus"].write(value.cacheClusterStatus)
-        try writer["canarySettings"].write(value.canarySettings, with: APIGatewayClientTypes.CanarySettings.write(value:to:))
-        try writer["clientCertificateId"].write(value.clientCertificateId)
-        try writer["createdDate"].writeTimestamp(value.createdDate, format: .epochSeconds)
-        try writer["deploymentId"].write(value.deploymentId)
-        try writer["description"].write(value.description)
-        try writer["documentationVersion"].write(value.documentationVersion)
-        try writer["lastUpdatedDate"].writeTimestamp(value.lastUpdatedDate, format: .epochSeconds)
-        try writer["methodSettings"].writeMap(value.methodSettings, valueWritingClosure: APIGatewayClientTypes.MethodSetting.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["stageName"].write(value.stageName)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["tracingEnabled"].write(value.tracingEnabled)
-        try writer["variables"].writeMap(value.variables, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["webAclArn"].write(value.webAclArn)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> APIGatewayClientTypes.Stage {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = APIGatewayClientTypes.Stage()
@@ -12514,14 +12225,6 @@ extension APIGatewayClientTypes.StageKey {
         guard let value else { return }
         try writer["restApiId"].write(value.restApiId)
         try writer["stageName"].write(value.stageName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> APIGatewayClientTypes.StageKey {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = APIGatewayClientTypes.StageKey()
-        value.restApiId = try reader["restApiId"].readIfPresent()
-        value.stageName = try reader["stageName"].readIfPresent()
-        return value
     }
 }
 
@@ -15787,18 +15490,6 @@ enum UpdateVpcLinkOutputError {
 
 extension APIGatewayClientTypes.UsagePlan {
 
-    static func write(value: APIGatewayClientTypes.UsagePlan?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["apiStages"].writeList(value.apiStages, memberWritingClosure: APIGatewayClientTypes.ApiStage.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["description"].write(value.description)
-        try writer["id"].write(value.id)
-        try writer["name"].write(value.name)
-        try writer["productCode"].write(value.productCode)
-        try writer["quota"].write(value.quota, with: APIGatewayClientTypes.QuotaSettings.write(value:to:))
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["throttle"].write(value.throttle, with: APIGatewayClientTypes.ThrottleSettings.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> APIGatewayClientTypes.UsagePlan {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = APIGatewayClientTypes.UsagePlan()
@@ -15860,14 +15551,6 @@ extension APIGatewayClientTypes {
 
 extension APIGatewayClientTypes.UsagePlanKey {
 
-    static func write(value: APIGatewayClientTypes.UsagePlanKey?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["id"].write(value.id)
-        try writer["name"].write(value.name)
-        try writer["type"].write(value.type)
-        try writer["value"].write(value.value)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> APIGatewayClientTypes.UsagePlanKey {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = APIGatewayClientTypes.UsagePlanKey()
@@ -15908,17 +15591,6 @@ extension APIGatewayClientTypes {
 }
 
 extension APIGatewayClientTypes.VpcLink {
-
-    static func write(value: APIGatewayClientTypes.VpcLink?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["description"].write(value.description)
-        try writer["id"].write(value.id)
-        try writer["name"].write(value.name)
-        try writer["status"].write(value.status)
-        try writer["statusMessage"].write(value.statusMessage)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["targetArns"].writeList(value.targetArns, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> APIGatewayClientTypes.VpcLink {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

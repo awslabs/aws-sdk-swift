@@ -1052,15 +1052,6 @@ extension NeptunedataClientTypes.CustomModelTrainingParameters {
         try writer["trainingEntryPointScript"].write(value.trainingEntryPointScript)
         try writer["transformEntryPointScript"].write(value.transformEntryPointScript)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NeptunedataClientTypes.CustomModelTrainingParameters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NeptunedataClientTypes.CustomModelTrainingParameters()
-        value.sourceS3DirectoryPath = try reader["sourceS3DirectoryPath"].readIfPresent()
-        value.trainingEntryPointScript = try reader["trainingEntryPointScript"].readIfPresent()
-        value.transformEntryPointScript = try reader["transformEntryPointScript"].readIfPresent()
-        return value
-    }
 }
 
 extension NeptunedataClientTypes {
@@ -1094,14 +1085,6 @@ extension NeptunedataClientTypes.CustomModelTransformParameters {
         guard let value else { return }
         try writer["sourceS3DirectoryPath"].write(value.sourceS3DirectoryPath)
         try writer["transformEntryPointScript"].write(value.transformEntryPointScript)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NeptunedataClientTypes.CustomModelTransformParameters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NeptunedataClientTypes.CustomModelTransformParameters()
-        value.sourceS3DirectoryPath = try reader["sourceS3DirectoryPath"].readIfPresent()
-        value.transformEntryPointScript = try reader["transformEntryPointScript"].readIfPresent()
-        return value
     }
 }
 
@@ -1367,12 +1350,6 @@ enum DeleteSparqlStatisticsOutputError {
 
 extension NeptunedataClientTypes.DeleteStatisticsValueMap {
 
-    static func write(value: NeptunedataClientTypes.DeleteStatisticsValueMap?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["active"].write(value.active)
-        try writer["statisticsId"].write(value.statisticsId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> NeptunedataClientTypes.DeleteStatisticsValueMap {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = NeptunedataClientTypes.DeleteStatisticsValueMap()
@@ -1403,12 +1380,6 @@ extension NeptunedataClientTypes {
 }
 
 extension NeptunedataClientTypes.EdgeStructure {
-
-    static func write(value: NeptunedataClientTypes.EdgeStructure?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["count"].write(value.count)
-        try writer["edgeProperties"].writeList(value.edgeProperties, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> NeptunedataClientTypes.EdgeStructure {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2178,11 +2149,6 @@ public struct FailureByQueryException: ClientRuntime.ModeledError, AWSClientRunt
 }
 
 extension NeptunedataClientTypes.FastResetToken {
-
-    static func write(value: NeptunedataClientTypes.FastResetToken?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["token"].write(value.token)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> NeptunedataClientTypes.FastResetToken {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3724,13 +3690,6 @@ extension NeptunedataClientTypes {
 
 extension NeptunedataClientTypes.GremlinQueryStatus {
 
-    static func write(value: NeptunedataClientTypes.GremlinQueryStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["queryEvalStats"].write(value.queryEvalStats, with: NeptunedataClientTypes.QueryEvalStats.write(value:to:))
-        try writer["queryId"].write(value.queryId)
-        try writer["queryString"].write(value.queryString)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> NeptunedataClientTypes.GremlinQueryStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = NeptunedataClientTypes.GremlinQueryStatus()
@@ -3766,13 +3725,6 @@ extension NeptunedataClientTypes {
 }
 
 extension NeptunedataClientTypes.GremlinQueryStatusAttributes {
-
-    static func write(value: NeptunedataClientTypes.GremlinQueryStatusAttributes?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["attributes"].write(value.attributes)
-        try writer["code"].write(value.code)
-        try writer["message"].write(value.message)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> NeptunedataClientTypes.GremlinQueryStatusAttributes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4784,11 +4736,6 @@ public struct LoadUrlAccessDeniedException: ClientRuntime.ModeledError, AWSClien
 
 extension NeptunedataClientTypes.LoaderIdResult {
 
-    static func write(value: NeptunedataClientTypes.LoaderIdResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["loadIds"].writeList(value.loadIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> NeptunedataClientTypes.LoaderIdResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = NeptunedataClientTypes.LoaderIdResult()
@@ -5236,12 +5183,6 @@ public struct MissingParameterException: ClientRuntime.ModeledError, AWSClientRu
 
 extension NeptunedataClientTypes.MlConfigDefinition {
 
-    static func write(value: NeptunedataClientTypes.MlConfigDefinition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["name"].write(value.name)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> NeptunedataClientTypes.MlConfigDefinition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = NeptunedataClientTypes.MlConfigDefinition()
@@ -5272,16 +5213,6 @@ extension NeptunedataClientTypes {
 }
 
 extension NeptunedataClientTypes.MlResourceDefinition {
-
-    static func write(value: NeptunedataClientTypes.MlResourceDefinition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["cloudwatchLogUrl"].write(value.cloudwatchLogUrl)
-        try writer["failureReason"].write(value.failureReason)
-        try writer["name"].write(value.name)
-        try writer["outputLocation"].write(value.outputLocation)
-        try writer["status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> NeptunedataClientTypes.MlResourceDefinition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5368,13 +5299,6 @@ extension NeptunedataClientTypes {
 public enum NeptunedataClientTypes {}
 
 extension NeptunedataClientTypes.NodeStructure {
-
-    static func write(value: NeptunedataClientTypes.NodeStructure?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["count"].write(value.count)
-        try writer["distinctOutgoingEdgeLabels"].writeList(value.distinctOutgoingEdgeLabels, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["nodeProperties"].writeList(value.nodeProperties, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> NeptunedataClientTypes.NodeStructure {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5583,16 +5507,6 @@ public struct PreconditionsFailedException: ClientRuntime.ModeledError, AWSClien
 
 extension NeptunedataClientTypes.PropertygraphData {
 
-    static func write(value: NeptunedataClientTypes.PropertygraphData?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["from"].write(value.from)
-        try writer["id"].write(value.id)
-        try writer["key"].write(value.key)
-        try writer["to"].write(value.to)
-        try writer["type"].write(value.type)
-        try writer["value"].write(value.value)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> NeptunedataClientTypes.PropertygraphData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = NeptunedataClientTypes.PropertygraphData()
@@ -5656,15 +5570,6 @@ extension NeptunedataClientTypes {
 
 extension NeptunedataClientTypes.PropertygraphRecord {
 
-    static func write(value: NeptunedataClientTypes.PropertygraphRecord?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["commitTimestamp"].write(value.commitTimestampInMillis)
-        try writer["data"].write(value.data, with: NeptunedataClientTypes.PropertygraphData.write(value:to:))
-        try writer["eventId"].writeMap(value.eventId, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["isLastOp"].write(value.isLastOp)
-        try writer["op"].write(value.op)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> NeptunedataClientTypes.PropertygraphRecord {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = NeptunedataClientTypes.PropertygraphRecord()
@@ -5714,24 +5619,6 @@ extension NeptunedataClientTypes {
 }
 
 extension NeptunedataClientTypes.PropertygraphSummary {
-
-    static func write(value: NeptunedataClientTypes.PropertygraphSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["edgeLabels"].writeList(value.edgeLabels, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["edgeProperties"].writeList(value.edgeProperties, memberWritingClosure: mapWritingClosure(valueWritingClosure: Swift.Int.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
-        try writer["edgeStructures"].writeList(value.edgeStructures, memberWritingClosure: NeptunedataClientTypes.EdgeStructure.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["nodeLabels"].writeList(value.nodeLabels, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["nodeProperties"].writeList(value.nodeProperties, memberWritingClosure: mapWritingClosure(valueWritingClosure: Swift.Int.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
-        try writer["nodeStructures"].writeList(value.nodeStructures, memberWritingClosure: NeptunedataClientTypes.NodeStructure.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["numEdgeLabels"].write(value.numEdgeLabels)
-        try writer["numEdgeProperties"].write(value.numEdgeProperties)
-        try writer["numEdges"].write(value.numEdges)
-        try writer["numNodeLabels"].write(value.numNodeLabels)
-        try writer["numNodeProperties"].write(value.numNodeProperties)
-        try writer["numNodes"].write(value.numNodes)
-        try writer["totalEdgePropertyValues"].write(value.totalEdgePropertyValues)
-        try writer["totalNodePropertyValues"].write(value.totalNodePropertyValues)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> NeptunedataClientTypes.PropertygraphSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5824,13 +5711,6 @@ extension NeptunedataClientTypes {
 
 extension NeptunedataClientTypes.PropertygraphSummaryValueMap {
 
-    static func write(value: NeptunedataClientTypes.PropertygraphSummaryValueMap?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["graphSummary"].write(value.graphSummary, with: NeptunedataClientTypes.PropertygraphSummary.write(value:to:))
-        try writer["lastStatisticsComputationTime"].writeTimestamp(value.lastStatisticsComputationTime, format: .dateTime)
-        try writer["version"].write(value.version)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> NeptunedataClientTypes.PropertygraphSummaryValueMap {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = NeptunedataClientTypes.PropertygraphSummaryValueMap()
@@ -5866,14 +5746,6 @@ extension NeptunedataClientTypes {
 }
 
 extension NeptunedataClientTypes.QueryEvalStats {
-
-    static func write(value: NeptunedataClientTypes.QueryEvalStats?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["cancelled"].write(value.cancelled)
-        try writer["elapsed"].write(value.elapsed)
-        try writer["subqueries"].write(value.subqueries)
-        try writer["waited"].write(value.waited)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> NeptunedataClientTypes.QueryEvalStats {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5915,11 +5787,6 @@ extension NeptunedataClientTypes {
 }
 
 extension NeptunedataClientTypes.QueryLanguageVersion {
-
-    static func write(value: NeptunedataClientTypes.QueryLanguageVersion?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["version"].write(value.version)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> NeptunedataClientTypes.QueryLanguageVersion {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6101,17 +5968,6 @@ public struct QueryTooLargeException: ClientRuntime.ModeledError, AWSClientRunti
 
 extension NeptunedataClientTypes.RDFGraphSummary {
 
-    static func write(value: NeptunedataClientTypes.RDFGraphSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["classes"].writeList(value.classes, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["numClasses"].write(value.numClasses)
-        try writer["numDistinctPredicates"].write(value.numDistinctPredicates)
-        try writer["numDistinctSubjects"].write(value.numDistinctSubjects)
-        try writer["numQuads"].write(value.numQuads)
-        try writer["predicates"].writeList(value.predicates, memberWritingClosure: mapWritingClosure(valueWritingClosure: Swift.Int.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
-        try writer["subjectStructures"].writeList(value.subjectStructures, memberWritingClosure: NeptunedataClientTypes.SubjectStructure.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> NeptunedataClientTypes.RDFGraphSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = NeptunedataClientTypes.RDFGraphSummary()
@@ -6167,13 +6023,6 @@ extension NeptunedataClientTypes {
 }
 
 extension NeptunedataClientTypes.RDFGraphSummaryValueMap {
-
-    static func write(value: NeptunedataClientTypes.RDFGraphSummaryValueMap?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["graphSummary"].write(value.graphSummary, with: NeptunedataClientTypes.RDFGraphSummary.write(value:to:))
-        try writer["lastStatisticsComputationTime"].writeTimestamp(value.lastStatisticsComputationTime, format: .dateTime)
-        try writer["version"].write(value.version)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> NeptunedataClientTypes.RDFGraphSummaryValueMap {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6261,11 +6110,6 @@ public struct ReadOnlyViolationException: ClientRuntime.ModeledError, AWSClientR
 }
 
 extension NeptunedataClientTypes.RefreshStatisticsIdMap {
-
-    static func write(value: NeptunedataClientTypes.RefreshStatisticsIdMap?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["statisticsId"].write(value.statisticsId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> NeptunedataClientTypes.RefreshStatisticsIdMap {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6488,11 +6332,6 @@ public struct ServerShutdownException: ClientRuntime.ModeledError, AWSClientRunt
 
 extension NeptunedataClientTypes.SparqlData {
 
-    static func write(value: NeptunedataClientTypes.SparqlData?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["stmt"].write(value.stmt)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> NeptunedataClientTypes.SparqlData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = NeptunedataClientTypes.SparqlData()
@@ -6519,15 +6358,6 @@ extension NeptunedataClientTypes {
 }
 
 extension NeptunedataClientTypes.SparqlRecord {
-
-    static func write(value: NeptunedataClientTypes.SparqlRecord?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["commitTimestamp"].write(value.commitTimestampInMillis)
-        try writer["data"].write(value.data, with: NeptunedataClientTypes.SparqlData.write(value:to:))
-        try writer["eventId"].writeMap(value.eventId, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["isLastOp"].write(value.isLastOp)
-        try writer["op"].write(value.op)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> NeptunedataClientTypes.SparqlRecord {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7254,16 +7084,6 @@ enum StartMLModelTransformJobOutputError {
 
 extension NeptunedataClientTypes.Statistics {
 
-    static func write(value: NeptunedataClientTypes.Statistics?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["active"].write(value.active)
-        try writer["autoCompute"].write(value.autoCompute)
-        try writer["date"].writeTimestamp(value.date, format: .dateTime)
-        try writer["note"].write(value.note)
-        try writer["signatureInfo"].write(value.signatureInfo, with: NeptunedataClientTypes.StatisticsSummary.write(value:to:))
-        try writer["statisticsId"].write(value.statisticsId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> NeptunedataClientTypes.Statistics {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = NeptunedataClientTypes.Statistics()
@@ -7405,13 +7225,6 @@ public struct StatisticsNotAvailableException: ClientRuntime.ModeledError, AWSCl
 
 extension NeptunedataClientTypes.StatisticsSummary {
 
-    static func write(value: NeptunedataClientTypes.StatisticsSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["instanceCount"].write(value.instanceCount)
-        try writer["predicateCount"].write(value.predicateCount)
-        try writer["signatureCount"].write(value.signatureCount)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> NeptunedataClientTypes.StatisticsSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = NeptunedataClientTypes.StatisticsSummary()
@@ -7498,12 +7311,6 @@ public struct StreamRecordsNotFoundException: ClientRuntime.ModeledError, AWSCli
 }
 
 extension NeptunedataClientTypes.SubjectStructure {
-
-    static func write(value: NeptunedataClientTypes.SubjectStructure?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["count"].write(value.count)
-        try writer["predicates"].writeList(value.predicates, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> NeptunedataClientTypes.SubjectStructure {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

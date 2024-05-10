@@ -886,13 +886,6 @@ extension ServiceDiscoveryClientTypes.DnsConfigChange {
         guard let value else { return }
         try writer["DnsRecords"].writeList(value.dnsRecords, memberWritingClosure: ServiceDiscoveryClientTypes.DnsRecord.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ServiceDiscoveryClientTypes.DnsConfigChange {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ServiceDiscoveryClientTypes.DnsConfigChange()
-        value.dnsRecords = try reader["DnsRecords"].readListIfPresent(memberReadingClosure: ServiceDiscoveryClientTypes.DnsRecord.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
 }
 
 extension ServiceDiscoveryClientTypes {
@@ -913,12 +906,6 @@ extension ServiceDiscoveryClientTypes {
 }
 
 extension ServiceDiscoveryClientTypes.DnsProperties {
-
-    static func write(value: ServiceDiscoveryClientTypes.DnsProperties?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["HostedZoneId"].write(value.hostedZoneId)
-        try writer["SOA"].write(value.soa, with: ServiceDiscoveryClientTypes.SOA.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ServiceDiscoveryClientTypes.DnsProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1690,15 +1677,6 @@ extension ServiceDiscoveryClientTypes {
 
 extension ServiceDiscoveryClientTypes.HttpInstanceSummary {
 
-    static func write(value: ServiceDiscoveryClientTypes.HttpInstanceSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Attributes"].writeMap(value.attributes, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["HealthStatus"].write(value.healthStatus)
-        try writer["InstanceId"].write(value.instanceId)
-        try writer["NamespaceName"].write(value.namespaceName)
-        try writer["ServiceName"].write(value.serviceName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ServiceDiscoveryClientTypes.HttpInstanceSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ServiceDiscoveryClientTypes.HttpInstanceSummary()
@@ -1749,13 +1727,6 @@ extension ServiceDiscoveryClientTypes.HttpNamespaceChange {
         guard let value else { return }
         try writer["Description"].write(value.description)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ServiceDiscoveryClientTypes.HttpNamespaceChange {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ServiceDiscoveryClientTypes.HttpNamespaceChange()
-        value.description = try reader["Description"].readIfPresent()
-        return value
-    }
 }
 
 extension ServiceDiscoveryClientTypes {
@@ -1776,11 +1747,6 @@ extension ServiceDiscoveryClientTypes {
 }
 
 extension ServiceDiscoveryClientTypes.HttpProperties {
-
-    static func write(value: ServiceDiscoveryClientTypes.HttpProperties?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["HttpName"].write(value.httpName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ServiceDiscoveryClientTypes.HttpProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1807,13 +1773,6 @@ extension ServiceDiscoveryClientTypes {
 }
 
 extension ServiceDiscoveryClientTypes.Instance {
-
-    static func write(value: ServiceDiscoveryClientTypes.Instance?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Attributes"].writeMap(value.attributes, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["CreatorRequestId"].write(value.creatorRequestId)
-        try writer["Id"].write(value.id)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ServiceDiscoveryClientTypes.Instance {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1916,12 +1875,6 @@ public struct InstanceNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWS
 }
 
 extension ServiceDiscoveryClientTypes.InstanceSummary {
-
-    static func write(value: ServiceDiscoveryClientTypes.InstanceSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Attributes"].writeMap(value.attributes, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["Id"].write(value.id)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ServiceDiscoveryClientTypes.InstanceSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2387,19 +2340,6 @@ enum ListTagsForResourceOutputError {
 
 extension ServiceDiscoveryClientTypes.Namespace {
 
-    static func write(value: ServiceDiscoveryClientTypes.Namespace?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["CreateDate"].writeTimestamp(value.createDate, format: .epochSeconds)
-        try writer["CreatorRequestId"].write(value.creatorRequestId)
-        try writer["Description"].write(value.description)
-        try writer["Id"].write(value.id)
-        try writer["Name"].write(value.name)
-        try writer["Properties"].write(value.properties, with: ServiceDiscoveryClientTypes.NamespaceProperties.write(value:to:))
-        try writer["ServiceCount"].write(value.serviceCount)
-        try writer["Type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ServiceDiscoveryClientTypes.Namespace {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ServiceDiscoveryClientTypes.Namespace()
@@ -2519,15 +2459,6 @@ extension ServiceDiscoveryClientTypes.NamespaceFilter {
         try writer["Name"].write(value.name)
         try writer["Values"].writeList(value.values, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ServiceDiscoveryClientTypes.NamespaceFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ServiceDiscoveryClientTypes.NamespaceFilter()
-        value.name = try reader["Name"].readIfPresent()
-        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.condition = try reader["Condition"].readIfPresent()
-        return value
-    }
 }
 
 extension ServiceDiscoveryClientTypes {
@@ -2644,12 +2575,6 @@ public struct NamespaceNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
 extension ServiceDiscoveryClientTypes.NamespaceProperties {
 
-    static func write(value: ServiceDiscoveryClientTypes.NamespaceProperties?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DnsProperties"].write(value.dnsProperties, with: ServiceDiscoveryClientTypes.DnsProperties.write(value:to:))
-        try writer["HttpProperties"].write(value.httpProperties, with: ServiceDiscoveryClientTypes.HttpProperties.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ServiceDiscoveryClientTypes.NamespaceProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ServiceDiscoveryClientTypes.NamespaceProperties()
@@ -2680,18 +2605,6 @@ extension ServiceDiscoveryClientTypes {
 }
 
 extension ServiceDiscoveryClientTypes.NamespaceSummary {
-
-    static func write(value: ServiceDiscoveryClientTypes.NamespaceSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["CreateDate"].writeTimestamp(value.createDate, format: .epochSeconds)
-        try writer["Description"].write(value.description)
-        try writer["Id"].write(value.id)
-        try writer["Name"].write(value.name)
-        try writer["Properties"].write(value.properties, with: ServiceDiscoveryClientTypes.NamespaceProperties.write(value:to:))
-        try writer["ServiceCount"].write(value.serviceCount)
-        try writer["Type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ServiceDiscoveryClientTypes.NamespaceSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2787,18 +2700,6 @@ extension ServiceDiscoveryClientTypes {
 
 extension ServiceDiscoveryClientTypes.Operation {
 
-    static func write(value: ServiceDiscoveryClientTypes.Operation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreateDate"].writeTimestamp(value.createDate, format: .epochSeconds)
-        try writer["ErrorCode"].write(value.errorCode)
-        try writer["ErrorMessage"].write(value.errorMessage)
-        try writer["Id"].write(value.id)
-        try writer["Status"].write(value.status)
-        try writer["Targets"].writeMap(value.targets, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["Type"].write(value.type)
-        try writer["UpdateDate"].writeTimestamp(value.updateDate, format: .epochSeconds)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ServiceDiscoveryClientTypes.Operation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ServiceDiscoveryClientTypes.Operation()
@@ -2879,15 +2780,6 @@ extension ServiceDiscoveryClientTypes.OperationFilter {
         try writer["Condition"].write(value.condition)
         try writer["Name"].write(value.name)
         try writer["Values"].writeList(value.values, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ServiceDiscoveryClientTypes.OperationFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ServiceDiscoveryClientTypes.OperationFilter()
-        value.name = try reader["Name"].readIfPresent()
-        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.condition = try reader["Condition"].readIfPresent()
-        return value
     }
 }
 
@@ -3057,12 +2949,6 @@ extension ServiceDiscoveryClientTypes {
 
 extension ServiceDiscoveryClientTypes.OperationSummary {
 
-    static func write(value: ServiceDiscoveryClientTypes.OperationSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Id"].write(value.id)
-        try writer["Status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ServiceDiscoveryClientTypes.OperationSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ServiceDiscoveryClientTypes.OperationSummary()
@@ -3182,14 +3068,6 @@ extension ServiceDiscoveryClientTypes.PrivateDnsNamespaceChange {
         try writer["Description"].write(value.description)
         try writer["Properties"].write(value.properties, with: ServiceDiscoveryClientTypes.PrivateDnsNamespacePropertiesChange.write(value:to:))
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ServiceDiscoveryClientTypes.PrivateDnsNamespaceChange {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ServiceDiscoveryClientTypes.PrivateDnsNamespaceChange()
-        value.description = try reader["Description"].readIfPresent()
-        value.properties = try reader["Properties"].readIfPresent(with: ServiceDiscoveryClientTypes.PrivateDnsNamespacePropertiesChange.read(from:))
-        return value
-    }
 }
 
 extension ServiceDiscoveryClientTypes {
@@ -3218,13 +3096,6 @@ extension ServiceDiscoveryClientTypes.PrivateDnsNamespaceProperties {
         guard let value else { return }
         try writer["DnsProperties"].write(value.dnsProperties, with: ServiceDiscoveryClientTypes.PrivateDnsPropertiesMutable.write(value:to:))
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ServiceDiscoveryClientTypes.PrivateDnsNamespaceProperties {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ServiceDiscoveryClientTypes.PrivateDnsNamespaceProperties()
-        value.dnsProperties = try reader["DnsProperties"].readIfPresent(with: ServiceDiscoveryClientTypes.PrivateDnsPropertiesMutable.read(from:))
-        return value
-    }
 }
 
 extension ServiceDiscoveryClientTypes {
@@ -3249,13 +3120,6 @@ extension ServiceDiscoveryClientTypes.PrivateDnsNamespacePropertiesChange {
     static func write(value: ServiceDiscoveryClientTypes.PrivateDnsNamespacePropertiesChange?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["DnsProperties"].write(value.dnsProperties, with: ServiceDiscoveryClientTypes.PrivateDnsPropertiesMutableChange.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ServiceDiscoveryClientTypes.PrivateDnsNamespacePropertiesChange {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ServiceDiscoveryClientTypes.PrivateDnsNamespacePropertiesChange()
-        value.dnsProperties = try reader["DnsProperties"].readIfPresent(with: ServiceDiscoveryClientTypes.PrivateDnsPropertiesMutableChange.read(from:))
-        return value
     }
 }
 
@@ -3282,13 +3146,6 @@ extension ServiceDiscoveryClientTypes.PrivateDnsPropertiesMutable {
         guard let value else { return }
         try writer["SOA"].write(value.soa, with: ServiceDiscoveryClientTypes.SOA.write(value:to:))
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ServiceDiscoveryClientTypes.PrivateDnsPropertiesMutable {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ServiceDiscoveryClientTypes.PrivateDnsPropertiesMutable()
-        value.soa = try reader["SOA"].readIfPresent(with: ServiceDiscoveryClientTypes.SOA.read(from:))
-        return value
-    }
 }
 
 extension ServiceDiscoveryClientTypes {
@@ -3313,13 +3170,6 @@ extension ServiceDiscoveryClientTypes.PrivateDnsPropertiesMutableChange {
     static func write(value: ServiceDiscoveryClientTypes.PrivateDnsPropertiesMutableChange?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["SOA"].write(value.soa, with: ServiceDiscoveryClientTypes.SOAChange.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ServiceDiscoveryClientTypes.PrivateDnsPropertiesMutableChange {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ServiceDiscoveryClientTypes.PrivateDnsPropertiesMutableChange()
-        value.soa = try reader["SOA"].readIfPresent(with: ServiceDiscoveryClientTypes.SOAChange.read(from:))
-        return value
     }
 }
 
@@ -3346,14 +3196,6 @@ extension ServiceDiscoveryClientTypes.PublicDnsNamespaceChange {
         guard let value else { return }
         try writer["Description"].write(value.description)
         try writer["Properties"].write(value.properties, with: ServiceDiscoveryClientTypes.PublicDnsNamespacePropertiesChange.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ServiceDiscoveryClientTypes.PublicDnsNamespaceChange {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ServiceDiscoveryClientTypes.PublicDnsNamespaceChange()
-        value.description = try reader["Description"].readIfPresent()
-        value.properties = try reader["Properties"].readIfPresent(with: ServiceDiscoveryClientTypes.PublicDnsNamespacePropertiesChange.read(from:))
-        return value
     }
 }
 
@@ -3383,13 +3225,6 @@ extension ServiceDiscoveryClientTypes.PublicDnsNamespaceProperties {
         guard let value else { return }
         try writer["DnsProperties"].write(value.dnsProperties, with: ServiceDiscoveryClientTypes.PublicDnsPropertiesMutable.write(value:to:))
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ServiceDiscoveryClientTypes.PublicDnsNamespaceProperties {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ServiceDiscoveryClientTypes.PublicDnsNamespaceProperties()
-        value.dnsProperties = try reader["DnsProperties"].readIfPresent(with: ServiceDiscoveryClientTypes.PublicDnsPropertiesMutable.read(from:))
-        return value
-    }
 }
 
 extension ServiceDiscoveryClientTypes {
@@ -3414,13 +3249,6 @@ extension ServiceDiscoveryClientTypes.PublicDnsNamespacePropertiesChange {
     static func write(value: ServiceDiscoveryClientTypes.PublicDnsNamespacePropertiesChange?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["DnsProperties"].write(value.dnsProperties, with: ServiceDiscoveryClientTypes.PublicDnsPropertiesMutableChange.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ServiceDiscoveryClientTypes.PublicDnsNamespacePropertiesChange {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ServiceDiscoveryClientTypes.PublicDnsNamespacePropertiesChange()
-        value.dnsProperties = try reader["DnsProperties"].readIfPresent(with: ServiceDiscoveryClientTypes.PublicDnsPropertiesMutableChange.read(from:))
-        return value
     }
 }
 
@@ -3447,13 +3275,6 @@ extension ServiceDiscoveryClientTypes.PublicDnsPropertiesMutable {
         guard let value else { return }
         try writer["SOA"].write(value.soa, with: ServiceDiscoveryClientTypes.SOA.write(value:to:))
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ServiceDiscoveryClientTypes.PublicDnsPropertiesMutable {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ServiceDiscoveryClientTypes.PublicDnsPropertiesMutable()
-        value.soa = try reader["SOA"].readIfPresent(with: ServiceDiscoveryClientTypes.SOA.read(from:))
-        return value
-    }
 }
 
 extension ServiceDiscoveryClientTypes {
@@ -3478,13 +3299,6 @@ extension ServiceDiscoveryClientTypes.PublicDnsPropertiesMutableChange {
     static func write(value: ServiceDiscoveryClientTypes.PublicDnsPropertiesMutableChange?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["SOA"].write(value.soa, with: ServiceDiscoveryClientTypes.SOAChange.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ServiceDiscoveryClientTypes.PublicDnsPropertiesMutableChange {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ServiceDiscoveryClientTypes.PublicDnsPropertiesMutableChange()
-        value.soa = try reader["SOA"].readIfPresent(with: ServiceDiscoveryClientTypes.SOAChange.read(from:))
-        return value
     }
 }
 
@@ -3877,13 +3691,6 @@ extension ServiceDiscoveryClientTypes.SOAChange {
         guard let value else { return }
         try writer["TTL"].write(value.ttl)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ServiceDiscoveryClientTypes.SOAChange {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ServiceDiscoveryClientTypes.SOAChange()
-        value.ttl = try reader["TTL"].readIfPresent()
-        return value
-    }
 }
 
 extension ServiceDiscoveryClientTypes {
@@ -3904,22 +3711,6 @@ extension ServiceDiscoveryClientTypes {
 }
 
 extension ServiceDiscoveryClientTypes.Service {
-
-    static func write(value: ServiceDiscoveryClientTypes.Service?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["CreateDate"].writeTimestamp(value.createDate, format: .epochSeconds)
-        try writer["CreatorRequestId"].write(value.creatorRequestId)
-        try writer["Description"].write(value.description)
-        try writer["DnsConfig"].write(value.dnsConfig, with: ServiceDiscoveryClientTypes.DnsConfig.write(value:to:))
-        try writer["HealthCheckConfig"].write(value.healthCheckConfig, with: ServiceDiscoveryClientTypes.HealthCheckConfig.write(value:to:))
-        try writer["HealthCheckCustomConfig"].write(value.healthCheckCustomConfig, with: ServiceDiscoveryClientTypes.HealthCheckCustomConfig.write(value:to:))
-        try writer["Id"].write(value.id)
-        try writer["InstanceCount"].write(value.instanceCount)
-        try writer["Name"].write(value.name)
-        try writer["NamespaceId"].write(value.namespaceId)
-        try writer["Type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ServiceDiscoveryClientTypes.Service {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4055,15 +3846,6 @@ extension ServiceDiscoveryClientTypes.ServiceChange {
         try writer["DnsConfig"].write(value.dnsConfig, with: ServiceDiscoveryClientTypes.DnsConfigChange.write(value:to:))
         try writer["HealthCheckConfig"].write(value.healthCheckConfig, with: ServiceDiscoveryClientTypes.HealthCheckConfig.write(value:to:))
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ServiceDiscoveryClientTypes.ServiceChange {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ServiceDiscoveryClientTypes.ServiceChange()
-        value.description = try reader["Description"].readIfPresent()
-        value.dnsConfig = try reader["DnsConfig"].readIfPresent(with: ServiceDiscoveryClientTypes.DnsConfigChange.read(from:))
-        value.healthCheckConfig = try reader["HealthCheckConfig"].readIfPresent(with: ServiceDiscoveryClientTypes.HealthCheckConfig.read(from:))
-        return value
-    }
 }
 
 extension ServiceDiscoveryClientTypes {
@@ -4099,15 +3881,6 @@ extension ServiceDiscoveryClientTypes.ServiceFilter {
         try writer["Condition"].write(value.condition)
         try writer["Name"].write(value.name)
         try writer["Values"].writeList(value.values, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ServiceDiscoveryClientTypes.ServiceFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ServiceDiscoveryClientTypes.ServiceFilter()
-        value.name = try reader["Name"].readIfPresent()
-        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.condition = try reader["Condition"].readIfPresent()
-        return value
     }
 }
 
@@ -4204,20 +3977,6 @@ public struct ServiceNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
 }
 
 extension ServiceDiscoveryClientTypes.ServiceSummary {
-
-    static func write(value: ServiceDiscoveryClientTypes.ServiceSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["CreateDate"].writeTimestamp(value.createDate, format: .epochSeconds)
-        try writer["Description"].write(value.description)
-        try writer["DnsConfig"].write(value.dnsConfig, with: ServiceDiscoveryClientTypes.DnsConfig.write(value:to:))
-        try writer["HealthCheckConfig"].write(value.healthCheckConfig, with: ServiceDiscoveryClientTypes.HealthCheckConfig.write(value:to:))
-        try writer["HealthCheckCustomConfig"].write(value.healthCheckCustomConfig, with: ServiceDiscoveryClientTypes.HealthCheckCustomConfig.write(value:to:))
-        try writer["Id"].write(value.id)
-        try writer["InstanceCount"].write(value.instanceCount)
-        try writer["Name"].write(value.name)
-        try writer["Type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ServiceDiscoveryClientTypes.ServiceSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

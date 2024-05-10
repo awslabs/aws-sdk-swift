@@ -174,19 +174,6 @@ enum ActivateUserOutputError {
 
 extension WorkDocsClientTypes.Activity {
 
-    static func write(value: WorkDocsClientTypes.Activity?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CommentMetadata"].write(value.commentMetadata, with: WorkDocsClientTypes.CommentMetadata.write(value:to:))
-        try writer["Initiator"].write(value.initiator, with: WorkDocsClientTypes.UserMetadata.write(value:to:))
-        try writer["IsIndirectActivity"].write(value.isIndirectActivity)
-        try writer["OrganizationId"].write(value.organizationId)
-        try writer["OriginalParent"].write(value.originalParent, with: WorkDocsClientTypes.ResourceMetadata.write(value:to:))
-        try writer["Participants"].write(value.participants, with: WorkDocsClientTypes.Participants.write(value:to:))
-        try writer["ResourceMetadata"].write(value.resourceMetadata, with: WorkDocsClientTypes.ResourceMetadata.write(value:to:))
-        try writer["TimeStamp"].writeTimestamp(value.timeStamp, format: .epochSeconds)
-        try writer["Type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> WorkDocsClientTypes.Activity {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WorkDocsClientTypes.Activity()
@@ -541,19 +528,6 @@ extension WorkDocsClientTypes.Comment: Swift.CustomDebugStringConvertible {
 
 extension WorkDocsClientTypes.Comment {
 
-    static func write(value: WorkDocsClientTypes.Comment?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CommentId"].write(value.commentId)
-        try writer["Contributor"].write(value.contributor, with: WorkDocsClientTypes.User.write(value:to:))
-        try writer["CreatedTimestamp"].writeTimestamp(value.createdTimestamp, format: .epochSeconds)
-        try writer["ParentId"].write(value.parentId)
-        try writer["RecipientId"].write(value.recipientId)
-        try writer["Status"].write(value.status)
-        try writer["Text"].write(value.text)
-        try writer["ThreadId"].write(value.threadId)
-        try writer["Visibility"].write(value.visibility)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> WorkDocsClientTypes.Comment {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WorkDocsClientTypes.Comment()
@@ -620,16 +594,6 @@ extension WorkDocsClientTypes {
 }
 
 extension WorkDocsClientTypes.CommentMetadata {
-
-    static func write(value: WorkDocsClientTypes.CommentMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CommentId"].write(value.commentId)
-        try writer["CommentStatus"].write(value.commentStatus)
-        try writer["Contributor"].write(value.contributor, with: WorkDocsClientTypes.User.write(value:to:))
-        try writer["ContributorId"].write(value.contributorId)
-        try writer["CreatedTimestamp"].writeTimestamp(value.createdTimestamp, format: .epochSeconds)
-        try writer["RecipientId"].write(value.recipientId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> WorkDocsClientTypes.CommentMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1548,14 +1512,6 @@ extension WorkDocsClientTypes.DateRangeType {
         guard let value else { return }
         try writer["EndValue"].writeTimestamp(value.endValue, format: .epochSeconds)
         try writer["StartValue"].writeTimestamp(value.startValue, format: .epochSeconds)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WorkDocsClientTypes.DateRangeType {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WorkDocsClientTypes.DateRangeType()
-        value.startValue = try reader["StartValue"].readTimestampIfPresent(format: .epochSeconds)
-        value.endValue = try reader["EndValue"].readTimestampIfPresent(format: .epochSeconds)
-        return value
     }
 }
 
@@ -3689,18 +3645,6 @@ public struct DocumentLockedForCommentsException: ClientRuntime.ModeledError, AW
 
 extension WorkDocsClientTypes.DocumentMetadata {
 
-    static func write(value: WorkDocsClientTypes.DocumentMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedTimestamp"].writeTimestamp(value.createdTimestamp, format: .epochSeconds)
-        try writer["CreatorId"].write(value.creatorId)
-        try writer["Id"].write(value.id)
-        try writer["Labels"].writeList(value.labels, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["LatestVersionMetadata"].write(value.latestVersionMetadata, with: WorkDocsClientTypes.DocumentVersionMetadata.write(value:to:))
-        try writer["ModifiedTimestamp"].writeTimestamp(value.modifiedTimestamp, format: .epochSeconds)
-        try writer["ParentFolderId"].write(value.parentFolderId)
-        try writer["ResourceState"].write(value.resourceState)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> WorkDocsClientTypes.DocumentMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WorkDocsClientTypes.DocumentMetadata()
@@ -3859,23 +3803,6 @@ extension WorkDocsClientTypes.DocumentVersionMetadata: Swift.CustomDebugStringCo
 }
 
 extension WorkDocsClientTypes.DocumentVersionMetadata {
-
-    static func write(value: WorkDocsClientTypes.DocumentVersionMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ContentCreatedTimestamp"].writeTimestamp(value.contentCreatedTimestamp, format: .epochSeconds)
-        try writer["ContentModifiedTimestamp"].writeTimestamp(value.contentModifiedTimestamp, format: .epochSeconds)
-        try writer["ContentType"].write(value.contentType)
-        try writer["CreatedTimestamp"].writeTimestamp(value.createdTimestamp, format: .epochSeconds)
-        try writer["CreatorId"].write(value.creatorId)
-        try writer["Id"].write(value.id)
-        try writer["ModifiedTimestamp"].writeTimestamp(value.modifiedTimestamp, format: .epochSeconds)
-        try writer["Name"].write(value.name)
-        try writer["Signature"].write(value.signature)
-        try writer["Size"].write(value.size)
-        try writer["Source"].writeMap(value.source, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["Status"].write(value.status)
-        try writer["Thumbnail"].writeMap(value.thumbnail, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> WorkDocsClientTypes.DocumentVersionMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4156,22 +4083,6 @@ extension WorkDocsClientTypes.Filters {
         try writer["SizeRange"].write(value.sizeRange, with: WorkDocsClientTypes.LongRangeType.write(value:to:))
         try writer["TextLocales"].writeList(value.textLocales, memberWritingClosure: WorkDocsClientTypes.LanguageCodeType.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WorkDocsClientTypes.Filters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WorkDocsClientTypes.Filters()
-        value.textLocales = try reader["TextLocales"].readListIfPresent(memberReadingClosure: WorkDocsClientTypes.LanguageCodeType.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.contentCategories = try reader["ContentCategories"].readListIfPresent(memberReadingClosure: WorkDocsClientTypes.ContentCategoryType.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.resourceTypes = try reader["ResourceTypes"].readListIfPresent(memberReadingClosure: WorkDocsClientTypes.SearchResourceType.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.labels = try reader["Labels"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.principals = try reader["Principals"].readListIfPresent(memberReadingClosure: WorkDocsClientTypes.SearchPrincipalType.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.ancestorIds = try reader["AncestorIds"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.searchCollectionTypes = try reader["SearchCollectionTypes"].readListIfPresent(memberReadingClosure: WorkDocsClientTypes.SearchCollectionType.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.sizeRange = try reader["SizeRange"].readIfPresent(with: WorkDocsClientTypes.LongRangeType.read(from:))
-        value.createdRange = try reader["CreatedRange"].readIfPresent(with: WorkDocsClientTypes.DateRangeType.read(from:))
-        value.modifiedRange = try reader["ModifiedRange"].readIfPresent(with: WorkDocsClientTypes.DateRangeType.read(from:))
-        return value
-    }
 }
 
 extension WorkDocsClientTypes {
@@ -4265,21 +4176,6 @@ extension WorkDocsClientTypes.FolderMetadata: Swift.CustomDebugStringConvertible
 }
 
 extension WorkDocsClientTypes.FolderMetadata {
-
-    static func write(value: WorkDocsClientTypes.FolderMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedTimestamp"].writeTimestamp(value.createdTimestamp, format: .epochSeconds)
-        try writer["CreatorId"].write(value.creatorId)
-        try writer["Id"].write(value.id)
-        try writer["Labels"].writeList(value.labels, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["LatestVersionSize"].write(value.latestVersionSize)
-        try writer["ModifiedTimestamp"].writeTimestamp(value.modifiedTimestamp, format: .epochSeconds)
-        try writer["Name"].write(value.name)
-        try writer["ParentFolderId"].write(value.parentFolderId)
-        try writer["ResourceState"].write(value.resourceState)
-        try writer["Signature"].write(value.signature)
-        try writer["Size"].write(value.size)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> WorkDocsClientTypes.FolderMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5136,12 +5032,6 @@ enum GetResourcesOutputError {
 
 extension WorkDocsClientTypes.GroupMetadata {
 
-    static func write(value: WorkDocsClientTypes.GroupMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Id"].write(value.id)
-        try writer["Name"].write(value.name)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> WorkDocsClientTypes.GroupMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WorkDocsClientTypes.GroupMetadata()
@@ -5707,14 +5597,6 @@ extension WorkDocsClientTypes.LongRangeType {
         try writer["EndValue"].write(value.endValue)
         try writer["StartValue"].write(value.startValue)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WorkDocsClientTypes.LongRangeType {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WorkDocsClientTypes.LongRangeType()
-        value.startValue = try reader["StartValue"].readIfPresent()
-        value.endValue = try reader["EndValue"].readIfPresent()
-        return value
-    }
 }
 
 extension WorkDocsClientTypes {
@@ -5748,14 +5630,6 @@ extension WorkDocsClientTypes.NotificationOptions {
         guard let value else { return }
         try writer["EmailMessage"].write(value.emailMessage)
         try writer["SendEmail"].write(value.sendEmail)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WorkDocsClientTypes.NotificationOptions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WorkDocsClientTypes.NotificationOptions()
-        value.sendEmail = try reader["SendEmail"].readIfPresent() ?? false
-        value.emailMessage = try reader["EmailMessage"].readIfPresent()
-        return value
     }
 }
 
@@ -5850,12 +5724,6 @@ extension WorkDocsClientTypes {
 
 extension WorkDocsClientTypes.Participants {
 
-    static func write(value: WorkDocsClientTypes.Participants?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Groups"].writeList(value.groups, memberWritingClosure: WorkDocsClientTypes.GroupMetadata.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Users"].writeList(value.users, memberWritingClosure: WorkDocsClientTypes.UserMetadata.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> WorkDocsClientTypes.Participants {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WorkDocsClientTypes.Participants()
@@ -5887,12 +5755,6 @@ extension WorkDocsClientTypes {
 
 extension WorkDocsClientTypes.PermissionInfo {
 
-    static func write(value: WorkDocsClientTypes.PermissionInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Role"].write(value.role)
-        try writer["Type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> WorkDocsClientTypes.PermissionInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WorkDocsClientTypes.PermissionInfo()
@@ -5923,13 +5785,6 @@ extension WorkDocsClientTypes {
 }
 
 extension WorkDocsClientTypes.Principal {
-
-    static func write(value: WorkDocsClientTypes.Principal?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Id"].write(value.id)
-        try writer["Roles"].writeList(value.roles, memberWritingClosure: WorkDocsClientTypes.PermissionInfo.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> WorkDocsClientTypes.Principal {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6353,17 +6208,6 @@ extension WorkDocsClientTypes.ResourceMetadata: Swift.CustomDebugStringConvertib
 
 extension WorkDocsClientTypes.ResourceMetadata {
 
-    static func write(value: WorkDocsClientTypes.ResourceMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Id"].write(value.id)
-        try writer["Name"].write(value.name)
-        try writer["OriginalName"].write(value.originalName)
-        try writer["Owner"].write(value.owner, with: WorkDocsClientTypes.UserMetadata.write(value:to:))
-        try writer["ParentId"].write(value.parentId)
-        try writer["Type"].write(value.type)
-        try writer["VersionId"].write(value.versionId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> WorkDocsClientTypes.ResourceMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WorkDocsClientTypes.ResourceMetadata()
@@ -6420,11 +6264,6 @@ extension WorkDocsClientTypes {
 
 extension WorkDocsClientTypes.ResourcePath {
 
-    static func write(value: WorkDocsClientTypes.ResourcePath?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Components"].writeList(value.components, memberWritingClosure: WorkDocsClientTypes.ResourcePathComponent.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> WorkDocsClientTypes.ResourcePath {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WorkDocsClientTypes.ResourcePath()
@@ -6455,12 +6294,6 @@ extension WorkDocsClientTypes.ResourcePathComponent: Swift.CustomDebugStringConv
 }
 
 extension WorkDocsClientTypes.ResourcePathComponent {
-
-    static func write(value: WorkDocsClientTypes.ResourcePathComponent?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Id"].write(value.id)
-        try writer["Name"].write(value.name)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> WorkDocsClientTypes.ResourcePathComponent {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6593,16 +6426,6 @@ extension WorkDocsClientTypes.ResponseItem: Swift.CustomDebugStringConvertible {
 }
 
 extension WorkDocsClientTypes.ResponseItem {
-
-    static func write(value: WorkDocsClientTypes.ResponseItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CommentMetadata"].write(value.commentMetadata, with: WorkDocsClientTypes.CommentMetadata.write(value:to:))
-        try writer["DocumentMetadata"].write(value.documentMetadata, with: WorkDocsClientTypes.DocumentMetadata.write(value:to:))
-        try writer["DocumentVersionMetadata"].write(value.documentVersionMetadata, with: WorkDocsClientTypes.DocumentVersionMetadata.write(value:to:))
-        try writer["FolderMetadata"].write(value.folderMetadata, with: WorkDocsClientTypes.FolderMetadata.write(value:to:))
-        try writer["ResourceType"].write(value.resourceType)
-        try writer["WebUrl"].write(value.webUrl)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> WorkDocsClientTypes.ResponseItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6868,14 +6691,6 @@ extension WorkDocsClientTypes.SearchPrincipalType {
         try writer["Id"].write(value.id)
         try writer["Roles"].writeList(value.roles, memberWritingClosure: WorkDocsClientTypes.PrincipalRoleType.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WorkDocsClientTypes.SearchPrincipalType {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WorkDocsClientTypes.SearchPrincipalType()
-        value.id = try reader["Id"].readIfPresent()
-        value.roles = try reader["Roles"].readListIfPresent(memberReadingClosure: WorkDocsClientTypes.PrincipalRoleType.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
 }
 
 extension WorkDocsClientTypes {
@@ -7100,14 +6915,6 @@ extension WorkDocsClientTypes.SearchSortResult {
         try writer["Field"].write(value.field)
         try writer["Order"].write(value.order)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WorkDocsClientTypes.SearchSortResult {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WorkDocsClientTypes.SearchSortResult()
-        value.field = try reader["Field"].readIfPresent()
-        value.order = try reader["Order"].readIfPresent()
-        return value
-    }
 }
 
 extension WorkDocsClientTypes {
@@ -7175,15 +6982,6 @@ extension WorkDocsClientTypes.SharePrincipal {
         try writer["Role"].write(value.role)
         try writer["Type"].write(value.type)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WorkDocsClientTypes.SharePrincipal {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WorkDocsClientTypes.SharePrincipal()
-        value.id = try reader["Id"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
-        value.role = try reader["Role"].readIfPresent()
-        return value
-    }
 }
 
 extension WorkDocsClientTypes {
@@ -7219,16 +7017,6 @@ extension WorkDocsClientTypes.ShareResult: Swift.CustomDebugStringConvertible {
 }
 
 extension WorkDocsClientTypes.ShareResult {
-
-    static func write(value: WorkDocsClientTypes.ShareResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["InviteePrincipalId"].write(value.inviteePrincipalId)
-        try writer["PrincipalId"].write(value.principalId)
-        try writer["Role"].write(value.role)
-        try writer["ShareId"].write(value.shareId)
-        try writer["Status"].write(value.status)
-        try writer["StatusMessage"].write(value.statusMessage)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> WorkDocsClientTypes.ShareResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7481,13 +7269,6 @@ extension WorkDocsClientTypes {
 }
 
 extension WorkDocsClientTypes.Subscription {
-
-    static func write(value: WorkDocsClientTypes.Subscription?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EndPoint"].write(value.endPoint)
-        try writer["Protocol"].write(value.`protocol`)
-        try writer["SubscriptionId"].write(value.subscriptionId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> WorkDocsClientTypes.Subscription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8166,12 +7947,6 @@ extension WorkDocsClientTypes.UploadMetadata: Swift.CustomDebugStringConvertible
 
 extension WorkDocsClientTypes.UploadMetadata {
 
-    static func write(value: WorkDocsClientTypes.UploadMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["SignedHeaders"].writeMap(value.signedHeaders, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["UploadUrl"].write(value.uploadUrl)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> WorkDocsClientTypes.UploadMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WorkDocsClientTypes.UploadMetadata()
@@ -8207,25 +7982,6 @@ extension WorkDocsClientTypes.User: Swift.CustomDebugStringConvertible {
 }
 
 extension WorkDocsClientTypes.User {
-
-    static func write(value: WorkDocsClientTypes.User?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedTimestamp"].writeTimestamp(value.createdTimestamp, format: .epochSeconds)
-        try writer["EmailAddress"].write(value.emailAddress)
-        try writer["GivenName"].write(value.givenName)
-        try writer["Id"].write(value.id)
-        try writer["Locale"].write(value.locale)
-        try writer["ModifiedTimestamp"].writeTimestamp(value.modifiedTimestamp, format: .epochSeconds)
-        try writer["OrganizationId"].write(value.organizationId)
-        try writer["RecycleBinFolderId"].write(value.recycleBinFolderId)
-        try writer["RootFolderId"].write(value.rootFolderId)
-        try writer["Status"].write(value.status)
-        try writer["Storage"].write(value.storage, with: WorkDocsClientTypes.UserStorageMetadata.write(value:to:))
-        try writer["Surname"].write(value.surname)
-        try writer["TimeZoneId"].write(value.timeZoneId)
-        try writer["Type"].write(value.type)
-        try writer["Username"].write(value.username)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> WorkDocsClientTypes.User {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8358,15 +8114,6 @@ extension WorkDocsClientTypes.UserMetadata: Swift.CustomDebugStringConvertible {
 
 extension WorkDocsClientTypes.UserMetadata {
 
-    static func write(value: WorkDocsClientTypes.UserMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EmailAddress"].write(value.emailAddress)
-        try writer["GivenName"].write(value.givenName)
-        try writer["Id"].write(value.id)
-        try writer["Surname"].write(value.surname)
-        try writer["Username"].write(value.username)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> WorkDocsClientTypes.UserMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WorkDocsClientTypes.UserMetadata()
@@ -8484,12 +8231,6 @@ extension WorkDocsClientTypes {
 }
 
 extension WorkDocsClientTypes.UserStorageMetadata {
-
-    static func write(value: WorkDocsClientTypes.UserStorageMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["StorageRule"].write(value.storageRule, with: WorkDocsClientTypes.StorageRuleType.write(value:to:))
-        try writer["StorageUtilizedInBytes"].write(value.storageUtilizedInBytes)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> WorkDocsClientTypes.UserStorageMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

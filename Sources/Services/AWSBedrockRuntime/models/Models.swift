@@ -58,11 +58,6 @@ extension InternalServerException {
 
 extension InternalServerException {
 
-    static func write(value: InternalServerException?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.properties.message)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> InternalServerException {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = InternalServerException()
@@ -512,13 +507,6 @@ extension ModelStreamErrorException {
 
 extension ModelStreamErrorException {
 
-    static func write(value: ModelStreamErrorException?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.properties.message)
-        try writer["originalMessage"].write(value.properties.originalMessage)
-        try writer["originalStatusCode"].write(value.properties.originalStatusCode)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ModelStreamErrorException {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ModelStreamErrorException()
@@ -576,11 +564,6 @@ extension ModelTimeoutException {
 
 extension ModelTimeoutException {
 
-    static func write(value: ModelTimeoutException?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.properties.message)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ModelTimeoutException {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ModelTimeoutException()
@@ -620,11 +603,6 @@ extension BedrockRuntimeClientTypes.PayloadPart: Swift.CustomDebugStringConverti
 }
 
 extension BedrockRuntimeClientTypes.PayloadPart {
-
-    static func write(value: BedrockRuntimeClientTypes.PayloadPart?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["bytes"].write(value.bytes)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.PayloadPart {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -796,11 +774,6 @@ extension ThrottlingException {
 
 extension ThrottlingException {
 
-    static func write(value: ThrottlingException?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.properties.message)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ThrottlingException {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ThrottlingException()
@@ -877,11 +850,6 @@ extension ValidationException {
 }
 
 extension ValidationException {
-
-    static func write(value: ValidationException?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.properties.message)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ValidationException {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

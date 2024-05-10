@@ -77,14 +77,6 @@ extension ConnectParticipantClientTypes {
 
 extension ConnectParticipantClientTypes.AttachmentItem {
 
-    static func write(value: ConnectParticipantClientTypes.AttachmentItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AttachmentId"].write(value.attachmentId)
-        try writer["AttachmentName"].write(value.attachmentName)
-        try writer["ContentType"].write(value.contentType)
-        try writer["Status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectParticipantClientTypes.AttachmentItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConnectParticipantClientTypes.AttachmentItem()
@@ -306,12 +298,6 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 public enum ConnectParticipantClientTypes {}
 
 extension ConnectParticipantClientTypes.ConnectionCredentials {
-
-    static func write(value: ConnectParticipantClientTypes.ConnectionCredentials?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ConnectionToken"].write(value.connectionToken)
-        try writer["Expiry"].write(value.expiry)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectParticipantClientTypes.ConnectionCredentials {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -868,22 +854,6 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
 extension ConnectParticipantClientTypes.Item {
 
-    static func write(value: ConnectParticipantClientTypes.Item?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AbsoluteTime"].write(value.absoluteTime)
-        try writer["Attachments"].writeList(value.attachments, memberWritingClosure: ConnectParticipantClientTypes.AttachmentItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ContactId"].write(value.contactId)
-        try writer["Content"].write(value.content)
-        try writer["ContentType"].write(value.contentType)
-        try writer["DisplayName"].write(value.displayName)
-        try writer["Id"].write(value.id)
-        try writer["MessageMetadata"].write(value.messageMetadata, with: ConnectParticipantClientTypes.MessageMetadata.write(value:to:))
-        try writer["ParticipantId"].write(value.participantId)
-        try writer["ParticipantRole"].write(value.participantRole)
-        try writer["RelatedContactId"].write(value.relatedContactId)
-        try writer["Type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectParticipantClientTypes.Item {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConnectParticipantClientTypes.Item()
@@ -965,12 +935,6 @@ extension ConnectParticipantClientTypes {
 
 extension ConnectParticipantClientTypes.MessageMetadata {
 
-    static func write(value: ConnectParticipantClientTypes.MessageMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MessageId"].write(value.messageId)
-        try writer["Receipts"].writeList(value.receipts, memberWritingClosure: ConnectParticipantClientTypes.Receipt.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectParticipantClientTypes.MessageMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConnectParticipantClientTypes.MessageMetadata()
@@ -1040,13 +1004,6 @@ extension ConnectParticipantClientTypes {
 }
 
 extension ConnectParticipantClientTypes.Receipt {
-
-    static func write(value: ConnectParticipantClientTypes.Receipt?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DeliveredTimestamp"].write(value.deliveredTimestamp)
-        try writer["ReadTimestamp"].write(value.readTimestamp)
-        try writer["RecipientParticipantId"].write(value.recipientParticipantId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectParticipantClientTypes.Receipt {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1608,15 +1565,6 @@ extension ConnectParticipantClientTypes.StartPosition {
         try writer["Id"].write(value.id)
         try writer["MostRecent"].write(value.mostRecent)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectParticipantClientTypes.StartPosition {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectParticipantClientTypes.StartPosition()
-        value.id = try reader["Id"].readIfPresent()
-        value.absoluteTime = try reader["AbsoluteTime"].readIfPresent()
-        value.mostRecent = try reader["MostRecent"].readIfPresent() ?? 0
-        return value
-    }
 }
 
 extension ConnectParticipantClientTypes {
@@ -1682,13 +1630,6 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 extension ConnectParticipantClientTypes.UploadMetadata {
-
-    static func write(value: ConnectParticipantClientTypes.UploadMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["HeadersToInclude"].writeMap(value.headersToInclude, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["Url"].write(value.url)
-        try writer["UrlExpiry"].write(value.urlExpiry)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectParticipantClientTypes.UploadMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1769,15 +1710,6 @@ extension ConnectParticipantClientTypes.View: Swift.CustomDebugStringConvertible
 
 extension ConnectParticipantClientTypes.View {
 
-    static func write(value: ConnectParticipantClientTypes.View?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["Content"].write(value.content, with: ConnectParticipantClientTypes.ViewContent.write(value:to:))
-        try writer["Id"].write(value.id)
-        try writer["Name"].write(value.name)
-        try writer["Version"].write(value.version)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectParticipantClientTypes.View {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConnectParticipantClientTypes.View()
@@ -1829,13 +1761,6 @@ extension ConnectParticipantClientTypes.ViewContent: Swift.CustomDebugStringConv
 
 extension ConnectParticipantClientTypes.ViewContent {
 
-    static func write(value: ConnectParticipantClientTypes.ViewContent?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Actions"].writeList(value.actions, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["InputSchema"].write(value.inputSchema)
-        try writer["Template"].write(value.template)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectParticipantClientTypes.ViewContent {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConnectParticipantClientTypes.ViewContent()
@@ -1871,12 +1796,6 @@ extension ConnectParticipantClientTypes {
 }
 
 extension ConnectParticipantClientTypes.Websocket {
-
-    static func write(value: ConnectParticipantClientTypes.Websocket?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ConnectionExpiry"].write(value.connectionExpiry)
-        try writer["Url"].write(value.url)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectParticipantClientTypes.Websocket {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

@@ -43,12 +43,6 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
 extension PaymentCryptographyClientTypes.Alias {
 
-    static func write(value: PaymentCryptographyClientTypes.Alias?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AliasName"].write(value.aliasName)
-        try writer["KeyArn"].write(value.keyArn)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> PaymentCryptographyClientTypes.Alias {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PaymentCryptographyClientTypes.Alias()
@@ -435,14 +429,6 @@ extension PaymentCryptographyClientTypes.ExportAttributes {
         try writer["ExportDukptInitialKey"].write(value.exportDukptInitialKey, with: PaymentCryptographyClientTypes.ExportDukptInitialKey.write(value:to:))
         try writer["KeyCheckValueAlgorithm"].write(value.keyCheckValueAlgorithm)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PaymentCryptographyClientTypes.ExportAttributes {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PaymentCryptographyClientTypes.ExportAttributes()
-        value.exportDukptInitialKey = try reader["ExportDukptInitialKey"].readIfPresent(with: PaymentCryptographyClientTypes.ExportDukptInitialKey.read(from:))
-        value.keyCheckValueAlgorithm = try reader["KeyCheckValueAlgorithm"].readIfPresent()
-        return value
-    }
 }
 
 extension PaymentCryptographyClientTypes {
@@ -470,13 +456,6 @@ extension PaymentCryptographyClientTypes.ExportDukptInitialKey {
     static func write(value: PaymentCryptographyClientTypes.ExportDukptInitialKey?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["KeySerialNumber"].write(value.keySerialNumber)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PaymentCryptographyClientTypes.ExportDukptInitialKey {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PaymentCryptographyClientTypes.ExportDukptInitialKey()
-        value.keySerialNumber = try reader["KeySerialNumber"].readIfPresent()
-        return value
     }
 }
 
@@ -509,15 +488,6 @@ extension PaymentCryptographyClientTypes.ExportKeyCryptogram {
         try writer["CertificateAuthorityPublicKeyIdentifier"].write(value.certificateAuthorityPublicKeyIdentifier)
         try writer["WrappingKeyCertificate"].write(value.wrappingKeyCertificate)
         try writer["WrappingSpec"].write(value.wrappingSpec)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PaymentCryptographyClientTypes.ExportKeyCryptogram {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PaymentCryptographyClientTypes.ExportKeyCryptogram()
-        value.certificateAuthorityPublicKeyIdentifier = try reader["CertificateAuthorityPublicKeyIdentifier"].readIfPresent()
-        value.wrappingKeyCertificate = try reader["WrappingKeyCertificate"].readIfPresent()
-        value.wrappingSpec = try reader["WrappingSpec"].readIfPresent()
-        return value
     }
 }
 
@@ -601,21 +571,6 @@ extension PaymentCryptographyClientTypes.ExportKeyMaterial {
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PaymentCryptographyClientTypes.ExportKeyMaterial {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "Tr31KeyBlock":
-                return .tr31keyblock(try reader["Tr31KeyBlock"].read(with: PaymentCryptographyClientTypes.ExportTr31KeyBlock.read(from:)))
-            case "Tr34KeyBlock":
-                return .tr34keyblock(try reader["Tr34KeyBlock"].read(with: PaymentCryptographyClientTypes.ExportTr34KeyBlock.read(from:)))
-            case "KeyCryptogram":
-                return .keycryptogram(try reader["KeyCryptogram"].read(with: PaymentCryptographyClientTypes.ExportKeyCryptogram.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
 }
 
 extension PaymentCryptographyClientTypes {
@@ -683,14 +638,6 @@ extension PaymentCryptographyClientTypes.ExportTr31KeyBlock {
         try writer["KeyBlockHeaders"].write(value.keyBlockHeaders, with: PaymentCryptographyClientTypes.KeyBlockHeaders.write(value:to:))
         try writer["WrappingKeyIdentifier"].write(value.wrappingKeyIdentifier)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PaymentCryptographyClientTypes.ExportTr31KeyBlock {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PaymentCryptographyClientTypes.ExportTr31KeyBlock()
-        value.wrappingKeyIdentifier = try reader["WrappingKeyIdentifier"].readIfPresent()
-        value.keyBlockHeaders = try reader["KeyBlockHeaders"].readIfPresent(with: PaymentCryptographyClientTypes.KeyBlockHeaders.read(from:))
-        return value
-    }
 }
 
 extension PaymentCryptographyClientTypes {
@@ -729,18 +676,6 @@ extension PaymentCryptographyClientTypes.ExportTr34KeyBlock {
         try writer["KeyBlockHeaders"].write(value.keyBlockHeaders, with: PaymentCryptographyClientTypes.KeyBlockHeaders.write(value:to:))
         try writer["RandomNonce"].write(value.randomNonce)
         try writer["WrappingKeyCertificate"].write(value.wrappingKeyCertificate)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PaymentCryptographyClientTypes.ExportTr34KeyBlock {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PaymentCryptographyClientTypes.ExportTr34KeyBlock()
-        value.certificateAuthorityPublicKeyIdentifier = try reader["CertificateAuthorityPublicKeyIdentifier"].readIfPresent()
-        value.wrappingKeyCertificate = try reader["WrappingKeyCertificate"].readIfPresent()
-        value.exportToken = try reader["ExportToken"].readIfPresent()
-        value.keyBlockFormat = try reader["KeyBlockFormat"].readIfPresent()
-        value.randomNonce = try reader["RandomNonce"].readIfPresent()
-        value.keyBlockHeaders = try reader["KeyBlockHeaders"].readIfPresent(with: PaymentCryptographyClientTypes.KeyBlockHeaders.read(from:))
-        return value
     }
 }
 
@@ -1239,17 +1174,6 @@ extension PaymentCryptographyClientTypes.ImportKeyCryptogram {
         try writer["WrappedKeyCryptogram"].write(value.wrappedKeyCryptogram)
         try writer["WrappingSpec"].write(value.wrappingSpec)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PaymentCryptographyClientTypes.ImportKeyCryptogram {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PaymentCryptographyClientTypes.ImportKeyCryptogram()
-        value.keyAttributes = try reader["KeyAttributes"].readIfPresent(with: PaymentCryptographyClientTypes.KeyAttributes.read(from:))
-        value.exportable = try reader["Exportable"].readIfPresent()
-        value.wrappedKeyCryptogram = try reader["WrappedKeyCryptogram"].readIfPresent()
-        value.importToken = try reader["ImportToken"].readIfPresent()
-        value.wrappingSpec = try reader["WrappingSpec"].readIfPresent()
-        return value
-    }
 }
 
 extension PaymentCryptographyClientTypes {
@@ -1350,25 +1274,6 @@ extension PaymentCryptographyClientTypes.ImportKeyMaterial {
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PaymentCryptographyClientTypes.ImportKeyMaterial {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "RootCertificatePublicKey":
-                return .rootcertificatepublickey(try reader["RootCertificatePublicKey"].read(with: PaymentCryptographyClientTypes.RootCertificatePublicKey.read(from:)))
-            case "TrustedCertificatePublicKey":
-                return .trustedcertificatepublickey(try reader["TrustedCertificatePublicKey"].read(with: PaymentCryptographyClientTypes.TrustedCertificatePublicKey.read(from:)))
-            case "Tr31KeyBlock":
-                return .tr31keyblock(try reader["Tr31KeyBlock"].read(with: PaymentCryptographyClientTypes.ImportTr31KeyBlock.read(from:)))
-            case "Tr34KeyBlock":
-                return .tr34keyblock(try reader["Tr34KeyBlock"].read(with: PaymentCryptographyClientTypes.ImportTr34KeyBlock.read(from:)))
-            case "KeyCryptogram":
-                return .keycryptogram(try reader["KeyCryptogram"].read(with: PaymentCryptographyClientTypes.ImportKeyCryptogram.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
 }
 
 extension PaymentCryptographyClientTypes {
@@ -1442,14 +1347,6 @@ extension PaymentCryptographyClientTypes.ImportTr31KeyBlock {
         try writer["WrappedKeyBlock"].write(value.wrappedKeyBlock)
         try writer["WrappingKeyIdentifier"].write(value.wrappingKeyIdentifier)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PaymentCryptographyClientTypes.ImportTr31KeyBlock {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PaymentCryptographyClientTypes.ImportTr31KeyBlock()
-        value.wrappingKeyIdentifier = try reader["WrappingKeyIdentifier"].readIfPresent()
-        value.wrappedKeyBlock = try reader["WrappedKeyBlock"].readIfPresent()
-        return value
-    }
 }
 
 extension PaymentCryptographyClientTypes {
@@ -1489,18 +1386,6 @@ extension PaymentCryptographyClientTypes.ImportTr34KeyBlock {
         try writer["RandomNonce"].write(value.randomNonce)
         try writer["SigningKeyCertificate"].write(value.signingKeyCertificate)
         try writer["WrappedKeyBlock"].write(value.wrappedKeyBlock)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PaymentCryptographyClientTypes.ImportTr34KeyBlock {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PaymentCryptographyClientTypes.ImportTr34KeyBlock()
-        value.certificateAuthorityPublicKeyIdentifier = try reader["CertificateAuthorityPublicKeyIdentifier"].readIfPresent()
-        value.signingKeyCertificate = try reader["SigningKeyCertificate"].readIfPresent()
-        value.importToken = try reader["ImportToken"].readIfPresent()
-        value.wrappedKeyBlock = try reader["WrappedKeyBlock"].readIfPresent()
-        value.keyBlockFormat = try reader["KeyBlockFormat"].readIfPresent()
-        value.randomNonce = try reader["RandomNonce"].readIfPresent()
-        return value
     }
 }
 
@@ -1583,23 +1468,6 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 }
 
 extension PaymentCryptographyClientTypes.Key {
-
-    static func write(value: PaymentCryptographyClientTypes.Key?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreateTimestamp"].writeTimestamp(value.createTimestamp, format: .epochSeconds)
-        try writer["DeletePendingTimestamp"].writeTimestamp(value.deletePendingTimestamp, format: .epochSeconds)
-        try writer["DeleteTimestamp"].writeTimestamp(value.deleteTimestamp, format: .epochSeconds)
-        try writer["Enabled"].write(value.enabled)
-        try writer["Exportable"].write(value.exportable)
-        try writer["KeyArn"].write(value.keyArn)
-        try writer["KeyAttributes"].write(value.keyAttributes, with: PaymentCryptographyClientTypes.KeyAttributes.write(value:to:))
-        try writer["KeyCheckValue"].write(value.keyCheckValue)
-        try writer["KeyCheckValueAlgorithm"].write(value.keyCheckValueAlgorithm)
-        try writer["KeyOrigin"].write(value.keyOrigin)
-        try writer["KeyState"].write(value.keyState)
-        try writer["UsageStartTimestamp"].writeTimestamp(value.usageStartTimestamp, format: .epochSeconds)
-        try writer["UsageStopTimestamp"].writeTimestamp(value.usageStopTimestamp, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PaymentCryptographyClientTypes.Key {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1803,16 +1671,6 @@ extension PaymentCryptographyClientTypes.KeyBlockHeaders {
         try writer["KeyModesOfUse"].write(value.keyModesOfUse, with: PaymentCryptographyClientTypes.KeyModesOfUse.write(value:to:))
         try writer["KeyVersion"].write(value.keyVersion)
         try writer["OptionalBlocks"].writeMap(value.optionalBlocks, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PaymentCryptographyClientTypes.KeyBlockHeaders {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PaymentCryptographyClientTypes.KeyBlockHeaders()
-        value.keyModesOfUse = try reader["KeyModesOfUse"].readIfPresent(with: PaymentCryptographyClientTypes.KeyModesOfUse.read(from:))
-        value.keyExportability = try reader["KeyExportability"].readIfPresent()
-        value.keyVersion = try reader["KeyVersion"].readIfPresent()
-        value.optionalBlocks = try reader["OptionalBlocks"].readMapIfPresent(valueReadingClosure: Swift.String.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
     }
 }
 
@@ -2130,16 +1988,6 @@ extension PaymentCryptographyClientTypes {
 }
 
 extension PaymentCryptographyClientTypes.KeySummary {
-
-    static func write(value: PaymentCryptographyClientTypes.KeySummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Enabled"].write(value.enabled)
-        try writer["Exportable"].write(value.exportable)
-        try writer["KeyArn"].write(value.keyArn)
-        try writer["KeyAttributes"].write(value.keyAttributes, with: PaymentCryptographyClientTypes.KeyAttributes.write(value:to:))
-        try writer["KeyCheckValue"].write(value.keyCheckValue)
-        try writer["KeyState"].write(value.keyState)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PaymentCryptographyClientTypes.KeySummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2669,14 +2517,6 @@ extension PaymentCryptographyClientTypes.RootCertificatePublicKey {
         try writer["KeyAttributes"].write(value.keyAttributes, with: PaymentCryptographyClientTypes.KeyAttributes.write(value:to:))
         try writer["PublicKeyCertificate"].write(value.publicKeyCertificate)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PaymentCryptographyClientTypes.RootCertificatePublicKey {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PaymentCryptographyClientTypes.RootCertificatePublicKey()
-        value.keyAttributes = try reader["KeyAttributes"].readIfPresent(with: PaymentCryptographyClientTypes.KeyAttributes.read(from:))
-        value.publicKeyCertificate = try reader["PublicKeyCertificate"].readIfPresent()
-        return value
-    }
 }
 
 extension PaymentCryptographyClientTypes {
@@ -3105,15 +2945,6 @@ extension PaymentCryptographyClientTypes.TrustedCertificatePublicKey {
         try writer["KeyAttributes"].write(value.keyAttributes, with: PaymentCryptographyClientTypes.KeyAttributes.write(value:to:))
         try writer["PublicKeyCertificate"].write(value.publicKeyCertificate)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PaymentCryptographyClientTypes.TrustedCertificatePublicKey {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PaymentCryptographyClientTypes.TrustedCertificatePublicKey()
-        value.keyAttributes = try reader["KeyAttributes"].readIfPresent(with: PaymentCryptographyClientTypes.KeyAttributes.read(from:))
-        value.publicKeyCertificate = try reader["PublicKeyCertificate"].readIfPresent()
-        value.certificateAuthorityPublicKeyIdentifier = try reader["CertificateAuthorityPublicKeyIdentifier"].readIfPresent()
-        return value
-    }
 }
 
 extension PaymentCryptographyClientTypes {
@@ -3330,15 +3161,6 @@ extension PaymentCryptographyClientTypes.WrappedKey: Swift.CustomDebugStringConv
 }
 
 extension PaymentCryptographyClientTypes.WrappedKey {
-
-    static func write(value: PaymentCryptographyClientTypes.WrappedKey?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["KeyCheckValue"].write(value.keyCheckValue)
-        try writer["KeyCheckValueAlgorithm"].write(value.keyCheckValueAlgorithm)
-        try writer["KeyMaterial"].write(value.keyMaterial)
-        try writer["WrappedKeyMaterialFormat"].write(value.wrappedKeyMaterialFormat)
-        try writer["WrappingKeyArn"].write(value.wrappingKeyArn)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PaymentCryptographyClientTypes.WrappedKey {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

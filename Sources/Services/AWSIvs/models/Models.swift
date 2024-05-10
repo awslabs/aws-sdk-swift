@@ -44,14 +44,6 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
 extension IvsClientTypes.AudioConfiguration {
 
-    static func write(value: IvsClientTypes.AudioConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["channels"].write(value.channels)
-        try writer["codec"].write(value.codec)
-        try writer["sampleRate"].write(value.sampleRate)
-        try writer["targetBitrate"].write(value.targetBitrate)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IvsClientTypes.AudioConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IvsClientTypes.AudioConfiguration()
@@ -92,13 +84,6 @@ extension IvsClientTypes {
 }
 
 extension IvsClientTypes.BatchError {
-
-    static func write(value: IvsClientTypes.BatchError?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["code"].write(value.code)
-        try writer["message"].write(value.message)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IvsClientTypes.BatchError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -276,14 +261,6 @@ enum BatchGetStreamKeyOutputError {
 
 extension IvsClientTypes.BatchStartViewerSessionRevocationError {
 
-    static func write(value: IvsClientTypes.BatchStartViewerSessionRevocationError?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["channelArn"].write(value.channelArn)
-        try writer["code"].write(value.code)
-        try writer["message"].write(value.message)
-        try writer["viewerId"].write(value.viewerId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IvsClientTypes.BatchStartViewerSessionRevocationError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IvsClientTypes.BatchStartViewerSessionRevocationError()
@@ -402,15 +379,6 @@ extension IvsClientTypes.BatchStartViewerSessionRevocationViewerSession {
         try writer["viewerId"].write(value.viewerId)
         try writer["viewerSessionVersionsLessThanOrEqualTo"].write(value.viewerSessionVersionsLessThanOrEqualTo)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IvsClientTypes.BatchStartViewerSessionRevocationViewerSession {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IvsClientTypes.BatchStartViewerSessionRevocationViewerSession()
-        value.channelArn = try reader["channelArn"].readIfPresent()
-        value.viewerId = try reader["viewerId"].readIfPresent()
-        value.viewerSessionVersionsLessThanOrEqualTo = try reader["viewerSessionVersionsLessThanOrEqualTo"].readIfPresent() ?? 0
-        return value
-    }
 }
 
 extension IvsClientTypes {
@@ -440,23 +408,6 @@ extension IvsClientTypes {
 }
 
 extension IvsClientTypes.Channel {
-
-    static func write(value: IvsClientTypes.Channel?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["authorized"].write(value.authorized)
-        try writer["ingestEndpoint"].write(value.ingestEndpoint)
-        try writer["insecureIngest"].write(value.insecureIngest)
-        try writer["latencyMode"].write(value.latencyMode)
-        try writer["name"].write(value.name)
-        try writer["playbackRestrictionPolicyArn"].write(value.playbackRestrictionPolicyArn)
-        try writer["playbackUrl"].write(value.playbackUrl)
-        try writer["preset"].write(value.preset)
-        try writer["recordingConfigurationArn"].write(value.recordingConfigurationArn)
-        try writer["srt"].write(value.srt, with: IvsClientTypes.Srt.write(value:to:))
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IvsClientTypes.Channel {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -611,20 +562,6 @@ public struct ChannelNotBroadcasting: ClientRuntime.ModeledError, AWSClientRunti
 }
 
 extension IvsClientTypes.ChannelSummary {
-
-    static func write(value: IvsClientTypes.ChannelSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["authorized"].write(value.authorized)
-        try writer["insecureIngest"].write(value.insecureIngest)
-        try writer["latencyMode"].write(value.latencyMode)
-        try writer["name"].write(value.name)
-        try writer["playbackRestrictionPolicyArn"].write(value.playbackRestrictionPolicyArn)
-        try writer["preset"].write(value.preset)
-        try writer["recordingConfigurationArn"].write(value.recordingConfigurationArn)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IvsClientTypes.ChannelSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2028,12 +1965,6 @@ enum ImportPlaybackKeyPairOutputError {
 
 extension IvsClientTypes.IngestConfiguration {
 
-    static func write(value: IvsClientTypes.IngestConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["audio"].write(value.audio, with: IvsClientTypes.AudioConfiguration.write(value:to:))
-        try writer["video"].write(value.video, with: IvsClientTypes.VideoConfiguration.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IvsClientTypes.IngestConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IvsClientTypes.IngestConfiguration()
@@ -2784,14 +2715,6 @@ public struct PendingVerification: ClientRuntime.ModeledError, AWSClientRuntime.
 
 extension IvsClientTypes.PlaybackKeyPair {
 
-    static func write(value: IvsClientTypes.PlaybackKeyPair?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["fingerprint"].write(value.fingerprint)
-        try writer["name"].write(value.name)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IvsClientTypes.PlaybackKeyPair {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IvsClientTypes.PlaybackKeyPair()
@@ -2833,13 +2756,6 @@ extension IvsClientTypes {
 
 extension IvsClientTypes.PlaybackKeyPairSummary {
 
-    static func write(value: IvsClientTypes.PlaybackKeyPairSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["name"].write(value.name)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IvsClientTypes.PlaybackKeyPairSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IvsClientTypes.PlaybackKeyPairSummary()
@@ -2875,16 +2791,6 @@ extension IvsClientTypes {
 }
 
 extension IvsClientTypes.PlaybackRestrictionPolicy {
-
-    static func write(value: IvsClientTypes.PlaybackRestrictionPolicy?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["allowedCountries"].writeList(value.allowedCountries, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["allowedOrigins"].writeList(value.allowedOrigins, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["arn"].write(value.arn)
-        try writer["enableStrictOriginEnforcement"].write(value.enableStrictOriginEnforcement)
-        try writer["name"].write(value.name)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IvsClientTypes.PlaybackRestrictionPolicy {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2939,16 +2845,6 @@ extension IvsClientTypes {
 }
 
 extension IvsClientTypes.PlaybackRestrictionPolicySummary {
-
-    static func write(value: IvsClientTypes.PlaybackRestrictionPolicySummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["allowedCountries"].writeList(value.allowedCountries, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["allowedOrigins"].writeList(value.allowedOrigins, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["arn"].write(value.arn)
-        try writer["enableStrictOriginEnforcement"].write(value.enableStrictOriginEnforcement)
-        try writer["name"].write(value.name)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IvsClientTypes.PlaybackRestrictionPolicySummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3073,18 +2969,6 @@ enum PutMetadataOutputError {
 
 extension IvsClientTypes.RecordingConfiguration {
 
-    static func write(value: IvsClientTypes.RecordingConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["destinationConfiguration"].write(value.destinationConfiguration, with: IvsClientTypes.DestinationConfiguration.write(value:to:))
-        try writer["name"].write(value.name)
-        try writer["recordingReconnectWindowSeconds"].write(value.recordingReconnectWindowSeconds)
-        try writer["renditionConfiguration"].write(value.renditionConfiguration, with: IvsClientTypes.RenditionConfiguration.write(value:to:))
-        try writer["state"].write(value.state)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["thumbnailConfiguration"].write(value.thumbnailConfiguration, with: IvsClientTypes.ThumbnailConfiguration.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IvsClientTypes.RecordingConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IvsClientTypes.RecordingConfiguration()
@@ -3181,15 +3065,6 @@ extension IvsClientTypes {
 }
 
 extension IvsClientTypes.RecordingConfigurationSummary {
-
-    static func write(value: IvsClientTypes.RecordingConfigurationSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["destinationConfiguration"].write(value.destinationConfiguration, with: IvsClientTypes.DestinationConfiguration.write(value:to:))
-        try writer["name"].write(value.name)
-        try writer["state"].write(value.state)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IvsClientTypes.RecordingConfigurationSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3489,12 +3364,6 @@ extension IvsClientTypes.Srt: Swift.CustomDebugStringConvertible {
 
 extension IvsClientTypes.Srt {
 
-    static func write(value: IvsClientTypes.Srt?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["endpoint"].write(value.endpoint)
-        try writer["passphrase"].write(value.passphrase)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IvsClientTypes.Srt {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IvsClientTypes.Srt()
@@ -3654,17 +3523,6 @@ enum StopStreamOutputError {
 
 extension IvsClientTypes.Stream {
 
-    static func write(value: IvsClientTypes.Stream?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["channelArn"].write(value.channelArn)
-        try writer["health"].write(value.health)
-        try writer["playbackUrl"].write(value.playbackUrl)
-        try writer["startTime"].writeTimestamp(value.startTime, format: .dateTime)
-        try writer["state"].write(value.state)
-        try writer["streamId"].write(value.streamId)
-        try writer["viewerCount"].write(value.viewerCount)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IvsClientTypes.Stream {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IvsClientTypes.Stream()
@@ -3721,13 +3579,6 @@ extension IvsClientTypes {
 
 extension IvsClientTypes.StreamEvent {
 
-    static func write(value: IvsClientTypes.StreamEvent?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["eventTime"].writeTimestamp(value.eventTime, format: .dateTime)
-        try writer["name"].write(value.name)
-        try writer["type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IvsClientTypes.StreamEvent {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IvsClientTypes.StreamEvent()
@@ -3767,13 +3618,6 @@ extension IvsClientTypes.StreamFilters {
     static func write(value: IvsClientTypes.StreamFilters?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["health"].write(value.health)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IvsClientTypes.StreamFilters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IvsClientTypes.StreamFilters()
-        value.health = try reader["health"].readIfPresent()
-        return value
     }
 }
 
@@ -3833,14 +3677,6 @@ extension IvsClientTypes.StreamKey: Swift.CustomDebugStringConvertible {
 
 extension IvsClientTypes.StreamKey {
 
-    static func write(value: IvsClientTypes.StreamKey?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["channelArn"].write(value.channelArn)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["value"].write(value.value)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IvsClientTypes.StreamKey {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IvsClientTypes.StreamKey()
@@ -3882,13 +3718,6 @@ extension IvsClientTypes {
 
 extension IvsClientTypes.StreamKeySummary {
 
-    static func write(value: IvsClientTypes.StreamKeySummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["channelArn"].write(value.channelArn)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IvsClientTypes.StreamKeySummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IvsClientTypes.StreamKeySummary()
@@ -3924,17 +3753,6 @@ extension IvsClientTypes {
 }
 
 extension IvsClientTypes.StreamSession {
-
-    static func write(value: IvsClientTypes.StreamSession?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["channel"].write(value.channel, with: IvsClientTypes.Channel.write(value:to:))
-        try writer["endTime"].writeTimestamp(value.endTime, format: .dateTime)
-        try writer["ingestConfiguration"].write(value.ingestConfiguration, with: IvsClientTypes.IngestConfiguration.write(value:to:))
-        try writer["recordingConfiguration"].write(value.recordingConfiguration, with: IvsClientTypes.RecordingConfiguration.write(value:to:))
-        try writer["startTime"].writeTimestamp(value.startTime, format: .dateTime)
-        try writer["streamId"].write(value.streamId)
-        try writer["truncatedEvents"].writeList(value.truncatedEvents, memberWritingClosure: IvsClientTypes.StreamEvent.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IvsClientTypes.StreamSession {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3991,14 +3809,6 @@ extension IvsClientTypes {
 }
 
 extension IvsClientTypes.StreamSessionSummary {
-
-    static func write(value: IvsClientTypes.StreamSessionSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["endTime"].writeTimestamp(value.endTime, format: .dateTime)
-        try writer["hasErrorEvent"].write(value.hasErrorEvent)
-        try writer["startTime"].writeTimestamp(value.startTime, format: .dateTime)
-        try writer["streamId"].write(value.streamId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IvsClientTypes.StreamSessionSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4070,16 +3880,6 @@ extension IvsClientTypes {
 }
 
 extension IvsClientTypes.StreamSummary {
-
-    static func write(value: IvsClientTypes.StreamSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["channelArn"].write(value.channelArn)
-        try writer["health"].write(value.health)
-        try writer["startTime"].writeTimestamp(value.startTime, format: .dateTime)
-        try writer["state"].write(value.state)
-        try writer["streamId"].write(value.streamId)
-        try writer["viewerCount"].write(value.viewerCount)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IvsClientTypes.StreamSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4726,18 +4526,6 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 extension IvsClientTypes.VideoConfiguration {
-
-    static func write(value: IvsClientTypes.VideoConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["avcLevel"].write(value.avcLevel)
-        try writer["avcProfile"].write(value.avcProfile)
-        try writer["codec"].write(value.codec)
-        try writer["encoder"].write(value.encoder)
-        try writer["targetBitrate"].write(value.targetBitrate)
-        try writer["targetFramerate"].write(value.targetFramerate)
-        try writer["videoHeight"].write(value.videoHeight)
-        try writer["videoWidth"].write(value.videoWidth)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IvsClientTypes.VideoConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

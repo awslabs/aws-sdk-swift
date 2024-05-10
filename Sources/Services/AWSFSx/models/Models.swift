@@ -6,13 +6,6 @@ import SmithyReadWrite
 
 extension FSxClientTypes.ActiveDirectoryBackupAttributes {
 
-    static func write(value: FSxClientTypes.ActiveDirectoryBackupAttributes?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ActiveDirectoryId"].write(value.activeDirectoryId)
-        try writer["DomainName"].write(value.domainName)
-        try writer["ResourceARN"].write(value.resourceARN)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.ActiveDirectoryBackupAttributes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FSxClientTypes.ActiveDirectoryBackupAttributes()
@@ -135,20 +128,6 @@ extension FSxClientTypes {
 
 extension FSxClientTypes.AdministrativeAction {
 
-    static func write(value: FSxClientTypes.AdministrativeAction?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AdministrativeActionType"].write(value.administrativeActionType)
-        try writer["FailureDetails"].write(value.failureDetails, with: FSxClientTypes.AdministrativeActionFailureDetails.write(value:to:))
-        try writer["ProgressPercent"].write(value.progressPercent)
-        try writer["RemainingTransferBytes"].write(value.remainingTransferBytes)
-        try writer["RequestTime"].writeTimestamp(value.requestTime, format: .epochSeconds)
-        try writer["Status"].write(value.status)
-        try writer["TargetFileSystemValues"].write(value.targetFileSystemValues, with: FSxClientTypes.FileSystem.write(value:to:))
-        try writer["TargetSnapshotValues"].write(value.targetSnapshotValues, with: FSxClientTypes.Snapshot.write(value:to:))
-        try writer["TargetVolumeValues"].write(value.targetVolumeValues, with: FSxClientTypes.Volume.write(value:to:))
-        try writer["TotalTransferBytes"].write(value.totalTransferBytes)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.AdministrativeAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FSxClientTypes.AdministrativeAction()
@@ -262,11 +241,6 @@ extension FSxClientTypes {
 }
 
 extension FSxClientTypes.AdministrativeActionFailureDetails {
-
-    static func write(value: FSxClientTypes.AdministrativeActionFailureDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.message)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.AdministrativeActionFailureDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -394,12 +368,6 @@ extension FSxClientTypes {
 
 extension FSxClientTypes.AggregateConfiguration {
 
-    static func write(value: FSxClientTypes.AggregateConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Aggregates"].writeList(value.aggregates, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["TotalConstituents"].write(value.totalConstituents)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.AggregateConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FSxClientTypes.AggregateConfiguration()
@@ -436,12 +404,6 @@ extension FSxClientTypes {
 }
 
 extension FSxClientTypes.Alias {
-
-    static func write(value: FSxClientTypes.Alias?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Lifecycle"].write(value.lifecycle)
-        try writer["Name"].write(value.name)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.Alias {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -832,26 +794,6 @@ extension FSxClientTypes {
 
 extension FSxClientTypes.Backup {
 
-    static func write(value: FSxClientTypes.Backup?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BackupId"].write(value.backupId)
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["DirectoryInformation"].write(value.directoryInformation, with: FSxClientTypes.ActiveDirectoryBackupAttributes.write(value:to:))
-        try writer["FailureDetails"].write(value.failureDetails, with: FSxClientTypes.BackupFailureDetails.write(value:to:))
-        try writer["FileSystem"].write(value.fileSystem, with: FSxClientTypes.FileSystem.write(value:to:))
-        try writer["KmsKeyId"].write(value.kmsKeyId)
-        try writer["Lifecycle"].write(value.lifecycle)
-        try writer["OwnerId"].write(value.ownerId)
-        try writer["ProgressPercent"].write(value.progressPercent)
-        try writer["ResourceARN"].write(value.resourceARN)
-        try writer["ResourceType"].write(value.resourceType)
-        try writer["SourceBackupId"].write(value.sourceBackupId)
-        try writer["SourceBackupRegion"].write(value.sourceBackupRegion)
-        try writer["Tags"].writeList(value.tags, memberWritingClosure: FSxClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Type"].write(value.type)
-        try writer["Volume"].write(value.volume, with: FSxClientTypes.Volume.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.Backup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FSxClientTypes.Backup()
@@ -1014,11 +956,6 @@ public struct BackupBeingCopied: ClientRuntime.ModeledError, AWSClientRuntime.AW
 }
 
 extension FSxClientTypes.BackupFailureDetails {
-
-    static func write(value: FSxClientTypes.BackupFailureDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.message)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.BackupFailureDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1665,14 +1602,6 @@ extension FSxClientTypes.CreateAggregateConfiguration {
         try writer["Aggregates"].writeList(value.aggregates, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ConstituentsPerAggregate"].write(value.constituentsPerAggregate)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.CreateAggregateConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.CreateAggregateConfiguration()
-        value.aggregates = try reader["Aggregates"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.constituentsPerAggregate = try reader["ConstituentsPerAggregate"].readIfPresent()
-        return value
-    }
 }
 
 extension FSxClientTypes {
@@ -2111,16 +2040,6 @@ extension FSxClientTypes.CreateFileCacheLustreConfiguration {
         try writer["PerUnitStorageThroughput"].write(value.perUnitStorageThroughput)
         try writer["WeeklyMaintenanceStartTime"].write(value.weeklyMaintenanceStartTime)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.CreateFileCacheLustreConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.CreateFileCacheLustreConfiguration()
-        value.perUnitStorageThroughput = try reader["PerUnitStorageThroughput"].readIfPresent()
-        value.deploymentType = try reader["DeploymentType"].readIfPresent()
-        value.weeklyMaintenanceStartTime = try reader["WeeklyMaintenanceStartTime"].readIfPresent()
-        value.metadataConfiguration = try reader["MetadataConfiguration"].readIfPresent(with: FSxClientTypes.FileCacheLustreMetadataConfiguration.read(from:))
-        return value
-    }
 }
 
 extension FSxClientTypes {
@@ -2512,26 +2431,6 @@ extension FSxClientTypes.CreateFileSystemLustreConfiguration {
         try writer["RootSquashConfiguration"].write(value.rootSquashConfiguration, with: FSxClientTypes.LustreRootSquashConfiguration.write(value:to:))
         try writer["WeeklyMaintenanceStartTime"].write(value.weeklyMaintenanceStartTime)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.CreateFileSystemLustreConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.CreateFileSystemLustreConfiguration()
-        value.weeklyMaintenanceStartTime = try reader["WeeklyMaintenanceStartTime"].readIfPresent()
-        value.importPath = try reader["ImportPath"].readIfPresent()
-        value.exportPath = try reader["ExportPath"].readIfPresent()
-        value.importedFileChunkSize = try reader["ImportedFileChunkSize"].readIfPresent()
-        value.deploymentType = try reader["DeploymentType"].readIfPresent()
-        value.autoImportPolicy = try reader["AutoImportPolicy"].readIfPresent()
-        value.perUnitStorageThroughput = try reader["PerUnitStorageThroughput"].readIfPresent()
-        value.dailyAutomaticBackupStartTime = try reader["DailyAutomaticBackupStartTime"].readIfPresent()
-        value.automaticBackupRetentionDays = try reader["AutomaticBackupRetentionDays"].readIfPresent()
-        value.copyTagsToBackups = try reader["CopyTagsToBackups"].readIfPresent()
-        value.driveCacheType = try reader["DriveCacheType"].readIfPresent()
-        value.dataCompressionType = try reader["DataCompressionType"].readIfPresent()
-        value.logConfiguration = try reader["LogConfiguration"].readIfPresent(with: FSxClientTypes.LustreLogCreateConfiguration.read(from:))
-        value.rootSquashConfiguration = try reader["RootSquashConfiguration"].readIfPresent(with: FSxClientTypes.LustreRootSquashConfiguration.read(from:))
-        return value
-    }
 }
 
 extension FSxClientTypes {
@@ -2656,24 +2555,6 @@ extension FSxClientTypes.CreateFileSystemOntapConfiguration {
         try writer["ThroughputCapacityPerHAPair"].write(value.throughputCapacityPerHAPair)
         try writer["WeeklyMaintenanceStartTime"].write(value.weeklyMaintenanceStartTime)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.CreateFileSystemOntapConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.CreateFileSystemOntapConfiguration()
-        value.automaticBackupRetentionDays = try reader["AutomaticBackupRetentionDays"].readIfPresent()
-        value.dailyAutomaticBackupStartTime = try reader["DailyAutomaticBackupStartTime"].readIfPresent()
-        value.deploymentType = try reader["DeploymentType"].readIfPresent()
-        value.endpointIpAddressRange = try reader["EndpointIpAddressRange"].readIfPresent()
-        value.fsxAdminPassword = try reader["FsxAdminPassword"].readIfPresent()
-        value.diskIopsConfiguration = try reader["DiskIopsConfiguration"].readIfPresent(with: FSxClientTypes.DiskIopsConfiguration.read(from:))
-        value.preferredSubnetId = try reader["PreferredSubnetId"].readIfPresent()
-        value.routeTableIds = try reader["RouteTableIds"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.throughputCapacity = try reader["ThroughputCapacity"].readIfPresent()
-        value.weeklyMaintenanceStartTime = try reader["WeeklyMaintenanceStartTime"].readIfPresent()
-        value.haPairs = try reader["HAPairs"].readIfPresent()
-        value.throughputCapacityPerHAPair = try reader["ThroughputCapacityPerHAPair"].readIfPresent()
-        return value
-    }
 }
 
 extension FSxClientTypes {
@@ -2783,24 +2664,6 @@ extension FSxClientTypes.CreateFileSystemOpenZFSConfiguration {
         try writer["RouteTableIds"].writeList(value.routeTableIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ThroughputCapacity"].write(value.throughputCapacity)
         try writer["WeeklyMaintenanceStartTime"].write(value.weeklyMaintenanceStartTime)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.CreateFileSystemOpenZFSConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.CreateFileSystemOpenZFSConfiguration()
-        value.automaticBackupRetentionDays = try reader["AutomaticBackupRetentionDays"].readIfPresent()
-        value.copyTagsToBackups = try reader["CopyTagsToBackups"].readIfPresent()
-        value.copyTagsToVolumes = try reader["CopyTagsToVolumes"].readIfPresent()
-        value.dailyAutomaticBackupStartTime = try reader["DailyAutomaticBackupStartTime"].readIfPresent()
-        value.deploymentType = try reader["DeploymentType"].readIfPresent()
-        value.throughputCapacity = try reader["ThroughputCapacity"].readIfPresent()
-        value.weeklyMaintenanceStartTime = try reader["WeeklyMaintenanceStartTime"].readIfPresent()
-        value.diskIopsConfiguration = try reader["DiskIopsConfiguration"].readIfPresent(with: FSxClientTypes.DiskIopsConfiguration.read(from:))
-        value.rootVolumeConfiguration = try reader["RootVolumeConfiguration"].readIfPresent(with: FSxClientTypes.OpenZFSCreateRootVolumeConfiguration.read(from:))
-        value.preferredSubnetId = try reader["PreferredSubnetId"].readIfPresent()
-        value.endpointIpAddressRange = try reader["EndpointIpAddressRange"].readIfPresent()
-        value.routeTableIds = try reader["RouteTableIds"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -2947,24 +2810,6 @@ extension FSxClientTypes.CreateFileSystemWindowsConfiguration {
         try writer["ThroughputCapacity"].write(value.throughputCapacity)
         try writer["WeeklyMaintenanceStartTime"].write(value.weeklyMaintenanceStartTime)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.CreateFileSystemWindowsConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.CreateFileSystemWindowsConfiguration()
-        value.activeDirectoryId = try reader["ActiveDirectoryId"].readIfPresent()
-        value.selfManagedActiveDirectoryConfiguration = try reader["SelfManagedActiveDirectoryConfiguration"].readIfPresent(with: FSxClientTypes.SelfManagedActiveDirectoryConfiguration.read(from:))
-        value.deploymentType = try reader["DeploymentType"].readIfPresent()
-        value.preferredSubnetId = try reader["PreferredSubnetId"].readIfPresent()
-        value.throughputCapacity = try reader["ThroughputCapacity"].readIfPresent()
-        value.weeklyMaintenanceStartTime = try reader["WeeklyMaintenanceStartTime"].readIfPresent()
-        value.dailyAutomaticBackupStartTime = try reader["DailyAutomaticBackupStartTime"].readIfPresent()
-        value.automaticBackupRetentionDays = try reader["AutomaticBackupRetentionDays"].readIfPresent()
-        value.copyTagsToBackups = try reader["CopyTagsToBackups"].readIfPresent()
-        value.aliases = try reader["Aliases"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.auditLogConfiguration = try reader["AuditLogConfiguration"].readIfPresent(with: FSxClientTypes.WindowsAuditLogCreateConfiguration.read(from:))
-        value.diskIopsConfiguration = try reader["DiskIopsConfiguration"].readIfPresent(with: FSxClientTypes.DiskIopsConfiguration.read(from:))
-        return value
-    }
 }
 
 extension FSxClientTypes {
@@ -3065,25 +2910,6 @@ extension FSxClientTypes.CreateOntapVolumeConfiguration {
         try writer["StorageVirtualMachineId"].write(value.storageVirtualMachineId)
         try writer["TieringPolicy"].write(value.tieringPolicy, with: FSxClientTypes.TieringPolicy.write(value:to:))
         try writer["VolumeStyle"].write(value.volumeStyle)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.CreateOntapVolumeConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.CreateOntapVolumeConfiguration()
-        value.junctionPath = try reader["JunctionPath"].readIfPresent()
-        value.securityStyle = try reader["SecurityStyle"].readIfPresent()
-        value.sizeInMegabytes = try reader["SizeInMegabytes"].readIfPresent()
-        value.storageEfficiencyEnabled = try reader["StorageEfficiencyEnabled"].readIfPresent()
-        value.storageVirtualMachineId = try reader["StorageVirtualMachineId"].readIfPresent()
-        value.tieringPolicy = try reader["TieringPolicy"].readIfPresent(with: FSxClientTypes.TieringPolicy.read(from:))
-        value.ontapVolumeType = try reader["OntapVolumeType"].readIfPresent()
-        value.snapshotPolicy = try reader["SnapshotPolicy"].readIfPresent()
-        value.copyTagsToBackups = try reader["CopyTagsToBackups"].readIfPresent()
-        value.snaplockConfiguration = try reader["SnaplockConfiguration"].readIfPresent(with: FSxClientTypes.CreateSnaplockConfiguration.read(from:))
-        value.volumeStyle = try reader["VolumeStyle"].readIfPresent()
-        value.aggregateConfiguration = try reader["AggregateConfiguration"].readIfPresent(with: FSxClientTypes.CreateAggregateConfiguration.read(from:))
-        value.sizeInBytes = try reader["SizeInBytes"].readIfPresent()
-        return value
     }
 }
 
@@ -3202,14 +3028,6 @@ extension FSxClientTypes.CreateOpenZFSOriginSnapshotConfiguration {
         try writer["CopyStrategy"].write(value.copyStrategy)
         try writer["SnapshotARN"].write(value.snapshotARN)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.CreateOpenZFSOriginSnapshotConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.CreateOpenZFSOriginSnapshotConfiguration()
-        value.snapshotARN = try reader["SnapshotARN"].readIfPresent()
-        value.copyStrategy = try reader["CopyStrategy"].readIfPresent()
-        return value
-    }
 }
 
 extension FSxClientTypes {
@@ -3255,22 +3073,6 @@ extension FSxClientTypes.CreateOpenZFSVolumeConfiguration {
         try writer["StorageCapacityQuotaGiB"].write(value.storageCapacityQuotaGiB)
         try writer["StorageCapacityReservationGiB"].write(value.storageCapacityReservationGiB)
         try writer["UserAndGroupQuotas"].writeList(value.userAndGroupQuotas, memberWritingClosure: FSxClientTypes.OpenZFSUserOrGroupQuota.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.CreateOpenZFSVolumeConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.CreateOpenZFSVolumeConfiguration()
-        value.parentVolumeId = try reader["ParentVolumeId"].readIfPresent()
-        value.storageCapacityReservationGiB = try reader["StorageCapacityReservationGiB"].readIfPresent()
-        value.storageCapacityQuotaGiB = try reader["StorageCapacityQuotaGiB"].readIfPresent()
-        value.recordSizeKiB = try reader["RecordSizeKiB"].readIfPresent()
-        value.dataCompressionType = try reader["DataCompressionType"].readIfPresent()
-        value.copyTagsToSnapshots = try reader["CopyTagsToSnapshots"].readIfPresent()
-        value.originSnapshot = try reader["OriginSnapshot"].readIfPresent(with: FSxClientTypes.CreateOpenZFSOriginSnapshotConfiguration.read(from:))
-        value.readOnly = try reader["ReadOnly"].readIfPresent()
-        value.nfsExports = try reader["NfsExports"].readListIfPresent(memberReadingClosure: FSxClientTypes.OpenZFSNfsExport.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.userAndGroupQuotas = try reader["UserAndGroupQuotas"].readListIfPresent(memberReadingClosure: FSxClientTypes.OpenZFSUserOrGroupQuota.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -3346,18 +3148,6 @@ extension FSxClientTypes.CreateSnaplockConfiguration {
         try writer["RetentionPeriod"].write(value.retentionPeriod, with: FSxClientTypes.SnaplockRetentionPeriod.write(value:to:))
         try writer["SnaplockType"].write(value.snaplockType)
         try writer["VolumeAppendModeEnabled"].write(value.volumeAppendModeEnabled)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.CreateSnaplockConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.CreateSnaplockConfiguration()
-        value.auditLogVolume = try reader["AuditLogVolume"].readIfPresent()
-        value.autocommitPeriod = try reader["AutocommitPeriod"].readIfPresent(with: FSxClientTypes.AutocommitPeriod.read(from:))
-        value.privilegedDelete = try reader["PrivilegedDelete"].readIfPresent()
-        value.retentionPeriod = try reader["RetentionPeriod"].readIfPresent(with: FSxClientTypes.SnaplockRetentionPeriod.read(from:))
-        value.snaplockType = try reader["SnaplockType"].readIfPresent()
-        value.volumeAppendModeEnabled = try reader["VolumeAppendModeEnabled"].readIfPresent()
-        return value
     }
 }
 
@@ -3608,14 +3398,6 @@ extension FSxClientTypes.CreateSvmActiveDirectoryConfiguration {
         try writer["NetBiosName"].write(value.netBiosName)
         try writer["SelfManagedActiveDirectoryConfiguration"].write(value.selfManagedActiveDirectoryConfiguration, with: FSxClientTypes.SelfManagedActiveDirectoryConfiguration.write(value:to:))
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.CreateSvmActiveDirectoryConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.CreateSvmActiveDirectoryConfiguration()
-        value.netBiosName = try reader["NetBiosName"].readIfPresent()
-        value.selfManagedActiveDirectoryConfiguration = try reader["SelfManagedActiveDirectoryConfiguration"].readIfPresent(with: FSxClientTypes.SelfManagedActiveDirectoryConfiguration.read(from:))
-        return value
-    }
 }
 
 extension FSxClientTypes {
@@ -3864,26 +3646,6 @@ extension FSxClientTypes {
 
 extension FSxClientTypes.DataRepositoryAssociation {
 
-    static func write(value: FSxClientTypes.DataRepositoryAssociation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AssociationId"].write(value.associationId)
-        try writer["BatchImportMetaDataOnCreate"].write(value.batchImportMetaDataOnCreate)
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["DataRepositoryPath"].write(value.dataRepositoryPath)
-        try writer["DataRepositorySubdirectories"].writeList(value.dataRepositorySubdirectories, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["FailureDetails"].write(value.failureDetails, with: FSxClientTypes.DataRepositoryFailureDetails.write(value:to:))
-        try writer["FileCacheId"].write(value.fileCacheId)
-        try writer["FileCachePath"].write(value.fileCachePath)
-        try writer["FileSystemId"].write(value.fileSystemId)
-        try writer["FileSystemPath"].write(value.fileSystemPath)
-        try writer["ImportedFileChunkSize"].write(value.importedFileChunkSize)
-        try writer["Lifecycle"].write(value.lifecycle)
-        try writer["NFS"].write(value.nfs, with: FSxClientTypes.NFSDataRepositoryConfiguration.write(value:to:))
-        try writer["ResourceARN"].write(value.resourceARN)
-        try writer["S3"].write(value.s3, with: FSxClientTypes.S3DataRepositoryConfiguration.write(value:to:))
-        try writer["Tags"].writeList(value.tags, memberWritingClosure: FSxClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.DataRepositoryAssociation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FSxClientTypes.DataRepositoryAssociation()
@@ -4057,16 +3819,6 @@ public struct DataRepositoryAssociationNotFound: ClientRuntime.ModeledError, AWS
 
 extension FSxClientTypes.DataRepositoryConfiguration {
 
-    static func write(value: FSxClientTypes.DataRepositoryConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AutoImportPolicy"].write(value.autoImportPolicy)
-        try writer["ExportPath"].write(value.exportPath)
-        try writer["FailureDetails"].write(value.failureDetails, with: FSxClientTypes.DataRepositoryFailureDetails.write(value:to:))
-        try writer["ImportPath"].write(value.importPath)
-        try writer["ImportedFileChunkSize"].write(value.importedFileChunkSize)
-        try writer["Lifecycle"].write(value.lifecycle)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.DataRepositoryConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FSxClientTypes.DataRepositoryConfiguration()
@@ -4136,11 +3888,6 @@ extension FSxClientTypes {
 
 extension FSxClientTypes.DataRepositoryFailureDetails {
 
-    static func write(value: FSxClientTypes.DataRepositoryFailureDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.message)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.DataRepositoryFailureDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FSxClientTypes.DataRepositoryFailureDetails()
@@ -4208,26 +3955,6 @@ extension FSxClientTypes {
 }
 
 extension FSxClientTypes.DataRepositoryTask {
-
-    static func write(value: FSxClientTypes.DataRepositoryTask?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CapacityToRelease"].write(value.capacityToRelease)
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["EndTime"].writeTimestamp(value.endTime, format: .epochSeconds)
-        try writer["FailureDetails"].write(value.failureDetails, with: FSxClientTypes.DataRepositoryTaskFailureDetails.write(value:to:))
-        try writer["FileCacheId"].write(value.fileCacheId)
-        try writer["FileSystemId"].write(value.fileSystemId)
-        try writer["Lifecycle"].write(value.lifecycle)
-        try writer["Paths"].writeList(value.paths, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ReleaseConfiguration"].write(value.releaseConfiguration, with: FSxClientTypes.ReleaseConfiguration.write(value:to:))
-        try writer["Report"].write(value.report, with: FSxClientTypes.CompletionReport.write(value:to:))
-        try writer["ResourceARN"].write(value.resourceARN)
-        try writer["StartTime"].writeTimestamp(value.startTime, format: .epochSeconds)
-        try writer["Status"].write(value.status, with: FSxClientTypes.DataRepositoryTaskStatus.write(value:to:))
-        try writer["Tags"].writeList(value.tags, memberWritingClosure: FSxClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["TaskId"].write(value.taskId)
-        try writer["Type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.DataRepositoryTask {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4442,11 +4169,6 @@ public struct DataRepositoryTaskExecuting: ClientRuntime.ModeledError, AWSClient
 
 extension FSxClientTypes.DataRepositoryTaskFailureDetails {
 
-    static func write(value: FSxClientTypes.DataRepositoryTaskFailureDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.message)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.DataRepositoryTaskFailureDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FSxClientTypes.DataRepositoryTaskFailureDetails()
@@ -4477,14 +4199,6 @@ extension FSxClientTypes.DataRepositoryTaskFilter {
         guard let value else { return }
         try writer["Name"].write(value.name)
         try writer["Values"].writeList(value.values, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.DataRepositoryTaskFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.DataRepositoryTaskFilter()
-        value.name = try reader["Name"].readIfPresent()
-        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -4629,15 +4343,6 @@ public struct DataRepositoryTaskNotFound: ClientRuntime.ModeledError, AWSClientR
 }
 
 extension FSxClientTypes.DataRepositoryTaskStatus {
-
-    static func write(value: FSxClientTypes.DataRepositoryTaskStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["FailedCount"].write(value.failedCount)
-        try writer["LastUpdatedTime"].writeTimestamp(value.lastUpdatedTime, format: .epochSeconds)
-        try writer["ReleasedCapacity"].write(value.releasedCapacity)
-        try writer["SucceededCount"].write(value.succeededCount)
-        try writer["TotalCount"].write(value.totalCount)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.DataRepositoryTaskStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5029,14 +4734,6 @@ extension FSxClientTypes.DeleteFileSystemLustreConfiguration {
         try writer["FinalBackupTags"].writeList(value.finalBackupTags, memberWritingClosure: FSxClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["SkipFinalBackup"].write(value.skipFinalBackup)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.DeleteFileSystemLustreConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.DeleteFileSystemLustreConfiguration()
-        value.skipFinalBackup = try reader["SkipFinalBackup"].readIfPresent()
-        value.finalBackupTags = try reader["FinalBackupTags"].readListIfPresent(memberReadingClosure: FSxClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
 }
 
 extension FSxClientTypes {
@@ -5060,12 +4757,6 @@ extension FSxClientTypes {
 }
 
 extension FSxClientTypes.DeleteFileSystemLustreResponse {
-
-    static func write(value: FSxClientTypes.DeleteFileSystemLustreResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["FinalBackupId"].write(value.finalBackupId)
-        try writer["FinalBackupTags"].writeList(value.finalBackupTags, memberWritingClosure: FSxClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.DeleteFileSystemLustreResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5103,15 +4794,6 @@ extension FSxClientTypes.DeleteFileSystemOpenZFSConfiguration {
         try writer["FinalBackupTags"].writeList(value.finalBackupTags, memberWritingClosure: FSxClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Options"].writeList(value.options, memberWritingClosure: FSxClientTypes.DeleteFileSystemOpenZFSOption.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["SkipFinalBackup"].write(value.skipFinalBackup)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.DeleteFileSystemOpenZFSConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.DeleteFileSystemOpenZFSConfiguration()
-        value.skipFinalBackup = try reader["SkipFinalBackup"].readIfPresent()
-        value.finalBackupTags = try reader["FinalBackupTags"].readListIfPresent(memberReadingClosure: FSxClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.options = try reader["Options"].readListIfPresent(memberReadingClosure: FSxClientTypes.DeleteFileSystemOpenZFSOption.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -5167,12 +4849,6 @@ extension FSxClientTypes {
 }
 
 extension FSxClientTypes.DeleteFileSystemOpenZFSResponse {
-
-    static func write(value: FSxClientTypes.DeleteFileSystemOpenZFSResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["FinalBackupId"].write(value.finalBackupId)
-        try writer["FinalBackupTags"].writeList(value.finalBackupTags, memberWritingClosure: FSxClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.DeleteFileSystemOpenZFSResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5273,14 +4949,6 @@ extension FSxClientTypes.DeleteFileSystemWindowsConfiguration {
         try writer["FinalBackupTags"].writeList(value.finalBackupTags, memberWritingClosure: FSxClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["SkipFinalBackup"].write(value.skipFinalBackup)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.DeleteFileSystemWindowsConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.DeleteFileSystemWindowsConfiguration()
-        value.skipFinalBackup = try reader["SkipFinalBackup"].readIfPresent()
-        value.finalBackupTags = try reader["FinalBackupTags"].readListIfPresent(memberReadingClosure: FSxClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
 }
 
 extension FSxClientTypes {
@@ -5304,12 +4972,6 @@ extension FSxClientTypes {
 }
 
 extension FSxClientTypes.DeleteFileSystemWindowsResponse {
-
-    static func write(value: FSxClientTypes.DeleteFileSystemWindowsResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["FinalBackupId"].write(value.finalBackupId)
-        try writer["FinalBackupTags"].writeList(value.finalBackupTags, memberWritingClosure: FSxClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.DeleteFileSystemWindowsResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5575,15 +5237,6 @@ extension FSxClientTypes.DeleteVolumeOntapConfiguration {
         try writer["FinalBackupTags"].writeList(value.finalBackupTags, memberWritingClosure: FSxClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["SkipFinalBackup"].write(value.skipFinalBackup)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.DeleteVolumeOntapConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.DeleteVolumeOntapConfiguration()
-        value.skipFinalBackup = try reader["SkipFinalBackup"].readIfPresent()
-        value.finalBackupTags = try reader["FinalBackupTags"].readListIfPresent(memberReadingClosure: FSxClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.bypassSnaplockEnterpriseRetention = try reader["BypassSnaplockEnterpriseRetention"].readIfPresent()
-        return value
-    }
 }
 
 extension FSxClientTypes {
@@ -5611,12 +5264,6 @@ extension FSxClientTypes {
 }
 
 extension FSxClientTypes.DeleteVolumeOntapResponse {
-
-    static func write(value: FSxClientTypes.DeleteVolumeOntapResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["FinalBackupId"].write(value.finalBackupId)
-        try writer["FinalBackupTags"].writeList(value.finalBackupTags, memberWritingClosure: FSxClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.DeleteVolumeOntapResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5652,13 +5299,6 @@ extension FSxClientTypes.DeleteVolumeOpenZFSConfiguration {
     static func write(value: FSxClientTypes.DeleteVolumeOpenZFSConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Options"].writeList(value.options, memberWritingClosure: FSxClientTypes.DeleteOpenZFSVolumeOption.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.DeleteVolumeOpenZFSConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.DeleteVolumeOpenZFSConfiguration()
-        value.options = try reader["Options"].readListIfPresent(memberReadingClosure: FSxClientTypes.DeleteOpenZFSVolumeOption.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -6831,26 +6471,6 @@ public enum FSxClientTypes {}
 
 extension FSxClientTypes.FileCache {
 
-    static func write(value: FSxClientTypes.FileCache?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["DNSName"].write(value.dnsName)
-        try writer["DataRepositoryAssociationIds"].writeList(value.dataRepositoryAssociationIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["FailureDetails"].write(value.failureDetails, with: FSxClientTypes.FileCacheFailureDetails.write(value:to:))
-        try writer["FileCacheId"].write(value.fileCacheId)
-        try writer["FileCacheType"].write(value.fileCacheType)
-        try writer["FileCacheTypeVersion"].write(value.fileCacheTypeVersion)
-        try writer["KmsKeyId"].write(value.kmsKeyId)
-        try writer["Lifecycle"].write(value.lifecycle)
-        try writer["LustreConfiguration"].write(value.lustreConfiguration, with: FSxClientTypes.FileCacheLustreConfiguration.write(value:to:))
-        try writer["NetworkInterfaceIds"].writeList(value.networkInterfaceIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["OwnerId"].write(value.ownerId)
-        try writer["ResourceARN"].write(value.resourceARN)
-        try writer["StorageCapacity"].write(value.storageCapacity)
-        try writer["SubnetIds"].writeList(value.subnetIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["VpcId"].write(value.vpcId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.FileCache {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FSxClientTypes.FileCache()
@@ -6961,28 +6581,6 @@ extension FSxClientTypes {
 }
 
 extension FSxClientTypes.FileCacheCreating {
-
-    static func write(value: FSxClientTypes.FileCacheCreating?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CopyTagsToDataRepositoryAssociations"].write(value.copyTagsToDataRepositoryAssociations)
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["DNSName"].write(value.dnsName)
-        try writer["DataRepositoryAssociationIds"].writeList(value.dataRepositoryAssociationIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["FailureDetails"].write(value.failureDetails, with: FSxClientTypes.FileCacheFailureDetails.write(value:to:))
-        try writer["FileCacheId"].write(value.fileCacheId)
-        try writer["FileCacheType"].write(value.fileCacheType)
-        try writer["FileCacheTypeVersion"].write(value.fileCacheTypeVersion)
-        try writer["KmsKeyId"].write(value.kmsKeyId)
-        try writer["Lifecycle"].write(value.lifecycle)
-        try writer["LustreConfiguration"].write(value.lustreConfiguration, with: FSxClientTypes.FileCacheLustreConfiguration.write(value:to:))
-        try writer["NetworkInterfaceIds"].writeList(value.networkInterfaceIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["OwnerId"].write(value.ownerId)
-        try writer["ResourceARN"].write(value.resourceARN)
-        try writer["StorageCapacity"].write(value.storageCapacity)
-        try writer["SubnetIds"].writeList(value.subnetIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Tags"].writeList(value.tags, memberWritingClosure: FSxClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["VpcId"].write(value.vpcId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.FileCacheCreating {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7112,16 +6710,6 @@ extension FSxClientTypes.FileCacheDataRepositoryAssociation {
         try writer["FileCachePath"].write(value.fileCachePath)
         try writer["NFS"].write(value.nfs, with: FSxClientTypes.FileCacheNFSConfiguration.write(value:to:))
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.FileCacheDataRepositoryAssociation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.FileCacheDataRepositoryAssociation()
-        value.fileCachePath = try reader["FileCachePath"].readIfPresent()
-        value.dataRepositoryPath = try reader["DataRepositoryPath"].readIfPresent()
-        value.dataRepositorySubdirectories = try reader["DataRepositorySubdirectories"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.nfs = try reader["NFS"].readIfPresent(with: FSxClientTypes.FileCacheNFSConfiguration.read(from:))
-        return value
-    }
 }
 
 extension FSxClientTypes {
@@ -7166,11 +6754,6 @@ extension FSxClientTypes {
 }
 
 extension FSxClientTypes.FileCacheFailureDetails {
-
-    static func write(value: FSxClientTypes.FileCacheFailureDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.message)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.FileCacheFailureDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7236,16 +6819,6 @@ extension FSxClientTypes {
 }
 
 extension FSxClientTypes.FileCacheLustreConfiguration {
-
-    static func write(value: FSxClientTypes.FileCacheLustreConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DeploymentType"].write(value.deploymentType)
-        try writer["LogConfiguration"].write(value.logConfiguration, with: FSxClientTypes.LustreLogConfiguration.write(value:to:))
-        try writer["MetadataConfiguration"].write(value.metadataConfiguration, with: FSxClientTypes.FileCacheLustreMetadataConfiguration.write(value:to:))
-        try writer["MountName"].write(value.mountName)
-        try writer["PerUnitStorageThroughput"].write(value.perUnitStorageThroughput)
-        try writer["WeeklyMaintenanceStartTime"].write(value.weeklyMaintenanceStartTime)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.FileCacheLustreConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7362,14 +6935,6 @@ extension FSxClientTypes.FileCacheNFSConfiguration {
         try writer["DnsIps"].writeList(value.dnsIps, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Version"].write(value.version)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.FileCacheNFSConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.FileCacheNFSConfiguration()
-        value.version = try reader["Version"].readIfPresent()
-        value.dnsIps = try reader["DnsIps"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
 }
 
 extension FSxClientTypes {
@@ -7459,31 +7024,6 @@ extension FSxClientTypes {
 }
 
 extension FSxClientTypes.FileSystem {
-
-    static func write(value: FSxClientTypes.FileSystem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AdministrativeActions"].writeList(value.administrativeActions, memberWritingClosure: FSxClientTypes.AdministrativeAction.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["DNSName"].write(value.dnsName)
-        try writer["FailureDetails"].write(value.failureDetails, with: FSxClientTypes.FileSystemFailureDetails.write(value:to:))
-        try writer["FileSystemId"].write(value.fileSystemId)
-        try writer["FileSystemType"].write(value.fileSystemType)
-        try writer["FileSystemTypeVersion"].write(value.fileSystemTypeVersion)
-        try writer["KmsKeyId"].write(value.kmsKeyId)
-        try writer["Lifecycle"].write(value.lifecycle)
-        try writer["LustreConfiguration"].write(value.lustreConfiguration, with: FSxClientTypes.LustreFileSystemConfiguration.write(value:to:))
-        try writer["NetworkInterfaceIds"].writeList(value.networkInterfaceIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["OntapConfiguration"].write(value.ontapConfiguration, with: FSxClientTypes.OntapFileSystemConfiguration.write(value:to:))
-        try writer["OpenZFSConfiguration"].write(value.openZFSConfiguration, with: FSxClientTypes.OpenZFSFileSystemConfiguration.write(value:to:))
-        try writer["OwnerId"].write(value.ownerId)
-        try writer["ResourceARN"].write(value.resourceARN)
-        try writer["StorageCapacity"].write(value.storageCapacity)
-        try writer["StorageType"].write(value.storageType)
-        try writer["SubnetIds"].writeList(value.subnetIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Tags"].writeList(value.tags, memberWritingClosure: FSxClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["VpcId"].write(value.vpcId)
-        try writer["WindowsConfiguration"].write(value.windowsConfiguration, with: FSxClientTypes.WindowsFileSystemConfiguration.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.FileSystem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7633,12 +7173,6 @@ extension FSxClientTypes {
 
 extension FSxClientTypes.FileSystemEndpoint {
 
-    static func write(value: FSxClientTypes.FileSystemEndpoint?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DNSName"].write(value.dnsName)
-        try writer["IpAddresses"].writeList(value.ipAddresses, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.FileSystemEndpoint {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FSxClientTypes.FileSystemEndpoint()
@@ -7670,12 +7204,6 @@ extension FSxClientTypes {
 
 extension FSxClientTypes.FileSystemEndpoints {
 
-    static func write(value: FSxClientTypes.FileSystemEndpoints?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Intercluster"].write(value.intercluster, with: FSxClientTypes.FileSystemEndpoint.write(value:to:))
-        try writer["Management"].write(value.management, with: FSxClientTypes.FileSystemEndpoint.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.FileSystemEndpoints {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FSxClientTypes.FileSystemEndpoints()
@@ -7706,11 +7234,6 @@ extension FSxClientTypes {
 }
 
 extension FSxClientTypes.FileSystemFailureDetails {
-
-    static func write(value: FSxClientTypes.FileSystemFailureDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.message)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.FileSystemFailureDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7894,14 +7417,6 @@ extension FSxClientTypes.Filter {
         guard let value else { return }
         try writer["Name"].write(value.name)
         try writer["Values"].writeList(value.values, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.Filter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.Filter()
-        value.name = try reader["Name"].readIfPresent()
-        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -8475,11 +7990,6 @@ public struct InvalidSourceKmsKey: ClientRuntime.ModeledError, AWSClientRuntime.
 
 extension FSxClientTypes.LifecycleTransitionReason {
 
-    static func write(value: FSxClientTypes.LifecycleTransitionReason?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.message)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.LifecycleTransitionReason {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FSxClientTypes.LifecycleTransitionReason()
@@ -8665,22 +8175,6 @@ extension FSxClientTypes {
 
 extension FSxClientTypes.LustreFileSystemConfiguration {
 
-    static func write(value: FSxClientTypes.LustreFileSystemConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AutomaticBackupRetentionDays"].write(value.automaticBackupRetentionDays)
-        try writer["CopyTagsToBackups"].write(value.copyTagsToBackups)
-        try writer["DailyAutomaticBackupStartTime"].write(value.dailyAutomaticBackupStartTime)
-        try writer["DataCompressionType"].write(value.dataCompressionType)
-        try writer["DataRepositoryConfiguration"].write(value.dataRepositoryConfiguration, with: FSxClientTypes.DataRepositoryConfiguration.write(value:to:))
-        try writer["DeploymentType"].write(value.deploymentType)
-        try writer["DriveCacheType"].write(value.driveCacheType)
-        try writer["LogConfiguration"].write(value.logConfiguration, with: FSxClientTypes.LustreLogConfiguration.write(value:to:))
-        try writer["MountName"].write(value.mountName)
-        try writer["PerUnitStorageThroughput"].write(value.perUnitStorageThroughput)
-        try writer["RootSquashConfiguration"].write(value.rootSquashConfiguration, with: FSxClientTypes.LustreRootSquashConfiguration.write(value:to:))
-        try writer["WeeklyMaintenanceStartTime"].write(value.weeklyMaintenanceStartTime)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.LustreFileSystemConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FSxClientTypes.LustreFileSystemConfiguration()
@@ -8775,12 +8269,6 @@ extension FSxClientTypes {
 
 extension FSxClientTypes.LustreLogConfiguration {
 
-    static func write(value: FSxClientTypes.LustreLogConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Destination"].write(value.destination)
-        try writer["Level"].write(value.level)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.LustreLogConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FSxClientTypes.LustreLogConfiguration()
@@ -8828,14 +8316,6 @@ extension FSxClientTypes.LustreLogCreateConfiguration {
         guard let value else { return }
         try writer["Destination"].write(value.destination)
         try writer["Level"].write(value.level)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.LustreLogCreateConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.LustreLogCreateConfiguration()
-        value.level = try reader["Level"].readIfPresent()
-        value.destination = try reader["Destination"].readIfPresent()
-        return value
     }
 }
 
@@ -9042,13 +8522,6 @@ public struct MissingVolumeConfiguration: ClientRuntime.ModeledError, AWSClientR
 
 extension FSxClientTypes.NFSDataRepositoryConfiguration {
 
-    static func write(value: FSxClientTypes.NFSDataRepositoryConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AutoExportPolicy"].write(value.autoExportPolicy, with: FSxClientTypes.AutoExportPolicy.write(value:to:))
-        try writer["DnsIps"].writeList(value.dnsIps, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Version"].write(value.version)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.NFSDataRepositoryConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FSxClientTypes.NFSDataRepositoryConfiguration()
@@ -9195,23 +8668,6 @@ extension FSxClientTypes.OntapFileSystemConfiguration: Swift.CustomDebugStringCo
 
 extension FSxClientTypes.OntapFileSystemConfiguration {
 
-    static func write(value: FSxClientTypes.OntapFileSystemConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AutomaticBackupRetentionDays"].write(value.automaticBackupRetentionDays)
-        try writer["DailyAutomaticBackupStartTime"].write(value.dailyAutomaticBackupStartTime)
-        try writer["DeploymentType"].write(value.deploymentType)
-        try writer["DiskIopsConfiguration"].write(value.diskIopsConfiguration, with: FSxClientTypes.DiskIopsConfiguration.write(value:to:))
-        try writer["EndpointIpAddressRange"].write(value.endpointIpAddressRange)
-        try writer["Endpoints"].write(value.endpoints, with: FSxClientTypes.FileSystemEndpoints.write(value:to:))
-        try writer["FsxAdminPassword"].write(value.fsxAdminPassword)
-        try writer["HAPairs"].write(value.haPairs)
-        try writer["PreferredSubnetId"].write(value.preferredSubnetId)
-        try writer["RouteTableIds"].writeList(value.routeTableIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ThroughputCapacity"].write(value.throughputCapacity)
-        try writer["ThroughputCapacityPerHAPair"].write(value.throughputCapacityPerHAPair)
-        try writer["WeeklyMaintenanceStartTime"].write(value.weeklyMaintenanceStartTime)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.OntapFileSystemConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FSxClientTypes.OntapFileSystemConfiguration()
@@ -9323,26 +8779,6 @@ extension FSxClientTypes {
 }
 
 extension FSxClientTypes.OntapVolumeConfiguration {
-
-    static func write(value: FSxClientTypes.OntapVolumeConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AggregateConfiguration"].write(value.aggregateConfiguration, with: FSxClientTypes.AggregateConfiguration.write(value:to:))
-        try writer["CopyTagsToBackups"].write(value.copyTagsToBackups)
-        try writer["FlexCacheEndpointType"].write(value.flexCacheEndpointType)
-        try writer["JunctionPath"].write(value.junctionPath)
-        try writer["OntapVolumeType"].write(value.ontapVolumeType)
-        try writer["SecurityStyle"].write(value.securityStyle)
-        try writer["SizeInBytes"].write(value.sizeInBytes)
-        try writer["SizeInMegabytes"].write(value.sizeInMegabytes)
-        try writer["SnaplockConfiguration"].write(value.snaplockConfiguration, with: FSxClientTypes.SnaplockConfiguration.write(value:to:))
-        try writer["SnapshotPolicy"].write(value.snapshotPolicy)
-        try writer["StorageEfficiencyEnabled"].write(value.storageEfficiencyEnabled)
-        try writer["StorageVirtualMachineId"].write(value.storageVirtualMachineId)
-        try writer["StorageVirtualMachineRoot"].write(value.storageVirtualMachineRoot)
-        try writer["TieringPolicy"].write(value.tieringPolicy, with: FSxClientTypes.TieringPolicy.write(value:to:))
-        try writer["UUID"].write(value.uuid)
-        try writer["VolumeStyle"].write(value.volumeStyle)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.OntapVolumeConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -9584,18 +9020,6 @@ extension FSxClientTypes.OpenZFSCreateRootVolumeConfiguration {
         try writer["RecordSizeKiB"].write(value.recordSizeKiB)
         try writer["UserAndGroupQuotas"].writeList(value.userAndGroupQuotas, memberWritingClosure: FSxClientTypes.OpenZFSUserOrGroupQuota.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.OpenZFSCreateRootVolumeConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.OpenZFSCreateRootVolumeConfiguration()
-        value.recordSizeKiB = try reader["RecordSizeKiB"].readIfPresent()
-        value.dataCompressionType = try reader["DataCompressionType"].readIfPresent()
-        value.nfsExports = try reader["NfsExports"].readListIfPresent(memberReadingClosure: FSxClientTypes.OpenZFSNfsExport.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.userAndGroupQuotas = try reader["UserAndGroupQuotas"].readListIfPresent(memberReadingClosure: FSxClientTypes.OpenZFSUserOrGroupQuota.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.copyTagsToSnapshots = try reader["CopyTagsToSnapshots"].readIfPresent()
-        value.readOnly = try reader["ReadOnly"].readIfPresent()
-        return value
-    }
 }
 
 extension FSxClientTypes {
@@ -9707,23 +9131,6 @@ extension FSxClientTypes {
 }
 
 extension FSxClientTypes.OpenZFSFileSystemConfiguration {
-
-    static func write(value: FSxClientTypes.OpenZFSFileSystemConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AutomaticBackupRetentionDays"].write(value.automaticBackupRetentionDays)
-        try writer["CopyTagsToBackups"].write(value.copyTagsToBackups)
-        try writer["CopyTagsToVolumes"].write(value.copyTagsToVolumes)
-        try writer["DailyAutomaticBackupStartTime"].write(value.dailyAutomaticBackupStartTime)
-        try writer["DeploymentType"].write(value.deploymentType)
-        try writer["DiskIopsConfiguration"].write(value.diskIopsConfiguration, with: FSxClientTypes.DiskIopsConfiguration.write(value:to:))
-        try writer["EndpointIpAddress"].write(value.endpointIpAddress)
-        try writer["EndpointIpAddressRange"].write(value.endpointIpAddressRange)
-        try writer["PreferredSubnetId"].write(value.preferredSubnetId)
-        try writer["RootVolumeId"].write(value.rootVolumeId)
-        try writer["RouteTableIds"].writeList(value.routeTableIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ThroughputCapacity"].write(value.throughputCapacity)
-        try writer["WeeklyMaintenanceStartTime"].write(value.weeklyMaintenanceStartTime)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.OpenZFSFileSystemConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -9843,12 +9250,6 @@ extension FSxClientTypes {
 
 extension FSxClientTypes.OpenZFSOriginSnapshotConfiguration {
 
-    static func write(value: FSxClientTypes.OpenZFSOriginSnapshotConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CopyStrategy"].write(value.copyStrategy)
-        try writer["SnapshotARN"].write(value.snapshotARN)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.OpenZFSOriginSnapshotConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FSxClientTypes.OpenZFSOriginSnapshotConfiguration()
@@ -9962,28 +9363,6 @@ extension FSxClientTypes {
 }
 
 extension FSxClientTypes.OpenZFSVolumeConfiguration {
-
-    static func write(value: FSxClientTypes.OpenZFSVolumeConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CopyStrategy"].write(value.copyStrategy)
-        try writer["CopyTagsToSnapshots"].write(value.copyTagsToSnapshots)
-        try writer["DataCompressionType"].write(value.dataCompressionType)
-        try writer["DeleteClonedVolumes"].write(value.deleteClonedVolumes)
-        try writer["DeleteIntermediateData"].write(value.deleteIntermediateData)
-        try writer["DeleteIntermediateSnaphots"].write(value.deleteIntermediateSnaphots)
-        try writer["DestinationSnapshot"].write(value.destinationSnapshot)
-        try writer["NfsExports"].writeList(value.nfsExports, memberWritingClosure: FSxClientTypes.OpenZFSNfsExport.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["OriginSnapshot"].write(value.originSnapshot, with: FSxClientTypes.OpenZFSOriginSnapshotConfiguration.write(value:to:))
-        try writer["ParentVolumeId"].write(value.parentVolumeId)
-        try writer["ReadOnly"].write(value.readOnly)
-        try writer["RecordSizeKiB"].write(value.recordSizeKiB)
-        try writer["RestoreToSnapshot"].write(value.restoreToSnapshot)
-        try writer["SourceSnapshotARN"].write(value.sourceSnapshotARN)
-        try writer["StorageCapacityQuotaGiB"].write(value.storageCapacityQuotaGiB)
-        try writer["StorageCapacityReservationGiB"].write(value.storageCapacityReservationGiB)
-        try writer["UserAndGroupQuotas"].writeList(value.userAndGroupQuotas, memberWritingClosure: FSxClientTypes.OpenZFSUserOrGroupQuota.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["VolumePath"].write(value.volumePath)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.OpenZFSVolumeConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -10716,15 +10095,6 @@ extension FSxClientTypes {
 
 extension FSxClientTypes.SelfManagedActiveDirectoryAttributes {
 
-    static func write(value: FSxClientTypes.SelfManagedActiveDirectoryAttributes?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DnsIps"].writeList(value.dnsIps, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["DomainName"].write(value.domainName)
-        try writer["FileSystemAdministratorsGroup"].write(value.fileSystemAdministratorsGroup)
-        try writer["OrganizationalUnitDistinguishedName"].write(value.organizationalUnitDistinguishedName)
-        try writer["UserName"].write(value.userName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.SelfManagedActiveDirectoryAttributes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FSxClientTypes.SelfManagedActiveDirectoryAttributes()
@@ -10785,18 +10155,6 @@ extension FSxClientTypes.SelfManagedActiveDirectoryConfiguration {
         try writer["Password"].write(value.password)
         try writer["UserName"].write(value.userName)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.SelfManagedActiveDirectoryConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.SelfManagedActiveDirectoryConfiguration()
-        value.domainName = try reader["DomainName"].readIfPresent()
-        value.organizationalUnitDistinguishedName = try reader["OrganizationalUnitDistinguishedName"].readIfPresent()
-        value.fileSystemAdministratorsGroup = try reader["FileSystemAdministratorsGroup"].readIfPresent()
-        value.userName = try reader["UserName"].readIfPresent()
-        value.password = try reader["Password"].readIfPresent()
-        value.dnsIps = try reader["DnsIps"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
 }
 
 extension FSxClientTypes {
@@ -10854,18 +10212,6 @@ extension FSxClientTypes.SelfManagedActiveDirectoryConfigurationUpdates {
         try writer["OrganizationalUnitDistinguishedName"].write(value.organizationalUnitDistinguishedName)
         try writer["Password"].write(value.password)
         try writer["UserName"].write(value.userName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.SelfManagedActiveDirectoryConfigurationUpdates {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.SelfManagedActiveDirectoryConfigurationUpdates()
-        value.userName = try reader["UserName"].readIfPresent()
-        value.password = try reader["Password"].readIfPresent()
-        value.dnsIps = try reader["DnsIps"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.domainName = try reader["DomainName"].readIfPresent()
-        value.organizationalUnitDistinguishedName = try reader["OrganizationalUnitDistinguishedName"].readIfPresent()
-        value.fileSystemAdministratorsGroup = try reader["FileSystemAdministratorsGroup"].readIfPresent()
-        return value
     }
 }
 
@@ -11006,16 +10352,6 @@ public struct ServiceLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime
 
 extension FSxClientTypes.SnaplockConfiguration {
 
-    static func write(value: FSxClientTypes.SnaplockConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AuditLogVolume"].write(value.auditLogVolume)
-        try writer["AutocommitPeriod"].write(value.autocommitPeriod, with: FSxClientTypes.AutocommitPeriod.write(value:to:))
-        try writer["PrivilegedDelete"].write(value.privilegedDelete)
-        try writer["RetentionPeriod"].write(value.retentionPeriod, with: FSxClientTypes.SnaplockRetentionPeriod.write(value:to:))
-        try writer["SnaplockType"].write(value.snaplockType)
-        try writer["VolumeAppendModeEnabled"].write(value.volumeAppendModeEnabled)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.SnaplockConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FSxClientTypes.SnaplockConfiguration()
@@ -11147,19 +10483,6 @@ extension FSxClientTypes {
 
 extension FSxClientTypes.Snapshot {
 
-    static func write(value: FSxClientTypes.Snapshot?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AdministrativeActions"].writeList(value.administrativeActions, memberWritingClosure: FSxClientTypes.AdministrativeAction.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["Lifecycle"].write(value.lifecycle)
-        try writer["LifecycleTransitionReason"].write(value.lifecycleTransitionReason, with: FSxClientTypes.LifecycleTransitionReason.write(value:to:))
-        try writer["Name"].write(value.name)
-        try writer["ResourceARN"].write(value.resourceARN)
-        try writer["SnapshotId"].write(value.snapshotId)
-        try writer["Tags"].writeList(value.tags, memberWritingClosure: FSxClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["VolumeId"].write(value.volumeId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.Snapshot {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FSxClientTypes.Snapshot()
@@ -11238,14 +10561,6 @@ extension FSxClientTypes.SnapshotFilter {
         guard let value else { return }
         try writer["Name"].write(value.name)
         try writer["Values"].writeList(value.values, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.SnapshotFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.SnapshotFilter()
-        value.name = try reader["Name"].readIfPresent()
-        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -11561,23 +10876,6 @@ extension FSxClientTypes {
 
 extension FSxClientTypes.StorageVirtualMachine {
 
-    static func write(value: FSxClientTypes.StorageVirtualMachine?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ActiveDirectoryConfiguration"].write(value.activeDirectoryConfiguration, with: FSxClientTypes.SvmActiveDirectoryConfiguration.write(value:to:))
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["Endpoints"].write(value.endpoints, with: FSxClientTypes.SvmEndpoints.write(value:to:))
-        try writer["FileSystemId"].write(value.fileSystemId)
-        try writer["Lifecycle"].write(value.lifecycle)
-        try writer["LifecycleTransitionReason"].write(value.lifecycleTransitionReason, with: FSxClientTypes.LifecycleTransitionReason.write(value:to:))
-        try writer["Name"].write(value.name)
-        try writer["ResourceARN"].write(value.resourceARN)
-        try writer["RootVolumeSecurityStyle"].write(value.rootVolumeSecurityStyle)
-        try writer["StorageVirtualMachineId"].write(value.storageVirtualMachineId)
-        try writer["Subtype"].write(value.subtype)
-        try writer["Tags"].writeList(value.tags, memberWritingClosure: FSxClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["UUID"].write(value.uuid)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.StorageVirtualMachine {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FSxClientTypes.StorageVirtualMachine()
@@ -11680,14 +10978,6 @@ extension FSxClientTypes.StorageVirtualMachineFilter {
         guard let value else { return }
         try writer["Name"].write(value.name)
         try writer["Values"].writeList(value.values, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.StorageVirtualMachineFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.StorageVirtualMachineFilter()
-        value.name = try reader["Name"].readIfPresent()
-        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -11889,12 +11179,6 @@ extension FSxClientTypes {
 
 extension FSxClientTypes.SvmActiveDirectoryConfiguration {
 
-    static func write(value: FSxClientTypes.SvmActiveDirectoryConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["NetBiosName"].write(value.netBiosName)
-        try writer["SelfManagedActiveDirectoryConfiguration"].write(value.selfManagedActiveDirectoryConfiguration, with: FSxClientTypes.SelfManagedActiveDirectoryAttributes.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.SvmActiveDirectoryConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FSxClientTypes.SvmActiveDirectoryConfiguration()
@@ -11926,12 +11210,6 @@ extension FSxClientTypes {
 
 extension FSxClientTypes.SvmEndpoint {
 
-    static func write(value: FSxClientTypes.SvmEndpoint?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DNSName"].write(value.dnsName)
-        try writer["IpAddresses"].writeList(value.ipAddresses, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.SvmEndpoint {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FSxClientTypes.SvmEndpoint()
@@ -11962,14 +11240,6 @@ extension FSxClientTypes {
 }
 
 extension FSxClientTypes.SvmEndpoints {
-
-    static func write(value: FSxClientTypes.SvmEndpoints?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Iscsi"].write(value.iscsi, with: FSxClientTypes.SvmEndpoint.write(value:to:))
-        try writer["Management"].write(value.management, with: FSxClientTypes.SvmEndpoint.write(value:to:))
-        try writer["Nfs"].write(value.nfs, with: FSxClientTypes.SvmEndpoint.write(value:to:))
-        try writer["Smb"].write(value.smb, with: FSxClientTypes.SvmEndpoint.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.SvmEndpoints {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -12473,13 +11743,6 @@ extension FSxClientTypes.UpdateFileCacheLustreConfiguration {
         guard let value else { return }
         try writer["WeeklyMaintenanceStartTime"].write(value.weeklyMaintenanceStartTime)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.UpdateFileCacheLustreConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.UpdateFileCacheLustreConfiguration()
-        value.weeklyMaintenanceStartTime = try reader["WeeklyMaintenanceStartTime"].readIfPresent()
-        return value
-    }
 }
 
 extension FSxClientTypes {
@@ -12628,20 +11891,6 @@ extension FSxClientTypes.UpdateFileSystemLustreConfiguration {
         try writer["RootSquashConfiguration"].write(value.rootSquashConfiguration, with: FSxClientTypes.LustreRootSquashConfiguration.write(value:to:))
         try writer["WeeklyMaintenanceStartTime"].write(value.weeklyMaintenanceStartTime)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.UpdateFileSystemLustreConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.UpdateFileSystemLustreConfiguration()
-        value.weeklyMaintenanceStartTime = try reader["WeeklyMaintenanceStartTime"].readIfPresent()
-        value.dailyAutomaticBackupStartTime = try reader["DailyAutomaticBackupStartTime"].readIfPresent()
-        value.automaticBackupRetentionDays = try reader["AutomaticBackupRetentionDays"].readIfPresent()
-        value.autoImportPolicy = try reader["AutoImportPolicy"].readIfPresent()
-        value.dataCompressionType = try reader["DataCompressionType"].readIfPresent()
-        value.logConfiguration = try reader["LogConfiguration"].readIfPresent(with: FSxClientTypes.LustreLogCreateConfiguration.read(from:))
-        value.rootSquashConfiguration = try reader["RootSquashConfiguration"].readIfPresent(with: FSxClientTypes.LustreRootSquashConfiguration.read(from:))
-        value.perUnitStorageThroughput = try reader["PerUnitStorageThroughput"].readIfPresent()
-        return value
-    }
 }
 
 extension FSxClientTypes {
@@ -12732,21 +11981,6 @@ extension FSxClientTypes.UpdateFileSystemOntapConfiguration {
         try writer["ThroughputCapacityPerHAPair"].write(value.throughputCapacityPerHAPair)
         try writer["WeeklyMaintenanceStartTime"].write(value.weeklyMaintenanceStartTime)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.UpdateFileSystemOntapConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.UpdateFileSystemOntapConfiguration()
-        value.automaticBackupRetentionDays = try reader["AutomaticBackupRetentionDays"].readIfPresent()
-        value.dailyAutomaticBackupStartTime = try reader["DailyAutomaticBackupStartTime"].readIfPresent()
-        value.fsxAdminPassword = try reader["FsxAdminPassword"].readIfPresent()
-        value.weeklyMaintenanceStartTime = try reader["WeeklyMaintenanceStartTime"].readIfPresent()
-        value.diskIopsConfiguration = try reader["DiskIopsConfiguration"].readIfPresent(with: FSxClientTypes.DiskIopsConfiguration.read(from:))
-        value.throughputCapacity = try reader["ThroughputCapacity"].readIfPresent()
-        value.addRouteTableIds = try reader["AddRouteTableIds"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.removeRouteTableIds = try reader["RemoveRouteTableIds"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.throughputCapacityPerHAPair = try reader["ThroughputCapacityPerHAPair"].readIfPresent()
-        return value
-    }
 }
 
 extension FSxClientTypes {
@@ -12827,21 +12061,6 @@ extension FSxClientTypes.UpdateFileSystemOpenZFSConfiguration {
         try writer["RemoveRouteTableIds"].writeList(value.removeRouteTableIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ThroughputCapacity"].write(value.throughputCapacity)
         try writer["WeeklyMaintenanceStartTime"].write(value.weeklyMaintenanceStartTime)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.UpdateFileSystemOpenZFSConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.UpdateFileSystemOpenZFSConfiguration()
-        value.automaticBackupRetentionDays = try reader["AutomaticBackupRetentionDays"].readIfPresent()
-        value.copyTagsToBackups = try reader["CopyTagsToBackups"].readIfPresent()
-        value.copyTagsToVolumes = try reader["CopyTagsToVolumes"].readIfPresent()
-        value.dailyAutomaticBackupStartTime = try reader["DailyAutomaticBackupStartTime"].readIfPresent()
-        value.throughputCapacity = try reader["ThroughputCapacity"].readIfPresent()
-        value.weeklyMaintenanceStartTime = try reader["WeeklyMaintenanceStartTime"].readIfPresent()
-        value.diskIopsConfiguration = try reader["DiskIopsConfiguration"].readIfPresent(with: FSxClientTypes.DiskIopsConfiguration.read(from:))
-        value.addRouteTableIds = try reader["AddRouteTableIds"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.removeRouteTableIds = try reader["RemoveRouteTableIds"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -12955,19 +12174,6 @@ extension FSxClientTypes.UpdateFileSystemWindowsConfiguration {
         try writer["ThroughputCapacity"].write(value.throughputCapacity)
         try writer["WeeklyMaintenanceStartTime"].write(value.weeklyMaintenanceStartTime)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.UpdateFileSystemWindowsConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.UpdateFileSystemWindowsConfiguration()
-        value.weeklyMaintenanceStartTime = try reader["WeeklyMaintenanceStartTime"].readIfPresent()
-        value.dailyAutomaticBackupStartTime = try reader["DailyAutomaticBackupStartTime"].readIfPresent()
-        value.automaticBackupRetentionDays = try reader["AutomaticBackupRetentionDays"].readIfPresent()
-        value.throughputCapacity = try reader["ThroughputCapacity"].readIfPresent()
-        value.selfManagedActiveDirectoryConfiguration = try reader["SelfManagedActiveDirectoryConfiguration"].readIfPresent(with: FSxClientTypes.SelfManagedActiveDirectoryConfigurationUpdates.read(from:))
-        value.auditLogConfiguration = try reader["AuditLogConfiguration"].readIfPresent(with: FSxClientTypes.WindowsAuditLogCreateConfiguration.read(from:))
-        value.diskIopsConfiguration = try reader["DiskIopsConfiguration"].readIfPresent(with: FSxClientTypes.DiskIopsConfiguration.read(from:))
-        return value
-    }
 }
 
 extension FSxClientTypes {
@@ -13023,21 +12229,6 @@ extension FSxClientTypes.UpdateOntapVolumeConfiguration {
         try writer["SnapshotPolicy"].write(value.snapshotPolicy)
         try writer["StorageEfficiencyEnabled"].write(value.storageEfficiencyEnabled)
         try writer["TieringPolicy"].write(value.tieringPolicy, with: FSxClientTypes.TieringPolicy.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.UpdateOntapVolumeConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.UpdateOntapVolumeConfiguration()
-        value.junctionPath = try reader["JunctionPath"].readIfPresent()
-        value.securityStyle = try reader["SecurityStyle"].readIfPresent()
-        value.sizeInMegabytes = try reader["SizeInMegabytes"].readIfPresent()
-        value.storageEfficiencyEnabled = try reader["StorageEfficiencyEnabled"].readIfPresent()
-        value.tieringPolicy = try reader["TieringPolicy"].readIfPresent(with: FSxClientTypes.TieringPolicy.read(from:))
-        value.snapshotPolicy = try reader["SnapshotPolicy"].readIfPresent()
-        value.copyTagsToBackups = try reader["CopyTagsToBackups"].readIfPresent()
-        value.snaplockConfiguration = try reader["SnaplockConfiguration"].readIfPresent(with: FSxClientTypes.UpdateSnaplockConfiguration.read(from:))
-        value.sizeInBytes = try reader["SizeInBytes"].readIfPresent()
-        return value
     }
 }
 
@@ -13109,19 +12300,6 @@ extension FSxClientTypes.UpdateOpenZFSVolumeConfiguration {
         try writer["StorageCapacityQuotaGiB"].write(value.storageCapacityQuotaGiB)
         try writer["StorageCapacityReservationGiB"].write(value.storageCapacityReservationGiB)
         try writer["UserAndGroupQuotas"].writeList(value.userAndGroupQuotas, memberWritingClosure: FSxClientTypes.OpenZFSUserOrGroupQuota.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.UpdateOpenZFSVolumeConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.UpdateOpenZFSVolumeConfiguration()
-        value.storageCapacityReservationGiB = try reader["StorageCapacityReservationGiB"].readIfPresent()
-        value.storageCapacityQuotaGiB = try reader["StorageCapacityQuotaGiB"].readIfPresent()
-        value.recordSizeKiB = try reader["RecordSizeKiB"].readIfPresent()
-        value.dataCompressionType = try reader["DataCompressionType"].readIfPresent()
-        value.nfsExports = try reader["NfsExports"].readListIfPresent(memberReadingClosure: FSxClientTypes.OpenZFSNfsExport.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.userAndGroupQuotas = try reader["UserAndGroupQuotas"].readListIfPresent(memberReadingClosure: FSxClientTypes.OpenZFSUserOrGroupQuota.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.readOnly = try reader["ReadOnly"].readIfPresent()
-        return value
     }
 }
 
@@ -13285,17 +12463,6 @@ extension FSxClientTypes.UpdateSnaplockConfiguration {
         try writer["PrivilegedDelete"].write(value.privilegedDelete)
         try writer["RetentionPeriod"].write(value.retentionPeriod, with: FSxClientTypes.SnaplockRetentionPeriod.write(value:to:))
         try writer["VolumeAppendModeEnabled"].write(value.volumeAppendModeEnabled)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.UpdateSnaplockConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.UpdateSnaplockConfiguration()
-        value.auditLogVolume = try reader["AuditLogVolume"].readIfPresent()
-        value.autocommitPeriod = try reader["AutocommitPeriod"].readIfPresent(with: FSxClientTypes.AutocommitPeriod.read(from:))
-        value.privilegedDelete = try reader["PrivilegedDelete"].readIfPresent()
-        value.retentionPeriod = try reader["RetentionPeriod"].readIfPresent(with: FSxClientTypes.SnaplockRetentionPeriod.read(from:))
-        value.volumeAppendModeEnabled = try reader["VolumeAppendModeEnabled"].readIfPresent()
-        return value
     }
 }
 
@@ -13507,14 +12674,6 @@ extension FSxClientTypes.UpdateSvmActiveDirectoryConfiguration {
         try writer["NetBiosName"].write(value.netBiosName)
         try writer["SelfManagedActiveDirectoryConfiguration"].write(value.selfManagedActiveDirectoryConfiguration, with: FSxClientTypes.SelfManagedActiveDirectoryConfigurationUpdates.write(value:to:))
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.UpdateSvmActiveDirectoryConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.UpdateSvmActiveDirectoryConfiguration()
-        value.selfManagedActiveDirectoryConfiguration = try reader["SelfManagedActiveDirectoryConfiguration"].readIfPresent(with: FSxClientTypes.SelfManagedActiveDirectoryConfigurationUpdates.read(from:))
-        value.netBiosName = try reader["NetBiosName"].readIfPresent()
-        return value
-    }
 }
 
 extension FSxClientTypes {
@@ -13629,22 +12788,6 @@ enum UpdateVolumeOutputError {
 
 extension FSxClientTypes.Volume {
 
-    static func write(value: FSxClientTypes.Volume?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AdministrativeActions"].writeList(value.administrativeActions, memberWritingClosure: FSxClientTypes.AdministrativeAction.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["FileSystemId"].write(value.fileSystemId)
-        try writer["Lifecycle"].write(value.lifecycle)
-        try writer["LifecycleTransitionReason"].write(value.lifecycleTransitionReason, with: FSxClientTypes.LifecycleTransitionReason.write(value:to:))
-        try writer["Name"].write(value.name)
-        try writer["OntapConfiguration"].write(value.ontapConfiguration, with: FSxClientTypes.OntapVolumeConfiguration.write(value:to:))
-        try writer["OpenZFSConfiguration"].write(value.openZFSConfiguration, with: FSxClientTypes.OpenZFSVolumeConfiguration.write(value:to:))
-        try writer["ResourceARN"].write(value.resourceARN)
-        try writer["Tags"].writeList(value.tags, memberWritingClosure: FSxClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["VolumeId"].write(value.volumeId)
-        try writer["VolumeType"].write(value.volumeType)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.Volume {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FSxClientTypes.Volume()
@@ -13744,14 +12887,6 @@ extension FSxClientTypes.VolumeFilter {
         guard let value else { return }
         try writer["Name"].write(value.name)
         try writer["Values"].writeList(value.values, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.VolumeFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.VolumeFilter()
-        value.name = try reader["Name"].readIfPresent()
-        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -13986,13 +13121,6 @@ extension FSxClientTypes {
 
 extension FSxClientTypes.WindowsAuditLogConfiguration {
 
-    static func write(value: FSxClientTypes.WindowsAuditLogConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AuditLogDestination"].write(value.auditLogDestination)
-        try writer["FileAccessAuditLogLevel"].write(value.fileAccessAuditLogLevel)
-        try writer["FileShareAccessAuditLogLevel"].write(value.fileShareAccessAuditLogLevel)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.WindowsAuditLogConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FSxClientTypes.WindowsAuditLogConfiguration()
@@ -14052,15 +13180,6 @@ extension FSxClientTypes.WindowsAuditLogCreateConfiguration {
         try writer["AuditLogDestination"].write(value.auditLogDestination)
         try writer["FileAccessAuditLogLevel"].write(value.fileAccessAuditLogLevel)
         try writer["FileShareAccessAuditLogLevel"].write(value.fileShareAccessAuditLogLevel)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.WindowsAuditLogCreateConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.WindowsAuditLogCreateConfiguration()
-        value.fileAccessAuditLogLevel = try reader["FileAccessAuditLogLevel"].readIfPresent()
-        value.fileShareAccessAuditLogLevel = try reader["FileShareAccessAuditLogLevel"].readIfPresent()
-        value.auditLogDestination = try reader["AuditLogDestination"].readIfPresent()
-        return value
     }
 }
 
@@ -14150,25 +13269,6 @@ extension FSxClientTypes {
 }
 
 extension FSxClientTypes.WindowsFileSystemConfiguration {
-
-    static func write(value: FSxClientTypes.WindowsFileSystemConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ActiveDirectoryId"].write(value.activeDirectoryId)
-        try writer["Aliases"].writeList(value.aliases, memberWritingClosure: FSxClientTypes.Alias.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["AuditLogConfiguration"].write(value.auditLogConfiguration, with: FSxClientTypes.WindowsAuditLogConfiguration.write(value:to:))
-        try writer["AutomaticBackupRetentionDays"].write(value.automaticBackupRetentionDays)
-        try writer["CopyTagsToBackups"].write(value.copyTagsToBackups)
-        try writer["DailyAutomaticBackupStartTime"].write(value.dailyAutomaticBackupStartTime)
-        try writer["DeploymentType"].write(value.deploymentType)
-        try writer["DiskIopsConfiguration"].write(value.diskIopsConfiguration, with: FSxClientTypes.DiskIopsConfiguration.write(value:to:))
-        try writer["MaintenanceOperationsInProgress"].writeList(value.maintenanceOperationsInProgress, memberWritingClosure: FSxClientTypes.FileSystemMaintenanceOperation.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["PreferredFileServerIp"].write(value.preferredFileServerIp)
-        try writer["PreferredSubnetId"].write(value.preferredSubnetId)
-        try writer["RemoteAdministrationEndpoint"].write(value.remoteAdministrationEndpoint)
-        try writer["SelfManagedActiveDirectoryConfiguration"].write(value.selfManagedActiveDirectoryConfiguration, with: FSxClientTypes.SelfManagedActiveDirectoryAttributes.write(value:to:))
-        try writer["ThroughputCapacity"].write(value.throughputCapacity)
-        try writer["WeeklyMaintenanceStartTime"].write(value.weeklyMaintenanceStartTime)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.WindowsFileSystemConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

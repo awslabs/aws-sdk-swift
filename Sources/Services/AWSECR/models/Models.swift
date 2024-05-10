@@ -6,12 +6,6 @@ import SmithyReadWrite
 
 extension ECRClientTypes.Attribute {
 
-    static func write(value: ECRClientTypes.Attribute?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["key"].write(value.key)
-        try writer["value"].write(value.value)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ECRClientTypes.Attribute {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ECRClientTypes.Attribute()
@@ -43,13 +37,6 @@ extension ECRClientTypes {
 }
 
 extension ECRClientTypes.AuthorizationData {
-
-    static func write(value: ECRClientTypes.AuthorizationData?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["authorizationToken"].write(value.authorizationToken)
-        try writer["expiresAt"].writeTimestamp(value.expiresAt, format: .epochSeconds)
-        try writer["proxyEndpoint"].write(value.proxyEndpoint)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ECRClientTypes.AuthorizationData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -86,18 +73,6 @@ extension ECRClientTypes {
 }
 
 extension ECRClientTypes.AwsEcrContainerImageDetails {
-
-    static func write(value: ECRClientTypes.AwsEcrContainerImageDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["architecture"].write(value.architecture)
-        try writer["author"].write(value.author)
-        try writer["imageHash"].write(value.imageHash)
-        try writer["imageTags"].writeList(value.imageTags, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["platform"].write(value.platform)
-        try writer["pushedAt"].writeTimestamp(value.pushedAt, format: .epochSeconds)
-        try writer["registry"].write(value.registry)
-        try writer["repositoryName"].write(value.repositoryName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ECRClientTypes.AwsEcrContainerImageDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -829,14 +804,6 @@ enum CreateRepositoryOutputError {
 
 extension ECRClientTypes.CvssScore {
 
-    static func write(value: ECRClientTypes.CvssScore?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["baseScore"].write(value.baseScore)
-        try writer["scoringVector"].write(value.scoringVector)
-        try writer["source"].write(value.source)
-        try writer["version"].write(value.version)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ECRClientTypes.CvssScore {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ECRClientTypes.CvssScore()
@@ -878,12 +845,6 @@ extension ECRClientTypes {
 
 extension ECRClientTypes.CvssScoreAdjustment {
 
-    static func write(value: ECRClientTypes.CvssScoreAdjustment?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["metric"].write(value.metric)
-        try writer["reason"].write(value.reason)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ECRClientTypes.CvssScoreAdjustment {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ECRClientTypes.CvssScoreAdjustment()
@@ -914,15 +875,6 @@ extension ECRClientTypes {
 }
 
 extension ECRClientTypes.CvssScoreDetails {
-
-    static func write(value: ECRClientTypes.CvssScoreDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["adjustments"].writeList(value.adjustments, memberWritingClosure: ECRClientTypes.CvssScoreAdjustment.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["score"].write(value.score)
-        try writer["scoreSource"].write(value.scoreSource)
-        try writer["scoringVector"].write(value.scoringVector)
-        try writer["version"].write(value.version)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ECRClientTypes.CvssScoreDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1596,13 +1548,6 @@ extension ECRClientTypes.DescribeImagesFilter {
         guard let value else { return }
         try writer["tagStatus"].write(value.tagStatus)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ECRClientTypes.DescribeImagesFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ECRClientTypes.DescribeImagesFilter()
-        value.tagStatus = try reader["tagStatus"].readIfPresent()
-        return value
-    }
 }
 
 extension ECRClientTypes {
@@ -2069,25 +2014,6 @@ extension ECRClientTypes {
 }
 
 extension ECRClientTypes.EnhancedImageScanFinding {
-
-    static func write(value: ECRClientTypes.EnhancedImageScanFinding?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["awsAccountId"].write(value.awsAccountId)
-        try writer["description"].write(value.description)
-        try writer["findingArn"].write(value.findingArn)
-        try writer["firstObservedAt"].writeTimestamp(value.firstObservedAt, format: .epochSeconds)
-        try writer["lastObservedAt"].writeTimestamp(value.lastObservedAt, format: .epochSeconds)
-        try writer["packageVulnerabilityDetails"].write(value.packageVulnerabilityDetails, with: ECRClientTypes.PackageVulnerabilityDetails.write(value:to:))
-        try writer["remediation"].write(value.remediation, with: ECRClientTypes.Remediation.write(value:to:))
-        try writer["resources"].writeList(value.resources, memberWritingClosure: ECRClientTypes.Resource.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["score"].write(value.score)
-        try writer["scoreDetails"].write(value.scoreDetails, with: ECRClientTypes.ScoreDetails.write(value:to:))
-        try writer["severity"].write(value.severity)
-        try writer["status"].write(value.status)
-        try writer["title"].write(value.title)
-        try writer["type"].write(value.type)
-        try writer["updatedAt"].writeTimestamp(value.updatedAt, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ECRClientTypes.EnhancedImageScanFinding {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2811,15 +2737,6 @@ enum GetRepositoryPolicyOutputError {
 
 extension ECRClientTypes.Image {
 
-    static func write(value: ECRClientTypes.Image?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["imageId"].write(value.imageId, with: ECRClientTypes.ImageIdentifier.write(value:to:))
-        try writer["imageManifest"].write(value.imageManifest)
-        try writer["imageManifestMediaType"].write(value.imageManifestMediaType)
-        try writer["registryId"].write(value.registryId)
-        try writer["repositoryName"].write(value.repositoryName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ECRClientTypes.Image {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ECRClientTypes.Image()
@@ -2930,21 +2847,6 @@ public struct ImageAlreadyExistsException: ClientRuntime.ModeledError, AWSClient
 }
 
 extension ECRClientTypes.ImageDetail {
-
-    static func write(value: ECRClientTypes.ImageDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["artifactMediaType"].write(value.artifactMediaType)
-        try writer["imageDigest"].write(value.imageDigest)
-        try writer["imageManifestMediaType"].write(value.imageManifestMediaType)
-        try writer["imagePushedAt"].writeTimestamp(value.imagePushedAt, format: .epochSeconds)
-        try writer["imageScanFindingsSummary"].write(value.imageScanFindingsSummary, with: ECRClientTypes.ImageScanFindingsSummary.write(value:to:))
-        try writer["imageScanStatus"].write(value.imageScanStatus, with: ECRClientTypes.ImageScanStatus.write(value:to:))
-        try writer["imageSizeInBytes"].write(value.imageSizeInBytes)
-        try writer["imageTags"].writeList(value.imageTags, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["lastRecordedPullTime"].writeTimestamp(value.lastRecordedPullTime, format: .epochSeconds)
-        try writer["registryId"].write(value.registryId)
-        try writer["repositoryName"].write(value.repositoryName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ECRClientTypes.ImageDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3058,13 +2960,6 @@ public struct ImageDigestDoesNotMatchException: ClientRuntime.ModeledError, AWSC
 }
 
 extension ECRClientTypes.ImageFailure {
-
-    static func write(value: ECRClientTypes.ImageFailure?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["failureCode"].write(value.failureCode)
-        try writer["failureReason"].write(value.failureReason)
-        try writer["imageId"].write(value.imageId, with: ECRClientTypes.ImageIdentifier.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ECRClientTypes.ImageFailure {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3230,14 +3125,6 @@ public struct ImageNotFoundException: ClientRuntime.ModeledError, AWSClientRunti
 
 extension ECRClientTypes.ImageReplicationStatus {
 
-    static func write(value: ECRClientTypes.ImageReplicationStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["failureCode"].write(value.failureCode)
-        try writer["region"].write(value.region)
-        try writer["registryId"].write(value.registryId)
-        try writer["status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ECRClientTypes.ImageReplicationStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ECRClientTypes.ImageReplicationStatus()
@@ -3278,15 +3165,6 @@ extension ECRClientTypes {
 }
 
 extension ECRClientTypes.ImageScanFinding {
-
-    static func write(value: ECRClientTypes.ImageScanFinding?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["attributes"].writeList(value.attributes, memberWritingClosure: ECRClientTypes.Attribute.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["description"].write(value.description)
-        try writer["name"].write(value.name)
-        try writer["severity"].write(value.severity)
-        try writer["uri"].write(value.uri)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ECRClientTypes.ImageScanFinding {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3334,15 +3212,6 @@ extension ECRClientTypes {
 
 extension ECRClientTypes.ImageScanFindings {
 
-    static func write(value: ECRClientTypes.ImageScanFindings?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["enhancedFindings"].writeList(value.enhancedFindings, memberWritingClosure: ECRClientTypes.EnhancedImageScanFinding.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["findingSeverityCounts"].writeMap(value.findingSeverityCounts, valueWritingClosure: Swift.Int.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["findings"].writeList(value.findings, memberWritingClosure: ECRClientTypes.ImageScanFinding.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["imageScanCompletedAt"].writeTimestamp(value.imageScanCompletedAt, format: .epochSeconds)
-        try writer["vulnerabilitySourceUpdatedAt"].writeTimestamp(value.vulnerabilitySourceUpdatedAt, format: .epochSeconds)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ECRClientTypes.ImageScanFindings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ECRClientTypes.ImageScanFindings()
@@ -3389,13 +3258,6 @@ extension ECRClientTypes {
 
 extension ECRClientTypes.ImageScanFindingsSummary {
 
-    static func write(value: ECRClientTypes.ImageScanFindingsSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["findingSeverityCounts"].writeMap(value.findingSeverityCounts, valueWritingClosure: Swift.Int.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["imageScanCompletedAt"].writeTimestamp(value.imageScanCompletedAt, format: .epochSeconds)
-        try writer["vulnerabilitySourceUpdatedAt"].writeTimestamp(value.vulnerabilitySourceUpdatedAt, format: .epochSeconds)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ECRClientTypes.ImageScanFindingsSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ECRClientTypes.ImageScanFindingsSummary()
@@ -3431,12 +3293,6 @@ extension ECRClientTypes {
 }
 
 extension ECRClientTypes.ImageScanStatus {
-
-    static func write(value: ECRClientTypes.ImageScanStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["description"].write(value.description)
-        try writer["status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ECRClientTypes.ImageScanStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3859,14 +3715,6 @@ public struct KmsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServ
 
 extension ECRClientTypes.Layer {
 
-    static func write(value: ECRClientTypes.Layer?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["layerAvailability"].write(value.layerAvailability)
-        try writer["layerDigest"].write(value.layerDigest)
-        try writer["layerSize"].write(value.layerSize)
-        try writer["mediaType"].write(value.mediaType)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ECRClientTypes.Layer {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ECRClientTypes.Layer()
@@ -3975,13 +3823,6 @@ extension ECRClientTypes {
 }
 
 extension ECRClientTypes.LayerFailure {
-
-    static func write(value: ECRClientTypes.LayerFailure?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["failureCode"].write(value.failureCode)
-        try writer["failureReason"].write(value.failureReason)
-        try writer["layerDigest"].write(value.layerDigest)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ECRClientTypes.LayerFailure {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4204,13 +4045,6 @@ extension ECRClientTypes.LifecyclePolicyPreviewFilter {
         guard let value else { return }
         try writer["tagStatus"].write(value.tagStatus)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ECRClientTypes.LifecyclePolicyPreviewFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ECRClientTypes.LifecyclePolicyPreviewFilter()
-        value.tagStatus = try reader["tagStatus"].readIfPresent()
-        return value
-    }
 }
 
 extension ECRClientTypes {
@@ -4305,15 +4139,6 @@ public struct LifecyclePolicyPreviewNotFoundException: ClientRuntime.ModeledErro
 
 extension ECRClientTypes.LifecyclePolicyPreviewResult {
 
-    static func write(value: ECRClientTypes.LifecyclePolicyPreviewResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["action"].write(value.action, with: ECRClientTypes.LifecyclePolicyRuleAction.write(value:to:))
-        try writer["appliedRulePriority"].write(value.appliedRulePriority)
-        try writer["imageDigest"].write(value.imageDigest)
-        try writer["imagePushedAt"].writeTimestamp(value.imagePushedAt, format: .epochSeconds)
-        try writer["imageTags"].writeList(value.imageTags, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ECRClientTypes.LifecyclePolicyPreviewResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ECRClientTypes.LifecyclePolicyPreviewResult()
@@ -4396,11 +4221,6 @@ extension ECRClientTypes {
 
 extension ECRClientTypes.LifecyclePolicyPreviewSummary {
 
-    static func write(value: ECRClientTypes.LifecyclePolicyPreviewSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["expiringImageTotalCount"].write(value.expiringImageTotalCount)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ECRClientTypes.LifecyclePolicyPreviewSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ECRClientTypes.LifecyclePolicyPreviewSummary()
@@ -4426,11 +4246,6 @@ extension ECRClientTypes {
 }
 
 extension ECRClientTypes.LifecyclePolicyRuleAction {
-
-    static func write(value: ECRClientTypes.LifecyclePolicyRuleAction?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ECRClientTypes.LifecyclePolicyRuleAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4499,13 +4314,6 @@ extension ECRClientTypes.ListImagesFilter {
     static func write(value: ECRClientTypes.ListImagesFilter?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["tagStatus"].write(value.tagStatus)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ECRClientTypes.ListImagesFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ECRClientTypes.ListImagesFilter()
-        value.tagStatus = try reader["tagStatus"].readIfPresent()
-        return value
     }
 }
 
@@ -4688,20 +4496,6 @@ enum ListTagsForResourceOutputError {
 
 extension ECRClientTypes.PackageVulnerabilityDetails {
 
-    static func write(value: ECRClientTypes.PackageVulnerabilityDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["cvss"].writeList(value.cvss, memberWritingClosure: ECRClientTypes.CvssScore.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["referenceUrls"].writeList(value.referenceUrls, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["relatedVulnerabilities"].writeList(value.relatedVulnerabilities, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["source"].write(value.source)
-        try writer["sourceUrl"].write(value.sourceUrl)
-        try writer["vendorCreatedAt"].writeTimestamp(value.vendorCreatedAt, format: .epochSeconds)
-        try writer["vendorSeverity"].write(value.vendorSeverity)
-        try writer["vendorUpdatedAt"].writeTimestamp(value.vendorUpdatedAt, format: .epochSeconds)
-        try writer["vulnerabilityId"].write(value.vulnerabilityId)
-        try writer["vulnerablePackages"].writeList(value.vulnerablePackages, memberWritingClosure: ECRClientTypes.VulnerablePackage.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ECRClientTypes.PackageVulnerabilityDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ECRClientTypes.PackageVulnerabilityDetails()
@@ -4772,17 +4566,6 @@ extension ECRClientTypes {
 }
 
 extension ECRClientTypes.PullThroughCacheRule {
-
-    static func write(value: ECRClientTypes.PullThroughCacheRule?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["credentialArn"].write(value.credentialArn)
-        try writer["ecrRepositoryPrefix"].write(value.ecrRepositoryPrefix)
-        try writer["registryId"].write(value.registryId)
-        try writer["updatedAt"].writeTimestamp(value.updatedAt, format: .epochSeconds)
-        try writer["upstreamRegistry"].write(value.upstreamRegistry)
-        try writer["upstreamRegistryUrl"].write(value.upstreamRegistryUrl)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ECRClientTypes.PullThroughCacheRule {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5497,12 +5280,6 @@ enum PutReplicationConfigurationOutputError {
 
 extension ECRClientTypes.Recommendation {
 
-    static func write(value: ECRClientTypes.Recommendation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["text"].write(value.text)
-        try writer["url"].write(value.url)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ECRClientTypes.Recommendation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ECRClientTypes.Recommendation()
@@ -5608,12 +5385,6 @@ public struct RegistryPolicyNotFoundException: ClientRuntime.ModeledError, AWSCl
 
 extension ECRClientTypes.RegistryScanningConfiguration {
 
-    static func write(value: ECRClientTypes.RegistryScanningConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["rules"].writeList(value.rules, memberWritingClosure: ECRClientTypes.RegistryScanningRule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["scanType"].write(value.scanType)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ECRClientTypes.RegistryScanningConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ECRClientTypes.RegistryScanningConfiguration()
@@ -5683,11 +5454,6 @@ extension ECRClientTypes {
 }
 
 extension ECRClientTypes.Remediation {
-
-    static func write(value: ECRClientTypes.Remediation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["recommendation"].write(value.recommendation, with: ECRClientTypes.Recommendation.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ECRClientTypes.Remediation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5856,18 +5622,6 @@ extension ECRClientTypes {
 }
 
 extension ECRClientTypes.Repository {
-
-    static func write(value: ECRClientTypes.Repository?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["encryptionConfiguration"].write(value.encryptionConfiguration, with: ECRClientTypes.EncryptionConfiguration.write(value:to:))
-        try writer["imageScanningConfiguration"].write(value.imageScanningConfiguration, with: ECRClientTypes.ImageScanningConfiguration.write(value:to:))
-        try writer["imageTagMutability"].write(value.imageTagMutability)
-        try writer["registryId"].write(value.registryId)
-        try writer["repositoryArn"].write(value.repositoryArn)
-        try writer["repositoryName"].write(value.repositoryName)
-        try writer["repositoryUri"].write(value.repositoryUri)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ECRClientTypes.Repository {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6148,15 +5902,6 @@ public struct RepositoryPolicyNotFoundException: ClientRuntime.ModeledError, AWS
 
 extension ECRClientTypes.RepositoryScanningConfiguration {
 
-    static func write(value: ECRClientTypes.RepositoryScanningConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["appliedScanFilters"].writeList(value.appliedScanFilters, memberWritingClosure: ECRClientTypes.ScanningRepositoryFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["repositoryArn"].write(value.repositoryArn)
-        try writer["repositoryName"].write(value.repositoryName)
-        try writer["scanFrequency"].write(value.scanFrequency)
-        try writer["scanOnPush"].write(value.scanOnPush)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ECRClientTypes.RepositoryScanningConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ECRClientTypes.RepositoryScanningConfiguration()
@@ -6203,13 +5948,6 @@ extension ECRClientTypes {
 
 extension ECRClientTypes.RepositoryScanningConfigurationFailure {
 
-    static func write(value: ECRClientTypes.RepositoryScanningConfigurationFailure?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["failureCode"].write(value.failureCode)
-        try writer["failureReason"].write(value.failureReason)
-        try writer["repositoryName"].write(value.repositoryName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ECRClientTypes.RepositoryScanningConfigurationFailure {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ECRClientTypes.RepositoryScanningConfigurationFailure()
@@ -6245,14 +5983,6 @@ extension ECRClientTypes {
 }
 
 extension ECRClientTypes.Resource {
-
-    static func write(value: ECRClientTypes.Resource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["details"].write(value.details, with: ECRClientTypes.ResourceDetails.write(value:to:))
-        try writer["id"].write(value.id)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ECRClientTypes.Resource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6294,11 +6024,6 @@ extension ECRClientTypes {
 }
 
 extension ECRClientTypes.ResourceDetails {
-
-    static func write(value: ECRClientTypes.ResourceDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["awsEcrContainerImage"].write(value.awsEcrContainerImage, with: ECRClientTypes.AwsEcrContainerImageDetails.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ECRClientTypes.ResourceDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6566,11 +6291,6 @@ extension ECRClientTypes {
 }
 
 extension ECRClientTypes.ScoreDetails {
-
-    static func write(value: ECRClientTypes.ScoreDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["cvss"].write(value.cvss, with: ECRClientTypes.CvssScoreDetails.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ECRClientTypes.ScoreDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7849,18 +7569,6 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 extension ECRClientTypes.VulnerablePackage {
-
-    static func write(value: ECRClientTypes.VulnerablePackage?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arch"].write(value.arch)
-        try writer["epoch"].write(value.epoch)
-        try writer["filePath"].write(value.filePath)
-        try writer["name"].write(value.name)
-        try writer["packageManager"].write(value.packageManager)
-        try writer["release"].write(value.release)
-        try writer["sourceLayerHash"].write(value.sourceLayerHash)
-        try writer["version"].write(value.version)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ECRClientTypes.VulnerablePackage {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

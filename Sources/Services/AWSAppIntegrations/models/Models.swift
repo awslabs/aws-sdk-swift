@@ -45,13 +45,6 @@ public enum AppIntegrationsClientTypes {}
 
 extension AppIntegrationsClientTypes.ApplicationAssociationSummary {
 
-    static func write(value: AppIntegrationsClientTypes.ApplicationAssociationSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ApplicationArn"].write(value.applicationArn)
-        try writer["ApplicationAssociationArn"].write(value.applicationAssociationArn)
-        try writer["ClientId"].write(value.clientId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AppIntegrationsClientTypes.ApplicationAssociationSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppIntegrationsClientTypes.ApplicationAssociationSummary()
@@ -118,16 +111,6 @@ extension AppIntegrationsClientTypes {
 }
 
 extension AppIntegrationsClientTypes.ApplicationSummary {
-
-    static func write(value: AppIntegrationsClientTypes.ApplicationSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["CreatedTime"].writeTimestamp(value.createdTime, format: .epochSeconds)
-        try writer["Id"].write(value.id)
-        try writer["LastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .epochSeconds)
-        try writer["Name"].write(value.name)
-        try writer["Namespace"].write(value.namespace)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppIntegrationsClientTypes.ApplicationSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -562,13 +545,6 @@ enum CreateEventIntegrationOutputError {
 
 extension AppIntegrationsClientTypes.DataIntegrationAssociationSummary {
 
-    static func write(value: AppIntegrationsClientTypes.DataIntegrationAssociationSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ClientId"].write(value.clientId)
-        try writer["DataIntegrationArn"].write(value.dataIntegrationArn)
-        try writer["DataIntegrationAssociationArn"].write(value.dataIntegrationAssociationArn)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AppIntegrationsClientTypes.DataIntegrationAssociationSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppIntegrationsClientTypes.DataIntegrationAssociationSummary()
@@ -604,13 +580,6 @@ extension AppIntegrationsClientTypes {
 }
 
 extension AppIntegrationsClientTypes.DataIntegrationSummary {
-
-    static func write(value: AppIntegrationsClientTypes.DataIntegrationSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["Name"].write(value.name)
-        try writer["SourceURI"].write(value.sourceURI)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppIntegrationsClientTypes.DataIntegrationSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -876,16 +845,6 @@ extension AppIntegrationsClientTypes {
 
 extension AppIntegrationsClientTypes.EventIntegration {
 
-    static func write(value: AppIntegrationsClientTypes.EventIntegration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Description"].write(value.description)
-        try writer["EventBridgeBus"].write(value.eventBridgeBus)
-        try writer["EventFilter"].write(value.eventFilter, with: AppIntegrationsClientTypes.EventFilter.write(value:to:))
-        try writer["EventIntegrationArn"].write(value.eventIntegrationArn)
-        try writer["Name"].write(value.name)
-        try writer["Tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AppIntegrationsClientTypes.EventIntegration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppIntegrationsClientTypes.EventIntegration()
@@ -936,16 +895,6 @@ extension AppIntegrationsClientTypes {
 }
 
 extension AppIntegrationsClientTypes.EventIntegrationAssociation {
-
-    static func write(value: AppIntegrationsClientTypes.EventIntegrationAssociation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ClientAssociationMetadata"].writeMap(value.clientAssociationMetadata, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["ClientId"].write(value.clientId)
-        try writer["EventBridgeRuleName"].write(value.eventBridgeRuleName)
-        try writer["EventIntegrationAssociationArn"].write(value.eventIntegrationAssociationArn)
-        try writer["EventIntegrationAssociationId"].write(value.eventIntegrationAssociationId)
-        try writer["EventIntegrationName"].write(value.eventIntegrationName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppIntegrationsClientTypes.EventIntegrationAssociation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

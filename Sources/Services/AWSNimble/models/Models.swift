@@ -1698,15 +1698,6 @@ enum DeleteStudioOutputError {
 
 extension NimbleClientTypes.Eula {
 
-    static func write(value: NimbleClientTypes.Eula?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["content"].write(value.content)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .dateTime)
-        try writer["eulaId"].write(value.eulaId)
-        try writer["name"].write(value.name)
-        try writer["updatedAt"].writeTimestamp(value.updatedAt, format: .dateTime)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> NimbleClientTypes.Eula {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = NimbleClientTypes.Eula()
@@ -1752,15 +1743,6 @@ extension NimbleClientTypes {
 }
 
 extension NimbleClientTypes.EulaAcceptance {
-
-    static func write(value: NimbleClientTypes.EulaAcceptance?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["acceptedAt"].writeTimestamp(value.acceptedAt, format: .dateTime)
-        try writer["acceptedBy"].write(value.acceptedBy)
-        try writer["accepteeId"].write(value.accepteeId)
-        try writer["eulaAcceptanceId"].write(value.eulaAcceptanceId)
-        try writer["eulaId"].write(value.eulaId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> NimbleClientTypes.EulaAcceptance {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2814,27 +2796,6 @@ extension NimbleClientTypes.LaunchProfile: Swift.CustomDebugStringConvertible {
 
 extension NimbleClientTypes.LaunchProfile {
 
-    static func write(value: NimbleClientTypes.LaunchProfile?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .dateTime)
-        try writer["createdBy"].write(value.createdBy)
-        try writer["description"].write(value.description)
-        try writer["ec2SubnetIds"].writeList(value.ec2SubnetIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["launchProfileId"].write(value.launchProfileId)
-        try writer["launchProfileProtocolVersions"].writeList(value.launchProfileProtocolVersions, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["name"].write(value.name)
-        try writer["state"].write(value.state)
-        try writer["statusCode"].write(value.statusCode)
-        try writer["statusMessage"].write(value.statusMessage)
-        try writer["streamConfiguration"].write(value.streamConfiguration, with: NimbleClientTypes.StreamConfiguration.write(value:to:))
-        try writer["studioComponentIds"].writeList(value.studioComponentIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["updatedAt"].writeTimestamp(value.updatedAt, format: .dateTime)
-        try writer["updatedBy"].write(value.updatedBy)
-        try writer["validationResults"].writeList(value.validationResults, memberWritingClosure: NimbleClientTypes.ValidationResult.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> NimbleClientTypes.LaunchProfile {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = NimbleClientTypes.LaunchProfile()
@@ -2946,19 +2907,6 @@ extension NimbleClientTypes.LaunchProfileInitialization: Swift.CustomDebugString
 
 extension NimbleClientTypes.LaunchProfileInitialization {
 
-    static func write(value: NimbleClientTypes.LaunchProfileInitialization?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["activeDirectory"].write(value.activeDirectory, with: NimbleClientTypes.LaunchProfileInitializationActiveDirectory.write(value:to:))
-        try writer["ec2SecurityGroupIds"].writeList(value.ec2SecurityGroupIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["launchProfileId"].write(value.launchProfileId)
-        try writer["launchProfileProtocolVersion"].write(value.launchProfileProtocolVersion)
-        try writer["launchPurpose"].write(value.launchPurpose)
-        try writer["name"].write(value.name)
-        try writer["platform"].write(value.platform)
-        try writer["systemInitializationScripts"].writeList(value.systemInitializationScripts, memberWritingClosure: NimbleClientTypes.LaunchProfileInitializationScript.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["userInitializationScripts"].writeList(value.userInitializationScripts, memberWritingClosure: NimbleClientTypes.LaunchProfileInitializationScript.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> NimbleClientTypes.LaunchProfileInitialization {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = NimbleClientTypes.LaunchProfileInitialization()
@@ -3030,17 +2978,6 @@ extension NimbleClientTypes.LaunchProfileInitializationActiveDirectory: Swift.Cu
 
 extension NimbleClientTypes.LaunchProfileInitializationActiveDirectory {
 
-    static func write(value: NimbleClientTypes.LaunchProfileInitializationActiveDirectory?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["computerAttributes"].writeList(value.computerAttributes, memberWritingClosure: NimbleClientTypes.ActiveDirectoryComputerAttribute.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["directoryId"].write(value.directoryId)
-        try writer["directoryName"].write(value.directoryName)
-        try writer["dnsIpAddresses"].writeList(value.dnsIpAddresses, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["organizationalUnitDistinguishedName"].write(value.organizationalUnitDistinguishedName)
-        try writer["studioComponentId"].write(value.studioComponentId)
-        try writer["studioComponentName"].write(value.studioComponentName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> NimbleClientTypes.LaunchProfileInitializationActiveDirectory {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = NimbleClientTypes.LaunchProfileInitializationActiveDirectory()
@@ -3102,15 +3039,6 @@ extension NimbleClientTypes.LaunchProfileInitializationScript: Swift.CustomDebug
 
 extension NimbleClientTypes.LaunchProfileInitializationScript {
 
-    static func write(value: NimbleClientTypes.LaunchProfileInitializationScript?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["runtimeRoleArn"].write(value.runtimeRoleArn)
-        try writer["script"].write(value.script)
-        try writer["secureInitializationRoleArn"].write(value.secureInitializationRoleArn)
-        try writer["studioComponentId"].write(value.studioComponentId)
-        try writer["studioComponentName"].write(value.studioComponentName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> NimbleClientTypes.LaunchProfileInitializationScript {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = NimbleClientTypes.LaunchProfileInitializationScript()
@@ -3156,14 +3084,6 @@ extension NimbleClientTypes {
 }
 
 extension NimbleClientTypes.LaunchProfileMembership {
-
-    static func write(value: NimbleClientTypes.LaunchProfileMembership?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["identityStoreId"].write(value.identityStoreId)
-        try writer["persona"].write(value.persona)
-        try writer["principalId"].write(value.principalId)
-        try writer["sid"].write(value.sid)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> NimbleClientTypes.LaunchProfileMembership {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4628,14 +4548,6 @@ extension NimbleClientTypes.NewLaunchProfileMember {
         try writer["persona"].write(value.persona)
         try writer["principalId"].write(value.principalId)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NimbleClientTypes.NewLaunchProfileMember {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NimbleClientTypes.NewLaunchProfileMember()
-        value.persona = try reader["persona"].readIfPresent()
-        value.principalId = try reader["principalId"].readIfPresent()
-        return value
-    }
 }
 
 extension NimbleClientTypes {
@@ -4666,14 +4578,6 @@ extension NimbleClientTypes.NewStudioMember {
         guard let value else { return }
         try writer["persona"].write(value.persona)
         try writer["principalId"].write(value.principalId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NimbleClientTypes.NewStudioMember {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NimbleClientTypes.NewStudioMember()
-        value.persona = try reader["persona"].readIfPresent()
-        value.principalId = try reader["principalId"].readIfPresent()
-        return value
     }
 }
 
@@ -5429,20 +5333,6 @@ enum StopStreamingSessionOutputError {
 
 extension NimbleClientTypes.StreamConfiguration {
 
-    static func write(value: NimbleClientTypes.StreamConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["automaticTerminationMode"].write(value.automaticTerminationMode)
-        try writer["clipboardMode"].write(value.clipboardMode)
-        try writer["ec2InstanceTypes"].writeList(value.ec2InstanceTypes, memberWritingClosure: NimbleClientTypes.StreamingInstanceType.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["maxSessionLengthInMinutes"].write(value.maxSessionLengthInMinutes)
-        try writer["maxStoppedSessionLengthInMinutes"].write(value.maxStoppedSessionLengthInMinutes)
-        try writer["sessionBackup"].write(value.sessionBackup, with: NimbleClientTypes.StreamConfigurationSessionBackup.write(value:to:))
-        try writer["sessionPersistenceMode"].write(value.sessionPersistenceMode)
-        try writer["sessionStorage"].write(value.sessionStorage, with: NimbleClientTypes.StreamConfigurationSessionStorage.write(value:to:))
-        try writer["streamingImageIds"].writeList(value.streamingImageIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["volumeConfiguration"].write(value.volumeConfiguration, with: NimbleClientTypes.VolumeConfiguration.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> NimbleClientTypes.StreamConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = NimbleClientTypes.StreamConfiguration()
@@ -5536,22 +5426,6 @@ extension NimbleClientTypes.StreamConfigurationCreate {
         try writer["sessionStorage"].write(value.sessionStorage, with: NimbleClientTypes.StreamConfigurationSessionStorage.write(value:to:))
         try writer["streamingImageIds"].writeList(value.streamingImageIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["volumeConfiguration"].write(value.volumeConfiguration, with: NimbleClientTypes.VolumeConfiguration.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NimbleClientTypes.StreamConfigurationCreate {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NimbleClientTypes.StreamConfigurationCreate()
-        value.clipboardMode = try reader["clipboardMode"].readIfPresent()
-        value.ec2InstanceTypes = try reader["ec2InstanceTypes"].readListIfPresent(memberReadingClosure: NimbleClientTypes.StreamingInstanceType.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.maxSessionLengthInMinutes = try reader["maxSessionLengthInMinutes"].readIfPresent() ?? 690
-        value.streamingImageIds = try reader["streamingImageIds"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.maxStoppedSessionLengthInMinutes = try reader["maxStoppedSessionLengthInMinutes"].readIfPresent() ?? 0
-        value.sessionStorage = try reader["sessionStorage"].readIfPresent(with: NimbleClientTypes.StreamConfigurationSessionStorage.read(from:))
-        value.sessionBackup = try reader["sessionBackup"].readIfPresent(with: NimbleClientTypes.StreamConfigurationSessionBackup.read(from:))
-        value.sessionPersistenceMode = try reader["sessionPersistenceMode"].readIfPresent()
-        value.volumeConfiguration = try reader["volumeConfiguration"].readIfPresent(with: NimbleClientTypes.VolumeConfiguration.read(from:))
-        value.automaticTerminationMode = try reader["automaticTerminationMode"].readIfPresent()
-        return value
     }
 }
 
@@ -5729,23 +5603,6 @@ extension NimbleClientTypes.StreamingImage: Swift.CustomDebugStringConvertible {
 
 extension NimbleClientTypes.StreamingImage {
 
-    static func write(value: NimbleClientTypes.StreamingImage?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["description"].write(value.description)
-        try writer["ec2ImageId"].write(value.ec2ImageId)
-        try writer["encryptionConfiguration"].write(value.encryptionConfiguration, with: NimbleClientTypes.StreamingImageEncryptionConfiguration.write(value:to:))
-        try writer["eulaIds"].writeList(value.eulaIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["name"].write(value.name)
-        try writer["owner"].write(value.owner)
-        try writer["platform"].write(value.platform)
-        try writer["state"].write(value.state)
-        try writer["statusCode"].write(value.statusCode)
-        try writer["statusMessage"].write(value.statusMessage)
-        try writer["streamingImageId"].write(value.streamingImageId)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> NimbleClientTypes.StreamingImage {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = NimbleClientTypes.StreamingImage()
@@ -5831,12 +5688,6 @@ extension NimbleClientTypes {
 }
 
 extension NimbleClientTypes.StreamingImageEncryptionConfiguration {
-
-    static func write(value: NimbleClientTypes.StreamingImageEncryptionConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["keyArn"].write(value.keyArn)
-        try writer["keyType"].write(value.keyType)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> NimbleClientTypes.StreamingImageEncryptionConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6054,37 +5905,6 @@ extension NimbleClientTypes {
 
 extension NimbleClientTypes.StreamingSession {
 
-    static func write(value: NimbleClientTypes.StreamingSession?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["automaticTerminationMode"].write(value.automaticTerminationMode)
-        try writer["backupMode"].write(value.backupMode)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .dateTime)
-        try writer["createdBy"].write(value.createdBy)
-        try writer["ec2InstanceType"].write(value.ec2InstanceType)
-        try writer["launchProfileId"].write(value.launchProfileId)
-        try writer["maxBackupsToRetain"].write(value.maxBackupsToRetain)
-        try writer["ownedBy"].write(value.ownedBy)
-        try writer["sessionId"].write(value.sessionId)
-        try writer["sessionPersistenceMode"].write(value.sessionPersistenceMode)
-        try writer["startedAt"].writeTimestamp(value.startedAt, format: .dateTime)
-        try writer["startedBy"].write(value.startedBy)
-        try writer["startedFromBackupId"].write(value.startedFromBackupId)
-        try writer["state"].write(value.state)
-        try writer["statusCode"].write(value.statusCode)
-        try writer["statusMessage"].write(value.statusMessage)
-        try writer["stopAt"].writeTimestamp(value.stopAt, format: .dateTime)
-        try writer["stoppedAt"].writeTimestamp(value.stoppedAt, format: .dateTime)
-        try writer["stoppedBy"].write(value.stoppedBy)
-        try writer["streamingImageId"].write(value.streamingImageId)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["terminateAt"].writeTimestamp(value.terminateAt, format: .dateTime)
-        try writer["updatedAt"].writeTimestamp(value.updatedAt, format: .dateTime)
-        try writer["updatedBy"].write(value.updatedBy)
-        try writer["volumeConfiguration"].write(value.volumeConfiguration, with: NimbleClientTypes.VolumeConfiguration.write(value:to:))
-        try writer["volumeRetentionMode"].write(value.volumeRetentionMode)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> NimbleClientTypes.StreamingSession {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = NimbleClientTypes.StreamingSession()
@@ -6247,20 +6067,6 @@ extension NimbleClientTypes {
 }
 
 extension NimbleClientTypes.StreamingSessionBackup {
-
-    static func write(value: NimbleClientTypes.StreamingSessionBackup?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["backupId"].write(value.backupId)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .dateTime)
-        try writer["launchProfileId"].write(value.launchProfileId)
-        try writer["ownedBy"].write(value.ownedBy)
-        try writer["sessionId"].write(value.sessionId)
-        try writer["state"].write(value.state)
-        try writer["statusCode"].write(value.statusCode)
-        try writer["statusMessage"].write(value.statusMessage)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> NimbleClientTypes.StreamingSessionBackup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6537,18 +6343,6 @@ extension NimbleClientTypes.StreamingSessionStream: Swift.CustomDebugStringConve
 
 extension NimbleClientTypes.StreamingSessionStream {
 
-    static func write(value: NimbleClientTypes.StreamingSessionStream?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .dateTime)
-        try writer["createdBy"].write(value.createdBy)
-        try writer["expiresAt"].writeTimestamp(value.expiresAt, format: .dateTime)
-        try writer["ownedBy"].write(value.ownedBy)
-        try writer["state"].write(value.state)
-        try writer["statusCode"].write(value.statusCode)
-        try writer["streamId"].write(value.streamId)
-        try writer["url"].write(value.url)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> NimbleClientTypes.StreamingSessionStream {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = NimbleClientTypes.StreamingSessionStream()
@@ -6699,26 +6493,6 @@ extension NimbleClientTypes.Studio: Swift.CustomDebugStringConvertible {
 
 extension NimbleClientTypes.Studio {
 
-    static func write(value: NimbleClientTypes.Studio?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["adminRoleArn"].write(value.adminRoleArn)
-        try writer["arn"].write(value.arn)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .dateTime)
-        try writer["displayName"].write(value.displayName)
-        try writer["homeRegion"].write(value.homeRegion)
-        try writer["ssoClientId"].write(value.ssoClientId)
-        try writer["state"].write(value.state)
-        try writer["statusCode"].write(value.statusCode)
-        try writer["statusMessage"].write(value.statusMessage)
-        try writer["studioEncryptionConfiguration"].write(value.studioEncryptionConfiguration, with: NimbleClientTypes.StudioEncryptionConfiguration.write(value:to:))
-        try writer["studioId"].write(value.studioId)
-        try writer["studioName"].write(value.studioName)
-        try writer["studioUrl"].write(value.studioUrl)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["updatedAt"].writeTimestamp(value.updatedAt, format: .dateTime)
-        try writer["userRoleArn"].write(value.userRoleArn)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> NimbleClientTypes.Studio {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = NimbleClientTypes.Studio()
@@ -6824,30 +6598,6 @@ extension NimbleClientTypes.StudioComponent: Swift.CustomDebugStringConvertible 
 }
 
 extension NimbleClientTypes.StudioComponent {
-
-    static func write(value: NimbleClientTypes.StudioComponent?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["configuration"].write(value.configuration, with: NimbleClientTypes.StudioComponentConfiguration.write(value:to:))
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .dateTime)
-        try writer["createdBy"].write(value.createdBy)
-        try writer["description"].write(value.description)
-        try writer["ec2SecurityGroupIds"].writeList(value.ec2SecurityGroupIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["initializationScripts"].writeList(value.initializationScripts, memberWritingClosure: NimbleClientTypes.StudioComponentInitializationScript.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["name"].write(value.name)
-        try writer["runtimeRoleArn"].write(value.runtimeRoleArn)
-        try writer["scriptParameters"].writeList(value.scriptParameters, memberWritingClosure: NimbleClientTypes.ScriptParameterKeyValue.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["secureInitializationRoleArn"].write(value.secureInitializationRoleArn)
-        try writer["state"].write(value.state)
-        try writer["statusCode"].write(value.statusCode)
-        try writer["statusMessage"].write(value.statusMessage)
-        try writer["studioComponentId"].write(value.studioComponentId)
-        try writer["subtype"].write(value.subtype)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["type"].write(value.type)
-        try writer["updatedAt"].writeTimestamp(value.updatedAt, format: .dateTime)
-        try writer["updatedBy"].write(value.updatedBy)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> NimbleClientTypes.StudioComponent {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7251,19 +7001,6 @@ extension NimbleClientTypes.StudioComponentSummary: Swift.CustomDebugStringConve
 
 extension NimbleClientTypes.StudioComponentSummary {
 
-    static func write(value: NimbleClientTypes.StudioComponentSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .dateTime)
-        try writer["createdBy"].write(value.createdBy)
-        try writer["description"].write(value.description)
-        try writer["name"].write(value.name)
-        try writer["studioComponentId"].write(value.studioComponentId)
-        try writer["subtype"].write(value.subtype)
-        try writer["type"].write(value.type)
-        try writer["updatedAt"].writeTimestamp(value.updatedAt, format: .dateTime)
-        try writer["updatedBy"].write(value.updatedBy)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> NimbleClientTypes.StudioComponentSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = NimbleClientTypes.StudioComponentSummary()
@@ -7437,14 +7174,6 @@ extension NimbleClientTypes {
 }
 
 extension NimbleClientTypes.StudioMembership {
-
-    static func write(value: NimbleClientTypes.StudioMembership?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["identityStoreId"].write(value.identityStoreId)
-        try writer["persona"].write(value.persona)
-        try writer["principalId"].write(value.principalId)
-        try writer["sid"].write(value.sid)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> NimbleClientTypes.StudioMembership {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8494,14 +8223,6 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 extension NimbleClientTypes.ValidationResult {
-
-    static func write(value: NimbleClientTypes.ValidationResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["state"].write(value.state)
-        try writer["statusCode"].write(value.statusCode)
-        try writer["statusMessage"].write(value.statusMessage)
-        try writer["type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> NimbleClientTypes.ValidationResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

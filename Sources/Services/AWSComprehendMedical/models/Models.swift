@@ -6,20 +6,6 @@ import SmithyReadWrite
 
 extension ComprehendMedicalClientTypes.Attribute {
 
-    static func write(value: ComprehendMedicalClientTypes.Attribute?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BeginOffset"].write(value.beginOffset)
-        try writer["Category"].write(value.category)
-        try writer["EndOffset"].write(value.endOffset)
-        try writer["Id"].write(value.id)
-        try writer["RelationshipScore"].write(value.relationshipScore)
-        try writer["RelationshipType"].write(value.relationshipType)
-        try writer["Score"].write(value.score)
-        try writer["Text"].write(value.text)
-        try writer["Traits"].writeList(value.traits, memberWritingClosure: ComprehendMedicalClientTypes.Trait.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ComprehendMedicalClientTypes.Attribute {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComprehendMedicalClientTypes.Attribute()
@@ -142,11 +128,6 @@ extension ComprehendMedicalClientTypes {
 
 extension ComprehendMedicalClientTypes.Characters {
 
-    static func write(value: ComprehendMedicalClientTypes.Characters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["OriginalTextCharacters"].write(value.originalTextCharacters)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ComprehendMedicalClientTypes.Characters {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComprehendMedicalClientTypes.Characters()
@@ -180,16 +161,6 @@ extension ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobFilter {
         try writer["SubmitTimeAfter"].writeTimestamp(value.submitTimeAfter, format: .epochSeconds)
         try writer["SubmitTimeBefore"].writeTimestamp(value.submitTimeBefore, format: .epochSeconds)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobFilter()
-        value.jobName = try reader["JobName"].readIfPresent()
-        value.jobStatus = try reader["JobStatus"].readIfPresent()
-        value.submitTimeBefore = try reader["SubmitTimeBefore"].readTimestampIfPresent(format: .epochSeconds)
-        value.submitTimeAfter = try reader["SubmitTimeAfter"].readTimestampIfPresent(format: .epochSeconds)
-        return value
-    }
 }
 
 extension ComprehendMedicalClientTypes {
@@ -221,24 +192,6 @@ extension ComprehendMedicalClientTypes {
 }
 
 extension ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobProperties {
-
-    static func write(value: ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobProperties?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DataAccessRoleArn"].write(value.dataAccessRoleArn)
-        try writer["EndTime"].writeTimestamp(value.endTime, format: .epochSeconds)
-        try writer["ExpirationTime"].writeTimestamp(value.expirationTime, format: .epochSeconds)
-        try writer["InputDataConfig"].write(value.inputDataConfig, with: ComprehendMedicalClientTypes.InputDataConfig.write(value:to:))
-        try writer["JobId"].write(value.jobId)
-        try writer["JobName"].write(value.jobName)
-        try writer["JobStatus"].write(value.jobStatus)
-        try writer["KMSKey"].write(value.kmsKey)
-        try writer["LanguageCode"].write(value.languageCode)
-        try writer["ManifestFilePath"].write(value.manifestFilePath)
-        try writer["Message"].write(value.message)
-        try writer["ModelVersion"].write(value.modelVersion)
-        try writer["OutputDataConfig"].write(value.outputDataConfig, with: ComprehendMedicalClientTypes.OutputDataConfig.write(value:to:))
-        try writer["SubmitTime"].writeTimestamp(value.submitTime, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -937,19 +890,6 @@ enum DetectPHIOutputError {
 
 extension ComprehendMedicalClientTypes.Entity {
 
-    static func write(value: ComprehendMedicalClientTypes.Entity?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Attributes"].writeList(value.attributes, memberWritingClosure: ComprehendMedicalClientTypes.Attribute.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["BeginOffset"].write(value.beginOffset)
-        try writer["Category"].write(value.category)
-        try writer["EndOffset"].write(value.endOffset)
-        try writer["Id"].write(value.id)
-        try writer["Score"].write(value.score)
-        try writer["Text"].write(value.text)
-        try writer["Traits"].writeList(value.traits, memberWritingClosure: ComprehendMedicalClientTypes.Trait.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ComprehendMedicalClientTypes.Entity {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComprehendMedicalClientTypes.Entity()
@@ -1220,20 +1160,6 @@ extension ComprehendMedicalClientTypes {
 
 extension ComprehendMedicalClientTypes.ICD10CMAttribute {
 
-    static func write(value: ComprehendMedicalClientTypes.ICD10CMAttribute?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BeginOffset"].write(value.beginOffset)
-        try writer["Category"].write(value.category)
-        try writer["EndOffset"].write(value.endOffset)
-        try writer["Id"].write(value.id)
-        try writer["RelationshipScore"].write(value.relationshipScore)
-        try writer["RelationshipType"].write(value.relationshipType)
-        try writer["Score"].write(value.score)
-        try writer["Text"].write(value.text)
-        try writer["Traits"].writeList(value.traits, memberWritingClosure: ComprehendMedicalClientTypes.ICD10CMTrait.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ComprehendMedicalClientTypes.ICD10CMAttribute {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComprehendMedicalClientTypes.ICD10CMAttribute()
@@ -1350,13 +1276,6 @@ extension ComprehendMedicalClientTypes {
 
 extension ComprehendMedicalClientTypes.ICD10CMConcept {
 
-    static func write(value: ComprehendMedicalClientTypes.ICD10CMConcept?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Code"].write(value.code)
-        try writer["Description"].write(value.description)
-        try writer["Score"].write(value.score)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ComprehendMedicalClientTypes.ICD10CMConcept {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComprehendMedicalClientTypes.ICD10CMConcept()
@@ -1392,20 +1311,6 @@ extension ComprehendMedicalClientTypes {
 }
 
 extension ComprehendMedicalClientTypes.ICD10CMEntity {
-
-    static func write(value: ComprehendMedicalClientTypes.ICD10CMEntity?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Attributes"].writeList(value.attributes, memberWritingClosure: ComprehendMedicalClientTypes.ICD10CMAttribute.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["BeginOffset"].write(value.beginOffset)
-        try writer["Category"].write(value.category)
-        try writer["EndOffset"].write(value.endOffset)
-        try writer["ICD10CMConcepts"].writeList(value.icd10CMConcepts, memberWritingClosure: ComprehendMedicalClientTypes.ICD10CMConcept.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Id"].write(value.id)
-        try writer["Score"].write(value.score)
-        try writer["Text"].write(value.text)
-        try writer["Traits"].writeList(value.traits, memberWritingClosure: ComprehendMedicalClientTypes.ICD10CMTrait.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ComprehendMedicalClientTypes.ICD10CMEntity {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1567,12 +1472,6 @@ extension ComprehendMedicalClientTypes {
 }
 
 extension ComprehendMedicalClientTypes.ICD10CMTrait {
-
-    static func write(value: ComprehendMedicalClientTypes.ICD10CMTrait?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["Score"].write(value.score)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ComprehendMedicalClientTypes.ICD10CMTrait {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2707,18 +2606,6 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
 extension ComprehendMedicalClientTypes.RxNormAttribute {
 
-    static func write(value: ComprehendMedicalClientTypes.RxNormAttribute?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BeginOffset"].write(value.beginOffset)
-        try writer["EndOffset"].write(value.endOffset)
-        try writer["Id"].write(value.id)
-        try writer["RelationshipScore"].write(value.relationshipScore)
-        try writer["Score"].write(value.score)
-        try writer["Text"].write(value.text)
-        try writer["Traits"].writeList(value.traits, memberWritingClosure: ComprehendMedicalClientTypes.RxNormTrait.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ComprehendMedicalClientTypes.RxNormAttribute {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComprehendMedicalClientTypes.RxNormAttribute()
@@ -2825,13 +2712,6 @@ extension ComprehendMedicalClientTypes {
 
 extension ComprehendMedicalClientTypes.RxNormConcept {
 
-    static func write(value: ComprehendMedicalClientTypes.RxNormConcept?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Code"].write(value.code)
-        try writer["Description"].write(value.description)
-        try writer["Score"].write(value.score)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ComprehendMedicalClientTypes.RxNormConcept {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComprehendMedicalClientTypes.RxNormConcept()
@@ -2867,20 +2747,6 @@ extension ComprehendMedicalClientTypes {
 }
 
 extension ComprehendMedicalClientTypes.RxNormEntity {
-
-    static func write(value: ComprehendMedicalClientTypes.RxNormEntity?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Attributes"].writeList(value.attributes, memberWritingClosure: ComprehendMedicalClientTypes.RxNormAttribute.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["BeginOffset"].write(value.beginOffset)
-        try writer["Category"].write(value.category)
-        try writer["EndOffset"].write(value.endOffset)
-        try writer["Id"].write(value.id)
-        try writer["RxNormConcepts"].writeList(value.rxNormConcepts, memberWritingClosure: ComprehendMedicalClientTypes.RxNormConcept.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Score"].write(value.score)
-        try writer["Text"].write(value.text)
-        try writer["Traits"].writeList(value.traits, memberWritingClosure: ComprehendMedicalClientTypes.RxNormTrait.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ComprehendMedicalClientTypes.RxNormEntity {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3010,12 +2876,6 @@ extension ComprehendMedicalClientTypes {
 
 extension ComprehendMedicalClientTypes.RxNormTrait {
 
-    static func write(value: ComprehendMedicalClientTypes.RxNormTrait?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["Score"].write(value.score)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ComprehendMedicalClientTypes.RxNormTrait {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComprehendMedicalClientTypes.RxNormTrait()
@@ -3076,21 +2936,6 @@ extension ComprehendMedicalClientTypes {
 }
 
 extension ComprehendMedicalClientTypes.SNOMEDCTAttribute {
-
-    static func write(value: ComprehendMedicalClientTypes.SNOMEDCTAttribute?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BeginOffset"].write(value.beginOffset)
-        try writer["Category"].write(value.category)
-        try writer["EndOffset"].write(value.endOffset)
-        try writer["Id"].write(value.id)
-        try writer["RelationshipScore"].write(value.relationshipScore)
-        try writer["RelationshipType"].write(value.relationshipType)
-        try writer["SNOMEDCTConcepts"].writeList(value.snomedctConcepts, memberWritingClosure: ComprehendMedicalClientTypes.SNOMEDCTConcept.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Score"].write(value.score)
-        try writer["Text"].write(value.text)
-        try writer["Traits"].writeList(value.traits, memberWritingClosure: ComprehendMedicalClientTypes.SNOMEDCTTrait.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ComprehendMedicalClientTypes.SNOMEDCTAttribute {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3210,13 +3055,6 @@ extension ComprehendMedicalClientTypes {
 
 extension ComprehendMedicalClientTypes.SNOMEDCTConcept {
 
-    static func write(value: ComprehendMedicalClientTypes.SNOMEDCTConcept?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Code"].write(value.code)
-        try writer["Description"].write(value.description)
-        try writer["Score"].write(value.score)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ComprehendMedicalClientTypes.SNOMEDCTConcept {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComprehendMedicalClientTypes.SNOMEDCTConcept()
@@ -3253,13 +3091,6 @@ extension ComprehendMedicalClientTypes {
 
 extension ComprehendMedicalClientTypes.SNOMEDCTDetails {
 
-    static func write(value: ComprehendMedicalClientTypes.SNOMEDCTDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Edition"].write(value.edition)
-        try writer["Language"].write(value.language)
-        try writer["VersionDate"].write(value.versionDate)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ComprehendMedicalClientTypes.SNOMEDCTDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComprehendMedicalClientTypes.SNOMEDCTDetails()
@@ -3295,20 +3126,6 @@ extension ComprehendMedicalClientTypes {
 }
 
 extension ComprehendMedicalClientTypes.SNOMEDCTEntity {
-
-    static func write(value: ComprehendMedicalClientTypes.SNOMEDCTEntity?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Attributes"].writeList(value.attributes, memberWritingClosure: ComprehendMedicalClientTypes.SNOMEDCTAttribute.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["BeginOffset"].write(value.beginOffset)
-        try writer["Category"].write(value.category)
-        try writer["EndOffset"].write(value.endOffset)
-        try writer["Id"].write(value.id)
-        try writer["SNOMEDCTConcepts"].writeList(value.snomedctConcepts, memberWritingClosure: ComprehendMedicalClientTypes.SNOMEDCTConcept.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Score"].write(value.score)
-        try writer["Text"].write(value.text)
-        try writer["Traits"].writeList(value.traits, memberWritingClosure: ComprehendMedicalClientTypes.SNOMEDCTTrait.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ComprehendMedicalClientTypes.SNOMEDCTEntity {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3494,12 +3311,6 @@ extension ComprehendMedicalClientTypes {
 }
 
 extension ComprehendMedicalClientTypes.SNOMEDCTTrait {
-
-    static func write(value: ComprehendMedicalClientTypes.SNOMEDCTTrait?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["Score"].write(value.score)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ComprehendMedicalClientTypes.SNOMEDCTTrait {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4545,12 +4356,6 @@ public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRun
 
 extension ComprehendMedicalClientTypes.Trait {
 
-    static func write(value: ComprehendMedicalClientTypes.Trait?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["Score"].write(value.score)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ComprehendMedicalClientTypes.Trait {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComprehendMedicalClientTypes.Trait()
@@ -4581,12 +4386,6 @@ extension ComprehendMedicalClientTypes {
 }
 
 extension ComprehendMedicalClientTypes.UnmappedAttribute {
-
-    static func write(value: ComprehendMedicalClientTypes.UnmappedAttribute?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Attribute"].write(value.attribute, with: ComprehendMedicalClientTypes.Attribute.write(value:to:))
-        try writer["Type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ComprehendMedicalClientTypes.UnmappedAttribute {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

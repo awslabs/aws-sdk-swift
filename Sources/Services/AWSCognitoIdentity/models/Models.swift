@@ -281,14 +281,6 @@ enum CreateIdentityPoolOutputError {
 
 extension CognitoIdentityClientTypes.Credentials {
 
-    static func write(value: CognitoIdentityClientTypes.Credentials?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccessKeyId"].write(value.accessKeyId)
-        try writer["Expiration"].writeTimestamp(value.expiration, format: .epochSeconds)
-        try writer["SecretKey"].write(value.secretKey)
-        try writer["SessionToken"].write(value.sessionToken)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CognitoIdentityClientTypes.Credentials {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CognitoIdentityClientTypes.Credentials()
@@ -1317,14 +1309,6 @@ enum GetPrincipalTagAttributeMapOutputError {
 
 extension CognitoIdentityClientTypes.IdentityDescription {
 
-    static func write(value: CognitoIdentityClientTypes.IdentityDescription?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationDate"].writeTimestamp(value.creationDate, format: .epochSeconds)
-        try writer["IdentityId"].write(value.identityId)
-        try writer["LastModifiedDate"].writeTimestamp(value.lastModifiedDate, format: .epochSeconds)
-        try writer["Logins"].writeList(value.logins, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CognitoIdentityClientTypes.IdentityDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CognitoIdentityClientTypes.IdentityDescription()
@@ -1365,12 +1349,6 @@ extension CognitoIdentityClientTypes {
 }
 
 extension CognitoIdentityClientTypes.IdentityPoolShortDescription {
-
-    static func write(value: CognitoIdentityClientTypes.IdentityPoolShortDescription?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["IdentityPoolId"].write(value.identityPoolId)
-        try writer["IdentityPoolName"].write(value.identityPoolName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CognitoIdentityClientTypes.IdentityPoolShortDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2733,12 +2711,6 @@ enum UnlinkIdentityOutputError {
 }
 
 extension CognitoIdentityClientTypes.UnprocessedIdentityId {
-
-    static func write(value: CognitoIdentityClientTypes.UnprocessedIdentityId?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ErrorCode"].write(value.errorCode)
-        try writer["IdentityId"].write(value.identityId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CognitoIdentityClientTypes.UnprocessedIdentityId {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

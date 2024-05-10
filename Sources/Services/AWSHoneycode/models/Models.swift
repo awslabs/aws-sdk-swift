@@ -533,15 +533,6 @@ extension HoneycodeClientTypes.Cell: Swift.CustomDebugStringConvertible {
 
 extension HoneycodeClientTypes.Cell {
 
-    static func write(value: HoneycodeClientTypes.Cell?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["format"].write(value.format)
-        try writer["formattedValue"].write(value.formattedValue)
-        try writer["formattedValues"].writeList(value.formattedValues, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["formula"].write(value.formula)
-        try writer["rawValue"].write(value.rawValue)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> HoneycodeClientTypes.Cell {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = HoneycodeClientTypes.Cell()
@@ -598,14 +589,6 @@ extension HoneycodeClientTypes.CellInput {
         try writer["fact"].write(value.fact)
         try writer["facts"].writeList(value.facts, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> HoneycodeClientTypes.CellInput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = HoneycodeClientTypes.CellInput()
-        value.fact = try reader["fact"].readIfPresent()
-        value.facts = try reader["facts"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
 }
 
 extension HoneycodeClientTypes {
@@ -634,12 +617,6 @@ extension HoneycodeClientTypes.ColumnMetadata: Swift.CustomDebugStringConvertibl
 }
 
 extension HoneycodeClientTypes.ColumnMetadata {
-
-    static func write(value: HoneycodeClientTypes.ColumnMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["format"].write(value.format)
-        try writer["name"].write(value.name)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> HoneycodeClientTypes.ColumnMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -679,14 +656,6 @@ extension HoneycodeClientTypes.CreateRowData {
         try writer["batchItemId"].write(value.batchItemId)
         try writer["cellsToCreate"].writeMap(value.cellsToCreate, valueWritingClosure: HoneycodeClientTypes.CellInput.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> HoneycodeClientTypes.CreateRowData {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = HoneycodeClientTypes.CreateRowData()
-        value.batchItemId = try reader["batchItemId"].readIfPresent()
-        value.cellsToCreate = try reader["cellsToCreate"].readMapIfPresent(valueReadingClosure: HoneycodeClientTypes.CellInput.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
 }
 
 extension HoneycodeClientTypes {
@@ -718,13 +687,6 @@ extension HoneycodeClientTypes.DataItem: Swift.CustomDebugStringConvertible {
 }
 
 extension HoneycodeClientTypes.DataItem {
-
-    static func write(value: HoneycodeClientTypes.DataItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["formattedValue"].write(value.formattedValue)
-        try writer["overrideFormat"].write(value.overrideFormat)
-        try writer["rawValue"].write(value.rawValue)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> HoneycodeClientTypes.DataItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1010,12 +972,6 @@ extension HoneycodeClientTypes {
 
 extension HoneycodeClientTypes.FailedBatchItem {
 
-    static func write(value: HoneycodeClientTypes.FailedBatchItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["errorMessage"].write(value.errorMessage)
-        try writer["id"].write(value.id)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> HoneycodeClientTypes.FailedBatchItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = HoneycodeClientTypes.FailedBatchItem()
@@ -1058,14 +1014,6 @@ extension HoneycodeClientTypes.Filter {
         guard let value else { return }
         try writer["contextRowId"].write(value.contextRowId)
         try writer["formula"].write(value.formula)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> HoneycodeClientTypes.Filter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = HoneycodeClientTypes.Filter()
-        value.formula = try reader["formula"].readIfPresent()
-        value.contextRowId = try reader["contextRowId"].readIfPresent()
-        return value
     }
 }
 
@@ -1384,12 +1332,6 @@ extension HoneycodeClientTypes.ImportJobSubmitter: Swift.CustomDebugStringConver
 }
 
 extension HoneycodeClientTypes.ImportJobSubmitter {
-
-    static func write(value: HoneycodeClientTypes.ImportJobSubmitter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["email"].write(value.email)
-        try writer["userArn"].write(value.userArn)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> HoneycodeClientTypes.ImportJobSubmitter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2226,12 +2168,6 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
 extension HoneycodeClientTypes.ResultRow {
 
-    static func write(value: HoneycodeClientTypes.ResultRow?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["dataItems"].writeList(value.dataItems, memberWritingClosure: HoneycodeClientTypes.DataItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["rowId"].write(value.rowId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> HoneycodeClientTypes.ResultRow {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = HoneycodeClientTypes.ResultRow()
@@ -2263,12 +2199,6 @@ extension HoneycodeClientTypes {
 }
 
 extension HoneycodeClientTypes.ResultSet {
-
-    static func write(value: HoneycodeClientTypes.ResultSet?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["headers"].writeList(value.headers, memberWritingClosure: HoneycodeClientTypes.ColumnMetadata.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["rows"].writeList(value.rows, memberWritingClosure: HoneycodeClientTypes.ResultRow.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> HoneycodeClientTypes.ResultSet {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2523,12 +2453,6 @@ enum StartTableDataImportJobOutputError {
 
 extension HoneycodeClientTypes.Table {
 
-    static func write(value: HoneycodeClientTypes.Table?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["tableId"].write(value.tableId)
-        try writer["tableName"].write(value.tableName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> HoneycodeClientTypes.Table {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = HoneycodeClientTypes.Table()
@@ -2559,13 +2483,6 @@ extension HoneycodeClientTypes {
 }
 
 extension HoneycodeClientTypes.TableColumn {
-
-    static func write(value: HoneycodeClientTypes.TableColumn?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["format"].write(value.format)
-        try writer["tableColumnId"].write(value.tableColumnId)
-        try writer["tableColumnName"].write(value.tableColumnName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> HoneycodeClientTypes.TableColumn {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2602,14 +2519,6 @@ extension HoneycodeClientTypes {
 }
 
 extension HoneycodeClientTypes.TableDataImportJobMetadata {
-
-    static func write(value: HoneycodeClientTypes.TableDataImportJobMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["dataSource"].write(value.dataSource, with: HoneycodeClientTypes.ImportDataSource.write(value:to:))
-        try writer["importOptions"].write(value.importOptions, with: HoneycodeClientTypes.ImportOptions.write(value:to:))
-        try writer["submitTime"].writeTimestamp(value.submitTime, format: .epochSeconds)
-        try writer["submitter"].write(value.submitter, with: HoneycodeClientTypes.ImportJobSubmitter.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> HoneycodeClientTypes.TableDataImportJobMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2691,12 +2600,6 @@ extension HoneycodeClientTypes {
 }
 
 extension HoneycodeClientTypes.TableRow {
-
-    static func write(value: HoneycodeClientTypes.TableRow?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["cells"].writeList(value.cells, memberWritingClosure: HoneycodeClientTypes.Cell.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["rowId"].write(value.rowId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> HoneycodeClientTypes.TableRow {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2917,14 +2820,6 @@ extension HoneycodeClientTypes.UpdateRowData {
         try writer["cellsToUpdate"].writeMap(value.cellsToUpdate, valueWritingClosure: HoneycodeClientTypes.CellInput.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["rowId"].write(value.rowId)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> HoneycodeClientTypes.UpdateRowData {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = HoneycodeClientTypes.UpdateRowData()
-        value.rowId = try reader["rowId"].readIfPresent()
-        value.cellsToUpdate = try reader["cellsToUpdate"].readMapIfPresent(valueReadingClosure: HoneycodeClientTypes.CellInput.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
 }
 
 extension HoneycodeClientTypes {
@@ -2987,15 +2882,6 @@ extension HoneycodeClientTypes.UpsertRowData {
         try writer["cellsToUpdate"].writeMap(value.cellsToUpdate, valueWritingClosure: HoneycodeClientTypes.CellInput.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["filter"].write(value.filter, with: HoneycodeClientTypes.Filter.write(value:to:))
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> HoneycodeClientTypes.UpsertRowData {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = HoneycodeClientTypes.UpsertRowData()
-        value.batchItemId = try reader["batchItemId"].readIfPresent()
-        value.filter = try reader["filter"].readIfPresent(with: HoneycodeClientTypes.Filter.read(from:))
-        value.cellsToUpdate = try reader["cellsToUpdate"].readMapIfPresent(valueReadingClosure: HoneycodeClientTypes.CellInput.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
 }
 
 extension HoneycodeClientTypes {
@@ -3026,12 +2912,6 @@ extension HoneycodeClientTypes {
 }
 
 extension HoneycodeClientTypes.UpsertRowsResult {
-
-    static func write(value: HoneycodeClientTypes.UpsertRowsResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["rowIds"].writeList(value.rowIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["upsertAction"].write(value.upsertAction)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> HoneycodeClientTypes.UpsertRowsResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3113,13 +2993,6 @@ extension HoneycodeClientTypes.VariableValue {
     static func write(value: HoneycodeClientTypes.VariableValue?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["rawValue"].write(value.rawValue)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> HoneycodeClientTypes.VariableValue {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = HoneycodeClientTypes.VariableValue()
-        value.rawValue = try reader["rawValue"].readIfPresent()
-        return value
     }
 }
 

@@ -1229,16 +1229,6 @@ extension SchemasClientTypes {
 
 extension SchemasClientTypes.DiscovererSummary {
 
-    static func write(value: SchemasClientTypes.DiscovererSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CrossAccount"].write(value.crossAccount)
-        try writer["DiscovererArn"].write(value.discovererArn)
-        try writer["DiscovererId"].write(value.discovererId)
-        try writer["SourceArn"].write(value.sourceArn)
-        try writer["State"].write(value.state)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SchemasClientTypes.DiscovererSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SchemasClientTypes.DiscovererSummary()
@@ -2566,13 +2556,6 @@ enum PutResourcePolicyOutputError {
 
 extension SchemasClientTypes.RegistrySummary {
 
-    static func write(value: SchemasClientTypes.RegistrySummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["RegistryArn"].write(value.registryArn)
-        try writer["RegistryName"].write(value.registryName)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SchemasClientTypes.RegistrySummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SchemasClientTypes.RegistrySummary()
@@ -2607,15 +2590,6 @@ extension SchemasClientTypes {
 }
 
 extension SchemasClientTypes.SchemaSummary {
-
-    static func write(value: SchemasClientTypes.SchemaSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["LastModified"].writeTimestamp(value.lastModified, format: .dateTime)
-        try writer["SchemaArn"].write(value.schemaArn)
-        try writer["SchemaName"].write(value.schemaName)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["VersionCount"].write(value.versionCount)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SchemasClientTypes.SchemaSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2663,14 +2637,6 @@ extension SchemasClientTypes {
 
 extension SchemasClientTypes.SchemaVersionSummary {
 
-    static func write(value: SchemasClientTypes.SchemaVersionSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["SchemaArn"].write(value.schemaArn)
-        try writer["SchemaName"].write(value.schemaName)
-        try writer["SchemaVersion"].write(value.schemaVersion)
-        try writer["Type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SchemasClientTypes.SchemaVersionSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SchemasClientTypes.SchemaVersionSummary()
@@ -2713,14 +2679,6 @@ public enum SchemasClientTypes {}
 
 extension SchemasClientTypes.SearchSchemaSummary {
 
-    static func write(value: SchemasClientTypes.SearchSchemaSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["RegistryName"].write(value.registryName)
-        try writer["SchemaArn"].write(value.schemaArn)
-        try writer["SchemaName"].write(value.schemaName)
-        try writer["SchemaVersions"].writeList(value.schemaVersions, memberWritingClosure: SchemasClientTypes.SearchSchemaVersionSummary.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SchemasClientTypes.SearchSchemaSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SchemasClientTypes.SearchSchemaSummary()
@@ -2760,13 +2718,6 @@ extension SchemasClientTypes {
 }
 
 extension SchemasClientTypes.SearchSchemaVersionSummary {
-
-    static func write(value: SchemasClientTypes.SearchSchemaVersionSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedDate"].writeTimestamp(value.createdDate, format: .dateTime)
-        try writer["SchemaVersion"].write(value.schemaVersion)
-        try writer["Type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SchemasClientTypes.SearchSchemaVersionSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

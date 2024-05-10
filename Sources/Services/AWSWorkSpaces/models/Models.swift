@@ -148,14 +148,6 @@ extension WorkSpacesClientTypes {
 
 extension WorkSpacesClientTypes.AccountLink {
 
-    static func write(value: WorkSpacesClientTypes.AccountLink?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccountLinkId"].write(value.accountLinkId)
-        try writer["AccountLinkStatus"].write(value.accountLinkStatus)
-        try writer["SourceAccountId"].write(value.sourceAccountId)
-        try writer["TargetAccountId"].write(value.targetAccountId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesClientTypes.AccountLink {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WorkSpacesClientTypes.AccountLink()
@@ -235,16 +227,6 @@ extension WorkSpacesClientTypes {
 }
 
 extension WorkSpacesClientTypes.AccountModification {
-
-    static func write(value: WorkSpacesClientTypes.AccountModification?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DedicatedTenancyManagementCidrRange"].write(value.dedicatedTenancyManagementCidrRange)
-        try writer["DedicatedTenancySupport"].write(value.dedicatedTenancySupport)
-        try writer["ErrorCode"].write(value.errorCode)
-        try writer["ErrorMessage"].write(value.errorMessage)
-        try writer["ModificationState"].write(value.modificationState)
-        try writer["StartTime"].writeTimestamp(value.startTime, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesClientTypes.AccountModification {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -383,17 +365,6 @@ public struct ApplicationNotSupportedException: ClientRuntime.ModeledError, AWSC
 }
 
 extension WorkSpacesClientTypes.ApplicationResourceAssociation {
-
-    static func write(value: WorkSpacesClientTypes.ApplicationResourceAssociation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ApplicationId"].write(value.applicationId)
-        try writer["AssociatedResourceId"].write(value.associatedResourceId)
-        try writer["AssociatedResourceType"].write(value.associatedResourceType)
-        try writer["Created"].writeTimestamp(value.created, format: .epochSeconds)
-        try writer["LastUpdatedTime"].writeTimestamp(value.lastUpdatedTime, format: .epochSeconds)
-        try writer["State"].write(value.state)
-        try writer["StateReason"].write(value.stateReason, with: WorkSpacesClientTypes.AssociationStateReason.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesClientTypes.ApplicationResourceAssociation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -764,12 +735,6 @@ extension WorkSpacesClientTypes {
 
 extension WorkSpacesClientTypes.AssociationStateReason {
 
-    static func write(value: WorkSpacesClientTypes.AssociationStateReason?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ErrorCode"].write(value.errorCode)
-        try writer["ErrorMessage"].write(value.errorMessage)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesClientTypes.AssociationStateReason {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WorkSpacesClientTypes.AssociationStateReason()
@@ -930,17 +895,6 @@ extension WorkSpacesClientTypes {
 }
 
 extension WorkSpacesClientTypes.BundleResourceAssociation {
-
-    static func write(value: WorkSpacesClientTypes.BundleResourceAssociation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AssociatedResourceId"].write(value.associatedResourceId)
-        try writer["AssociatedResourceType"].write(value.associatedResourceType)
-        try writer["BundleId"].write(value.bundleId)
-        try writer["Created"].writeTimestamp(value.created, format: .epochSeconds)
-        try writer["LastUpdatedTime"].writeTimestamp(value.lastUpdatedTime, format: .epochSeconds)
-        try writer["State"].write(value.state)
-        try writer["StateReason"].write(value.stateReason, with: WorkSpacesClientTypes.AssociationStateReason.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesClientTypes.BundleResourceAssociation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1174,12 +1128,6 @@ extension WorkSpacesClientTypes {
 
 extension WorkSpacesClientTypes.ClientPropertiesResult {
 
-    static func write(value: WorkSpacesClientTypes.ClientPropertiesResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ClientProperties"].write(value.clientProperties, with: WorkSpacesClientTypes.ClientProperties.write(value:to:))
-        try writer["ResourceId"].write(value.resourceId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesClientTypes.ClientPropertiesResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WorkSpacesClientTypes.ClientPropertiesResult()
@@ -1354,14 +1302,6 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
 extension WorkSpacesClientTypes.ConnectClientAddIn {
 
-    static func write(value: WorkSpacesClientTypes.ConnectClientAddIn?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AddInId"].write(value.addInId)
-        try writer["Name"].write(value.name)
-        try writer["ResourceId"].write(value.resourceId)
-        try writer["URL"].write(value.url)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesClientTypes.ConnectClientAddIn {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WorkSpacesClientTypes.ConnectClientAddIn()
@@ -1402,15 +1342,6 @@ extension WorkSpacesClientTypes {
 }
 
 extension WorkSpacesClientTypes.ConnectionAlias {
-
-    static func write(value: WorkSpacesClientTypes.ConnectionAlias?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AliasId"].write(value.aliasId)
-        try writer["Associations"].writeList(value.associations, memberWritingClosure: WorkSpacesClientTypes.ConnectionAliasAssociation.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ConnectionString"].write(value.connectionString)
-        try writer["OwnerAccountId"].write(value.ownerAccountId)
-        try writer["State"].write(value.state)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesClientTypes.ConnectionAlias {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1457,14 +1388,6 @@ extension WorkSpacesClientTypes {
 }
 
 extension WorkSpacesClientTypes.ConnectionAliasAssociation {
-
-    static func write(value: WorkSpacesClientTypes.ConnectionAliasAssociation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AssociatedAccountId"].write(value.associatedAccountId)
-        try writer["AssociationStatus"].write(value.associationStatus)
-        try writer["ConnectionIdentifier"].write(value.connectionIdentifier)
-        try writer["ResourceId"].write(value.resourceId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesClientTypes.ConnectionAliasAssociation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2586,12 +2509,6 @@ extension WorkSpacesClientTypes {
 
 extension WorkSpacesClientTypes.DataReplicationSettings {
 
-    static func write(value: WorkSpacesClientTypes.DataReplicationSettings?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DataReplication"].write(value.dataReplication)
-        try writer["RecoverySnapshotTime"].writeTimestamp(value.recoverySnapshotTime, format: .epochSeconds)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesClientTypes.DataReplicationSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WorkSpacesClientTypes.DataReplicationSettings()
@@ -2743,15 +2660,6 @@ extension WorkSpacesClientTypes {
 
 extension WorkSpacesClientTypes.DefaultClientBrandingAttributes {
 
-    static func write(value: WorkSpacesClientTypes.DefaultClientBrandingAttributes?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ForgotPasswordLink"].write(value.forgotPasswordLink)
-        try writer["LoginMessage"].writeMap(value.loginMessage, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["LogoUrl"].write(value.logoUrl)
-        try writer["SupportEmail"].write(value.supportEmail)
-        try writer["SupportLink"].write(value.supportLink)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesClientTypes.DefaultClientBrandingAttributes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WorkSpacesClientTypes.DefaultClientBrandingAttributes()
@@ -2814,17 +2722,6 @@ extension WorkSpacesClientTypes.DefaultImportClientBrandingAttributes {
         try writer["SupportEmail"].write(value.supportEmail)
         try writer["SupportLink"].write(value.supportLink)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesClientTypes.DefaultImportClientBrandingAttributes {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WorkSpacesClientTypes.DefaultImportClientBrandingAttributes()
-        value.logo = try reader["Logo"].readIfPresent()
-        value.supportEmail = try reader["SupportEmail"].readIfPresent()
-        value.supportLink = try reader["SupportLink"].readIfPresent()
-        value.forgotPasswordLink = try reader["ForgotPasswordLink"].readIfPresent()
-        value.loginMessage = try reader["LoginMessage"].readMapIfPresent(valueReadingClosure: Swift.String.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
 }
 
 extension WorkSpacesClientTypes {
@@ -2868,16 +2765,6 @@ extension WorkSpacesClientTypes {
 }
 
 extension WorkSpacesClientTypes.DefaultWorkspaceCreationProperties {
-
-    static func write(value: WorkSpacesClientTypes.DefaultWorkspaceCreationProperties?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CustomSecurityGroupId"].write(value.customSecurityGroupId)
-        try writer["DefaultOu"].write(value.defaultOu)
-        try writer["EnableInternetAccess"].write(value.enableInternetAccess)
-        try writer["EnableMaintenanceMode"].write(value.enableMaintenanceMode)
-        try writer["EnableWorkDocs"].write(value.enableWorkDocs)
-        try writer["UserEnabledAsLocalAdministrator"].write(value.userEnabledAsLocalAdministrator)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesClientTypes.DefaultWorkspaceCreationProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5511,12 +5398,6 @@ enum DisassociateWorkspaceApplicationOutputError {
 
 extension WorkSpacesClientTypes.ErrorDetails {
 
-    static func write(value: WorkSpacesClientTypes.ErrorDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ErrorCode"].write(value.errorCode)
-        try writer["ErrorMessage"].write(value.errorMessage)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesClientTypes.ErrorDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WorkSpacesClientTypes.ErrorDetails()
@@ -5547,13 +5428,6 @@ extension WorkSpacesClientTypes {
 }
 
 extension WorkSpacesClientTypes.FailedCreateStandbyWorkspacesRequest {
-
-    static func write(value: WorkSpacesClientTypes.FailedCreateStandbyWorkspacesRequest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ErrorCode"].write(value.errorCode)
-        try writer["ErrorMessage"].write(value.errorMessage)
-        try writer["StandbyWorkspaceRequest"].write(value.standbyWorkspaceRequest, with: WorkSpacesClientTypes.StandbyWorkspace.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesClientTypes.FailedCreateStandbyWorkspacesRequest {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5591,13 +5465,6 @@ extension WorkSpacesClientTypes {
 
 extension WorkSpacesClientTypes.FailedCreateWorkspaceRequest {
 
-    static func write(value: WorkSpacesClientTypes.FailedCreateWorkspaceRequest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ErrorCode"].write(value.errorCode)
-        try writer["ErrorMessage"].write(value.errorMessage)
-        try writer["WorkspaceRequest"].write(value.workspaceRequest, with: WorkSpacesClientTypes.WorkspaceRequest.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesClientTypes.FailedCreateWorkspaceRequest {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WorkSpacesClientTypes.FailedCreateWorkspaceRequest()
@@ -5633,13 +5500,6 @@ extension WorkSpacesClientTypes {
 }
 
 extension WorkSpacesClientTypes.FailedWorkspaceChangeRequest {
-
-    static func write(value: WorkSpacesClientTypes.FailedWorkspaceChangeRequest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ErrorCode"].write(value.errorCode)
-        try writer["ErrorMessage"].write(value.errorMessage)
-        try writer["WorkspaceId"].write(value.workspaceId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesClientTypes.FailedWorkspaceChangeRequest {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5777,11 +5637,6 @@ extension WorkSpacesClientTypes {
 
 extension WorkSpacesClientTypes.ImagePermission {
 
-    static func write(value: WorkSpacesClientTypes.ImagePermission?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["SharedAccountId"].write(value.sharedAccountId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesClientTypes.ImagePermission {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WorkSpacesClientTypes.ImagePermission()
@@ -5807,17 +5662,6 @@ extension WorkSpacesClientTypes {
 }
 
 extension WorkSpacesClientTypes.ImageResourceAssociation {
-
-    static func write(value: WorkSpacesClientTypes.ImageResourceAssociation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AssociatedResourceId"].write(value.associatedResourceId)
-        try writer["AssociatedResourceType"].write(value.associatedResourceType)
-        try writer["Created"].writeTimestamp(value.created, format: .epochSeconds)
-        try writer["ImageId"].write(value.imageId)
-        try writer["LastUpdatedTime"].writeTimestamp(value.lastUpdatedTime, format: .epochSeconds)
-        try writer["State"].write(value.state)
-        try writer["StateReason"].write(value.stateReason, with: WorkSpacesClientTypes.AssociationStateReason.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesClientTypes.ImageResourceAssociation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6268,17 +6112,6 @@ public struct InvalidResourceStateException: ClientRuntime.ModeledError, AWSClie
 
 extension WorkSpacesClientTypes.IosClientBrandingAttributes {
 
-    static func write(value: WorkSpacesClientTypes.IosClientBrandingAttributes?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ForgotPasswordLink"].write(value.forgotPasswordLink)
-        try writer["LoginMessage"].writeMap(value.loginMessage, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["Logo2xUrl"].write(value.logo2xUrl)
-        try writer["Logo3xUrl"].write(value.logo3xUrl)
-        try writer["LogoUrl"].write(value.logoUrl)
-        try writer["SupportEmail"].write(value.supportEmail)
-        try writer["SupportLink"].write(value.supportLink)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesClientTypes.IosClientBrandingAttributes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WorkSpacesClientTypes.IosClientBrandingAttributes()
@@ -6352,19 +6185,6 @@ extension WorkSpacesClientTypes.IosImportClientBrandingAttributes {
         try writer["Logo3x"].write(value.logo3x)
         try writer["SupportEmail"].write(value.supportEmail)
         try writer["SupportLink"].write(value.supportLink)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesClientTypes.IosImportClientBrandingAttributes {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WorkSpacesClientTypes.IosImportClientBrandingAttributes()
-        value.logo = try reader["Logo"].readIfPresent()
-        value.logo2x = try reader["Logo2x"].readIfPresent()
-        value.logo3x = try reader["Logo3x"].readIfPresent()
-        value.supportEmail = try reader["SupportEmail"].readIfPresent()
-        value.supportLink = try reader["SupportLink"].readIfPresent()
-        value.forgotPasswordLink = try reader["ForgotPasswordLink"].readIfPresent()
-        value.loginMessage = try reader["LoginMessage"].readMapIfPresent(valueReadingClosure: Swift.String.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
     }
 }
 
@@ -6763,12 +6583,6 @@ extension WorkSpacesClientTypes {
 }
 
 extension WorkSpacesClientTypes.ModificationState {
-
-    static func write(value: WorkSpacesClientTypes.ModificationState?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Resource"].write(value.resource)
-        try writer["State"].write(value.state)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesClientTypes.ModificationState {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7412,11 +7226,6 @@ enum ModifyWorkspaceStateOutputError {
 
 extension WorkSpacesClientTypes.OperatingSystem {
 
-    static func write(value: WorkSpacesClientTypes.OperatingSystem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesClientTypes.OperatingSystem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WorkSpacesClientTypes.OperatingSystem()
@@ -7634,14 +7443,6 @@ public struct OperationNotSupportedException: ClientRuntime.ModeledError, AWSCli
 
 extension WorkSpacesClientTypes.PendingCreateStandbyWorkspacesRequest {
 
-    static func write(value: WorkSpacesClientTypes.PendingCreateStandbyWorkspacesRequest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DirectoryId"].write(value.directoryId)
-        try writer["State"].write(value.state)
-        try writer["UserName"].write(value.userName)
-        try writer["WorkspaceId"].write(value.workspaceId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesClientTypes.PendingCreateStandbyWorkspacesRequest {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WorkSpacesClientTypes.PendingCreateStandbyWorkspacesRequest()
@@ -7716,13 +7517,6 @@ extension WorkSpacesClientTypes.RebootRequest {
     static func write(value: WorkSpacesClientTypes.RebootRequest?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["WorkspaceId"].write(value.workspaceId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesClientTypes.RebootRequest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WorkSpacesClientTypes.RebootRequest()
-        value.workspaceId = try reader["WorkspaceId"].readIfPresent()
-        return value
     }
 }
 
@@ -7814,13 +7608,6 @@ extension WorkSpacesClientTypes.RebuildRequest {
     static func write(value: WorkSpacesClientTypes.RebuildRequest?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["WorkspaceId"].write(value.workspaceId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesClientTypes.RebuildRequest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WorkSpacesClientTypes.RebuildRequest()
-        value.workspaceId = try reader["WorkspaceId"].readIfPresent()
-        return value
     }
 }
 
@@ -8100,14 +7887,6 @@ enum RejectAccountLinkInvitationOutputError {
 }
 
 extension WorkSpacesClientTypes.RelatedWorkspaceProperties {
-
-    static func write(value: WorkSpacesClientTypes.RelatedWorkspaceProperties?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Region"].write(value.region)
-        try writer["State"].write(value.state)
-        try writer["Type"].write(value.type)
-        try writer["WorkspaceId"].write(value.workspaceId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesClientTypes.RelatedWorkspaceProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8748,11 +8527,6 @@ extension WorkSpacesClientTypes {
 
 extension WorkSpacesClientTypes.Snapshot {
 
-    static func write(value: WorkSpacesClientTypes.Snapshot?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["SnapshotTime"].writeTimestamp(value.snapshotTime, format: .epochSeconds)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesClientTypes.Snapshot {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WorkSpacesClientTypes.Snapshot()
@@ -8866,13 +8640,6 @@ extension WorkSpacesClientTypes {
 
 extension WorkSpacesClientTypes.StandbyWorkspacesProperties {
 
-    static func write(value: WorkSpacesClientTypes.StandbyWorkspacesProperties?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DataReplication"].write(value.dataReplication)
-        try writer["RecoverySnapshotTime"].writeTimestamp(value.recoverySnapshotTime, format: .epochSeconds)
-        try writer["StandbyWorkspaceId"].write(value.standbyWorkspaceId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesClientTypes.StandbyWorkspacesProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WorkSpacesClientTypes.StandbyWorkspacesProperties()
@@ -8912,13 +8679,6 @@ extension WorkSpacesClientTypes.StartRequest {
     static func write(value: WorkSpacesClientTypes.StartRequest?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["WorkspaceId"].write(value.workspaceId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesClientTypes.StartRequest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WorkSpacesClientTypes.StartRequest()
-        value.workspaceId = try reader["WorkspaceId"].readIfPresent()
-        return value
     }
 }
 
@@ -9008,13 +8768,6 @@ extension WorkSpacesClientTypes.StopRequest {
     static func write(value: WorkSpacesClientTypes.StopRequest?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["WorkspaceId"].write(value.workspaceId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesClientTypes.StopRequest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WorkSpacesClientTypes.StopRequest()
-        value.workspaceId = try reader["WorkspaceId"].readIfPresent()
-        return value
     }
 }
 
@@ -9202,13 +8955,6 @@ extension WorkSpacesClientTypes.TerminateRequest {
     static func write(value: WorkSpacesClientTypes.TerminateRequest?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["WorkspaceId"].write(value.workspaceId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesClientTypes.TerminateRequest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WorkSpacesClientTypes.TerminateRequest()
-        value.workspaceId = try reader["WorkspaceId"].readIfPresent()
-        return value
     }
 }
 
@@ -9508,12 +9254,6 @@ enum UpdateConnectionAliasPermissionOutputError {
 
 extension WorkSpacesClientTypes.UpdateResult {
 
-    static func write(value: WorkSpacesClientTypes.UpdateResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Description"].write(value.description)
-        try writer["UpdateAvailable"].write(value.updateAvailable)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesClientTypes.UpdateResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WorkSpacesClientTypes.UpdateResult()
@@ -9809,19 +9549,6 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
 extension WorkSpacesClientTypes.WorkSpaceApplication {
 
-    static func write(value: WorkSpacesClientTypes.WorkSpaceApplication?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ApplicationId"].write(value.applicationId)
-        try writer["Created"].writeTimestamp(value.created, format: .epochSeconds)
-        try writer["Description"].write(value.description)
-        try writer["LicenseType"].write(value.licenseType)
-        try writer["Name"].write(value.name)
-        try writer["Owner"].write(value.owner)
-        try writer["State"].write(value.state)
-        try writer["SupportedComputeTypeNames"].writeList(value.supportedComputeTypeNames, memberWritingClosure: WorkSpacesClientTypes.Compute.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["SupportedOperatingSystemNames"].writeList(value.supportedOperatingSystemNames, memberWritingClosure: WorkSpacesClientTypes.OperatingSystemName.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesClientTypes.WorkSpaceApplication {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WorkSpacesClientTypes.WorkSpaceApplication()
@@ -9887,11 +9614,6 @@ extension WorkSpacesClientTypes {
 }
 
 extension WorkSpacesClientTypes.WorkSpaceApplicationDeployment {
-
-    static func write(value: WorkSpacesClientTypes.WorkSpaceApplicationDeployment?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Associations"].writeList(value.associations, memberWritingClosure: WorkSpacesClientTypes.WorkspaceResourceAssociation.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesClientTypes.WorkSpaceApplicationDeployment {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -10013,29 +9735,6 @@ extension WorkSpacesClientTypes {
 public enum WorkSpacesClientTypes {}
 
 extension WorkSpacesClientTypes.Workspace {
-
-    static func write(value: WorkSpacesClientTypes.Workspace?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BundleId"].write(value.bundleId)
-        try writer["ComputerName"].write(value.computerName)
-        try writer["DataReplicationSettings"].write(value.dataReplicationSettings, with: WorkSpacesClientTypes.DataReplicationSettings.write(value:to:))
-        try writer["DirectoryId"].write(value.directoryId)
-        try writer["ErrorCode"].write(value.errorCode)
-        try writer["ErrorMessage"].write(value.errorMessage)
-        try writer["IpAddress"].write(value.ipAddress)
-        try writer["ModificationStates"].writeList(value.modificationStates, memberWritingClosure: WorkSpacesClientTypes.ModificationState.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["RelatedWorkspaces"].writeList(value.relatedWorkspaces, memberWritingClosure: WorkSpacesClientTypes.RelatedWorkspaceProperties.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["RootVolumeEncryptionEnabled"].write(value.rootVolumeEncryptionEnabled)
-        try writer["StandbyWorkspacesProperties"].writeList(value.standbyWorkspacesProperties, memberWritingClosure: WorkSpacesClientTypes.StandbyWorkspacesProperties.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["State"].write(value.state)
-        try writer["SubnetId"].write(value.subnetId)
-        try writer["UserName"].write(value.userName)
-        try writer["UserVolumeEncryptionEnabled"].write(value.userVolumeEncryptionEnabled)
-        try writer["VolumeEncryptionKey"].write(value.volumeEncryptionKey)
-        try writer["WorkspaceId"].write(value.workspaceId)
-        try writer["WorkspaceName"].write(value.workspaceName)
-        try writer["WorkspaceProperties"].write(value.workspaceProperties, with: WorkSpacesClientTypes.WorkspaceProperties.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesClientTypes.Workspace {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -10263,22 +9962,6 @@ extension WorkSpacesClientTypes {
 
 extension WorkSpacesClientTypes.WorkspaceBundle {
 
-    static func write(value: WorkSpacesClientTypes.WorkspaceBundle?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BundleId"].write(value.bundleId)
-        try writer["BundleType"].write(value.bundleType)
-        try writer["ComputeType"].write(value.computeType, with: WorkSpacesClientTypes.ComputeType.write(value:to:))
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["Description"].write(value.description)
-        try writer["ImageId"].write(value.imageId)
-        try writer["LastUpdatedTime"].writeTimestamp(value.lastUpdatedTime, format: .epochSeconds)
-        try writer["Name"].write(value.name)
-        try writer["Owner"].write(value.owner)
-        try writer["RootStorage"].write(value.rootStorage, with: WorkSpacesClientTypes.RootStorage.write(value:to:))
-        try writer["State"].write(value.state)
-        try writer["UserStorage"].write(value.userStorage, with: WorkSpacesClientTypes.UserStorage.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesClientTypes.WorkspaceBundle {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WorkSpacesClientTypes.WorkspaceBundle()
@@ -10393,14 +10076,6 @@ extension WorkSpacesClientTypes {
 
 extension WorkSpacesClientTypes.WorkspaceConnectionStatus {
 
-    static func write(value: WorkSpacesClientTypes.WorkspaceConnectionStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ConnectionState"].write(value.connectionState)
-        try writer["ConnectionStateCheckTimestamp"].writeTimestamp(value.connectionStateCheckTimestamp, format: .epochSeconds)
-        try writer["LastKnownUserConnectionTimestamp"].writeTimestamp(value.lastKnownUserConnectionTimestamp, format: .epochSeconds)
-        try writer["WorkspaceId"].write(value.workspaceId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesClientTypes.WorkspaceConnectionStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WorkSpacesClientTypes.WorkspaceConnectionStatus()
@@ -10451,18 +10126,6 @@ extension WorkSpacesClientTypes.WorkspaceCreationProperties {
         try writer["EnableWorkDocs"].write(value.enableWorkDocs)
         try writer["UserEnabledAsLocalAdministrator"].write(value.userEnabledAsLocalAdministrator)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesClientTypes.WorkspaceCreationProperties {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WorkSpacesClientTypes.WorkspaceCreationProperties()
-        value.enableWorkDocs = try reader["EnableWorkDocs"].readIfPresent()
-        value.enableInternetAccess = try reader["EnableInternetAccess"].readIfPresent()
-        value.defaultOu = try reader["DefaultOu"].readIfPresent()
-        value.customSecurityGroupId = try reader["CustomSecurityGroupId"].readIfPresent()
-        value.userEnabledAsLocalAdministrator = try reader["UserEnabledAsLocalAdministrator"].readIfPresent()
-        value.enableMaintenanceMode = try reader["EnableMaintenanceMode"].readIfPresent()
-        return value
-    }
 }
 
 extension WorkSpacesClientTypes {
@@ -10506,28 +10169,6 @@ extension WorkSpacesClientTypes {
 }
 
 extension WorkSpacesClientTypes.WorkspaceDirectory {
-
-    static func write(value: WorkSpacesClientTypes.WorkspaceDirectory?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Alias"].write(value.alias)
-        try writer["CertificateBasedAuthProperties"].write(value.certificateBasedAuthProperties, with: WorkSpacesClientTypes.CertificateBasedAuthProperties.write(value:to:))
-        try writer["CustomerUserName"].write(value.customerUserName)
-        try writer["DirectoryId"].write(value.directoryId)
-        try writer["DirectoryName"].write(value.directoryName)
-        try writer["DirectoryType"].write(value.directoryType)
-        try writer["DnsIpAddresses"].writeList(value.dnsIpAddresses, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["IamRoleId"].write(value.iamRoleId)
-        try writer["RegistrationCode"].write(value.registrationCode)
-        try writer["SamlProperties"].write(value.samlProperties, with: WorkSpacesClientTypes.SamlProperties.write(value:to:))
-        try writer["SelfservicePermissions"].write(value.selfservicePermissions, with: WorkSpacesClientTypes.SelfservicePermissions.write(value:to:))
-        try writer["State"].write(value.state)
-        try writer["SubnetIds"].writeList(value.subnetIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Tenancy"].write(value.tenancy)
-        try writer["WorkspaceAccessProperties"].write(value.workspaceAccessProperties, with: WorkSpacesClientTypes.WorkspaceAccessProperties.write(value:to:))
-        try writer["WorkspaceCreationProperties"].write(value.workspaceCreationProperties, with: WorkSpacesClientTypes.DefaultWorkspaceCreationProperties.write(value:to:))
-        try writer["WorkspaceSecurityGroupId"].write(value.workspaceSecurityGroupId)
-        try writer["ipGroupIds"].writeList(value.ipGroupIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesClientTypes.WorkspaceDirectory {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -10708,22 +10349,6 @@ extension WorkSpacesClientTypes {
 }
 
 extension WorkSpacesClientTypes.WorkspaceImage {
-
-    static func write(value: WorkSpacesClientTypes.WorkspaceImage?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Created"].writeTimestamp(value.created, format: .epochSeconds)
-        try writer["Description"].write(value.description)
-        try writer["ErrorCode"].write(value.errorCode)
-        try writer["ErrorDetails"].writeList(value.errorDetails, memberWritingClosure: WorkSpacesClientTypes.ErrorDetails.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ErrorMessage"].write(value.errorMessage)
-        try writer["ImageId"].write(value.imageId)
-        try writer["Name"].write(value.name)
-        try writer["OperatingSystem"].write(value.operatingSystem, with: WorkSpacesClientTypes.OperatingSystem.write(value:to:))
-        try writer["OwnerAccountId"].write(value.ownerAccountId)
-        try writer["RequiredTenancy"].write(value.requiredTenancy)
-        try writer["State"].write(value.state)
-        try writer["Updates"].write(value.updates, with: WorkSpacesClientTypes.UpdateResult.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesClientTypes.WorkspaceImage {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -11171,17 +10796,6 @@ extension WorkSpacesClientTypes {
 
 extension WorkSpacesClientTypes.WorkspaceResourceAssociation {
 
-    static func write(value: WorkSpacesClientTypes.WorkspaceResourceAssociation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AssociatedResourceId"].write(value.associatedResourceId)
-        try writer["AssociatedResourceType"].write(value.associatedResourceType)
-        try writer["Created"].writeTimestamp(value.created, format: .epochSeconds)
-        try writer["LastUpdatedTime"].writeTimestamp(value.lastUpdatedTime, format: .epochSeconds)
-        try writer["State"].write(value.state)
-        try writer["StateReason"].write(value.stateReason, with: WorkSpacesClientTypes.AssociationStateReason.write(value:to:))
-        try writer["WorkspaceId"].write(value.workspaceId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesClientTypes.WorkspaceResourceAssociation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WorkSpacesClientTypes.WorkspaceResourceAssociation()
@@ -11349,14 +10963,6 @@ public struct WorkspacesDefaultRoleNotFoundException: ClientRuntime.ModeledError
 }
 
 extension WorkSpacesClientTypes.WorkspacesIpGroup {
-
-    static func write(value: WorkSpacesClientTypes.WorkspacesIpGroup?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["groupDesc"].write(value.groupDesc)
-        try writer["groupId"].write(value.groupId)
-        try writer["groupName"].write(value.groupName)
-        try writer["userRules"].writeList(value.userRules, memberWritingClosure: WorkSpacesClientTypes.IpRuleItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesClientTypes.WorkspacesIpGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

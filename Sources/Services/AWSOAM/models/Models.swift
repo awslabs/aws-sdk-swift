@@ -821,13 +821,6 @@ public struct ListAttachedLinksInput {
 
 extension OAMClientTypes.ListAttachedLinksItem {
 
-    static func write(value: OAMClientTypes.ListAttachedLinksItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Label"].write(value.label)
-        try writer["LinkArn"].write(value.linkArn)
-        try writer["ResourceTypes"].writeList(value.resourceTypes, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> OAMClientTypes.ListAttachedLinksItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OAMClientTypes.ListAttachedLinksItem()
@@ -942,15 +935,6 @@ public struct ListLinksInput {
 }
 
 extension OAMClientTypes.ListLinksItem {
-
-    static func write(value: OAMClientTypes.ListLinksItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["Id"].write(value.id)
-        try writer["Label"].write(value.label)
-        try writer["ResourceTypes"].writeList(value.resourceTypes, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["SinkArn"].write(value.sinkArn)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> OAMClientTypes.ListLinksItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1075,13 +1059,6 @@ public struct ListSinksInput {
 }
 
 extension OAMClientTypes.ListSinksItem {
-
-    static func write(value: OAMClientTypes.ListSinksItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["Id"].write(value.id)
-        try writer["Name"].write(value.name)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> OAMClientTypes.ListSinksItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

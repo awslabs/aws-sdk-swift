@@ -113,12 +113,6 @@ enum CancelQueryOutputError {
 
 extension TimestreamQueryClientTypes.ColumnInfo {
 
-    static func write(value: TimestreamQueryClientTypes.ColumnInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["Type"].write(value.type, with: TimestreamQueryClientTypes.ModelType.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> TimestreamQueryClientTypes.ColumnInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TimestreamQueryClientTypes.ColumnInfo()
@@ -319,15 +313,6 @@ enum CreateScheduledQueryOutputError {
 }
 
 extension TimestreamQueryClientTypes.Datum {
-
-    static func write(value: TimestreamQueryClientTypes.Datum?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ArrayValue"].writeList(value.arrayValue, memberWritingClosure: TimestreamQueryClientTypes.Datum.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["NullValue"].write(value.nullValue)
-        try writer["RowValue"].write(value.rowValue, with: TimestreamQueryClientTypes.Row.write(value:to:))
-        try writer["ScalarValue"].write(value.scalarValue)
-        try writer["TimeSeriesValue"].writeList(value.timeSeriesValue, memberWritingClosure: TimestreamQueryClientTypes.TimeSeriesDataPoint.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> TimestreamQueryClientTypes.Datum {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -699,12 +684,6 @@ extension TimestreamQueryClientTypes {
 
 extension TimestreamQueryClientTypes.Endpoint {
 
-    static func write(value: TimestreamQueryClientTypes.Endpoint?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Address"].write(value.address)
-        try writer["CachePeriodInMinutes"].write(value.cachePeriodInMinutes)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> TimestreamQueryClientTypes.Endpoint {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TimestreamQueryClientTypes.Endpoint()
@@ -769,11 +748,6 @@ extension TimestreamQueryClientTypes {
 }
 
 extension TimestreamQueryClientTypes.ErrorReportLocation {
-
-    static func write(value: TimestreamQueryClientTypes.ErrorReportLocation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["S3ReportLocation"].write(value.s3ReportLocation, with: TimestreamQueryClientTypes.S3ReportLocation.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> TimestreamQueryClientTypes.ErrorReportLocation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -875,16 +849,6 @@ enum ExecuteScheduledQueryOutputError {
 }
 
 extension TimestreamQueryClientTypes.ExecutionStats {
-
-    static func write(value: TimestreamQueryClientTypes.ExecutionStats?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BytesMetered"].write(value.bytesMetered)
-        try writer["CumulativeBytesScanned"].write(value.cumulativeBytesScanned)
-        try writer["DataWrites"].write(value.dataWrites)
-        try writer["ExecutionTimeInMillis"].write(value.executionTimeInMillis)
-        try writer["QueryResultRows"].write(value.queryResultRows)
-        try writer["RecordsIngested"].write(value.recordsIngested)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> TimestreamQueryClientTypes.ExecutionStats {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1271,14 +1235,6 @@ extension TimestreamQueryClientTypes {
 
 extension TimestreamQueryClientTypes.ModelType {
 
-    static func write(value: TimestreamQueryClientTypes.ModelType?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ArrayColumnInfo"].write(value.arrayColumnInfo, with: TimestreamQueryClientTypes.ColumnInfo.write(value:to:))
-        try writer["RowColumnInfo"].writeList(value.rowColumnInfo, memberWritingClosure: TimestreamQueryClientTypes.ColumnInfo.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ScalarType"].write(value.scalarType)
-        try writer["TimeSeriesMeasureValueColumnInfo"].write(value.timeSeriesMeasureValueColumnInfo, with: TimestreamQueryClientTypes.ColumnInfo.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> TimestreamQueryClientTypes.ModelType {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TimestreamQueryClientTypes.ModelType()
@@ -1406,12 +1362,6 @@ extension TimestreamQueryClientTypes {
 }
 
 extension TimestreamQueryClientTypes.ParameterMapping {
-
-    static func write(value: TimestreamQueryClientTypes.ParameterMapping?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["Type"].write(value.type, with: TimestreamQueryClientTypes.ModelType.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> TimestreamQueryClientTypes.ParameterMapping {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1753,13 +1703,6 @@ extension TimestreamQueryClientTypes {
 
 extension TimestreamQueryClientTypes.QueryStatus {
 
-    static func write(value: TimestreamQueryClientTypes.QueryStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CumulativeBytesMetered"].write(value.cumulativeBytesMetered)
-        try writer["CumulativeBytesScanned"].write(value.cumulativeBytesScanned)
-        try writer["ProgressPercentage"].write(value.progressPercentage)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> TimestreamQueryClientTypes.QueryStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TimestreamQueryClientTypes.QueryStatus()
@@ -1837,11 +1780,6 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 extension TimestreamQueryClientTypes.Row {
-
-    static func write(value: TimestreamQueryClientTypes.Row?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Data"].writeList(value.data, memberWritingClosure: TimestreamQueryClientTypes.Datum.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> TimestreamQueryClientTypes.Row {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1943,12 +1881,6 @@ extension TimestreamQueryClientTypes {
 }
 
 extension TimestreamQueryClientTypes.S3ReportLocation {
-
-    static func write(value: TimestreamQueryClientTypes.S3ReportLocation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BucketName"].write(value.bucketName)
-        try writer["ObjectKey"].write(value.objectKey)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> TimestreamQueryClientTypes.S3ReportLocation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2109,19 +2041,6 @@ extension TimestreamQueryClientTypes {
 
 extension TimestreamQueryClientTypes.ScheduledQuery {
 
-    static func write(value: TimestreamQueryClientTypes.ScheduledQuery?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["ErrorReportConfiguration"].write(value.errorReportConfiguration, with: TimestreamQueryClientTypes.ErrorReportConfiguration.write(value:to:))
-        try writer["LastRunStatus"].write(value.lastRunStatus)
-        try writer["Name"].write(value.name)
-        try writer["NextInvocationTime"].writeTimestamp(value.nextInvocationTime, format: .epochSeconds)
-        try writer["PreviousInvocationTime"].writeTimestamp(value.previousInvocationTime, format: .epochSeconds)
-        try writer["State"].write(value.state)
-        try writer["TargetDestination"].write(value.targetDestination, with: TimestreamQueryClientTypes.TargetDestination.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> TimestreamQueryClientTypes.ScheduledQuery {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TimestreamQueryClientTypes.ScheduledQuery()
@@ -2195,25 +2114,6 @@ extension TimestreamQueryClientTypes.ScheduledQueryDescription: Swift.CustomDebu
 }
 
 extension TimestreamQueryClientTypes.ScheduledQueryDescription {
-
-    static func write(value: TimestreamQueryClientTypes.ScheduledQueryDescription?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["ErrorReportConfiguration"].write(value.errorReportConfiguration, with: TimestreamQueryClientTypes.ErrorReportConfiguration.write(value:to:))
-        try writer["KmsKeyId"].write(value.kmsKeyId)
-        try writer["LastRunSummary"].write(value.lastRunSummary, with: TimestreamQueryClientTypes.ScheduledQueryRunSummary.write(value:to:))
-        try writer["Name"].write(value.name)
-        try writer["NextInvocationTime"].writeTimestamp(value.nextInvocationTime, format: .epochSeconds)
-        try writer["NotificationConfiguration"].write(value.notificationConfiguration, with: TimestreamQueryClientTypes.NotificationConfiguration.write(value:to:))
-        try writer["PreviousInvocationTime"].writeTimestamp(value.previousInvocationTime, format: .epochSeconds)
-        try writer["QueryString"].write(value.queryString)
-        try writer["RecentlyFailedRuns"].writeList(value.recentlyFailedRuns, memberWritingClosure: TimestreamQueryClientTypes.ScheduledQueryRunSummary.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ScheduleConfiguration"].write(value.scheduleConfiguration, with: TimestreamQueryClientTypes.ScheduleConfiguration.write(value:to:))
-        try writer["ScheduledQueryExecutionRoleArn"].write(value.scheduledQueryExecutionRoleArn)
-        try writer["State"].write(value.state)
-        try writer["TargetConfiguration"].write(value.targetConfiguration, with: TimestreamQueryClientTypes.TargetConfiguration.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> TimestreamQueryClientTypes.ScheduledQueryDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2353,16 +2253,6 @@ extension TimestreamQueryClientTypes {
 
 extension TimestreamQueryClientTypes.ScheduledQueryRunSummary {
 
-    static func write(value: TimestreamQueryClientTypes.ScheduledQueryRunSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ErrorReportLocation"].write(value.errorReportLocation, with: TimestreamQueryClientTypes.ErrorReportLocation.write(value:to:))
-        try writer["ExecutionStats"].write(value.executionStats, with: TimestreamQueryClientTypes.ExecutionStats.write(value:to:))
-        try writer["FailureReason"].write(value.failureReason)
-        try writer["InvocationTime"].writeTimestamp(value.invocationTime, format: .epochSeconds)
-        try writer["RunStatus"].write(value.runStatus)
-        try writer["TriggerTime"].writeTimestamp(value.triggerTime, format: .epochSeconds)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> TimestreamQueryClientTypes.ScheduledQueryRunSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TimestreamQueryClientTypes.ScheduledQueryRunSummary()
@@ -2443,15 +2333,6 @@ extension TimestreamQueryClientTypes {
 }
 
 extension TimestreamQueryClientTypes.SelectColumn {
-
-    static func write(value: TimestreamQueryClientTypes.SelectColumn?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Aliased"].write(value.aliased)
-        try writer["DatabaseName"].write(value.databaseName)
-        try writer["Name"].write(value.name)
-        try writer["TableName"].write(value.tableName)
-        try writer["Type"].write(value.type, with: TimestreamQueryClientTypes.ModelType.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> TimestreamQueryClientTypes.SelectColumn {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2703,11 +2584,6 @@ extension TimestreamQueryClientTypes {
 
 extension TimestreamQueryClientTypes.TargetDestination {
 
-    static func write(value: TimestreamQueryClientTypes.TargetDestination?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["TimestreamDestination"].write(value.timestreamDestination, with: TimestreamQueryClientTypes.TimestreamDestination.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> TimestreamQueryClientTypes.TargetDestination {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TimestreamQueryClientTypes.TargetDestination()
@@ -2770,12 +2646,6 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 extension TimestreamQueryClientTypes.TimeSeriesDataPoint {
-
-    static func write(value: TimestreamQueryClientTypes.TimeSeriesDataPoint?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Time"].write(value.time)
-        try writer["Value"].write(value.value, with: TimestreamQueryClientTypes.Datum.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> TimestreamQueryClientTypes.TimeSeriesDataPoint {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2880,12 +2750,6 @@ extension TimestreamQueryClientTypes {
 }
 
 extension TimestreamQueryClientTypes.TimestreamDestination {
-
-    static func write(value: TimestreamQueryClientTypes.TimestreamDestination?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DatabaseName"].write(value.databaseName)
-        try writer["TableName"].write(value.tableName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> TimestreamQueryClientTypes.TimestreamDestination {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

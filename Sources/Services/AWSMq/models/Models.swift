@@ -6,12 +6,6 @@ import SmithyReadWrite
 
 extension MqClientTypes.ActionRequired {
 
-    static func write(value: MqClientTypes.ActionRequired?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["actionRequiredCode"].write(value.actionRequiredCode)
-        try writer["actionRequiredInfo"].write(value.actionRequiredInfo)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MqClientTypes.ActionRequired {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MqClientTypes.ActionRequired()
@@ -73,11 +67,6 @@ extension MqClientTypes {
 }
 
 extension MqClientTypes.AvailabilityZone {
-
-    static func write(value: MqClientTypes.AvailabilityZone?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MqClientTypes.AvailabilityZone {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -148,12 +137,6 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
 
 extension MqClientTypes.BrokerEngineType {
 
-    static func write(value: MqClientTypes.BrokerEngineType?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["engineType"].write(value.engineType)
-        try writer["engineVersions"].writeList(value.engineVersions, memberWritingClosure: MqClientTypes.EngineVersion.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MqClientTypes.BrokerEngineType {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MqClientTypes.BrokerEngineType()
@@ -184,13 +167,6 @@ extension MqClientTypes {
 }
 
 extension MqClientTypes.BrokerInstance {
-
-    static func write(value: MqClientTypes.BrokerInstance?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["consoleURL"].write(value.consoleURL)
-        try writer["endpoints"].writeList(value.endpoints, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ipAddress"].write(value.ipAddress)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MqClientTypes.BrokerInstance {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -227,16 +203,6 @@ extension MqClientTypes {
 }
 
 extension MqClientTypes.BrokerInstanceOption {
-
-    static func write(value: MqClientTypes.BrokerInstanceOption?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["availabilityZones"].writeList(value.availabilityZones, memberWritingClosure: MqClientTypes.AvailabilityZone.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["engineType"].write(value.engineType)
-        try writer["hostInstanceType"].write(value.hostInstanceType)
-        try writer["storageType"].write(value.storageType)
-        try writer["supportedDeploymentModes"].writeList(value.supportedDeploymentModes, memberWritingClosure: MqClientTypes.DeploymentMode.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["supportedEngineVersions"].writeList(value.supportedEngineVersions, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MqClientTypes.BrokerInstanceOption {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -366,18 +332,6 @@ extension MqClientTypes {
 
 extension MqClientTypes.BrokerSummary {
 
-    static func write(value: MqClientTypes.BrokerSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["brokerArn"].write(value.brokerArn)
-        try writer["brokerId"].write(value.brokerId)
-        try writer["brokerName"].write(value.brokerName)
-        try writer["brokerState"].write(value.brokerState)
-        try writer["created"].writeTimestamp(value.created, format: .dateTime)
-        try writer["deploymentMode"].write(value.deploymentMode)
-        try writer["engineType"].write(value.engineType)
-        try writer["hostInstanceType"].write(value.hostInstanceType)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MqClientTypes.BrokerSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MqClientTypes.BrokerSummary()
@@ -474,20 +428,6 @@ extension MqClientTypes {
 }
 
 extension MqClientTypes.Configuration {
-
-    static func write(value: MqClientTypes.Configuration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["authenticationStrategy"].write(value.authenticationStrategy)
-        try writer["created"].writeTimestamp(value.created, format: .dateTime)
-        try writer["description"].write(value.description)
-        try writer["engineType"].write(value.engineType)
-        try writer["engineVersion"].write(value.engineVersion)
-        try writer["id"].write(value.id)
-        try writer["latestRevision"].write(value.latestRevision, with: MqClientTypes.ConfigurationRevision.write(value:to:))
-        try writer["name"].write(value.name)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MqClientTypes.Configuration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -607,13 +547,6 @@ extension MqClientTypes {
 
 extension MqClientTypes.ConfigurationRevision {
 
-    static func write(value: MqClientTypes.ConfigurationRevision?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["created"].writeTimestamp(value.created, format: .dateTime)
-        try writer["description"].write(value.description)
-        try writer["revision"].write(value.revision)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MqClientTypes.ConfigurationRevision {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MqClientTypes.ConfigurationRevision()
@@ -651,13 +584,6 @@ extension MqClientTypes {
 }
 
 extension MqClientTypes.Configurations {
-
-    static func write(value: MqClientTypes.Configurations?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["current"].write(value.current, with: MqClientTypes.ConfigurationId.write(value:to:))
-        try writer["history"].writeList(value.history, memberWritingClosure: MqClientTypes.ConfigurationId.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["pending"].write(value.pending, with: MqClientTypes.ConfigurationId.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MqClientTypes.Configurations {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1193,12 +1119,6 @@ enum CreateUserOutputError {
 
 extension MqClientTypes.DataReplicationCounterpart {
 
-    static func write(value: MqClientTypes.DataReplicationCounterpart?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["brokerId"].write(value.brokerId)
-        try writer["region"].write(value.region)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MqClientTypes.DataReplicationCounterpart {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MqClientTypes.DataReplicationCounterpart()
@@ -1231,12 +1151,6 @@ extension MqClientTypes {
 }
 
 extension MqClientTypes.DataReplicationMetadataOutput {
-
-    static func write(value: MqClientTypes.DataReplicationMetadataOutput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["dataReplicationCounterpart"].write(value.dataReplicationCounterpart, with: MqClientTypes.DataReplicationCounterpart.write(value:to:))
-        try writer["dataReplicationRole"].write(value.dataReplicationRole)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MqClientTypes.DataReplicationMetadataOutput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2373,11 +2287,6 @@ extension MqClientTypes {
 
 extension MqClientTypes.EngineVersion {
 
-    static func write(value: MqClientTypes.EngineVersion?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MqClientTypes.EngineVersion {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MqClientTypes.EngineVersion()
@@ -2504,23 +2413,6 @@ extension MqClientTypes.LdapServerMetadataInput {
         try writer["userSearchMatching"].write(value.userSearchMatching)
         try writer["userSearchSubtree"].write(value.userSearchSubtree)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MqClientTypes.LdapServerMetadataInput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MqClientTypes.LdapServerMetadataInput()
-        value.hosts = try reader["hosts"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.roleBase = try reader["roleBase"].readIfPresent()
-        value.roleName = try reader["roleName"].readIfPresent()
-        value.roleSearchMatching = try reader["roleSearchMatching"].readIfPresent()
-        value.roleSearchSubtree = try reader["roleSearchSubtree"].readIfPresent()
-        value.serviceAccountPassword = try reader["serviceAccountPassword"].readIfPresent()
-        value.serviceAccountUsername = try reader["serviceAccountUsername"].readIfPresent()
-        value.userBase = try reader["userBase"].readIfPresent()
-        value.userRoleName = try reader["userRoleName"].readIfPresent()
-        value.userSearchMatching = try reader["userSearchMatching"].readIfPresent()
-        value.userSearchSubtree = try reader["userSearchSubtree"].readIfPresent()
-        return value
-    }
 }
 
 extension MqClientTypes {
@@ -2587,20 +2479,6 @@ extension MqClientTypes {
 }
 
 extension MqClientTypes.LdapServerMetadataOutput {
-
-    static func write(value: MqClientTypes.LdapServerMetadataOutput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["hosts"].writeList(value.hosts, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["roleBase"].write(value.roleBase)
-        try writer["roleName"].write(value.roleName)
-        try writer["roleSearchMatching"].write(value.roleSearchMatching)
-        try writer["roleSearchSubtree"].write(value.roleSearchSubtree)
-        try writer["serviceAccountUsername"].write(value.serviceAccountUsername)
-        try writer["userBase"].write(value.userBase)
-        try writer["userRoleName"].write(value.userRoleName)
-        try writer["userSearchMatching"].write(value.userSearchMatching)
-        try writer["userSearchSubtree"].write(value.userSearchSubtree)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MqClientTypes.LdapServerMetadataOutput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3159,15 +3037,6 @@ extension MqClientTypes {
 
 extension MqClientTypes.LogsSummary {
 
-    static func write(value: MqClientTypes.LogsSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["audit"].write(value.audit)
-        try writer["auditLogGroup"].write(value.auditLogGroup)
-        try writer["general"].write(value.general)
-        try writer["generalLogGroup"].write(value.generalLogGroup)
-        try writer["pending"].write(value.pending, with: MqClientTypes.PendingLogs.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MqClientTypes.LogsSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MqClientTypes.LogsSummary()
@@ -3260,12 +3129,6 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 }
 
 extension MqClientTypes.PendingLogs {
-
-    static func write(value: MqClientTypes.PendingLogs?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["audit"].write(value.audit)
-        try writer["general"].write(value.general)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MqClientTypes.PendingLogs {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3458,13 +3321,6 @@ enum RebootBrokerOutputError {
 }
 
 extension MqClientTypes.SanitizationWarning {
-
-    static func write(value: MqClientTypes.SanitizationWarning?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["attributeName"].write(value.attributeName)
-        try writer["elementName"].write(value.elementName)
-        try writer["reason"].write(value.reason)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MqClientTypes.SanitizationWarning {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3974,17 +3830,6 @@ extension MqClientTypes.User {
         try writer["replicationUser"].write(value.replicationUser)
         try writer["username"].write(value.username)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MqClientTypes.User {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MqClientTypes.User()
-        value.consoleAccess = try reader["consoleAccess"].readIfPresent()
-        value.groups = try reader["groups"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.password = try reader["password"].readIfPresent()
-        value.username = try reader["username"].readIfPresent()
-        value.replicationUser = try reader["replicationUser"].readIfPresent()
-        return value
-    }
 }
 
 extension MqClientTypes {
@@ -4030,13 +3875,6 @@ extension MqClientTypes {
 
 extension MqClientTypes.UserPendingChanges {
 
-    static func write(value: MqClientTypes.UserPendingChanges?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["consoleAccess"].write(value.consoleAccess)
-        try writer["groups"].writeList(value.groups, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["pendingChange"].write(value.pendingChange)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MqClientTypes.UserPendingChanges {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MqClientTypes.UserPendingChanges()
@@ -4073,12 +3911,6 @@ extension MqClientTypes {
 }
 
 extension MqClientTypes.UserSummary {
-
-    static func write(value: MqClientTypes.UserSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["pendingChange"].write(value.pendingChange)
-        try writer["username"].write(value.username)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MqClientTypes.UserSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

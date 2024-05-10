@@ -1150,12 +1150,6 @@ extension WorkLinkClientTypes {
 
 extension WorkLinkClientTypes.DeviceSummary {
 
-    static func write(value: WorkLinkClientTypes.DeviceSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DeviceId"].write(value.deviceId)
-        try writer["DeviceStatus"].write(value.deviceStatus)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> WorkLinkClientTypes.DeviceSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WorkLinkClientTypes.DeviceSummary()
@@ -1428,14 +1422,6 @@ extension WorkLinkClientTypes {
 
 extension WorkLinkClientTypes.DomainSummary {
 
-    static func write(value: WorkLinkClientTypes.DomainSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedTime"].writeTimestamp(value.createdTime, format: .epochSeconds)
-        try writer["DisplayName"].write(value.displayName)
-        try writer["DomainName"].write(value.domainName)
-        try writer["DomainStatus"].write(value.domainStatus)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> WorkLinkClientTypes.DomainSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WorkLinkClientTypes.DomainSummary()
@@ -1521,18 +1507,6 @@ extension WorkLinkClientTypes {
 }
 
 extension WorkLinkClientTypes.FleetSummary {
-
-    static func write(value: WorkLinkClientTypes.FleetSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CompanyCode"].write(value.companyCode)
-        try writer["CreatedTime"].writeTimestamp(value.createdTime, format: .epochSeconds)
-        try writer["DisplayName"].write(value.displayName)
-        try writer["FleetArn"].write(value.fleetArn)
-        try writer["FleetName"].write(value.fleetName)
-        try writer["FleetStatus"].write(value.fleetStatus)
-        try writer["LastUpdatedTime"].writeTimestamp(value.lastUpdatedTime, format: .epochSeconds)
-        try writer["Tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> WorkLinkClientTypes.FleetSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3054,14 +3028,6 @@ enum UpdateIdentityProviderConfigurationOutputError {
 
 extension WorkLinkClientTypes.WebsiteAuthorizationProviderSummary {
 
-    static func write(value: WorkLinkClientTypes.WebsiteAuthorizationProviderSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AuthorizationProviderId"].write(value.authorizationProviderId)
-        try writer["AuthorizationProviderType"].write(value.authorizationProviderType)
-        try writer["CreatedTime"].writeTimestamp(value.createdTime, format: .epochSeconds)
-        try writer["DomainName"].write(value.domainName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> WorkLinkClientTypes.WebsiteAuthorizationProviderSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WorkLinkClientTypes.WebsiteAuthorizationProviderSummary()
@@ -3103,13 +3069,6 @@ extension WorkLinkClientTypes {
 }
 
 extension WorkLinkClientTypes.WebsiteCaSummary {
-
-    static func write(value: WorkLinkClientTypes.WebsiteCaSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedTime"].writeTimestamp(value.createdTime, format: .epochSeconds)
-        try writer["DisplayName"].write(value.displayName)
-        try writer["WebsiteCaId"].write(value.websiteCaId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> WorkLinkClientTypes.WebsiteCaSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

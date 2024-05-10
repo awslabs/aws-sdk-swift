@@ -114,14 +114,6 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
 extension SSOAdminClientTypes.AccountAssignment {
 
-    static func write(value: SSOAdminClientTypes.AccountAssignment?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccountId"].write(value.accountId)
-        try writer["PermissionSetArn"].write(value.permissionSetArn)
-        try writer["PrincipalId"].write(value.principalId)
-        try writer["PrincipalType"].write(value.principalType)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SSOAdminClientTypes.AccountAssignment {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SSOAdminClientTypes.AccountAssignment()
@@ -163,14 +155,6 @@ extension SSOAdminClientTypes {
 
 extension SSOAdminClientTypes.AccountAssignmentForPrincipal {
 
-    static func write(value: SSOAdminClientTypes.AccountAssignmentForPrincipal?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccountId"].write(value.accountId)
-        try writer["PermissionSetArn"].write(value.permissionSetArn)
-        try writer["PrincipalId"].write(value.principalId)
-        try writer["PrincipalType"].write(value.principalType)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SSOAdminClientTypes.AccountAssignmentForPrincipal {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SSOAdminClientTypes.AccountAssignmentForPrincipal()
@@ -211,19 +195,6 @@ extension SSOAdminClientTypes {
 }
 
 extension SSOAdminClientTypes.AccountAssignmentOperationStatus {
-
-    static func write(value: SSOAdminClientTypes.AccountAssignmentOperationStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedDate"].writeTimestamp(value.createdDate, format: .epochSeconds)
-        try writer["FailureReason"].write(value.failureReason)
-        try writer["PermissionSetArn"].write(value.permissionSetArn)
-        try writer["PrincipalId"].write(value.principalId)
-        try writer["PrincipalType"].write(value.principalType)
-        try writer["RequestId"].write(value.requestId)
-        try writer["Status"].write(value.status)
-        try writer["TargetId"].write(value.targetId)
-        try writer["TargetType"].write(value.targetType)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SSOAdminClientTypes.AccountAssignmentOperationStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -291,13 +262,6 @@ extension SSOAdminClientTypes {
 
 extension SSOAdminClientTypes.AccountAssignmentOperationStatusMetadata {
 
-    static func write(value: SSOAdminClientTypes.AccountAssignmentOperationStatusMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedDate"].writeTimestamp(value.createdDate, format: .epochSeconds)
-        try writer["RequestId"].write(value.requestId)
-        try writer["Status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SSOAdminClientTypes.AccountAssignmentOperationStatusMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SSOAdminClientTypes.AccountAssignmentOperationStatusMetadata()
@@ -333,19 +297,6 @@ extension SSOAdminClientTypes {
 }
 
 extension SSOAdminClientTypes.Application {
-
-    static func write(value: SSOAdminClientTypes.Application?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ApplicationAccount"].write(value.applicationAccount)
-        try writer["ApplicationArn"].write(value.applicationArn)
-        try writer["ApplicationProviderArn"].write(value.applicationProviderArn)
-        try writer["CreatedDate"].writeTimestamp(value.createdDate, format: .epochSeconds)
-        try writer["Description"].write(value.description)
-        try writer["InstanceArn"].write(value.instanceArn)
-        try writer["Name"].write(value.name)
-        try writer["PortalOptions"].write(value.portalOptions, with: SSOAdminClientTypes.PortalOptions.write(value:to:))
-        try writer["Status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SSOAdminClientTypes.Application {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -413,13 +364,6 @@ extension SSOAdminClientTypes {
 
 extension SSOAdminClientTypes.ApplicationAssignment {
 
-    static func write(value: SSOAdminClientTypes.ApplicationAssignment?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ApplicationArn"].write(value.applicationArn)
-        try writer["PrincipalId"].write(value.principalId)
-        try writer["PrincipalType"].write(value.principalType)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SSOAdminClientTypes.ApplicationAssignment {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SSOAdminClientTypes.ApplicationAssignment()
@@ -459,13 +403,6 @@ extension SSOAdminClientTypes {
 
 extension SSOAdminClientTypes.ApplicationAssignmentForPrincipal {
 
-    static func write(value: SSOAdminClientTypes.ApplicationAssignmentForPrincipal?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ApplicationArn"].write(value.applicationArn)
-        try writer["PrincipalId"].write(value.principalId)
-        try writer["PrincipalType"].write(value.principalType)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SSOAdminClientTypes.ApplicationAssignmentForPrincipal {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SSOAdminClientTypes.ApplicationAssignmentForPrincipal()
@@ -501,14 +438,6 @@ extension SSOAdminClientTypes {
 }
 
 extension SSOAdminClientTypes.ApplicationProvider {
-
-    static func write(value: SSOAdminClientTypes.ApplicationProvider?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ApplicationProviderArn"].write(value.applicationProviderArn)
-        try writer["DisplayData"].write(value.displayData, with: SSOAdminClientTypes.DisplayData.write(value:to:))
-        try writer["FederationProtocol"].write(value.federationProtocol)
-        try writer["ResourceServerConfig"].write(value.resourceServerConfig, with: SSOAdminClientTypes.ResourceServerConfig.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SSOAdminClientTypes.ApplicationProvider {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -756,12 +685,6 @@ enum AttachManagedPolicyToPermissionSetOutputError {
 
 extension SSOAdminClientTypes.AttachedManagedPolicy {
 
-    static func write(value: SSOAdminClientTypes.AttachedManagedPolicy?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["Name"].write(value.name)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SSOAdminClientTypes.AttachedManagedPolicy {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SSOAdminClientTypes.AttachedManagedPolicy()
@@ -826,12 +749,6 @@ extension SSOAdminClientTypes {
 }
 
 extension SSOAdminClientTypes.AuthenticationMethodItem {
-
-    static func write(value: SSOAdminClientTypes.AuthenticationMethodItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AuthenticationMethod"].write(value.authenticationMethod, with: SSOAdminClientTypes.AuthenticationMethod.write(value:to:))
-        try writer["AuthenticationMethodType"].write(value.authenticationMethodType)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SSOAdminClientTypes.AuthenticationMethodItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3449,13 +3366,6 @@ enum DetachManagedPolicyFromPermissionSetOutputError {
 
 extension SSOAdminClientTypes.DisplayData {
 
-    static func write(value: SSOAdminClientTypes.DisplayData?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Description"].write(value.description)
-        try writer["DisplayName"].write(value.displayName)
-        try writer["IconUrl"].write(value.iconUrl)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SSOAdminClientTypes.DisplayData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SSOAdminClientTypes.DisplayData()
@@ -4032,12 +3942,6 @@ extension SSOAdminClientTypes {
 
 extension SSOAdminClientTypes.GrantItem {
 
-    static func write(value: SSOAdminClientTypes.GrantItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Grant"].write(value.grant, with: SSOAdminClientTypes.Grant.write(value:to:))
-        try writer["GrantType"].write(value.grantType)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SSOAdminClientTypes.GrantItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SSOAdminClientTypes.GrantItem()
@@ -4203,16 +4107,6 @@ extension SSOAdminClientTypes {
 }
 
 extension SSOAdminClientTypes.InstanceMetadata {
-
-    static func write(value: SSOAdminClientTypes.InstanceMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedDate"].writeTimestamp(value.createdDate, format: .epochSeconds)
-        try writer["IdentityStoreId"].write(value.identityStoreId)
-        try writer["InstanceArn"].write(value.instanceArn)
-        try writer["Name"].write(value.name)
-        try writer["OwnerAccountId"].write(value.ownerAccountId)
-        try writer["Status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SSOAdminClientTypes.InstanceMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4576,13 +4470,6 @@ extension SSOAdminClientTypes.ListAccountAssignmentsFilter {
     static func write(value: SSOAdminClientTypes.ListAccountAssignmentsFilter?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["AccountId"].write(value.accountId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SSOAdminClientTypes.ListAccountAssignmentsFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SSOAdminClientTypes.ListAccountAssignmentsFilter()
-        value.accountId = try reader["AccountId"].readIfPresent()
-        return value
     }
 }
 
@@ -4988,13 +4875,6 @@ extension SSOAdminClientTypes.ListApplicationAssignmentsFilter {
     static func write(value: SSOAdminClientTypes.ListApplicationAssignmentsFilter?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["ApplicationArn"].write(value.applicationArn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SSOAdminClientTypes.ListApplicationAssignmentsFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SSOAdminClientTypes.ListApplicationAssignmentsFilter()
-        value.applicationArn = try reader["ApplicationArn"].readIfPresent()
-        return value
     }
 }
 
@@ -5446,14 +5326,6 @@ extension SSOAdminClientTypes.ListApplicationsFilter {
         guard let value else { return }
         try writer["ApplicationAccount"].write(value.applicationAccount)
         try writer["ApplicationProvider"].write(value.applicationProvider)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SSOAdminClientTypes.ListApplicationsFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SSOAdminClientTypes.ListApplicationsFilter()
-        value.applicationAccount = try reader["ApplicationAccount"].readIfPresent()
-        value.applicationProvider = try reader["ApplicationProvider"].readIfPresent()
-        return value
     }
 }
 
@@ -6327,15 +6199,6 @@ extension SSOAdminClientTypes.OidcJwtUpdateConfiguration {
         try writer["IdentityStoreAttributePath"].write(value.identityStoreAttributePath)
         try writer["JwksRetrievalOption"].write(value.jwksRetrievalOption)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SSOAdminClientTypes.OidcJwtUpdateConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SSOAdminClientTypes.OidcJwtUpdateConfiguration()
-        value.claimAttributePath = try reader["ClaimAttributePath"].readIfPresent()
-        value.identityStoreAttributePath = try reader["IdentityStoreAttributePath"].readIfPresent()
-        value.jwksRetrievalOption = try reader["JwksRetrievalOption"].readIfPresent()
-        return value
-    }
 }
 
 extension SSOAdminClientTypes {
@@ -6368,13 +6231,6 @@ extension SSOAdminClientTypes.OperationStatusFilter {
         guard let value else { return }
         try writer["Status"].write(value.status)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SSOAdminClientTypes.OperationStatusFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SSOAdminClientTypes.OperationStatusFilter()
-        value.status = try reader["Status"].readIfPresent()
-        return value
-    }
 }
 
 extension SSOAdminClientTypes {
@@ -6394,16 +6250,6 @@ extension SSOAdminClientTypes {
 }
 
 extension SSOAdminClientTypes.PermissionSet {
-
-    static func write(value: SSOAdminClientTypes.PermissionSet?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedDate"].writeTimestamp(value.createdDate, format: .epochSeconds)
-        try writer["Description"].write(value.description)
-        try writer["Name"].write(value.name)
-        try writer["PermissionSetArn"].write(value.permissionSetArn)
-        try writer["RelayState"].write(value.relayState)
-        try writer["SessionDuration"].write(value.sessionDuration)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SSOAdminClientTypes.PermissionSet {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6456,16 +6302,6 @@ extension SSOAdminClientTypes {
 
 extension SSOAdminClientTypes.PermissionSetProvisioningStatus {
 
-    static func write(value: SSOAdminClientTypes.PermissionSetProvisioningStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccountId"].write(value.accountId)
-        try writer["CreatedDate"].writeTimestamp(value.createdDate, format: .epochSeconds)
-        try writer["FailureReason"].write(value.failureReason)
-        try writer["PermissionSetArn"].write(value.permissionSetArn)
-        try writer["RequestId"].write(value.requestId)
-        try writer["Status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SSOAdminClientTypes.PermissionSetProvisioningStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SSOAdminClientTypes.PermissionSetProvisioningStatus()
@@ -6516,13 +6352,6 @@ extension SSOAdminClientTypes {
 }
 
 extension SSOAdminClientTypes.PermissionSetProvisioningStatusMetadata {
-
-    static func write(value: SSOAdminClientTypes.PermissionSetProvisioningStatusMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedDate"].writeTimestamp(value.createdDate, format: .epochSeconds)
-        try writer["RequestId"].write(value.requestId)
-        try writer["Status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SSOAdminClientTypes.PermissionSetProvisioningStatusMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7291,11 +7120,6 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
 extension SSOAdminClientTypes.ResourceServerConfig {
 
-    static func write(value: SSOAdminClientTypes.ResourceServerConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Scopes"].writeMap(value.scopes, valueWritingClosure: SSOAdminClientTypes.ResourceServerScopeDetails.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SSOAdminClientTypes.ResourceServerConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SSOAdminClientTypes.ResourceServerConfig()
@@ -7321,12 +7145,6 @@ extension SSOAdminClientTypes {
 }
 
 extension SSOAdminClientTypes.ResourceServerScopeDetails {
-
-    static func write(value: SSOAdminClientTypes.ResourceServerScopeDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DetailedTitle"].write(value.detailedTitle)
-        try writer["LongDescription"].write(value.longDescription)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SSOAdminClientTypes.ResourceServerScopeDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7360,12 +7178,6 @@ extension SSOAdminClientTypes {
 public enum SSOAdminClientTypes {}
 
 extension SSOAdminClientTypes.ScopeDetails {
-
-    static func write(value: SSOAdminClientTypes.ScopeDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AuthorizedTargets"].writeList(value.authorizedTargets, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Scope"].write(value.scope)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SSOAdminClientTypes.ScopeDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7771,13 +7583,6 @@ extension SSOAdminClientTypes {
 
 extension SSOAdminClientTypes.TrustedTokenIssuerMetadata {
 
-    static func write(value: SSOAdminClientTypes.TrustedTokenIssuerMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["TrustedTokenIssuerArn"].write(value.trustedTokenIssuerArn)
-        try writer["TrustedTokenIssuerType"].write(value.trustedTokenIssuerType)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SSOAdminClientTypes.TrustedTokenIssuerMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SSOAdminClientTypes.TrustedTokenIssuerMetadata()
@@ -7848,17 +7653,6 @@ extension SSOAdminClientTypes.TrustedTokenIssuerUpdateConfiguration {
                 try writer["OidcJwtConfiguration"].write(oidcjwtconfiguration, with: SSOAdminClientTypes.OidcJwtUpdateConfiguration.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SSOAdminClientTypes.TrustedTokenIssuerUpdateConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "OidcJwtConfiguration":
-                return .oidcjwtconfiguration(try reader["OidcJwtConfiguration"].read(with: SSOAdminClientTypes.OidcJwtUpdateConfiguration.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
         }
     }
 }
@@ -8027,13 +7821,6 @@ extension SSOAdminClientTypes.UpdateApplicationPortalOptions {
     static func write(value: SSOAdminClientTypes.UpdateApplicationPortalOptions?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["SignInOptions"].write(value.signInOptions, with: SSOAdminClientTypes.SignInOptions.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SSOAdminClientTypes.UpdateApplicationPortalOptions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SSOAdminClientTypes.UpdateApplicationPortalOptions()
-        value.signInOptions = try reader["SignInOptions"].readIfPresent(with: SSOAdminClientTypes.SignInOptions.read(from:))
-        return value
     }
 }
 

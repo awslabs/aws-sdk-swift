@@ -170,21 +170,6 @@ extension LookoutMetricsClientTypes {
 
 extension LookoutMetricsClientTypes.Alert {
 
-    static func write(value: LookoutMetricsClientTypes.Alert?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Action"].write(value.action, with: LookoutMetricsClientTypes.Action.write(value:to:))
-        try writer["AlertArn"].write(value.alertArn)
-        try writer["AlertDescription"].write(value.alertDescription)
-        try writer["AlertFilters"].write(value.alertFilters, with: LookoutMetricsClientTypes.AlertFilters.write(value:to:))
-        try writer["AlertName"].write(value.alertName)
-        try writer["AlertSensitivityThreshold"].write(value.alertSensitivityThreshold)
-        try writer["AlertStatus"].write(value.alertStatus)
-        try writer["AlertType"].write(value.alertType)
-        try writer["AnomalyDetectorArn"].write(value.anomalyDetectorArn)
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["LastModificationTime"].writeTimestamp(value.lastModificationTime, format: .epochSeconds)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutMetricsClientTypes.Alert {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LookoutMetricsClientTypes.Alert()
@@ -328,19 +313,6 @@ extension LookoutMetricsClientTypes {
 
 extension LookoutMetricsClientTypes.AlertSummary {
 
-    static func write(value: LookoutMetricsClientTypes.AlertSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AlertArn"].write(value.alertArn)
-        try writer["AlertName"].write(value.alertName)
-        try writer["AlertSensitivityThreshold"].write(value.alertSensitivityThreshold)
-        try writer["AlertStatus"].write(value.alertStatus)
-        try writer["AlertType"].write(value.alertType)
-        try writer["AnomalyDetectorArn"].write(value.anomalyDetectorArn)
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["LastModificationTime"].writeTimestamp(value.lastModificationTime, format: .epochSeconds)
-        try writer["Tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutMetricsClientTypes.AlertSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LookoutMetricsClientTypes.AlertSummary()
@@ -480,13 +452,6 @@ extension LookoutMetricsClientTypes.AnomalyDetectorConfig {
         guard let value else { return }
         try writer["AnomalyDetectorFrequency"].write(value.anomalyDetectorFrequency)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LookoutMetricsClientTypes.AnomalyDetectorConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LookoutMetricsClientTypes.AnomalyDetectorConfig()
-        value.anomalyDetectorFrequency = try reader["AnomalyDetectorFrequency"].readIfPresent()
-        return value
-    }
 }
 
 extension LookoutMetricsClientTypes {
@@ -506,11 +471,6 @@ extension LookoutMetricsClientTypes {
 }
 
 extension LookoutMetricsClientTypes.AnomalyDetectorConfigSummary {
-
-    static func write(value: LookoutMetricsClientTypes.AnomalyDetectorConfigSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AnomalyDetectorFrequency"].write(value.anomalyDetectorFrequency)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutMetricsClientTypes.AnomalyDetectorConfigSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -537,12 +497,6 @@ extension LookoutMetricsClientTypes {
 }
 
 extension LookoutMetricsClientTypes.AnomalyDetectorDataQualityMetric {
-
-    static func write(value: LookoutMetricsClientTypes.AnomalyDetectorDataQualityMetric?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MetricSetDataQualityMetricList"].writeList(value.metricSetDataQualityMetricList, memberWritingClosure: LookoutMetricsClientTypes.MetricSetDataQualityMetric.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["StartTimestamp"].writeTimestamp(value.startTimestamp, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutMetricsClientTypes.AnomalyDetectorDataQualityMetric {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -668,17 +622,6 @@ extension LookoutMetricsClientTypes {
 
 extension LookoutMetricsClientTypes.AnomalyDetectorSummary {
 
-    static func write(value: LookoutMetricsClientTypes.AnomalyDetectorSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AnomalyDetectorArn"].write(value.anomalyDetectorArn)
-        try writer["AnomalyDetectorDescription"].write(value.anomalyDetectorDescription)
-        try writer["AnomalyDetectorName"].write(value.anomalyDetectorName)
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["LastModificationTime"].writeTimestamp(value.lastModificationTime, format: .epochSeconds)
-        try writer["Status"].write(value.status)
-        try writer["Tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutMetricsClientTypes.AnomalyDetectorSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LookoutMetricsClientTypes.AnomalyDetectorSummary()
@@ -735,16 +678,6 @@ extension LookoutMetricsClientTypes {
 
 extension LookoutMetricsClientTypes.AnomalyGroup {
 
-    static func write(value: LookoutMetricsClientTypes.AnomalyGroup?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AnomalyGroupId"].write(value.anomalyGroupId)
-        try writer["AnomalyGroupScore"].write(value.anomalyGroupScore)
-        try writer["EndTime"].write(value.endTime)
-        try writer["MetricLevelImpactList"].writeList(value.metricLevelImpactList, memberWritingClosure: LookoutMetricsClientTypes.MetricLevelImpact.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["PrimaryMetricName"].write(value.primaryMetricName)
-        try writer["StartTime"].write(value.startTime)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutMetricsClientTypes.AnomalyGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LookoutMetricsClientTypes.AnomalyGroup()
@@ -796,13 +729,6 @@ extension LookoutMetricsClientTypes {
 
 extension LookoutMetricsClientTypes.AnomalyGroupStatistics {
 
-    static func write(value: LookoutMetricsClientTypes.AnomalyGroupStatistics?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EvaluationStartDate"].write(value.evaluationStartDate)
-        try writer["ItemizedMetricStatsList"].writeList(value.itemizedMetricStatsList, memberWritingClosure: LookoutMetricsClientTypes.ItemizedMetricStats.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["TotalCount"].write(value.totalCount)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutMetricsClientTypes.AnomalyGroupStatistics {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LookoutMetricsClientTypes.AnomalyGroupStatistics()
@@ -838,15 +764,6 @@ extension LookoutMetricsClientTypes {
 }
 
 extension LookoutMetricsClientTypes.AnomalyGroupSummary {
-
-    static func write(value: LookoutMetricsClientTypes.AnomalyGroupSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AnomalyGroupId"].write(value.anomalyGroupId)
-        try writer["AnomalyGroupScore"].write(value.anomalyGroupScore)
-        try writer["EndTime"].write(value.endTime)
-        try writer["PrimaryMetricName"].write(value.primaryMetricName)
-        try writer["StartTime"].write(value.startTime)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutMetricsClientTypes.AnomalyGroupSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -899,14 +816,6 @@ extension LookoutMetricsClientTypes.AnomalyGroupTimeSeries {
         try writer["AnomalyGroupId"].write(value.anomalyGroupId)
         try writer["TimeSeriesId"].write(value.timeSeriesId)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LookoutMetricsClientTypes.AnomalyGroupTimeSeries {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LookoutMetricsClientTypes.AnomalyGroupTimeSeries()
-        value.anomalyGroupId = try reader["AnomalyGroupId"].readIfPresent()
-        value.timeSeriesId = try reader["TimeSeriesId"].readIfPresent()
-        return value
-    }
 }
 
 extension LookoutMetricsClientTypes {
@@ -937,15 +846,6 @@ extension LookoutMetricsClientTypes.AnomalyGroupTimeSeriesFeedback {
         try writer["AnomalyGroupId"].write(value.anomalyGroupId)
         try writer["IsAnomaly"].write(value.isAnomaly)
         try writer["TimeSeriesId"].write(value.timeSeriesId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LookoutMetricsClientTypes.AnomalyGroupTimeSeriesFeedback {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LookoutMetricsClientTypes.AnomalyGroupTimeSeriesFeedback()
-        value.anomalyGroupId = try reader["AnomalyGroupId"].readIfPresent()
-        value.timeSeriesId = try reader["TimeSeriesId"].readIfPresent()
-        value.isAnomaly = try reader["IsAnomaly"].readIfPresent()
-        return value
     }
 }
 
@@ -1082,16 +982,6 @@ extension LookoutMetricsClientTypes {
 
 extension LookoutMetricsClientTypes.AttributeValue {
 
-    static func write(value: LookoutMetricsClientTypes.AttributeValue?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["B"].write(value.b)
-        try writer["BS"].writeList(value.bs, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["N"].write(value.n)
-        try writer["NS"].writeList(value.ns, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["S"].write(value.s)
-        try writer["SS"].writeList(value.ss, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutMetricsClientTypes.AttributeValue {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LookoutMetricsClientTypes.AttributeValue()
@@ -1147,13 +1037,6 @@ extension LookoutMetricsClientTypes.AutoDetectionMetricSource {
         guard let value else { return }
         try writer["S3SourceConfig"].write(value.s3SourceConfig, with: LookoutMetricsClientTypes.AutoDetectionS3SourceConfig.write(value:to:))
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LookoutMetricsClientTypes.AutoDetectionMetricSource {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LookoutMetricsClientTypes.AutoDetectionMetricSource()
-        value.s3SourceConfig = try reader["S3SourceConfig"].readIfPresent(with: LookoutMetricsClientTypes.AutoDetectionS3SourceConfig.read(from:))
-        return value
-    }
 }
 
 extension LookoutMetricsClientTypes {
@@ -1178,14 +1061,6 @@ extension LookoutMetricsClientTypes.AutoDetectionS3SourceConfig {
         guard let value else { return }
         try writer["HistoricalDataPathList"].writeList(value.historicalDataPathList, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["TemplatedPathList"].writeList(value.templatedPathList, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LookoutMetricsClientTypes.AutoDetectionS3SourceConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LookoutMetricsClientTypes.AutoDetectionS3SourceConfig()
-        value.templatedPathList = try reader["TemplatedPathList"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.historicalDataPathList = try reader["HistoricalDataPathList"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -1448,11 +1323,6 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 }
 
 extension LookoutMetricsClientTypes.ContributionMatrix {
-
-    static func write(value: LookoutMetricsClientTypes.ContributionMatrix?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DimensionContributionList"].writeList(value.dimensionContributionList, memberWritingClosure: LookoutMetricsClientTypes.DimensionContribution.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutMetricsClientTypes.ContributionMatrix {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1866,14 +1736,6 @@ extension LookoutMetricsClientTypes {
 }
 
 extension LookoutMetricsClientTypes.DataQualityMetric {
-
-    static func write(value: LookoutMetricsClientTypes.DataQualityMetric?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MetricDescription"].write(value.metricDescription)
-        try writer["MetricType"].write(value.metricType)
-        try writer["MetricValue"].write(value.metricValue)
-        try writer["RelatedColumnName"].write(value.relatedColumnName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutMetricsClientTypes.DataQualityMetric {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2632,16 +2494,6 @@ enum DetectMetricSetConfigOutputError {
 
 extension LookoutMetricsClientTypes.DetectedCsvFormatDescriptor {
 
-    static func write(value: LookoutMetricsClientTypes.DetectedCsvFormatDescriptor?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Charset"].write(value.charset, with: LookoutMetricsClientTypes.DetectedField.write(value:to:))
-        try writer["ContainsHeader"].write(value.containsHeader, with: LookoutMetricsClientTypes.DetectedField.write(value:to:))
-        try writer["Delimiter"].write(value.delimiter, with: LookoutMetricsClientTypes.DetectedField.write(value:to:))
-        try writer["FileCompression"].write(value.fileCompression, with: LookoutMetricsClientTypes.DetectedField.write(value:to:))
-        try writer["HeaderList"].write(value.headerList, with: LookoutMetricsClientTypes.DetectedField.write(value:to:))
-        try writer["QuoteSymbol"].write(value.quoteSymbol, with: LookoutMetricsClientTypes.DetectedField.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutMetricsClientTypes.DetectedCsvFormatDescriptor {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LookoutMetricsClientTypes.DetectedCsvFormatDescriptor()
@@ -2693,13 +2545,6 @@ extension LookoutMetricsClientTypes {
 
 extension LookoutMetricsClientTypes.DetectedField {
 
-    static func write(value: LookoutMetricsClientTypes.DetectedField?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Confidence"].write(value.confidence)
-        try writer["Message"].write(value.message)
-        try writer["Value"].write(value.value, with: LookoutMetricsClientTypes.AttributeValue.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutMetricsClientTypes.DetectedField {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LookoutMetricsClientTypes.DetectedField()
@@ -2736,12 +2581,6 @@ extension LookoutMetricsClientTypes {
 
 extension LookoutMetricsClientTypes.DetectedFileFormatDescriptor {
 
-    static func write(value: LookoutMetricsClientTypes.DetectedFileFormatDescriptor?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CsvFormatDescriptor"].write(value.csvFormatDescriptor, with: LookoutMetricsClientTypes.DetectedCsvFormatDescriptor.write(value:to:))
-        try writer["JsonFormatDescriptor"].write(value.jsonFormatDescriptor, with: LookoutMetricsClientTypes.DetectedJsonFormatDescriptor.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutMetricsClientTypes.DetectedFileFormatDescriptor {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LookoutMetricsClientTypes.DetectedFileFormatDescriptor()
@@ -2773,12 +2612,6 @@ extension LookoutMetricsClientTypes {
 
 extension LookoutMetricsClientTypes.DetectedJsonFormatDescriptor {
 
-    static func write(value: LookoutMetricsClientTypes.DetectedJsonFormatDescriptor?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Charset"].write(value.charset, with: LookoutMetricsClientTypes.DetectedField.write(value:to:))
-        try writer["FileCompression"].write(value.fileCompression, with: LookoutMetricsClientTypes.DetectedField.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutMetricsClientTypes.DetectedJsonFormatDescriptor {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LookoutMetricsClientTypes.DetectedJsonFormatDescriptor()
@@ -2809,13 +2642,6 @@ extension LookoutMetricsClientTypes {
 }
 
 extension LookoutMetricsClientTypes.DetectedMetricSetConfig {
-
-    static func write(value: LookoutMetricsClientTypes.DetectedMetricSetConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MetricSetFrequency"].write(value.metricSetFrequency, with: LookoutMetricsClientTypes.DetectedField.write(value:to:))
-        try writer["MetricSource"].write(value.metricSource, with: LookoutMetricsClientTypes.DetectedMetricSource.write(value:to:))
-        try writer["Offset"].write(value.offset, with: LookoutMetricsClientTypes.DetectedField.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutMetricsClientTypes.DetectedMetricSetConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2853,11 +2679,6 @@ extension LookoutMetricsClientTypes {
 
 extension LookoutMetricsClientTypes.DetectedMetricSource {
 
-    static func write(value: LookoutMetricsClientTypes.DetectedMetricSource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["S3SourceConfig"].write(value.s3SourceConfig, with: LookoutMetricsClientTypes.DetectedS3SourceConfig.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutMetricsClientTypes.DetectedMetricSource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LookoutMetricsClientTypes.DetectedMetricSource()
@@ -2884,11 +2705,6 @@ extension LookoutMetricsClientTypes {
 
 extension LookoutMetricsClientTypes.DetectedS3SourceConfig {
 
-    static func write(value: LookoutMetricsClientTypes.DetectedS3SourceConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["FileFormatDescriptor"].write(value.fileFormatDescriptor, with: LookoutMetricsClientTypes.DetectedFileFormatDescriptor.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutMetricsClientTypes.DetectedS3SourceConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LookoutMetricsClientTypes.DetectedS3SourceConfig()
@@ -2914,12 +2730,6 @@ extension LookoutMetricsClientTypes {
 }
 
 extension LookoutMetricsClientTypes.DimensionContribution {
-
-    static func write(value: LookoutMetricsClientTypes.DimensionContribution?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DimensionName"].write(value.dimensionName)
-        try writer["DimensionValueContributionList"].writeList(value.dimensionValueContributionList, memberWritingClosure: LookoutMetricsClientTypes.DimensionValueContribution.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutMetricsClientTypes.DimensionContribution {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2989,12 +2799,6 @@ extension LookoutMetricsClientTypes {
 
 extension LookoutMetricsClientTypes.DimensionNameValue {
 
-    static func write(value: LookoutMetricsClientTypes.DimensionNameValue?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DimensionName"].write(value.dimensionName)
-        try writer["DimensionValue"].write(value.dimensionValue)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutMetricsClientTypes.DimensionNameValue {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LookoutMetricsClientTypes.DimensionNameValue()
@@ -3028,12 +2832,6 @@ extension LookoutMetricsClientTypes {
 
 extension LookoutMetricsClientTypes.DimensionValueContribution {
 
-    static func write(value: LookoutMetricsClientTypes.DimensionValueContribution?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ContributionScore"].write(value.contributionScore)
-        try writer["DimensionValue"].write(value.dimensionValue)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutMetricsClientTypes.DimensionValueContribution {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LookoutMetricsClientTypes.DimensionValueContribution()
@@ -3064,13 +2862,6 @@ extension LookoutMetricsClientTypes {
 }
 
 extension LookoutMetricsClientTypes.ExecutionStatus {
-
-    static func write(value: LookoutMetricsClientTypes.ExecutionStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["FailureReason"].write(value.failureReason)
-        try writer["Status"].write(value.status)
-        try writer["Timestamp"].write(value.timestamp)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutMetricsClientTypes.ExecutionStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3561,14 +3352,6 @@ enum GetSampleDataOutputError {
 
 extension LookoutMetricsClientTypes.InterMetricImpactDetails {
 
-    static func write(value: LookoutMetricsClientTypes.InterMetricImpactDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AnomalyGroupId"].write(value.anomalyGroupId)
-        try writer["ContributionPercentage"].write(value.contributionPercentage)
-        try writer["MetricName"].write(value.metricName)
-        try writer["RelationshipType"].write(value.relationshipType)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutMetricsClientTypes.InterMetricImpactDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LookoutMetricsClientTypes.InterMetricImpactDetails()
@@ -3647,12 +3430,6 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 }
 
 extension LookoutMetricsClientTypes.ItemizedMetricStats {
-
-    static func write(value: LookoutMetricsClientTypes.ItemizedMetricStats?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MetricName"].write(value.metricName)
-        try writer["OccurrenceCount"].write(value.occurrenceCount)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutMetricsClientTypes.ItemizedMetricStats {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4452,13 +4229,6 @@ extension LookoutMetricsClientTypes {
 
 extension LookoutMetricsClientTypes.MetricLevelImpact {
 
-    static func write(value: LookoutMetricsClientTypes.MetricLevelImpact?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ContributionMatrix"].write(value.contributionMatrix, with: LookoutMetricsClientTypes.ContributionMatrix.write(value:to:))
-        try writer["MetricName"].write(value.metricName)
-        try writer["NumTimeSeries"].write(value.numTimeSeries)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutMetricsClientTypes.MetricLevelImpact {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LookoutMetricsClientTypes.MetricLevelImpact()
@@ -4494,12 +4264,6 @@ extension LookoutMetricsClientTypes {
 }
 
 extension LookoutMetricsClientTypes.MetricSetDataQualityMetric {
-
-    static func write(value: LookoutMetricsClientTypes.MetricSetDataQualityMetric?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DataQualityMetricList"].writeList(value.dataQualityMetricList, memberWritingClosure: LookoutMetricsClientTypes.DataQualityMetric.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["MetricSetArn"].write(value.metricSetArn)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutMetricsClientTypes.MetricSetDataQualityMetric {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4568,17 +4332,6 @@ extension LookoutMetricsClientTypes {
 }
 
 extension LookoutMetricsClientTypes.MetricSetSummary {
-
-    static func write(value: LookoutMetricsClientTypes.MetricSetSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AnomalyDetectorArn"].write(value.anomalyDetectorArn)
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["LastModificationTime"].writeTimestamp(value.lastModificationTime, format: .epochSeconds)
-        try writer["MetricSetArn"].write(value.metricSetArn)
-        try writer["MetricSetDescription"].write(value.metricSetDescription)
-        try writer["MetricSetName"].write(value.metricSetName)
-        try writer["Tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutMetricsClientTypes.MetricSetSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5092,16 +4845,6 @@ extension LookoutMetricsClientTypes.SampleDataS3SourceConfig {
         try writer["RoleArn"].write(value.roleArn)
         try writer["TemplatedPathList"].writeList(value.templatedPathList, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LookoutMetricsClientTypes.SampleDataS3SourceConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LookoutMetricsClientTypes.SampleDataS3SourceConfig()
-        value.roleArn = try reader["RoleArn"].readIfPresent()
-        value.templatedPathList = try reader["TemplatedPathList"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.historicalDataPathList = try reader["HistoricalDataPathList"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.fileFormatDescriptor = try reader["FileFormatDescriptor"].readIfPresent(with: LookoutMetricsClientTypes.FileFormatDescriptor.read(from:))
-        return value
-    }
 }
 
 extension LookoutMetricsClientTypes {
@@ -5291,13 +5034,6 @@ enum TagResourceOutputError {
 
 extension LookoutMetricsClientTypes.TimeSeries {
 
-    static func write(value: LookoutMetricsClientTypes.TimeSeries?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DimensionList"].writeList(value.dimensionList, memberWritingClosure: LookoutMetricsClientTypes.DimensionNameValue.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["MetricValueList"].writeList(value.metricValueList, memberWritingClosure: Swift.Double.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["TimeSeriesId"].write(value.timeSeriesId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutMetricsClientTypes.TimeSeries {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LookoutMetricsClientTypes.TimeSeries()
@@ -5336,12 +5072,6 @@ extension LookoutMetricsClientTypes {
 }
 
 extension LookoutMetricsClientTypes.TimeSeriesFeedback {
-
-    static func write(value: LookoutMetricsClientTypes.TimeSeriesFeedback?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["IsAnomaly"].write(value.isAnomaly)
-        try writer["TimeSeriesId"].write(value.timeSeriesId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutMetricsClientTypes.TimeSeriesFeedback {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5854,12 +5584,6 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 extension LookoutMetricsClientTypes.ValidationExceptionField {
-
-    static func write(value: LookoutMetricsClientTypes.ValidationExceptionField?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.message)
-        try writer["Name"].write(value.name)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutMetricsClientTypes.ValidationExceptionField {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

@@ -760,12 +760,6 @@ enum AttachVolumeOutputError {
 
 extension StorageGatewayClientTypes.AutomaticTapeCreationPolicyInfo {
 
-    static func write(value: StorageGatewayClientTypes.AutomaticTapeCreationPolicyInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AutomaticTapeCreationRules"].writeList(value.automaticTapeCreationRules, memberWritingClosure: StorageGatewayClientTypes.AutomaticTapeCreationRule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["GatewayARN"].write(value.gatewayARN)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> StorageGatewayClientTypes.AutomaticTapeCreationPolicyInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = StorageGatewayClientTypes.AutomaticTapeCreationPolicyInfo()
@@ -991,23 +985,6 @@ extension StorageGatewayClientTypes {
 }
 
 extension StorageGatewayClientTypes.CachediSCSIVolume {
-
-    static func write(value: StorageGatewayClientTypes.CachediSCSIVolume?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedDate"].writeTimestamp(value.createdDate, format: .epochSeconds)
-        try writer["KMSKey"].write(value.kmsKey)
-        try writer["SourceSnapshotId"].write(value.sourceSnapshotId)
-        try writer["TargetName"].write(value.targetName)
-        try writer["VolumeARN"].write(value.volumeARN)
-        try writer["VolumeAttachmentStatus"].write(value.volumeAttachmentStatus)
-        try writer["VolumeId"].write(value.volumeId)
-        try writer["VolumeProgress"].write(value.volumeProgress)
-        try writer["VolumeSizeInBytes"].write(value.volumeSizeInBytes)
-        try writer["VolumeStatus"].write(value.volumeStatus)
-        try writer["VolumeType"].write(value.volumeType)
-        try writer["VolumeUsedInBytes"].write(value.volumeUsedInBytes)
-        try writer["VolumeiSCSIAttributes"].write(value.volumeiSCSIAttributes, with: StorageGatewayClientTypes.VolumeiSCSIAttributes.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> StorageGatewayClientTypes.CachediSCSIVolume {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1279,14 +1256,6 @@ extension StorageGatewayClientTypes.ChapInfo: Swift.CustomDebugStringConvertible
 }
 
 extension StorageGatewayClientTypes.ChapInfo {
-
-    static func write(value: StorageGatewayClientTypes.ChapInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["InitiatorName"].write(value.initiatorName)
-        try writer["SecretToAuthenticateInitiator"].write(value.secretToAuthenticateInitiator)
-        try writer["SecretToAuthenticateTarget"].write(value.secretToAuthenticateTarget)
-        try writer["TargetARN"].write(value.targetARN)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> StorageGatewayClientTypes.ChapInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5035,14 +5004,6 @@ enum DetachVolumeOutputError {
 
 extension StorageGatewayClientTypes.DeviceiSCSIAttributes {
 
-    static func write(value: StorageGatewayClientTypes.DeviceiSCSIAttributes?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ChapEnabled"].write(value.chapEnabled)
-        try writer["NetworkInterfaceId"].write(value.networkInterfaceId)
-        try writer["NetworkInterfacePort"].write(value.networkInterfacePort)
-        try writer["TargetARN"].write(value.targetARN)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> StorageGatewayClientTypes.DeviceiSCSIAttributes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = StorageGatewayClientTypes.DeviceiSCSIAttributes()
@@ -5224,18 +5185,6 @@ enum DisassociateFileSystemOutputError {
 }
 
 extension StorageGatewayClientTypes.Disk {
-
-    static func write(value: StorageGatewayClientTypes.Disk?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DiskAllocationResource"].write(value.diskAllocationResource)
-        try writer["DiskAllocationType"].write(value.diskAllocationType)
-        try writer["DiskAttributeList"].writeList(value.diskAttributeList, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["DiskId"].write(value.diskId)
-        try writer["DiskNode"].write(value.diskNode)
-        try writer["DiskPath"].write(value.diskPath)
-        try writer["DiskSizeInBytes"].write(value.diskSizeInBytes)
-        try writer["DiskStatus"].write(value.diskStatus)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> StorageGatewayClientTypes.Disk {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5539,15 +5488,6 @@ extension StorageGatewayClientTypes {
 
 extension StorageGatewayClientTypes.FileShareInfo {
 
-    static func write(value: StorageGatewayClientTypes.FileShareInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["FileShareARN"].write(value.fileShareARN)
-        try writer["FileShareId"].write(value.fileShareId)
-        try writer["FileShareStatus"].write(value.fileShareStatus)
-        try writer["FileShareType"].write(value.fileShareType)
-        try writer["GatewayARN"].write(value.gatewayARN)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> StorageGatewayClientTypes.FileShareInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = StorageGatewayClientTypes.FileShareInfo()
@@ -5625,19 +5565,6 @@ extension StorageGatewayClientTypes {
 
 extension StorageGatewayClientTypes.FileSystemAssociationInfo {
 
-    static func write(value: StorageGatewayClientTypes.FileSystemAssociationInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AuditDestinationARN"].write(value.auditDestinationARN)
-        try writer["CacheAttributes"].write(value.cacheAttributes, with: StorageGatewayClientTypes.CacheAttributes.write(value:to:))
-        try writer["EndpointNetworkConfiguration"].write(value.endpointNetworkConfiguration, with: StorageGatewayClientTypes.EndpointNetworkConfiguration.write(value:to:))
-        try writer["FileSystemAssociationARN"].write(value.fileSystemAssociationARN)
-        try writer["FileSystemAssociationStatus"].write(value.fileSystemAssociationStatus)
-        try writer["FileSystemAssociationStatusDetails"].writeList(value.fileSystemAssociationStatusDetails, memberWritingClosure: StorageGatewayClientTypes.FileSystemAssociationStatusDetail.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["GatewayARN"].write(value.gatewayARN)
-        try writer["LocationARN"].write(value.locationARN)
-        try writer["Tags"].writeList(value.tags, memberWritingClosure: StorageGatewayClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> StorageGatewayClientTypes.FileSystemAssociationInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = StorageGatewayClientTypes.FileSystemAssociationInfo()
@@ -5704,11 +5631,6 @@ extension StorageGatewayClientTypes {
 
 extension StorageGatewayClientTypes.FileSystemAssociationStatusDetail {
 
-    static func write(value: StorageGatewayClientTypes.FileSystemAssociationStatusDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ErrorCode"].write(value.errorCode)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> StorageGatewayClientTypes.FileSystemAssociationStatusDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = StorageGatewayClientTypes.FileSystemAssociationStatusDetail()
@@ -5734,14 +5656,6 @@ extension StorageGatewayClientTypes {
 }
 
 extension StorageGatewayClientTypes.FileSystemAssociationSummary {
-
-    static func write(value: StorageGatewayClientTypes.FileSystemAssociationSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["FileSystemAssociationARN"].write(value.fileSystemAssociationARN)
-        try writer["FileSystemAssociationId"].write(value.fileSystemAssociationId)
-        try writer["FileSystemAssociationStatus"].write(value.fileSystemAssociationStatus)
-        try writer["GatewayARN"].write(value.gatewayARN)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> StorageGatewayClientTypes.FileSystemAssociationSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5816,21 +5730,6 @@ extension StorageGatewayClientTypes {
 }
 
 extension StorageGatewayClientTypes.GatewayInfo {
-
-    static func write(value: StorageGatewayClientTypes.GatewayInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DeprecationDate"].write(value.deprecationDate)
-        try writer["Ec2InstanceId"].write(value.ec2InstanceId)
-        try writer["Ec2InstanceRegion"].write(value.ec2InstanceRegion)
-        try writer["GatewayARN"].write(value.gatewayARN)
-        try writer["GatewayId"].write(value.gatewayId)
-        try writer["GatewayName"].write(value.gatewayName)
-        try writer["GatewayOperationalState"].write(value.gatewayOperationalState)
-        try writer["GatewayType"].write(value.gatewayType)
-        try writer["HostEnvironment"].write(value.hostEnvironment)
-        try writer["HostEnvironmentId"].write(value.hostEnvironmentId)
-        try writer["SoftwareVersion"].write(value.softwareVersion)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> StorageGatewayClientTypes.GatewayInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7107,34 +7006,6 @@ extension StorageGatewayClientTypes {
 
 extension StorageGatewayClientTypes.NFSFileShareInfo {
 
-    static func write(value: StorageGatewayClientTypes.NFSFileShareInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AuditDestinationARN"].write(value.auditDestinationARN)
-        try writer["BucketRegion"].write(value.bucketRegion)
-        try writer["CacheAttributes"].write(value.cacheAttributes, with: StorageGatewayClientTypes.CacheAttributes.write(value:to:))
-        try writer["ClientList"].writeList(value.clientList, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["DefaultStorageClass"].write(value.defaultStorageClass)
-        try writer["FileShareARN"].write(value.fileShareARN)
-        try writer["FileShareId"].write(value.fileShareId)
-        try writer["FileShareName"].write(value.fileShareName)
-        try writer["FileShareStatus"].write(value.fileShareStatus)
-        try writer["GatewayARN"].write(value.gatewayARN)
-        try writer["GuessMIMETypeEnabled"].write(value.guessMIMETypeEnabled)
-        try writer["KMSEncrypted"].write(value.kmsEncrypted)
-        try writer["KMSKey"].write(value.kmsKey)
-        try writer["LocationARN"].write(value.locationARN)
-        try writer["NFSFileShareDefaults"].write(value.nfsFileShareDefaults, with: StorageGatewayClientTypes.NFSFileShareDefaults.write(value:to:))
-        try writer["NotificationPolicy"].write(value.notificationPolicy)
-        try writer["ObjectACL"].write(value.objectACL)
-        try writer["Path"].write(value.path)
-        try writer["ReadOnly"].write(value.readOnly)
-        try writer["RequesterPays"].write(value.requesterPays)
-        try writer["Role"].write(value.role)
-        try writer["Squash"].write(value.squash)
-        try writer["Tags"].writeList(value.tags, memberWritingClosure: StorageGatewayClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["VPCEndpointDNSName"].write(value.vpcEndpointDNSName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> StorageGatewayClientTypes.NFSFileShareInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = StorageGatewayClientTypes.NFSFileShareInfo()
@@ -7287,13 +7158,6 @@ extension StorageGatewayClientTypes.NetworkInterface: Swift.CustomDebugStringCon
 }
 
 extension StorageGatewayClientTypes.NetworkInterface {
-
-    static func write(value: StorageGatewayClientTypes.NetworkInterface?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Ipv4Address"].write(value.ipv4Address)
-        try writer["Ipv6Address"].write(value.ipv6Address)
-        try writer["MacAddress"].write(value.macAddress)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> StorageGatewayClientTypes.NetworkInterface {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7448,16 +7312,6 @@ extension StorageGatewayClientTypes {
 }
 
 extension StorageGatewayClientTypes.PoolInfo {
-
-    static func write(value: StorageGatewayClientTypes.PoolInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["PoolARN"].write(value.poolARN)
-        try writer["PoolName"].write(value.poolName)
-        try writer["PoolStatus"].write(value.poolStatus)
-        try writer["RetentionLockTimeInDays"].write(value.retentionLockTimeInDays)
-        try writer["RetentionLockType"].write(value.retentionLockType)
-        try writer["StorageClass"].write(value.storageClass)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> StorageGatewayClientTypes.PoolInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7948,39 +7802,6 @@ enum RetrieveTapeRecoveryPointOutputError {
 }
 
 extension StorageGatewayClientTypes.SMBFileShareInfo {
-
-    static func write(value: StorageGatewayClientTypes.SMBFileShareInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccessBasedEnumeration"].write(value.accessBasedEnumeration)
-        try writer["AdminUserList"].writeList(value.adminUserList, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["AuditDestinationARN"].write(value.auditDestinationARN)
-        try writer["Authentication"].write(value.authentication)
-        try writer["BucketRegion"].write(value.bucketRegion)
-        try writer["CacheAttributes"].write(value.cacheAttributes, with: StorageGatewayClientTypes.CacheAttributes.write(value:to:))
-        try writer["CaseSensitivity"].write(value.caseSensitivity)
-        try writer["DefaultStorageClass"].write(value.defaultStorageClass)
-        try writer["FileShareARN"].write(value.fileShareARN)
-        try writer["FileShareId"].write(value.fileShareId)
-        try writer["FileShareName"].write(value.fileShareName)
-        try writer["FileShareStatus"].write(value.fileShareStatus)
-        try writer["GatewayARN"].write(value.gatewayARN)
-        try writer["GuessMIMETypeEnabled"].write(value.guessMIMETypeEnabled)
-        try writer["InvalidUserList"].writeList(value.invalidUserList, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["KMSEncrypted"].write(value.kmsEncrypted)
-        try writer["KMSKey"].write(value.kmsKey)
-        try writer["LocationARN"].write(value.locationARN)
-        try writer["NotificationPolicy"].write(value.notificationPolicy)
-        try writer["ObjectACL"].write(value.objectACL)
-        try writer["OplocksEnabled"].write(value.oplocksEnabled)
-        try writer["Path"].write(value.path)
-        try writer["ReadOnly"].write(value.readOnly)
-        try writer["RequesterPays"].write(value.requesterPays)
-        try writer["Role"].write(value.role)
-        try writer["SMBACLEnabled"].write(value.smbaclEnabled)
-        try writer["Tags"].writeList(value.tags, memberWritingClosure: StorageGatewayClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["VPCEndpointDNSName"].write(value.vpcEndpointDNSName)
-        try writer["ValidUserList"].writeList(value.validUserList, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> StorageGatewayClientTypes.SMBFileShareInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8620,12 +8441,6 @@ public enum StorageGatewayClientTypes {}
 
 extension StorageGatewayClientTypes.StorageGatewayError {
 
-    static func write(value: StorageGatewayClientTypes.StorageGatewayError?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["errorCode"].write(value.errorCode)
-        try writer["errorDetails"].writeMap(value.errorDetails, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> StorageGatewayClientTypes.StorageGatewayError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = StorageGatewayClientTypes.StorageGatewayError()
@@ -8656,25 +8471,6 @@ extension StorageGatewayClientTypes {
 }
 
 extension StorageGatewayClientTypes.StorediSCSIVolume {
-
-    static func write(value: StorageGatewayClientTypes.StorediSCSIVolume?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedDate"].writeTimestamp(value.createdDate, format: .epochSeconds)
-        try writer["KMSKey"].write(value.kmsKey)
-        try writer["PreservedExistingData"].write(value.preservedExistingData)
-        try writer["SourceSnapshotId"].write(value.sourceSnapshotId)
-        try writer["TargetName"].write(value.targetName)
-        try writer["VolumeARN"].write(value.volumeARN)
-        try writer["VolumeAttachmentStatus"].write(value.volumeAttachmentStatus)
-        try writer["VolumeDiskId"].write(value.volumeDiskId)
-        try writer["VolumeId"].write(value.volumeId)
-        try writer["VolumeProgress"].write(value.volumeProgress)
-        try writer["VolumeSizeInBytes"].write(value.volumeSizeInBytes)
-        try writer["VolumeStatus"].write(value.volumeStatus)
-        try writer["VolumeType"].write(value.volumeType)
-        try writer["VolumeUsedInBytes"].write(value.volumeUsedInBytes)
-        try writer["VolumeiSCSIAttributes"].write(value.volumeiSCSIAttributes, with: StorageGatewayClientTypes.VolumeiSCSIAttributes.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> StorageGatewayClientTypes.StorediSCSIVolume {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8811,23 +8607,6 @@ extension StorageGatewayClientTypes {
 
 extension StorageGatewayClientTypes.Tape {
 
-    static func write(value: StorageGatewayClientTypes.Tape?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["KMSKey"].write(value.kmsKey)
-        try writer["PoolEntryDate"].writeTimestamp(value.poolEntryDate, format: .epochSeconds)
-        try writer["PoolId"].write(value.poolId)
-        try writer["Progress"].write(value.progress)
-        try writer["RetentionStartDate"].writeTimestamp(value.retentionStartDate, format: .epochSeconds)
-        try writer["TapeARN"].write(value.tapeARN)
-        try writer["TapeBarcode"].write(value.tapeBarcode)
-        try writer["TapeCreatedDate"].writeTimestamp(value.tapeCreatedDate, format: .epochSeconds)
-        try writer["TapeSizeInBytes"].write(value.tapeSizeInBytes)
-        try writer["TapeStatus"].write(value.tapeStatus)
-        try writer["TapeUsedInBytes"].write(value.tapeUsedInBytes)
-        try writer["VTLDevice"].write(value.vtlDevice)
-        try writer["Worm"].write(value.worm)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> StorageGatewayClientTypes.Tape {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = StorageGatewayClientTypes.Tape()
@@ -8913,23 +8692,6 @@ extension StorageGatewayClientTypes {
 }
 
 extension StorageGatewayClientTypes.TapeArchive {
-
-    static func write(value: StorageGatewayClientTypes.TapeArchive?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CompletionTime"].writeTimestamp(value.completionTime, format: .epochSeconds)
-        try writer["KMSKey"].write(value.kmsKey)
-        try writer["PoolEntryDate"].writeTimestamp(value.poolEntryDate, format: .epochSeconds)
-        try writer["PoolId"].write(value.poolId)
-        try writer["RetentionStartDate"].writeTimestamp(value.retentionStartDate, format: .epochSeconds)
-        try writer["RetrievedTo"].write(value.retrievedTo)
-        try writer["TapeARN"].write(value.tapeARN)
-        try writer["TapeBarcode"].write(value.tapeBarcode)
-        try writer["TapeCreatedDate"].writeTimestamp(value.tapeCreatedDate, format: .epochSeconds)
-        try writer["TapeSizeInBytes"].write(value.tapeSizeInBytes)
-        try writer["TapeStatus"].write(value.tapeStatus)
-        try writer["TapeUsedInBytes"].write(value.tapeUsedInBytes)
-        try writer["Worm"].write(value.worm)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> StorageGatewayClientTypes.TapeArchive {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -9017,18 +8779,6 @@ extension StorageGatewayClientTypes {
 
 extension StorageGatewayClientTypes.TapeInfo {
 
-    static func write(value: StorageGatewayClientTypes.TapeInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["GatewayARN"].write(value.gatewayARN)
-        try writer["PoolEntryDate"].writeTimestamp(value.poolEntryDate, format: .epochSeconds)
-        try writer["PoolId"].write(value.poolId)
-        try writer["RetentionStartDate"].writeTimestamp(value.retentionStartDate, format: .epochSeconds)
-        try writer["TapeARN"].write(value.tapeARN)
-        try writer["TapeBarcode"].write(value.tapeBarcode)
-        try writer["TapeSizeInBytes"].write(value.tapeSizeInBytes)
-        try writer["TapeStatus"].write(value.tapeStatus)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> StorageGatewayClientTypes.TapeInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = StorageGatewayClientTypes.TapeInfo()
@@ -9089,14 +8839,6 @@ extension StorageGatewayClientTypes {
 }
 
 extension StorageGatewayClientTypes.TapeRecoveryPointInfo {
-
-    static func write(value: StorageGatewayClientTypes.TapeRecoveryPointInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["TapeARN"].write(value.tapeARN)
-        try writer["TapeRecoveryPointTime"].writeTimestamp(value.tapeRecoveryPointTime, format: .epochSeconds)
-        try writer["TapeSizeInBytes"].write(value.tapeSizeInBytes)
-        try writer["TapeStatus"].write(value.tapeStatus)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> StorageGatewayClientTypes.TapeRecoveryPointInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -10551,15 +10293,6 @@ enum UpdateVTLDeviceTypeOutputError {
 
 extension StorageGatewayClientTypes.VTLDevice {
 
-    static func write(value: StorageGatewayClientTypes.VTLDevice?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DeviceiSCSIAttributes"].write(value.deviceiSCSIAttributes, with: StorageGatewayClientTypes.DeviceiSCSIAttributes.write(value:to:))
-        try writer["VTLDeviceARN"].write(value.vtlDeviceARN)
-        try writer["VTLDeviceProductIdentifier"].write(value.vtlDeviceProductIdentifier)
-        try writer["VTLDeviceType"].write(value.vtlDeviceType)
-        try writer["VTLDeviceVendor"].write(value.vtlDeviceVendor)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> StorageGatewayClientTypes.VTLDevice {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = StorageGatewayClientTypes.VTLDevice()
@@ -10605,17 +10338,6 @@ extension StorageGatewayClientTypes {
 }
 
 extension StorageGatewayClientTypes.VolumeInfo {
-
-    static func write(value: StorageGatewayClientTypes.VolumeInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["GatewayARN"].write(value.gatewayARN)
-        try writer["GatewayId"].write(value.gatewayId)
-        try writer["VolumeARN"].write(value.volumeARN)
-        try writer["VolumeAttachmentStatus"].write(value.volumeAttachmentStatus)
-        try writer["VolumeId"].write(value.volumeId)
-        try writer["VolumeSizeInBytes"].write(value.volumeSizeInBytes)
-        try writer["VolumeType"].write(value.volumeType)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> StorageGatewayClientTypes.VolumeInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -10673,14 +10395,6 @@ extension StorageGatewayClientTypes {
 
 extension StorageGatewayClientTypes.VolumeRecoveryPointInfo {
 
-    static func write(value: StorageGatewayClientTypes.VolumeRecoveryPointInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["VolumeARN"].write(value.volumeARN)
-        try writer["VolumeRecoveryPointTime"].write(value.volumeRecoveryPointTime)
-        try writer["VolumeSizeInBytes"].write(value.volumeSizeInBytes)
-        try writer["VolumeUsageInBytes"].write(value.volumeUsageInBytes)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> StorageGatewayClientTypes.VolumeRecoveryPointInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = StorageGatewayClientTypes.VolumeRecoveryPointInfo()
@@ -10721,15 +10435,6 @@ extension StorageGatewayClientTypes {
 }
 
 extension StorageGatewayClientTypes.VolumeiSCSIAttributes {
-
-    static func write(value: StorageGatewayClientTypes.VolumeiSCSIAttributes?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ChapEnabled"].write(value.chapEnabled)
-        try writer["LunNumber"].write(value.lunNumber)
-        try writer["NetworkInterfaceId"].write(value.networkInterfaceId)
-        try writer["NetworkInterfacePort"].write(value.networkInterfacePort)
-        try writer["TargetARN"].write(value.targetARN)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> StorageGatewayClientTypes.VolumeiSCSIAttributes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

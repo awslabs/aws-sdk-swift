@@ -83,14 +83,6 @@ extension SSMIncidentsClientTypes.AddRegionAction {
         try writer["regionName"].write(value.regionName)
         try writer["sseKmsKeyId"].write(value.sseKmsKeyId)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SSMIncidentsClientTypes.AddRegionAction {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SSMIncidentsClientTypes.AddRegionAction()
-        value.regionName = try reader["regionName"].readIfPresent()
-        value.sseKmsKeyId = try reader["sseKmsKeyId"].readIfPresent()
-        return value
-    }
 }
 
 extension SSMIncidentsClientTypes {
@@ -127,19 +119,6 @@ extension SSMIncidentsClientTypes.AttributeValueList {
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SSMIncidentsClientTypes.AttributeValueList {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "stringValues":
-                return .stringvalues(try reader["stringValues"].readList(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false))
-            case "integerValues":
-                return .integervalues(try reader["integerValues"].readList(memberReadingClosure: Swift.Int.read(from:), memberNodeInfo: "member", isFlattened: false))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
 }
 
 extension SSMIncidentsClientTypes {
@@ -155,16 +134,6 @@ extension SSMIncidentsClientTypes {
 }
 
 extension SSMIncidentsClientTypes.AutomationExecution {
-
-    static func write(value: SSMIncidentsClientTypes.AutomationExecution?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .ssmexecutionarn(ssmexecutionarn):
-                try writer["ssmExecutionArn"].write(ssmexecutionarn)
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SSMIncidentsClientTypes.AutomationExecution {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -189,13 +158,6 @@ extension SSMIncidentsClientTypes {
 }
 
 extension SSMIncidentsClientTypes.BatchGetIncidentFindingsError {
-
-    static func write(value: SSMIncidentsClientTypes.BatchGetIncidentFindingsError?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["code"].write(value.code)
-        try writer["findingId"].write(value.findingId)
-        try writer["message"].write(value.message)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SSMIncidentsClientTypes.BatchGetIncidentFindingsError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -359,13 +321,6 @@ extension SSMIncidentsClientTypes {
 
 extension SSMIncidentsClientTypes.CloudFormationStackUpdate {
 
-    static func write(value: SSMIncidentsClientTypes.CloudFormationStackUpdate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["endTime"].writeTimestamp(value.endTime, format: .epochSeconds)
-        try writer["stackArn"].write(value.stackArn)
-        try writer["startTime"].writeTimestamp(value.startTime, format: .epochSeconds)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SSMIncidentsClientTypes.CloudFormationStackUpdate {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SSMIncidentsClientTypes.CloudFormationStackUpdate()
@@ -403,14 +358,6 @@ extension SSMIncidentsClientTypes {
 }
 
 extension SSMIncidentsClientTypes.CodeDeployDeployment {
-
-    static func write(value: SSMIncidentsClientTypes.CodeDeployDeployment?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["deploymentGroupArn"].write(value.deploymentGroupArn)
-        try writer["deploymentId"].write(value.deploymentId)
-        try writer["endTime"].writeTimestamp(value.endTime, format: .epochSeconds)
-        try writer["startTime"].writeTimestamp(value.startTime, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SSMIncidentsClientTypes.CodeDeployDeployment {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -467,21 +414,6 @@ extension SSMIncidentsClientTypes.Condition {
                 try writer["equals"].write(equals, with: SSMIncidentsClientTypes.AttributeValueList.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SSMIncidentsClientTypes.Condition {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "before":
-                return .before(try reader["before"].readTimestamp(format: .epochSeconds))
-            case "after":
-                return .after(try reader["after"].readTimestamp(format: .epochSeconds))
-            case "equals":
-                return .equals(try reader["equals"].read(with: SSMIncidentsClientTypes.AttributeValueList.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
         }
     }
 }
@@ -917,13 +849,6 @@ extension SSMIncidentsClientTypes.DeleteRegionAction {
         guard let value else { return }
         try writer["regionName"].write(value.regionName)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SSMIncidentsClientTypes.DeleteRegionAction {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SSMIncidentsClientTypes.DeleteRegionAction()
-        value.regionName = try reader["regionName"].readIfPresent()
-        return value
-    }
 }
 
 extension SSMIncidentsClientTypes {
@@ -1289,16 +1214,6 @@ extension SSMIncidentsClientTypes {
 
 extension SSMIncidentsClientTypes.EventSummary {
 
-    static func write(value: SSMIncidentsClientTypes.EventSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["eventId"].write(value.eventId)
-        try writer["eventReferences"].writeList(value.eventReferences, memberWritingClosure: SSMIncidentsClientTypes.EventReference.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["eventTime"].writeTimestamp(value.eventTime, format: .epochSeconds)
-        try writer["eventType"].write(value.eventType)
-        try writer["eventUpdatedTime"].writeTimestamp(value.eventUpdatedTime, format: .epochSeconds)
-        try writer["incidentRecordArn"].write(value.incidentRecordArn)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SSMIncidentsClientTypes.EventSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SSMIncidentsClientTypes.EventSummary()
@@ -1360,14 +1275,6 @@ extension SSMIncidentsClientTypes.Filter {
         try writer["condition"].write(value.condition, with: SSMIncidentsClientTypes.Condition.write(value:to:))
         try writer["key"].write(value.key)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SSMIncidentsClientTypes.Filter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SSMIncidentsClientTypes.Filter()
-        value.key = try reader["key"].readIfPresent()
-        value.condition = try reader["condition"].readIfPresent(with: SSMIncidentsClientTypes.Condition.read(from:))
-        return value
-    }
 }
 
 extension SSMIncidentsClientTypes {
@@ -1393,14 +1300,6 @@ extension SSMIncidentsClientTypes {
 }
 
 extension SSMIncidentsClientTypes.Finding {
-
-    static func write(value: SSMIncidentsClientTypes.Finding?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["creationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["details"].write(value.details, with: SSMIncidentsClientTypes.FindingDetails.write(value:to:))
-        try writer["id"].write(value.id)
-        try writer["lastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SSMIncidentsClientTypes.Finding {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1446,18 +1345,6 @@ extension SSMIncidentsClientTypes {
 
 extension SSMIncidentsClientTypes.FindingDetails {
 
-    static func write(value: SSMIncidentsClientTypes.FindingDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .cloudformationstackupdate(cloudformationstackupdate):
-                try writer["cloudFormationStackUpdate"].write(cloudformationstackupdate, with: SSMIncidentsClientTypes.CloudFormationStackUpdate.write(value:to:))
-            case let .codedeploydeployment(codedeploydeployment):
-                try writer["codeDeployDeployment"].write(codedeploydeployment, with: SSMIncidentsClientTypes.CodeDeployDeployment.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SSMIncidentsClientTypes.FindingDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
@@ -1485,12 +1372,6 @@ extension SSMIncidentsClientTypes {
 }
 
 extension SSMIncidentsClientTypes.FindingSummary {
-
-    static func write(value: SSMIncidentsClientTypes.FindingSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["id"].write(value.id)
-        try writer["lastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SSMIncidentsClientTypes.FindingSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1980,24 +1861,6 @@ enum GetTimelineEventOutputError {
 
 extension SSMIncidentsClientTypes.IncidentRecord {
 
-    static func write(value: SSMIncidentsClientTypes.IncidentRecord?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["automationExecutions"].writeList(value.automationExecutions, memberWritingClosure: SSMIncidentsClientTypes.AutomationExecution.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["chatChannel"].write(value.chatChannel, with: SSMIncidentsClientTypes.ChatChannel.write(value:to:))
-        try writer["creationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["dedupeString"].write(value.dedupeString)
-        try writer["impact"].write(value.impact)
-        try writer["incidentRecordSource"].write(value.incidentRecordSource, with: SSMIncidentsClientTypes.IncidentRecordSource.write(value:to:))
-        try writer["lastModifiedBy"].write(value.lastModifiedBy)
-        try writer["lastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .epochSeconds)
-        try writer["notificationTargets"].writeList(value.notificationTargets, memberWritingClosure: SSMIncidentsClientTypes.NotificationTargetItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["resolvedTime"].writeTimestamp(value.resolvedTime, format: .epochSeconds)
-        try writer["status"].write(value.status)
-        try writer["summary"].write(value.summary)
-        try writer["title"].write(value.title)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SSMIncidentsClientTypes.IncidentRecord {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SSMIncidentsClientTypes.IncidentRecord()
@@ -2108,14 +1971,6 @@ extension SSMIncidentsClientTypes {
 
 extension SSMIncidentsClientTypes.IncidentRecordSource {
 
-    static func write(value: SSMIncidentsClientTypes.IncidentRecordSource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["createdBy"].write(value.createdBy)
-        try writer["invokedBy"].write(value.invokedBy)
-        try writer["resourceArn"].write(value.resourceArn)
-        try writer["source"].write(value.source)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SSMIncidentsClientTypes.IncidentRecordSource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SSMIncidentsClientTypes.IncidentRecordSource()
@@ -2188,17 +2043,6 @@ extension SSMIncidentsClientTypes {
 }
 
 extension SSMIncidentsClientTypes.IncidentRecordSummary {
-
-    static func write(value: SSMIncidentsClientTypes.IncidentRecordSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["creationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["impact"].write(value.impact)
-        try writer["incidentRecordSource"].write(value.incidentRecordSource, with: SSMIncidentsClientTypes.IncidentRecordSource.write(value:to:))
-        try writer["resolvedTime"].writeTimestamp(value.resolvedTime, format: .epochSeconds)
-        try writer["status"].write(value.status)
-        try writer["title"].write(value.title)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SSMIncidentsClientTypes.IncidentRecordSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3393,14 +3237,6 @@ enum PutResourcePolicyOutputError {
 
 extension SSMIncidentsClientTypes.RegionInfo {
 
-    static func write(value: SSMIncidentsClientTypes.RegionInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["sseKmsKeyId"].write(value.sseKmsKeyId)
-        try writer["status"].write(value.status)
-        try writer["statusMessage"].write(value.statusMessage)
-        try writer["statusUpdateDateTime"].writeTimestamp(value.statusUpdateDateTime, format: .epochSeconds)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SSMIncidentsClientTypes.RegionInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SSMIncidentsClientTypes.RegionInfo()
@@ -3447,13 +3283,6 @@ extension SSMIncidentsClientTypes.RegionMapInputValue {
     static func write(value: SSMIncidentsClientTypes.RegionMapInputValue?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["sseKmsKeyId"].write(value.sseKmsKeyId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SSMIncidentsClientTypes.RegionMapInputValue {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SSMIncidentsClientTypes.RegionMapInputValue()
-        value.sseKmsKeyId = try reader["sseKmsKeyId"].readIfPresent()
-        return value
     }
 }
 
@@ -3570,19 +3399,6 @@ extension SSMIncidentsClientTypes.RelatedItemsUpdate {
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SSMIncidentsClientTypes.RelatedItemsUpdate {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "itemToAdd":
-                return .itemtoadd(try reader["itemToAdd"].read(with: SSMIncidentsClientTypes.RelatedItem.read(from:)))
-            case "itemToRemove":
-                return .itemtoremove(try reader["itemToRemove"].read(with: SSMIncidentsClientTypes.ItemIdentifier.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
 }
 
 extension SSMIncidentsClientTypes {
@@ -3598,18 +3414,6 @@ extension SSMIncidentsClientTypes {
 }
 
 extension SSMIncidentsClientTypes.ReplicationSet {
-
-    static func write(value: SSMIncidentsClientTypes.ReplicationSet?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["createdBy"].write(value.createdBy)
-        try writer["createdTime"].writeTimestamp(value.createdTime, format: .epochSeconds)
-        try writer["deletionProtected"].write(value.deletionProtected)
-        try writer["lastModifiedBy"].write(value.lastModifiedBy)
-        try writer["lastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .epochSeconds)
-        try writer["regionMap"].writeMap(value.regionMap, valueWritingClosure: SSMIncidentsClientTypes.RegionInfo.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SSMIncidentsClientTypes.ReplicationSet {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3771,13 +3575,6 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
 extension SSMIncidentsClientTypes.ResourcePolicy {
 
-    static func write(value: SSMIncidentsClientTypes.ResourcePolicy?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["policyDocument"].write(value.policyDocument)
-        try writer["policyId"].write(value.policyId)
-        try writer["ramResourceShareRegion"].write(value.ramResourceShareRegion)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SSMIncidentsClientTypes.ResourcePolicy {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SSMIncidentsClientTypes.ResourcePolicy()
@@ -3855,13 +3652,6 @@ extension SSMIncidentsClientTypes {
 }
 
 extension SSMIncidentsClientTypes.ResponsePlanSummary {
-
-    static func write(value: SSMIncidentsClientTypes.ResponsePlanSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["displayName"].write(value.displayName)
-        try writer["name"].write(value.name)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SSMIncidentsClientTypes.ResponsePlanSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4338,17 +4128,6 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
 extension SSMIncidentsClientTypes.TimelineEvent {
 
-    static func write(value: SSMIncidentsClientTypes.TimelineEvent?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["eventData"].write(value.eventData)
-        try writer["eventId"].write(value.eventId)
-        try writer["eventReferences"].writeList(value.eventReferences, memberWritingClosure: SSMIncidentsClientTypes.EventReference.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["eventTime"].writeTimestamp(value.eventTime, format: .epochSeconds)
-        try writer["eventType"].write(value.eventType)
-        try writer["eventUpdatedTime"].writeTimestamp(value.eventUpdatedTime, format: .epochSeconds)
-        try writer["incidentRecordArn"].write(value.incidentRecordArn)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SSMIncidentsClientTypes.TimelineEvent {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SSMIncidentsClientTypes.TimelineEvent()
@@ -4444,16 +4223,6 @@ extension SSMIncidentsClientTypes.TriggerDetails {
         try writer["source"].write(value.source)
         try writer["timestamp"].writeTimestamp(value.timestamp, format: .epochSeconds)
         try writer["triggerArn"].write(value.triggerArn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SSMIncidentsClientTypes.TriggerDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SSMIncidentsClientTypes.TriggerDetails()
-        value.source = try reader["source"].readIfPresent()
-        value.triggerArn = try reader["triggerArn"].readIfPresent()
-        value.timestamp = try reader["timestamp"].readTimestampIfPresent(format: .epochSeconds)
-        value.rawData = try reader["rawData"].readIfPresent()
-        return value
     }
 }
 
@@ -4816,19 +4585,6 @@ extension SSMIncidentsClientTypes.UpdateReplicationSetAction {
                 try writer["deleteRegionAction"].write(deleteregionaction, with: SSMIncidentsClientTypes.DeleteRegionAction.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SSMIncidentsClientTypes.UpdateReplicationSetAction {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "addRegionAction":
-                return .addregionaction(try reader["addRegionAction"].read(with: SSMIncidentsClientTypes.AddRegionAction.read(from:)))
-            case "deleteRegionAction":
-                return .deleteregionaction(try reader["deleteRegionAction"].read(with: SSMIncidentsClientTypes.DeleteRegionAction.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
         }
     }
 }

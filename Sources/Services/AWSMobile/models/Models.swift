@@ -82,16 +82,6 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
 
 extension MobileClientTypes.BundleDetails {
 
-    static func write(value: MobileClientTypes.BundleDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["availablePlatforms"].writeList(value.availablePlatforms, memberWritingClosure: MobileClientTypes.Platform.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["bundleId"].write(value.bundleId)
-        try writer["description"].write(value.description)
-        try writer["iconUrl"].write(value.iconUrl)
-        try writer["title"].write(value.title)
-        try writer["version"].write(value.version)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MobileClientTypes.BundleDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MobileClientTypes.BundleDetails()
@@ -991,18 +981,6 @@ extension MobileClientTypes {
 
 extension MobileClientTypes.ProjectDetails {
 
-    static func write(value: MobileClientTypes.ProjectDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["consoleUrl"].write(value.consoleUrl)
-        try writer["createdDate"].writeTimestamp(value.createdDate, format: .epochSeconds)
-        try writer["lastUpdatedDate"].writeTimestamp(value.lastUpdatedDate, format: .epochSeconds)
-        try writer["name"].write(value.name)
-        try writer["projectId"].write(value.projectId)
-        try writer["region"].write(value.region)
-        try writer["resources"].writeList(value.resources, memberWritingClosure: MobileClientTypes.Resource.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["state"].write(value.state)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MobileClientTypes.ProjectDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MobileClientTypes.ProjectDetails()
@@ -1098,12 +1076,6 @@ extension MobileClientTypes {
 
 extension MobileClientTypes.ProjectSummary {
 
-    static func write(value: MobileClientTypes.ProjectSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-        try writer["projectId"].write(value.projectId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MobileClientTypes.ProjectSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MobileClientTypes.ProjectSummary()
@@ -1134,15 +1106,6 @@ extension MobileClientTypes {
 }
 
 extension MobileClientTypes.Resource {
-
-    static func write(value: MobileClientTypes.Resource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["attributes"].writeMap(value.attributes, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["feature"].write(value.feature)
-        try writer["name"].write(value.name)
-        try writer["type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MobileClientTypes.Resource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

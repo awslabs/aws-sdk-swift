@@ -3308,13 +3308,6 @@ extension ChimeSDKMediaPipelinesClientTypes.KinesisVideoStreamConfigurationUpdat
         guard let value else { return }
         try writer["DataRetentionInHours"].write(value.dataRetentionInHours)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMediaPipelinesClientTypes.KinesisVideoStreamConfigurationUpdate {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ChimeSDKMediaPipelinesClientTypes.KinesisVideoStreamConfigurationUpdate()
-        value.dataRetentionInHours = try reader["DataRetentionInHours"].readIfPresent()
-        return value
-    }
 }
 
 extension ChimeSDKMediaPipelinesClientTypes {
@@ -3339,18 +3332,6 @@ extension ChimeSDKMediaPipelinesClientTypes.KinesisVideoStreamPoolConfiguration:
 }
 
 extension ChimeSDKMediaPipelinesClientTypes.KinesisVideoStreamPoolConfiguration {
-
-    static func write(value: ChimeSDKMediaPipelinesClientTypes.KinesisVideoStreamPoolConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedTimestamp"].writeTimestamp(value.createdTimestamp, format: .dateTime)
-        try writer["PoolArn"].write(value.poolArn)
-        try writer["PoolId"].write(value.poolId)
-        try writer["PoolName"].write(value.poolName)
-        try writer["PoolSize"].write(value.poolSize)
-        try writer["PoolStatus"].write(value.poolStatus)
-        try writer["StreamConfiguration"].write(value.streamConfiguration, with: ChimeSDKMediaPipelinesClientTypes.KinesisVideoStreamConfiguration.write(value:to:))
-        try writer["UpdatedTimestamp"].writeTimestamp(value.updatedTimestamp, format: .dateTime)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMediaPipelinesClientTypes.KinesisVideoStreamPoolConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3456,13 +3437,6 @@ extension ChimeSDKMediaPipelinesClientTypes.KinesisVideoStreamPoolSummary: Swift
 }
 
 extension ChimeSDKMediaPipelinesClientTypes.KinesisVideoStreamPoolSummary {
-
-    static func write(value: ChimeSDKMediaPipelinesClientTypes.KinesisVideoStreamPoolSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["PoolArn"].write(value.poolArn)
-        try writer["PoolId"].write(value.poolId)
-        try writer["PoolName"].write(value.poolName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMediaPipelinesClientTypes.KinesisVideoStreamPoolSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3590,15 +3564,6 @@ extension ChimeSDKMediaPipelinesClientTypes.KinesisVideoStreamSourceTaskConfigur
         try writer["ChannelId"].write(value.channelId)
         try writer["FragmentNumber"].write(value.fragmentNumber)
         try writer["StreamArn"].write(value.streamArn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMediaPipelinesClientTypes.KinesisVideoStreamSourceTaskConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ChimeSDKMediaPipelinesClientTypes.KinesisVideoStreamSourceTaskConfiguration()
-        value.streamArn = try reader["StreamArn"].readIfPresent()
-        value.channelId = try reader["ChannelId"].readIfPresent() ?? 0
-        value.fragmentNumber = try reader["FragmentNumber"].readIfPresent()
-        return value
     }
 }
 
@@ -4339,20 +4304,6 @@ extension ChimeSDKMediaPipelinesClientTypes.MediaCapturePipeline: Swift.CustomDe
 
 extension ChimeSDKMediaPipelinesClientTypes.MediaCapturePipeline {
 
-    static func write(value: ChimeSDKMediaPipelinesClientTypes.MediaCapturePipeline?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ChimeSdkMeetingConfiguration"].write(value.chimeSdkMeetingConfiguration, with: ChimeSDKMediaPipelinesClientTypes.ChimeSdkMeetingConfiguration.write(value:to:))
-        try writer["CreatedTimestamp"].writeTimestamp(value.createdTimestamp, format: .dateTime)
-        try writer["MediaPipelineArn"].write(value.mediaPipelineArn)
-        try writer["MediaPipelineId"].write(value.mediaPipelineId)
-        try writer["SinkArn"].write(value.sinkArn)
-        try writer["SinkType"].write(value.sinkType)
-        try writer["SourceArn"].write(value.sourceArn)
-        try writer["SourceType"].write(value.sourceType)
-        try writer["Status"].write(value.status)
-        try writer["UpdatedTimestamp"].writeTimestamp(value.updatedTimestamp, format: .dateTime)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMediaPipelinesClientTypes.MediaCapturePipeline {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ChimeSDKMediaPipelinesClientTypes.MediaCapturePipeline()
@@ -4468,12 +4419,6 @@ extension ChimeSDKMediaPipelinesClientTypes {
 
 extension ChimeSDKMediaPipelinesClientTypes.MediaCapturePipelineSummary {
 
-    static func write(value: ChimeSDKMediaPipelinesClientTypes.MediaCapturePipelineSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MediaPipelineArn"].write(value.mediaPipelineArn)
-        try writer["MediaPipelineId"].write(value.mediaPipelineId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMediaPipelinesClientTypes.MediaCapturePipelineSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ChimeSDKMediaPipelinesClientTypes.MediaCapturePipelineSummary()
@@ -4504,17 +4449,6 @@ extension ChimeSDKMediaPipelinesClientTypes {
 }
 
 extension ChimeSDKMediaPipelinesClientTypes.MediaConcatenationPipeline {
-
-    static func write(value: ChimeSDKMediaPipelinesClientTypes.MediaConcatenationPipeline?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedTimestamp"].writeTimestamp(value.createdTimestamp, format: .dateTime)
-        try writer["MediaPipelineArn"].write(value.mediaPipelineArn)
-        try writer["MediaPipelineId"].write(value.mediaPipelineId)
-        try writer["Sinks"].writeList(value.sinks, memberWritingClosure: ChimeSDKMediaPipelinesClientTypes.ConcatenationSink.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Sources"].writeList(value.sources, memberWritingClosure: ChimeSDKMediaPipelinesClientTypes.ConcatenationSource.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Status"].write(value.status)
-        try writer["UpdatedTimestamp"].writeTimestamp(value.updatedTimestamp, format: .dateTime)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMediaPipelinesClientTypes.MediaConcatenationPipeline {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4604,20 +4538,6 @@ extension ChimeSDKMediaPipelinesClientTypes.MediaInsightsPipeline: Swift.CustomD
 
 extension ChimeSDKMediaPipelinesClientTypes.MediaInsightsPipeline {
 
-    static func write(value: ChimeSDKMediaPipelinesClientTypes.MediaInsightsPipeline?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedTimestamp"].writeTimestamp(value.createdTimestamp, format: .dateTime)
-        try writer["ElementStatuses"].writeList(value.elementStatuses, memberWritingClosure: ChimeSDKMediaPipelinesClientTypes.MediaInsightsPipelineElementStatus.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["KinesisVideoStreamRecordingSourceRuntimeConfiguration"].write(value.kinesisVideoStreamRecordingSourceRuntimeConfiguration, with: ChimeSDKMediaPipelinesClientTypes.KinesisVideoStreamRecordingSourceRuntimeConfiguration.write(value:to:))
-        try writer["KinesisVideoStreamSourceRuntimeConfiguration"].write(value.kinesisVideoStreamSourceRuntimeConfiguration, with: ChimeSDKMediaPipelinesClientTypes.KinesisVideoStreamSourceRuntimeConfiguration.write(value:to:))
-        try writer["MediaInsightsPipelineConfigurationArn"].write(value.mediaInsightsPipelineConfigurationArn)
-        try writer["MediaInsightsRuntimeMetadata"].writeMap(value.mediaInsightsRuntimeMetadata, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["MediaPipelineArn"].write(value.mediaPipelineArn)
-        try writer["MediaPipelineId"].write(value.mediaPipelineId)
-        try writer["S3RecordingSinkRuntimeConfiguration"].write(value.s3RecordingSinkRuntimeConfiguration, with: ChimeSDKMediaPipelinesClientTypes.S3RecordingSinkRuntimeConfiguration.write(value:to:))
-        try writer["Status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMediaPipelinesClientTypes.MediaInsightsPipeline {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ChimeSDKMediaPipelinesClientTypes.MediaInsightsPipeline()
@@ -4693,18 +4613,6 @@ extension ChimeSDKMediaPipelinesClientTypes.MediaInsightsPipelineConfiguration: 
 }
 
 extension ChimeSDKMediaPipelinesClientTypes.MediaInsightsPipelineConfiguration {
-
-    static func write(value: ChimeSDKMediaPipelinesClientTypes.MediaInsightsPipelineConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedTimestamp"].writeTimestamp(value.createdTimestamp, format: .dateTime)
-        try writer["Elements"].writeList(value.elements, memberWritingClosure: ChimeSDKMediaPipelinesClientTypes.MediaInsightsPipelineConfigurationElement.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["MediaInsightsPipelineConfigurationArn"].write(value.mediaInsightsPipelineConfigurationArn)
-        try writer["MediaInsightsPipelineConfigurationId"].write(value.mediaInsightsPipelineConfigurationId)
-        try writer["MediaInsightsPipelineConfigurationName"].write(value.mediaInsightsPipelineConfigurationName)
-        try writer["RealTimeAlertConfiguration"].write(value.realTimeAlertConfiguration, with: ChimeSDKMediaPipelinesClientTypes.RealTimeAlertConfiguration.write(value:to:))
-        try writer["ResourceAccessRoleArn"].write(value.resourceAccessRoleArn)
-        try writer["UpdatedTimestamp"].writeTimestamp(value.updatedTimestamp, format: .dateTime)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMediaPipelinesClientTypes.MediaInsightsPipelineConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4909,13 +4817,6 @@ extension ChimeSDKMediaPipelinesClientTypes.MediaInsightsPipelineConfigurationSu
 
 extension ChimeSDKMediaPipelinesClientTypes.MediaInsightsPipelineConfigurationSummary {
 
-    static func write(value: ChimeSDKMediaPipelinesClientTypes.MediaInsightsPipelineConfigurationSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MediaInsightsPipelineConfigurationArn"].write(value.mediaInsightsPipelineConfigurationArn)
-        try writer["MediaInsightsPipelineConfigurationId"].write(value.mediaInsightsPipelineConfigurationId)
-        try writer["MediaInsightsPipelineConfigurationName"].write(value.mediaInsightsPipelineConfigurationName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMediaPipelinesClientTypes.MediaInsightsPipelineConfigurationSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ChimeSDKMediaPipelinesClientTypes.MediaInsightsPipelineConfigurationSummary()
@@ -4952,12 +4853,6 @@ extension ChimeSDKMediaPipelinesClientTypes {
 
 extension ChimeSDKMediaPipelinesClientTypes.MediaInsightsPipelineElementStatus {
 
-    static func write(value: ChimeSDKMediaPipelinesClientTypes.MediaInsightsPipelineElementStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Status"].write(value.status)
-        try writer["Type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMediaPipelinesClientTypes.MediaInsightsPipelineElementStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ChimeSDKMediaPipelinesClientTypes.MediaInsightsPipelineElementStatus()
@@ -4988,17 +4883,6 @@ extension ChimeSDKMediaPipelinesClientTypes {
 }
 
 extension ChimeSDKMediaPipelinesClientTypes.MediaLiveConnectorPipeline {
-
-    static func write(value: ChimeSDKMediaPipelinesClientTypes.MediaLiveConnectorPipeline?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedTimestamp"].writeTimestamp(value.createdTimestamp, format: .dateTime)
-        try writer["MediaPipelineArn"].write(value.mediaPipelineArn)
-        try writer["MediaPipelineId"].write(value.mediaPipelineId)
-        try writer["Sinks"].writeList(value.sinks, memberWritingClosure: ChimeSDKMediaPipelinesClientTypes.LiveConnectorSinkConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Sources"].writeList(value.sources, memberWritingClosure: ChimeSDKMediaPipelinesClientTypes.LiveConnectorSourceConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Status"].write(value.status)
-        try writer["UpdatedTimestamp"].writeTimestamp(value.updatedTimestamp, format: .dateTime)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMediaPipelinesClientTypes.MediaLiveConnectorPipeline {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5055,15 +4939,6 @@ extension ChimeSDKMediaPipelinesClientTypes {
 }
 
 extension ChimeSDKMediaPipelinesClientTypes.MediaPipeline {
-
-    static func write(value: ChimeSDKMediaPipelinesClientTypes.MediaPipeline?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MediaCapturePipeline"].write(value.mediaCapturePipeline, with: ChimeSDKMediaPipelinesClientTypes.MediaCapturePipeline.write(value:to:))
-        try writer["MediaConcatenationPipeline"].write(value.mediaConcatenationPipeline, with: ChimeSDKMediaPipelinesClientTypes.MediaConcatenationPipeline.write(value:to:))
-        try writer["MediaInsightsPipeline"].write(value.mediaInsightsPipeline, with: ChimeSDKMediaPipelinesClientTypes.MediaInsightsPipeline.write(value:to:))
-        try writer["MediaLiveConnectorPipeline"].write(value.mediaLiveConnectorPipeline, with: ChimeSDKMediaPipelinesClientTypes.MediaLiveConnectorPipeline.write(value:to:))
-        try writer["MediaStreamPipeline"].write(value.mediaStreamPipeline, with: ChimeSDKMediaPipelinesClientTypes.MediaStreamPipeline.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMediaPipelinesClientTypes.MediaPipeline {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5288,12 +5163,6 @@ extension ChimeSDKMediaPipelinesClientTypes {
 
 extension ChimeSDKMediaPipelinesClientTypes.MediaPipelineSummary {
 
-    static func write(value: ChimeSDKMediaPipelinesClientTypes.MediaPipelineSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MediaPipelineArn"].write(value.mediaPipelineArn)
-        try writer["MediaPipelineId"].write(value.mediaPipelineId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMediaPipelinesClientTypes.MediaPipelineSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ChimeSDKMediaPipelinesClientTypes.MediaPipelineSummary()
@@ -5366,17 +5235,6 @@ extension ChimeSDKMediaPipelinesClientTypes {
 }
 
 extension ChimeSDKMediaPipelinesClientTypes.MediaStreamPipeline {
-
-    static func write(value: ChimeSDKMediaPipelinesClientTypes.MediaStreamPipeline?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedTimestamp"].writeTimestamp(value.createdTimestamp, format: .dateTime)
-        try writer["MediaPipelineArn"].write(value.mediaPipelineArn)
-        try writer["MediaPipelineId"].write(value.mediaPipelineId)
-        try writer["Sinks"].writeList(value.sinks, memberWritingClosure: ChimeSDKMediaPipelinesClientTypes.MediaStreamSink.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Sources"].writeList(value.sources, memberWritingClosure: ChimeSDKMediaPipelinesClientTypes.MediaStreamSource.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Status"].write(value.status)
-        try writer["UpdatedTimestamp"].writeTimestamp(value.updatedTimestamp, format: .dateTime)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMediaPipelinesClientTypes.MediaStreamPipeline {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6500,14 +6358,6 @@ extension ChimeSDKMediaPipelinesClientTypes {
 }
 
 extension ChimeSDKMediaPipelinesClientTypes.SpeakerSearchTask {
-
-    static func write(value: ChimeSDKMediaPipelinesClientTypes.SpeakerSearchTask?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedTimestamp"].writeTimestamp(value.createdTimestamp, format: .dateTime)
-        try writer["SpeakerSearchTaskId"].write(value.speakerSearchTaskId)
-        try writer["SpeakerSearchTaskStatus"].write(value.speakerSearchTaskStatus)
-        try writer["UpdatedTimestamp"].writeTimestamp(value.updatedTimestamp, format: .dateTime)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMediaPipelinesClientTypes.SpeakerSearchTask {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8035,14 +7885,6 @@ extension ChimeSDKMediaPipelinesClientTypes {
 }
 
 extension ChimeSDKMediaPipelinesClientTypes.VoiceToneAnalysisTask {
-
-    static func write(value: ChimeSDKMediaPipelinesClientTypes.VoiceToneAnalysisTask?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedTimestamp"].writeTimestamp(value.createdTimestamp, format: .dateTime)
-        try writer["UpdatedTimestamp"].writeTimestamp(value.updatedTimestamp, format: .dateTime)
-        try writer["VoiceToneAnalysisTaskId"].write(value.voiceToneAnalysisTaskId)
-        try writer["VoiceToneAnalysisTaskStatus"].write(value.voiceToneAnalysisTaskStatus)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMediaPipelinesClientTypes.VoiceToneAnalysisTask {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

@@ -75,27 +75,6 @@ extension DocDBElasticClientTypes {
 
 extension DocDBElasticClientTypes.Cluster {
 
-    static func write(value: DocDBElasticClientTypes.Cluster?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["adminUserName"].write(value.adminUserName)
-        try writer["authType"].write(value.authType)
-        try writer["backupRetentionPeriod"].write(value.backupRetentionPeriod)
-        try writer["clusterArn"].write(value.clusterArn)
-        try writer["clusterEndpoint"].write(value.clusterEndpoint)
-        try writer["clusterName"].write(value.clusterName)
-        try writer["createTime"].write(value.createTime)
-        try writer["kmsKeyId"].write(value.kmsKeyId)
-        try writer["preferredBackupWindow"].write(value.preferredBackupWindow)
-        try writer["preferredMaintenanceWindow"].write(value.preferredMaintenanceWindow)
-        try writer["shardCapacity"].write(value.shardCapacity)
-        try writer["shardCount"].write(value.shardCount)
-        try writer["shardInstanceCount"].write(value.shardInstanceCount)
-        try writer["shards"].writeList(value.shards, memberWritingClosure: DocDBElasticClientTypes.Shard.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["status"].write(value.status)
-        try writer["subnetIds"].writeList(value.subnetIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["vpcSecurityGroupIds"].writeList(value.vpcSecurityGroupIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DocDBElasticClientTypes.Cluster {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DocDBElasticClientTypes.Cluster()
@@ -215,13 +194,6 @@ extension DocDBElasticClientTypes {
 
 extension DocDBElasticClientTypes.ClusterInList {
 
-    static func write(value: DocDBElasticClientTypes.ClusterInList?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["clusterArn"].write(value.clusterArn)
-        try writer["clusterName"].write(value.clusterName)
-        try writer["status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DocDBElasticClientTypes.ClusterInList {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DocDBElasticClientTypes.ClusterInList()
@@ -260,21 +232,6 @@ extension DocDBElasticClientTypes {
 }
 
 extension DocDBElasticClientTypes.ClusterSnapshot {
-
-    static func write(value: DocDBElasticClientTypes.ClusterSnapshot?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["adminUserName"].write(value.adminUserName)
-        try writer["clusterArn"].write(value.clusterArn)
-        try writer["clusterCreationTime"].write(value.clusterCreationTime)
-        try writer["kmsKeyId"].write(value.kmsKeyId)
-        try writer["snapshotArn"].write(value.snapshotArn)
-        try writer["snapshotCreationTime"].write(value.snapshotCreationTime)
-        try writer["snapshotName"].write(value.snapshotName)
-        try writer["snapshotType"].write(value.snapshotType)
-        try writer["status"].write(value.status)
-        try writer["subnetIds"].writeList(value.subnetIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["vpcSecurityGroupIds"].writeList(value.vpcSecurityGroupIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DocDBElasticClientTypes.ClusterSnapshot {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -365,15 +322,6 @@ extension DocDBElasticClientTypes {
 }
 
 extension DocDBElasticClientTypes.ClusterSnapshotInList {
-
-    static func write(value: DocDBElasticClientTypes.ClusterSnapshotInList?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["clusterArn"].write(value.clusterArn)
-        try writer["snapshotArn"].write(value.snapshotArn)
-        try writer["snapshotCreationTime"].write(value.snapshotCreationTime)
-        try writer["snapshotName"].write(value.snapshotName)
-        try writer["status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DocDBElasticClientTypes.ClusterSnapshotInList {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1596,13 +1544,6 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
 extension DocDBElasticClientTypes.Shard {
 
-    static func write(value: DocDBElasticClientTypes.Shard?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["createTime"].write(value.createTime)
-        try writer["shardId"].write(value.shardId)
-        try writer["status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DocDBElasticClientTypes.Shard {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DocDBElasticClientTypes.Shard()
@@ -2252,12 +2193,6 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 extension DocDBElasticClientTypes.ValidationExceptionField {
-
-    static func write(value: DocDBElasticClientTypes.ValidationExceptionField?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.message)
-        try writer["name"].write(value.name)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DocDBElasticClientTypes.ValidationExceptionField {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

@@ -44,11 +44,6 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
 extension PanoramaClientTypes.AlternateSoftwareMetadata {
 
-    static func write(value: PanoramaClientTypes.AlternateSoftwareMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Version"].write(value.version)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> PanoramaClientTypes.AlternateSoftwareMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PanoramaClientTypes.AlternateSoftwareMetadata()
@@ -74,22 +69,6 @@ extension PanoramaClientTypes {
 }
 
 extension PanoramaClientTypes.ApplicationInstance {
-
-    static func write(value: PanoramaClientTypes.ApplicationInstance?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ApplicationInstanceId"].write(value.applicationInstanceId)
-        try writer["Arn"].write(value.arn)
-        try writer["CreatedTime"].writeTimestamp(value.createdTime, format: .epochSeconds)
-        try writer["DefaultRuntimeContextDevice"].write(value.defaultRuntimeContextDevice)
-        try writer["DefaultRuntimeContextDeviceName"].write(value.defaultRuntimeContextDeviceName)
-        try writer["Description"].write(value.description)
-        try writer["HealthStatus"].write(value.healthStatus)
-        try writer["Name"].write(value.name)
-        try writer["RuntimeContextStates"].writeList(value.runtimeContextStates, memberWritingClosure: PanoramaClientTypes.ReportedRuntimeContextState.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Status"].write(value.status)
-        try writer["StatusDescription"].write(value.statusDescription)
-        try writer["Tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PanoramaClientTypes.ApplicationInstance {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -321,12 +300,6 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 }
 
 extension PanoramaClientTypes.ConflictExceptionErrorArgument {
-
-    static func write(value: PanoramaClientTypes.ConflictExceptionErrorArgument?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["Value"].write(value.value)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PanoramaClientTypes.ConflictExceptionErrorArgument {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2284,23 +2257,6 @@ extension PanoramaClientTypes {
 
 extension PanoramaClientTypes.Device {
 
-    static func write(value: PanoramaClientTypes.Device?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Brand"].write(value.brand)
-        try writer["CreatedTime"].writeTimestamp(value.createdTime, format: .epochSeconds)
-        try writer["CurrentSoftware"].write(value.currentSoftware)
-        try writer["Description"].write(value.description)
-        try writer["DeviceAggregatedStatus"].write(value.deviceAggregatedStatus)
-        try writer["DeviceId"].write(value.deviceId)
-        try writer["LastUpdatedTime"].writeTimestamp(value.lastUpdatedTime, format: .epochSeconds)
-        try writer["LatestDeviceJob"].write(value.latestDeviceJob, with: PanoramaClientTypes.LatestDeviceJob.write(value:to:))
-        try writer["LeaseExpirationTime"].writeTimestamp(value.leaseExpirationTime, format: .epochSeconds)
-        try writer["Name"].write(value.name)
-        try writer["ProvisioningStatus"].write(value.provisioningStatus)
-        try writer["Tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["Type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> PanoramaClientTypes.Device {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PanoramaClientTypes.Device()
@@ -2510,15 +2466,6 @@ extension PanoramaClientTypes {
 
 extension PanoramaClientTypes.DeviceJob {
 
-    static func write(value: PanoramaClientTypes.DeviceJob?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedTime"].writeTimestamp(value.createdTime, format: .epochSeconds)
-        try writer["DeviceId"].write(value.deviceId)
-        try writer["DeviceName"].write(value.deviceName)
-        try writer["JobId"].write(value.jobId)
-        try writer["JobType"].write(value.jobType)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> PanoramaClientTypes.DeviceJob {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PanoramaClientTypes.DeviceJob()
@@ -2568,13 +2515,6 @@ extension PanoramaClientTypes.DeviceJobConfig {
     static func write(value: PanoramaClientTypes.DeviceJobConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["OTAJobConfig"].write(value.otaJobConfig, with: PanoramaClientTypes.OTAJobConfig.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PanoramaClientTypes.DeviceJobConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PanoramaClientTypes.DeviceJobConfig()
-        value.otaJobConfig = try reader["OTAJobConfig"].readIfPresent(with: PanoramaClientTypes.OTAJobConfig.read(from:))
-        return value
     }
 }
 
@@ -2763,13 +2703,6 @@ extension PanoramaClientTypes {
 
 extension PanoramaClientTypes.EthernetStatus {
 
-    static func write(value: PanoramaClientTypes.EthernetStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ConnectionStatus"].write(value.connectionStatus)
-        try writer["HwAddress"].write(value.hwAddress)
-        try writer["IpAddress"].write(value.ipAddress)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> PanoramaClientTypes.EthernetStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PanoramaClientTypes.EthernetStatus()
@@ -2851,12 +2784,6 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 }
 
 extension PanoramaClientTypes.Job {
-
-    static func write(value: PanoramaClientTypes.Job?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DeviceId"].write(value.deviceId)
-        try writer["JobId"].write(value.jobId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PanoramaClientTypes.Job {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2984,13 +2911,6 @@ extension PanoramaClientTypes {
 }
 
 extension PanoramaClientTypes.LatestDeviceJob {
-
-    static func write(value: PanoramaClientTypes.LatestDeviceJob?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ImageVersion"].write(value.imageVersion)
-        try writer["JobType"].write(value.jobType)
-        try writer["Status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PanoramaClientTypes.LatestDeviceJob {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4146,14 +4066,6 @@ extension PanoramaClientTypes {
 
 extension PanoramaClientTypes.NetworkStatus {
 
-    static func write(value: PanoramaClientTypes.NetworkStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Ethernet0Status"].write(value.ethernet0Status, with: PanoramaClientTypes.EthernetStatus.write(value:to:))
-        try writer["Ethernet1Status"].write(value.ethernet1Status, with: PanoramaClientTypes.EthernetStatus.write(value:to:))
-        try writer["LastUpdatedTime"].writeTimestamp(value.lastUpdatedTime, format: .epochSeconds)
-        try writer["NtpStatus"].write(value.ntpStatus, with: PanoramaClientTypes.NtpStatus.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> PanoramaClientTypes.NetworkStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PanoramaClientTypes.NetworkStatus()
@@ -4194,21 +4106,6 @@ extension PanoramaClientTypes {
 }
 
 extension PanoramaClientTypes.Node {
-
-    static func write(value: PanoramaClientTypes.Node?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Category"].write(value.category)
-        try writer["CreatedTime"].writeTimestamp(value.createdTime, format: .epochSeconds)
-        try writer["Description"].write(value.description)
-        try writer["Name"].write(value.name)
-        try writer["NodeId"].write(value.nodeId)
-        try writer["OwnerAccount"].write(value.ownerAccount)
-        try writer["PackageArn"].write(value.packageArn)
-        try writer["PackageId"].write(value.packageId)
-        try writer["PackageName"].write(value.packageName)
-        try writer["PackageVersion"].write(value.packageVersion)
-        try writer["PatchVersion"].write(value.patchVersion)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PanoramaClientTypes.Node {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4330,16 +4227,6 @@ extension PanoramaClientTypes {
 
 extension PanoramaClientTypes.NodeFromTemplateJob {
 
-    static func write(value: PanoramaClientTypes.NodeFromTemplateJob?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedTime"].writeTimestamp(value.createdTime, format: .epochSeconds)
-        try writer["JobId"].write(value.jobId)
-        try writer["NodeName"].write(value.nodeName)
-        try writer["Status"].write(value.status)
-        try writer["StatusMessage"].write(value.statusMessage)
-        try writer["TemplateType"].write(value.templateType)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> PanoramaClientTypes.NodeFromTemplateJob {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PanoramaClientTypes.NodeFromTemplateJob()
@@ -4424,15 +4311,6 @@ extension PanoramaClientTypes {
 
 extension PanoramaClientTypes.NodeInputPort {
 
-    static func write(value: PanoramaClientTypes.NodeInputPort?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DefaultValue"].write(value.defaultValue)
-        try writer["Description"].write(value.description)
-        try writer["MaxConnections"].write(value.maxConnections)
-        try writer["Name"].write(value.name)
-        try writer["Type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> PanoramaClientTypes.NodeInputPort {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PanoramaClientTypes.NodeInputPort()
@@ -4478,17 +4356,6 @@ extension PanoramaClientTypes {
 }
 
 extension PanoramaClientTypes.NodeInstance {
-
-    static func write(value: PanoramaClientTypes.NodeInstance?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CurrentStatus"].write(value.currentStatus)
-        try writer["NodeId"].write(value.nodeId)
-        try writer["NodeInstanceId"].write(value.nodeInstanceId)
-        try writer["NodeName"].write(value.nodeName)
-        try writer["PackageName"].write(value.packageName)
-        try writer["PackagePatchVersion"].write(value.packagePatchVersion)
-        try writer["PackageVersion"].write(value.packageVersion)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PanoramaClientTypes.NodeInstance {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4584,12 +4451,6 @@ extension PanoramaClientTypes {
 
 extension PanoramaClientTypes.NodeInterface {
 
-    static func write(value: PanoramaClientTypes.NodeInterface?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Inputs"].writeList(value.inputs, memberWritingClosure: PanoramaClientTypes.NodeInputPort.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Outputs"].writeList(value.outputs, memberWritingClosure: PanoramaClientTypes.NodeOutputPort.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> PanoramaClientTypes.NodeInterface {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PanoramaClientTypes.NodeInterface()
@@ -4622,13 +4483,6 @@ extension PanoramaClientTypes {
 }
 
 extension PanoramaClientTypes.NodeOutputPort {
-
-    static func write(value: PanoramaClientTypes.NodeOutputPort?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Description"].write(value.description)
-        try writer["Name"].write(value.name)
-        try writer["Type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PanoramaClientTypes.NodeOutputPort {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4670,14 +4524,6 @@ extension PanoramaClientTypes.NodeSignal {
         guard let value else { return }
         try writer["NodeInstanceId"].write(value.nodeInstanceId)
         try writer["Signal"].write(value.signal)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PanoramaClientTypes.NodeSignal {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PanoramaClientTypes.NodeSignal()
-        value.nodeInstanceId = try reader["NodeInstanceId"].readIfPresent()
-        value.signal = try reader["Signal"].readIfPresent()
-        return value
     }
 }
 
@@ -4767,13 +4613,6 @@ extension PanoramaClientTypes {
 
 extension PanoramaClientTypes.NtpStatus {
 
-    static func write(value: PanoramaClientTypes.NtpStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ConnectionStatus"].write(value.connectionStatus)
-        try writer["IpAddress"].write(value.ipAddress)
-        try writer["NtpServerName"].write(value.ntpServerName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> PanoramaClientTypes.NtpStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PanoramaClientTypes.NtpStatus()
@@ -4815,14 +4654,6 @@ extension PanoramaClientTypes.OTAJobConfig {
         try writer["AllowMajorVersionUpdate"].write(value.allowMajorVersionUpdate)
         try writer["ImageVersion"].write(value.imageVersion)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PanoramaClientTypes.OTAJobConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PanoramaClientTypes.OTAJobConfig()
-        value.imageVersion = try reader["ImageVersion"].readIfPresent()
-        value.allowMajorVersionUpdate = try reader["AllowMajorVersionUpdate"].readIfPresent() ?? false
-        return value
-    }
 }
 
 extension PanoramaClientTypes {
@@ -4847,12 +4678,6 @@ extension PanoramaClientTypes {
 }
 
 extension PanoramaClientTypes.OutPutS3Location {
-
-    static func write(value: PanoramaClientTypes.OutPutS3Location?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BucketName"].write(value.bucketName)
-        try writer["ObjectKey"].write(value.objectKey)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PanoramaClientTypes.OutPutS3Location {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4886,16 +4711,6 @@ extension PanoramaClientTypes {
 }
 
 extension PanoramaClientTypes.PackageImportJob {
-
-    static func write(value: PanoramaClientTypes.PackageImportJob?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedTime"].writeTimestamp(value.createdTime, format: .epochSeconds)
-        try writer["JobId"].write(value.jobId)
-        try writer["JobType"].write(value.jobType)
-        try writer["LastUpdatedTime"].writeTimestamp(value.lastUpdatedTime, format: .epochSeconds)
-        try writer["Status"].write(value.status)
-        try writer["StatusMessage"].write(value.statusMessage)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PanoramaClientTypes.PackageImportJob {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4978,14 +4793,6 @@ extension PanoramaClientTypes {
 }
 
 extension PanoramaClientTypes.PackageImportJobOutput {
-
-    static func write(value: PanoramaClientTypes.PackageImportJobOutput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["OutputS3Location"].write(value.outputS3Location, with: PanoramaClientTypes.OutPutS3Location.write(value:to:))
-        try writer["PackageId"].write(value.packageId)
-        try writer["PackageVersion"].write(value.packageVersion)
-        try writer["PatchVersion"].write(value.patchVersion)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PanoramaClientTypes.PackageImportJobOutput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5126,15 +4933,6 @@ extension PanoramaClientTypes {
 
 extension PanoramaClientTypes.PackageListItem {
 
-    static func write(value: PanoramaClientTypes.PackageListItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["CreatedTime"].writeTimestamp(value.createdTime, format: .epochSeconds)
-        try writer["PackageId"].write(value.packageId)
-        try writer["PackageName"].write(value.packageName)
-        try writer["Tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> PanoramaClientTypes.PackageListItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PanoramaClientTypes.PackageListItem()
@@ -5180,13 +4978,6 @@ extension PanoramaClientTypes {
 }
 
 extension PanoramaClientTypes.PackageObject {
-
-    static func write(value: PanoramaClientTypes.PackageObject?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["PackageVersion"].write(value.packageVersion)
-        try writer["PatchVersion"].write(value.patchVersion)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PanoramaClientTypes.PackageObject {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5626,14 +5417,6 @@ enum RemoveApplicationInstanceOutputError {
 
 extension PanoramaClientTypes.ReportedRuntimeContextState {
 
-    static func write(value: PanoramaClientTypes.ReportedRuntimeContextState?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DesiredState"].write(value.desiredState)
-        try writer["DeviceReportedStatus"].write(value.deviceReportedStatus)
-        try writer["DeviceReportedTime"].writeTimestamp(value.deviceReportedTime, format: .epochSeconds)
-        try writer["RuntimeContextName"].write(value.runtimeContextName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> PanoramaClientTypes.ReportedRuntimeContextState {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PanoramaClientTypes.ReportedRuntimeContextState()
@@ -6040,15 +5823,6 @@ extension PanoramaClientTypes {
 
 extension PanoramaClientTypes.StorageLocation {
 
-    static func write(value: PanoramaClientTypes.StorageLocation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BinaryPrefixLocation"].write(value.binaryPrefixLocation)
-        try writer["Bucket"].write(value.bucket)
-        try writer["GeneratedPrefixLocation"].write(value.generatedPrefixLocation)
-        try writer["ManifestPrefixLocation"].write(value.manifestPrefixLocation)
-        try writer["RepoPrefixLocation"].write(value.repoPrefixLocation)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> PanoramaClientTypes.StorageLocation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PanoramaClientTypes.StorageLocation()
@@ -6443,12 +6217,6 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
 extension PanoramaClientTypes.ValidationExceptionErrorArgument {
 
-    static func write(value: PanoramaClientTypes.ValidationExceptionErrorArgument?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["Value"].write(value.value)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> PanoramaClientTypes.ValidationExceptionErrorArgument {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PanoramaClientTypes.ValidationExceptionErrorArgument()
@@ -6481,12 +6249,6 @@ extension PanoramaClientTypes {
 }
 
 extension PanoramaClientTypes.ValidationExceptionField {
-
-    static func write(value: PanoramaClientTypes.ValidationExceptionField?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.message)
-        try writer["Name"].write(value.name)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PanoramaClientTypes.ValidationExceptionField {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

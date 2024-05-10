@@ -777,42 +777,6 @@ extension CodeBuildClientTypes {
 
 extension CodeBuildClientTypes.Build {
 
-    static func write(value: CodeBuildClientTypes.Build?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["artifacts"].write(value.artifacts, with: CodeBuildClientTypes.BuildArtifacts.write(value:to:))
-        try writer["buildBatchArn"].write(value.buildBatchArn)
-        try writer["buildComplete"].write(value.buildComplete)
-        try writer["buildNumber"].write(value.buildNumber)
-        try writer["buildStatus"].write(value.buildStatus)
-        try writer["cache"].write(value.cache, with: CodeBuildClientTypes.ProjectCache.write(value:to:))
-        try writer["currentPhase"].write(value.currentPhase)
-        try writer["debugSession"].write(value.debugSession, with: CodeBuildClientTypes.DebugSession.write(value:to:))
-        try writer["encryptionKey"].write(value.encryptionKey)
-        try writer["endTime"].writeTimestamp(value.endTime, format: .epochSeconds)
-        try writer["environment"].write(value.environment, with: CodeBuildClientTypes.ProjectEnvironment.write(value:to:))
-        try writer["exportedEnvironmentVariables"].writeList(value.exportedEnvironmentVariables, memberWritingClosure: CodeBuildClientTypes.ExportedEnvironmentVariable.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["fileSystemLocations"].writeList(value.fileSystemLocations, memberWritingClosure: CodeBuildClientTypes.ProjectFileSystemLocation.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["id"].write(value.id)
-        try writer["initiator"].write(value.initiator)
-        try writer["logs"].write(value.logs, with: CodeBuildClientTypes.LogsLocation.write(value:to:))
-        try writer["networkInterface"].write(value.networkInterface, with: CodeBuildClientTypes.NetworkInterface.write(value:to:))
-        try writer["phases"].writeList(value.phases, memberWritingClosure: CodeBuildClientTypes.BuildPhase.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["projectName"].write(value.projectName)
-        try writer["queuedTimeoutInMinutes"].write(value.queuedTimeoutInMinutes)
-        try writer["reportArns"].writeList(value.reportArns, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["resolvedSourceVersion"].write(value.resolvedSourceVersion)
-        try writer["secondaryArtifacts"].writeList(value.secondaryArtifacts, memberWritingClosure: CodeBuildClientTypes.BuildArtifacts.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["secondarySourceVersions"].writeList(value.secondarySourceVersions, memberWritingClosure: CodeBuildClientTypes.ProjectSourceVersion.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["secondarySources"].writeList(value.secondarySources, memberWritingClosure: CodeBuildClientTypes.ProjectSource.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["serviceRole"].write(value.serviceRole)
-        try writer["source"].write(value.source, with: CodeBuildClientTypes.ProjectSource.write(value:to:))
-        try writer["sourceVersion"].write(value.sourceVersion)
-        try writer["startTime"].writeTimestamp(value.startTime, format: .epochSeconds)
-        try writer["timeoutInMinutes"].write(value.timeoutInMinutes)
-        try writer["vpcConfig"].write(value.vpcConfig, with: CodeBuildClientTypes.VpcConfig.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodeBuildClientTypes.Build {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeBuildClientTypes.Build()
@@ -1026,17 +990,6 @@ extension CodeBuildClientTypes {
 
 extension CodeBuildClientTypes.BuildArtifacts {
 
-    static func write(value: CodeBuildClientTypes.BuildArtifacts?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["artifactIdentifier"].write(value.artifactIdentifier)
-        try writer["bucketOwnerAccess"].write(value.bucketOwnerAccess)
-        try writer["encryptionDisabled"].write(value.encryptionDisabled)
-        try writer["location"].write(value.location)
-        try writer["md5sum"].write(value.md5sum)
-        try writer["overrideArtifactName"].write(value.overrideArtifactName)
-        try writer["sha256sum"].write(value.sha256sum)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodeBuildClientTypes.BuildArtifacts {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeBuildClientTypes.BuildArtifacts()
@@ -1099,40 +1052,6 @@ extension CodeBuildClientTypes {
 }
 
 extension CodeBuildClientTypes.BuildBatch {
-
-    static func write(value: CodeBuildClientTypes.BuildBatch?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["artifacts"].write(value.artifacts, with: CodeBuildClientTypes.BuildArtifacts.write(value:to:))
-        try writer["buildBatchConfig"].write(value.buildBatchConfig, with: CodeBuildClientTypes.ProjectBuildBatchConfig.write(value:to:))
-        try writer["buildBatchNumber"].write(value.buildBatchNumber)
-        try writer["buildBatchStatus"].write(value.buildBatchStatus)
-        try writer["buildGroups"].writeList(value.buildGroups, memberWritingClosure: CodeBuildClientTypes.BuildGroup.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["buildTimeoutInMinutes"].write(value.buildTimeoutInMinutes)
-        try writer["cache"].write(value.cache, with: CodeBuildClientTypes.ProjectCache.write(value:to:))
-        try writer["complete"].write(value.complete)
-        try writer["currentPhase"].write(value.currentPhase)
-        try writer["debugSessionEnabled"].write(value.debugSessionEnabled)
-        try writer["encryptionKey"].write(value.encryptionKey)
-        try writer["endTime"].writeTimestamp(value.endTime, format: .epochSeconds)
-        try writer["environment"].write(value.environment, with: CodeBuildClientTypes.ProjectEnvironment.write(value:to:))
-        try writer["fileSystemLocations"].writeList(value.fileSystemLocations, memberWritingClosure: CodeBuildClientTypes.ProjectFileSystemLocation.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["id"].write(value.id)
-        try writer["initiator"].write(value.initiator)
-        try writer["logConfig"].write(value.logConfig, with: CodeBuildClientTypes.LogsConfig.write(value:to:))
-        try writer["phases"].writeList(value.phases, memberWritingClosure: CodeBuildClientTypes.BuildBatchPhase.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["projectName"].write(value.projectName)
-        try writer["queuedTimeoutInMinutes"].write(value.queuedTimeoutInMinutes)
-        try writer["resolvedSourceVersion"].write(value.resolvedSourceVersion)
-        try writer["secondaryArtifacts"].writeList(value.secondaryArtifacts, memberWritingClosure: CodeBuildClientTypes.BuildArtifacts.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["secondarySourceVersions"].writeList(value.secondarySourceVersions, memberWritingClosure: CodeBuildClientTypes.ProjectSourceVersion.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["secondarySources"].writeList(value.secondarySources, memberWritingClosure: CodeBuildClientTypes.ProjectSource.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["serviceRole"].write(value.serviceRole)
-        try writer["source"].write(value.source, with: CodeBuildClientTypes.ProjectSource.write(value:to:))
-        try writer["sourceVersion"].write(value.sourceVersion)
-        try writer["startTime"].writeTimestamp(value.startTime, format: .epochSeconds)
-        try writer["vpcConfig"].write(value.vpcConfig, with: CodeBuildClientTypes.VpcConfig.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeBuildClientTypes.BuildBatch {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1329,13 +1248,6 @@ extension CodeBuildClientTypes.BuildBatchFilter {
         guard let value else { return }
         try writer["status"].write(value.status)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeBuildClientTypes.BuildBatchFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeBuildClientTypes.BuildBatchFilter()
-        value.status = try reader["status"].readIfPresent()
-        return value
-    }
 }
 
 extension CodeBuildClientTypes {
@@ -1355,16 +1267,6 @@ extension CodeBuildClientTypes {
 }
 
 extension CodeBuildClientTypes.BuildBatchPhase {
-
-    static func write(value: CodeBuildClientTypes.BuildBatchPhase?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["contexts"].writeList(value.contexts, memberWritingClosure: CodeBuildClientTypes.PhaseContext.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["durationInSeconds"].write(value.durationInSeconds)
-        try writer["endTime"].writeTimestamp(value.endTime, format: .epochSeconds)
-        try writer["phaseStatus"].write(value.phaseStatus)
-        try writer["phaseType"].write(value.phaseType)
-        try writer["startTime"].writeTimestamp(value.startTime, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeBuildClientTypes.BuildBatchPhase {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1462,15 +1364,6 @@ extension CodeBuildClientTypes {
 
 extension CodeBuildClientTypes.BuildGroup {
 
-    static func write(value: CodeBuildClientTypes.BuildGroup?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["currentBuildSummary"].write(value.currentBuildSummary, with: CodeBuildClientTypes.BuildSummary.write(value:to:))
-        try writer["dependsOn"].writeList(value.dependsOn, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["identifier"].write(value.identifier)
-        try writer["ignoreFailure"].write(value.ignoreFailure)
-        try writer["priorBuildSummaryList"].writeList(value.priorBuildSummaryList, memberWritingClosure: CodeBuildClientTypes.BuildSummary.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodeBuildClientTypes.BuildGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeBuildClientTypes.BuildGroup()
@@ -1517,12 +1410,6 @@ extension CodeBuildClientTypes {
 
 extension CodeBuildClientTypes.BuildNotDeleted {
 
-    static func write(value: CodeBuildClientTypes.BuildNotDeleted?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["id"].write(value.id)
-        try writer["statusCode"].write(value.statusCode)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodeBuildClientTypes.BuildNotDeleted {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeBuildClientTypes.BuildNotDeleted()
@@ -1553,16 +1440,6 @@ extension CodeBuildClientTypes {
 }
 
 extension CodeBuildClientTypes.BuildPhase {
-
-    static func write(value: CodeBuildClientTypes.BuildPhase?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["contexts"].writeList(value.contexts, memberWritingClosure: CodeBuildClientTypes.PhaseContext.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["durationInSeconds"].write(value.durationInSeconds)
-        try writer["endTime"].writeTimestamp(value.endTime, format: .epochSeconds)
-        try writer["phaseStatus"].write(value.phaseStatus)
-        try writer["phaseType"].write(value.phaseType)
-        try writer["startTime"].writeTimestamp(value.startTime, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeBuildClientTypes.BuildPhase {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1708,15 +1585,6 @@ extension CodeBuildClientTypes {
 }
 
 extension CodeBuildClientTypes.BuildSummary {
-
-    static func write(value: CodeBuildClientTypes.BuildSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["buildStatus"].write(value.buildStatus)
-        try writer["primaryArtifact"].write(value.primaryArtifact, with: CodeBuildClientTypes.ResolvedArtifact.write(value:to:))
-        try writer["requestedOn"].writeTimestamp(value.requestedOn, format: .epochSeconds)
-        try writer["secondaryArtifacts"].writeList(value.secondaryArtifacts, memberWritingClosure: CodeBuildClientTypes.ResolvedArtifact.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeBuildClientTypes.BuildSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1880,20 +1748,6 @@ public enum CodeBuildClientTypes {}
 
 extension CodeBuildClientTypes.CodeCoverage {
 
-    static func write(value: CodeBuildClientTypes.CodeCoverage?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["branchCoveragePercentage"].write(value.branchCoveragePercentage)
-        try writer["branchesCovered"].write(value.branchesCovered)
-        try writer["branchesMissed"].write(value.branchesMissed)
-        try writer["expired"].writeTimestamp(value.expired, format: .epochSeconds)
-        try writer["filePath"].write(value.filePath)
-        try writer["id"].write(value.id)
-        try writer["lineCoveragePercentage"].write(value.lineCoveragePercentage)
-        try writer["linesCovered"].write(value.linesCovered)
-        try writer["linesMissed"].write(value.linesMissed)
-        try writer["reportARN"].write(value.reportARN)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodeBuildClientTypes.CodeCoverage {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeBuildClientTypes.CodeCoverage()
@@ -1964,16 +1818,6 @@ extension CodeBuildClientTypes {
 }
 
 extension CodeBuildClientTypes.CodeCoverageReportSummary {
-
-    static func write(value: CodeBuildClientTypes.CodeCoverageReportSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["branchCoveragePercentage"].write(value.branchCoveragePercentage)
-        try writer["branchesCovered"].write(value.branchesCovered)
-        try writer["branchesMissed"].write(value.branchesMissed)
-        try writer["lineCoveragePercentage"].write(value.lineCoveragePercentage)
-        try writer["linesCovered"].write(value.linesCovered)
-        try writer["linesMissed"].write(value.linesMissed)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeBuildClientTypes.CodeCoverageReportSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2607,12 +2451,6 @@ extension CodeBuildClientTypes {
 }
 
 extension CodeBuildClientTypes.DebugSession {
-
-    static func write(value: CodeBuildClientTypes.DebugSession?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["sessionEnabled"].write(value.sessionEnabled)
-        try writer["sessionTarget"].write(value.sessionTarget)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeBuildClientTypes.DebugSession {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3307,13 +3145,6 @@ enum DescribeTestCasesOutputError {
 
 extension CodeBuildClientTypes.EnvironmentImage {
 
-    static func write(value: CodeBuildClientTypes.EnvironmentImage?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["description"].write(value.description)
-        try writer["name"].write(value.name)
-        try writer["versions"].writeList(value.versions, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodeBuildClientTypes.EnvironmentImage {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeBuildClientTypes.EnvironmentImage()
@@ -3350,12 +3181,6 @@ extension CodeBuildClientTypes {
 
 extension CodeBuildClientTypes.EnvironmentLanguage {
 
-    static func write(value: CodeBuildClientTypes.EnvironmentLanguage?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["images"].writeList(value.images, memberWritingClosure: CodeBuildClientTypes.EnvironmentImage.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["language"].write(value.language)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodeBuildClientTypes.EnvironmentLanguage {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeBuildClientTypes.EnvironmentLanguage()
@@ -3386,12 +3211,6 @@ extension CodeBuildClientTypes {
 }
 
 extension CodeBuildClientTypes.EnvironmentPlatform {
-
-    static func write(value: CodeBuildClientTypes.EnvironmentPlatform?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["languages"].writeList(value.languages, memberWritingClosure: CodeBuildClientTypes.EnvironmentLanguage.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["platform"].write(value.platform)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeBuildClientTypes.EnvironmentPlatform {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3553,12 +3372,6 @@ extension CodeBuildClientTypes {
 
 extension CodeBuildClientTypes.ExportedEnvironmentVariable {
 
-    static func write(value: CodeBuildClientTypes.ExportedEnvironmentVariable?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-        try writer["value"].write(value.value)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodeBuildClientTypes.ExportedEnvironmentVariable {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeBuildClientTypes.ExportedEnvironmentVariable()
@@ -3616,22 +3429,6 @@ extension CodeBuildClientTypes {
 }
 
 extension CodeBuildClientTypes.Fleet {
-
-    static func write(value: CodeBuildClientTypes.Fleet?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["baseCapacity"].write(value.baseCapacity)
-        try writer["computeType"].write(value.computeType)
-        try writer["created"].writeTimestamp(value.created, format: .epochSeconds)
-        try writer["environmentType"].write(value.environmentType)
-        try writer["id"].write(value.id)
-        try writer["lastModified"].writeTimestamp(value.lastModified, format: .epochSeconds)
-        try writer["name"].write(value.name)
-        try writer["overflowBehavior"].write(value.overflowBehavior)
-        try writer["scalingConfiguration"].write(value.scalingConfiguration, with: CodeBuildClientTypes.ScalingConfigurationOutput.write(value:to:))
-        try writer["status"].write(value.status, with: CodeBuildClientTypes.FleetStatus.write(value:to:))
-        try writer["tags"].writeList(value.tags, memberWritingClosure: CodeBuildClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeBuildClientTypes.Fleet {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3908,13 +3705,6 @@ extension CodeBuildClientTypes {
 }
 
 extension CodeBuildClientTypes.FleetStatus {
-
-    static func write(value: CodeBuildClientTypes.FleetStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["context"].write(value.context)
-        try writer["message"].write(value.message)
-        try writer["statusCode"].write(value.statusCode)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeBuildClientTypes.FleetStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5667,18 +5457,6 @@ extension CodeBuildClientTypes {
 
 extension CodeBuildClientTypes.LogsLocation {
 
-    static func write(value: CodeBuildClientTypes.LogsLocation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["cloudWatchLogs"].write(value.cloudWatchLogs, with: CodeBuildClientTypes.CloudWatchLogsConfig.write(value:to:))
-        try writer["cloudWatchLogsArn"].write(value.cloudWatchLogsArn)
-        try writer["deepLink"].write(value.deepLink)
-        try writer["groupName"].write(value.groupName)
-        try writer["s3DeepLink"].write(value.s3DeepLink)
-        try writer["s3Logs"].write(value.s3Logs, with: CodeBuildClientTypes.S3LogsConfig.write(value:to:))
-        try writer["s3LogsArn"].write(value.s3LogsArn)
-        try writer["streamName"].write(value.streamName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodeBuildClientTypes.LogsLocation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeBuildClientTypes.LogsLocation()
@@ -5739,12 +5517,6 @@ extension CodeBuildClientTypes {
 }
 
 extension CodeBuildClientTypes.NetworkInterface {
-
-    static func write(value: CodeBuildClientTypes.NetworkInterface?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["networkInterfaceId"].write(value.networkInterfaceId)
-        try writer["subnetId"].write(value.subnetId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeBuildClientTypes.NetworkInterface {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5814,12 +5586,6 @@ public struct OAuthProviderException: ClientRuntime.ModeledError, AWSClientRunti
 
 extension CodeBuildClientTypes.PhaseContext {
 
-    static func write(value: CodeBuildClientTypes.PhaseContext?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.message)
-        try writer["statusCode"].write(value.statusCode)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodeBuildClientTypes.PhaseContext {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeBuildClientTypes.PhaseContext()
@@ -5886,38 +5652,6 @@ extension CodeBuildClientTypes {
 }
 
 extension CodeBuildClientTypes.Project {
-
-    static func write(value: CodeBuildClientTypes.Project?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["artifacts"].write(value.artifacts, with: CodeBuildClientTypes.ProjectArtifacts.write(value:to:))
-        try writer["badge"].write(value.badge, with: CodeBuildClientTypes.ProjectBadge.write(value:to:))
-        try writer["buildBatchConfig"].write(value.buildBatchConfig, with: CodeBuildClientTypes.ProjectBuildBatchConfig.write(value:to:))
-        try writer["cache"].write(value.cache, with: CodeBuildClientTypes.ProjectCache.write(value:to:))
-        try writer["concurrentBuildLimit"].write(value.concurrentBuildLimit)
-        try writer["created"].writeTimestamp(value.created, format: .epochSeconds)
-        try writer["description"].write(value.description)
-        try writer["encryptionKey"].write(value.encryptionKey)
-        try writer["environment"].write(value.environment, with: CodeBuildClientTypes.ProjectEnvironment.write(value:to:))
-        try writer["fileSystemLocations"].writeList(value.fileSystemLocations, memberWritingClosure: CodeBuildClientTypes.ProjectFileSystemLocation.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["lastModified"].writeTimestamp(value.lastModified, format: .epochSeconds)
-        try writer["logsConfig"].write(value.logsConfig, with: CodeBuildClientTypes.LogsConfig.write(value:to:))
-        try writer["name"].write(value.name)
-        try writer["projectVisibility"].write(value.projectVisibility)
-        try writer["publicProjectAlias"].write(value.publicProjectAlias)
-        try writer["queuedTimeoutInMinutes"].write(value.queuedTimeoutInMinutes)
-        try writer["resourceAccessRole"].write(value.resourceAccessRole)
-        try writer["secondaryArtifacts"].writeList(value.secondaryArtifacts, memberWritingClosure: CodeBuildClientTypes.ProjectArtifacts.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["secondarySourceVersions"].writeList(value.secondarySourceVersions, memberWritingClosure: CodeBuildClientTypes.ProjectSourceVersion.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["secondarySources"].writeList(value.secondarySources, memberWritingClosure: CodeBuildClientTypes.ProjectSource.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["serviceRole"].write(value.serviceRole)
-        try writer["source"].write(value.source, with: CodeBuildClientTypes.ProjectSource.write(value:to:))
-        try writer["sourceVersion"].write(value.sourceVersion)
-        try writer["tags"].writeList(value.tags, memberWritingClosure: CodeBuildClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["timeoutInMinutes"].write(value.timeoutInMinutes)
-        try writer["vpcConfig"].write(value.vpcConfig, with: CodeBuildClientTypes.VpcConfig.write(value:to:))
-        try writer["webhook"].write(value.webhook, with: CodeBuildClientTypes.Webhook.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeBuildClientTypes.Project {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6245,12 +5979,6 @@ extension CodeBuildClientTypes {
 }
 
 extension CodeBuildClientTypes.ProjectBadge {
-
-    static func write(value: CodeBuildClientTypes.ProjectBadge?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["badgeEnabled"].write(value.badgeEnabled)
-        try writer["badgeRequestUrl"].write(value.badgeRequestUrl)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeBuildClientTypes.ProjectBadge {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7009,22 +6737,6 @@ extension CodeBuildClientTypes {
 
 extension CodeBuildClientTypes.Report {
 
-    static func write(value: CodeBuildClientTypes.Report?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["codeCoverageSummary"].write(value.codeCoverageSummary, with: CodeBuildClientTypes.CodeCoverageReportSummary.write(value:to:))
-        try writer["created"].writeTimestamp(value.created, format: .epochSeconds)
-        try writer["executionId"].write(value.executionId)
-        try writer["expired"].writeTimestamp(value.expired, format: .epochSeconds)
-        try writer["exportConfig"].write(value.exportConfig, with: CodeBuildClientTypes.ReportExportConfig.write(value:to:))
-        try writer["name"].write(value.name)
-        try writer["reportGroupArn"].write(value.reportGroupArn)
-        try writer["status"].write(value.status)
-        try writer["testSummary"].write(value.testSummary, with: CodeBuildClientTypes.TestReportSummary.write(value:to:))
-        try writer["truncated"].write(value.truncated)
-        try writer["type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodeBuildClientTypes.Report {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeBuildClientTypes.Report()
@@ -7211,13 +6923,6 @@ extension CodeBuildClientTypes.ReportFilter {
         guard let value else { return }
         try writer["status"].write(value.status)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeBuildClientTypes.ReportFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeBuildClientTypes.ReportFilter()
-        value.status = try reader["status"].readIfPresent()
-        return value
-    }
 }
 
 extension CodeBuildClientTypes {
@@ -7237,18 +6942,6 @@ extension CodeBuildClientTypes {
 }
 
 extension CodeBuildClientTypes.ReportGroup {
-
-    static func write(value: CodeBuildClientTypes.ReportGroup?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["created"].writeTimestamp(value.created, format: .epochSeconds)
-        try writer["exportConfig"].write(value.exportConfig, with: CodeBuildClientTypes.ReportExportConfig.write(value:to:))
-        try writer["lastModified"].writeTimestamp(value.lastModified, format: .epochSeconds)
-        try writer["name"].write(value.name)
-        try writer["status"].write(value.status)
-        try writer["tags"].writeList(value.tags, memberWritingClosure: CodeBuildClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeBuildClientTypes.ReportGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7425,13 +7118,6 @@ extension CodeBuildClientTypes {
 
 extension CodeBuildClientTypes.ReportGroupTrendStats {
 
-    static func write(value: CodeBuildClientTypes.ReportGroupTrendStats?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["average"].write(value.average)
-        try writer["max"].write(value.max)
-        try writer["min"].write(value.min)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodeBuildClientTypes.ReportGroupTrendStats {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeBuildClientTypes.ReportGroupTrendStats()
@@ -7567,12 +7253,6 @@ extension CodeBuildClientTypes {
 
 extension CodeBuildClientTypes.ReportWithRawData {
 
-    static func write(value: CodeBuildClientTypes.ReportWithRawData?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["data"].write(value.data)
-        try writer["reportArn"].write(value.reportArn)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodeBuildClientTypes.ReportWithRawData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeBuildClientTypes.ReportWithRawData()
@@ -7603,13 +7283,6 @@ extension CodeBuildClientTypes {
 }
 
 extension CodeBuildClientTypes.ResolvedArtifact {
-
-    static func write(value: CodeBuildClientTypes.ResolvedArtifact?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["identifier"].write(value.identifier)
-        try writer["location"].write(value.location)
-        try writer["type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeBuildClientTypes.ResolvedArtifact {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8031,15 +7704,6 @@ extension CodeBuildClientTypes.ScalingConfigurationInput {
         try writer["scalingType"].write(value.scalingType)
         try writer["targetTrackingScalingConfigs"].writeList(value.targetTrackingScalingConfigs, memberWritingClosure: CodeBuildClientTypes.TargetTrackingScalingConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeBuildClientTypes.ScalingConfigurationInput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeBuildClientTypes.ScalingConfigurationInput()
-        value.scalingType = try reader["scalingType"].readIfPresent()
-        value.targetTrackingScalingConfigs = try reader["targetTrackingScalingConfigs"].readListIfPresent(memberReadingClosure: CodeBuildClientTypes.TargetTrackingScalingConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.maxCapacity = try reader["maxCapacity"].readIfPresent()
-        return value
-    }
 }
 
 extension CodeBuildClientTypes {
@@ -8067,14 +7731,6 @@ extension CodeBuildClientTypes {
 }
 
 extension CodeBuildClientTypes.ScalingConfigurationOutput {
-
-    static func write(value: CodeBuildClientTypes.ScalingConfigurationOutput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["desiredCapacity"].write(value.desiredCapacity)
-        try writer["maxCapacity"].write(value.maxCapacity)
-        try writer["scalingType"].write(value.scalingType)
-        try writer["targetTrackingScalingConfigs"].writeList(value.targetTrackingScalingConfigs, memberWritingClosure: CodeBuildClientTypes.TargetTrackingScalingConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeBuildClientTypes.ScalingConfigurationOutput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8283,14 +7939,6 @@ extension CodeBuildClientTypes {
 }
 
 extension CodeBuildClientTypes.SourceCredentialsInfo {
-
-    static func write(value: CodeBuildClientTypes.SourceCredentialsInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["authType"].write(value.authType)
-        try writer["resource"].write(value.resource)
-        try writer["serverType"].write(value.serverType)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeBuildClientTypes.SourceCredentialsInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -9074,18 +8722,6 @@ extension CodeBuildClientTypes {
 
 extension CodeBuildClientTypes.TestCase {
 
-    static func write(value: CodeBuildClientTypes.TestCase?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["durationInNanoSeconds"].write(value.durationInNanoSeconds)
-        try writer["expired"].writeTimestamp(value.expired, format: .epochSeconds)
-        try writer["message"].write(value.message)
-        try writer["name"].write(value.name)
-        try writer["prefix"].write(value.`prefix`)
-        try writer["reportArn"].write(value.reportArn)
-        try writer["status"].write(value.status)
-        try writer["testRawDataPath"].write(value.testRawDataPath)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodeBuildClientTypes.TestCase {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeBuildClientTypes.TestCase()
@@ -9152,14 +8788,6 @@ extension CodeBuildClientTypes.TestCaseFilter {
         try writer["keyword"].write(value.keyword)
         try writer["status"].write(value.status)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeBuildClientTypes.TestCaseFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeBuildClientTypes.TestCaseFilter()
-        value.status = try reader["status"].readIfPresent()
-        value.keyword = try reader["keyword"].readIfPresent()
-        return value
-    }
 }
 
 extension CodeBuildClientTypes {
@@ -9193,13 +8821,6 @@ extension CodeBuildClientTypes {
 }
 
 extension CodeBuildClientTypes.TestReportSummary {
-
-    static func write(value: CodeBuildClientTypes.TestReportSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["durationInNanoSeconds"].write(value.durationInNanoSeconds)
-        try writer["statusCounts"].writeMap(value.statusCounts, valueWritingClosure: Swift.Int.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["total"].write(value.total)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeBuildClientTypes.TestReportSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -9863,17 +9484,6 @@ extension CodeBuildClientTypes {
 }
 
 extension CodeBuildClientTypes.Webhook {
-
-    static func write(value: CodeBuildClientTypes.Webhook?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["branchFilter"].write(value.branchFilter)
-        try writer["buildType"].write(value.buildType)
-        try writer["filterGroups"].writeList(value.filterGroups, memberWritingClosure: listWritingClosure(memberWritingClosure: CodeBuildClientTypes.WebhookFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
-        try writer["lastModifiedSecret"].writeTimestamp(value.lastModifiedSecret, format: .epochSeconds)
-        try writer["payloadUrl"].write(value.payloadUrl)
-        try writer["secret"].write(value.secret)
-        try writer["url"].write(value.url)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeBuildClientTypes.Webhook {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

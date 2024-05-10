@@ -138,11 +138,6 @@ extension MediaTailorClientTypes {
 
 extension MediaTailorClientTypes.AdBreakOpportunity {
 
-    static func write(value: MediaTailorClientTypes.AdBreakOpportunity?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["OffsetMillis"].write(value.offsetMillis)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.AdBreakOpportunity {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaTailorClientTypes.AdBreakOpportunity()
@@ -230,16 +225,6 @@ extension MediaTailorClientTypes {
 }
 
 extension MediaTailorClientTypes.Alert {
-
-    static func write(value: MediaTailorClientTypes.Alert?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AlertCode"].write(value.alertCode)
-        try writer["AlertMessage"].write(value.alertMessage)
-        try writer["Category"].write(value.category)
-        try writer["LastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .epochSeconds)
-        try writer["RelatedResourceArns"].writeList(value.relatedResourceArns, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ResourceArn"].write(value.resourceArn)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.Alert {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -626,22 +611,6 @@ extension MediaTailorClientTypes {
 }
 
 extension MediaTailorClientTypes.Channel {
-
-    static func write(value: MediaTailorClientTypes.Channel?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["Audiences"].writeList(value.audiences, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ChannelName"].write(value.channelName)
-        try writer["ChannelState"].write(value.channelState)
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["FillerSlate"].write(value.fillerSlate, with: MediaTailorClientTypes.SlateSource.write(value:to:))
-        try writer["LastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .epochSeconds)
-        try writer["LogConfiguration"].write(value.logConfiguration, with: MediaTailorClientTypes.LogConfigurationForChannel.write(value:to:))
-        try writer["Outputs"].writeList(value.outputs, memberWritingClosure: MediaTailorClientTypes.ResponseOutputItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["PlaybackMode"].write(value.playbackMode)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["Tier"].write(value.tier)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.Channel {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1755,13 +1724,6 @@ enum CreateVodSourceOutputError {
 
 extension MediaTailorClientTypes.DashConfiguration {
 
-    static func write(value: MediaTailorClientTypes.DashConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ManifestEndpointPrefix"].write(value.manifestEndpointPrefix)
-        try writer["MpdLocation"].write(value.mpdLocation)
-        try writer["OriginManifestType"].write(value.originManifestType)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.DashConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaTailorClientTypes.DashConfiguration()
@@ -1802,14 +1764,6 @@ extension MediaTailorClientTypes.DashConfigurationForPut {
         guard let value else { return }
         try writer["MpdLocation"].write(value.mpdLocation)
         try writer["OriginManifestType"].write(value.originManifestType)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.DashConfigurationForPut {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaTailorClientTypes.DashConfigurationForPut()
-        value.mpdLocation = try reader["MpdLocation"].readIfPresent()
-        value.originManifestType = try reader["OriginManifestType"].readIfPresent()
-        return value
     }
 }
 
@@ -3319,11 +3273,6 @@ enum GetPrefetchScheduleOutputError {
 
 extension MediaTailorClientTypes.HlsConfiguration {
 
-    static func write(value: MediaTailorClientTypes.HlsConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ManifestEndpointPrefix"].write(value.manifestEndpointPrefix)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.HlsConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaTailorClientTypes.HlsConfiguration()
@@ -4233,17 +4182,6 @@ extension MediaTailorClientTypes {
 
 extension MediaTailorClientTypes.LiveSource {
 
-    static func write(value: MediaTailorClientTypes.LiveSource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["HttpPackageConfigurations"].writeList(value.httpPackageConfigurations, memberWritingClosure: MediaTailorClientTypes.HttpPackageConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["LastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .epochSeconds)
-        try writer["LiveSourceName"].write(value.liveSourceName)
-        try writer["SourceLocationName"].write(value.sourceLocationName)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.LiveSource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaTailorClientTypes.LiveSource()
@@ -4304,11 +4242,6 @@ extension MediaTailorClientTypes {
 
 extension MediaTailorClientTypes.LogConfiguration {
 
-    static func write(value: MediaTailorClientTypes.LogConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["PercentEnabled"].write(value.percentEnabled)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.LogConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaTailorClientTypes.LogConfiguration()
@@ -4335,11 +4268,6 @@ extension MediaTailorClientTypes {
 }
 
 extension MediaTailorClientTypes.LogConfigurationForChannel {
-
-    static func write(value: MediaTailorClientTypes.LogConfigurationForChannel?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["LogTypes"].writeList(value.logTypes, memberWritingClosure: MediaTailorClientTypes.LogType.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.LogConfigurationForChannel {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4546,30 +4474,6 @@ extension MediaTailorClientTypes {
 }
 
 extension MediaTailorClientTypes.PlaybackConfiguration {
-
-    static func write(value: MediaTailorClientTypes.PlaybackConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AdDecisionServerUrl"].write(value.adDecisionServerUrl)
-        try writer["AvailSuppression"].write(value.availSuppression, with: MediaTailorClientTypes.AvailSuppression.write(value:to:))
-        try writer["Bumper"].write(value.bumper, with: MediaTailorClientTypes.Bumper.write(value:to:))
-        try writer["CdnConfiguration"].write(value.cdnConfiguration, with: MediaTailorClientTypes.CdnConfiguration.write(value:to:))
-        try writer["ConfigurationAliases"].writeMap(value.configurationAliases, valueWritingClosure: mapWritingClosure(valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["DashConfiguration"].write(value.dashConfiguration, with: MediaTailorClientTypes.DashConfiguration.write(value:to:))
-        try writer["HlsConfiguration"].write(value.hlsConfiguration, with: MediaTailorClientTypes.HlsConfiguration.write(value:to:))
-        try writer["InsertionMode"].write(value.insertionMode)
-        try writer["LivePreRollConfiguration"].write(value.livePreRollConfiguration, with: MediaTailorClientTypes.LivePreRollConfiguration.write(value:to:))
-        try writer["LogConfiguration"].write(value.logConfiguration, with: MediaTailorClientTypes.LogConfiguration.write(value:to:))
-        try writer["ManifestProcessingRules"].write(value.manifestProcessingRules, with: MediaTailorClientTypes.ManifestProcessingRules.write(value:to:))
-        try writer["Name"].write(value.name)
-        try writer["PersonalizationThresholdSeconds"].write(value.personalizationThresholdSeconds)
-        try writer["PlaybackConfigurationArn"].write(value.playbackConfigurationArn)
-        try writer["PlaybackEndpointPrefix"].write(value.playbackEndpointPrefix)
-        try writer["SessionInitializationEndpointPrefix"].write(value.sessionInitializationEndpointPrefix)
-        try writer["SlateAdUrl"].write(value.slateAdUrl)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["TranscodeProfileName"].write(value.transcodeProfileName)
-        try writer["VideoContentSourceUrl"].write(value.videoContentSourceUrl)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.PlaybackConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4809,16 +4713,6 @@ extension MediaTailorClientTypes {
 }
 
 extension MediaTailorClientTypes.PrefetchSchedule {
-
-    static func write(value: MediaTailorClientTypes.PrefetchSchedule?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["Consumption"].write(value.consumption, with: MediaTailorClientTypes.PrefetchConsumption.write(value:to:))
-        try writer["Name"].write(value.name)
-        try writer["PlaybackConfigurationName"].write(value.playbackConfigurationName)
-        try writer["Retrieval"].write(value.retrieval, with: MediaTailorClientTypes.PrefetchRetrieval.write(value:to:))
-        try writer["StreamId"].write(value.streamId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.PrefetchSchedule {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5204,16 +5098,6 @@ extension MediaTailorClientTypes.RequestOutputItem {
         try writer["ManifestName"].write(value.manifestName)
         try writer["SourceGroup"].write(value.sourceGroup)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.RequestOutputItem {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaTailorClientTypes.RequestOutputItem()
-        value.dashPlaylistSettings = try reader["DashPlaylistSettings"].readIfPresent(with: MediaTailorClientTypes.DashPlaylistSettings.read(from:))
-        value.hlsPlaylistSettings = try reader["HlsPlaylistSettings"].readIfPresent(with: MediaTailorClientTypes.HlsPlaylistSettings.read(from:))
-        value.manifestName = try reader["ManifestName"].readIfPresent()
-        value.sourceGroup = try reader["SourceGroup"].readIfPresent()
-        return value
-    }
 }
 
 extension MediaTailorClientTypes {
@@ -5247,15 +5131,6 @@ extension MediaTailorClientTypes {
 }
 
 extension MediaTailorClientTypes.ResponseOutputItem {
-
-    static func write(value: MediaTailorClientTypes.ResponseOutputItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DashPlaylistSettings"].write(value.dashPlaylistSettings, with: MediaTailorClientTypes.DashPlaylistSettings.write(value:to:))
-        try writer["HlsPlaylistSettings"].write(value.hlsPlaylistSettings, with: MediaTailorClientTypes.HlsPlaylistSettings.write(value:to:))
-        try writer["ManifestName"].write(value.manifestName)
-        try writer["PlaybackUrl"].write(value.playbackUrl)
-        try writer["SourceGroup"].write(value.sourceGroup)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.ResponseOutputItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5306,14 +5181,6 @@ extension MediaTailorClientTypes {
 
 extension MediaTailorClientTypes.ScheduleAdBreak {
 
-    static func write(value: MediaTailorClientTypes.ScheduleAdBreak?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ApproximateDurationSeconds"].write(value.approximateDurationSeconds)
-        try writer["ApproximateStartTime"].writeTimestamp(value.approximateStartTime, format: .epochSeconds)
-        try writer["SourceLocationName"].write(value.sourceLocationName)
-        try writer["VodSourceName"].write(value.vodSourceName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.ScheduleAdBreak {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaTailorClientTypes.ScheduleAdBreak()
@@ -5360,14 +5227,6 @@ extension MediaTailorClientTypes.ScheduleConfiguration {
         try writer["ClipRange"].write(value.clipRange, with: MediaTailorClientTypes.ClipRange.write(value:to:))
         try writer["Transition"].write(value.transition, with: MediaTailorClientTypes.Transition.write(value:to:))
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.ScheduleConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaTailorClientTypes.ScheduleConfiguration()
-        value.transition = try reader["Transition"].readIfPresent(with: MediaTailorClientTypes.Transition.read(from:))
-        value.clipRange = try reader["ClipRange"].readIfPresent(with: MediaTailorClientTypes.ClipRange.read(from:))
-        return value
-    }
 }
 
 extension MediaTailorClientTypes {
@@ -5392,21 +5251,6 @@ extension MediaTailorClientTypes {
 }
 
 extension MediaTailorClientTypes.ScheduleEntry {
-
-    static func write(value: MediaTailorClientTypes.ScheduleEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ApproximateDurationSeconds"].write(value.approximateDurationSeconds)
-        try writer["ApproximateStartTime"].writeTimestamp(value.approximateStartTime, format: .epochSeconds)
-        try writer["Arn"].write(value.arn)
-        try writer["Audiences"].writeList(value.audiences, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ChannelName"].write(value.channelName)
-        try writer["LiveSourceName"].write(value.liveSourceName)
-        try writer["ProgramName"].write(value.programName)
-        try writer["ScheduleAdBreaks"].writeList(value.scheduleAdBreaks, memberWritingClosure: MediaTailorClientTypes.ScheduleAdBreak.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ScheduleEntryType"].write(value.scheduleEntryType)
-        try writer["SourceLocationName"].write(value.sourceLocationName)
-        try writer["VodSourceName"].write(value.vodSourceName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.ScheduleEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5710,19 +5554,6 @@ extension MediaTailorClientTypes {
 }
 
 extension MediaTailorClientTypes.SourceLocation {
-
-    static func write(value: MediaTailorClientTypes.SourceLocation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccessConfiguration"].write(value.accessConfiguration, with: MediaTailorClientTypes.AccessConfiguration.write(value:to:))
-        try writer["Arn"].write(value.arn)
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["DefaultSegmentDeliveryConfiguration"].write(value.defaultSegmentDeliveryConfiguration, with: MediaTailorClientTypes.DefaultSegmentDeliveryConfiguration.write(value:to:))
-        try writer["HttpConfiguration"].write(value.httpConfiguration, with: MediaTailorClientTypes.HttpConfiguration.write(value:to:))
-        try writer["LastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .epochSeconds)
-        try writer["SegmentDeliveryConfigurations"].writeList(value.segmentDeliveryConfigurations, memberWritingClosure: MediaTailorClientTypes.SegmentDeliveryConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["SourceLocationName"].write(value.sourceLocationName)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.SourceLocation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6100,17 +5931,6 @@ extension MediaTailorClientTypes.Transition {
         try writer["RelativeProgram"].write(value.relativeProgram)
         try writer["ScheduledStartTimeMillis"].write(value.scheduledStartTimeMillis)
         try writer["Type"].write(value.type)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.Transition {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaTailorClientTypes.Transition()
-        value.durationMillis = try reader["DurationMillis"].readIfPresent()
-        value.relativePosition = try reader["RelativePosition"].readIfPresent()
-        value.relativeProgram = try reader["RelativeProgram"].readIfPresent()
-        value.scheduledStartTimeMillis = try reader["ScheduledStartTimeMillis"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
-        return value
     }
 }
 
@@ -6655,14 +6475,6 @@ extension MediaTailorClientTypes.UpdateProgramScheduleConfiguration {
         try writer["ClipRange"].write(value.clipRange, with: MediaTailorClientTypes.ClipRange.write(value:to:))
         try writer["Transition"].write(value.transition, with: MediaTailorClientTypes.UpdateProgramTransition.write(value:to:))
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.UpdateProgramScheduleConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaTailorClientTypes.UpdateProgramScheduleConfiguration()
-        value.transition = try reader["Transition"].readIfPresent(with: MediaTailorClientTypes.UpdateProgramTransition.read(from:))
-        value.clipRange = try reader["ClipRange"].readIfPresent(with: MediaTailorClientTypes.ClipRange.read(from:))
-        return value
-    }
 }
 
 extension MediaTailorClientTypes {
@@ -6691,14 +6503,6 @@ extension MediaTailorClientTypes.UpdateProgramTransition {
         guard let value else { return }
         try writer["DurationMillis"].write(value.durationMillis)
         try writer["ScheduledStartTimeMillis"].write(value.scheduledStartTimeMillis)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.UpdateProgramTransition {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaTailorClientTypes.UpdateProgramTransition()
-        value.scheduledStartTimeMillis = try reader["ScheduledStartTimeMillis"].readIfPresent()
-        value.durationMillis = try reader["DurationMillis"].readIfPresent()
-        return value
     }
 }
 
@@ -6962,17 +6766,6 @@ enum UpdateVodSourceOutputError {
 }
 
 extension MediaTailorClientTypes.VodSource {
-
-    static func write(value: MediaTailorClientTypes.VodSource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["HttpPackageConfigurations"].writeList(value.httpPackageConfigurations, memberWritingClosure: MediaTailorClientTypes.HttpPackageConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["LastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .epochSeconds)
-        try writer["SourceLocationName"].write(value.sourceLocationName)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["VodSourceName"].write(value.vodSourceName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.VodSource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

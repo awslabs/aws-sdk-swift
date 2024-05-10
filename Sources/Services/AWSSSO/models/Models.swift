@@ -6,13 +6,6 @@ import SmithyReadWrite
 
 extension SSOClientTypes.AccountInfo {
 
-    static func write(value: SSOClientTypes.AccountInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["accountId"].write(value.accountId)
-        try writer["accountName"].write(value.accountName)
-        try writer["emailAddress"].write(value.emailAddress)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SSOClientTypes.AccountInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SSOClientTypes.AccountInfo()
@@ -522,14 +515,6 @@ extension SSOClientTypes.RoleCredentials: Swift.CustomDebugStringConvertible {
 
 extension SSOClientTypes.RoleCredentials {
 
-    static func write(value: SSOClientTypes.RoleCredentials?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["accessKeyId"].write(value.accessKeyId)
-        try writer["expiration"].write(value.expiration)
-        try writer["secretAccessKey"].write(value.secretAccessKey)
-        try writer["sessionToken"].write(value.sessionToken)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SSOClientTypes.RoleCredentials {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SSOClientTypes.RoleCredentials()
@@ -570,12 +555,6 @@ extension SSOClientTypes {
 }
 
 extension SSOClientTypes.RoleInfo {
-
-    static func write(value: SSOClientTypes.RoleInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["accountId"].write(value.accountId)
-        try writer["roleName"].write(value.roleName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SSOClientTypes.RoleInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

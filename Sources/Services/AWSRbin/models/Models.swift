@@ -1007,15 +1007,6 @@ extension RbinClientTypes {
 
 extension RbinClientTypes.RuleSummary {
 
-    static func write(value: RbinClientTypes.RuleSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Description"].write(value.description)
-        try writer["Identifier"].write(value.identifier)
-        try writer["LockState"].write(value.lockState)
-        try writer["RetentionPeriod"].write(value.retentionPeriod, with: RbinClientTypes.RetentionPeriod.write(value:to:))
-        try writer["RuleArn"].write(value.ruleArn)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> RbinClientTypes.RuleSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RbinClientTypes.RuleSummary()

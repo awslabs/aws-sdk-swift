@@ -111,36 +111,6 @@ enum AddTagsToCertificateOutputError {
 
 extension ACMClientTypes.CertificateDetail {
 
-    static func write(value: ACMClientTypes.CertificateDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CertificateArn"].write(value.certificateArn)
-        try writer["CertificateAuthorityArn"].write(value.certificateAuthorityArn)
-        try writer["CreatedAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["DomainName"].write(value.domainName)
-        try writer["DomainValidationOptions"].writeList(value.domainValidationOptions, memberWritingClosure: ACMClientTypes.DomainValidation.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ExtendedKeyUsages"].writeList(value.extendedKeyUsages, memberWritingClosure: ACMClientTypes.ExtendedKeyUsage.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["FailureReason"].write(value.failureReason)
-        try writer["ImportedAt"].writeTimestamp(value.importedAt, format: .epochSeconds)
-        try writer["InUseBy"].writeList(value.inUseBy, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["IssuedAt"].writeTimestamp(value.issuedAt, format: .epochSeconds)
-        try writer["Issuer"].write(value.issuer)
-        try writer["KeyAlgorithm"].write(value.keyAlgorithm)
-        try writer["KeyUsages"].writeList(value.keyUsages, memberWritingClosure: ACMClientTypes.KeyUsage.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["NotAfter"].writeTimestamp(value.notAfter, format: .epochSeconds)
-        try writer["NotBefore"].writeTimestamp(value.notBefore, format: .epochSeconds)
-        try writer["Options"].write(value.options, with: ACMClientTypes.CertificateOptions.write(value:to:))
-        try writer["RenewalEligibility"].write(value.renewalEligibility)
-        try writer["RenewalSummary"].write(value.renewalSummary, with: ACMClientTypes.RenewalSummary.write(value:to:))
-        try writer["RevocationReason"].write(value.revocationReason)
-        try writer["RevokedAt"].writeTimestamp(value.revokedAt, format: .epochSeconds)
-        try writer["Serial"].write(value.serial)
-        try writer["SignatureAlgorithm"].write(value.signatureAlgorithm)
-        try writer["Status"].write(value.status)
-        try writer["Subject"].write(value.subject)
-        try writer["SubjectAlternativeNames"].writeList(value.subjectAlternativeNames, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ACMClientTypes.CertificateDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ACMClientTypes.CertificateDetail()
@@ -367,28 +337,6 @@ extension ACMClientTypes {
 }
 
 extension ACMClientTypes.CertificateSummary {
-
-    static func write(value: ACMClientTypes.CertificateSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CertificateArn"].write(value.certificateArn)
-        try writer["CreatedAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["DomainName"].write(value.domainName)
-        try writer["Exported"].write(value.exported)
-        try writer["ExtendedKeyUsages"].writeList(value.extendedKeyUsages, memberWritingClosure: ACMClientTypes.ExtendedKeyUsageName.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["HasAdditionalSubjectAlternativeNames"].write(value.hasAdditionalSubjectAlternativeNames)
-        try writer["ImportedAt"].writeTimestamp(value.importedAt, format: .epochSeconds)
-        try writer["InUse"].write(value.inUse)
-        try writer["IssuedAt"].writeTimestamp(value.issuedAt, format: .epochSeconds)
-        try writer["KeyAlgorithm"].write(value.keyAlgorithm)
-        try writer["KeyUsages"].writeList(value.keyUsages, memberWritingClosure: ACMClientTypes.KeyUsageName.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["NotAfter"].writeTimestamp(value.notAfter, format: .epochSeconds)
-        try writer["NotBefore"].writeTimestamp(value.notBefore, format: .epochSeconds)
-        try writer["RenewalEligibility"].write(value.renewalEligibility)
-        try writer["RevokedAt"].writeTimestamp(value.revokedAt, format: .epochSeconds)
-        try writer["Status"].write(value.status)
-        try writer["SubjectAlternativeNameSummaries"].writeList(value.subjectAlternativeNameSummaries, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ACMClientTypes.CertificateSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -760,16 +708,6 @@ extension ACMClientTypes {
 
 extension ACMClientTypes.DomainValidation {
 
-    static func write(value: ACMClientTypes.DomainValidation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DomainName"].write(value.domainName)
-        try writer["ResourceRecord"].write(value.resourceRecord, with: ACMClientTypes.ResourceRecord.write(value:to:))
-        try writer["ValidationDomain"].write(value.validationDomain)
-        try writer["ValidationEmails"].writeList(value.validationEmails, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ValidationMethod"].write(value.validationMethod)
-        try writer["ValidationStatus"].write(value.validationStatus)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ACMClientTypes.DomainValidation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ACMClientTypes.DomainValidation()
@@ -832,14 +770,6 @@ extension ACMClientTypes.DomainValidationOption {
         guard let value else { return }
         try writer["DomainName"].write(value.domainName)
         try writer["ValidationDomain"].write(value.validationDomain)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ACMClientTypes.DomainValidationOption {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ACMClientTypes.DomainValidationOption()
-        value.domainName = try reader["DomainName"].readIfPresent()
-        value.validationDomain = try reader["ValidationDomain"].readIfPresent()
-        return value
     }
 }
 
@@ -1001,12 +931,6 @@ enum ExportCertificateOutputError {
 }
 
 extension ACMClientTypes.ExtendedKeyUsage {
-
-    static func write(value: ACMClientTypes.ExtendedKeyUsage?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["OID"].write(value.oid)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ACMClientTypes.ExtendedKeyUsage {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1197,15 +1121,6 @@ extension ACMClientTypes.Filters {
         try writer["extendedKeyUsage"].writeList(value.extendedKeyUsage, memberWritingClosure: ACMClientTypes.ExtendedKeyUsageName.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["keyTypes"].writeList(value.keyTypes, memberWritingClosure: ACMClientTypes.KeyAlgorithm.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["keyUsage"].writeList(value.keyUsage, memberWritingClosure: ACMClientTypes.KeyUsageName.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ACMClientTypes.Filters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ACMClientTypes.Filters()
-        value.extendedKeyUsage = try reader["extendedKeyUsage"].readListIfPresent(memberReadingClosure: ACMClientTypes.ExtendedKeyUsageName.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.keyUsage = try reader["keyUsage"].readListIfPresent(memberReadingClosure: ACMClientTypes.KeyUsageName.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.keyTypes = try reader["keyTypes"].readListIfPresent(memberReadingClosure: ACMClientTypes.KeyAlgorithm.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -1731,11 +1646,6 @@ extension ACMClientTypes {
 }
 
 extension ACMClientTypes.KeyUsage {
-
-    static func write(value: ACMClientTypes.KeyUsage?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ACMClientTypes.KeyUsage {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2295,14 +2205,6 @@ extension ACMClientTypes {
 
 extension ACMClientTypes.RenewalSummary {
 
-    static func write(value: ACMClientTypes.RenewalSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DomainValidationOptions"].writeList(value.domainValidationOptions, memberWritingClosure: ACMClientTypes.DomainValidation.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["RenewalStatus"].write(value.renewalStatus)
-        try writer["RenewalStatusReason"].write(value.renewalStatusReason)
-        try writer["UpdatedAt"].writeTimestamp(value.updatedAt, format: .epochSeconds)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ACMClientTypes.RenewalSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ACMClientTypes.RenewalSummary()
@@ -2654,13 +2556,6 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 extension ACMClientTypes.ResourceRecord {
-
-    static func write(value: ACMClientTypes.ResourceRecord?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["Type"].write(value.type)
-        try writer["Value"].write(value.value)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ACMClientTypes.ResourceRecord {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

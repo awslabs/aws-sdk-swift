@@ -143,22 +143,6 @@ extension AppRunnerClientTypes {
 
 extension AppRunnerClientTypes.AutoScalingConfiguration {
 
-    static func write(value: AppRunnerClientTypes.AutoScalingConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AutoScalingConfigurationArn"].write(value.autoScalingConfigurationArn)
-        try writer["AutoScalingConfigurationName"].write(value.autoScalingConfigurationName)
-        try writer["AutoScalingConfigurationRevision"].write(value.autoScalingConfigurationRevision)
-        try writer["CreatedAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["DeletedAt"].writeTimestamp(value.deletedAt, format: .epochSeconds)
-        try writer["HasAssociatedService"].write(value.hasAssociatedService)
-        try writer["IsDefault"].write(value.isDefault)
-        try writer["Latest"].write(value.latest)
-        try writer["MaxConcurrency"].write(value.maxConcurrency)
-        try writer["MaxSize"].write(value.maxSize)
-        try writer["MinSize"].write(value.minSize)
-        try writer["Status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AppRunnerClientTypes.AutoScalingConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppRunnerClientTypes.AutoScalingConfiguration()
@@ -270,17 +254,6 @@ extension AppRunnerClientTypes {
 
 extension AppRunnerClientTypes.AutoScalingConfigurationSummary {
 
-    static func write(value: AppRunnerClientTypes.AutoScalingConfigurationSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AutoScalingConfigurationArn"].write(value.autoScalingConfigurationArn)
-        try writer["AutoScalingConfigurationName"].write(value.autoScalingConfigurationName)
-        try writer["AutoScalingConfigurationRevision"].write(value.autoScalingConfigurationRevision)
-        try writer["CreatedAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["HasAssociatedService"].write(value.hasAssociatedService)
-        try writer["IsDefault"].write(value.isDefault)
-        try writer["Status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AppRunnerClientTypes.AutoScalingConfigurationSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppRunnerClientTypes.AutoScalingConfigurationSummary()
@@ -336,14 +309,6 @@ extension AppRunnerClientTypes {
 }
 
 extension AppRunnerClientTypes.CertificateValidationRecord {
-
-    static func write(value: AppRunnerClientTypes.CertificateValidationRecord?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["Status"].write(value.status)
-        try writer["Type"].write(value.type)
-        try writer["Value"].write(value.value)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppRunnerClientTypes.CertificateValidationRecord {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -613,15 +578,6 @@ extension AppRunnerClientTypes {
 
 extension AppRunnerClientTypes.Connection {
 
-    static func write(value: AppRunnerClientTypes.Connection?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ConnectionArn"].write(value.connectionArn)
-        try writer["ConnectionName"].write(value.connectionName)
-        try writer["CreatedAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["ProviderType"].write(value.providerType)
-        try writer["Status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AppRunnerClientTypes.Connection {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppRunnerClientTypes.Connection()
@@ -703,15 +659,6 @@ extension AppRunnerClientTypes {
 }
 
 extension AppRunnerClientTypes.ConnectionSummary {
-
-    static func write(value: AppRunnerClientTypes.ConnectionSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ConnectionArn"].write(value.connectionArn)
-        try writer["ConnectionName"].write(value.connectionName)
-        try writer["CreatedAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["ProviderType"].write(value.providerType)
-        try writer["Status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppRunnerClientTypes.ConnectionSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1302,14 +1249,6 @@ enum CreateVpcIngressConnectionOutputError {
 }
 
 extension AppRunnerClientTypes.CustomDomain {
-
-    static func write(value: AppRunnerClientTypes.CustomDomain?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CertificateValidationRecords"].writeList(value.certificateValidationRecords, memberWritingClosure: AppRunnerClientTypes.CertificateValidationRecord.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["DomainName"].write(value.domainName)
-        try writer["EnableWWWSubdomain"].write(value.enableWWWSubdomain)
-        try writer["Status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppRunnerClientTypes.CustomDomain {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3593,14 +3532,6 @@ extension AppRunnerClientTypes.ListVpcIngressConnectionsFilter {
         try writer["ServiceArn"].write(value.serviceArn)
         try writer["VpcEndpointId"].write(value.vpcEndpointId)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppRunnerClientTypes.ListVpcIngressConnectionsFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppRunnerClientTypes.ListVpcIngressConnectionsFilter()
-        value.serviceArn = try reader["ServiceArn"].readIfPresent()
-        value.vpcEndpointId = try reader["VpcEndpointId"].readIfPresent()
-        return value
-    }
 }
 
 extension AppRunnerClientTypes {
@@ -3750,18 +3681,6 @@ extension AppRunnerClientTypes {
 
 extension AppRunnerClientTypes.ObservabilityConfiguration {
 
-    static func write(value: AppRunnerClientTypes.ObservabilityConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["DeletedAt"].writeTimestamp(value.deletedAt, format: .epochSeconds)
-        try writer["Latest"].write(value.latest)
-        try writer["ObservabilityConfigurationArn"].write(value.observabilityConfigurationArn)
-        try writer["ObservabilityConfigurationName"].write(value.observabilityConfigurationName)
-        try writer["ObservabilityConfigurationRevision"].write(value.observabilityConfigurationRevision)
-        try writer["Status"].write(value.status)
-        try writer["TraceConfiguration"].write(value.traceConfiguration, with: AppRunnerClientTypes.TraceConfiguration.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AppRunnerClientTypes.ObservabilityConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppRunnerClientTypes.ObservabilityConfiguration()
@@ -3853,13 +3772,6 @@ extension AppRunnerClientTypes {
 
 extension AppRunnerClientTypes.ObservabilityConfigurationSummary {
 
-    static func write(value: AppRunnerClientTypes.ObservabilityConfigurationSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ObservabilityConfigurationArn"].write(value.observabilityConfigurationArn)
-        try writer["ObservabilityConfigurationName"].write(value.observabilityConfigurationName)
-        try writer["ObservabilityConfigurationRevision"].write(value.observabilityConfigurationRevision)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AppRunnerClientTypes.ObservabilityConfigurationSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppRunnerClientTypes.ObservabilityConfigurationSummary()
@@ -3940,17 +3852,6 @@ extension AppRunnerClientTypes {
 }
 
 extension AppRunnerClientTypes.OperationSummary {
-
-    static func write(value: AppRunnerClientTypes.OperationSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EndedAt"].writeTimestamp(value.endedAt, format: .epochSeconds)
-        try writer["Id"].write(value.id)
-        try writer["StartedAt"].writeTimestamp(value.startedAt, format: .epochSeconds)
-        try writer["Status"].write(value.status)
-        try writer["TargetArn"].write(value.targetArn)
-        try writer["Type"].write(value.type)
-        try writer["UpdatedAt"].writeTimestamp(value.updatedAt, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppRunnerClientTypes.OperationSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4327,25 +4228,6 @@ extension AppRunnerClientTypes {
 
 extension AppRunnerClientTypes.Service {
 
-    static func write(value: AppRunnerClientTypes.Service?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AutoScalingConfigurationSummary"].write(value.autoScalingConfigurationSummary, with: AppRunnerClientTypes.AutoScalingConfigurationSummary.write(value:to:))
-        try writer["CreatedAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["DeletedAt"].writeTimestamp(value.deletedAt, format: .epochSeconds)
-        try writer["EncryptionConfiguration"].write(value.encryptionConfiguration, with: AppRunnerClientTypes.EncryptionConfiguration.write(value:to:))
-        try writer["HealthCheckConfiguration"].write(value.healthCheckConfiguration, with: AppRunnerClientTypes.HealthCheckConfiguration.write(value:to:))
-        try writer["InstanceConfiguration"].write(value.instanceConfiguration, with: AppRunnerClientTypes.InstanceConfiguration.write(value:to:))
-        try writer["NetworkConfiguration"].write(value.networkConfiguration, with: AppRunnerClientTypes.NetworkConfiguration.write(value:to:))
-        try writer["ObservabilityConfiguration"].write(value.observabilityConfiguration, with: AppRunnerClientTypes.ServiceObservabilityConfiguration.write(value:to:))
-        try writer["ServiceArn"].write(value.serviceArn)
-        try writer["ServiceId"].write(value.serviceId)
-        try writer["ServiceName"].write(value.serviceName)
-        try writer["ServiceUrl"].write(value.serviceUrl)
-        try writer["SourceConfiguration"].write(value.sourceConfiguration, with: AppRunnerClientTypes.SourceConfiguration.write(value:to:))
-        try writer["Status"].write(value.status)
-        try writer["UpdatedAt"].writeTimestamp(value.updatedAt, format: .epochSeconds)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AppRunnerClientTypes.Service {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppRunnerClientTypes.Service()
@@ -4572,17 +4454,6 @@ extension AppRunnerClientTypes {
 }
 
 extension AppRunnerClientTypes.ServiceSummary {
-
-    static func write(value: AppRunnerClientTypes.ServiceSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["ServiceArn"].write(value.serviceArn)
-        try writer["ServiceId"].write(value.serviceId)
-        try writer["ServiceName"].write(value.serviceName)
-        try writer["ServiceUrl"].write(value.serviceUrl)
-        try writer["Status"].write(value.status)
-        try writer["UpdatedAt"].writeTimestamp(value.updatedAt, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppRunnerClientTypes.ServiceSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5301,18 +5172,6 @@ enum UpdateVpcIngressConnectionOutputError {
 
 extension AppRunnerClientTypes.VpcConnector {
 
-    static func write(value: AppRunnerClientTypes.VpcConnector?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["DeletedAt"].writeTimestamp(value.deletedAt, format: .epochSeconds)
-        try writer["SecurityGroups"].writeList(value.securityGroups, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Status"].write(value.status)
-        try writer["Subnets"].writeList(value.subnets, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["VpcConnectorArn"].write(value.vpcConnectorArn)
-        try writer["VpcConnectorName"].write(value.vpcConnectorName)
-        try writer["VpcConnectorRevision"].write(value.vpcConnectorRevision)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AppRunnerClientTypes.VpcConnector {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppRunnerClientTypes.VpcConnector()
@@ -5404,13 +5263,6 @@ extension AppRunnerClientTypes {
 
 extension AppRunnerClientTypes.VpcDNSTarget {
 
-    static func write(value: AppRunnerClientTypes.VpcDNSTarget?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DomainName"].write(value.domainName)
-        try writer["VpcId"].write(value.vpcId)
-        try writer["VpcIngressConnectionArn"].write(value.vpcIngressConnectionArn)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AppRunnerClientTypes.VpcDNSTarget {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppRunnerClientTypes.VpcDNSTarget()
@@ -5446,19 +5298,6 @@ extension AppRunnerClientTypes {
 }
 
 extension AppRunnerClientTypes.VpcIngressConnection {
-
-    static func write(value: AppRunnerClientTypes.VpcIngressConnection?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccountId"].write(value.accountId)
-        try writer["CreatedAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["DeletedAt"].writeTimestamp(value.deletedAt, format: .epochSeconds)
-        try writer["DomainName"].write(value.domainName)
-        try writer["IngressVpcConfiguration"].write(value.ingressVpcConfiguration, with: AppRunnerClientTypes.IngressVpcConfiguration.write(value:to:))
-        try writer["ServiceArn"].write(value.serviceArn)
-        try writer["Status"].write(value.status)
-        try writer["VpcIngressConnectionArn"].write(value.vpcIngressConnectionArn)
-        try writer["VpcIngressConnectionName"].write(value.vpcIngressConnectionName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppRunnerClientTypes.VpcIngressConnection {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5581,12 +5420,6 @@ extension AppRunnerClientTypes {
 }
 
 extension AppRunnerClientTypes.VpcIngressConnectionSummary {
-
-    static func write(value: AppRunnerClientTypes.VpcIngressConnectionSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ServiceArn"].write(value.serviceArn)
-        try writer["VpcIngressConnectionArn"].write(value.vpcIngressConnectionArn)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppRunnerClientTypes.VpcIngressConnectionSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

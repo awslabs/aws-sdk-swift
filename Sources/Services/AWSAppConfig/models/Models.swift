@@ -69,17 +69,6 @@ extension AppConfigClientTypes {
 
 extension AppConfigClientTypes.ActionInvocation {
 
-    static func write(value: AppConfigClientTypes.ActionInvocation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ActionName"].write(value.actionName)
-        try writer["ErrorCode"].write(value.errorCode)
-        try writer["ErrorMessage"].write(value.errorMessage)
-        try writer["ExtensionIdentifier"].write(value.extensionIdentifier)
-        try writer["InvocationId"].write(value.invocationId)
-        try writer["RoleArn"].write(value.roleArn)
-        try writer["Uri"].write(value.uri)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AppConfigClientTypes.ActionInvocation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppConfigClientTypes.ActionInvocation()
@@ -183,13 +172,6 @@ public enum AppConfigClientTypes {}
 
 extension AppConfigClientTypes.Application {
 
-    static func write(value: AppConfigClientTypes.Application?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Description"].write(value.description)
-        try writer["Id"].write(value.id)
-        try writer["Name"].write(value.name)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AppConfigClientTypes.Application {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppConfigClientTypes.Application()
@@ -224,14 +206,6 @@ extension AppConfigClientTypes {
 }
 
 extension AppConfigClientTypes.AppliedExtension {
-
-    static func write(value: AppConfigClientTypes.AppliedExtension?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ExtensionAssociationId"].write(value.extensionAssociationId)
-        try writer["ExtensionId"].write(value.extensionId)
-        try writer["Parameters"].writeMap(value.parameters, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["VersionNumber"].write(value.versionNumber)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppConfigClientTypes.AppliedExtension {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -273,16 +247,6 @@ extension AppConfigClientTypes {
 }
 
 extension AppConfigClientTypes.BadRequestDetails {
-
-    static func write(value: AppConfigClientTypes.BadRequestDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .invalidconfiguration(invalidconfiguration):
-                try writer["InvalidConfiguration"].writeList(invalidconfiguration, memberWritingClosure: AppConfigClientTypes.InvalidConfigurationDetail.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppConfigClientTypes.BadRequestDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -407,16 +371,6 @@ extension AppConfigClientTypes {
 }
 
 extension AppConfigClientTypes.ConfigurationProfileSummary {
-
-    static func write(value: AppConfigClientTypes.ConfigurationProfileSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ApplicationId"].write(value.applicationId)
-        try writer["Id"].write(value.id)
-        try writer["LocationUri"].write(value.locationUri)
-        try writer["Name"].write(value.name)
-        try writer["Type"].write(value.type)
-        try writer["ValidatorTypes"].writeList(value.validatorTypes, memberWritingClosure: AppConfigClientTypes.ValidatorType.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppConfigClientTypes.ConfigurationProfileSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1874,15 +1828,6 @@ enum DeleteHostedConfigurationVersionOutputError {
 
 extension AppConfigClientTypes.DeploymentEvent {
 
-    static func write(value: AppConfigClientTypes.DeploymentEvent?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ActionInvocations"].writeList(value.actionInvocations, memberWritingClosure: AppConfigClientTypes.ActionInvocation.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Description"].write(value.description)
-        try writer["EventType"].write(value.eventType)
-        try writer["OccurredAt"].writeTimestamp(value.occurredAt, format: .dateTime)
-        try writer["TriggeredBy"].write(value.triggeredBy)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AppConfigClientTypes.DeploymentEvent {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppConfigClientTypes.DeploymentEvent()
@@ -2019,18 +1964,6 @@ extension AppConfigClientTypes {
 
 extension AppConfigClientTypes.DeploymentStrategy {
 
-    static func write(value: AppConfigClientTypes.DeploymentStrategy?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DeploymentDurationInMinutes"].write(value.deploymentDurationInMinutes)
-        try writer["Description"].write(value.description)
-        try writer["FinalBakeTimeInMinutes"].write(value.finalBakeTimeInMinutes)
-        try writer["GrowthFactor"].write(value.growthFactor)
-        try writer["GrowthType"].write(value.growthType)
-        try writer["Id"].write(value.id)
-        try writer["Name"].write(value.name)
-        try writer["ReplicateTo"].write(value.replicateTo)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AppConfigClientTypes.DeploymentStrategy {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppConfigClientTypes.DeploymentStrategy()
@@ -2090,22 +2023,6 @@ extension AppConfigClientTypes {
 }
 
 extension AppConfigClientTypes.DeploymentSummary {
-
-    static func write(value: AppConfigClientTypes.DeploymentSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CompletedAt"].writeTimestamp(value.completedAt, format: .dateTime)
-        try writer["ConfigurationName"].write(value.configurationName)
-        try writer["ConfigurationVersion"].write(value.configurationVersion)
-        try writer["DeploymentDurationInMinutes"].write(value.deploymentDurationInMinutes)
-        try writer["DeploymentNumber"].write(value.deploymentNumber)
-        try writer["FinalBakeTimeInMinutes"].write(value.finalBakeTimeInMinutes)
-        try writer["GrowthFactor"].write(value.growthFactor)
-        try writer["GrowthType"].write(value.growthType)
-        try writer["PercentageComplete"].write(value.percentageComplete)
-        try writer["StartedAt"].writeTimestamp(value.startedAt, format: .dateTime)
-        try writer["State"].write(value.state)
-        try writer["VersionLabel"].write(value.versionLabel)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppConfigClientTypes.DeploymentSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2187,16 +2104,6 @@ extension AppConfigClientTypes {
 }
 
 extension AppConfigClientTypes.Environment {
-
-    static func write(value: AppConfigClientTypes.Environment?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ApplicationId"].write(value.applicationId)
-        try writer["Description"].write(value.description)
-        try writer["Id"].write(value.id)
-        try writer["Monitors"].writeList(value.monitors, memberWritingClosure: AppConfigClientTypes.Monitor.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Name"].write(value.name)
-        try writer["State"].write(value.state)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppConfigClientTypes.Environment {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2284,13 +2191,6 @@ extension AppConfigClientTypes {
 
 extension AppConfigClientTypes.ExtensionAssociationSummary {
 
-    static func write(value: AppConfigClientTypes.ExtensionAssociationSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ExtensionArn"].write(value.extensionArn)
-        try writer["Id"].write(value.id)
-        try writer["ResourceArn"].write(value.resourceArn)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AppConfigClientTypes.ExtensionAssociationSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppConfigClientTypes.ExtensionAssociationSummary()
@@ -2326,15 +2226,6 @@ extension AppConfigClientTypes {
 }
 
 extension AppConfigClientTypes.ExtensionSummary {
-
-    static func write(value: AppConfigClientTypes.ExtensionSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["Description"].write(value.description)
-        try writer["Id"].write(value.id)
-        try writer["Name"].write(value.name)
-        try writer["VersionNumber"].write(value.versionNumber)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppConfigClientTypes.ExtensionSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3449,17 +3340,6 @@ extension AppConfigClientTypes {
 
 extension AppConfigClientTypes.HostedConfigurationVersionSummary {
 
-    static func write(value: AppConfigClientTypes.HostedConfigurationVersionSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ApplicationId"].write(value.applicationId)
-        try writer["ConfigurationProfileId"].write(value.configurationProfileId)
-        try writer["ContentType"].write(value.contentType)
-        try writer["Description"].write(value.description)
-        try writer["KmsKeyArn"].write(value.kmsKeyArn)
-        try writer["VersionLabel"].write(value.versionLabel)
-        try writer["VersionNumber"].write(value.versionNumber)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AppConfigClientTypes.HostedConfigurationVersionSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppConfigClientTypes.HostedConfigurationVersionSummary()
@@ -3552,15 +3432,6 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 }
 
 extension AppConfigClientTypes.InvalidConfigurationDetail {
-
-    static func write(value: AppConfigClientTypes.InvalidConfigurationDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Constraint"].write(value.constraint)
-        try writer["Location"].write(value.location)
-        try writer["Reason"].write(value.reason)
-        try writer["Type"].write(value.type)
-        try writer["Value"].write(value.value)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppConfigClientTypes.InvalidConfigurationDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

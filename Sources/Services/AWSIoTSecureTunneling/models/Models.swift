@@ -104,12 +104,6 @@ enum CloseTunnelOutputError {
 
 extension IoTSecureTunnelingClientTypes.ConnectionState {
 
-    static func write(value: IoTSecureTunnelingClientTypes.ConnectionState?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["lastUpdatedAt"].writeTimestamp(value.lastUpdatedAt, format: .epochSeconds)
-        try writer["status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTSecureTunnelingClientTypes.ConnectionState {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTSecureTunnelingClientTypes.ConnectionState()
@@ -829,21 +823,6 @@ extension IoTSecureTunnelingClientTypes {
 
 extension IoTSecureTunnelingClientTypes.Tunnel {
 
-    static func write(value: IoTSecureTunnelingClientTypes.Tunnel?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["description"].write(value.description)
-        try writer["destinationConfig"].write(value.destinationConfig, with: IoTSecureTunnelingClientTypes.DestinationConfig.write(value:to:))
-        try writer["destinationConnectionState"].write(value.destinationConnectionState, with: IoTSecureTunnelingClientTypes.ConnectionState.write(value:to:))
-        try writer["lastUpdatedAt"].writeTimestamp(value.lastUpdatedAt, format: .epochSeconds)
-        try writer["sourceConnectionState"].write(value.sourceConnectionState, with: IoTSecureTunnelingClientTypes.ConnectionState.write(value:to:))
-        try writer["status"].write(value.status)
-        try writer["tags"].writeList(value.tags, memberWritingClosure: IoTSecureTunnelingClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["timeoutConfig"].write(value.timeoutConfig, with: IoTSecureTunnelingClientTypes.TimeoutConfig.write(value:to:))
-        try writer["tunnelArn"].write(value.tunnelArn)
-        try writer["tunnelId"].write(value.tunnelId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTSecureTunnelingClientTypes.Tunnel {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTSecureTunnelingClientTypes.Tunnel()
@@ -949,16 +928,6 @@ extension IoTSecureTunnelingClientTypes {
 }
 
 extension IoTSecureTunnelingClientTypes.TunnelSummary {
-
-    static func write(value: IoTSecureTunnelingClientTypes.TunnelSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["description"].write(value.description)
-        try writer["lastUpdatedAt"].writeTimestamp(value.lastUpdatedAt, format: .epochSeconds)
-        try writer["status"].write(value.status)
-        try writer["tunnelArn"].write(value.tunnelArn)
-        try writer["tunnelId"].write(value.tunnelId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTSecureTunnelingClientTypes.TunnelSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

@@ -180,14 +180,6 @@ extension SecurityHubClientTypes.AccountDetails {
         try writer["AccountId"].write(value.accountId)
         try writer["Email"].write(value.email)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.AccountDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SecurityHubClientTypes.AccountDetails()
-        value.accountId = try reader["AccountId"].readIfPresent()
-        value.email = try reader["Email"].readIfPresent()
-        return value
-    }
 }
 
 extension SecurityHubClientTypes {
@@ -444,13 +436,6 @@ extension SecurityHubClientTypes {
 
 extension SecurityHubClientTypes.ActionTarget {
 
-    static func write(value: SecurityHubClientTypes.ActionTarget?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ActionTargetArn"].write(value.actionTargetArn)
-        try writer["Description"].write(value.description)
-        try writer["Name"].write(value.name)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.ActionTarget {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SecurityHubClientTypes.ActionTarget()
@@ -526,12 +511,6 @@ extension SecurityHubClientTypes {
 }
 
 extension SecurityHubClientTypes.AdminAccount {
-
-    static func write(value: SecurityHubClientTypes.AdminAccount?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccountId"].write(value.accountId)
-        try writer["Status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.AdminAccount {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -630,15 +609,6 @@ extension SecurityHubClientTypes.AssociationFilters {
         try writer["AssociationStatus"].write(value.associationStatus)
         try writer["AssociationType"].write(value.associationType)
         try writer["ConfigurationPolicyId"].write(value.configurationPolicyId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.AssociationFilters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SecurityHubClientTypes.AssociationFilters()
-        value.configurationPolicyId = try reader["ConfigurationPolicyId"].readIfPresent()
-        value.associationType = try reader["AssociationType"].readIfPresent()
-        value.associationStatus = try reader["AssociationStatus"].readIfPresent()
-        return value
     }
 }
 
@@ -919,21 +889,6 @@ extension SecurityHubClientTypes {
 }
 
 extension SecurityHubClientTypes.AutomationRulesConfig {
-
-    static func write(value: SecurityHubClientTypes.AutomationRulesConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Actions"].writeList(value.actions, memberWritingClosure: SecurityHubClientTypes.AutomationRulesAction.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["CreatedAt"].writeTimestamp(value.createdAt, format: .dateTime)
-        try writer["CreatedBy"].write(value.createdBy)
-        try writer["Criteria"].write(value.criteria, with: SecurityHubClientTypes.AutomationRulesFindingFilters.write(value:to:))
-        try writer["Description"].write(value.description)
-        try writer["IsTerminal"].write(value.isTerminal)
-        try writer["RuleArn"].write(value.ruleArn)
-        try writer["RuleName"].write(value.ruleName)
-        try writer["RuleOrder"].write(value.ruleOrder)
-        try writer["RuleStatus"].write(value.ruleStatus)
-        try writer["UpdatedAt"].writeTimestamp(value.updatedAt, format: .dateTime)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.AutomationRulesConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1427,19 +1382,6 @@ extension SecurityHubClientTypes {
 }
 
 extension SecurityHubClientTypes.AutomationRulesMetadata {
-
-    static func write(value: SecurityHubClientTypes.AutomationRulesMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedAt"].writeTimestamp(value.createdAt, format: .dateTime)
-        try writer["CreatedBy"].write(value.createdBy)
-        try writer["Description"].write(value.description)
-        try writer["IsTerminal"].write(value.isTerminal)
-        try writer["RuleArn"].write(value.ruleArn)
-        try writer["RuleName"].write(value.ruleName)
-        try writer["RuleOrder"].write(value.ruleOrder)
-        try writer["RuleStatus"].write(value.ruleStatus)
-        try writer["UpdatedAt"].writeTimestamp(value.updatedAt, format: .dateTime)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.AutomationRulesMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -30667,13 +30609,6 @@ enum BatchUpdateFindingsOutputError {
 
 extension SecurityHubClientTypes.BatchUpdateFindingsUnprocessedFinding {
 
-    static func write(value: SecurityHubClientTypes.BatchUpdateFindingsUnprocessedFinding?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ErrorCode"].write(value.errorCode)
-        try writer["ErrorMessage"].write(value.errorMessage)
-        try writer["FindingIdentifier"].write(value.findingIdentifier, with: SecurityHubClientTypes.AwsSecurityFindingIdentifier.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.BatchUpdateFindingsUnprocessedFinding {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SecurityHubClientTypes.BatchUpdateFindingsUnprocessedFinding()
@@ -30806,11 +30741,6 @@ enum BatchUpdateStandardsControlAssociationsOutputError {
 }
 
 extension SecurityHubClientTypes.BooleanConfigurationOptions {
-
-    static func write(value: SecurityHubClientTypes.BooleanConfigurationOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DefaultValue"].write(value.defaultValue)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.BooleanConfigurationOptions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -31288,30 +31218,6 @@ extension SecurityHubClientTypes {
 
 extension SecurityHubClientTypes.ConfigurationOptions {
 
-    static func write(value: SecurityHubClientTypes.ConfigurationOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .boolean(boolean):
-                try writer["Boolean"].write(boolean, with: SecurityHubClientTypes.BooleanConfigurationOptions.write(value:to:))
-            case let .double(double):
-                try writer["Double"].write(double, with: SecurityHubClientTypes.DoubleConfigurationOptions.write(value:to:))
-            case let .`enum`(`enum`):
-                try writer["Enum"].write(`enum`, with: SecurityHubClientTypes.EnumConfigurationOptions.write(value:to:))
-            case let .enumlist(enumlist):
-                try writer["EnumList"].write(enumlist, with: SecurityHubClientTypes.EnumListConfigurationOptions.write(value:to:))
-            case let .integer(integer):
-                try writer["Integer"].write(integer, with: SecurityHubClientTypes.IntegerConfigurationOptions.write(value:to:))
-            case let .integerlist(integerlist):
-                try writer["IntegerList"].write(integerlist, with: SecurityHubClientTypes.IntegerListConfigurationOptions.write(value:to:))
-            case let .string(string):
-                try writer["String"].write(string, with: SecurityHubClientTypes.StringConfigurationOptions.write(value:to:))
-            case let .stringlist(stringlist):
-                try writer["StringList"].write(stringlist, with: SecurityHubClientTypes.StringListConfigurationOptions.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.ConfigurationOptions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
@@ -31428,17 +31334,6 @@ extension SecurityHubClientTypes {
 
 extension SecurityHubClientTypes.ConfigurationPolicyAssociationSummary {
 
-    static func write(value: SecurityHubClientTypes.ConfigurationPolicyAssociationSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AssociationStatus"].write(value.associationStatus)
-        try writer["AssociationStatusMessage"].write(value.associationStatusMessage)
-        try writer["AssociationType"].write(value.associationType)
-        try writer["ConfigurationPolicyId"].write(value.configurationPolicyId)
-        try writer["TargetId"].write(value.targetId)
-        try writer["TargetType"].write(value.targetType)
-        try writer["UpdatedAt"].writeTimestamp(value.updatedAt, format: .dateTime)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.ConfigurationPolicyAssociationSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SecurityHubClientTypes.ConfigurationPolicyAssociationSummary()
@@ -31494,16 +31389,6 @@ extension SecurityHubClientTypes {
 }
 
 extension SecurityHubClientTypes.ConfigurationPolicySummary {
-
-    static func write(value: SecurityHubClientTypes.ConfigurationPolicySummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["Description"].write(value.description)
-        try writer["Id"].write(value.id)
-        try writer["Name"].write(value.name)
-        try writer["ServiceEnabled"].write(value.serviceEnabled)
-        try writer["UpdatedAt"].writeTimestamp(value.updatedAt, format: .dateTime)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.ConfigurationPolicySummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -33893,13 +33778,6 @@ extension SecurityHubClientTypes {
 
 extension SecurityHubClientTypes.DoubleConfigurationOptions {
 
-    static func write(value: SecurityHubClientTypes.DoubleConfigurationOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DefaultValue"].write(value.defaultValue)
-        try writer["Max"].write(value.max)
-        try writer["Min"].write(value.min)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.DoubleConfigurationOptions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SecurityHubClientTypes.DoubleConfigurationOptions()
@@ -34131,12 +34009,6 @@ enum EnableSecurityHubOutputError {
 
 extension SecurityHubClientTypes.EnumConfigurationOptions {
 
-    static func write(value: SecurityHubClientTypes.EnumConfigurationOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AllowedValues"].writeList(value.allowedValues, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["DefaultValue"].write(value.defaultValue)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.EnumConfigurationOptions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SecurityHubClientTypes.EnumConfigurationOptions()
@@ -34167,13 +34039,6 @@ extension SecurityHubClientTypes {
 }
 
 extension SecurityHubClientTypes.EnumListConfigurationOptions {
-
-    static func write(value: SecurityHubClientTypes.EnumListConfigurationOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AllowedValues"].writeList(value.allowedValues, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["DefaultValue"].writeList(value.defaultValue, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["MaxItems"].write(value.maxItems)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.EnumListConfigurationOptions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -34260,11 +34125,6 @@ extension SecurityHubClientTypes {
 
 extension SecurityHubClientTypes.FindingAggregator {
 
-    static func write(value: SecurityHubClientTypes.FindingAggregator?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["FindingAggregatorArn"].write(value.findingAggregatorArn)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.FindingAggregator {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SecurityHubClientTypes.FindingAggregator()
@@ -34290,16 +34150,6 @@ extension SecurityHubClientTypes {
 }
 
 extension SecurityHubClientTypes.FindingHistoryRecord {
-
-    static func write(value: SecurityHubClientTypes.FindingHistoryRecord?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["FindingCreated"].write(value.findingCreated)
-        try writer["FindingIdentifier"].write(value.findingIdentifier, with: SecurityHubClientTypes.AwsSecurityFindingIdentifier.write(value:to:))
-        try writer["NextToken"].write(value.nextToken)
-        try writer["UpdateSource"].write(value.updateSource, with: SecurityHubClientTypes.FindingHistoryUpdateSource.write(value:to:))
-        try writer["UpdateTime"].writeTimestamp(value.updateTime, format: .dateTime)
-        try writer["Updates"].writeList(value.updates, memberWritingClosure: SecurityHubClientTypes.FindingHistoryUpdate.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.FindingHistoryRecord {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -34362,13 +34212,6 @@ extension SecurityHubClientTypes {
 
 extension SecurityHubClientTypes.FindingHistoryUpdate {
 
-    static func write(value: SecurityHubClientTypes.FindingHistoryUpdate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["NewValue"].write(value.newValue)
-        try writer["OldValue"].write(value.oldValue)
-        try writer["UpdatedField"].write(value.updatedField)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.FindingHistoryUpdate {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SecurityHubClientTypes.FindingHistoryUpdate()
@@ -34404,12 +34247,6 @@ extension SecurityHubClientTypes {
 }
 
 extension SecurityHubClientTypes.FindingHistoryUpdateSource {
-
-    static func write(value: SecurityHubClientTypes.FindingHistoryUpdateSource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Identity"].write(value.identity)
-        try writer["Type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.FindingHistoryUpdateSource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -35869,13 +35706,6 @@ extension SecurityHubClientTypes {
 
 extension SecurityHubClientTypes.ImportFindingsError {
 
-    static func write(value: SecurityHubClientTypes.ImportFindingsError?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ErrorCode"].write(value.errorCode)
-        try writer["ErrorMessage"].write(value.errorMessage)
-        try writer["Id"].write(value.id)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.ImportFindingsError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SecurityHubClientTypes.ImportFindingsError()
@@ -35914,14 +35744,6 @@ extension SecurityHubClientTypes {
 }
 
 extension SecurityHubClientTypes.Insight {
-
-    static func write(value: SecurityHubClientTypes.Insight?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Filters"].write(value.filters, with: SecurityHubClientTypes.AwsSecurityFindingFilters.write(value:to:))
-        try writer["GroupByAttribute"].write(value.groupByAttribute)
-        try writer["InsightArn"].write(value.insightArn)
-        try writer["Name"].write(value.name)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.Insight {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -35968,12 +35790,6 @@ extension SecurityHubClientTypes {
 
 extension SecurityHubClientTypes.InsightResultValue {
 
-    static func write(value: SecurityHubClientTypes.InsightResultValue?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Count"].write(value.count)
-        try writer["GroupByAttributeValue"].write(value.groupByAttributeValue)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.InsightResultValue {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SecurityHubClientTypes.InsightResultValue()
@@ -36006,13 +35822,6 @@ extension SecurityHubClientTypes {
 }
 
 extension SecurityHubClientTypes.InsightResults {
-
-    static func write(value: SecurityHubClientTypes.InsightResults?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["GroupByAttribute"].write(value.groupByAttribute)
-        try writer["InsightArn"].write(value.insightArn)
-        try writer["ResultValues"].writeList(value.resultValues, memberWritingClosure: SecurityHubClientTypes.InsightResultValue.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.InsightResults {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -36053,13 +35862,6 @@ extension SecurityHubClientTypes {
 
 extension SecurityHubClientTypes.IntegerConfigurationOptions {
 
-    static func write(value: SecurityHubClientTypes.IntegerConfigurationOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DefaultValue"].write(value.defaultValue)
-        try writer["Max"].write(value.max)
-        try writer["Min"].write(value.min)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.IntegerConfigurationOptions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SecurityHubClientTypes.IntegerConfigurationOptions()
@@ -36095,14 +35897,6 @@ extension SecurityHubClientTypes {
 }
 
 extension SecurityHubClientTypes.IntegerListConfigurationOptions {
-
-    static func write(value: SecurityHubClientTypes.IntegerListConfigurationOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DefaultValue"].writeList(value.defaultValue, memberWritingClosure: Swift.Int.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Max"].write(value.max)
-        try writer["MaxItems"].write(value.maxItems)
-        try writer["Min"].write(value.min)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.IntegerListConfigurationOptions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -36300,14 +36094,6 @@ public struct InvalidInputException: ClientRuntime.ModeledError, AWSClientRuntim
 }
 
 extension SecurityHubClientTypes.Invitation {
-
-    static func write(value: SecurityHubClientTypes.Invitation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccountId"].write(value.accountId)
-        try writer["InvitationId"].write(value.invitationId)
-        try writer["InvitedAt"].writeTimestamp(value.invitedAt, format: .dateTime)
-        try writer["MemberStatus"].write(value.memberStatus)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.Invitation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -37852,17 +37638,6 @@ extension SecurityHubClientTypes {
 
 extension SecurityHubClientTypes.Member {
 
-    static func write(value: SecurityHubClientTypes.Member?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccountId"].write(value.accountId)
-        try writer["AdministratorId"].write(value.administratorId)
-        try writer["Email"].write(value.email)
-        try writer["InvitedAt"].writeTimestamp(value.invitedAt, format: .dateTime)
-        try writer["MasterId"].write(value.masterId)
-        try writer["MemberStatus"].write(value.memberStatus)
-        try writer["UpdatedAt"].writeTimestamp(value.updatedAt, format: .dateTime)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.Member {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SecurityHubClientTypes.Member()
@@ -38643,12 +38418,6 @@ extension SecurityHubClientTypes {
 
 extension SecurityHubClientTypes.ParameterDefinition {
 
-    static func write(value: SecurityHubClientTypes.ParameterDefinition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ConfigurationOptions"].write(value.configurationOptions, with: SecurityHubClientTypes.ConfigurationOptions.write(value:to:))
-        try writer["Description"].write(value.description)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.ParameterDefinition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SecurityHubClientTypes.ParameterDefinition()
@@ -39201,19 +38970,6 @@ extension SecurityHubClientTypes {
 }
 
 extension SecurityHubClientTypes.Product {
-
-    static func write(value: SecurityHubClientTypes.Product?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ActivationUrl"].write(value.activationUrl)
-        try writer["Categories"].writeList(value.categories, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["CompanyName"].write(value.companyName)
-        try writer["Description"].write(value.description)
-        try writer["IntegrationTypes"].writeList(value.integrationTypes, memberWritingClosure: SecurityHubClientTypes.IntegrationType.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["MarketplaceUrl"].write(value.marketplaceUrl)
-        try writer["ProductArn"].write(value.productArn)
-        try writer["ProductName"].write(value.productName)
-        try writer["ProductSubscriptionResourcePolicy"].write(value.productSubscriptionResourcePolicy)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.Product {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -40399,12 +40155,6 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
 extension SecurityHubClientTypes.Result {
 
-    static func write(value: SecurityHubClientTypes.Result?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccountId"].write(value.accountId)
-        try writer["ProcessingResult"].write(value.processingResult)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.Result {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SecurityHubClientTypes.Result()
@@ -41338,20 +41088,6 @@ extension SecurityHubClientTypes {
 
 extension SecurityHubClientTypes.SecurityControl {
 
-    static func write(value: SecurityHubClientTypes.SecurityControl?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Description"].write(value.description)
-        try writer["LastUpdateReason"].write(value.lastUpdateReason)
-        try writer["Parameters"].writeMap(value.parameters, valueWritingClosure: SecurityHubClientTypes.ParameterConfiguration.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["RemediationUrl"].write(value.remediationUrl)
-        try writer["SecurityControlArn"].write(value.securityControlArn)
-        try writer["SecurityControlId"].write(value.securityControlId)
-        try writer["SecurityControlStatus"].write(value.securityControlStatus)
-        try writer["SeverityRating"].write(value.severityRating)
-        try writer["Title"].write(value.title)
-        try writer["UpdateStatus"].write(value.updateStatus)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.SecurityControl {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SecurityHubClientTypes.SecurityControl()
@@ -41466,18 +41202,6 @@ extension SecurityHubClientTypes {
 }
 
 extension SecurityHubClientTypes.SecurityControlDefinition {
-
-    static func write(value: SecurityHubClientTypes.SecurityControlDefinition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CurrentRegionAvailability"].write(value.currentRegionAvailability)
-        try writer["CustomizableProperties"].writeList(value.customizableProperties, memberWritingClosure: SecurityHubClientTypes.SecurityControlProperty.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Description"].write(value.description)
-        try writer["ParameterDefinitions"].writeMap(value.parameterDefinitions, valueWritingClosure: SecurityHubClientTypes.ParameterDefinition.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["RemediationUrl"].write(value.remediationUrl)
-        try writer["SecurityControlId"].write(value.securityControlId)
-        try writer["SeverityRating"].write(value.severityRating)
-        try writer["Title"].write(value.title)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.SecurityControlDefinition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -42100,14 +41824,6 @@ extension SecurityHubClientTypes.SortCriterion {
         try writer["Field"].write(value.field)
         try writer["SortOrder"].write(value.sortOrder)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.SortCriterion {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SecurityHubClientTypes.SortCriterion()
-        value.field = try reader["Field"].readIfPresent()
-        value.sortOrder = try reader["SortOrder"].readIfPresent()
-        return value
-    }
 }
 
 extension SecurityHubClientTypes {
@@ -42162,15 +41878,6 @@ extension SecurityHubClientTypes {
 
 extension SecurityHubClientTypes.Standard {
 
-    static func write(value: SecurityHubClientTypes.Standard?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Description"].write(value.description)
-        try writer["EnabledByDefault"].write(value.enabledByDefault)
-        try writer["Name"].write(value.name)
-        try writer["StandardsArn"].write(value.standardsArn)
-        try writer["StandardsManagedBy"].write(value.standardsManagedBy, with: SecurityHubClientTypes.StandardsManagedBy.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.Standard {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SecurityHubClientTypes.Standard()
@@ -42216,20 +41923,6 @@ extension SecurityHubClientTypes {
 }
 
 extension SecurityHubClientTypes.StandardsControl {
-
-    static func write(value: SecurityHubClientTypes.StandardsControl?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ControlId"].write(value.controlId)
-        try writer["ControlStatus"].write(value.controlStatus)
-        try writer["ControlStatusUpdatedAt"].writeTimestamp(value.controlStatusUpdatedAt, format: .dateTime)
-        try writer["Description"].write(value.description)
-        try writer["DisabledReason"].write(value.disabledReason)
-        try writer["RelatedRequirements"].writeList(value.relatedRequirements, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["RemediationUrl"].write(value.remediationUrl)
-        try writer["SeverityRating"].write(value.severityRating)
-        try writer["StandardsControlArn"].write(value.standardsControlArn)
-        try writer["Title"].write(value.title)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.StandardsControl {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -42301,20 +41994,6 @@ extension SecurityHubClientTypes {
 }
 
 extension SecurityHubClientTypes.StandardsControlAssociationDetail {
-
-    static func write(value: SecurityHubClientTypes.StandardsControlAssociationDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AssociationStatus"].write(value.associationStatus)
-        try writer["RelatedRequirements"].writeList(value.relatedRequirements, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["SecurityControlArn"].write(value.securityControlArn)
-        try writer["SecurityControlId"].write(value.securityControlId)
-        try writer["StandardsArn"].write(value.standardsArn)
-        try writer["StandardsControlArns"].writeList(value.standardsControlArns, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["StandardsControlDescription"].write(value.standardsControlDescription)
-        try writer["StandardsControlTitle"].write(value.standardsControlTitle)
-        try writer["UpdatedAt"].writeTimestamp(value.updatedAt, format: .dateTime)
-        try writer["UpdatedReason"].write(value.updatedReason)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.StandardsControlAssociationDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -42429,19 +42108,6 @@ extension SecurityHubClientTypes {
 }
 
 extension SecurityHubClientTypes.StandardsControlAssociationSummary {
-
-    static func write(value: SecurityHubClientTypes.StandardsControlAssociationSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AssociationStatus"].write(value.associationStatus)
-        try writer["RelatedRequirements"].writeList(value.relatedRequirements, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["SecurityControlArn"].write(value.securityControlArn)
-        try writer["SecurityControlId"].write(value.securityControlId)
-        try writer["StandardsArn"].write(value.standardsArn)
-        try writer["StandardsControlDescription"].write(value.standardsControlDescription)
-        try writer["StandardsControlTitle"].write(value.standardsControlTitle)
-        try writer["UpdatedAt"].writeTimestamp(value.updatedAt, format: .dateTime)
-        try writer["UpdatedReason"].write(value.updatedReason)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.StandardsControlAssociationSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -42565,12 +42231,6 @@ extension SecurityHubClientTypes {
 
 extension SecurityHubClientTypes.StandardsManagedBy {
 
-    static func write(value: SecurityHubClientTypes.StandardsManagedBy?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Company"].write(value.company)
-        try writer["Product"].write(value.product)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.StandardsManagedBy {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SecurityHubClientTypes.StandardsManagedBy()
@@ -42641,11 +42301,6 @@ extension SecurityHubClientTypes {
 
 extension SecurityHubClientTypes.StandardsStatusReason {
 
-    static func write(value: SecurityHubClientTypes.StandardsStatusReason?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["StatusReasonCode"].write(value.statusReasonCode)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.StandardsStatusReason {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SecurityHubClientTypes.StandardsStatusReason()
@@ -42672,15 +42327,6 @@ extension SecurityHubClientTypes {
 }
 
 extension SecurityHubClientTypes.StandardsSubscription {
-
-    static func write(value: SecurityHubClientTypes.StandardsSubscription?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["StandardsArn"].write(value.standardsArn)
-        try writer["StandardsInput"].writeMap(value.standardsInput, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["StandardsStatus"].write(value.standardsStatus)
-        try writer["StandardsStatusReason"].write(value.standardsStatusReason, with: SecurityHubClientTypes.StandardsStatusReason.write(value:to:))
-        try writer["StandardsSubscriptionArn"].write(value.standardsSubscriptionArn)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.StandardsSubscription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -42746,14 +42392,6 @@ extension SecurityHubClientTypes.StandardsSubscriptionRequest {
         guard let value else { return }
         try writer["StandardsArn"].write(value.standardsArn)
         try writer["StandardsInput"].writeMap(value.standardsInput, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.StandardsSubscriptionRequest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SecurityHubClientTypes.StandardsSubscriptionRequest()
-        value.standardsArn = try reader["StandardsArn"].readIfPresent()
-        value.standardsInput = try reader["StandardsInput"].readMapIfPresent(valueReadingClosure: Swift.String.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
     }
 }
 
@@ -43112,13 +42750,6 @@ extension SecurityHubClientTypes {
 
 extension SecurityHubClientTypes.StringConfigurationOptions {
 
-    static func write(value: SecurityHubClientTypes.StringConfigurationOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DefaultValue"].write(value.defaultValue)
-        try writer["ExpressionDescription"].write(value.expressionDescription)
-        try writer["Re2Expression"].write(value.re2Expression)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.StringConfigurationOptions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SecurityHubClientTypes.StringConfigurationOptions()
@@ -43262,14 +42893,6 @@ extension SecurityHubClientTypes {
 }
 
 extension SecurityHubClientTypes.StringListConfigurationOptions {
-
-    static func write(value: SecurityHubClientTypes.StringListConfigurationOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DefaultValue"].writeList(value.defaultValue, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ExpressionDescription"].write(value.expressionDescription)
-        try writer["MaxItems"].write(value.maxItems)
-        try writer["Re2Expression"].write(value.re2Expression)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.StringListConfigurationOptions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -43671,13 +43294,6 @@ extension SecurityHubClientTypes {
 
 extension SecurityHubClientTypes.UnprocessedAutomationRule {
 
-    static func write(value: SecurityHubClientTypes.UnprocessedAutomationRule?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ErrorCode"].write(value.errorCode)
-        try writer["ErrorMessage"].write(value.errorMessage)
-        try writer["RuleArn"].write(value.ruleArn)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.UnprocessedAutomationRule {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SecurityHubClientTypes.UnprocessedAutomationRule()
@@ -43713,13 +43329,6 @@ extension SecurityHubClientTypes {
 }
 
 extension SecurityHubClientTypes.UnprocessedConfigurationPolicyAssociation {
-
-    static func write(value: SecurityHubClientTypes.UnprocessedConfigurationPolicyAssociation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ConfigurationPolicyAssociationIdentifiers"].write(value.configurationPolicyAssociationIdentifiers, with: SecurityHubClientTypes.ConfigurationPolicyAssociation.write(value:to:))
-        try writer["ErrorCode"].write(value.errorCode)
-        try writer["ErrorReason"].write(value.errorReason)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.UnprocessedConfigurationPolicyAssociation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -43793,13 +43402,6 @@ extension SecurityHubClientTypes {
 
 extension SecurityHubClientTypes.UnprocessedSecurityControl {
 
-    static func write(value: SecurityHubClientTypes.UnprocessedSecurityControl?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ErrorCode"].write(value.errorCode)
-        try writer["ErrorReason"].write(value.errorReason)
-        try writer["SecurityControlId"].write(value.securityControlId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.UnprocessedSecurityControl {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SecurityHubClientTypes.UnprocessedSecurityControl()
@@ -43838,13 +43440,6 @@ extension SecurityHubClientTypes {
 
 extension SecurityHubClientTypes.UnprocessedStandardsControlAssociation {
 
-    static func write(value: SecurityHubClientTypes.UnprocessedStandardsControlAssociation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ErrorCode"].write(value.errorCode)
-        try writer["ErrorReason"].write(value.errorReason)
-        try writer["StandardsControlAssociationId"].write(value.standardsControlAssociationId, with: SecurityHubClientTypes.StandardsControlAssociationId.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.UnprocessedStandardsControlAssociation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SecurityHubClientTypes.UnprocessedStandardsControlAssociation()
@@ -43882,13 +43477,6 @@ extension SecurityHubClientTypes {
 }
 
 extension SecurityHubClientTypes.UnprocessedStandardsControlAssociationUpdate {
-
-    static func write(value: SecurityHubClientTypes.UnprocessedStandardsControlAssociationUpdate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ErrorCode"].write(value.errorCode)
-        try writer["ErrorReason"].write(value.errorReason)
-        try writer["StandardsControlAssociationUpdate"].write(value.standardsControlAssociationUpdate, with: SecurityHubClientTypes.StandardsControlAssociationUpdate.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.UnprocessedStandardsControlAssociationUpdate {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -44079,20 +43667,6 @@ extension SecurityHubClientTypes.UpdateAutomationRulesRequestItem {
         try writer["RuleName"].write(value.ruleName)
         try writer["RuleOrder"].write(value.ruleOrder)
         try writer["RuleStatus"].write(value.ruleStatus)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.UpdateAutomationRulesRequestItem {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SecurityHubClientTypes.UpdateAutomationRulesRequestItem()
-        value.ruleArn = try reader["RuleArn"].readIfPresent()
-        value.ruleStatus = try reader["RuleStatus"].readIfPresent()
-        value.ruleOrder = try reader["RuleOrder"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.ruleName = try reader["RuleName"].readIfPresent()
-        value.isTerminal = try reader["IsTerminal"].readIfPresent()
-        value.criteria = try reader["Criteria"].readIfPresent(with: SecurityHubClientTypes.AutomationRulesFindingFilters.read(from:))
-        value.actions = try reader["Actions"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.AutomationRulesAction.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 

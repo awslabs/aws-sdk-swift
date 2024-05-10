@@ -90,15 +90,6 @@ extension LightsailClientTypes.AccessKey: Swift.CustomDebugStringConvertible {
 
 extension LightsailClientTypes.AccessKey {
 
-    static func write(value: LightsailClientTypes.AccessKey?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["accessKeyId"].write(value.accessKeyId)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["lastUsed"].write(value.lastUsed, with: LightsailClientTypes.AccessKeyLastUsed.write(value:to:))
-        try writer["secretAccessKey"].write(value.secretAccessKey)
-        try writer["status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.AccessKey {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LightsailClientTypes.AccessKey()
@@ -144,13 +135,6 @@ extension LightsailClientTypes {
 }
 
 extension LightsailClientTypes.AccessKeyLastUsed {
-
-    static func write(value: LightsailClientTypes.AccessKeyLastUsed?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["lastUsedDate"].writeTimestamp(value.lastUsedDate, format: .epochSeconds)
-        try writer["region"].write(value.region)
-        try writer["serviceName"].write(value.serviceName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.AccessKeyLastUsed {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -258,14 +242,6 @@ extension LightsailClientTypes {
 }
 
 extension LightsailClientTypes.AccountLevelBpaSync {
-
-    static func write(value: LightsailClientTypes.AccountLevelBpaSync?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["bpaImpactsLightsail"].write(value.bpaImpactsLightsail)
-        try writer["lastSyncedAt"].writeTimestamp(value.lastSyncedAt, format: .epochSeconds)
-        try writer["message"].write(value.message)
-        try writer["status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.AccountLevelBpaSync {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -412,16 +388,6 @@ public struct AccountSetupInProgressException: ClientRuntime.ModeledError, AWSCl
 
 extension LightsailClientTypes.AddOn {
 
-    static func write(value: LightsailClientTypes.AddOn?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["duration"].write(value.duration)
-        try writer["name"].write(value.name)
-        try writer["nextSnapshotTimeOfDay"].write(value.nextSnapshotTimeOfDay)
-        try writer["snapshotTimeOfDay"].write(value.snapshotTimeOfDay)
-        try writer["status"].write(value.status)
-        try writer["threshold"].write(value.threshold)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.AddOn {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LightsailClientTypes.AddOn()
@@ -478,15 +444,6 @@ extension LightsailClientTypes.AddOnRequest {
         try writer["addOnType"].write(value.addOnType)
         try writer["autoSnapshotAddOnRequest"].write(value.autoSnapshotAddOnRequest, with: LightsailClientTypes.AutoSnapshotAddOnRequest.write(value:to:))
         try writer["stopInstanceOnIdleRequest"].write(value.stopInstanceOnIdleRequest, with: LightsailClientTypes.StopInstanceOnIdleRequest.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.AddOnRequest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LightsailClientTypes.AddOnRequest()
-        value.addOnType = try reader["addOnType"].readIfPresent()
-        value.autoSnapshotAddOnRequest = try reader["autoSnapshotAddOnRequest"].readIfPresent(with: LightsailClientTypes.AutoSnapshotAddOnRequest.read(from:))
-        value.stopInstanceOnIdleRequest = try reader["stopInstanceOnIdleRequest"].readIfPresent(with: LightsailClientTypes.StopInstanceOnIdleRequest.read(from:))
-        return value
     }
 }
 
@@ -546,30 +503,6 @@ extension LightsailClientTypes {
 }
 
 extension LightsailClientTypes.Alarm {
-
-    static func write(value: LightsailClientTypes.Alarm?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["comparisonOperator"].write(value.comparisonOperator)
-        try writer["contactProtocols"].writeList(value.contactProtocols, memberWritingClosure: LightsailClientTypes.ContactProtocol.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["datapointsToAlarm"].write(value.datapointsToAlarm)
-        try writer["evaluationPeriods"].write(value.evaluationPeriods)
-        try writer["location"].write(value.location, with: LightsailClientTypes.ResourceLocation.write(value:to:))
-        try writer["metricName"].write(value.metricName)
-        try writer["monitoredResourceInfo"].write(value.monitoredResourceInfo, with: LightsailClientTypes.MonitoredResourceInfo.write(value:to:))
-        try writer["name"].write(value.name)
-        try writer["notificationEnabled"].write(value.notificationEnabled)
-        try writer["notificationTriggers"].writeList(value.notificationTriggers, memberWritingClosure: LightsailClientTypes.AlarmState.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["period"].write(value.period)
-        try writer["resourceType"].write(value.resourceType)
-        try writer["state"].write(value.state)
-        try writer["statistic"].write(value.statistic)
-        try writer["supportCode"].write(value.supportCode)
-        try writer["threshold"].write(value.threshold)
-        try writer["treatMissingData"].write(value.treatMissingData)
-        try writer["unit"].write(value.unit)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.Alarm {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1248,12 +1181,6 @@ enum AttachStaticIpOutputError {
 
 extension LightsailClientTypes.AttachedDisk {
 
-    static func write(value: LightsailClientTypes.AttachedDisk?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["path"].write(value.path)
-        try writer["sizeInGb"].write(value.sizeInGb)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.AttachedDisk {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LightsailClientTypes.AttachedDisk()
@@ -1325,13 +1252,6 @@ extension LightsailClientTypes.AutoSnapshotAddOnRequest {
         guard let value else { return }
         try writer["snapshotTimeOfDay"].write(value.snapshotTimeOfDay)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.AutoSnapshotAddOnRequest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LightsailClientTypes.AutoSnapshotAddOnRequest()
-        value.snapshotTimeOfDay = try reader["snapshotTimeOfDay"].readIfPresent()
-        return value
-    }
 }
 
 extension LightsailClientTypes {
@@ -1365,14 +1285,6 @@ extension LightsailClientTypes {
 }
 
 extension LightsailClientTypes.AutoSnapshotDetails {
-
-    static func write(value: LightsailClientTypes.AutoSnapshotDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["date"].write(value.date)
-        try writer["fromAttachedDisks"].writeList(value.fromAttachedDisks, memberWritingClosure: LightsailClientTypes.AttachedDisk.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.AutoSnapshotDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1450,12 +1362,6 @@ extension LightsailClientTypes {
 }
 
 extension LightsailClientTypes.AvailabilityZone {
-
-    static func write(value: LightsailClientTypes.AvailabilityZone?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["state"].write(value.state)
-        try writer["zoneName"].write(value.zoneName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.AvailabilityZone {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1553,23 +1459,6 @@ extension LightsailClientTypes {
 }
 
 extension LightsailClientTypes.Blueprint {
-
-    static func write(value: LightsailClientTypes.Blueprint?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["appCategory"].write(value.appCategory)
-        try writer["blueprintId"].write(value.blueprintId)
-        try writer["description"].write(value.description)
-        try writer["group"].write(value.group)
-        try writer["isActive"].write(value.isActive)
-        try writer["licenseUrl"].write(value.licenseUrl)
-        try writer["minPower"].write(value.minPower)
-        try writer["name"].write(value.name)
-        try writer["platform"].write(value.platform)
-        try writer["productUrl"].write(value.productUrl)
-        try writer["type"].write(value.type)
-        try writer["version"].write(value.version)
-        try writer["versionCode"].write(value.versionCode)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.Blueprint {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1686,26 +1575,6 @@ extension LightsailClientTypes {
 }
 
 extension LightsailClientTypes.Bucket {
-
-    static func write(value: LightsailClientTypes.Bucket?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ableToUpdateBundle"].write(value.ableToUpdateBundle)
-        try writer["accessLogConfig"].write(value.accessLogConfig, with: LightsailClientTypes.BucketAccessLogConfig.write(value:to:))
-        try writer["accessRules"].write(value.accessRules, with: LightsailClientTypes.AccessRules.write(value:to:))
-        try writer["arn"].write(value.arn)
-        try writer["bundleId"].write(value.bundleId)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["location"].write(value.location, with: LightsailClientTypes.ResourceLocation.write(value:to:))
-        try writer["name"].write(value.name)
-        try writer["objectVersioning"].write(value.objectVersioning)
-        try writer["readonlyAccessAccounts"].writeList(value.readonlyAccessAccounts, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["resourceType"].write(value.resourceType)
-        try writer["resourcesReceivingAccess"].writeList(value.resourcesReceivingAccess, memberWritingClosure: LightsailClientTypes.ResourceReceivingAccess.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["state"].write(value.state, with: LightsailClientTypes.BucketState.write(value:to:))
-        try writer["supportCode"].write(value.supportCode)
-        try writer["tags"].writeList(value.tags, memberWritingClosure: LightsailClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["url"].write(value.url)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.Bucket {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1858,16 +1727,6 @@ extension LightsailClientTypes {
 
 extension LightsailClientTypes.BucketBundle {
 
-    static func write(value: LightsailClientTypes.BucketBundle?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["bundleId"].write(value.bundleId)
-        try writer["isActive"].write(value.isActive)
-        try writer["name"].write(value.name)
-        try writer["price"].write(value.price)
-        try writer["storagePerMonthInGb"].write(value.storagePerMonthInGb)
-        try writer["transferPerMonthInGb"].write(value.transferPerMonthInGb)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.BucketBundle {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LightsailClientTypes.BucketBundle()
@@ -1949,12 +1808,6 @@ extension LightsailClientTypes {
 
 extension LightsailClientTypes.BucketState {
 
-    static func write(value: LightsailClientTypes.BucketState?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["code"].write(value.code)
-        try writer["message"].write(value.message)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.BucketState {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LightsailClientTypes.BucketState()
@@ -1989,23 +1842,6 @@ extension LightsailClientTypes {
 }
 
 extension LightsailClientTypes.Bundle {
-
-    static func write(value: LightsailClientTypes.Bundle?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["bundleId"].write(value.bundleId)
-        try writer["cpuCount"].write(value.cpuCount)
-        try writer["diskSizeInGb"].write(value.diskSizeInGb)
-        try writer["instanceType"].write(value.instanceType)
-        try writer["isActive"].write(value.isActive)
-        try writer["name"].write(value.name)
-        try writer["power"].write(value.power)
-        try writer["price"].write(value.price)
-        try writer["publicIpv4AddressCount"].write(value.publicIpv4AddressCount)
-        try writer["ramSizeInGb"].write(value.ramSizeInGb)
-        try writer["supportedAppCategories"].writeList(value.supportedAppCategories, memberWritingClosure: LightsailClientTypes.AppCategory.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["supportedPlatforms"].writeList(value.supportedPlatforms, memberWritingClosure: LightsailClientTypes.InstancePlatform.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["transferPerMonthInGb"].write(value.transferPerMonthInGb)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.Bundle {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2263,31 +2099,6 @@ extension LightsailClientTypes {
 
 extension LightsailClientTypes.Certificate {
 
-    static func write(value: LightsailClientTypes.Certificate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["domainName"].write(value.domainName)
-        try writer["domainValidationRecords"].writeList(value.domainValidationRecords, memberWritingClosure: LightsailClientTypes.DomainValidationRecord.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["eligibleToRenew"].write(value.eligibleToRenew)
-        try writer["inUseResourceCount"].write(value.inUseResourceCount)
-        try writer["issuedAt"].writeTimestamp(value.issuedAt, format: .epochSeconds)
-        try writer["issuerCA"].write(value.issuerCA)
-        try writer["keyAlgorithm"].write(value.keyAlgorithm)
-        try writer["name"].write(value.name)
-        try writer["notAfter"].writeTimestamp(value.notAfter, format: .epochSeconds)
-        try writer["notBefore"].writeTimestamp(value.notBefore, format: .epochSeconds)
-        try writer["renewalSummary"].write(value.renewalSummary, with: LightsailClientTypes.RenewalSummary.write(value:to:))
-        try writer["requestFailureReason"].write(value.requestFailureReason)
-        try writer["revocationReason"].write(value.revocationReason)
-        try writer["revokedAt"].writeTimestamp(value.revokedAt, format: .epochSeconds)
-        try writer["serialNumber"].write(value.serialNumber)
-        try writer["status"].write(value.status)
-        try writer["subjectAlternativeNames"].writeList(value.subjectAlternativeNames, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["supportCode"].write(value.supportCode)
-        try writer["tags"].writeList(value.tags, memberWritingClosure: LightsailClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.Certificate {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LightsailClientTypes.Certificate()
@@ -2529,15 +2340,6 @@ extension LightsailClientTypes {
 
 extension LightsailClientTypes.CertificateSummary {
 
-    static func write(value: LightsailClientTypes.CertificateSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["certificateArn"].write(value.certificateArn)
-        try writer["certificateDetail"].write(value.certificateDetail, with: LightsailClientTypes.Certificate.write(value:to:))
-        try writer["certificateName"].write(value.certificateName)
-        try writer["domainName"].write(value.domainName)
-        try writer["tags"].writeList(value.tags, memberWritingClosure: LightsailClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.CertificateSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LightsailClientTypes.CertificateSummary()
@@ -2662,18 +2464,6 @@ enum CloseInstancePublicPortsOutputError {
 
 extension LightsailClientTypes.CloudFormationStackRecord {
 
-    static func write(value: LightsailClientTypes.CloudFormationStackRecord?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["destinationInfo"].write(value.destinationInfo, with: LightsailClientTypes.DestinationInfo.write(value:to:))
-        try writer["location"].write(value.location, with: LightsailClientTypes.ResourceLocation.write(value:to:))
-        try writer["name"].write(value.name)
-        try writer["resourceType"].write(value.resourceType)
-        try writer["sourceInfo"].writeList(value.sourceInfo, memberWritingClosure: LightsailClientTypes.CloudFormationStackRecordSourceInfo.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["state"].write(value.state)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.CloudFormationStackRecord {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LightsailClientTypes.CloudFormationStackRecord()
@@ -2734,13 +2524,6 @@ extension LightsailClientTypes {
 }
 
 extension LightsailClientTypes.CloudFormationStackRecordSourceInfo {
-
-    static func write(value: LightsailClientTypes.CloudFormationStackRecordSourceInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["name"].write(value.name)
-        try writer["resourceType"].write(value.resourceType)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.CloudFormationStackRecordSourceInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2840,19 +2623,6 @@ extension LightsailClientTypes {
 }
 
 extension LightsailClientTypes.ContactMethod {
-
-    static func write(value: LightsailClientTypes.ContactMethod?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["contactEndpoint"].write(value.contactEndpoint)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["location"].write(value.location, with: LightsailClientTypes.ResourceLocation.write(value:to:))
-        try writer["name"].write(value.name)
-        try writer["protocol"].write(value.`protocol`)
-        try writer["resourceType"].write(value.resourceType)
-        try writer["status"].write(value.status)
-        try writer["supportCode"].write(value.supportCode)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.ContactMethod {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3065,13 +2835,6 @@ extension LightsailClientTypes {
 
 extension LightsailClientTypes.ContainerImage {
 
-    static func write(value: LightsailClientTypes.ContainerImage?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["digest"].write(value.digest)
-        try writer["image"].write(value.image)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.ContainerImage {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LightsailClientTypes.ContainerImage()
@@ -3107,29 +2870,6 @@ extension LightsailClientTypes {
 }
 
 extension LightsailClientTypes.ContainerService {
-
-    static func write(value: LightsailClientTypes.ContainerService?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["containerServiceName"].write(value.containerServiceName)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["currentDeployment"].write(value.currentDeployment, with: LightsailClientTypes.ContainerServiceDeployment.write(value:to:))
-        try writer["isDisabled"].write(value.isDisabled)
-        try writer["location"].write(value.location, with: LightsailClientTypes.ResourceLocation.write(value:to:))
-        try writer["nextDeployment"].write(value.nextDeployment, with: LightsailClientTypes.ContainerServiceDeployment.write(value:to:))
-        try writer["power"].write(value.power)
-        try writer["powerId"].write(value.powerId)
-        try writer["principalArn"].write(value.principalArn)
-        try writer["privateDomainName"].write(value.privateDomainName)
-        try writer["privateRegistryAccess"].write(value.privateRegistryAccess, with: LightsailClientTypes.PrivateRegistryAccess.write(value:to:))
-        try writer["publicDomainNames"].writeMap(value.publicDomainNames, valueWritingClosure: listWritingClosure(memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["resourceType"].write(value.resourceType)
-        try writer["scale"].write(value.scale)
-        try writer["state"].write(value.state)
-        try writer["stateDetail"].write(value.stateDetail, with: LightsailClientTypes.ContainerServiceStateDetail.write(value:to:))
-        try writer["tags"].writeList(value.tags, memberWritingClosure: LightsailClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["url"].write(value.url)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.ContainerService {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3261,15 +3001,6 @@ extension LightsailClientTypes {
 
 extension LightsailClientTypes.ContainerServiceDeployment {
 
-    static func write(value: LightsailClientTypes.ContainerServiceDeployment?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["containers"].writeMap(value.containers, valueWritingClosure: LightsailClientTypes.Container.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["publicEndpoint"].write(value.publicEndpoint, with: LightsailClientTypes.ContainerServiceEndpoint.write(value:to:))
-        try writer["state"].write(value.state)
-        try writer["version"].write(value.version)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.ContainerServiceDeployment {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LightsailClientTypes.ContainerServiceDeployment()
@@ -3328,14 +3059,6 @@ extension LightsailClientTypes.ContainerServiceDeploymentRequest {
         guard let value else { return }
         try writer["containers"].writeMap(value.containers, valueWritingClosure: LightsailClientTypes.Container.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["publicEndpoint"].write(value.publicEndpoint, with: LightsailClientTypes.EndpointRequest.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.ContainerServiceDeploymentRequest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LightsailClientTypes.ContainerServiceDeploymentRequest()
-        value.containers = try reader["containers"].readMapIfPresent(valueReadingClosure: LightsailClientTypes.Container.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.publicEndpoint = try reader["publicEndpoint"].readIfPresent(with: LightsailClientTypes.EndpointRequest.read(from:))
-        return value
     }
 }
 
@@ -3397,12 +3120,6 @@ extension LightsailClientTypes {
 
 extension LightsailClientTypes.ContainerServiceECRImagePullerRole {
 
-    static func write(value: LightsailClientTypes.ContainerServiceECRImagePullerRole?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["isActive"].write(value.isActive)
-        try writer["principalArn"].write(value.principalArn)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.ContainerServiceECRImagePullerRole {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LightsailClientTypes.ContainerServiceECRImagePullerRole()
@@ -3438,13 +3155,6 @@ extension LightsailClientTypes.ContainerServiceECRImagePullerRoleRequest {
         guard let value else { return }
         try writer["isActive"].write(value.isActive)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.ContainerServiceECRImagePullerRoleRequest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LightsailClientTypes.ContainerServiceECRImagePullerRoleRequest()
-        value.isActive = try reader["isActive"].readIfPresent()
-        return value
-    }
 }
 
 extension LightsailClientTypes {
@@ -3464,13 +3174,6 @@ extension LightsailClientTypes {
 }
 
 extension LightsailClientTypes.ContainerServiceEndpoint {
-
-    static func write(value: LightsailClientTypes.ContainerServiceEndpoint?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["containerName"].write(value.containerName)
-        try writer["containerPort"].write(value.containerPort)
-        try writer["healthCheck"].write(value.healthCheck, with: LightsailClientTypes.ContainerServiceHealthCheckConfig.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.ContainerServiceEndpoint {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3569,12 +3272,6 @@ extension LightsailClientTypes {
 
 extension LightsailClientTypes.ContainerServiceLogEvent {
 
-    static func write(value: LightsailClientTypes.ContainerServiceLogEvent?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["message"].write(value.message)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.ContainerServiceLogEvent {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LightsailClientTypes.ContainerServiceLogEvent()
@@ -3635,16 +3332,6 @@ extension LightsailClientTypes {
 }
 
 extension LightsailClientTypes.ContainerServicePower {
-
-    static func write(value: LightsailClientTypes.ContainerServicePower?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["cpuCount"].write(value.cpuCount)
-        try writer["isActive"].write(value.isActive)
-        try writer["name"].write(value.name)
-        try writer["powerId"].write(value.powerId)
-        try writer["price"].write(value.price)
-        try writer["ramSizeInGb"].write(value.ramSizeInGb)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.ContainerServicePower {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3775,14 +3462,6 @@ extension LightsailClientTypes {
 
 extension LightsailClientTypes.ContainerServiceRegistryLogin {
 
-    static func write(value: LightsailClientTypes.ContainerServiceRegistryLogin?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["expiresAt"].writeTimestamp(value.expiresAt, format: .epochSeconds)
-        try writer["password"].write(value.password)
-        try writer["registry"].write(value.registry)
-        try writer["username"].write(value.username)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.ContainerServiceRegistryLogin {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LightsailClientTypes.ContainerServiceRegistryLogin()
@@ -3868,12 +3547,6 @@ extension LightsailClientTypes {
 }
 
 extension LightsailClientTypes.ContainerServiceStateDetail {
-
-    static func write(value: LightsailClientTypes.ContainerServiceStateDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["code"].write(value.code)
-        try writer["message"].write(value.message)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.ContainerServiceStateDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4130,12 +3803,6 @@ enum CopySnapshotOutputError {
 }
 
 extension LightsailClientTypes.CostEstimate {
-
-    static func write(value: LightsailClientTypes.CostEstimate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["resultsByTime"].writeList(value.resultsByTime, memberWritingClosure: LightsailClientTypes.EstimateByTime.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["usageType"].write(value.usageType)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.CostEstimate {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8149,12 +7816,6 @@ enum DeleteRelationalDatabaseSnapshotOutputError {
 
 extension LightsailClientTypes.DestinationInfo {
 
-    static func write(value: LightsailClientTypes.DestinationInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["id"].write(value.id)
-        try writer["service"].write(value.service)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.DestinationInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LightsailClientTypes.DestinationInfo()
@@ -8556,28 +8217,6 @@ enum DisableAddOnOutputError {
 
 extension LightsailClientTypes.Disk {
 
-    static func write(value: LightsailClientTypes.Disk?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["addOns"].writeList(value.addOns, memberWritingClosure: LightsailClientTypes.AddOn.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["arn"].write(value.arn)
-        try writer["attachedTo"].write(value.attachedTo)
-        try writer["attachmentState"].write(value.attachmentState)
-        try writer["autoMountStatus"].write(value.autoMountStatus)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["gbInUse"].write(value.gbInUse)
-        try writer["iops"].write(value.iops)
-        try writer["isAttached"].write(value.isAttached)
-        try writer["isSystemDisk"].write(value.isSystemDisk)
-        try writer["location"].write(value.location, with: LightsailClientTypes.ResourceLocation.write(value:to:))
-        try writer["name"].write(value.name)
-        try writer["path"].write(value.path)
-        try writer["resourceType"].write(value.resourceType)
-        try writer["sizeInGb"].write(value.sizeInGb)
-        try writer["state"].write(value.state)
-        try writer["supportCode"].write(value.supportCode)
-        try writer["tags"].writeList(value.tags, memberWritingClosure: LightsailClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.Disk {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LightsailClientTypes.Disk()
@@ -8691,14 +8330,6 @@ extension LightsailClientTypes {
 
 extension LightsailClientTypes.DiskInfo {
 
-    static func write(value: LightsailClientTypes.DiskInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["isSystemDisk"].write(value.isSystemDisk)
-        try writer["name"].write(value.name)
-        try writer["path"].write(value.path)
-        try writer["sizeInGb"].write(value.sizeInGb)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.DiskInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LightsailClientTypes.DiskInfo()
@@ -8745,14 +8376,6 @@ extension LightsailClientTypes.DiskMap {
         try writer["newDiskName"].write(value.newDiskName)
         try writer["originalDiskPath"].write(value.originalDiskPath)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.DiskMap {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LightsailClientTypes.DiskMap()
-        value.originalDiskPath = try reader["originalDiskPath"].readIfPresent()
-        value.newDiskName = try reader["newDiskName"].readIfPresent()
-        return value
-    }
 }
 
 extension LightsailClientTypes {
@@ -8776,25 +8399,6 @@ extension LightsailClientTypes {
 }
 
 extension LightsailClientTypes.DiskSnapshot {
-
-    static func write(value: LightsailClientTypes.DiskSnapshot?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["fromDiskArn"].write(value.fromDiskArn)
-        try writer["fromDiskName"].write(value.fromDiskName)
-        try writer["fromInstanceArn"].write(value.fromInstanceArn)
-        try writer["fromInstanceName"].write(value.fromInstanceName)
-        try writer["isFromAutoSnapshot"].write(value.isFromAutoSnapshot)
-        try writer["location"].write(value.location, with: LightsailClientTypes.ResourceLocation.write(value:to:))
-        try writer["name"].write(value.name)
-        try writer["progress"].write(value.progress)
-        try writer["resourceType"].write(value.resourceType)
-        try writer["sizeInGb"].write(value.sizeInGb)
-        try writer["state"].write(value.state)
-        try writer["supportCode"].write(value.supportCode)
-        try writer["tags"].writeList(value.tags, memberWritingClosure: LightsailClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.DiskSnapshot {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8891,11 +8495,6 @@ extension LightsailClientTypes {
 }
 
 extension LightsailClientTypes.DiskSnapshotInfo {
-
-    static func write(value: LightsailClientTypes.DiskSnapshotInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["sizeInGb"].write(value.sizeInGb)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.DiskSnapshotInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8998,15 +8597,6 @@ extension LightsailClientTypes {
 
 extension LightsailClientTypes.DistributionBundle {
 
-    static func write(value: LightsailClientTypes.DistributionBundle?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["bundleId"].write(value.bundleId)
-        try writer["isActive"].write(value.isActive)
-        try writer["name"].write(value.name)
-        try writer["price"].write(value.price)
-        try writer["transferPerMonthInGb"].write(value.transferPerMonthInGb)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.DistributionBundle {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LightsailClientTypes.DistributionBundle()
@@ -9095,12 +8685,6 @@ extension LightsailClientTypes {
 
 extension LightsailClientTypes.DnsRecordCreationState {
 
-    static func write(value: LightsailClientTypes.DnsRecordCreationState?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["code"].write(value.code)
-        try writer["message"].write(value.message)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.DnsRecordCreationState {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LightsailClientTypes.DnsRecordCreationState()
@@ -9170,19 +8754,6 @@ extension LightsailClientTypes {
 }
 
 extension LightsailClientTypes.Domain {
-
-    static func write(value: LightsailClientTypes.Domain?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["domainEntries"].writeList(value.domainEntries, memberWritingClosure: LightsailClientTypes.DomainEntry.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["location"].write(value.location, with: LightsailClientTypes.ResourceLocation.write(value:to:))
-        try writer["name"].write(value.name)
-        try writer["registeredDomainDelegationInfo"].write(value.registeredDomainDelegationInfo, with: LightsailClientTypes.RegisteredDomainDelegationInfo.write(value:to:))
-        try writer["resourceType"].write(value.resourceType)
-        try writer["supportCode"].write(value.supportCode)
-        try writer["tags"].writeList(value.tags, memberWritingClosure: LightsailClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.Domain {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -9327,14 +8898,6 @@ extension LightsailClientTypes {
 }
 
 extension LightsailClientTypes.DomainValidationRecord {
-
-    static func write(value: LightsailClientTypes.DomainValidationRecord?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["dnsRecordCreationState"].write(value.dnsRecordCreationState, with: LightsailClientTypes.DnsRecordCreationState.write(value:to:))
-        try writer["domainName"].write(value.domainName)
-        try writer["resourceRecord"].write(value.resourceRecord, with: LightsailClientTypes.ResourceRecord.write(value:to:))
-        try writer["validationStatus"].write(value.validationStatus)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.DomainValidationRecord {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -9534,15 +9097,6 @@ extension LightsailClientTypes.EndpointRequest {
         try writer["containerPort"].write(value.containerPort)
         try writer["healthCheck"].write(value.healthCheck, with: LightsailClientTypes.ContainerServiceHealthCheckConfig.write(value:to:))
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.EndpointRequest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LightsailClientTypes.EndpointRequest()
-        value.containerName = try reader["containerName"].readIfPresent()
-        value.containerPort = try reader["containerPort"].readIfPresent()
-        value.healthCheck = try reader["healthCheck"].readIfPresent(with: LightsailClientTypes.ContainerServiceHealthCheckConfig.read(from:))
-        return value
-    }
 }
 
 extension LightsailClientTypes {
@@ -9572,15 +9126,6 @@ extension LightsailClientTypes {
 }
 
 extension LightsailClientTypes.EstimateByTime {
-
-    static func write(value: LightsailClientTypes.EstimateByTime?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["currency"].write(value.currency)
-        try writer["pricingUnit"].write(value.pricingUnit)
-        try writer["timePeriod"].write(value.timePeriod, with: LightsailClientTypes.TimePeriod.write(value:to:))
-        try writer["unit"].write(value.unit)
-        try writer["usageCost"].write(value.usageCost)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.EstimateByTime {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -9700,18 +9245,6 @@ enum ExportSnapshotOutputError {
 
 extension LightsailClientTypes.ExportSnapshotRecord {
 
-    static func write(value: LightsailClientTypes.ExportSnapshotRecord?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["destinationInfo"].write(value.destinationInfo, with: LightsailClientTypes.DestinationInfo.write(value:to:))
-        try writer["location"].write(value.location, with: LightsailClientTypes.ResourceLocation.write(value:to:))
-        try writer["name"].write(value.name)
-        try writer["resourceType"].write(value.resourceType)
-        try writer["sourceInfo"].write(value.sourceInfo, with: LightsailClientTypes.ExportSnapshotRecordSourceInfo.write(value:to:))
-        try writer["state"].write(value.state)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.ExportSnapshotRecord {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LightsailClientTypes.ExportSnapshotRecord()
@@ -9772,18 +9305,6 @@ extension LightsailClientTypes {
 }
 
 extension LightsailClientTypes.ExportSnapshotRecordSourceInfo {
-
-    static func write(value: LightsailClientTypes.ExportSnapshotRecordSourceInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["diskSnapshotInfo"].write(value.diskSnapshotInfo, with: LightsailClientTypes.DiskSnapshotInfo.write(value:to:))
-        try writer["fromResourceArn"].write(value.fromResourceArn)
-        try writer["fromResourceName"].write(value.fromResourceName)
-        try writer["instanceSnapshotInfo"].write(value.instanceSnapshotInfo, with: LightsailClientTypes.InstanceSnapshotInfo.write(value:to:))
-        try writer["name"].write(value.name)
-        try writer["resourceType"].write(value.resourceType)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.ExportSnapshotRecordSourceInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -15422,17 +14943,6 @@ extension LightsailClientTypes {
 
 extension LightsailClientTypes.HostKeyAttributes {
 
-    static func write(value: LightsailClientTypes.HostKeyAttributes?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["algorithm"].write(value.algorithm)
-        try writer["fingerprintSHA1"].write(value.fingerprintSHA1)
-        try writer["fingerprintSHA256"].write(value.fingerprintSHA256)
-        try writer["notValidAfter"].writeTimestamp(value.notValidAfter, format: .epochSeconds)
-        try writer["notValidBefore"].writeTimestamp(value.notValidBefore, format: .epochSeconds)
-        try writer["publicKey"].write(value.publicKey)
-        try writer["witnessedAt"].writeTimestamp(value.witnessedAt, format: .epochSeconds)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.HostKeyAttributes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LightsailClientTypes.HostKeyAttributes()
@@ -15672,16 +15182,6 @@ extension LightsailClientTypes.InputOrigin {
         try writer["regionName"].write(value.regionName)
         try writer["responseTimeout"].write(value.responseTimeout)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.InputOrigin {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LightsailClientTypes.InputOrigin()
-        value.name = try reader["name"].readIfPresent()
-        value.regionName = try reader["regionName"].readIfPresent()
-        value.protocolPolicy = try reader["protocolPolicy"].readIfPresent()
-        value.responseTimeout = try reader["responseTimeout"].readIfPresent()
-        return value
-    }
 }
 
 extension LightsailClientTypes {
@@ -15713,32 +15213,6 @@ extension LightsailClientTypes {
 }
 
 extension LightsailClientTypes.Instance {
-
-    static func write(value: LightsailClientTypes.Instance?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["addOns"].writeList(value.addOns, memberWritingClosure: LightsailClientTypes.AddOn.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["arn"].write(value.arn)
-        try writer["blueprintId"].write(value.blueprintId)
-        try writer["blueprintName"].write(value.blueprintName)
-        try writer["bundleId"].write(value.bundleId)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["hardware"].write(value.hardware, with: LightsailClientTypes.InstanceHardware.write(value:to:))
-        try writer["ipAddressType"].write(value.ipAddressType)
-        try writer["ipv6Addresses"].writeList(value.ipv6Addresses, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["isStaticIp"].write(value.isStaticIp)
-        try writer["location"].write(value.location, with: LightsailClientTypes.ResourceLocation.write(value:to:))
-        try writer["metadataOptions"].write(value.metadataOptions, with: LightsailClientTypes.InstanceMetadataOptions.write(value:to:))
-        try writer["name"].write(value.name)
-        try writer["networking"].write(value.networking, with: LightsailClientTypes.InstanceNetworking.write(value:to:))
-        try writer["privateIpAddress"].write(value.privateIpAddress)
-        try writer["publicIpAddress"].write(value.publicIpAddress)
-        try writer["resourceType"].write(value.resourceType)
-        try writer["sshKeyName"].write(value.sshKeyName)
-        try writer["state"].write(value.state, with: LightsailClientTypes.InstanceState.write(value:to:))
-        try writer["supportCode"].write(value.supportCode)
-        try writer["tags"].writeList(value.tags, memberWritingClosure: LightsailClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["username"].write(value.username)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.Instance {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -15871,21 +15345,6 @@ extension LightsailClientTypes {
 
 extension LightsailClientTypes.InstanceAccessDetails {
 
-    static func write(value: LightsailClientTypes.InstanceAccessDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["certKey"].write(value.certKey)
-        try writer["expiresAt"].writeTimestamp(value.expiresAt, format: .epochSeconds)
-        try writer["hostKeys"].writeList(value.hostKeys, memberWritingClosure: LightsailClientTypes.HostKeyAttributes.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["instanceName"].write(value.instanceName)
-        try writer["ipAddress"].write(value.ipAddress)
-        try writer["ipv6Addresses"].writeList(value.ipv6Addresses, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["password"].write(value.password)
-        try writer["passwordData"].write(value.passwordData, with: LightsailClientTypes.PasswordData.write(value:to:))
-        try writer["privateKey"].write(value.privateKey)
-        try writer["protocol"].write(value.`protocol`)
-        try writer["username"].write(value.username)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.InstanceAccessDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LightsailClientTypes.InstanceAccessDetails()
@@ -16000,17 +15459,6 @@ extension LightsailClientTypes.InstanceEntry {
         try writer["sourceName"].write(value.sourceName)
         try writer["userData"].write(value.userData)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.InstanceEntry {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LightsailClientTypes.InstanceEntry()
-        value.sourceName = try reader["sourceName"].readIfPresent()
-        value.instanceType = try reader["instanceType"].readIfPresent()
-        value.portInfoSource = try reader["portInfoSource"].readIfPresent()
-        value.userData = try reader["userData"].readIfPresent()
-        value.availabilityZone = try reader["availabilityZone"].readIfPresent()
-        return value
-    }
 }
 
 extension LightsailClientTypes {
@@ -16061,13 +15509,6 @@ extension LightsailClientTypes {
 }
 
 extension LightsailClientTypes.InstanceHardware {
-
-    static func write(value: LightsailClientTypes.InstanceHardware?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["cpuCount"].write(value.cpuCount)
-        try writer["disks"].writeList(value.disks, memberWritingClosure: LightsailClientTypes.Disk.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ramSizeInGb"].write(value.ramSizeInGb)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.InstanceHardware {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -16204,13 +15645,6 @@ extension LightsailClientTypes {
 
 extension LightsailClientTypes.InstanceHealthSummary {
 
-    static func write(value: LightsailClientTypes.InstanceHealthSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["instanceHealth"].write(value.instanceHealth)
-        try writer["instanceHealthReason"].write(value.instanceHealthReason)
-        try writer["instanceName"].write(value.instanceName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.InstanceHealthSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LightsailClientTypes.InstanceHealthSummary()
@@ -16277,15 +15711,6 @@ extension LightsailClientTypes {
 }
 
 extension LightsailClientTypes.InstanceMetadataOptions {
-
-    static func write(value: LightsailClientTypes.InstanceMetadataOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["httpEndpoint"].write(value.httpEndpoint)
-        try writer["httpProtocolIpv6"].write(value.httpProtocolIpv6)
-        try writer["httpPutResponseHopLimit"].write(value.httpPutResponseHopLimit)
-        try writer["httpTokens"].write(value.httpTokens)
-        try writer["state"].write(value.state)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.InstanceMetadataOptions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -16418,12 +15843,6 @@ extension LightsailClientTypes {
 
 extension LightsailClientTypes.InstanceNetworking {
 
-    static func write(value: LightsailClientTypes.InstanceNetworking?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["monthlyTransfer"].write(value.monthlyTransfer, with: LightsailClientTypes.MonthlyTransfer.write(value:to:))
-        try writer["ports"].writeList(value.ports, memberWritingClosure: LightsailClientTypes.InstancePortInfo.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.InstanceNetworking {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LightsailClientTypes.InstanceNetworking()
@@ -16484,20 +15903,6 @@ extension LightsailClientTypes {
 }
 
 extension LightsailClientTypes.InstancePortInfo {
-
-    static func write(value: LightsailClientTypes.InstancePortInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["accessDirection"].write(value.accessDirection)
-        try writer["accessFrom"].write(value.accessFrom)
-        try writer["accessType"].write(value.accessType)
-        try writer["cidrListAliases"].writeList(value.cidrListAliases, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["cidrs"].writeList(value.cidrs, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["commonName"].write(value.commonName)
-        try writer["fromPort"].write(value.fromPort)
-        try writer["ipv6Cidrs"].writeList(value.ipv6Cidrs, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["protocol"].write(value.`protocol`)
-        try writer["toPort"].write(value.toPort)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.InstancePortInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -16590,17 +15995,6 @@ extension LightsailClientTypes {
 
 extension LightsailClientTypes.InstancePortState {
 
-    static func write(value: LightsailClientTypes.InstancePortState?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["cidrListAliases"].writeList(value.cidrListAliases, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["cidrs"].writeList(value.cidrs, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["fromPort"].write(value.fromPort)
-        try writer["ipv6Cidrs"].writeList(value.ipv6Cidrs, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["protocol"].write(value.`protocol`)
-        try writer["state"].write(value.state)
-        try writer["toPort"].write(value.toPort)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.InstancePortState {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LightsailClientTypes.InstancePortState()
@@ -16676,26 +16070,6 @@ extension LightsailClientTypes {
 }
 
 extension LightsailClientTypes.InstanceSnapshot {
-
-    static func write(value: LightsailClientTypes.InstanceSnapshot?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["fromAttachedDisks"].writeList(value.fromAttachedDisks, memberWritingClosure: LightsailClientTypes.Disk.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["fromBlueprintId"].write(value.fromBlueprintId)
-        try writer["fromBundleId"].write(value.fromBundleId)
-        try writer["fromInstanceArn"].write(value.fromInstanceArn)
-        try writer["fromInstanceName"].write(value.fromInstanceName)
-        try writer["isFromAutoSnapshot"].write(value.isFromAutoSnapshot)
-        try writer["location"].write(value.location, with: LightsailClientTypes.ResourceLocation.write(value:to:))
-        try writer["name"].write(value.name)
-        try writer["progress"].write(value.progress)
-        try writer["resourceType"].write(value.resourceType)
-        try writer["sizeInGb"].write(value.sizeInGb)
-        try writer["state"].write(value.state)
-        try writer["supportCode"].write(value.supportCode)
-        try writer["tags"].writeList(value.tags, memberWritingClosure: LightsailClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.InstanceSnapshot {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -16798,13 +16172,6 @@ extension LightsailClientTypes {
 
 extension LightsailClientTypes.InstanceSnapshotInfo {
 
-    static func write(value: LightsailClientTypes.InstanceSnapshotInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["fromBlueprintId"].write(value.fromBlueprintId)
-        try writer["fromBundleId"].write(value.fromBundleId)
-        try writer["fromDiskInfo"].writeList(value.fromDiskInfo, memberWritingClosure: LightsailClientTypes.DiskInfo.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.InstanceSnapshotInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LightsailClientTypes.InstanceSnapshotInfo()
@@ -16873,12 +16240,6 @@ extension LightsailClientTypes {
 }
 
 extension LightsailClientTypes.InstanceState {
-
-    static func write(value: LightsailClientTypes.InstanceState?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["code"].write(value.code)
-        try writer["name"].write(value.name)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.InstanceState {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -17054,18 +16415,6 @@ enum IsVpcPeeredOutputError {
 
 extension LightsailClientTypes.KeyPair {
 
-    static func write(value: LightsailClientTypes.KeyPair?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["fingerprint"].write(value.fingerprint)
-        try writer["location"].write(value.location, with: LightsailClientTypes.ResourceLocation.write(value:to:))
-        try writer["name"].write(value.name)
-        try writer["resourceType"].write(value.resourceType)
-        try writer["supportCode"].write(value.supportCode)
-        try writer["tags"].writeList(value.tags, memberWritingClosure: LightsailClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.KeyPair {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LightsailClientTypes.KeyPair()
@@ -17128,31 +16477,6 @@ extension LightsailClientTypes {
 public enum LightsailClientTypes {}
 
 extension LightsailClientTypes.LightsailDistribution {
-
-    static func write(value: LightsailClientTypes.LightsailDistribution?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ableToUpdateBundle"].write(value.ableToUpdateBundle)
-        try writer["alternativeDomainNames"].writeList(value.alternativeDomainNames, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["arn"].write(value.arn)
-        try writer["bundleId"].write(value.bundleId)
-        try writer["cacheBehaviorSettings"].write(value.cacheBehaviorSettings, with: LightsailClientTypes.CacheSettings.write(value:to:))
-        try writer["cacheBehaviors"].writeList(value.cacheBehaviors, memberWritingClosure: LightsailClientTypes.CacheBehaviorPerPath.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["certificateName"].write(value.certificateName)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["defaultCacheBehavior"].write(value.defaultCacheBehavior, with: LightsailClientTypes.CacheBehavior.write(value:to:))
-        try writer["domainName"].write(value.domainName)
-        try writer["ipAddressType"].write(value.ipAddressType)
-        try writer["isEnabled"].write(value.isEnabled)
-        try writer["location"].write(value.location, with: LightsailClientTypes.ResourceLocation.write(value:to:))
-        try writer["name"].write(value.name)
-        try writer["origin"].write(value.origin, with: LightsailClientTypes.Origin.write(value:to:))
-        try writer["originPublicDNS"].write(value.originPublicDNS)
-        try writer["resourceType"].write(value.resourceType)
-        try writer["status"].write(value.status)
-        try writer["supportCode"].write(value.supportCode)
-        try writer["tags"].writeList(value.tags, memberWritingClosure: LightsailClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["viewerMinimumTlsProtocolVersion"].write(value.viewerMinimumTlsProtocolVersion)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.LightsailDistribution {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -17279,29 +16603,6 @@ extension LightsailClientTypes {
 }
 
 extension LightsailClientTypes.LoadBalancer {
-
-    static func write(value: LightsailClientTypes.LoadBalancer?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["configurationOptions"].writeMap(value.configurationOptions, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["dnsName"].write(value.dnsName)
-        try writer["healthCheckPath"].write(value.healthCheckPath)
-        try writer["httpsRedirectionEnabled"].write(value.httpsRedirectionEnabled)
-        try writer["instanceHealthSummary"].writeList(value.instanceHealthSummary, memberWritingClosure: LightsailClientTypes.InstanceHealthSummary.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["instancePort"].write(value.instancePort)
-        try writer["ipAddressType"].write(value.ipAddressType)
-        try writer["location"].write(value.location, with: LightsailClientTypes.ResourceLocation.write(value:to:))
-        try writer["name"].write(value.name)
-        try writer["protocol"].write(value.`protocol`)
-        try writer["publicPorts"].writeList(value.publicPorts, memberWritingClosure: Swift.Int.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["resourceType"].write(value.resourceType)
-        try writer["state"].write(value.state)
-        try writer["supportCode"].write(value.supportCode)
-        try writer["tags"].writeList(value.tags, memberWritingClosure: LightsailClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["tlsCertificateSummaries"].writeList(value.tlsCertificateSummaries, memberWritingClosure: LightsailClientTypes.LoadBalancerTlsCertificateSummary.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["tlsPolicyName"].write(value.tlsPolicyName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.LoadBalancer {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -17587,35 +16888,6 @@ extension LightsailClientTypes {
 
 extension LightsailClientTypes.LoadBalancerTlsCertificate {
 
-    static func write(value: LightsailClientTypes.LoadBalancerTlsCertificate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["domainName"].write(value.domainName)
-        try writer["domainValidationRecords"].writeList(value.domainValidationRecords, memberWritingClosure: LightsailClientTypes.LoadBalancerTlsCertificateDomainValidationRecord.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["failureReason"].write(value.failureReason)
-        try writer["isAttached"].write(value.isAttached)
-        try writer["issuedAt"].writeTimestamp(value.issuedAt, format: .epochSeconds)
-        try writer["issuer"].write(value.issuer)
-        try writer["keyAlgorithm"].write(value.keyAlgorithm)
-        try writer["loadBalancerName"].write(value.loadBalancerName)
-        try writer["location"].write(value.location, with: LightsailClientTypes.ResourceLocation.write(value:to:))
-        try writer["name"].write(value.name)
-        try writer["notAfter"].writeTimestamp(value.notAfter, format: .epochSeconds)
-        try writer["notBefore"].writeTimestamp(value.notBefore, format: .epochSeconds)
-        try writer["renewalSummary"].write(value.renewalSummary, with: LightsailClientTypes.LoadBalancerTlsCertificateRenewalSummary.write(value:to:))
-        try writer["resourceType"].write(value.resourceType)
-        try writer["revocationReason"].write(value.revocationReason)
-        try writer["revokedAt"].writeTimestamp(value.revokedAt, format: .epochSeconds)
-        try writer["serial"].write(value.serial)
-        try writer["signatureAlgorithm"].write(value.signatureAlgorithm)
-        try writer["status"].write(value.status)
-        try writer["subject"].write(value.subject)
-        try writer["subjectAlternativeNames"].writeList(value.subjectAlternativeNames, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["supportCode"].write(value.supportCode)
-        try writer["tags"].writeList(value.tags, memberWritingClosure: LightsailClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.LoadBalancerTlsCertificate {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LightsailClientTypes.LoadBalancerTlsCertificate()
@@ -17792,12 +17064,6 @@ extension LightsailClientTypes {
 
 extension LightsailClientTypes.LoadBalancerTlsCertificateDnsRecordCreationState {
 
-    static func write(value: LightsailClientTypes.LoadBalancerTlsCertificateDnsRecordCreationState?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["code"].write(value.code)
-        try writer["message"].write(value.message)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.LoadBalancerTlsCertificateDnsRecordCreationState {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LightsailClientTypes.LoadBalancerTlsCertificateDnsRecordCreationState()
@@ -17901,12 +17167,6 @@ extension LightsailClientTypes {
 
 extension LightsailClientTypes.LoadBalancerTlsCertificateDomainValidationOption {
 
-    static func write(value: LightsailClientTypes.LoadBalancerTlsCertificateDomainValidationOption?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["domainName"].write(value.domainName)
-        try writer["validationStatus"].write(value.validationStatus)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.LoadBalancerTlsCertificateDomainValidationOption {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LightsailClientTypes.LoadBalancerTlsCertificateDomainValidationOption()
@@ -17937,16 +17197,6 @@ extension LightsailClientTypes {
 }
 
 extension LightsailClientTypes.LoadBalancerTlsCertificateDomainValidationRecord {
-
-    static func write(value: LightsailClientTypes.LoadBalancerTlsCertificateDomainValidationRecord?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["dnsRecordCreationState"].write(value.dnsRecordCreationState, with: LightsailClientTypes.LoadBalancerTlsCertificateDnsRecordCreationState.write(value:to:))
-        try writer["domainName"].write(value.domainName)
-        try writer["name"].write(value.name)
-        try writer["type"].write(value.type)
-        try writer["validationStatus"].write(value.validationStatus)
-        try writer["value"].write(value.value)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.LoadBalancerTlsCertificateDomainValidationRecord {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -18073,12 +17323,6 @@ extension LightsailClientTypes {
 }
 
 extension LightsailClientTypes.LoadBalancerTlsCertificateRenewalSummary {
-
-    static func write(value: LightsailClientTypes.LoadBalancerTlsCertificateRenewalSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["domainValidationOptions"].writeList(value.domainValidationOptions, memberWritingClosure: LightsailClientTypes.LoadBalancerTlsCertificateDomainValidationOption.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["renewalStatus"].write(value.renewalStatus)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.LoadBalancerTlsCertificateRenewalSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -18229,12 +17473,6 @@ extension LightsailClientTypes {
 
 extension LightsailClientTypes.LoadBalancerTlsCertificateSummary {
 
-    static func write(value: LightsailClientTypes.LoadBalancerTlsCertificateSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["isAttached"].write(value.isAttached)
-        try writer["name"].write(value.name)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.LoadBalancerTlsCertificateSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LightsailClientTypes.LoadBalancerTlsCertificateSummary()
@@ -18265,15 +17503,6 @@ extension LightsailClientTypes {
 }
 
 extension LightsailClientTypes.LoadBalancerTlsPolicy {
-
-    static func write(value: LightsailClientTypes.LoadBalancerTlsPolicy?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ciphers"].writeList(value.ciphers, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["description"].write(value.description)
-        try writer["isDefault"].write(value.isDefault)
-        try writer["name"].write(value.name)
-        try writer["protocols"].writeList(value.protocols, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.LoadBalancerTlsPolicy {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -18321,12 +17550,6 @@ extension LightsailClientTypes {
 
 extension LightsailClientTypes.LogEvent {
 
-    static func write(value: LightsailClientTypes.LogEvent?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["message"].write(value.message)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.LogEvent {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LightsailClientTypes.LogEvent()
@@ -18357,17 +17580,6 @@ extension LightsailClientTypes {
 }
 
 extension LightsailClientTypes.MetricDatapoint {
-
-    static func write(value: LightsailClientTypes.MetricDatapoint?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["average"].write(value.average)
-        try writer["maximum"].write(value.maximum)
-        try writer["minimum"].write(value.minimum)
-        try writer["sampleCount"].write(value.sampleCount)
-        try writer["sum"].write(value.sum)
-        try writer["timestamp"].writeTimestamp(value.timestamp, format: .epochSeconds)
-        try writer["unit"].write(value.unit)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.MetricDatapoint {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -18668,13 +17880,6 @@ extension LightsailClientTypes {
 
 extension LightsailClientTypes.MonitoredResourceInfo {
 
-    static func write(value: LightsailClientTypes.MonitoredResourceInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["name"].write(value.name)
-        try writer["resourceType"].write(value.resourceType)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.MonitoredResourceInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LightsailClientTypes.MonitoredResourceInfo()
@@ -18711,11 +17916,6 @@ extension LightsailClientTypes {
 
 extension LightsailClientTypes.MonthlyTransfer {
 
-    static func write(value: LightsailClientTypes.MonthlyTransfer?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["gbPerMonthAllocated"].write(value.gbPerMonthAllocated)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.MonthlyTransfer {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LightsailClientTypes.MonthlyTransfer()
@@ -18741,12 +17941,6 @@ extension LightsailClientTypes {
 }
 
 extension LightsailClientTypes.NameServersUpdateState {
-
-    static func write(value: LightsailClientTypes.NameServersUpdateState?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["code"].write(value.code)
-        try writer["message"].write(value.message)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.NameServersUpdateState {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -18985,22 +18179,6 @@ enum OpenInstancePublicPortsOutputError {
 }
 
 extension LightsailClientTypes.Operation {
-
-    static func write(value: LightsailClientTypes.Operation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["errorCode"].write(value.errorCode)
-        try writer["errorDetails"].write(value.errorDetails)
-        try writer["id"].write(value.id)
-        try writer["isTerminal"].write(value.isTerminal)
-        try writer["location"].write(value.location, with: LightsailClientTypes.ResourceLocation.write(value:to:))
-        try writer["operationDetails"].write(value.operationDetails)
-        try writer["operationType"].write(value.operationType)
-        try writer["resourceName"].write(value.resourceName)
-        try writer["resourceType"].write(value.resourceType)
-        try writer["status"].write(value.status)
-        try writer["statusChangedAt"].writeTimestamp(value.statusChangedAt, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.Operation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -19444,15 +18622,6 @@ extension LightsailClientTypes {
 
 extension LightsailClientTypes.Origin {
 
-    static func write(value: LightsailClientTypes.Origin?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-        try writer["protocolPolicy"].write(value.protocolPolicy)
-        try writer["regionName"].write(value.regionName)
-        try writer["resourceType"].write(value.resourceType)
-        try writer["responseTimeout"].write(value.responseTimeout)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.Origin {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LightsailClientTypes.Origin()
@@ -19528,12 +18697,6 @@ extension LightsailClientTypes {
 }
 
 extension LightsailClientTypes.PasswordData {
-
-    static func write(value: LightsailClientTypes.PasswordData?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ciphertext"].write(value.ciphertext)
-        try writer["keyPairName"].write(value.keyPairName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.PasswordData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -19630,13 +18793,6 @@ enum PeerVpcOutputError {
 
 extension LightsailClientTypes.PendingMaintenanceAction {
 
-    static func write(value: LightsailClientTypes.PendingMaintenanceAction?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["action"].write(value.action)
-        try writer["currentApplyDate"].writeTimestamp(value.currentApplyDate, format: .epochSeconds)
-        try writer["description"].write(value.description)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.PendingMaintenanceAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LightsailClientTypes.PendingMaintenanceAction()
@@ -19672,13 +18828,6 @@ extension LightsailClientTypes {
 }
 
 extension LightsailClientTypes.PendingModifiedRelationalDatabaseValues {
-
-    static func write(value: LightsailClientTypes.PendingModifiedRelationalDatabaseValues?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["backupRetentionEnabled"].write(value.backupRetentionEnabled)
-        try writer["engineVersion"].write(value.engineVersion)
-        try writer["masterUserPassword"].write(value.masterUserPassword)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.PendingModifiedRelationalDatabaseValues {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -19754,18 +18903,6 @@ extension LightsailClientTypes.PortInfo {
         try writer["ipv6Cidrs"].writeList(value.ipv6Cidrs, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["protocol"].write(value.`protocol`)
         try writer["toPort"].write(value.toPort)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.PortInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LightsailClientTypes.PortInfo()
-        value.fromPort = try reader["fromPort"].readIfPresent() ?? 0
-        value.toPort = try reader["toPort"].readIfPresent() ?? 0
-        value.`protocol` = try reader["protocol"].readIfPresent()
-        value.cidrs = try reader["cidrs"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.ipv6Cidrs = try reader["ipv6Cidrs"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.cidrListAliases = try reader["cidrListAliases"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -19939,11 +19076,6 @@ extension LightsailClientTypes {
 
 extension LightsailClientTypes.PrivateRegistryAccess {
 
-    static func write(value: LightsailClientTypes.PrivateRegistryAccess?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ecrImagePullerRole"].write(value.ecrImagePullerRole, with: LightsailClientTypes.ContainerServiceECRImagePullerRole.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.PrivateRegistryAccess {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LightsailClientTypes.PrivateRegistryAccess()
@@ -19973,13 +19105,6 @@ extension LightsailClientTypes.PrivateRegistryAccessRequest {
     static func write(value: LightsailClientTypes.PrivateRegistryAccessRequest?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["ecrImagePullerRole"].write(value.ecrImagePullerRole, with: LightsailClientTypes.ContainerServiceECRImagePullerRoleRequest.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.PrivateRegistryAccessRequest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LightsailClientTypes.PrivateRegistryAccessRequest()
-        value.ecrImagePullerRole = try reader["ecrImagePullerRole"].readIfPresent(with: LightsailClientTypes.ContainerServiceECRImagePullerRoleRequest.read(from:))
-        return value
     }
 }
 
@@ -20278,12 +19403,6 @@ extension LightsailClientTypes {
 
 extension LightsailClientTypes.R53HostedZoneDeletionState {
 
-    static func write(value: LightsailClientTypes.R53HostedZoneDeletionState?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["code"].write(value.code)
-        try writer["message"].write(value.message)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.R53HostedZoneDeletionState {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LightsailClientTypes.R53HostedZoneDeletionState()
@@ -20536,16 +19655,6 @@ extension LightsailClientTypes {
 
 extension LightsailClientTypes.Region {
 
-    static func write(value: LightsailClientTypes.Region?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["availabilityZones"].writeList(value.availabilityZones, memberWritingClosure: LightsailClientTypes.AvailabilityZone.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["continentCode"].write(value.continentCode)
-        try writer["description"].write(value.description)
-        try writer["displayName"].write(value.displayName)
-        try writer["name"].write(value.name)
-        try writer["relationalDatabaseAvailabilityZones"].writeList(value.relationalDatabaseAvailabilityZones, memberWritingClosure: LightsailClientTypes.AvailabilityZone.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.Region {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LightsailClientTypes.Region()
@@ -20752,12 +19861,6 @@ enum RegisterContainerImageOutputError {
 
 extension LightsailClientTypes.RegisteredDomainDelegationInfo {
 
-    static func write(value: LightsailClientTypes.RegisteredDomainDelegationInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["nameServersUpdateState"].write(value.nameServersUpdateState, with: LightsailClientTypes.NameServersUpdateState.write(value:to:))
-        try writer["r53HostedZoneDeletionState"].write(value.r53HostedZoneDeletionState, with: LightsailClientTypes.R53HostedZoneDeletionState.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.RegisteredDomainDelegationInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LightsailClientTypes.RegisteredDomainDelegationInfo()
@@ -20797,36 +19900,6 @@ extension LightsailClientTypes {
 }
 
 extension LightsailClientTypes.RelationalDatabase {
-
-    static func write(value: LightsailClientTypes.RelationalDatabase?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["backupRetentionEnabled"].write(value.backupRetentionEnabled)
-        try writer["caCertificateIdentifier"].write(value.caCertificateIdentifier)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["engine"].write(value.engine)
-        try writer["engineVersion"].write(value.engineVersion)
-        try writer["hardware"].write(value.hardware, with: LightsailClientTypes.RelationalDatabaseHardware.write(value:to:))
-        try writer["latestRestorableTime"].writeTimestamp(value.latestRestorableTime, format: .epochSeconds)
-        try writer["location"].write(value.location, with: LightsailClientTypes.ResourceLocation.write(value:to:))
-        try writer["masterDatabaseName"].write(value.masterDatabaseName)
-        try writer["masterEndpoint"].write(value.masterEndpoint, with: LightsailClientTypes.RelationalDatabaseEndpoint.write(value:to:))
-        try writer["masterUsername"].write(value.masterUsername)
-        try writer["name"].write(value.name)
-        try writer["parameterApplyStatus"].write(value.parameterApplyStatus)
-        try writer["pendingMaintenanceActions"].writeList(value.pendingMaintenanceActions, memberWritingClosure: LightsailClientTypes.PendingMaintenanceAction.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["pendingModifiedValues"].write(value.pendingModifiedValues, with: LightsailClientTypes.PendingModifiedRelationalDatabaseValues.write(value:to:))
-        try writer["preferredBackupWindow"].write(value.preferredBackupWindow)
-        try writer["preferredMaintenanceWindow"].write(value.preferredMaintenanceWindow)
-        try writer["publiclyAccessible"].write(value.publiclyAccessible)
-        try writer["relationalDatabaseBlueprintId"].write(value.relationalDatabaseBlueprintId)
-        try writer["relationalDatabaseBundleId"].write(value.relationalDatabaseBundleId)
-        try writer["resourceType"].write(value.resourceType)
-        try writer["secondaryAvailabilityZone"].write(value.secondaryAvailabilityZone)
-        try writer["state"].write(value.state)
-        try writer["supportCode"].write(value.supportCode)
-        try writer["tags"].writeList(value.tags, memberWritingClosure: LightsailClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.RelationalDatabase {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -20979,16 +20052,6 @@ extension LightsailClientTypes {
 
 extension LightsailClientTypes.RelationalDatabaseBlueprint {
 
-    static func write(value: LightsailClientTypes.RelationalDatabaseBlueprint?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["blueprintId"].write(value.blueprintId)
-        try writer["engine"].write(value.engine)
-        try writer["engineDescription"].write(value.engineDescription)
-        try writer["engineVersion"].write(value.engineVersion)
-        try writer["engineVersionDescription"].write(value.engineVersionDescription)
-        try writer["isEngineDefault"].write(value.isEngineDefault)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.RelationalDatabaseBlueprint {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LightsailClientTypes.RelationalDatabaseBlueprint()
@@ -21039,19 +20102,6 @@ extension LightsailClientTypes {
 }
 
 extension LightsailClientTypes.RelationalDatabaseBundle {
-
-    static func write(value: LightsailClientTypes.RelationalDatabaseBundle?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["bundleId"].write(value.bundleId)
-        try writer["cpuCount"].write(value.cpuCount)
-        try writer["diskSizeInGb"].write(value.diskSizeInGb)
-        try writer["isActive"].write(value.isActive)
-        try writer["isEncrypted"].write(value.isEncrypted)
-        try writer["name"].write(value.name)
-        try writer["price"].write(value.price)
-        try writer["ramSizeInGb"].write(value.ramSizeInGb)
-        try writer["transferPerMonthInGb"].write(value.transferPerMonthInGb)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.RelationalDatabaseBundle {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -21119,12 +20169,6 @@ extension LightsailClientTypes {
 
 extension LightsailClientTypes.RelationalDatabaseEndpoint {
 
-    static func write(value: LightsailClientTypes.RelationalDatabaseEndpoint?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["address"].write(value.address)
-        try writer["port"].write(value.port)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.RelationalDatabaseEndpoint {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LightsailClientTypes.RelationalDatabaseEndpoint()
@@ -21183,14 +20227,6 @@ extension LightsailClientTypes {
 
 extension LightsailClientTypes.RelationalDatabaseEvent {
 
-    static func write(value: LightsailClientTypes.RelationalDatabaseEvent?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["eventCategories"].writeList(value.eventCategories, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["message"].write(value.message)
-        try writer["resource"].write(value.resource)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.RelationalDatabaseEvent {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LightsailClientTypes.RelationalDatabaseEvent()
@@ -21231,13 +20267,6 @@ extension LightsailClientTypes {
 }
 
 extension LightsailClientTypes.RelationalDatabaseHardware {
-
-    static func write(value: LightsailClientTypes.RelationalDatabaseHardware?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["cpuCount"].write(value.cpuCount)
-        try writer["diskSizeInGb"].write(value.diskSizeInGb)
-        try writer["ramSizeInGb"].write(value.ramSizeInGb)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.RelationalDatabaseHardware {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -21422,25 +20451,6 @@ extension LightsailClientTypes {
 }
 
 extension LightsailClientTypes.RelationalDatabaseSnapshot {
-
-    static func write(value: LightsailClientTypes.RelationalDatabaseSnapshot?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["engine"].write(value.engine)
-        try writer["engineVersion"].write(value.engineVersion)
-        try writer["fromRelationalDatabaseArn"].write(value.fromRelationalDatabaseArn)
-        try writer["fromRelationalDatabaseBlueprintId"].write(value.fromRelationalDatabaseBlueprintId)
-        try writer["fromRelationalDatabaseBundleId"].write(value.fromRelationalDatabaseBundleId)
-        try writer["fromRelationalDatabaseName"].write(value.fromRelationalDatabaseName)
-        try writer["location"].write(value.location, with: LightsailClientTypes.ResourceLocation.write(value:to:))
-        try writer["name"].write(value.name)
-        try writer["resourceType"].write(value.resourceType)
-        try writer["sizeInGb"].write(value.sizeInGb)
-        try writer["state"].write(value.state)
-        try writer["supportCode"].write(value.supportCode)
-        try writer["tags"].writeList(value.tags, memberWritingClosure: LightsailClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.RelationalDatabaseSnapshot {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -21646,14 +20656,6 @@ extension LightsailClientTypes {
 
 extension LightsailClientTypes.RenewalSummary {
 
-    static func write(value: LightsailClientTypes.RenewalSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["domainValidationRecords"].writeList(value.domainValidationRecords, memberWritingClosure: LightsailClientTypes.DomainValidationRecord.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["renewalStatus"].write(value.renewalStatus)
-        try writer["renewalStatusReason"].write(value.renewalStatusReason)
-        try writer["updatedAt"].writeTimestamp(value.updatedAt, format: .epochSeconds)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.RenewalSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LightsailClientTypes.RenewalSummary()
@@ -21813,15 +20815,6 @@ extension LightsailClientTypes {
 
 extension LightsailClientTypes.ResourceBudgetEstimate {
 
-    static func write(value: LightsailClientTypes.ResourceBudgetEstimate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["costEstimates"].writeList(value.costEstimates, memberWritingClosure: LightsailClientTypes.CostEstimate.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["endTime"].writeTimestamp(value.endTime, format: .epochSeconds)
-        try writer["resourceName"].write(value.resourceName)
-        try writer["resourceType"].write(value.resourceType)
-        try writer["startTime"].writeTimestamp(value.startTime, format: .epochSeconds)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.ResourceBudgetEstimate {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LightsailClientTypes.ResourceBudgetEstimate()
@@ -21868,12 +20861,6 @@ extension LightsailClientTypes {
 
 extension LightsailClientTypes.ResourceLocation {
 
-    static func write(value: LightsailClientTypes.ResourceLocation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["availabilityZone"].write(value.availabilityZone)
-        try writer["regionName"].write(value.regionName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.ResourceLocation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LightsailClientTypes.ResourceLocation()
@@ -21905,12 +20892,6 @@ extension LightsailClientTypes {
 
 extension LightsailClientTypes.ResourceReceivingAccess {
 
-    static func write(value: LightsailClientTypes.ResourceReceivingAccess?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-        try writer["resourceType"].write(value.resourceType)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.ResourceReceivingAccess {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LightsailClientTypes.ResourceReceivingAccess()
@@ -21941,13 +20922,6 @@ extension LightsailClientTypes {
 }
 
 extension LightsailClientTypes.ResourceRecord {
-
-    static func write(value: LightsailClientTypes.ResourceRecord?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-        try writer["type"].write(value.type)
-        try writer["value"].write(value.value)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.ResourceRecord {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -22194,13 +21168,6 @@ extension LightsailClientTypes.Session: Swift.CustomDebugStringConvertible {
 
 extension LightsailClientTypes.Session {
 
-    static func write(value: LightsailClientTypes.Session?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["isPrimary"].write(value.isPrimary)
-        try writer["name"].write(value.name)
-        try writer["url"].write(value.url)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.Session {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LightsailClientTypes.Session()
@@ -22407,17 +21374,6 @@ enum SetResourceAccessForBucketOutputError {
 
 extension LightsailClientTypes.SetupExecutionDetails {
 
-    static func write(value: LightsailClientTypes.SetupExecutionDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["command"].write(value.command)
-        try writer["dateTime"].writeTimestamp(value.dateTime, format: .epochSeconds)
-        try writer["name"].write(value.name)
-        try writer["standardError"].write(value.standardError)
-        try writer["standardOutput"].write(value.standardOutput)
-        try writer["status"].write(value.status)
-        try writer["version"].write(value.version)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.SetupExecutionDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LightsailClientTypes.SetupExecutionDetails()
@@ -22474,15 +21430,6 @@ extension LightsailClientTypes {
 
 extension LightsailClientTypes.SetupHistory {
 
-    static func write(value: LightsailClientTypes.SetupHistory?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["executionDetails"].writeList(value.executionDetails, memberWritingClosure: LightsailClientTypes.SetupExecutionDetails.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["operationId"].write(value.operationId)
-        try writer["request"].write(value.request, with: LightsailClientTypes.SetupRequest.write(value:to:))
-        try writer["resource"].write(value.resource, with: LightsailClientTypes.SetupHistoryResource.write(value:to:))
-        try writer["status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.SetupHistory {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LightsailClientTypes.SetupHistory()
@@ -22528,15 +21475,6 @@ extension LightsailClientTypes {
 }
 
 extension LightsailClientTypes.SetupHistoryResource {
-
-    static func write(value: LightsailClientTypes.SetupHistoryResource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["location"].write(value.location, with: LightsailClientTypes.ResourceLocation.write(value:to:))
-        try writer["name"].write(value.name)
-        try writer["resourceType"].write(value.resourceType)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.SetupHistoryResource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -22676,13 +21614,6 @@ enum SetupInstanceHttpsOutputError {
 }
 
 extension LightsailClientTypes.SetupRequest {
-
-    static func write(value: LightsailClientTypes.SetupRequest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["certificateProvider"].write(value.certificateProvider)
-        try writer["domainNames"].writeList(value.domainNames, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["instanceName"].write(value.instanceName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.SetupRequest {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -22967,19 +21898,6 @@ enum StartRelationalDatabaseOutputError {
 
 extension LightsailClientTypes.StaticIp {
 
-    static func write(value: LightsailClientTypes.StaticIp?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["attachedTo"].write(value.attachedTo)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["ipAddress"].write(value.ipAddress)
-        try writer["isAttached"].write(value.isAttached)
-        try writer["location"].write(value.location, with: LightsailClientTypes.ResourceLocation.write(value:to:))
-        try writer["name"].write(value.name)
-        try writer["resourceType"].write(value.resourceType)
-        try writer["supportCode"].write(value.supportCode)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.StaticIp {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LightsailClientTypes.StaticIp()
@@ -23237,14 +22155,6 @@ extension LightsailClientTypes.StopInstanceOnIdleRequest {
         guard let value else { return }
         try writer["duration"].write(value.duration)
         try writer["threshold"].write(value.threshold)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.StopInstanceOnIdleRequest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LightsailClientTypes.StopInstanceOnIdleRequest()
-        value.threshold = try reader["threshold"].readIfPresent()
-        value.duration = try reader["duration"].readIfPresent()
-        return value
     }
 }
 
@@ -23593,12 +22503,6 @@ enum TestAlarmOutputError {
 }
 
 extension LightsailClientTypes.TimePeriod {
-
-    static func write(value: LightsailClientTypes.TimePeriod?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["end"].writeTimestamp(value.end, format: .epochSeconds)
-        try writer["start"].writeTimestamp(value.start, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.TimePeriod {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

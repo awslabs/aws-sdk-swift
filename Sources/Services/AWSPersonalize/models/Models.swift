@@ -6,20 +6,6 @@ import SmithyReadWrite
 
 extension PersonalizeClientTypes.Algorithm {
 
-    static func write(value: PersonalizeClientTypes.Algorithm?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["algorithmArn"].write(value.algorithmArn)
-        try writer["algorithmImage"].write(value.algorithmImage, with: PersonalizeClientTypes.AlgorithmImage.write(value:to:))
-        try writer["creationDateTime"].writeTimestamp(value.creationDateTime, format: .epochSeconds)
-        try writer["defaultHyperParameterRanges"].write(value.defaultHyperParameterRanges, with: PersonalizeClientTypes.DefaultHyperParameterRanges.write(value:to:))
-        try writer["defaultHyperParameters"].writeMap(value.defaultHyperParameters, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["defaultResourceConfig"].writeMap(value.defaultResourceConfig, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["lastUpdatedDateTime"].writeTimestamp(value.lastUpdatedDateTime, format: .epochSeconds)
-        try writer["name"].write(value.name)
-        try writer["roleArn"].write(value.roleArn)
-        try writer["trainingInputMode"].write(value.trainingInputMode)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.Algorithm {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PersonalizeClientTypes.Algorithm()
@@ -91,12 +77,6 @@ extension PersonalizeClientTypes {
 
 extension PersonalizeClientTypes.AlgorithmImage {
 
-    static func write(value: PersonalizeClientTypes.AlgorithmImage?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["dockerURI"].write(value.dockerURI)
-        try writer["name"].write(value.name)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.AlgorithmImage {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PersonalizeClientTypes.AlgorithmImage()
@@ -166,11 +146,6 @@ extension PersonalizeClientTypes {
 
 extension PersonalizeClientTypes.AutoMLResult {
 
-    static func write(value: PersonalizeClientTypes.AutoMLResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["bestRecipeArn"].write(value.bestRecipeArn)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.AutoMLResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PersonalizeClientTypes.AutoMLResult()
@@ -227,25 +202,6 @@ extension PersonalizeClientTypes {
 }
 
 extension PersonalizeClientTypes.BatchInferenceJob {
-
-    static func write(value: PersonalizeClientTypes.BatchInferenceJob?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["batchInferenceJobArn"].write(value.batchInferenceJobArn)
-        try writer["batchInferenceJobConfig"].write(value.batchInferenceJobConfig, with: PersonalizeClientTypes.BatchInferenceJobConfig.write(value:to:))
-        try writer["batchInferenceJobMode"].write(value.batchInferenceJobMode)
-        try writer["creationDateTime"].writeTimestamp(value.creationDateTime, format: .epochSeconds)
-        try writer["failureReason"].write(value.failureReason)
-        try writer["filterArn"].write(value.filterArn)
-        try writer["jobInput"].write(value.jobInput, with: PersonalizeClientTypes.BatchInferenceJobInput.write(value:to:))
-        try writer["jobName"].write(value.jobName)
-        try writer["jobOutput"].write(value.jobOutput, with: PersonalizeClientTypes.BatchInferenceJobOutput.write(value:to:))
-        try writer["lastUpdatedDateTime"].writeTimestamp(value.lastUpdatedDateTime, format: .epochSeconds)
-        try writer["numResults"].write(value.numResults)
-        try writer["roleArn"].write(value.roleArn)
-        try writer["solutionVersionArn"].write(value.solutionVersionArn)
-        try writer["status"].write(value.status)
-        try writer["themeGenerationConfig"].write(value.themeGenerationConfig, with: PersonalizeClientTypes.ThemeGenerationConfig.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.BatchInferenceJob {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -476,18 +432,6 @@ extension PersonalizeClientTypes {
 
 extension PersonalizeClientTypes.BatchInferenceJobSummary {
 
-    static func write(value: PersonalizeClientTypes.BatchInferenceJobSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["batchInferenceJobArn"].write(value.batchInferenceJobArn)
-        try writer["batchInferenceJobMode"].write(value.batchInferenceJobMode)
-        try writer["creationDateTime"].writeTimestamp(value.creationDateTime, format: .epochSeconds)
-        try writer["failureReason"].write(value.failureReason)
-        try writer["jobName"].write(value.jobName)
-        try writer["lastUpdatedDateTime"].writeTimestamp(value.lastUpdatedDateTime, format: .epochSeconds)
-        try writer["solutionVersionArn"].write(value.solutionVersionArn)
-        try writer["status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.BatchInferenceJobSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PersonalizeClientTypes.BatchInferenceJobSummary()
@@ -556,22 +500,6 @@ extension PersonalizeClientTypes {
 }
 
 extension PersonalizeClientTypes.BatchSegmentJob {
-
-    static func write(value: PersonalizeClientTypes.BatchSegmentJob?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["batchSegmentJobArn"].write(value.batchSegmentJobArn)
-        try writer["creationDateTime"].writeTimestamp(value.creationDateTime, format: .epochSeconds)
-        try writer["failureReason"].write(value.failureReason)
-        try writer["filterArn"].write(value.filterArn)
-        try writer["jobInput"].write(value.jobInput, with: PersonalizeClientTypes.BatchSegmentJobInput.write(value:to:))
-        try writer["jobName"].write(value.jobName)
-        try writer["jobOutput"].write(value.jobOutput, with: PersonalizeClientTypes.BatchSegmentJobOutput.write(value:to:))
-        try writer["lastUpdatedDateTime"].writeTimestamp(value.lastUpdatedDateTime, format: .epochSeconds)
-        try writer["numResults"].write(value.numResults)
-        try writer["roleArn"].write(value.roleArn)
-        try writer["solutionVersionArn"].write(value.solutionVersionArn)
-        try writer["status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.BatchSegmentJob {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -726,17 +654,6 @@ extension PersonalizeClientTypes {
 
 extension PersonalizeClientTypes.BatchSegmentJobSummary {
 
-    static func write(value: PersonalizeClientTypes.BatchSegmentJobSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["batchSegmentJobArn"].write(value.batchSegmentJobArn)
-        try writer["creationDateTime"].writeTimestamp(value.creationDateTime, format: .epochSeconds)
-        try writer["failureReason"].write(value.failureReason)
-        try writer["jobName"].write(value.jobName)
-        try writer["lastUpdatedDateTime"].writeTimestamp(value.lastUpdatedDateTime, format: .epochSeconds)
-        try writer["solutionVersionArn"].write(value.solutionVersionArn)
-        try writer["status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.BatchSegmentJobSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PersonalizeClientTypes.BatchSegmentJobSummary()
@@ -800,20 +717,6 @@ extension PersonalizeClientTypes {
 }
 
 extension PersonalizeClientTypes.Campaign {
-
-    static func write(value: PersonalizeClientTypes.Campaign?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["campaignArn"].write(value.campaignArn)
-        try writer["campaignConfig"].write(value.campaignConfig, with: PersonalizeClientTypes.CampaignConfig.write(value:to:))
-        try writer["creationDateTime"].writeTimestamp(value.creationDateTime, format: .epochSeconds)
-        try writer["failureReason"].write(value.failureReason)
-        try writer["lastUpdatedDateTime"].writeTimestamp(value.lastUpdatedDateTime, format: .epochSeconds)
-        try writer["latestCampaignUpdate"].write(value.latestCampaignUpdate, with: PersonalizeClientTypes.CampaignUpdateSummary.write(value:to:))
-        try writer["minProvisionedTPS"].write(value.minProvisionedTPS)
-        try writer["name"].write(value.name)
-        try writer["solutionVersionArn"].write(value.solutionVersionArn)
-        try writer["status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.Campaign {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -933,16 +836,6 @@ extension PersonalizeClientTypes {
 
 extension PersonalizeClientTypes.CampaignSummary {
 
-    static func write(value: PersonalizeClientTypes.CampaignSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["campaignArn"].write(value.campaignArn)
-        try writer["creationDateTime"].writeTimestamp(value.creationDateTime, format: .epochSeconds)
-        try writer["failureReason"].write(value.failureReason)
-        try writer["lastUpdatedDateTime"].writeTimestamp(value.lastUpdatedDateTime, format: .epochSeconds)
-        try writer["name"].write(value.name)
-        try writer["status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.CampaignSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PersonalizeClientTypes.CampaignSummary()
@@ -997,17 +890,6 @@ extension PersonalizeClientTypes {
 }
 
 extension PersonalizeClientTypes.CampaignUpdateSummary {
-
-    static func write(value: PersonalizeClientTypes.CampaignUpdateSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["campaignConfig"].write(value.campaignConfig, with: PersonalizeClientTypes.CampaignConfig.write(value:to:))
-        try writer["creationDateTime"].writeTimestamp(value.creationDateTime, format: .epochSeconds)
-        try writer["failureReason"].write(value.failureReason)
-        try writer["lastUpdatedDateTime"].writeTimestamp(value.lastUpdatedDateTime, format: .epochSeconds)
-        try writer["minProvisionedTPS"].write(value.minProvisionedTPS)
-        try writer["solutionVersionArn"].write(value.solutionVersionArn)
-        try writer["status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.CampaignUpdateSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2612,20 +2494,6 @@ enum CreateSolutionVersionOutputError {
 
 extension PersonalizeClientTypes.DataDeletionJob {
 
-    static func write(value: PersonalizeClientTypes.DataDeletionJob?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["creationDateTime"].writeTimestamp(value.creationDateTime, format: .epochSeconds)
-        try writer["dataDeletionJobArn"].write(value.dataDeletionJobArn)
-        try writer["dataSource"].write(value.dataSource, with: PersonalizeClientTypes.DataSource.write(value:to:))
-        try writer["datasetGroupArn"].write(value.datasetGroupArn)
-        try writer["failureReason"].write(value.failureReason)
-        try writer["jobName"].write(value.jobName)
-        try writer["lastUpdatedDateTime"].writeTimestamp(value.lastUpdatedDateTime, format: .epochSeconds)
-        try writer["numDeleted"].write(value.numDeleted)
-        try writer["roleArn"].write(value.roleArn)
-        try writer["status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.DataDeletionJob {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PersonalizeClientTypes.DataDeletionJob()
@@ -2698,17 +2566,6 @@ extension PersonalizeClientTypes {
 }
 
 extension PersonalizeClientTypes.DataDeletionJobSummary {
-
-    static func write(value: PersonalizeClientTypes.DataDeletionJobSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["creationDateTime"].writeTimestamp(value.creationDateTime, format: .epochSeconds)
-        try writer["dataDeletionJobArn"].write(value.dataDeletionJobArn)
-        try writer["datasetGroupArn"].write(value.datasetGroupArn)
-        try writer["failureReason"].write(value.failureReason)
-        try writer["jobName"].write(value.jobName)
-        try writer["lastUpdatedDateTime"].writeTimestamp(value.lastUpdatedDateTime, format: .epochSeconds)
-        try writer["status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.DataDeletionJobSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2799,20 +2656,6 @@ extension PersonalizeClientTypes {
 
 extension PersonalizeClientTypes.Dataset {
 
-    static func write(value: PersonalizeClientTypes.Dataset?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["creationDateTime"].writeTimestamp(value.creationDateTime, format: .epochSeconds)
-        try writer["datasetArn"].write(value.datasetArn)
-        try writer["datasetGroupArn"].write(value.datasetGroupArn)
-        try writer["datasetType"].write(value.datasetType)
-        try writer["lastUpdatedDateTime"].writeTimestamp(value.lastUpdatedDateTime, format: .epochSeconds)
-        try writer["latestDatasetUpdate"].write(value.latestDatasetUpdate, with: PersonalizeClientTypes.DatasetUpdateSummary.write(value:to:))
-        try writer["name"].write(value.name)
-        try writer["schemaArn"].write(value.schemaArn)
-        try writer["status"].write(value.status)
-        try writer["trackingId"].write(value.trackingId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.Dataset {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PersonalizeClientTypes.Dataset()
@@ -2897,20 +2740,6 @@ extension PersonalizeClientTypes {
 }
 
 extension PersonalizeClientTypes.DatasetExportJob {
-
-    static func write(value: PersonalizeClientTypes.DatasetExportJob?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["creationDateTime"].writeTimestamp(value.creationDateTime, format: .epochSeconds)
-        try writer["datasetArn"].write(value.datasetArn)
-        try writer["datasetExportJobArn"].write(value.datasetExportJobArn)
-        try writer["failureReason"].write(value.failureReason)
-        try writer["ingestionMode"].write(value.ingestionMode)
-        try writer["jobName"].write(value.jobName)
-        try writer["jobOutput"].write(value.jobOutput, with: PersonalizeClientTypes.DatasetExportJobOutput.write(value:to:))
-        try writer["lastUpdatedDateTime"].writeTimestamp(value.lastUpdatedDateTime, format: .epochSeconds)
-        try writer["roleArn"].write(value.roleArn)
-        try writer["status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.DatasetExportJob {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3019,16 +2848,6 @@ extension PersonalizeClientTypes {
 
 extension PersonalizeClientTypes.DatasetExportJobSummary {
 
-    static func write(value: PersonalizeClientTypes.DatasetExportJobSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["creationDateTime"].writeTimestamp(value.creationDateTime, format: .epochSeconds)
-        try writer["datasetExportJobArn"].write(value.datasetExportJobArn)
-        try writer["failureReason"].write(value.failureReason)
-        try writer["jobName"].write(value.jobName)
-        try writer["lastUpdatedDateTime"].writeTimestamp(value.lastUpdatedDateTime, format: .epochSeconds)
-        try writer["status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.DatasetExportJobSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PersonalizeClientTypes.DatasetExportJobSummary()
@@ -3081,19 +2900,6 @@ extension PersonalizeClientTypes {
 }
 
 extension PersonalizeClientTypes.DatasetGroup {
-
-    static func write(value: PersonalizeClientTypes.DatasetGroup?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["creationDateTime"].writeTimestamp(value.creationDateTime, format: .epochSeconds)
-        try writer["datasetGroupArn"].write(value.datasetGroupArn)
-        try writer["domain"].write(value.domain)
-        try writer["failureReason"].write(value.failureReason)
-        try writer["kmsKeyArn"].write(value.kmsKeyArn)
-        try writer["lastUpdatedDateTime"].writeTimestamp(value.lastUpdatedDateTime, format: .epochSeconds)
-        try writer["name"].write(value.name)
-        try writer["roleArn"].write(value.roleArn)
-        try writer["status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.DatasetGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3165,17 +2971,6 @@ extension PersonalizeClientTypes {
 
 extension PersonalizeClientTypes.DatasetGroupSummary {
 
-    static func write(value: PersonalizeClientTypes.DatasetGroupSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["creationDateTime"].writeTimestamp(value.creationDateTime, format: .epochSeconds)
-        try writer["datasetGroupArn"].write(value.datasetGroupArn)
-        try writer["domain"].write(value.domain)
-        try writer["failureReason"].write(value.failureReason)
-        try writer["lastUpdatedDateTime"].writeTimestamp(value.lastUpdatedDateTime, format: .epochSeconds)
-        try writer["name"].write(value.name)
-        try writer["status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.DatasetGroupSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PersonalizeClientTypes.DatasetGroupSummary()
@@ -3235,21 +3030,6 @@ extension PersonalizeClientTypes {
 }
 
 extension PersonalizeClientTypes.DatasetImportJob {
-
-    static func write(value: PersonalizeClientTypes.DatasetImportJob?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["creationDateTime"].writeTimestamp(value.creationDateTime, format: .epochSeconds)
-        try writer["dataSource"].write(value.dataSource, with: PersonalizeClientTypes.DataSource.write(value:to:))
-        try writer["datasetArn"].write(value.datasetArn)
-        try writer["datasetImportJobArn"].write(value.datasetImportJobArn)
-        try writer["failureReason"].write(value.failureReason)
-        try writer["importMode"].write(value.importMode)
-        try writer["jobName"].write(value.jobName)
-        try writer["lastUpdatedDateTime"].writeTimestamp(value.lastUpdatedDateTime, format: .epochSeconds)
-        try writer["publishAttributionMetricsToS3"].write(value.publishAttributionMetricsToS3)
-        try writer["roleArn"].write(value.roleArn)
-        try writer["status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.DatasetImportJob {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3331,17 +3111,6 @@ extension PersonalizeClientTypes {
 
 extension PersonalizeClientTypes.DatasetImportJobSummary {
 
-    static func write(value: PersonalizeClientTypes.DatasetImportJobSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["creationDateTime"].writeTimestamp(value.creationDateTime, format: .epochSeconds)
-        try writer["datasetImportJobArn"].write(value.datasetImportJobArn)
-        try writer["failureReason"].write(value.failureReason)
-        try writer["importMode"].write(value.importMode)
-        try writer["jobName"].write(value.jobName)
-        try writer["lastUpdatedDateTime"].writeTimestamp(value.lastUpdatedDateTime, format: .epochSeconds)
-        try writer["status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.DatasetImportJobSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PersonalizeClientTypes.DatasetImportJobSummary()
@@ -3400,16 +3169,6 @@ extension PersonalizeClientTypes {
 
 extension PersonalizeClientTypes.DatasetSchema {
 
-    static func write(value: PersonalizeClientTypes.DatasetSchema?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["creationDateTime"].writeTimestamp(value.creationDateTime, format: .epochSeconds)
-        try writer["domain"].write(value.domain)
-        try writer["lastUpdatedDateTime"].writeTimestamp(value.lastUpdatedDateTime, format: .epochSeconds)
-        try writer["name"].write(value.name)
-        try writer["schema"].write(value.schema)
-        try writer["schemaArn"].write(value.schemaArn)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.DatasetSchema {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PersonalizeClientTypes.DatasetSchema()
@@ -3461,15 +3220,6 @@ extension PersonalizeClientTypes {
 
 extension PersonalizeClientTypes.DatasetSchemaSummary {
 
-    static func write(value: PersonalizeClientTypes.DatasetSchemaSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["creationDateTime"].writeTimestamp(value.creationDateTime, format: .epochSeconds)
-        try writer["domain"].write(value.domain)
-        try writer["lastUpdatedDateTime"].writeTimestamp(value.lastUpdatedDateTime, format: .epochSeconds)
-        try writer["name"].write(value.name)
-        try writer["schemaArn"].write(value.schemaArn)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.DatasetSchemaSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PersonalizeClientTypes.DatasetSchemaSummary()
@@ -3515,16 +3265,6 @@ extension PersonalizeClientTypes {
 }
 
 extension PersonalizeClientTypes.DatasetSummary {
-
-    static func write(value: PersonalizeClientTypes.DatasetSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["creationDateTime"].writeTimestamp(value.creationDateTime, format: .epochSeconds)
-        try writer["datasetArn"].write(value.datasetArn)
-        try writer["datasetType"].write(value.datasetType)
-        try writer["lastUpdatedDateTime"].writeTimestamp(value.lastUpdatedDateTime, format: .epochSeconds)
-        try writer["name"].write(value.name)
-        try writer["status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.DatasetSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3589,15 +3329,6 @@ extension PersonalizeClientTypes {
 
 extension PersonalizeClientTypes.DatasetUpdateSummary {
 
-    static func write(value: PersonalizeClientTypes.DatasetUpdateSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["creationDateTime"].writeTimestamp(value.creationDateTime, format: .epochSeconds)
-        try writer["failureReason"].write(value.failureReason)
-        try writer["lastUpdatedDateTime"].writeTimestamp(value.lastUpdatedDateTime, format: .epochSeconds)
-        try writer["schemaArn"].write(value.schemaArn)
-        try writer["status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.DatasetUpdateSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PersonalizeClientTypes.DatasetUpdateSummary()
@@ -3644,13 +3375,6 @@ extension PersonalizeClientTypes {
 
 extension PersonalizeClientTypes.DefaultCategoricalHyperParameterRange {
 
-    static func write(value: PersonalizeClientTypes.DefaultCategoricalHyperParameterRange?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["isTunable"].write(value.isTunable)
-        try writer["name"].write(value.name)
-        try writer["values"].writeList(value.values, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.DefaultCategoricalHyperParameterRange {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PersonalizeClientTypes.DefaultCategoricalHyperParameterRange()
@@ -3686,14 +3410,6 @@ extension PersonalizeClientTypes {
 }
 
 extension PersonalizeClientTypes.DefaultContinuousHyperParameterRange {
-
-    static func write(value: PersonalizeClientTypes.DefaultContinuousHyperParameterRange?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["isTunable"].write(value.isTunable)
-        try writer["maxValue"].write(value.maxValue)
-        try writer["minValue"].write(value.minValue)
-        try writer["name"].write(value.name)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.DefaultContinuousHyperParameterRange {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3736,13 +3452,6 @@ extension PersonalizeClientTypes {
 
 extension PersonalizeClientTypes.DefaultHyperParameterRanges {
 
-    static func write(value: PersonalizeClientTypes.DefaultHyperParameterRanges?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["categoricalHyperParameterRanges"].writeList(value.categoricalHyperParameterRanges, memberWritingClosure: PersonalizeClientTypes.DefaultCategoricalHyperParameterRange.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["continuousHyperParameterRanges"].writeList(value.continuousHyperParameterRanges, memberWritingClosure: PersonalizeClientTypes.DefaultContinuousHyperParameterRange.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["integerHyperParameterRanges"].writeList(value.integerHyperParameterRanges, memberWritingClosure: PersonalizeClientTypes.DefaultIntegerHyperParameterRange.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.DefaultHyperParameterRanges {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PersonalizeClientTypes.DefaultHyperParameterRanges()
@@ -3778,14 +3487,6 @@ extension PersonalizeClientTypes {
 }
 
 extension PersonalizeClientTypes.DefaultIntegerHyperParameterRange {
-
-    static func write(value: PersonalizeClientTypes.DefaultIntegerHyperParameterRange?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["isTunable"].write(value.isTunable)
-        try writer["maxValue"].write(value.maxValue)
-        try writer["minValue"].write(value.minValue)
-        try writer["name"].write(value.name)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.DefaultIntegerHyperParameterRange {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5592,18 +5293,6 @@ extension PersonalizeClientTypes {
 
 extension PersonalizeClientTypes.EventTracker {
 
-    static func write(value: PersonalizeClientTypes.EventTracker?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["accountId"].write(value.accountId)
-        try writer["creationDateTime"].writeTimestamp(value.creationDateTime, format: .epochSeconds)
-        try writer["datasetGroupArn"].write(value.datasetGroupArn)
-        try writer["eventTrackerArn"].write(value.eventTrackerArn)
-        try writer["lastUpdatedDateTime"].writeTimestamp(value.lastUpdatedDateTime, format: .epochSeconds)
-        try writer["name"].write(value.name)
-        try writer["status"].write(value.status)
-        try writer["trackingId"].write(value.trackingId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.EventTracker {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PersonalizeClientTypes.EventTracker()
@@ -5669,15 +5358,6 @@ extension PersonalizeClientTypes {
 
 extension PersonalizeClientTypes.EventTrackerSummary {
 
-    static func write(value: PersonalizeClientTypes.EventTrackerSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["creationDateTime"].writeTimestamp(value.creationDateTime, format: .epochSeconds)
-        try writer["eventTrackerArn"].write(value.eventTrackerArn)
-        try writer["lastUpdatedDateTime"].writeTimestamp(value.lastUpdatedDateTime, format: .epochSeconds)
-        try writer["name"].write(value.name)
-        try writer["status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.EventTrackerSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PersonalizeClientTypes.EventTrackerSummary()
@@ -5727,16 +5407,6 @@ extension PersonalizeClientTypes {
 }
 
 extension PersonalizeClientTypes.FeatureTransformation {
-
-    static func write(value: PersonalizeClientTypes.FeatureTransformation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["creationDateTime"].writeTimestamp(value.creationDateTime, format: .epochSeconds)
-        try writer["defaultParameters"].writeMap(value.defaultParameters, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["featureTransformationArn"].write(value.featureTransformationArn)
-        try writer["lastUpdatedDateTime"].writeTimestamp(value.lastUpdatedDateTime, format: .epochSeconds)
-        try writer["name"].write(value.name)
-        try writer["status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.FeatureTransformation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5828,18 +5498,6 @@ extension PersonalizeClientTypes.Filter: Swift.CustomDebugStringConvertible {
 
 extension PersonalizeClientTypes.Filter {
 
-    static func write(value: PersonalizeClientTypes.Filter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["creationDateTime"].writeTimestamp(value.creationDateTime, format: .epochSeconds)
-        try writer["datasetGroupArn"].write(value.datasetGroupArn)
-        try writer["failureReason"].write(value.failureReason)
-        try writer["filterArn"].write(value.filterArn)
-        try writer["filterExpression"].write(value.filterExpression)
-        try writer["lastUpdatedDateTime"].writeTimestamp(value.lastUpdatedDateTime, format: .epochSeconds)
-        try writer["name"].write(value.name)
-        try writer["status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.Filter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PersonalizeClientTypes.Filter()
@@ -5900,17 +5558,6 @@ extension PersonalizeClientTypes {
 }
 
 extension PersonalizeClientTypes.FilterSummary {
-
-    static func write(value: PersonalizeClientTypes.FilterSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["creationDateTime"].writeTimestamp(value.creationDateTime, format: .epochSeconds)
-        try writer["datasetGroupArn"].write(value.datasetGroupArn)
-        try writer["failureReason"].write(value.failureReason)
-        try writer["filterArn"].write(value.filterArn)
-        try writer["lastUpdatedDateTime"].writeTimestamp(value.lastUpdatedDateTime, format: .epochSeconds)
-        try writer["name"].write(value.name)
-        try writer["status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.FilterSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7909,18 +7556,6 @@ extension PersonalizeClientTypes {
 
 extension PersonalizeClientTypes.MetricAttribution {
 
-    static func write(value: PersonalizeClientTypes.MetricAttribution?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["creationDateTime"].writeTimestamp(value.creationDateTime, format: .epochSeconds)
-        try writer["datasetGroupArn"].write(value.datasetGroupArn)
-        try writer["failureReason"].write(value.failureReason)
-        try writer["lastUpdatedDateTime"].writeTimestamp(value.lastUpdatedDateTime, format: .epochSeconds)
-        try writer["metricAttributionArn"].write(value.metricAttributionArn)
-        try writer["metricsOutputConfig"].write(value.metricsOutputConfig, with: PersonalizeClientTypes.MetricAttributionOutput.write(value:to:))
-        try writer["name"].write(value.name)
-        try writer["status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.MetricAttribution {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PersonalizeClientTypes.MetricAttribution()
@@ -8019,16 +7654,6 @@ extension PersonalizeClientTypes {
 }
 
 extension PersonalizeClientTypes.MetricAttributionSummary {
-
-    static func write(value: PersonalizeClientTypes.MetricAttributionSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["creationDateTime"].writeTimestamp(value.creationDateTime, format: .epochSeconds)
-        try writer["failureReason"].write(value.failureReason)
-        try writer["lastUpdatedDateTime"].writeTimestamp(value.lastUpdatedDateTime, format: .epochSeconds)
-        try writer["metricAttributionArn"].write(value.metricAttributionArn)
-        try writer["name"].write(value.name)
-        try writer["status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.MetricAttributionSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8156,19 +7781,6 @@ public enum PersonalizeClientTypes {}
 
 extension PersonalizeClientTypes.Recipe {
 
-    static func write(value: PersonalizeClientTypes.Recipe?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["algorithmArn"].write(value.algorithmArn)
-        try writer["creationDateTime"].writeTimestamp(value.creationDateTime, format: .epochSeconds)
-        try writer["description"].write(value.description)
-        try writer["featureTransformationArn"].write(value.featureTransformationArn)
-        try writer["lastUpdatedDateTime"].writeTimestamp(value.lastUpdatedDateTime, format: .epochSeconds)
-        try writer["name"].write(value.name)
-        try writer["recipeArn"].write(value.recipeArn)
-        try writer["recipeType"].write(value.recipeType)
-        try writer["status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.Recipe {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PersonalizeClientTypes.Recipe()
@@ -8268,16 +7880,6 @@ extension PersonalizeClientTypes {
 
 extension PersonalizeClientTypes.RecipeSummary {
 
-    static func write(value: PersonalizeClientTypes.RecipeSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["creationDateTime"].writeTimestamp(value.creationDateTime, format: .epochSeconds)
-        try writer["domain"].write(value.domain)
-        try writer["lastUpdatedDateTime"].writeTimestamp(value.lastUpdatedDateTime, format: .epochSeconds)
-        try writer["name"].write(value.name)
-        try writer["recipeArn"].write(value.recipeArn)
-        try writer["status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.RecipeSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PersonalizeClientTypes.RecipeSummary()
@@ -8328,21 +7930,6 @@ extension PersonalizeClientTypes {
 }
 
 extension PersonalizeClientTypes.Recommender {
-
-    static func write(value: PersonalizeClientTypes.Recommender?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["creationDateTime"].writeTimestamp(value.creationDateTime, format: .epochSeconds)
-        try writer["datasetGroupArn"].write(value.datasetGroupArn)
-        try writer["failureReason"].write(value.failureReason)
-        try writer["lastUpdatedDateTime"].writeTimestamp(value.lastUpdatedDateTime, format: .epochSeconds)
-        try writer["latestRecommenderUpdate"].write(value.latestRecommenderUpdate, with: PersonalizeClientTypes.RecommenderUpdateSummary.write(value:to:))
-        try writer["modelMetrics"].writeMap(value.modelMetrics, valueWritingClosure: Swift.Double.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["name"].write(value.name)
-        try writer["recipeArn"].write(value.recipeArn)
-        try writer["recommenderArn"].write(value.recommenderArn)
-        try writer["recommenderConfig"].write(value.recommenderConfig, with: PersonalizeClientTypes.RecommenderConfig.write(value:to:))
-        try writer["status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.Recommender {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8475,18 +8062,6 @@ extension PersonalizeClientTypes {
 
 extension PersonalizeClientTypes.RecommenderSummary {
 
-    static func write(value: PersonalizeClientTypes.RecommenderSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["creationDateTime"].writeTimestamp(value.creationDateTime, format: .epochSeconds)
-        try writer["datasetGroupArn"].write(value.datasetGroupArn)
-        try writer["lastUpdatedDateTime"].writeTimestamp(value.lastUpdatedDateTime, format: .epochSeconds)
-        try writer["name"].write(value.name)
-        try writer["recipeArn"].write(value.recipeArn)
-        try writer["recommenderArn"].write(value.recommenderArn)
-        try writer["recommenderConfig"].write(value.recommenderConfig, with: PersonalizeClientTypes.RecommenderConfig.write(value:to:))
-        try writer["status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.RecommenderSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PersonalizeClientTypes.RecommenderSummary()
@@ -8553,15 +8128,6 @@ extension PersonalizeClientTypes {
 }
 
 extension PersonalizeClientTypes.RecommenderUpdateSummary {
-
-    static func write(value: PersonalizeClientTypes.RecommenderUpdateSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["creationDateTime"].writeTimestamp(value.creationDateTime, format: .epochSeconds)
-        try writer["failureReason"].write(value.failureReason)
-        try writer["lastUpdatedDateTime"].writeTimestamp(value.lastUpdatedDateTime, format: .epochSeconds)
-        try writer["recommenderConfig"].write(value.recommenderConfig, with: PersonalizeClientTypes.RecommenderConfig.write(value:to:))
-        try writer["status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.RecommenderUpdateSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8764,24 +8330,6 @@ extension PersonalizeClientTypes {
 
 extension PersonalizeClientTypes.Solution {
 
-    static func write(value: PersonalizeClientTypes.Solution?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["autoMLResult"].write(value.autoMLResult, with: PersonalizeClientTypes.AutoMLResult.write(value:to:))
-        try writer["creationDateTime"].writeTimestamp(value.creationDateTime, format: .epochSeconds)
-        try writer["datasetGroupArn"].write(value.datasetGroupArn)
-        try writer["eventType"].write(value.eventType)
-        try writer["lastUpdatedDateTime"].writeTimestamp(value.lastUpdatedDateTime, format: .epochSeconds)
-        try writer["latestSolutionVersion"].write(value.latestSolutionVersion, with: PersonalizeClientTypes.SolutionVersionSummary.write(value:to:))
-        try writer["name"].write(value.name)
-        try writer["performAutoML"].write(value.performAutoML)
-        try writer["performAutoTraining"].write(value.performAutoTraining)
-        try writer["performHPO"].write(value.performHPO)
-        try writer["recipeArn"].write(value.recipeArn)
-        try writer["solutionArn"].write(value.solutionArn)
-        try writer["solutionConfig"].write(value.solutionConfig, with: PersonalizeClientTypes.SolutionConfig.write(value:to:))
-        try writer["status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.Solution {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PersonalizeClientTypes.Solution()
@@ -8950,16 +8498,6 @@ extension PersonalizeClientTypes {
 
 extension PersonalizeClientTypes.SolutionSummary {
 
-    static func write(value: PersonalizeClientTypes.SolutionSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["creationDateTime"].writeTimestamp(value.creationDateTime, format: .epochSeconds)
-        try writer["lastUpdatedDateTime"].writeTimestamp(value.lastUpdatedDateTime, format: .epochSeconds)
-        try writer["name"].write(value.name)
-        try writer["recipeArn"].write(value.recipeArn)
-        try writer["solutionArn"].write(value.solutionArn)
-        try writer["status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.SolutionSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PersonalizeClientTypes.SolutionSummary()
@@ -9014,27 +8552,6 @@ extension PersonalizeClientTypes {
 }
 
 extension PersonalizeClientTypes.SolutionVersion {
-
-    static func write(value: PersonalizeClientTypes.SolutionVersion?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["creationDateTime"].writeTimestamp(value.creationDateTime, format: .epochSeconds)
-        try writer["datasetGroupArn"].write(value.datasetGroupArn)
-        try writer["eventType"].write(value.eventType)
-        try writer["failureReason"].write(value.failureReason)
-        try writer["lastUpdatedDateTime"].writeTimestamp(value.lastUpdatedDateTime, format: .epochSeconds)
-        try writer["name"].write(value.name)
-        try writer["performAutoML"].write(value.performAutoML)
-        try writer["performHPO"].write(value.performHPO)
-        try writer["recipeArn"].write(value.recipeArn)
-        try writer["solutionArn"].write(value.solutionArn)
-        try writer["solutionConfig"].write(value.solutionConfig, with: PersonalizeClientTypes.SolutionConfig.write(value:to:))
-        try writer["solutionVersionArn"].write(value.solutionVersionArn)
-        try writer["status"].write(value.status)
-        try writer["trainingHours"].write(value.trainingHours)
-        try writer["trainingMode"].write(value.trainingMode)
-        try writer["trainingType"].write(value.trainingType)
-        try writer["tunedHPOParams"].write(value.tunedHPOParams, with: PersonalizeClientTypes.TunedHPOParams.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.SolutionVersion {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -9153,17 +8670,6 @@ extension PersonalizeClientTypes {
 }
 
 extension PersonalizeClientTypes.SolutionVersionSummary {
-
-    static func write(value: PersonalizeClientTypes.SolutionVersionSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["creationDateTime"].writeTimestamp(value.creationDateTime, format: .epochSeconds)
-        try writer["failureReason"].write(value.failureReason)
-        try writer["lastUpdatedDateTime"].writeTimestamp(value.lastUpdatedDateTime, format: .epochSeconds)
-        try writer["solutionVersionArn"].write(value.solutionVersionArn)
-        try writer["status"].write(value.status)
-        try writer["trainingMode"].write(value.trainingMode)
-        try writer["trainingType"].write(value.trainingType)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.SolutionVersionSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -9717,11 +9223,6 @@ extension PersonalizeClientTypes {
 }
 
 extension PersonalizeClientTypes.TunedHPOParams {
-
-    static func write(value: PersonalizeClientTypes.TunedHPOParams?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["algorithmHyperParameters"].writeMap(value.algorithmHyperParameters, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.TunedHPOParams {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

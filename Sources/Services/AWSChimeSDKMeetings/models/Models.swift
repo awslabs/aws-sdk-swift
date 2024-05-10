@@ -11,14 +11,6 @@ extension ChimeSDKMeetingsClientTypes.Attendee: Swift.CustomDebugStringConvertib
 
 extension ChimeSDKMeetingsClientTypes.Attendee {
 
-    static func write(value: ChimeSDKMeetingsClientTypes.Attendee?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AttendeeId"].write(value.attendeeId)
-        try writer["Capabilities"].write(value.capabilities, with: ChimeSDKMeetingsClientTypes.AttendeeCapabilities.write(value:to:))
-        try writer["ExternalUserId"].write(value.externalUserId)
-        try writer["JoinToken"].write(value.joinToken)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMeetingsClientTypes.Attendee {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ChimeSDKMeetingsClientTypes.Attendee()
@@ -160,13 +152,6 @@ extension ChimeSDKMeetingsClientTypes.AttendeeIdItem {
     static func write(value: ChimeSDKMeetingsClientTypes.AttendeeIdItem?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["AttendeeId"].write(value.attendeeId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMeetingsClientTypes.AttendeeIdItem {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ChimeSDKMeetingsClientTypes.AttendeeIdItem()
-        value.attendeeId = try reader["AttendeeId"].readIfPresent()
-        return value
     }
 }
 
@@ -563,13 +548,6 @@ extension ChimeSDKMeetingsClientTypes.CreateAttendeeError: Swift.CustomDebugStri
 
 extension ChimeSDKMeetingsClientTypes.CreateAttendeeError {
 
-    static func write(value: ChimeSDKMeetingsClientTypes.CreateAttendeeError?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ErrorCode"].write(value.errorCode)
-        try writer["ErrorMessage"].write(value.errorMessage)
-        try writer["ExternalUserId"].write(value.externalUserId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMeetingsClientTypes.CreateAttendeeError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ChimeSDKMeetingsClientTypes.CreateAttendeeError()
@@ -717,14 +695,6 @@ extension ChimeSDKMeetingsClientTypes.CreateAttendeeRequestItem {
         guard let value else { return }
         try writer["Capabilities"].write(value.capabilities, with: ChimeSDKMeetingsClientTypes.AttendeeCapabilities.write(value:to:))
         try writer["ExternalUserId"].write(value.externalUserId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMeetingsClientTypes.CreateAttendeeRequestItem {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ChimeSDKMeetingsClientTypes.CreateAttendeeRequestItem()
-        value.externalUserId = try reader["ExternalUserId"].readIfPresent()
-        value.capabilities = try reader["Capabilities"].readIfPresent(with: ChimeSDKMeetingsClientTypes.AttendeeCapabilities.read(from:))
-        return value
     }
 }
 
@@ -1154,18 +1124,6 @@ extension ChimeSDKMeetingsClientTypes.EngineTranscribeMedicalSettings {
         try writer["Type"].write(value.type)
         try writer["VocabularyName"].write(value.vocabularyName)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMeetingsClientTypes.EngineTranscribeMedicalSettings {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ChimeSDKMeetingsClientTypes.EngineTranscribeMedicalSettings()
-        value.languageCode = try reader["LanguageCode"].readIfPresent()
-        value.specialty = try reader["Specialty"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
-        value.vocabularyName = try reader["VocabularyName"].readIfPresent()
-        value.region = try reader["Region"].readIfPresent()
-        value.contentIdentificationType = try reader["ContentIdentificationType"].readIfPresent()
-        return value
-    }
 }
 
 extension ChimeSDKMeetingsClientTypes {
@@ -1227,28 +1185,6 @@ extension ChimeSDKMeetingsClientTypes.EngineTranscribeSettings {
         try writer["VocabularyFilterNames"].write(value.vocabularyFilterNames)
         try writer["VocabularyName"].write(value.vocabularyName)
         try writer["VocabularyNames"].write(value.vocabularyNames)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMeetingsClientTypes.EngineTranscribeSettings {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ChimeSDKMeetingsClientTypes.EngineTranscribeSettings()
-        value.languageCode = try reader["LanguageCode"].readIfPresent()
-        value.vocabularyFilterMethod = try reader["VocabularyFilterMethod"].readIfPresent()
-        value.vocabularyFilterName = try reader["VocabularyFilterName"].readIfPresent()
-        value.vocabularyName = try reader["VocabularyName"].readIfPresent()
-        value.region = try reader["Region"].readIfPresent()
-        value.enablePartialResultsStabilization = try reader["EnablePartialResultsStabilization"].readIfPresent() ?? false
-        value.partialResultsStability = try reader["PartialResultsStability"].readIfPresent()
-        value.contentIdentificationType = try reader["ContentIdentificationType"].readIfPresent()
-        value.contentRedactionType = try reader["ContentRedactionType"].readIfPresent()
-        value.piiEntityTypes = try reader["PiiEntityTypes"].readIfPresent()
-        value.languageModelName = try reader["LanguageModelName"].readIfPresent()
-        value.identifyLanguage = try reader["IdentifyLanguage"].readIfPresent() ?? false
-        value.languageOptions = try reader["LanguageOptions"].readIfPresent()
-        value.preferredLanguage = try reader["PreferredLanguage"].readIfPresent()
-        value.vocabularyNames = try reader["VocabularyNames"].readIfPresent()
-        value.vocabularyFilterNames = try reader["VocabularyFilterNames"].readIfPresent()
-        return value
     }
 }
 
@@ -1775,18 +1711,6 @@ extension ChimeSDKMeetingsClientTypes {
 
 extension ChimeSDKMeetingsClientTypes.MediaPlacement {
 
-    static func write(value: ChimeSDKMeetingsClientTypes.MediaPlacement?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AudioFallbackUrl"].write(value.audioFallbackUrl)
-        try writer["AudioHostUrl"].write(value.audioHostUrl)
-        try writer["EventIngestionUrl"].write(value.eventIngestionUrl)
-        try writer["ScreenDataUrl"].write(value.screenDataUrl)
-        try writer["ScreenSharingUrl"].write(value.screenSharingUrl)
-        try writer["ScreenViewingUrl"].write(value.screenViewingUrl)
-        try writer["SignalingUrl"].write(value.signalingUrl)
-        try writer["TurnControlUrl"].write(value.turnControlUrl)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMeetingsClientTypes.MediaPlacement {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ChimeSDKMeetingsClientTypes.MediaPlacement()
@@ -1852,19 +1776,6 @@ extension ChimeSDKMeetingsClientTypes.Meeting: Swift.CustomDebugStringConvertibl
 }
 
 extension ChimeSDKMeetingsClientTypes.Meeting {
-
-    static func write(value: ChimeSDKMeetingsClientTypes.Meeting?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ExternalMeetingId"].write(value.externalMeetingId)
-        try writer["MediaPlacement"].write(value.mediaPlacement, with: ChimeSDKMeetingsClientTypes.MediaPlacement.write(value:to:))
-        try writer["MediaRegion"].write(value.mediaRegion)
-        try writer["MeetingArn"].write(value.meetingArn)
-        try writer["MeetingFeatures"].write(value.meetingFeatures, with: ChimeSDKMeetingsClientTypes.MeetingFeaturesConfiguration.write(value:to:))
-        try writer["MeetingHostId"].write(value.meetingHostId)
-        try writer["MeetingId"].write(value.meetingId)
-        try writer["PrimaryMeetingId"].write(value.primaryMeetingId)
-        try writer["TenantIds"].writeList(value.tenantIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMeetingsClientTypes.Meeting {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2067,15 +1978,6 @@ extension ChimeSDKMeetingsClientTypes.NotificationsConfiguration {
         try writer["LambdaFunctionArn"].write(value.lambdaFunctionArn)
         try writer["SnsTopicArn"].write(value.snsTopicArn)
         try writer["SqsQueueArn"].write(value.sqsQueueArn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMeetingsClientTypes.NotificationsConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ChimeSDKMeetingsClientTypes.NotificationsConfiguration()
-        value.lambdaFunctionArn = try reader["LambdaFunctionArn"].readIfPresent()
-        value.snsTopicArn = try reader["SnsTopicArn"].readIfPresent()
-        value.sqsQueueArn = try reader["SqsQueueArn"].readIfPresent()
-        return value
     }
 }
 
@@ -3037,14 +2939,6 @@ extension ChimeSDKMeetingsClientTypes.TranscriptionConfiguration {
         guard let value else { return }
         try writer["EngineTranscribeMedicalSettings"].write(value.engineTranscribeMedicalSettings, with: ChimeSDKMeetingsClientTypes.EngineTranscribeMedicalSettings.write(value:to:))
         try writer["EngineTranscribeSettings"].write(value.engineTranscribeSettings, with: ChimeSDKMeetingsClientTypes.EngineTranscribeSettings.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMeetingsClientTypes.TranscriptionConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ChimeSDKMeetingsClientTypes.TranscriptionConfiguration()
-        value.engineTranscribeSettings = try reader["EngineTranscribeSettings"].readIfPresent(with: ChimeSDKMeetingsClientTypes.EngineTranscribeSettings.read(from:))
-        value.engineTranscribeMedicalSettings = try reader["EngineTranscribeMedicalSettings"].readIfPresent(with: ChimeSDKMeetingsClientTypes.EngineTranscribeMedicalSettings.read(from:))
-        return value
     }
 }
 

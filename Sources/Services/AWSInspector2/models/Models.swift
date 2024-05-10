@@ -44,13 +44,6 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
 extension Inspector2ClientTypes.Account {
 
-    static func write(value: Inspector2ClientTypes.Account?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["accountId"].write(value.accountId)
-        try writer["resourceStatus"].write(value.resourceStatus, with: Inspector2ClientTypes.ResourceStatus.write(value:to:))
-        try writer["status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.Account {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Inspector2ClientTypes.Account()
@@ -97,16 +90,6 @@ extension Inspector2ClientTypes.AccountAggregation {
         try writer["sortBy"].write(value.sortBy)
         try writer["sortOrder"].write(value.sortOrder)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.AccountAggregation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Inspector2ClientTypes.AccountAggregation()
-        value.findingType = try reader["findingType"].readIfPresent()
-        value.resourceType = try reader["resourceType"].readIfPresent()
-        value.sortOrder = try reader["sortOrder"].readIfPresent()
-        value.sortBy = try reader["sortBy"].readIfPresent()
-        return value
-    }
 }
 
 extension Inspector2ClientTypes {
@@ -138,12 +121,6 @@ extension Inspector2ClientTypes {
 }
 
 extension Inspector2ClientTypes.AccountAggregationResponse {
-
-    static func write(value: Inspector2ClientTypes.AccountAggregationResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["accountId"].write(value.accountId)
-        try writer["severityCounts"].write(value.severityCounts, with: Inspector2ClientTypes.SeverityCounts.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.AccountAggregationResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -208,13 +185,6 @@ extension Inspector2ClientTypes {
 }
 
 extension Inspector2ClientTypes.AccountState {
-
-    static func write(value: Inspector2ClientTypes.AccountState?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["accountId"].write(value.accountId)
-        try writer["resourceState"].write(value.resourceState, with: Inspector2ClientTypes.ResourceState.write(value:to:))
-        try writer["state"].write(value.state, with: Inspector2ClientTypes.State.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.AccountState {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -317,37 +287,6 @@ extension Inspector2ClientTypes.AggregationRequest {
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.AggregationRequest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "accountAggregation":
-                return .accountaggregation(try reader["accountAggregation"].read(with: Inspector2ClientTypes.AccountAggregation.read(from:)))
-            case "amiAggregation":
-                return .amiaggregation(try reader["amiAggregation"].read(with: Inspector2ClientTypes.AmiAggregation.read(from:)))
-            case "awsEcrContainerAggregation":
-                return .awsecrcontaineraggregation(try reader["awsEcrContainerAggregation"].read(with: Inspector2ClientTypes.AwsEcrContainerAggregation.read(from:)))
-            case "ec2InstanceAggregation":
-                return .ec2instanceaggregation(try reader["ec2InstanceAggregation"].read(with: Inspector2ClientTypes.Ec2InstanceAggregation.read(from:)))
-            case "findingTypeAggregation":
-                return .findingtypeaggregation(try reader["findingTypeAggregation"].read(with: Inspector2ClientTypes.FindingTypeAggregation.read(from:)))
-            case "imageLayerAggregation":
-                return .imagelayeraggregation(try reader["imageLayerAggregation"].read(with: Inspector2ClientTypes.ImageLayerAggregation.read(from:)))
-            case "packageAggregation":
-                return .packageaggregation(try reader["packageAggregation"].read(with: Inspector2ClientTypes.PackageAggregation.read(from:)))
-            case "repositoryAggregation":
-                return .repositoryaggregation(try reader["repositoryAggregation"].read(with: Inspector2ClientTypes.RepositoryAggregation.read(from:)))
-            case "titleAggregation":
-                return .titleaggregation(try reader["titleAggregation"].read(with: Inspector2ClientTypes.TitleAggregation.read(from:)))
-            case "lambdaLayerAggregation":
-                return .lambdalayeraggregation(try reader["lambdaLayerAggregation"].read(with: Inspector2ClientTypes.LambdaLayerAggregation.read(from:)))
-            case "lambdaFunctionAggregation":
-                return .lambdafunctionaggregation(try reader["lambdaFunctionAggregation"].read(with: Inspector2ClientTypes.LambdaFunctionAggregation.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
 }
 
 extension Inspector2ClientTypes {
@@ -414,36 +353,6 @@ extension Inspector2ClientTypes {
 }
 
 extension Inspector2ClientTypes.AggregationResponse {
-
-    static func write(value: Inspector2ClientTypes.AggregationResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .accountaggregation(accountaggregation):
-                try writer["accountAggregation"].write(accountaggregation, with: Inspector2ClientTypes.AccountAggregationResponse.write(value:to:))
-            case let .amiaggregation(amiaggregation):
-                try writer["amiAggregation"].write(amiaggregation, with: Inspector2ClientTypes.AmiAggregationResponse.write(value:to:))
-            case let .awsecrcontaineraggregation(awsecrcontaineraggregation):
-                try writer["awsEcrContainerAggregation"].write(awsecrcontaineraggregation, with: Inspector2ClientTypes.AwsEcrContainerAggregationResponse.write(value:to:))
-            case let .ec2instanceaggregation(ec2instanceaggregation):
-                try writer["ec2InstanceAggregation"].write(ec2instanceaggregation, with: Inspector2ClientTypes.Ec2InstanceAggregationResponse.write(value:to:))
-            case let .findingtypeaggregation(findingtypeaggregation):
-                try writer["findingTypeAggregation"].write(findingtypeaggregation, with: Inspector2ClientTypes.FindingTypeAggregationResponse.write(value:to:))
-            case let .imagelayeraggregation(imagelayeraggregation):
-                try writer["imageLayerAggregation"].write(imagelayeraggregation, with: Inspector2ClientTypes.ImageLayerAggregationResponse.write(value:to:))
-            case let .lambdafunctionaggregation(lambdafunctionaggregation):
-                try writer["lambdaFunctionAggregation"].write(lambdafunctionaggregation, with: Inspector2ClientTypes.LambdaFunctionAggregationResponse.write(value:to:))
-            case let .lambdalayeraggregation(lambdalayeraggregation):
-                try writer["lambdaLayerAggregation"].write(lambdalayeraggregation, with: Inspector2ClientTypes.LambdaLayerAggregationResponse.write(value:to:))
-            case let .packageaggregation(packageaggregation):
-                try writer["packageAggregation"].write(packageaggregation, with: Inspector2ClientTypes.PackageAggregationResponse.write(value:to:))
-            case let .repositoryaggregation(repositoryaggregation):
-                try writer["repositoryAggregation"].write(repositoryaggregation, with: Inspector2ClientTypes.RepositoryAggregationResponse.write(value:to:))
-            case let .titleaggregation(titleaggregation):
-                try writer["titleAggregation"].write(titleaggregation, with: Inspector2ClientTypes.TitleAggregationResponse.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.AggregationResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -572,15 +481,6 @@ extension Inspector2ClientTypes.AmiAggregation {
         try writer["sortBy"].write(value.sortBy)
         try writer["sortOrder"].write(value.sortOrder)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.AmiAggregation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Inspector2ClientTypes.AmiAggregation()
-        value.amis = try reader["amis"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.StringFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.sortOrder = try reader["sortOrder"].readIfPresent()
-        value.sortBy = try reader["sortBy"].readIfPresent()
-        return value
-    }
 }
 
 extension Inspector2ClientTypes {
@@ -608,14 +508,6 @@ extension Inspector2ClientTypes {
 }
 
 extension Inspector2ClientTypes.AmiAggregationResponse {
-
-    static func write(value: Inspector2ClientTypes.AmiAggregationResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["accountId"].write(value.accountId)
-        try writer["affectedInstances"].write(value.affectedInstances)
-        try writer["ami"].write(value.ami)
-        try writer["severityCounts"].write(value.severityCounts, with: Inspector2ClientTypes.SeverityCounts.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.AmiAggregationResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -795,14 +687,6 @@ enum AssociateMemberOutputError {
 
 extension Inspector2ClientTypes.AtigData {
 
-    static func write(value: Inspector2ClientTypes.AtigData?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["firstSeen"].writeTimestamp(value.firstSeen, format: .epochSeconds)
-        try writer["lastSeen"].writeTimestamp(value.lastSeen, format: .epochSeconds)
-        try writer["targets"].writeList(value.targets, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ttps"].writeList(value.ttps, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.AtigData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Inspector2ClientTypes.AtigData()
@@ -895,20 +779,6 @@ extension Inspector2ClientTypes {
 
 extension Inspector2ClientTypes.AwsEc2InstanceDetails {
 
-    static func write(value: Inspector2ClientTypes.AwsEc2InstanceDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["iamInstanceProfileArn"].write(value.iamInstanceProfileArn)
-        try writer["imageId"].write(value.imageId)
-        try writer["ipV4Addresses"].writeList(value.ipV4Addresses, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ipV6Addresses"].writeList(value.ipV6Addresses, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["keyName"].write(value.keyName)
-        try writer["launchedAt"].writeTimestamp(value.launchedAt, format: .epochSeconds)
-        try writer["platform"].write(value.platform)
-        try writer["subnetId"].write(value.subnetId)
-        try writer["type"].write(value.type)
-        try writer["vpcId"].write(value.vpcId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.AwsEc2InstanceDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Inspector2ClientTypes.AwsEc2InstanceDetails()
@@ -990,19 +860,6 @@ extension Inspector2ClientTypes.AwsEcrContainerAggregation {
         try writer["sortBy"].write(value.sortBy)
         try writer["sortOrder"].write(value.sortOrder)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.AwsEcrContainerAggregation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Inspector2ClientTypes.AwsEcrContainerAggregation()
-        value.resourceIds = try reader["resourceIds"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.StringFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.imageShas = try reader["imageShas"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.StringFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.repositories = try reader["repositories"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.StringFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.architectures = try reader["architectures"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.StringFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.imageTags = try reader["imageTags"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.StringFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.sortOrder = try reader["sortOrder"].readIfPresent()
-        value.sortBy = try reader["sortBy"].readIfPresent()
-        return value
-    }
 }
 
 extension Inspector2ClientTypes {
@@ -1046,17 +903,6 @@ extension Inspector2ClientTypes {
 }
 
 extension Inspector2ClientTypes.AwsEcrContainerAggregationResponse {
-
-    static func write(value: Inspector2ClientTypes.AwsEcrContainerAggregationResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["accountId"].write(value.accountId)
-        try writer["architecture"].write(value.architecture)
-        try writer["imageSha"].write(value.imageSha)
-        try writer["imageTags"].writeList(value.imageTags, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["repository"].write(value.repository)
-        try writer["resourceId"].write(value.resourceId)
-        try writer["severityCounts"].write(value.severityCounts, with: Inspector2ClientTypes.SeverityCounts.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.AwsEcrContainerAggregationResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1114,18 +960,6 @@ extension Inspector2ClientTypes {
 }
 
 extension Inspector2ClientTypes.AwsEcrContainerImageDetails {
-
-    static func write(value: Inspector2ClientTypes.AwsEcrContainerImageDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["architecture"].write(value.architecture)
-        try writer["author"].write(value.author)
-        try writer["imageHash"].write(value.imageHash)
-        try writer["imageTags"].writeList(value.imageTags, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["platform"].write(value.platform)
-        try writer["pushedAt"].writeTimestamp(value.pushedAt, format: .epochSeconds)
-        try writer["registry"].write(value.registry)
-        try writer["repositoryName"].write(value.repositoryName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.AwsEcrContainerImageDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1223,20 +1057,6 @@ extension Inspector2ClientTypes {
 }
 
 extension Inspector2ClientTypes.AwsLambdaFunctionDetails {
-
-    static func write(value: Inspector2ClientTypes.AwsLambdaFunctionDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["architectures"].writeList(value.architectures, memberWritingClosure: Inspector2ClientTypes.Architecture.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["codeSha256"].write(value.codeSha256)
-        try writer["executionRoleArn"].write(value.executionRoleArn)
-        try writer["functionName"].write(value.functionName)
-        try writer["lastModifiedAt"].writeTimestamp(value.lastModifiedAt, format: .epochSeconds)
-        try writer["layers"].writeList(value.layers, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["packageType"].write(value.packageType)
-        try writer["runtime"].write(value.runtime)
-        try writer["version"].write(value.version)
-        try writer["vpcConfig"].write(value.vpcConfig, with: Inspector2ClientTypes.LambdaVpcConfig.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.AwsLambdaFunctionDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1939,18 +1759,6 @@ enum CancelSbomExportOutputError {
 
 extension Inspector2ClientTypes.CisCheckAggregation {
 
-    static func write(value: Inspector2ClientTypes.CisCheckAggregation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["accountId"].write(value.accountId)
-        try writer["checkDescription"].write(value.checkDescription)
-        try writer["checkId"].write(value.checkId)
-        try writer["level"].write(value.level)
-        try writer["platform"].write(value.platform)
-        try writer["scanArn"].write(value.scanArn)
-        try writer["statusCounts"].write(value.statusCounts, with: Inspector2ClientTypes.StatusCounts.write(value:to:))
-        try writer["title"].write(value.title)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.CisCheckAggregation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Inspector2ClientTypes.CisCheckAggregation()
@@ -2017,14 +1825,6 @@ extension Inspector2ClientTypes.CisDateFilter {
         guard let value else { return }
         try writer["earliestScanStartTime"].writeTimestamp(value.earliestScanStartTime, format: .epochSeconds)
         try writer["latestScanStartTime"].writeTimestamp(value.latestScanStartTime, format: .epochSeconds)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.CisDateFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Inspector2ClientTypes.CisDateFilter()
-        value.earliestScanStartTime = try reader["earliestScanStartTime"].readTimestampIfPresent(format: .epochSeconds)
-        value.latestScanStartTime = try reader["latestScanStartTime"].readTimestampIfPresent(format: .epochSeconds)
-        return value
     }
 }
 
@@ -2115,14 +1915,6 @@ extension Inspector2ClientTypes.CisFindingStatusFilter {
         try writer["comparison"].write(value.comparison)
         try writer["value"].write(value.value)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.CisFindingStatusFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Inspector2ClientTypes.CisFindingStatusFilter()
-        value.comparison = try reader["comparison"].readIfPresent()
-        value.value = try reader["value"].readIfPresent()
-        return value
-    }
 }
 
 extension Inspector2ClientTypes {
@@ -2153,14 +1945,6 @@ extension Inspector2ClientTypes.CisNumberFilter {
         guard let value else { return }
         try writer["lowerInclusive"].write(value.lowerInclusive)
         try writer["upperInclusive"].write(value.upperInclusive)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.CisNumberFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Inspector2ClientTypes.CisNumberFilter()
-        value.upperInclusive = try reader["upperInclusive"].readIfPresent()
-        value.lowerInclusive = try reader["lowerInclusive"].readIfPresent()
-        return value
     }
 }
 
@@ -2314,14 +2098,6 @@ extension Inspector2ClientTypes.CisResultStatusFilter {
         try writer["comparison"].write(value.comparison)
         try writer["value"].write(value.value)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.CisResultStatusFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Inspector2ClientTypes.CisResultStatusFilter()
-        value.comparison = try reader["comparison"].readIfPresent()
-        value.value = try reader["value"].readIfPresent()
-        return value
-    }
 }
 
 extension Inspector2ClientTypes {
@@ -2392,20 +2168,6 @@ extension Inspector2ClientTypes {
 }
 
 extension Inspector2ClientTypes.CisScan {
-
-    static func write(value: Inspector2ClientTypes.CisScan?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["failedChecks"].write(value.failedChecks)
-        try writer["scanArn"].write(value.scanArn)
-        try writer["scanConfigurationArn"].write(value.scanConfigurationArn)
-        try writer["scanDate"].writeTimestamp(value.scanDate, format: .epochSeconds)
-        try writer["scanName"].write(value.scanName)
-        try writer["scheduledBy"].write(value.scheduledBy)
-        try writer["securityLevel"].write(value.securityLevel)
-        try writer["status"].write(value.status)
-        try writer["targets"].write(value.targets, with: Inspector2ClientTypes.CisTargets.write(value:to:))
-        try writer["totalChecks"].write(value.totalChecks)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.CisScan {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2479,17 +2241,6 @@ extension Inspector2ClientTypes {
 }
 
 extension Inspector2ClientTypes.CisScanConfiguration {
-
-    static func write(value: Inspector2ClientTypes.CisScanConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ownerId"].write(value.ownerId)
-        try writer["scanConfigurationArn"].write(value.scanConfigurationArn)
-        try writer["scanName"].write(value.scanName)
-        try writer["schedule"].write(value.schedule, with: Inspector2ClientTypes.Schedule.write(value:to:))
-        try writer["securityLevel"].write(value.securityLevel)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["targets"].write(value.targets, with: Inspector2ClientTypes.CisTargets.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.CisScanConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2577,22 +2328,6 @@ extension Inspector2ClientTypes {
 }
 
 extension Inspector2ClientTypes.CisScanResultDetails {
-
-    static func write(value: Inspector2ClientTypes.CisScanResultDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["accountId"].write(value.accountId)
-        try writer["checkDescription"].write(value.checkDescription)
-        try writer["checkId"].write(value.checkId)
-        try writer["findingArn"].write(value.findingArn)
-        try writer["level"].write(value.level)
-        try writer["platform"].write(value.platform)
-        try writer["remediation"].write(value.remediation)
-        try writer["scanArn"].write(value.scanArn)
-        try writer["status"].write(value.status)
-        try writer["statusReason"].write(value.statusReason)
-        try writer["targetResourceId"].write(value.targetResourceId)
-        try writer["title"].write(value.title)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.CisScanResultDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2684,17 +2419,6 @@ extension Inspector2ClientTypes.CisScanResultDetailsFilterCriteria {
         try writer["securityLevelFilters"].writeList(value.securityLevelFilters, memberWritingClosure: Inspector2ClientTypes.CisSecurityLevelFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["titleFilters"].writeList(value.titleFilters, memberWritingClosure: Inspector2ClientTypes.CisStringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.CisScanResultDetailsFilterCriteria {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Inspector2ClientTypes.CisScanResultDetailsFilterCriteria()
-        value.findingStatusFilters = try reader["findingStatusFilters"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.CisFindingStatusFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.checkIdFilters = try reader["checkIdFilters"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.CisStringFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.titleFilters = try reader["titleFilters"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.CisStringFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.securityLevelFilters = try reader["securityLevelFilters"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.CisSecurityLevelFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.findingArnFilters = try reader["findingArnFilters"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.CisStringFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
 }
 
 extension Inspector2ClientTypes {
@@ -2769,18 +2493,6 @@ extension Inspector2ClientTypes.CisScanResultsAggregatedByChecksFilterCriteria {
         try writer["platformFilters"].writeList(value.platformFilters, memberWritingClosure: Inspector2ClientTypes.CisStringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["securityLevelFilters"].writeList(value.securityLevelFilters, memberWritingClosure: Inspector2ClientTypes.CisSecurityLevelFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["titleFilters"].writeList(value.titleFilters, memberWritingClosure: Inspector2ClientTypes.CisStringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.CisScanResultsAggregatedByChecksFilterCriteria {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Inspector2ClientTypes.CisScanResultsAggregatedByChecksFilterCriteria()
-        value.accountIdFilters = try reader["accountIdFilters"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.CisStringFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.checkIdFilters = try reader["checkIdFilters"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.CisStringFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.titleFilters = try reader["titleFilters"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.CisStringFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.platformFilters = try reader["platformFilters"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.CisStringFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.failedResourcesFilters = try reader["failedResourcesFilters"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.CisNumberFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.securityLevelFilters = try reader["securityLevelFilters"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.CisSecurityLevelFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -2872,21 +2584,6 @@ extension Inspector2ClientTypes.CisScanResultsAggregatedByTargetResourceFilterCr
         try writer["targetResourceTagFilters"].writeList(value.targetResourceTagFilters, memberWritingClosure: Inspector2ClientTypes.TagFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["targetStatusFilters"].writeList(value.targetStatusFilters, memberWritingClosure: Inspector2ClientTypes.CisTargetStatusFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["targetStatusReasonFilters"].writeList(value.targetStatusReasonFilters, memberWritingClosure: Inspector2ClientTypes.CisTargetStatusReasonFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.CisScanResultsAggregatedByTargetResourceFilterCriteria {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Inspector2ClientTypes.CisScanResultsAggregatedByTargetResourceFilterCriteria()
-        value.accountIdFilters = try reader["accountIdFilters"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.CisStringFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.statusFilters = try reader["statusFilters"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.CisResultStatusFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.checkIdFilters = try reader["checkIdFilters"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.CisStringFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.targetResourceIdFilters = try reader["targetResourceIdFilters"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.CisStringFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.targetResourceTagFilters = try reader["targetResourceTagFilters"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.TagFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.platformFilters = try reader["platformFilters"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.CisStringFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.targetStatusFilters = try reader["targetStatusFilters"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.CisTargetStatusFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.targetStatusReasonFilters = try reader["targetStatusReasonFilters"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.CisTargetStatusReasonFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.failedChecksFilters = try reader["failedChecksFilters"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.CisNumberFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -3050,14 +2747,6 @@ extension Inspector2ClientTypes.CisScanStatusFilter {
         try writer["comparison"].write(value.comparison)
         try writer["value"].write(value.value)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.CisScanStatusFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Inspector2ClientTypes.CisScanStatusFilter()
-        value.comparison = try reader["comparison"].readIfPresent()
-        value.value = try reader["value"].readIfPresent()
-        return value
-    }
 }
 
 extension Inspector2ClientTypes {
@@ -3146,14 +2835,6 @@ extension Inspector2ClientTypes.CisSecurityLevelFilter {
         try writer["comparison"].write(value.comparison)
         try writer["value"].write(value.value)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.CisSecurityLevelFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Inspector2ClientTypes.CisSecurityLevelFilter()
-        value.comparison = try reader["comparison"].readIfPresent()
-        value.value = try reader["value"].readIfPresent()
-        return value
-    }
 }
 
 extension Inspector2ClientTypes {
@@ -3185,15 +2866,6 @@ extension Inspector2ClientTypes.CisSessionMessage {
         try writer["cisRuleDetails"].write(value.cisRuleDetails)
         try writer["ruleId"].write(value.ruleId)
         try writer["status"].write(value.status)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.CisSessionMessage {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Inspector2ClientTypes.CisSessionMessage()
-        value.ruleId = try reader["ruleId"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.cisRuleDetails = try reader["cisRuleDetails"].readIfPresent()
-        return value
     }
 }
 
@@ -3294,14 +2966,6 @@ extension Inspector2ClientTypes.CisStringFilter {
         try writer["comparison"].write(value.comparison)
         try writer["value"].write(value.value)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.CisStringFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Inspector2ClientTypes.CisStringFilter()
-        value.comparison = try reader["comparison"].readIfPresent()
-        value.value = try reader["value"].readIfPresent()
-        return value
-    }
 }
 
 extension Inspector2ClientTypes {
@@ -3327,18 +2991,6 @@ extension Inspector2ClientTypes {
 }
 
 extension Inspector2ClientTypes.CisTargetResourceAggregation {
-
-    static func write(value: Inspector2ClientTypes.CisTargetResourceAggregation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["accountId"].write(value.accountId)
-        try writer["platform"].write(value.platform)
-        try writer["scanArn"].write(value.scanArn)
-        try writer["statusCounts"].write(value.statusCounts, with: Inspector2ClientTypes.StatusCounts.write(value:to:))
-        try writer["targetResourceId"].write(value.targetResourceId)
-        try writer["targetResourceTags"].writeMap(value.targetResourceTags, valueWritingClosure: listWritingClosure(memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["targetStatus"].write(value.targetStatus)
-        try writer["targetStatusReason"].write(value.targetStatusReason)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.CisTargetResourceAggregation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3467,14 +3119,6 @@ extension Inspector2ClientTypes.CisTargetStatusFilter {
         try writer["comparison"].write(value.comparison)
         try writer["value"].write(value.value)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.CisTargetStatusFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Inspector2ClientTypes.CisTargetStatusFilter()
-        value.comparison = try reader["comparison"].readIfPresent()
-        value.value = try reader["value"].readIfPresent()
-        return value
-    }
 }
 
 extension Inspector2ClientTypes {
@@ -3539,14 +3183,6 @@ extension Inspector2ClientTypes.CisTargetStatusReasonFilter {
         try writer["comparison"].write(value.comparison)
         try writer["value"].write(value.value)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.CisTargetStatusReasonFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Inspector2ClientTypes.CisTargetStatusReasonFilter()
-        value.comparison = try reader["comparison"].readIfPresent()
-        value.value = try reader["value"].readIfPresent()
-        return value
-    }
 }
 
 extension Inspector2ClientTypes {
@@ -3572,12 +3208,6 @@ extension Inspector2ClientTypes {
 }
 
 extension Inspector2ClientTypes.CisTargets {
-
-    static func write(value: Inspector2ClientTypes.CisTargets?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["accountIds"].writeList(value.accountIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["targetResourceTags"].writeMap(value.targetResourceTags, valueWritingClosure: listWritingClosure(memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.CisTargets {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3609,13 +3239,6 @@ extension Inspector2ClientTypes {
 }
 
 extension Inspector2ClientTypes.CisaData {
-
-    static func write(value: Inspector2ClientTypes.CisaData?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["action"].write(value.action)
-        try writer["dateAdded"].writeTimestamp(value.dateAdded, format: .epochSeconds)
-        try writer["dateDue"].writeTimestamp(value.dateDue, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.CisaData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3652,14 +3275,6 @@ extension Inspector2ClientTypes {
 }
 
 extension Inspector2ClientTypes.CodeFilePath {
-
-    static func write(value: Inspector2ClientTypes.CodeFilePath?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["endLine"].write(value.endLine)
-        try writer["fileName"].write(value.fileName)
-        try writer["filePath"].write(value.filePath)
-        try writer["startLine"].write(value.startLine)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.CodeFilePath {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3706,12 +3321,6 @@ extension Inspector2ClientTypes {
 
 extension Inspector2ClientTypes.CodeLine {
 
-    static func write(value: Inspector2ClientTypes.CodeLine?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["content"].write(value.content)
-        try writer["lineNumber"].write(value.lineNumber)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.CodeLine {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Inspector2ClientTypes.CodeLine()
@@ -3744,13 +3353,6 @@ extension Inspector2ClientTypes {
 }
 
 extension Inspector2ClientTypes.CodeSnippetError {
-
-    static func write(value: Inspector2ClientTypes.CodeSnippetError?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["errorCode"].write(value.errorCode)
-        try writer["errorMessage"].write(value.errorMessage)
-        try writer["findingArn"].write(value.findingArn)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.CodeSnippetError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3827,15 +3429,6 @@ extension Inspector2ClientTypes {
 
 extension Inspector2ClientTypes.CodeSnippetResult {
 
-    static func write(value: Inspector2ClientTypes.CodeSnippetResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["codeSnippet"].writeList(value.codeSnippet, memberWritingClosure: Inspector2ClientTypes.CodeLine.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["endLine"].write(value.endLine)
-        try writer["findingArn"].write(value.findingArn)
-        try writer["startLine"].write(value.startLine)
-        try writer["suggestedFixes"].writeList(value.suggestedFixes, memberWritingClosure: Inspector2ClientTypes.SuggestedFix.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.CodeSnippetResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Inspector2ClientTypes.CodeSnippetResult()
@@ -3881,18 +3474,6 @@ extension Inspector2ClientTypes {
 }
 
 extension Inspector2ClientTypes.CodeVulnerabilityDetails {
-
-    static func write(value: Inspector2ClientTypes.CodeVulnerabilityDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["cwes"].writeList(value.cwes, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["detectorId"].write(value.detectorId)
-        try writer["detectorName"].write(value.detectorName)
-        try writer["detectorTags"].writeList(value.detectorTags, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["filePath"].write(value.filePath, with: Inspector2ClientTypes.CodeFilePath.write(value:to:))
-        try writer["referenceUrls"].writeList(value.referenceUrls, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ruleId"].write(value.ruleId)
-        try writer["sourceLambdaLayerArn"].write(value.sourceLambdaLayerArn)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.CodeVulnerabilityDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3964,15 +3545,6 @@ extension Inspector2ClientTypes.ComputePlatform {
         try writer["product"].write(value.product)
         try writer["vendor"].write(value.vendor)
         try writer["version"].write(value.version)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.ComputePlatform {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Inspector2ClientTypes.ComputePlatform()
-        value.vendor = try reader["vendor"].readIfPresent()
-        value.product = try reader["product"].readIfPresent()
-        value.version = try reader["version"].readIfPresent()
-        return value
     }
 }
 
@@ -4052,12 +3624,6 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
 extension Inspector2ClientTypes.Counts {
 
-    static func write(value: Inspector2ClientTypes.Counts?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["count"].write(value.count)
-        try writer["groupKey"].write(value.groupKey)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.Counts {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Inspector2ClientTypes.Counts()
@@ -4093,14 +3659,6 @@ extension Inspector2ClientTypes.CoverageDateFilter {
         guard let value else { return }
         try writer["endInclusive"].writeTimestamp(value.endInclusive, format: .epochSeconds)
         try writer["startInclusive"].writeTimestamp(value.startInclusive, format: .epochSeconds)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.CoverageDateFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Inspector2ClientTypes.CoverageDateFilter()
-        value.startInclusive = try reader["startInclusive"].readTimestampIfPresent(format: .epochSeconds)
-        value.endInclusive = try reader["endInclusive"].readTimestampIfPresent(format: .epochSeconds)
-        return value
     }
 }
 
@@ -4143,27 +3701,6 @@ extension Inspector2ClientTypes.CoverageFilterCriteria {
         try writer["scanStatusCode"].writeList(value.scanStatusCode, memberWritingClosure: Inspector2ClientTypes.CoverageStringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["scanStatusReason"].writeList(value.scanStatusReason, memberWritingClosure: Inspector2ClientTypes.CoverageStringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["scanType"].writeList(value.scanType, memberWritingClosure: Inspector2ClientTypes.CoverageStringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.CoverageFilterCriteria {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Inspector2ClientTypes.CoverageFilterCriteria()
-        value.scanStatusCode = try reader["scanStatusCode"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.CoverageStringFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.scanStatusReason = try reader["scanStatusReason"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.CoverageStringFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.accountId = try reader["accountId"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.CoverageStringFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.resourceId = try reader["resourceId"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.CoverageStringFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.resourceType = try reader["resourceType"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.CoverageStringFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.scanType = try reader["scanType"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.CoverageStringFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.ecrRepositoryName = try reader["ecrRepositoryName"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.CoverageStringFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.ecrImageTags = try reader["ecrImageTags"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.CoverageStringFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.ec2InstanceTags = try reader["ec2InstanceTags"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.CoverageMapFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.lambdaFunctionName = try reader["lambdaFunctionName"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.CoverageStringFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.lambdaFunctionTags = try reader["lambdaFunctionTags"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.CoverageMapFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.lambdaFunctionRuntime = try reader["lambdaFunctionRuntime"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.CoverageStringFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.lastScannedAt = try reader["lastScannedAt"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.CoverageDateFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.scanMode = try reader["scanMode"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.CoverageStringFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.imagePulledAt = try reader["imagePulledAt"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.CoverageDateFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -4274,15 +3811,6 @@ extension Inspector2ClientTypes.CoverageMapFilter {
         try writer["key"].write(value.key)
         try writer["value"].write(value.value)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.CoverageMapFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Inspector2ClientTypes.CoverageMapFilter()
-        value.comparison = try reader["comparison"].readIfPresent()
-        value.key = try reader["key"].readIfPresent()
-        value.value = try reader["value"].readIfPresent()
-        return value
-    }
 }
 
 extension Inspector2ClientTypes {
@@ -4384,14 +3912,6 @@ extension Inspector2ClientTypes.CoverageStringFilter {
         try writer["comparison"].write(value.comparison)
         try writer["value"].write(value.value)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.CoverageStringFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Inspector2ClientTypes.CoverageStringFilter()
-        value.comparison = try reader["comparison"].readIfPresent()
-        value.value = try reader["value"].readIfPresent()
-        return value
-    }
 }
 
 extension Inspector2ClientTypes {
@@ -4417,18 +3937,6 @@ extension Inspector2ClientTypes {
 }
 
 extension Inspector2ClientTypes.CoveredResource {
-
-    static func write(value: Inspector2ClientTypes.CoveredResource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["accountId"].write(value.accountId)
-        try writer["lastScannedAt"].writeTimestamp(value.lastScannedAt, format: .epochSeconds)
-        try writer["resourceId"].write(value.resourceId)
-        try writer["resourceMetadata"].write(value.resourceMetadata, with: Inspector2ClientTypes.ResourceScanMetadata.write(value:to:))
-        try writer["resourceType"].write(value.resourceType)
-        try writer["scanMode"].write(value.scanMode)
-        try writer["scanStatus"].write(value.scanStatus, with: Inspector2ClientTypes.ScanStatus.write(value:to:))
-        try writer["scanType"].write(value.scanType)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.CoveredResource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4591,14 +4099,6 @@ extension Inspector2ClientTypes.CreateCisTargets {
         guard let value else { return }
         try writer["accountIds"].writeList(value.accountIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["targetResourceTags"].writeMap(value.targetResourceTags, valueWritingClosure: listWritingClosure(memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.CreateCisTargets {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Inspector2ClientTypes.CreateCisTargets()
-        value.accountIds = try reader["accountIds"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.targetResourceTags = try reader["targetResourceTags"].readMapIfPresent(valueReadingClosure: listReadingClosure(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
     }
 }
 
@@ -4914,12 +4414,6 @@ extension Inspector2ClientTypes {
 
 extension Inspector2ClientTypes.Cvss2 {
 
-    static func write(value: Inspector2ClientTypes.Cvss2?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["baseScore"].write(value.baseScore)
-        try writer["scoringVector"].write(value.scoringVector)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.Cvss2 {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Inspector2ClientTypes.Cvss2()
@@ -4951,12 +4445,6 @@ extension Inspector2ClientTypes {
 
 extension Inspector2ClientTypes.Cvss3 {
 
-    static func write(value: Inspector2ClientTypes.Cvss3?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["baseScore"].write(value.baseScore)
-        try writer["scoringVector"].write(value.scoringVector)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.Cvss3 {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Inspector2ClientTypes.Cvss3()
@@ -4987,14 +4475,6 @@ extension Inspector2ClientTypes {
 }
 
 extension Inspector2ClientTypes.CvssScore {
-
-    static func write(value: Inspector2ClientTypes.CvssScore?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["baseScore"].write(value.baseScore)
-        try writer["scoringVector"].write(value.scoringVector)
-        try writer["source"].write(value.source)
-        try writer["version"].write(value.version)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.CvssScore {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5041,12 +4521,6 @@ extension Inspector2ClientTypes {
 
 extension Inspector2ClientTypes.CvssScoreAdjustment {
 
-    static func write(value: Inspector2ClientTypes.CvssScoreAdjustment?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["metric"].write(value.metric)
-        try writer["reason"].write(value.reason)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.CvssScoreAdjustment {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Inspector2ClientTypes.CvssScoreAdjustment()
@@ -5079,16 +4553,6 @@ extension Inspector2ClientTypes {
 }
 
 extension Inspector2ClientTypes.CvssScoreDetails {
-
-    static func write(value: Inspector2ClientTypes.CvssScoreDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["adjustments"].writeList(value.adjustments, memberWritingClosure: Inspector2ClientTypes.CvssScoreAdjustment.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["cvssSource"].write(value.cvssSource)
-        try writer["score"].write(value.score)
-        try writer["scoreSource"].write(value.scoreSource)
-        try writer["scoringVector"].write(value.scoringVector)
-        try writer["version"].write(value.version)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.CvssScoreDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5259,12 +4723,6 @@ extension Inspector2ClientTypes {
 
 extension Inspector2ClientTypes.DelegatedAdmin {
 
-    static func write(value: Inspector2ClientTypes.DelegatedAdmin?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["accountId"].write(value.accountId)
-        try writer["relationshipStatus"].write(value.relationshipStatus)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.DelegatedAdmin {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Inspector2ClientTypes.DelegatedAdmin()
@@ -5295,12 +4753,6 @@ extension Inspector2ClientTypes {
 }
 
 extension Inspector2ClientTypes.DelegatedAdminAccount {
-
-    static func write(value: Inspector2ClientTypes.DelegatedAdminAccount?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["accountId"].write(value.accountId)
-        try writer["status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.DelegatedAdminAccount {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5834,13 +5286,6 @@ extension Inspector2ClientTypes.Ec2Configuration {
         guard let value else { return }
         try writer["scanMode"].write(value.scanMode)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.Ec2Configuration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Inspector2ClientTypes.Ec2Configuration()
-        value.scanMode = try reader["scanMode"].readIfPresent()
-        return value
-    }
 }
 
 extension Inspector2ClientTypes {
@@ -5861,11 +5306,6 @@ extension Inspector2ClientTypes {
 }
 
 extension Inspector2ClientTypes.Ec2ConfigurationState {
-
-    static func write(value: Inspector2ClientTypes.Ec2ConfigurationState?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["scanModeState"].write(value.scanModeState, with: Inspector2ClientTypes.Ec2ScanModeState.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.Ec2ConfigurationState {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5938,18 +5378,6 @@ extension Inspector2ClientTypes.Ec2InstanceAggregation {
         try writer["sortBy"].write(value.sortBy)
         try writer["sortOrder"].write(value.sortOrder)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.Ec2InstanceAggregation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Inspector2ClientTypes.Ec2InstanceAggregation()
-        value.amis = try reader["amis"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.StringFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.operatingSystems = try reader["operatingSystems"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.StringFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.instanceIds = try reader["instanceIds"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.StringFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.instanceTags = try reader["instanceTags"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.MapFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.sortOrder = try reader["sortOrder"].readIfPresent()
-        value.sortBy = try reader["sortBy"].readIfPresent()
-        return value
-    }
 }
 
 extension Inspector2ClientTypes {
@@ -5989,17 +5417,6 @@ extension Inspector2ClientTypes {
 }
 
 extension Inspector2ClientTypes.Ec2InstanceAggregationResponse {
-
-    static func write(value: Inspector2ClientTypes.Ec2InstanceAggregationResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["accountId"].write(value.accountId)
-        try writer["ami"].write(value.ami)
-        try writer["instanceId"].write(value.instanceId)
-        try writer["instanceTags"].writeMap(value.instanceTags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["networkFindings"].write(value.networkFindings)
-        try writer["operatingSystem"].write(value.operatingSystem)
-        try writer["severityCounts"].write(value.severityCounts, with: Inspector2ClientTypes.SeverityCounts.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.Ec2InstanceAggregationResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6093,13 +5510,6 @@ extension Inspector2ClientTypes {
 }
 
 extension Inspector2ClientTypes.Ec2Metadata {
-
-    static func write(value: Inspector2ClientTypes.Ec2Metadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["amiId"].write(value.amiId)
-        try writer["platform"].write(value.platform)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.Ec2Metadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6203,12 +5613,6 @@ extension Inspector2ClientTypes {
 
 extension Inspector2ClientTypes.Ec2ScanModeState {
 
-    static func write(value: Inspector2ClientTypes.Ec2ScanModeState?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["scanMode"].write(value.scanMode)
-        try writer["scanModeStatus"].write(value.scanModeStatus)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.Ec2ScanModeState {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Inspector2ClientTypes.Ec2ScanModeState()
@@ -6275,14 +5679,6 @@ extension Inspector2ClientTypes.EcrConfiguration {
         try writer["pullDateRescanDuration"].write(value.pullDateRescanDuration)
         try writer["rescanDuration"].write(value.rescanDuration)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.EcrConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Inspector2ClientTypes.EcrConfiguration()
-        value.rescanDuration = try reader["rescanDuration"].readIfPresent()
-        value.pullDateRescanDuration = try reader["pullDateRescanDuration"].readIfPresent()
-        return value
-    }
 }
 
 extension Inspector2ClientTypes {
@@ -6307,11 +5703,6 @@ extension Inspector2ClientTypes {
 }
 
 extension Inspector2ClientTypes.EcrConfigurationState {
-
-    static func write(value: Inspector2ClientTypes.EcrConfigurationState?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["rescanDurationState"].write(value.rescanDurationState, with: Inspector2ClientTypes.EcrRescanDurationState.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.EcrConfigurationState {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6338,12 +5729,6 @@ extension Inspector2ClientTypes {
 }
 
 extension Inspector2ClientTypes.EcrContainerImageMetadata {
-
-    static func write(value: Inspector2ClientTypes.EcrContainerImageMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["imagePulledAt"].writeTimestamp(value.imagePulledAt, format: .epochSeconds)
-        try writer["tags"].writeList(value.tags, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.EcrContainerImageMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6414,12 +5799,6 @@ extension Inspector2ClientTypes {
 }
 
 extension Inspector2ClientTypes.EcrRepositoryMetadata {
-
-    static func write(value: Inspector2ClientTypes.EcrRepositoryMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-        try writer["scanFrequency"].write(value.scanFrequency)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.EcrRepositoryMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6493,14 +5872,6 @@ extension Inspector2ClientTypes {
 }
 
 extension Inspector2ClientTypes.EcrRescanDurationState {
-
-    static func write(value: Inspector2ClientTypes.EcrRescanDurationState?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["pullDateRescanDuration"].write(value.pullDateRescanDuration)
-        try writer["rescanDuration"].write(value.rescanDuration)
-        try writer["status"].write(value.status)
-        try writer["updatedAt"].writeTimestamp(value.updatedAt, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.EcrRescanDurationState {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6772,11 +6143,6 @@ enum EnableOutputError {
 
 extension Inspector2ClientTypes.Epss {
 
-    static func write(value: Inspector2ClientTypes.Epss?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["score"].write(value.score)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.Epss {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Inspector2ClientTypes.Epss()
@@ -6802,11 +6168,6 @@ extension Inspector2ClientTypes {
 }
 
 extension Inspector2ClientTypes.EpssDetails {
-
-    static func write(value: Inspector2ClientTypes.EpssDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["score"].write(value.score)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.EpssDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6900,13 +6261,6 @@ extension Inspector2ClientTypes {
 
 extension Inspector2ClientTypes.Evidence {
 
-    static func write(value: Inspector2ClientTypes.Evidence?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["evidenceDetail"].write(value.evidenceDetail)
-        try writer["evidenceRule"].write(value.evidenceRule)
-        try writer["severity"].write(value.severity)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.Evidence {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Inspector2ClientTypes.Evidence()
@@ -6973,12 +6327,6 @@ extension Inspector2ClientTypes {
 
 extension Inspector2ClientTypes.ExploitObserved {
 
-    static func write(value: Inspector2ClientTypes.ExploitObserved?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["firstSeen"].writeTimestamp(value.firstSeen, format: .epochSeconds)
-        try writer["lastSeen"].writeTimestamp(value.lastSeen, format: .epochSeconds)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.ExploitObserved {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Inspector2ClientTypes.ExploitObserved()
@@ -7009,11 +6357,6 @@ extension Inspector2ClientTypes {
 }
 
 extension Inspector2ClientTypes.ExploitabilityDetails {
-
-    static func write(value: Inspector2ClientTypes.ExploitabilityDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["lastKnownExploitAt"].writeTimestamp(value.lastKnownExploitAt, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.ExploitabilityDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7077,15 +6420,6 @@ extension Inspector2ClientTypes {
 
 extension Inspector2ClientTypes.FailedAccount {
 
-    static func write(value: Inspector2ClientTypes.FailedAccount?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["accountId"].write(value.accountId)
-        try writer["errorCode"].write(value.errorCode)
-        try writer["errorMessage"].write(value.errorMessage)
-        try writer["resourceStatus"].write(value.resourceStatus, with: Inspector2ClientTypes.ResourceStatus.write(value:to:))
-        try writer["status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.FailedAccount {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Inspector2ClientTypes.FailedAccount()
@@ -7135,13 +6469,6 @@ extension Inspector2ClientTypes {
 
 extension Inspector2ClientTypes.FailedMemberAccountEc2DeepInspectionStatusState {
 
-    static func write(value: Inspector2ClientTypes.FailedMemberAccountEc2DeepInspectionStatusState?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["accountId"].write(value.accountId)
-        try writer["ec2ScanStatus"].write(value.ec2ScanStatus)
-        try writer["errorMessage"].write(value.errorMessage)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.FailedMemberAccountEc2DeepInspectionStatusState {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Inspector2ClientTypes.FailedMemberAccountEc2DeepInspectionStatusState()
@@ -7178,20 +6505,6 @@ extension Inspector2ClientTypes {
 }
 
 extension Inspector2ClientTypes.Filter {
-
-    static func write(value: Inspector2ClientTypes.Filter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["action"].write(value.action)
-        try writer["arn"].write(value.arn)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["criteria"].write(value.criteria, with: Inspector2ClientTypes.FilterCriteria.write(value:to:))
-        try writer["description"].write(value.description)
-        try writer["name"].write(value.name)
-        try writer["ownerId"].write(value.ownerId)
-        try writer["reason"].write(value.reason)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["updatedAt"].writeTimestamp(value.updatedAt, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.Filter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7578,31 +6891,6 @@ extension Inspector2ClientTypes {
 
 extension Inspector2ClientTypes.Finding {
 
-    static func write(value: Inspector2ClientTypes.Finding?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["awsAccountId"].write(value.awsAccountId)
-        try writer["codeVulnerabilityDetails"].write(value.codeVulnerabilityDetails, with: Inspector2ClientTypes.CodeVulnerabilityDetails.write(value:to:))
-        try writer["description"].write(value.description)
-        try writer["epss"].write(value.epss, with: Inspector2ClientTypes.EpssDetails.write(value:to:))
-        try writer["exploitAvailable"].write(value.exploitAvailable)
-        try writer["exploitabilityDetails"].write(value.exploitabilityDetails, with: Inspector2ClientTypes.ExploitabilityDetails.write(value:to:))
-        try writer["findingArn"].write(value.findingArn)
-        try writer["firstObservedAt"].writeTimestamp(value.firstObservedAt, format: .epochSeconds)
-        try writer["fixAvailable"].write(value.fixAvailable)
-        try writer["inspectorScore"].write(value.inspectorScore)
-        try writer["inspectorScoreDetails"].write(value.inspectorScoreDetails, with: Inspector2ClientTypes.InspectorScoreDetails.write(value:to:))
-        try writer["lastObservedAt"].writeTimestamp(value.lastObservedAt, format: .epochSeconds)
-        try writer["networkReachabilityDetails"].write(value.networkReachabilityDetails, with: Inspector2ClientTypes.NetworkReachabilityDetails.write(value:to:))
-        try writer["packageVulnerabilityDetails"].write(value.packageVulnerabilityDetails, with: Inspector2ClientTypes.PackageVulnerabilityDetails.write(value:to:))
-        try writer["remediation"].write(value.remediation, with: Inspector2ClientTypes.Remediation.write(value:to:))
-        try writer["resources"].writeList(value.resources, memberWritingClosure: Inspector2ClientTypes.Resource.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["severity"].write(value.severity)
-        try writer["status"].write(value.status)
-        try writer["title"].write(value.title)
-        try writer["type"].write(value.type)
-        try writer["updatedAt"].writeTimestamp(value.updatedAt, format: .epochSeconds)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.Finding {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Inspector2ClientTypes.Finding()
@@ -7739,20 +7027,6 @@ extension Inspector2ClientTypes {
 
 extension Inspector2ClientTypes.FindingDetail {
 
-    static func write(value: Inspector2ClientTypes.FindingDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["cisaData"].write(value.cisaData, with: Inspector2ClientTypes.CisaData.write(value:to:))
-        try writer["cwes"].writeList(value.cwes, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["epssScore"].write(value.epssScore)
-        try writer["evidences"].writeList(value.evidences, memberWritingClosure: Inspector2ClientTypes.Evidence.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["exploitObserved"].write(value.exploitObserved, with: Inspector2ClientTypes.ExploitObserved.write(value:to:))
-        try writer["findingArn"].write(value.findingArn)
-        try writer["referenceUrls"].writeList(value.referenceUrls, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["riskScore"].write(value.riskScore)
-        try writer["tools"].writeList(value.tools, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ttps"].writeList(value.ttps, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.FindingDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Inspector2ClientTypes.FindingDetail()
@@ -7823,13 +7097,6 @@ extension Inspector2ClientTypes {
 }
 
 extension Inspector2ClientTypes.FindingDetailsError {
-
-    static func write(value: Inspector2ClientTypes.FindingDetailsError?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["errorCode"].write(value.errorCode)
-        try writer["errorMessage"].write(value.errorMessage)
-        try writer["findingArn"].write(value.findingArn)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.FindingDetailsError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7979,16 +7246,6 @@ extension Inspector2ClientTypes.FindingTypeAggregation {
         try writer["sortBy"].write(value.sortBy)
         try writer["sortOrder"].write(value.sortOrder)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.FindingTypeAggregation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Inspector2ClientTypes.FindingTypeAggregation()
-        value.findingType = try reader["findingType"].readIfPresent()
-        value.resourceType = try reader["resourceType"].readIfPresent()
-        value.sortOrder = try reader["sortOrder"].readIfPresent()
-        value.sortBy = try reader["sortBy"].readIfPresent()
-        return value
-    }
 }
 
 extension Inspector2ClientTypes {
@@ -8020,12 +7277,6 @@ extension Inspector2ClientTypes {
 }
 
 extension Inspector2ClientTypes.FindingTypeAggregationResponse {
-
-    static func write(value: Inspector2ClientTypes.FindingTypeAggregationResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["accountId"].write(value.accountId)
-        try writer["severityCounts"].write(value.severityCounts, with: Inspector2ClientTypes.SeverityCounts.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.FindingTypeAggregationResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8124,12 +7375,6 @@ extension Inspector2ClientTypes {
 
 extension Inspector2ClientTypes.FreeTrialAccountInfo {
 
-    static func write(value: Inspector2ClientTypes.FreeTrialAccountInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["accountId"].write(value.accountId)
-        try writer["freeTrialInfo"].writeList(value.freeTrialInfo, memberWritingClosure: Inspector2ClientTypes.FreeTrialInfo.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.FreeTrialAccountInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Inspector2ClientTypes.FreeTrialAccountInfo()
@@ -8162,14 +7407,6 @@ extension Inspector2ClientTypes {
 }
 
 extension Inspector2ClientTypes.FreeTrialInfo {
-
-    static func write(value: Inspector2ClientTypes.FreeTrialInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["end"].writeTimestamp(value.end, format: .epochSeconds)
-        try writer["start"].writeTimestamp(value.start, format: .epochSeconds)
-        try writer["status"].write(value.status)
-        try writer["type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.FreeTrialInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8215,13 +7452,6 @@ extension Inspector2ClientTypes {
 }
 
 extension Inspector2ClientTypes.FreeTrialInfoError {
-
-    static func write(value: Inspector2ClientTypes.FreeTrialInfoError?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["accountId"].write(value.accountId)
-        try writer["code"].write(value.code)
-        try writer["message"].write(value.message)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.FreeTrialInfoError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -9132,17 +8362,6 @@ extension Inspector2ClientTypes.ImageLayerAggregation {
         try writer["sortBy"].write(value.sortBy)
         try writer["sortOrder"].write(value.sortOrder)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.ImageLayerAggregation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Inspector2ClientTypes.ImageLayerAggregation()
-        value.repositories = try reader["repositories"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.StringFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.resourceIds = try reader["resourceIds"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.StringFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.layerHashes = try reader["layerHashes"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.StringFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.sortOrder = try reader["sortOrder"].readIfPresent()
-        value.sortBy = try reader["sortBy"].readIfPresent()
-        return value
-    }
 }
 
 extension Inspector2ClientTypes {
@@ -9178,15 +8397,6 @@ extension Inspector2ClientTypes {
 }
 
 extension Inspector2ClientTypes.ImageLayerAggregationResponse {
-
-    static func write(value: Inspector2ClientTypes.ImageLayerAggregationResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["accountId"].write(value.accountId)
-        try writer["layerHash"].write(value.layerHash)
-        try writer["repository"].write(value.repository)
-        try writer["resourceId"].write(value.resourceId)
-        try writer["severityCounts"].write(value.severityCounts, with: Inspector2ClientTypes.SeverityCounts.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.ImageLayerAggregationResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -9273,11 +8483,6 @@ public enum Inspector2ClientTypes {}
 
 extension Inspector2ClientTypes.InspectorScoreDetails {
 
-    static func write(value: Inspector2ClientTypes.InspectorScoreDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["adjustedCvss"].write(value.adjustedCvss, with: Inspector2ClientTypes.CvssScoreDetails.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.InspectorScoreDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Inspector2ClientTypes.InspectorScoreDetails()
@@ -9359,18 +8564,6 @@ extension Inspector2ClientTypes.LambdaFunctionAggregation {
         try writer["sortBy"].write(value.sortBy)
         try writer["sortOrder"].write(value.sortOrder)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.LambdaFunctionAggregation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Inspector2ClientTypes.LambdaFunctionAggregation()
-        value.resourceIds = try reader["resourceIds"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.StringFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.functionNames = try reader["functionNames"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.StringFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.runtimes = try reader["runtimes"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.StringFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.functionTags = try reader["functionTags"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.MapFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.sortOrder = try reader["sortOrder"].readIfPresent()
-        value.sortBy = try reader["sortBy"].readIfPresent()
-        return value
-    }
 }
 
 extension Inspector2ClientTypes {
@@ -9410,17 +8603,6 @@ extension Inspector2ClientTypes {
 }
 
 extension Inspector2ClientTypes.LambdaFunctionAggregationResponse {
-
-    static func write(value: Inspector2ClientTypes.LambdaFunctionAggregationResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["accountId"].write(value.accountId)
-        try writer["functionName"].write(value.functionName)
-        try writer["lambdaTags"].writeMap(value.lambdaTags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["lastModifiedAt"].writeTimestamp(value.lastModifiedAt, format: .epochSeconds)
-        try writer["resourceId"].write(value.resourceId)
-        try writer["runtime"].write(value.runtime)
-        try writer["severityCounts"].write(value.severityCounts, with: Inspector2ClientTypes.SeverityCounts.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.LambdaFunctionAggregationResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -9478,14 +8660,6 @@ extension Inspector2ClientTypes {
 }
 
 extension Inspector2ClientTypes.LambdaFunctionMetadata {
-
-    static func write(value: Inspector2ClientTypes.LambdaFunctionMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["functionName"].write(value.functionName)
-        try writer["functionTags"].writeMap(value.functionTags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["layers"].writeList(value.layers, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["runtime"].write(value.runtime)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.LambdaFunctionMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -9569,17 +8743,6 @@ extension Inspector2ClientTypes.LambdaLayerAggregation {
         try writer["sortBy"].write(value.sortBy)
         try writer["sortOrder"].write(value.sortOrder)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.LambdaLayerAggregation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Inspector2ClientTypes.LambdaLayerAggregation()
-        value.functionNames = try reader["functionNames"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.StringFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.resourceIds = try reader["resourceIds"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.StringFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.layerArns = try reader["layerArns"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.StringFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.sortOrder = try reader["sortOrder"].readIfPresent()
-        value.sortBy = try reader["sortBy"].readIfPresent()
-        return value
-    }
 }
 
 extension Inspector2ClientTypes {
@@ -9615,15 +8778,6 @@ extension Inspector2ClientTypes {
 }
 
 extension Inspector2ClientTypes.LambdaLayerAggregationResponse {
-
-    static func write(value: Inspector2ClientTypes.LambdaLayerAggregationResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["accountId"].write(value.accountId)
-        try writer["functionName"].write(value.functionName)
-        try writer["layerArn"].write(value.layerArn)
-        try writer["resourceId"].write(value.resourceId)
-        try writer["severityCounts"].write(value.severityCounts, with: Inspector2ClientTypes.SeverityCounts.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.LambdaLayerAggregationResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -9707,13 +8861,6 @@ extension Inspector2ClientTypes {
 }
 
 extension Inspector2ClientTypes.LambdaVpcConfig {
-
-    static func write(value: Inspector2ClientTypes.LambdaVpcConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["securityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["subnetIds"].writeList(value.subnetIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["vpcId"].write(value.vpcId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.LambdaVpcConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -9840,15 +8987,6 @@ extension Inspector2ClientTypes.ListCisScanConfigurationsFilterCriteria {
         try writer["scanConfigurationArnFilters"].writeList(value.scanConfigurationArnFilters, memberWritingClosure: Inspector2ClientTypes.CisStringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["scanNameFilters"].writeList(value.scanNameFilters, memberWritingClosure: Inspector2ClientTypes.CisStringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["targetResourceTagFilters"].writeList(value.targetResourceTagFilters, memberWritingClosure: Inspector2ClientTypes.TagFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.ListCisScanConfigurationsFilterCriteria {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Inspector2ClientTypes.ListCisScanConfigurationsFilterCriteria()
-        value.scanNameFilters = try reader["scanNameFilters"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.CisStringFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.targetResourceTagFilters = try reader["targetResourceTagFilters"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.TagFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.scanConfigurationArnFilters = try reader["scanConfigurationArnFilters"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.CisStringFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -10211,22 +9349,6 @@ extension Inspector2ClientTypes.ListCisScansFilterCriteria {
         try writer["targetAccountIdFilters"].writeList(value.targetAccountIdFilters, memberWritingClosure: Inspector2ClientTypes.CisStringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["targetResourceIdFilters"].writeList(value.targetResourceIdFilters, memberWritingClosure: Inspector2ClientTypes.CisStringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["targetResourceTagFilters"].writeList(value.targetResourceTagFilters, memberWritingClosure: Inspector2ClientTypes.TagFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.ListCisScansFilterCriteria {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Inspector2ClientTypes.ListCisScansFilterCriteria()
-        value.scanNameFilters = try reader["scanNameFilters"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.CisStringFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.targetResourceTagFilters = try reader["targetResourceTagFilters"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.TagFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.targetResourceIdFilters = try reader["targetResourceIdFilters"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.CisStringFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.scanStatusFilters = try reader["scanStatusFilters"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.CisScanStatusFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.scanAtFilters = try reader["scanAtFilters"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.CisDateFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.scanConfigurationArnFilters = try reader["scanConfigurationArnFilters"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.CisStringFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.scanArnFilters = try reader["scanArnFilters"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.CisStringFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.scheduledByFilters = try reader["scheduledByFilters"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.CisStringFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.failedChecksFilters = try reader["failedChecksFilters"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.CisNumberFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.targetAccountIdFilters = try reader["targetAccountIdFilters"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.CisStringFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -11243,14 +10365,6 @@ extension Inspector2ClientTypes {
 
 extension Inspector2ClientTypes.Member {
 
-    static func write(value: Inspector2ClientTypes.Member?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["accountId"].write(value.accountId)
-        try writer["delegatedAdminAccountId"].write(value.delegatedAdminAccountId)
-        try writer["relationshipStatus"].write(value.relationshipStatus)
-        try writer["updatedAt"].writeTimestamp(value.updatedAt, format: .epochSeconds)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.Member {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Inspector2ClientTypes.Member()
@@ -11297,14 +10411,6 @@ extension Inspector2ClientTypes.MemberAccountEc2DeepInspectionStatus {
         try writer["accountId"].write(value.accountId)
         try writer["activateDeepInspection"].write(value.activateDeepInspection)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.MemberAccountEc2DeepInspectionStatus {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Inspector2ClientTypes.MemberAccountEc2DeepInspectionStatus()
-        value.accountId = try reader["accountId"].readIfPresent()
-        value.activateDeepInspection = try reader["activateDeepInspection"].readIfPresent()
-        return value
-    }
 }
 
 extension Inspector2ClientTypes {
@@ -11330,13 +10436,6 @@ extension Inspector2ClientTypes {
 }
 
 extension Inspector2ClientTypes.MemberAccountEc2DeepInspectionStatusState {
-
-    static func write(value: Inspector2ClientTypes.MemberAccountEc2DeepInspectionStatusState?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["accountId"].write(value.accountId)
-        try writer["errorMessage"].write(value.errorMessage)
-        try writer["status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.MemberAccountEc2DeepInspectionStatusState {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -11414,11 +10513,6 @@ extension Inspector2ClientTypes {
 
 extension Inspector2ClientTypes.NetworkPath {
 
-    static func write(value: Inspector2ClientTypes.NetworkPath?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["steps"].writeList(value.steps, memberWritingClosure: Inspector2ClientTypes.Step.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.NetworkPath {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Inspector2ClientTypes.NetworkPath()
@@ -11474,13 +10568,6 @@ extension Inspector2ClientTypes {
 }
 
 extension Inspector2ClientTypes.NetworkReachabilityDetails {
-
-    static func write(value: Inspector2ClientTypes.NetworkReachabilityDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["networkPath"].write(value.networkPath, with: Inspector2ClientTypes.NetworkPath.write(value:to:))
-        try writer["openPortRange"].write(value.openPortRange, with: Inspector2ClientTypes.PortRange.write(value:to:))
-        try writer["protocol"].write(value.`protocol`)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.NetworkReachabilityDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -11622,15 +10709,6 @@ extension Inspector2ClientTypes.PackageAggregation {
         try writer["sortBy"].write(value.sortBy)
         try writer["sortOrder"].write(value.sortOrder)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.PackageAggregation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Inspector2ClientTypes.PackageAggregation()
-        value.packageNames = try reader["packageNames"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.StringFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.sortOrder = try reader["sortOrder"].readIfPresent()
-        value.sortBy = try reader["sortBy"].readIfPresent()
-        return value
-    }
 }
 
 extension Inspector2ClientTypes {
@@ -11658,13 +10736,6 @@ extension Inspector2ClientTypes {
 }
 
 extension Inspector2ClientTypes.PackageAggregationResponse {
-
-    static func write(value: Inspector2ClientTypes.PackageAggregationResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["accountId"].write(value.accountId)
-        try writer["packageName"].write(value.packageName)
-        try writer["severityCounts"].write(value.severityCounts, with: Inspector2ClientTypes.SeverityCounts.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.PackageAggregationResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -11908,20 +10979,6 @@ extension Inspector2ClientTypes {
 
 extension Inspector2ClientTypes.PackageVulnerabilityDetails {
 
-    static func write(value: Inspector2ClientTypes.PackageVulnerabilityDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["cvss"].writeList(value.cvss, memberWritingClosure: Inspector2ClientTypes.CvssScore.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["referenceUrls"].writeList(value.referenceUrls, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["relatedVulnerabilities"].writeList(value.relatedVulnerabilities, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["source"].write(value.source)
-        try writer["sourceUrl"].write(value.sourceUrl)
-        try writer["vendorCreatedAt"].writeTimestamp(value.vendorCreatedAt, format: .epochSeconds)
-        try writer["vendorSeverity"].write(value.vendorSeverity)
-        try writer["vendorUpdatedAt"].writeTimestamp(value.vendorUpdatedAt, format: .epochSeconds)
-        try writer["vulnerabilityId"].write(value.vulnerabilityId)
-        try writer["vulnerablePackages"].writeList(value.vulnerablePackages, memberWritingClosure: Inspector2ClientTypes.VulnerablePackage.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.PackageVulnerabilityDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Inspector2ClientTypes.PackageVulnerabilityDetails()
@@ -11995,12 +11052,6 @@ extension Inspector2ClientTypes {
 
 extension Inspector2ClientTypes.Permission {
 
-    static func write(value: Inspector2ClientTypes.Permission?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["operation"].write(value.operation)
-        try writer["service"].write(value.service)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.Permission {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Inspector2ClientTypes.Permission()
@@ -12033,12 +11084,6 @@ extension Inspector2ClientTypes {
 }
 
 extension Inspector2ClientTypes.PortRange {
-
-    static func write(value: Inspector2ClientTypes.PortRange?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["begin"].write(value.begin)
-        try writer["end"].write(value.end)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.PortRange {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -12109,12 +11154,6 @@ extension Inspector2ClientTypes {
 }
 
 extension Inspector2ClientTypes.Recommendation {
-
-    static func write(value: Inspector2ClientTypes.Recommendation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Url"].write(value.url)
-        try writer["text"].write(value.text)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.Recommendation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -12206,11 +11245,6 @@ extension Inspector2ClientTypes {
 }
 
 extension Inspector2ClientTypes.Remediation {
-
-    static func write(value: Inspector2ClientTypes.Remediation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["recommendation"].write(value.recommendation, with: Inspector2ClientTypes.Recommendation.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.Remediation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -12316,15 +11350,6 @@ extension Inspector2ClientTypes.RepositoryAggregation {
         try writer["sortBy"].write(value.sortBy)
         try writer["sortOrder"].write(value.sortOrder)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.RepositoryAggregation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Inspector2ClientTypes.RepositoryAggregation()
-        value.repositories = try reader["repositories"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.StringFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.sortOrder = try reader["sortOrder"].readIfPresent()
-        value.sortBy = try reader["sortBy"].readIfPresent()
-        return value
-    }
 }
 
 extension Inspector2ClientTypes {
@@ -12352,14 +11377,6 @@ extension Inspector2ClientTypes {
 }
 
 extension Inspector2ClientTypes.RepositoryAggregationResponse {
-
-    static func write(value: Inspector2ClientTypes.RepositoryAggregationResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["accountId"].write(value.accountId)
-        try writer["affectedImages"].write(value.affectedImages)
-        try writer["repository"].write(value.repository)
-        try writer["severityCounts"].write(value.severityCounts, with: Inspector2ClientTypes.SeverityCounts.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.RepositoryAggregationResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -12503,16 +11520,6 @@ enum ResetEncryptionKeyOutputError {
 
 extension Inspector2ClientTypes.Resource {
 
-    static func write(value: Inspector2ClientTypes.Resource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["details"].write(value.details, with: Inspector2ClientTypes.ResourceDetails.write(value:to:))
-        try writer["id"].write(value.id)
-        try writer["partition"].write(value.partition)
-        try writer["region"].write(value.region)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.Resource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Inspector2ClientTypes.Resource()
@@ -12565,13 +11572,6 @@ extension Inspector2ClientTypes {
 }
 
 extension Inspector2ClientTypes.ResourceDetails {
-
-    static func write(value: Inspector2ClientTypes.ResourceDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["awsEc2Instance"].write(value.awsEc2Instance, with: Inspector2ClientTypes.AwsEc2InstanceDetails.write(value:to:))
-        try writer["awsEcrContainerImage"].write(value.awsEcrContainerImage, with: Inspector2ClientTypes.AwsEcrContainerImageDetails.write(value:to:))
-        try writer["awsLambdaFunction"].write(value.awsLambdaFunction, with: Inspector2ClientTypes.AwsLambdaFunctionDetails.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.ResourceDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -12792,14 +11792,6 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
 extension Inspector2ClientTypes.ResourceScanMetadata {
 
-    static func write(value: Inspector2ClientTypes.ResourceScanMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ec2"].write(value.ec2, with: Inspector2ClientTypes.Ec2Metadata.write(value:to:))
-        try writer["ecrImage"].write(value.ecrImage, with: Inspector2ClientTypes.EcrContainerImageMetadata.write(value:to:))
-        try writer["ecrRepository"].write(value.ecrRepository, with: Inspector2ClientTypes.EcrRepositoryMetadata.write(value:to:))
-        try writer["lambdaFunction"].write(value.lambdaFunction, with: Inspector2ClientTypes.LambdaFunctionMetadata.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.ResourceScanMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Inspector2ClientTypes.ResourceScanMetadata()
@@ -12877,14 +11869,6 @@ extension Inspector2ClientTypes {
 
 extension Inspector2ClientTypes.ResourceState {
 
-    static func write(value: Inspector2ClientTypes.ResourceState?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ec2"].write(value.ec2, with: Inspector2ClientTypes.State.write(value:to:))
-        try writer["ecr"].write(value.ecr, with: Inspector2ClientTypes.State.write(value:to:))
-        try writer["lambda"].write(value.lambda, with: Inspector2ClientTypes.State.write(value:to:))
-        try writer["lambdaCode"].write(value.lambdaCode, with: Inspector2ClientTypes.State.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.ResourceState {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Inspector2ClientTypes.ResourceState()
@@ -12927,14 +11911,6 @@ extension Inspector2ClientTypes {
 }
 
 extension Inspector2ClientTypes.ResourceStatus {
-
-    static func write(value: Inspector2ClientTypes.ResourceStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ec2"].write(value.ec2)
-        try writer["ecr"].write(value.ecr)
-        try writer["lambda"].write(value.lambda)
-        try writer["lambdaCode"].write(value.lambdaCode)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.ResourceStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -13213,12 +12189,6 @@ extension Inspector2ClientTypes {
 
 extension Inspector2ClientTypes.ScanStatus {
 
-    static func write(value: Inspector2ClientTypes.ScanStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["reason"].write(value.reason)
-        try writer["statusCode"].write(value.statusCode)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.ScanStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Inspector2ClientTypes.ScanStatus()
@@ -13466,13 +12436,6 @@ extension Inspector2ClientTypes.SearchVulnerabilitiesFilterCriteria {
     static func write(value: Inspector2ClientTypes.SearchVulnerabilitiesFilterCriteria?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["vulnerabilityIds"].writeList(value.vulnerabilityIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.SearchVulnerabilitiesFilterCriteria {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Inspector2ClientTypes.SearchVulnerabilitiesFilterCriteria()
-        value.vulnerabilityIds = try reader["vulnerabilityIds"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -13828,14 +12791,6 @@ extension Inspector2ClientTypes {
 
 extension Inspector2ClientTypes.SeverityCounts {
 
-    static func write(value: Inspector2ClientTypes.SeverityCounts?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["all"].write(value.all)
-        try writer["critical"].write(value.critical)
-        try writer["high"].write(value.high)
-        try writer["medium"].write(value.medium)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.SeverityCounts {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Inspector2ClientTypes.SeverityCounts()
@@ -13881,14 +12836,6 @@ extension Inspector2ClientTypes.SortCriteria {
         guard let value else { return }
         try writer["field"].write(value.field)
         try writer["sortOrder"].write(value.sortOrder)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.SortCriteria {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Inspector2ClientTypes.SortCriteria()
-        value.field = try reader["field"].readIfPresent()
-        value.sortOrder = try reader["sortOrder"].readIfPresent()
-        return value
     }
 }
 
@@ -14059,13 +13006,6 @@ extension Inspector2ClientTypes.StartCisSessionMessage {
         guard let value else { return }
         try writer["sessionToken"].write(value.sessionToken)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.StartCisSessionMessage {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Inspector2ClientTypes.StartCisSessionMessage()
-        value.sessionToken = try reader["sessionToken"].readIfPresent()
-        return value
-    }
 }
 
 extension Inspector2ClientTypes {
@@ -14116,13 +13056,6 @@ enum StartCisSessionOutputError {
 }
 
 extension Inspector2ClientTypes.State {
-
-    static func write(value: Inspector2ClientTypes.State?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["errorCode"].write(value.errorCode)
-        try writer["errorMessage"].write(value.errorMessage)
-        try writer["status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.State {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -14205,13 +13138,6 @@ extension Inspector2ClientTypes {
 
 extension Inspector2ClientTypes.StatusCounts {
 
-    static func write(value: Inspector2ClientTypes.StatusCounts?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["failed"].write(value.failed)
-        try writer["passed"].write(value.passed)
-        try writer["skipped"].write(value.skipped)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.StatusCounts {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Inspector2ClientTypes.StatusCounts()
@@ -14247,12 +13173,6 @@ extension Inspector2ClientTypes {
 }
 
 extension Inspector2ClientTypes.Step {
-
-    static func write(value: Inspector2ClientTypes.Step?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["componentId"].write(value.componentId)
-        try writer["componentType"].write(value.componentType)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.Step {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -14297,20 +13217,6 @@ extension Inspector2ClientTypes.StopCisMessageProgress {
         try writer["successfulChecks"].write(value.successfulChecks)
         try writer["totalChecks"].write(value.totalChecks)
         try writer["unknownChecks"].write(value.unknownChecks)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.StopCisMessageProgress {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Inspector2ClientTypes.StopCisMessageProgress()
-        value.totalChecks = try reader["totalChecks"].readIfPresent() ?? 0
-        value.successfulChecks = try reader["successfulChecks"].readIfPresent() ?? 0
-        value.failedChecks = try reader["failedChecks"].readIfPresent() ?? 0
-        value.notEvaluatedChecks = try reader["notEvaluatedChecks"].readIfPresent() ?? 0
-        value.unknownChecks = try reader["unknownChecks"].readIfPresent() ?? 0
-        value.notApplicableChecks = try reader["notApplicableChecks"].readIfPresent() ?? 0
-        value.informationalChecks = try reader["informationalChecks"].readIfPresent() ?? 0
-        value.errorChecks = try reader["errorChecks"].readIfPresent() ?? 0
-        return value
     }
 }
 
@@ -14408,18 +13314,6 @@ extension Inspector2ClientTypes.StopCisSessionMessage {
         try writer["progress"].write(value.progress, with: Inspector2ClientTypes.StopCisMessageProgress.write(value:to:))
         try writer["reason"].write(value.reason)
         try writer["status"].write(value.status)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.StopCisSessionMessage {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Inspector2ClientTypes.StopCisSessionMessage()
-        value.status = try reader["status"].readIfPresent()
-        value.reason = try reader["reason"].readIfPresent()
-        value.progress = try reader["progress"].readIfPresent(with: Inspector2ClientTypes.StopCisMessageProgress.read(from:))
-        value.computePlatform = try reader["computePlatform"].readIfPresent(with: Inspector2ClientTypes.ComputePlatform.read(from:))
-        value.benchmarkVersion = try reader["benchmarkVersion"].readIfPresent()
-        value.benchmarkProfile = try reader["benchmarkProfile"].readIfPresent()
-        return value
     }
 }
 
@@ -14601,12 +13495,6 @@ extension Inspector2ClientTypes {
 
 extension Inspector2ClientTypes.SuggestedFix {
 
-    static func write(value: Inspector2ClientTypes.SuggestedFix?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["code"].write(value.code)
-        try writer["description"].write(value.description)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.SuggestedFix {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Inspector2ClientTypes.SuggestedFix()
@@ -14670,15 +13558,6 @@ extension Inspector2ClientTypes.TagFilter {
         try writer["comparison"].write(value.comparison)
         try writer["key"].write(value.key)
         try writer["value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.TagFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Inspector2ClientTypes.TagFilter()
-        value.comparison = try reader["comparison"].readIfPresent()
-        value.key = try reader["key"].readIfPresent()
-        value.value = try reader["value"].readIfPresent()
-        return value
     }
 }
 
@@ -14871,18 +13750,6 @@ extension Inspector2ClientTypes.TitleAggregation {
         try writer["titles"].writeList(value.titles, memberWritingClosure: Inspector2ClientTypes.StringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["vulnerabilityIds"].writeList(value.vulnerabilityIds, memberWritingClosure: Inspector2ClientTypes.StringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.TitleAggregation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Inspector2ClientTypes.TitleAggregation()
-        value.titles = try reader["titles"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.StringFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.vulnerabilityIds = try reader["vulnerabilityIds"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.StringFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.resourceType = try reader["resourceType"].readIfPresent()
-        value.sortOrder = try reader["sortOrder"].readIfPresent()
-        value.sortBy = try reader["sortBy"].readIfPresent()
-        value.findingType = try reader["findingType"].readIfPresent()
-        return value
-    }
 }
 
 extension Inspector2ClientTypes {
@@ -14922,14 +13789,6 @@ extension Inspector2ClientTypes {
 }
 
 extension Inspector2ClientTypes.TitleAggregationResponse {
-
-    static func write(value: Inspector2ClientTypes.TitleAggregationResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["accountId"].write(value.accountId)
-        try writer["severityCounts"].write(value.severityCounts, with: Inspector2ClientTypes.SeverityCounts.write(value:to:))
-        try writer["title"].write(value.title)
-        try writer["vulnerabilityId"].write(value.vulnerabilityId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.TitleAggregationResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -15174,14 +14033,6 @@ extension Inspector2ClientTypes.UpdateCisTargets {
         guard let value else { return }
         try writer["accountIds"].writeList(value.accountIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["targetResourceTags"].writeMap(value.targetResourceTags, valueWritingClosure: listWritingClosure(memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.UpdateCisTargets {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Inspector2ClientTypes.UpdateCisTargets()
-        value.accountIds = try reader["accountIds"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.targetResourceTags = try reader["targetResourceTags"].readMapIfPresent(valueReadingClosure: listReadingClosure(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
     }
 }
 
@@ -15649,14 +14500,6 @@ enum UpdateOrganizationConfigurationOutputError {
 
 extension Inspector2ClientTypes.Usage {
 
-    static func write(value: Inspector2ClientTypes.Usage?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["currency"].write(value.currency)
-        try writer["estimatedMonthlyCost"].write(value.estimatedMonthlyCost)
-        try writer["total"].write(value.total)
-        try writer["type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.Usage {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Inspector2ClientTypes.Usage()
@@ -15697,12 +14540,6 @@ extension Inspector2ClientTypes {
 }
 
 extension Inspector2ClientTypes.UsageTotal {
-
-    static func write(value: Inspector2ClientTypes.UsageTotal?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["accountId"].write(value.accountId)
-        try writer["usage"].writeList(value.usage, memberWritingClosure: Inspector2ClientTypes.Usage.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.UsageTotal {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -15823,12 +14660,6 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
 extension Inspector2ClientTypes.ValidationExceptionField {
 
-    static func write(value: Inspector2ClientTypes.ValidationExceptionField?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.message)
-        try writer["name"].write(value.name)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.ValidationExceptionField {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Inspector2ClientTypes.ValidationExceptionField()
@@ -15894,27 +14725,6 @@ extension Inspector2ClientTypes {
 }
 
 extension Inspector2ClientTypes.Vulnerability {
-
-    static func write(value: Inspector2ClientTypes.Vulnerability?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["atigData"].write(value.atigData, with: Inspector2ClientTypes.AtigData.write(value:to:))
-        try writer["cisaData"].write(value.cisaData, with: Inspector2ClientTypes.CisaData.write(value:to:))
-        try writer["cvss2"].write(value.cvss2, with: Inspector2ClientTypes.Cvss2.write(value:to:))
-        try writer["cvss3"].write(value.cvss3, with: Inspector2ClientTypes.Cvss3.write(value:to:))
-        try writer["cwes"].writeList(value.cwes, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["description"].write(value.description)
-        try writer["detectionPlatforms"].writeList(value.detectionPlatforms, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["epss"].write(value.epss, with: Inspector2ClientTypes.Epss.write(value:to:))
-        try writer["exploitObserved"].write(value.exploitObserved, with: Inspector2ClientTypes.ExploitObserved.write(value:to:))
-        try writer["id"].write(value.id)
-        try writer["referenceUrls"].writeList(value.referenceUrls, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["relatedVulnerabilities"].writeList(value.relatedVulnerabilities, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["source"].write(value.source)
-        try writer["sourceUrl"].write(value.sourceUrl)
-        try writer["vendorCreatedAt"].writeTimestamp(value.vendorCreatedAt, format: .epochSeconds)
-        try writer["vendorSeverity"].write(value.vendorSeverity)
-        try writer["vendorUpdatedAt"].writeTimestamp(value.vendorUpdatedAt, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.Vulnerability {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -16049,21 +14859,6 @@ extension Inspector2ClientTypes {
 }
 
 extension Inspector2ClientTypes.VulnerablePackage {
-
-    static func write(value: Inspector2ClientTypes.VulnerablePackage?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arch"].write(value.arch)
-        try writer["epoch"].write(value.epoch)
-        try writer["filePath"].write(value.filePath)
-        try writer["fixedInVersion"].write(value.fixedInVersion)
-        try writer["name"].write(value.name)
-        try writer["packageManager"].write(value.packageManager)
-        try writer["release"].write(value.release)
-        try writer["remediation"].write(value.remediation)
-        try writer["sourceLambdaLayerArn"].write(value.sourceLambdaLayerArn)
-        try writer["sourceLayerHash"].write(value.sourceLayerHash)
-        try writer["version"].write(value.version)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.VulnerablePackage {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

@@ -177,12 +177,6 @@ public struct GoneException: ClientRuntime.ModeledError, AWSClientRuntime.AWSSer
 
 extension ApiGatewayManagementApiClientTypes.Identity {
 
-    static func write(value: ApiGatewayManagementApiClientTypes.Identity?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["sourceIp"].write(value.sourceIp)
-        try writer["userAgent"].write(value.userAgent)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayManagementApiClientTypes.Identity {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ApiGatewayManagementApiClientTypes.Identity()

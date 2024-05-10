@@ -6,12 +6,6 @@ import SmithyXML
 
 extension Route53ClientTypes.AccountLimit {
 
-    static func write(value: Route53ClientTypes.AccountLimit?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Type"].write(value.type)
-        try writer["Value"].write(value.value)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.AccountLimit {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Route53ClientTypes.AccountLimit()
@@ -446,14 +440,6 @@ extension Route53ClientTypes.Change {
         try writer["Action"].write(value.action)
         try writer["ResourceRecordSet"].write(value.resourceRecordSet, with: Route53ClientTypes.ResourceRecordSet.write(value:to:))
     }
-
-    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.Change {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Route53ClientTypes.Change()
-        value.action = try reader["Action"].readIfPresent()
-        value.resourceRecordSet = try reader["ResourceRecordSet"].readIfPresent(with: Route53ClientTypes.ResourceRecordSet.read(from:))
-        return value
-    }
 }
 
 extension Route53ClientTypes {
@@ -523,14 +509,6 @@ extension Route53ClientTypes.ChangeBatch {
         guard let value else { return }
         try writer["Changes"].writeList(value.changes, memberWritingClosure: Route53ClientTypes.Change.write(value:to:), memberNodeInfo: "Change", isFlattened: false)
         try writer["Comment"].write(value.comment)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.ChangeBatch {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Route53ClientTypes.ChangeBatch()
-        value.comment = try reader["Comment"].readIfPresent()
-        value.changes = try reader["Changes"].readListIfPresent(memberReadingClosure: Route53ClientTypes.Change.read(from:), memberNodeInfo: "Change", isFlattened: false)
-        return value
     }
 }
 
@@ -645,14 +623,6 @@ enum ChangeCidrCollectionOutputError {
 }
 
 extension Route53ClientTypes.ChangeInfo {
-
-    static func write(value: Route53ClientTypes.ChangeInfo?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Comment"].write(value.comment)
-        try writer["Id"].write(value.id)
-        try writer["Status"].write(value.status)
-        try writer["SubmittedAt"].writeTimestamp(value.submittedAt, format: .dateTime)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.ChangeInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -904,21 +874,6 @@ extension CidrBlockInUseException {
     }
 }
 
-extension CidrBlockInUseException {
-
-    static func write(value: CidrBlockInUseException?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CidrBlockInUseException {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CidrBlockInUseException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
 /// This CIDR block is already in use.
 public struct CidrBlockInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -944,12 +899,6 @@ public struct CidrBlockInUseException: ClientRuntime.ModeledError, AWSClientRunt
 }
 
 extension Route53ClientTypes.CidrBlockSummary {
-
-    static func write(value: Route53ClientTypes.CidrBlockSummary?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["CidrBlock"].write(value.cidrBlock)
-        try writer["LocationName"].write(value.locationName)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.CidrBlockSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -981,14 +930,6 @@ extension Route53ClientTypes {
 }
 
 extension Route53ClientTypes.CidrCollection {
-
-    static func write(value: Route53ClientTypes.CidrCollection?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["Id"].write(value.id)
-        try writer["Name"].write(value.name)
-        try writer["Version"].write(value.version)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.CidrCollection {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1042,21 +983,6 @@ extension CidrCollectionAlreadyExistsException {
     }
 }
 
-extension CidrCollectionAlreadyExistsException {
-
-    static func write(value: CidrCollectionAlreadyExistsException?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CidrCollectionAlreadyExistsException {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CidrCollectionAlreadyExistsException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
 /// A CIDR collection with this name and a different caller reference already exists in this account.
 public struct CidrCollectionAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -1088,15 +1014,6 @@ extension Route53ClientTypes.CidrCollectionChange {
         try writer["Action"].write(value.action)
         try writer["CidrList"].writeList(value.cidrList, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "Cidr", isFlattened: false)
         try writer["LocationName"].write(value.locationName)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.CidrCollectionChange {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Route53ClientTypes.CidrCollectionChange()
-        value.locationName = try reader["LocationName"].readIfPresent()
-        value.action = try reader["Action"].readIfPresent()
-        value.cidrList = try reader["CidrList"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "Cidr", isFlattened: false)
-        return value
     }
 }
 
@@ -1170,21 +1087,6 @@ extension CidrCollectionInUseException {
     }
 }
 
-extension CidrCollectionInUseException {
-
-    static func write(value: CidrCollectionInUseException?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CidrCollectionInUseException {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CidrCollectionInUseException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
 /// This CIDR collection is in use, and isn't empty.
 public struct CidrCollectionInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -1218,21 +1120,6 @@ extension CidrCollectionVersionMismatchException {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension CidrCollectionVersionMismatchException {
-
-    static func write(value: CidrCollectionVersionMismatchException?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CidrCollectionVersionMismatchException {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CidrCollectionVersionMismatchException()
-        value.properties.message = try reader["Message"].readIfPresent()
         return value
     }
 }
@@ -1301,18 +1188,6 @@ extension Route53ClientTypes {
 }
 
 extension Route53ClientTypes.CloudWatchAlarmConfiguration {
-
-    static func write(value: Route53ClientTypes.CloudWatchAlarmConfiguration?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["ComparisonOperator"].write(value.comparisonOperator)
-        try writer["Dimensions"].writeList(value.dimensions, memberWritingClosure: Route53ClientTypes.Dimension.write(value:to:), memberNodeInfo: "Dimension", isFlattened: false)
-        try writer["EvaluationPeriods"].write(value.evaluationPeriods)
-        try writer["MetricName"].write(value.metricName)
-        try writer["Namespace"].write(value.namespace)
-        try writer["Period"].write(value.period)
-        try writer["Statistic"].write(value.statistic)
-        try writer["Threshold"].write(value.threshold)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.CloudWatchAlarmConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1514,14 +1389,6 @@ extension Route53ClientTypes {
 
 extension Route53ClientTypes.CollectionSummary {
 
-    static func write(value: Route53ClientTypes.CollectionSummary?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["Id"].write(value.id)
-        try writer["Name"].write(value.name)
-        try writer["Version"].write(value.version)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.CollectionSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Route53ClientTypes.CollectionSummary()
@@ -1610,21 +1477,6 @@ extension ConcurrentModification {
     }
 }
 
-extension ConcurrentModification {
-
-    static func write(value: ConcurrentModification?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> ConcurrentModification {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConcurrentModification()
-        value.properties.message = try reader["message"].readIfPresent()
-        return value
-    }
-}
-
 /// Another user submitted a request to create, update, or delete the object at the same time that you did. Retry the request.
 public struct ConcurrentModification: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -1659,21 +1511,6 @@ extension ConflictingDomainExists {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension ConflictingDomainExists {
-
-    static func write(value: ConflictingDomainExists?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> ConflictingDomainExists {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConflictingDomainExists()
-        value.properties.message = try reader["message"].readIfPresent()
         return value
     }
 }
@@ -1717,21 +1554,6 @@ extension ConflictingTypes {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension ConflictingTypes {
-
-    static func write(value: ConflictingTypes?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> ConflictingTypes {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConflictingTypes()
-        value.properties.message = try reader["message"].readIfPresent()
         return value
     }
 }
@@ -2798,21 +2620,6 @@ extension DNSSECNotFound {
     }
 }
 
-extension DNSSECNotFound {
-
-    static func write(value: DNSSECNotFound?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> DNSSECNotFound {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DNSSECNotFound()
-        value.properties.message = try reader["message"].readIfPresent()
-        return value
-    }
-}
-
 /// The hosted zone doesn't have any DNSSEC resources.
 public struct DNSSECNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -2838,12 +2645,6 @@ public struct DNSSECNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSSe
 }
 
 extension Route53ClientTypes.DNSSECStatus {
-
-    static func write(value: Route53ClientTypes.DNSSECStatus?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["ServeSignature"].write(value.serveSignature)
-        try writer["StatusMessage"].write(value.statusMessage)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.DNSSECStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2952,13 +2753,6 @@ enum DeactivateKeySigningKeyOutputError {
 
 extension Route53ClientTypes.DelegationSet {
 
-    static func write(value: Route53ClientTypes.DelegationSet?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["CallerReference"].write(value.callerReference)
-        try writer["Id"].write(value.id)
-        try writer["NameServers"].writeList(value.nameServers, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "NameServer", isFlattened: false)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.DelegationSet {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Route53ClientTypes.DelegationSet()
@@ -3007,21 +2801,6 @@ extension DelegationSetAlreadyCreated {
     }
 }
 
-extension DelegationSetAlreadyCreated {
-
-    static func write(value: DelegationSetAlreadyCreated?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> DelegationSetAlreadyCreated {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DelegationSetAlreadyCreated()
-        value.properties.message = try reader["message"].readIfPresent()
-        return value
-    }
-}
-
 /// A delegation set with the same owner and caller reference combination has already been created.
 public struct DelegationSetAlreadyCreated: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -3056,21 +2835,6 @@ extension DelegationSetAlreadyReusable {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension DelegationSetAlreadyReusable {
-
-    static func write(value: DelegationSetAlreadyReusable?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> DelegationSetAlreadyReusable {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DelegationSetAlreadyReusable()
-        value.properties.message = try reader["message"].readIfPresent()
         return value
     }
 }
@@ -3113,21 +2877,6 @@ extension DelegationSetInUse {
     }
 }
 
-extension DelegationSetInUse {
-
-    static func write(value: DelegationSetInUse?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> DelegationSetInUse {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DelegationSetInUse()
-        value.properties.message = try reader["message"].readIfPresent()
-        return value
-    }
-}
-
 /// The specified delegation contains associated hosted zones which must be deleted before the reusable delegation set can be deleted.
 public struct DelegationSetInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -3166,21 +2915,6 @@ extension DelegationSetNotAvailable {
     }
 }
 
-extension DelegationSetNotAvailable {
-
-    static func write(value: DelegationSetNotAvailable?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> DelegationSetNotAvailable {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DelegationSetNotAvailable()
-        value.properties.message = try reader["message"].readIfPresent()
-        return value
-    }
-}
-
 /// You can create a hosted zone that has the same name as an existing hosted zone (example.com is common), but there is a limit to the number of hosted zones that have the same name. If you get this error, Amazon Route 53 has reached that limit. If you own the domain name and Route 53 generates this error, contact Customer Support.
 public struct DelegationSetNotAvailable: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -3215,21 +2949,6 @@ extension DelegationSetNotReusable {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension DelegationSetNotReusable {
-
-    static func write(value: DelegationSetNotReusable?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> DelegationSetNotReusable {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DelegationSetNotReusable()
-        value.properties.message = try reader["message"].readIfPresent()
         return value
     }
 }
@@ -3797,12 +3516,6 @@ enum DeleteVPCAssociationAuthorizationOutputError {
 
 extension Route53ClientTypes.Dimension {
 
-    static func write(value: Route53ClientTypes.Dimension?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["Value"].write(value.value)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.Dimension {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Route53ClientTypes.Dimension()
@@ -4120,16 +3833,6 @@ extension Route53ClientTypes {
 }
 
 extension Route53ClientTypes.GeoLocationDetails {
-
-    static func write(value: Route53ClientTypes.GeoLocationDetails?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["ContinentCode"].write(value.continentCode)
-        try writer["ContinentName"].write(value.continentName)
-        try writer["CountryCode"].write(value.countryCode)
-        try writer["CountryName"].write(value.countryName)
-        try writer["SubdivisionCode"].write(value.subdivisionCode)
-        try writer["SubdivisionName"].write(value.subdivisionName)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.GeoLocationDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5463,16 +5166,6 @@ enum GetTrafficPolicyOutputError {
 
 extension Route53ClientTypes.HealthCheck {
 
-    static func write(value: Route53ClientTypes.HealthCheck?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["CallerReference"].write(value.callerReference)
-        try writer["CloudWatchAlarmConfiguration"].write(value.cloudWatchAlarmConfiguration, with: Route53ClientTypes.CloudWatchAlarmConfiguration.write(value:to:))
-        try writer["HealthCheckConfig"].write(value.healthCheckConfig, with: Route53ClientTypes.HealthCheckConfig.write(value:to:))
-        try writer["HealthCheckVersion"].write(value.healthCheckVersion)
-        try writer["Id"].write(value.id)
-        try writer["LinkedService"].write(value.linkedService, with: Route53ClientTypes.LinkedService.write(value:to:))
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.HealthCheck {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Route53ClientTypes.HealthCheck()
@@ -5535,21 +5228,6 @@ extension HealthCheckAlreadyExists {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension HealthCheckAlreadyExists {
-
-    static func write(value: HealthCheckAlreadyExists?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> HealthCheckAlreadyExists {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = HealthCheckAlreadyExists()
-        value.properties.message = try reader["message"].readIfPresent()
         return value
     }
 }
@@ -5793,21 +5471,6 @@ extension HealthCheckInUse {
     }
 }
 
-extension HealthCheckInUse {
-
-    static func write(value: HealthCheckInUse?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> HealthCheckInUse {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = HealthCheckInUse()
-        value.properties.message = try reader["message"].readIfPresent()
-        return value
-    }
-}
-
 /// This error code is not in use.
 @available(*, deprecated)
 public struct HealthCheckInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
@@ -5835,13 +5498,6 @@ public struct HealthCheckInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWS
 }
 
 extension Route53ClientTypes.HealthCheckObservation {
-
-    static func write(value: Route53ClientTypes.HealthCheckObservation?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["IPAddress"].write(value.ipAddress)
-        try writer["Region"].write(value.region)
-        try writer["StatusReport"].write(value.statusReport, with: Route53ClientTypes.StatusReport.write(value:to:))
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.HealthCheckObservation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5986,21 +5642,6 @@ extension HealthCheckVersionMismatch {
     }
 }
 
-extension HealthCheckVersionMismatch {
-
-    static func write(value: HealthCheckVersionMismatch?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> HealthCheckVersionMismatch {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = HealthCheckVersionMismatch()
-        value.properties.message = try reader["message"].readIfPresent()
-        return value
-    }
-}
-
 /// The value of HealthCheckVersion in the request doesn't match the value of HealthCheckVersion in the health check.
 public struct HealthCheckVersionMismatch: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -6026,16 +5667,6 @@ public struct HealthCheckVersionMismatch: ClientRuntime.ModeledError, AWSClientR
 }
 
 extension Route53ClientTypes.HostedZone {
-
-    static func write(value: Route53ClientTypes.HostedZone?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["CallerReference"].write(value.callerReference)
-        try writer["Config"].write(value.config, with: Route53ClientTypes.HostedZoneConfig.write(value:to:))
-        try writer["Id"].write(value.id)
-        try writer["LinkedService"].write(value.linkedService, with: Route53ClientTypes.LinkedService.write(value:to:))
-        try writer["Name"].write(value.name)
-        try writer["ResourceRecordSetCount"].write(value.resourceRecordSetCount)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.HostedZone {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6098,21 +5729,6 @@ extension HostedZoneAlreadyExists {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension HostedZoneAlreadyExists {
-
-    static func write(value: HostedZoneAlreadyExists?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> HostedZoneAlreadyExists {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = HostedZoneAlreadyExists()
-        value.properties.message = try reader["message"].readIfPresent()
         return value
     }
 }
@@ -6180,12 +5796,6 @@ extension Route53ClientTypes {
 }
 
 extension Route53ClientTypes.HostedZoneLimit {
-
-    static func write(value: Route53ClientTypes.HostedZoneLimit?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Type"].write(value.type)
-        try writer["Value"].write(value.value)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.HostedZoneLimit {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6265,21 +5875,6 @@ extension HostedZoneNotEmpty {
     }
 }
 
-extension HostedZoneNotEmpty {
-
-    static func write(value: HostedZoneNotEmpty?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> HostedZoneNotEmpty {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = HostedZoneNotEmpty()
-        value.properties.message = try reader["message"].readIfPresent()
-        return value
-    }
-}
-
 /// The hosted zone contains resource records that are not SOA or NS records.
 public struct HostedZoneNotEmpty: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -6314,21 +5909,6 @@ extension HostedZoneNotFound {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension HostedZoneNotFound {
-
-    static func write(value: HostedZoneNotFound?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> HostedZoneNotFound {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = HostedZoneNotFound()
-        value.properties.message = try reader["message"].readIfPresent()
         return value
     }
 }
@@ -6371,21 +5951,6 @@ extension HostedZoneNotPrivate {
     }
 }
 
-extension HostedZoneNotPrivate {
-
-    static func write(value: HostedZoneNotPrivate?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> HostedZoneNotPrivate {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = HostedZoneNotPrivate()
-        value.properties.message = try reader["message"].readIfPresent()
-        return value
-    }
-}
-
 /// The specified hosted zone is a public hosted zone, not a private hosted zone.
 public struct HostedZoneNotPrivate: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -6412,12 +5977,6 @@ public struct HostedZoneNotPrivate: ClientRuntime.ModeledError, AWSClientRuntime
 }
 
 extension Route53ClientTypes.HostedZoneOwner {
-
-    static func write(value: Route53ClientTypes.HostedZoneOwner?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["OwningAccount"].write(value.owningAccount)
-        try writer["OwningService"].write(value.owningService)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.HostedZoneOwner {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6461,21 +6020,6 @@ extension HostedZonePartiallyDelegated {
     }
 }
 
-extension HostedZonePartiallyDelegated {
-
-    static func write(value: HostedZonePartiallyDelegated?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> HostedZonePartiallyDelegated {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = HostedZonePartiallyDelegated()
-        value.properties.message = try reader["message"].readIfPresent()
-        return value
-    }
-}
-
 /// The hosted zone nameservers don't match the parent nameservers. The hosted zone and parent must have the same nameservers.
 public struct HostedZonePartiallyDelegated: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -6501,13 +6045,6 @@ public struct HostedZonePartiallyDelegated: ClientRuntime.ModeledError, AWSClien
 }
 
 extension Route53ClientTypes.HostedZoneSummary {
-
-    static func write(value: Route53ClientTypes.HostedZoneSummary?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["HostedZoneId"].write(value.hostedZoneId)
-        try writer["Name"].write(value.name)
-        try writer["Owner"].write(value.owner, with: Route53ClientTypes.HostedZoneOwner.write(value:to:))
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.HostedZoneSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6586,21 +6123,6 @@ extension IncompatibleVersion {
     }
 }
 
-extension IncompatibleVersion {
-
-    static func write(value: IncompatibleVersion?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> IncompatibleVersion {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IncompatibleVersion()
-        value.properties.message = try reader["message"].readIfPresent()
-        return value
-    }
-}
-
 /// The resource you're trying to access is unsupported on this Amazon Route 53 endpoint.
 public struct IncompatibleVersion: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -6634,21 +6156,6 @@ extension InsufficientCloudWatchLogsResourcePolicy {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension InsufficientCloudWatchLogsResourcePolicy {
-
-    static func write(value: InsufficientCloudWatchLogsResourcePolicy?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> InsufficientCloudWatchLogsResourcePolicy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = InsufficientCloudWatchLogsResourcePolicy()
-        value.properties.message = try reader["message"].readIfPresent()
         return value
     }
 }
@@ -6733,21 +6240,6 @@ extension InvalidArgument {
     }
 }
 
-extension InvalidArgument {
-
-    static func write(value: InvalidArgument?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> InvalidArgument {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = InvalidArgument()
-        value.properties.message = try reader["message"].readIfPresent()
-        return value
-    }
-}
-
 /// Parameter name is not valid.
 public struct InvalidArgument: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -6783,23 +6275,6 @@ extension InvalidChangeBatch {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidChangeBatch {
-
-    static func write(value: InvalidChangeBatch?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.properties.message)
-        try writer["messages"].writeList(value.properties.messages, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "Message", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> InvalidChangeBatch {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = InvalidChangeBatch()
-        value.properties.messages = try reader["messages"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "Message", isFlattened: false)
-        value.properties.message = try reader["message"].readIfPresent()
         return value
     }
 }
@@ -6845,21 +6320,6 @@ extension InvalidDomainName {
     }
 }
 
-extension InvalidDomainName {
-
-    static func write(value: InvalidDomainName?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> InvalidDomainName {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = InvalidDomainName()
-        value.properties.message = try reader["message"].readIfPresent()
-        return value
-    }
-}
-
 /// The specified domain name is not valid.
 public struct InvalidDomainName: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -6894,21 +6354,6 @@ extension InvalidInput {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidInput {
-
-    static func write(value: InvalidInput?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> InvalidInput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = InvalidInput()
-        value.properties.message = try reader["message"].readIfPresent()
         return value
     }
 }
@@ -6951,21 +6396,6 @@ extension InvalidKMSArn {
     }
 }
 
-extension InvalidKMSArn {
-
-    static func write(value: InvalidKMSArn?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> InvalidKMSArn {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = InvalidKMSArn()
-        value.properties.message = try reader["message"].readIfPresent()
-        return value
-    }
-}
-
 /// The KeyManagementServiceArn that you specified isn't valid to use with DNSSEC signing.
 public struct InvalidKMSArn: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -6999,21 +6429,6 @@ extension InvalidKeySigningKeyName {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidKeySigningKeyName {
-
-    static func write(value: InvalidKeySigningKeyName?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> InvalidKeySigningKeyName {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = InvalidKeySigningKeyName()
-        value.properties.message = try reader["message"].readIfPresent()
         return value
     }
 }
@@ -7055,21 +6470,6 @@ extension InvalidKeySigningKeyStatus {
     }
 }
 
-extension InvalidKeySigningKeyStatus {
-
-    static func write(value: InvalidKeySigningKeyStatus?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> InvalidKeySigningKeyStatus {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = InvalidKeySigningKeyStatus()
-        value.properties.message = try reader["message"].readIfPresent()
-        return value
-    }
-}
-
 /// The key-signing key (KSK) status isn't valid or another KSK has the status INTERNAL_FAILURE.
 public struct InvalidKeySigningKeyStatus: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -7103,21 +6503,6 @@ extension InvalidPaginationToken {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidPaginationToken {
-
-    static func write(value: InvalidPaginationToken?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> InvalidPaginationToken {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = InvalidPaginationToken()
-        value.properties.message = try reader["message"].readIfPresent()
         return value
     }
 }
@@ -7159,21 +6544,6 @@ extension InvalidSigningStatus {
     }
 }
 
-extension InvalidSigningStatus {
-
-    static func write(value: InvalidSigningStatus?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> InvalidSigningStatus {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = InvalidSigningStatus()
-        value.properties.message = try reader["message"].readIfPresent()
-        return value
-    }
-}
-
 /// Your hosted zone status isn't valid for this operation. In the hosted zone, change the status to enable DNSSEC or disable DNSSEC.
 public struct InvalidSigningStatus: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -7207,21 +6577,6 @@ extension InvalidTrafficPolicyDocument {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidTrafficPolicyDocument {
-
-    static func write(value: InvalidTrafficPolicyDocument?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> InvalidTrafficPolicyDocument {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = InvalidTrafficPolicyDocument()
-        value.properties.message = try reader["message"].readIfPresent()
         return value
     }
 }
@@ -7264,21 +6619,6 @@ extension InvalidVPCId {
     }
 }
 
-extension InvalidVPCId {
-
-    static func write(value: InvalidVPCId?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> InvalidVPCId {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = InvalidVPCId()
-        value.properties.message = try reader["message"].readIfPresent()
-        return value
-    }
-}
-
 /// The VPC ID that you specified either isn't a valid ID or the current account is not authorized to access this VPC.
 public struct InvalidVPCId: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -7305,26 +6645,6 @@ public struct InvalidVPCId: ClientRuntime.ModeledError, AWSClientRuntime.AWSServ
 }
 
 extension Route53ClientTypes.KeySigningKey {
-
-    static func write(value: Route53ClientTypes.KeySigningKey?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedDate"].writeTimestamp(value.createdDate, format: .dateTime)
-        try writer["DNSKEYRecord"].write(value.dnskeyRecord)
-        try writer["DSRecord"].write(value.dsRecord)
-        try writer["DigestAlgorithmMnemonic"].write(value.digestAlgorithmMnemonic)
-        try writer["DigestAlgorithmType"].write(value.digestAlgorithmType)
-        try writer["DigestValue"].write(value.digestValue)
-        try writer["Flag"].write(value.flag)
-        try writer["KeyTag"].write(value.keyTag)
-        try writer["KmsArn"].write(value.kmsArn)
-        try writer["LastModifiedDate"].writeTimestamp(value.lastModifiedDate, format: .dateTime)
-        try writer["Name"].write(value.name)
-        try writer["PublicKey"].write(value.publicKey)
-        try writer["SigningAlgorithmMnemonic"].write(value.signingAlgorithmMnemonic)
-        try writer["SigningAlgorithmType"].write(value.signingAlgorithmType)
-        try writer["Status"].write(value.status)
-        try writer["StatusMessage"].write(value.statusMessage)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.KeySigningKey {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7452,21 +6772,6 @@ extension KeySigningKeyAlreadyExists {
     }
 }
 
-extension KeySigningKeyAlreadyExists {
-
-    static func write(value: KeySigningKeyAlreadyExists?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> KeySigningKeyAlreadyExists {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KeySigningKeyAlreadyExists()
-        value.properties.message = try reader["message"].readIfPresent()
-        return value
-    }
-}
-
 /// You've already created a key-signing key (KSK) with this name or with the same customer managed key ARN.
 public struct KeySigningKeyAlreadyExists: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -7500,21 +6805,6 @@ extension KeySigningKeyInParentDSRecord {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension KeySigningKeyInParentDSRecord {
-
-    static func write(value: KeySigningKeyInParentDSRecord?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> KeySigningKeyInParentDSRecord {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KeySigningKeyInParentDSRecord()
-        value.properties.message = try reader["message"].readIfPresent()
         return value
     }
 }
@@ -7556,21 +6846,6 @@ extension KeySigningKeyInUse {
     }
 }
 
-extension KeySigningKeyInUse {
-
-    static func write(value: KeySigningKeyInUse?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> KeySigningKeyInUse {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KeySigningKeyInUse()
-        value.properties.message = try reader["message"].readIfPresent()
-        return value
-    }
-}
-
 /// The key-signing key (KSK) that you specified can't be deactivated because it's the only KSK for a currently-enabled DNSSEC. Disable DNSSEC signing, or add or enable another KSK.
 public struct KeySigningKeyInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -7608,21 +6883,6 @@ extension KeySigningKeyWithActiveStatusNotFound {
     }
 }
 
-extension KeySigningKeyWithActiveStatusNotFound {
-
-    static func write(value: KeySigningKeyWithActiveStatusNotFound?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> KeySigningKeyWithActiveStatusNotFound {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KeySigningKeyWithActiveStatusNotFound()
-        value.properties.message = try reader["message"].readIfPresent()
-        return value
-    }
-}
-
 /// A key-signing key (KSK) with ACTIVE status wasn't found.
 public struct KeySigningKeyWithActiveStatusNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -7656,21 +6916,6 @@ extension LastVPCAssociation {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension LastVPCAssociation {
-
-    static func write(value: LastVPCAssociation?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> LastVPCAssociation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LastVPCAssociation()
-        value.properties.message = try reader["message"].readIfPresent()
         return value
     }
 }
@@ -7713,21 +6958,6 @@ extension LimitsExceeded {
     }
 }
 
-extension LimitsExceeded {
-
-    static func write(value: LimitsExceeded?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> LimitsExceeded {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LimitsExceeded()
-        value.properties.message = try reader["message"].readIfPresent()
-        return value
-    }
-}
-
 /// This operation can't be completed because the current account has reached the limit on the resource you are trying to create. To request a higher limit, [create a case](http://aws.amazon.com/route53-request) with the Amazon Web Services Support Center.
 public struct LimitsExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -7754,12 +6984,6 @@ public struct LimitsExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSSe
 }
 
 extension Route53ClientTypes.LinkedService {
-
-    static func write(value: Route53ClientTypes.LinkedService?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Description"].write(value.description)
-        try writer["ServicePrincipal"].write(value.servicePrincipal)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.LinkedService {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -9856,11 +9080,6 @@ enum ListVPCAssociationAuthorizationsOutputError {
 
 extension Route53ClientTypes.LocationSummary {
 
-    static func write(value: Route53ClientTypes.LocationSummary?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["LocationName"].write(value.locationName)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.LocationSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Route53ClientTypes.LocationSummary()
@@ -9894,21 +9113,6 @@ extension NoSuchChange {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension NoSuchChange {
-
-    static func write(value: NoSuchChange?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> NoSuchChange {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NoSuchChange()
-        value.properties.message = try reader["message"].readIfPresent()
         return value
     }
 }
@@ -9950,21 +9154,6 @@ extension NoSuchCidrCollectionException {
     }
 }
 
-extension NoSuchCidrCollectionException {
-
-    static func write(value: NoSuchCidrCollectionException?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> NoSuchCidrCollectionException {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NoSuchCidrCollectionException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
 /// The CIDR collection you specified, doesn't exist.
 public struct NoSuchCidrCollectionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -9998,21 +9187,6 @@ extension NoSuchCidrLocationException {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension NoSuchCidrLocationException {
-
-    static func write(value: NoSuchCidrLocationException?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> NoSuchCidrLocationException {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NoSuchCidrLocationException()
-        value.properties.message = try reader["Message"].readIfPresent()
         return value
     }
 }
@@ -10054,21 +9228,6 @@ extension NoSuchCloudWatchLogsLogGroup {
     }
 }
 
-extension NoSuchCloudWatchLogsLogGroup {
-
-    static func write(value: NoSuchCloudWatchLogsLogGroup?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> NoSuchCloudWatchLogsLogGroup {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NoSuchCloudWatchLogsLogGroup()
-        value.properties.message = try reader["message"].readIfPresent()
-        return value
-    }
-}
-
 /// There is no CloudWatch Logs log group with the specified ARN.
 public struct NoSuchCloudWatchLogsLogGroup: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -10102,21 +9261,6 @@ extension NoSuchDelegationSet {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension NoSuchDelegationSet {
-
-    static func write(value: NoSuchDelegationSet?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> NoSuchDelegationSet {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NoSuchDelegationSet()
-        value.properties.message = try reader["message"].readIfPresent()
         return value
     }
 }
@@ -10159,21 +9303,6 @@ extension NoSuchGeoLocation {
     }
 }
 
-extension NoSuchGeoLocation {
-
-    static func write(value: NoSuchGeoLocation?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> NoSuchGeoLocation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NoSuchGeoLocation()
-        value.properties.message = try reader["message"].readIfPresent()
-        return value
-    }
-}
-
 /// Amazon Route 53 doesn't support the specified geographic location. For a list of supported geolocation codes, see the [GeoLocation](https://docs.aws.amazon.com/Route53/latest/APIReference/API_GeoLocation.html) data type.
 public struct NoSuchGeoLocation: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -10208,21 +9337,6 @@ extension NoSuchHealthCheck {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension NoSuchHealthCheck {
-
-    static func write(value: NoSuchHealthCheck?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> NoSuchHealthCheck {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NoSuchHealthCheck()
-        value.properties.message = try reader["message"].readIfPresent()
         return value
     }
 }
@@ -10265,21 +9379,6 @@ extension NoSuchHostedZone {
     }
 }
 
-extension NoSuchHostedZone {
-
-    static func write(value: NoSuchHostedZone?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> NoSuchHostedZone {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NoSuchHostedZone()
-        value.properties.message = try reader["message"].readIfPresent()
-        return value
-    }
-}
-
 /// No hosted zone exists with the ID that you specified.
 public struct NoSuchHostedZone: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -10314,21 +9413,6 @@ extension NoSuchKeySigningKey {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension NoSuchKeySigningKey {
-
-    static func write(value: NoSuchKeySigningKey?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> NoSuchKeySigningKey {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NoSuchKeySigningKey()
-        value.properties.message = try reader["message"].readIfPresent()
         return value
     }
 }
@@ -10370,21 +9454,6 @@ extension NoSuchQueryLoggingConfig {
     }
 }
 
-extension NoSuchQueryLoggingConfig {
-
-    static func write(value: NoSuchQueryLoggingConfig?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> NoSuchQueryLoggingConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NoSuchQueryLoggingConfig()
-        value.properties.message = try reader["message"].readIfPresent()
-        return value
-    }
-}
-
 /// There is no DNS query logging configuration with the specified ID.
 public struct NoSuchQueryLoggingConfig: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -10418,21 +9487,6 @@ extension NoSuchTrafficPolicy {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension NoSuchTrafficPolicy {
-
-    static func write(value: NoSuchTrafficPolicy?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> NoSuchTrafficPolicy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NoSuchTrafficPolicy()
-        value.properties.message = try reader["message"].readIfPresent()
         return value
     }
 }
@@ -10475,21 +9529,6 @@ extension NoSuchTrafficPolicyInstance {
     }
 }
 
-extension NoSuchTrafficPolicyInstance {
-
-    static func write(value: NoSuchTrafficPolicyInstance?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> NoSuchTrafficPolicyInstance {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NoSuchTrafficPolicyInstance()
-        value.properties.message = try reader["message"].readIfPresent()
-        return value
-    }
-}
-
 /// No traffic policy instance exists with the specified ID.
 public struct NoSuchTrafficPolicyInstance: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -10524,21 +9563,6 @@ extension NotAuthorizedException {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension NotAuthorizedException {
-
-    static func write(value: NotAuthorizedException?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> NotAuthorizedException {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NotAuthorizedException()
-        value.properties.message = try reader["message"].readIfPresent()
         return value
     }
 }
@@ -10581,21 +9605,6 @@ extension PriorRequestNotComplete {
     }
 }
 
-extension PriorRequestNotComplete {
-
-    static func write(value: PriorRequestNotComplete?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> PriorRequestNotComplete {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PriorRequestNotComplete()
-        value.properties.message = try reader["message"].readIfPresent()
-        return value
-    }
-}
-
 /// If Amazon Route 53 can't process a request before the next request arrives, it will reject subsequent requests for the same hosted zone and return an HTTP 400 error (Bad request). If Route 53 returns this error repeatedly for the same request, we recommend that you wait, in intervals of increasing duration, before you try the request again.
 public struct PriorRequestNotComplete: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -10633,21 +9642,6 @@ extension PublicZoneVPCAssociation {
     }
 }
 
-extension PublicZoneVPCAssociation {
-
-    static func write(value: PublicZoneVPCAssociation?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> PublicZoneVPCAssociation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PublicZoneVPCAssociation()
-        value.properties.message = try reader["message"].readIfPresent()
-        return value
-    }
-}
-
 /// You're trying to associate a VPC with a public hosted zone. Amazon Route 53 doesn't support associating a VPC with a public hosted zone.
 public struct PublicZoneVPCAssociation: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -10674,13 +9668,6 @@ public struct PublicZoneVPCAssociation: ClientRuntime.ModeledError, AWSClientRun
 }
 
 extension Route53ClientTypes.QueryLoggingConfig {
-
-    static func write(value: Route53ClientTypes.QueryLoggingConfig?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["CloudWatchLogsLogGroupArn"].write(value.cloudWatchLogsLogGroupArn)
-        try writer["HostedZoneId"].write(value.hostedZoneId)
-        try writer["Id"].write(value.id)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.QueryLoggingConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -10728,21 +9715,6 @@ extension QueryLoggingConfigAlreadyExists {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension QueryLoggingConfigAlreadyExists {
-
-    static func write(value: QueryLoggingConfigAlreadyExists?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> QueryLoggingConfigAlreadyExists {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QueryLoggingConfigAlreadyExists()
-        value.properties.message = try reader["message"].readIfPresent()
         return value
     }
 }
@@ -11295,13 +10267,6 @@ extension Route53ClientTypes {
 
 extension Route53ClientTypes.ResourceTagSet {
 
-    static func write(value: Route53ClientTypes.ResourceTagSet?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["ResourceId"].write(value.resourceId)
-        try writer["ResourceType"].write(value.resourceType)
-        try writer["Tags"].writeList(value.tags, memberWritingClosure: Route53ClientTypes.Tag.write(value:to:), memberNodeInfo: "Tag", isFlattened: false)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.ResourceTagSet {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Route53ClientTypes.ResourceTagSet()
@@ -11341,12 +10306,6 @@ extension Route53ClientTypes {
 }
 
 extension Route53ClientTypes.ReusableDelegationSetLimit {
-
-    static func write(value: Route53ClientTypes.ReusableDelegationSetLimit?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Type"].write(value.type)
-        try writer["Value"].write(value.value)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.ReusableDelegationSetLimit {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -11448,12 +10407,6 @@ extension Route53ClientTypes {
 }
 
 extension Route53ClientTypes.StatusReport {
-
-    static func write(value: Route53ClientTypes.StatusReport?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["CheckedTime"].writeTimestamp(value.checkedTime, format: .dateTime)
-        try writer["Status"].write(value.status)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.StatusReport {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -11732,21 +10685,6 @@ extension ThrottlingException {
     }
 }
 
-extension ThrottlingException {
-
-    static func write(value: ThrottlingException?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> ThrottlingException {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ThrottlingException()
-        value.properties.message = try reader["message"].readIfPresent()
-        return value
-    }
-}
-
 /// The limit on the number of requests per second was exceeded.
 public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -11784,21 +10722,6 @@ extension TooManyHealthChecks {
     }
 }
 
-extension TooManyHealthChecks {
-
-    static func write(value: TooManyHealthChecks?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> TooManyHealthChecks {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TooManyHealthChecks()
-        value.properties.message = try reader["message"].readIfPresent()
-        return value
-    }
-}
-
 /// This health check can't be created because the current account has reached the limit on the number of active health checks. For information about default limits, see [Limits](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DNSLimitations.html) in the Amazon Route 53 Developer Guide. For information about how to get the current limit for an account, see [GetAccountLimit](https://docs.aws.amazon.com/Route53/latest/APIReference/API_GetAccountLimit.html). To request a higher limit, [create a case](http://aws.amazon.com/route53-request) with the Amazon Web Services Support Center. You have reached the maximum number of active health checks for an Amazon Web Services account. To request a higher limit, [create a case](http://aws.amazon.com/route53-request) with the Amazon Web Services Support Center.
 public struct TooManyHealthChecks: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -11832,21 +10755,6 @@ extension TooManyHostedZones {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension TooManyHostedZones {
-
-    static func write(value: TooManyHostedZones?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> TooManyHostedZones {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TooManyHostedZones()
-        value.properties.message = try reader["message"].readIfPresent()
         return value
     }
 }
@@ -11889,21 +10797,6 @@ extension TooManyKeySigningKeys {
     }
 }
 
-extension TooManyKeySigningKeys {
-
-    static func write(value: TooManyKeySigningKeys?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> TooManyKeySigningKeys {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TooManyKeySigningKeys()
-        value.properties.message = try reader["message"].readIfPresent()
-        return value
-    }
-}
-
 /// You've reached the limit for the number of key-signing keys (KSKs). Remove at least one KSK, and then try again.
 public struct TooManyKeySigningKeys: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -11937,21 +10830,6 @@ extension TooManyTrafficPolicies {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension TooManyTrafficPolicies {
-
-    static func write(value: TooManyTrafficPolicies?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> TooManyTrafficPolicies {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TooManyTrafficPolicies()
-        value.properties.message = try reader["message"].readIfPresent()
         return value
     }
 }
@@ -11994,21 +10872,6 @@ extension TooManyTrafficPolicyInstances {
     }
 }
 
-extension TooManyTrafficPolicyInstances {
-
-    static func write(value: TooManyTrafficPolicyInstances?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> TooManyTrafficPolicyInstances {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TooManyTrafficPolicyInstances()
-        value.properties.message = try reader["message"].readIfPresent()
-        return value
-    }
-}
-
 /// This traffic policy instance can't be created because the current account has reached the limit on the number of traffic policy instances. For information about default limits, see [Limits](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DNSLimitations.html) in the Amazon Route 53 Developer Guide. For information about how to get the current limit for an account, see [GetAccountLimit](https://docs.aws.amazon.com/Route53/latest/APIReference/API_GetAccountLimit.html). To request a higher limit, [create a case](http://aws.amazon.com/route53-request) with the Amazon Web Services Support Center.
 public struct TooManyTrafficPolicyInstances: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -12043,21 +10906,6 @@ extension TooManyTrafficPolicyVersionsForCurrentPolicy {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension TooManyTrafficPolicyVersionsForCurrentPolicy {
-
-    static func write(value: TooManyTrafficPolicyVersionsForCurrentPolicy?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> TooManyTrafficPolicyVersionsForCurrentPolicy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TooManyTrafficPolicyVersionsForCurrentPolicy()
-        value.properties.message = try reader["message"].readIfPresent()
         return value
     }
 }
@@ -12100,21 +10948,6 @@ extension TooManyVPCAssociationAuthorizations {
     }
 }
 
-extension TooManyVPCAssociationAuthorizations {
-
-    static func write(value: TooManyVPCAssociationAuthorizations?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> TooManyVPCAssociationAuthorizations {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TooManyVPCAssociationAuthorizations()
-        value.properties.message = try reader["message"].readIfPresent()
-        return value
-    }
-}
-
 /// You've created the maximum number of authorizations that can be created for the specified hosted zone. To authorize another VPC to be associated with the hosted zone, submit a DeleteVPCAssociationAuthorization request to remove an existing authorization. To get a list of existing authorizations, submit a ListVPCAssociationAuthorizations request.
 public struct TooManyVPCAssociationAuthorizations: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -12141,16 +10974,6 @@ public struct TooManyVPCAssociationAuthorizations: ClientRuntime.ModeledError, A
 }
 
 extension Route53ClientTypes.TrafficPolicy {
-
-    static func write(value: Route53ClientTypes.TrafficPolicy?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Comment"].write(value.comment)
-        try writer["Document"].write(value.document)
-        try writer["Id"].write(value.id)
-        try writer["Name"].write(value.name)
-        try writer["Type"].write(value.type)
-        try writer["Version"].write(value.version)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.TrafficPolicy {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -12219,21 +11042,6 @@ extension TrafficPolicyAlreadyExists {
     }
 }
 
-extension TrafficPolicyAlreadyExists {
-
-    static func write(value: TrafficPolicyAlreadyExists?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> TrafficPolicyAlreadyExists {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TrafficPolicyAlreadyExists()
-        value.properties.message = try reader["message"].readIfPresent()
-        return value
-    }
-}
-
 /// A traffic policy that has the same value for Name already exists.
 public struct TrafficPolicyAlreadyExists: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -12272,21 +11080,6 @@ extension TrafficPolicyInUse {
     }
 }
 
-extension TrafficPolicyInUse {
-
-    static func write(value: TrafficPolicyInUse?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> TrafficPolicyInUse {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TrafficPolicyInUse()
-        value.properties.message = try reader["message"].readIfPresent()
-        return value
-    }
-}
-
 /// One or more traffic policy instances were created by using the specified traffic policy.
 public struct TrafficPolicyInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -12313,19 +11106,6 @@ public struct TrafficPolicyInUse: ClientRuntime.ModeledError, AWSClientRuntime.A
 }
 
 extension Route53ClientTypes.TrafficPolicyInstance {
-
-    static func write(value: Route53ClientTypes.TrafficPolicyInstance?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["HostedZoneId"].write(value.hostedZoneId)
-        try writer["Id"].write(value.id)
-        try writer["Message"].write(value.message)
-        try writer["Name"].write(value.name)
-        try writer["State"].write(value.state)
-        try writer["TTL"].write(value.ttl)
-        try writer["TrafficPolicyId"].write(value.trafficPolicyId)
-        try writer["TrafficPolicyType"].write(value.trafficPolicyType)
-        try writer["TrafficPolicyVersion"].write(value.trafficPolicyVersion)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.TrafficPolicyInstance {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -12413,21 +11193,6 @@ extension TrafficPolicyInstanceAlreadyExists {
     }
 }
 
-extension TrafficPolicyInstanceAlreadyExists {
-
-    static func write(value: TrafficPolicyInstanceAlreadyExists?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> TrafficPolicyInstanceAlreadyExists {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TrafficPolicyInstanceAlreadyExists()
-        value.properties.message = try reader["message"].readIfPresent()
-        return value
-    }
-}
-
 /// There is already a traffic policy instance with the specified ID.
 public struct TrafficPolicyInstanceAlreadyExists: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -12454,15 +11219,6 @@ public struct TrafficPolicyInstanceAlreadyExists: ClientRuntime.ModeledError, AW
 }
 
 extension Route53ClientTypes.TrafficPolicySummary {
-
-    static func write(value: Route53ClientTypes.TrafficPolicySummary?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Id"].write(value.id)
-        try writer["LatestVersion"].write(value.latestVersion)
-        try writer["Name"].write(value.name)
-        try writer["TrafficPolicyCount"].write(value.trafficPolicyCount)
-        try writer["Type"].write(value.type)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.TrafficPolicySummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -13034,21 +11790,6 @@ extension VPCAssociationAuthorizationNotFound {
     }
 }
 
-extension VPCAssociationAuthorizationNotFound {
-
-    static func write(value: VPCAssociationAuthorizationNotFound?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> VPCAssociationAuthorizationNotFound {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = VPCAssociationAuthorizationNotFound()
-        value.properties.message = try reader["message"].readIfPresent()
-        return value
-    }
-}
-
 /// The VPC that you specified is not authorized to be associated with the hosted zone.
 public struct VPCAssociationAuthorizationNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -13083,21 +11824,6 @@ extension VPCAssociationNotFound {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension VPCAssociationNotFound {
-
-    static func write(value: VPCAssociationNotFound?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> VPCAssociationNotFound {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = VPCAssociationNotFound()
-        value.properties.message = try reader["message"].readIfPresent()
         return value
     }
 }

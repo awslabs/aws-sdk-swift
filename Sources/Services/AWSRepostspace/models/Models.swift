@@ -990,26 +990,6 @@ extension RepostspaceClientTypes.SpaceData: Swift.CustomDebugStringConvertible {
 
 extension RepostspaceClientTypes.SpaceData {
 
-    static func write(value: RepostspaceClientTypes.SpaceData?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["configurationStatus"].write(value.configurationStatus)
-        try writer["contentSize"].write(value.contentSize)
-        try writer["createDateTime"].writeTimestamp(value.createDateTime, format: .dateTime)
-        try writer["deleteDateTime"].writeTimestamp(value.deleteDateTime, format: .dateTime)
-        try writer["description"].write(value.description)
-        try writer["name"].write(value.name)
-        try writer["randomDomain"].write(value.randomDomain)
-        try writer["spaceId"].write(value.spaceId)
-        try writer["status"].write(value.status)
-        try writer["storageLimit"].write(value.storageLimit)
-        try writer["tier"].write(value.tier)
-        try writer["userCount"].write(value.userCount)
-        try writer["userKMSKey"].write(value.userKMSKey)
-        try writer["vanityDomain"].write(value.vanityDomain)
-        try writer["vanityDomainStatus"].write(value.vanityDomainStatus)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> RepostspaceClientTypes.SpaceData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RepostspaceClientTypes.SpaceData()
@@ -1482,12 +1462,6 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 extension RepostspaceClientTypes.ValidationExceptionField {
-
-    static func write(value: RepostspaceClientTypes.ValidationExceptionField?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.message)
-        try writer["name"].write(value.name)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> RepostspaceClientTypes.ValidationExceptionField {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

@@ -12,15 +12,6 @@ extension LicenseManagerLinuxSubscriptionsClientTypes.Filter {
         try writer["Operator"].write(value.`operator`)
         try writer["Values"].writeList(value.values, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LicenseManagerLinuxSubscriptionsClientTypes.Filter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LicenseManagerLinuxSubscriptionsClientTypes.Filter()
-        value.name = try reader["Name"].readIfPresent()
-        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.`operator` = try reader["Operator"].readIfPresent()
-        return value
-    }
 }
 
 extension LicenseManagerLinuxSubscriptionsClientTypes {
@@ -120,20 +111,6 @@ enum GetServiceSettingsOutputError {
 }
 
 extension LicenseManagerLinuxSubscriptionsClientTypes.Instance {
-
-    static func write(value: LicenseManagerLinuxSubscriptionsClientTypes.Instance?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccountID"].write(value.accountID)
-        try writer["AmiId"].write(value.amiId)
-        try writer["InstanceID"].write(value.instanceID)
-        try writer["InstanceType"].write(value.instanceType)
-        try writer["LastUpdatedTime"].write(value.lastUpdatedTime)
-        try writer["ProductCode"].writeList(value.productCode, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Region"].write(value.region)
-        try writer["Status"].write(value.status)
-        try writer["SubscriptionName"].write(value.subscriptionName)
-        try writer["UsageOperation"].write(value.usageOperation)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LicenseManagerLinuxSubscriptionsClientTypes.Instance {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -625,13 +602,6 @@ extension LicenseManagerLinuxSubscriptionsClientTypes {
 }
 
 extension LicenseManagerLinuxSubscriptionsClientTypes.Subscription {
-
-    static func write(value: LicenseManagerLinuxSubscriptionsClientTypes.Subscription?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["InstanceCount"].write(value.instanceCount)
-        try writer["Name"].write(value.name)
-        try writer["Type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LicenseManagerLinuxSubscriptionsClientTypes.Subscription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

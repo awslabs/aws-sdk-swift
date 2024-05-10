@@ -43,13 +43,6 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
 extension MigrationHubClientTypes.ApplicationState {
 
-    static func write(value: MigrationHubClientTypes.ApplicationState?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ApplicationId"].write(value.applicationId)
-        try writer["ApplicationStatus"].write(value.applicationStatus)
-        try writer["LastUpdatedTime"].writeTimestamp(value.lastUpdatedTime, format: .epochSeconds)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubClientTypes.ApplicationState {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MigrationHubClientTypes.ApplicationState()
@@ -1462,15 +1455,6 @@ public enum MigrationHubClientTypes {}
 
 extension MigrationHubClientTypes.MigrationTask {
 
-    static func write(value: MigrationHubClientTypes.MigrationTask?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MigrationTaskName"].write(value.migrationTaskName)
-        try writer["ProgressUpdateStream"].write(value.progressUpdateStream)
-        try writer["ResourceAttributeList"].writeList(value.resourceAttributeList, memberWritingClosure: MigrationHubClientTypes.ResourceAttribute.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Task"].write(value.task, with: MigrationHubClientTypes.Task.write(value:to:))
-        try writer["UpdateDateTime"].writeTimestamp(value.updateDateTime, format: .epochSeconds)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubClientTypes.MigrationTask {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MigrationHubClientTypes.MigrationTask()
@@ -1516,16 +1500,6 @@ extension MigrationHubClientTypes {
 }
 
 extension MigrationHubClientTypes.MigrationTaskSummary {
-
-    static func write(value: MigrationHubClientTypes.MigrationTaskSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MigrationTaskName"].write(value.migrationTaskName)
-        try writer["ProgressPercent"].write(value.progressPercent)
-        try writer["ProgressUpdateStream"].write(value.progressUpdateStream)
-        try writer["Status"].write(value.status)
-        try writer["StatusDetail"].write(value.statusDetail)
-        try writer["UpdateDateTime"].writeTimestamp(value.updateDateTime, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubClientTypes.MigrationTaskSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1784,11 +1758,6 @@ public struct PolicyErrorException: ClientRuntime.ModeledError, AWSClientRuntime
 }
 
 extension MigrationHubClientTypes.ProgressUpdateStreamSummary {
-
-    static func write(value: MigrationHubClientTypes.ProgressUpdateStreamSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ProgressUpdateStreamName"].write(value.progressUpdateStreamName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubClientTypes.ProgressUpdateStreamSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

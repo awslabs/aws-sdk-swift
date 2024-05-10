@@ -1196,12 +1196,6 @@ enum DeletePrivateGraphEndpointOutputError {
 
 extension NeptuneGraphClientTypes.EdgeStructure {
 
-    static func write(value: NeptuneGraphClientTypes.EdgeStructure?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["count"].write(value.count)
-        try writer["edgeProperties"].writeList(value.edgeProperties, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> NeptuneGraphClientTypes.EdgeStructure {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = NeptuneGraphClientTypes.EdgeStructure()
@@ -2068,24 +2062,6 @@ enum GetQueryOutputError {
 
 extension NeptuneGraphClientTypes.GraphDataSummary {
 
-    static func write(value: NeptuneGraphClientTypes.GraphDataSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["edgeLabels"].writeList(value.edgeLabels, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["edgeProperties"].writeList(value.edgeProperties, memberWritingClosure: mapWritingClosure(valueWritingClosure: Swift.Int.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
-        try writer["edgeStructures"].writeList(value.edgeStructures, memberWritingClosure: NeptuneGraphClientTypes.EdgeStructure.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["nodeLabels"].writeList(value.nodeLabels, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["nodeProperties"].writeList(value.nodeProperties, memberWritingClosure: mapWritingClosure(valueWritingClosure: Swift.Int.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
-        try writer["nodeStructures"].writeList(value.nodeStructures, memberWritingClosure: NeptuneGraphClientTypes.NodeStructure.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["numEdgeLabels"].write(value.numEdgeLabels)
-        try writer["numEdgeProperties"].write(value.numEdgeProperties)
-        try writer["numEdges"].write(value.numEdges)
-        try writer["numNodeLabels"].write(value.numNodeLabels)
-        try writer["numNodeProperties"].write(value.numNodeProperties)
-        try writer["numNodes"].write(value.numNodes)
-        try writer["totalEdgePropertyValues"].write(value.totalEdgePropertyValues)
-        try writer["totalNodePropertyValues"].write(value.totalNodePropertyValues)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> NeptuneGraphClientTypes.GraphDataSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = NeptuneGraphClientTypes.GraphDataSummary()
@@ -2176,17 +2152,6 @@ extension NeptuneGraphClientTypes {
 }
 
 extension NeptuneGraphClientTypes.GraphSnapshotSummary {
-
-    static func write(value: NeptuneGraphClientTypes.GraphSnapshotSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["id"].write(value.id)
-        try writer["kmsKeyIdentifier"].write(value.kmsKeyIdentifier)
-        try writer["name"].write(value.name)
-        try writer["snapshotCreateTime"].writeTimestamp(value.snapshotCreateTime, format: .epochSeconds)
-        try writer["sourceGraphId"].write(value.sourceGraphId)
-        try writer["status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> NeptuneGraphClientTypes.GraphSnapshotSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2294,20 +2259,6 @@ extension NeptuneGraphClientTypes {
 }
 
 extension NeptuneGraphClientTypes.GraphSummary {
-
-    static func write(value: NeptuneGraphClientTypes.GraphSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["deletionProtection"].write(value.deletionProtection)
-        try writer["endpoint"].write(value.endpoint)
-        try writer["id"].write(value.id)
-        try writer["kmsKeyIdentifier"].write(value.kmsKeyIdentifier)
-        try writer["name"].write(value.name)
-        try writer["provisionedMemory"].write(value.provisionedMemory)
-        try writer["publicConnectivity"].write(value.publicConnectivity)
-        try writer["replicaCount"].write(value.replicaCount)
-        try writer["status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> NeptuneGraphClientTypes.GraphSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2447,18 +2398,6 @@ extension NeptuneGraphClientTypes {
 
 extension NeptuneGraphClientTypes.ImportTaskDetails {
 
-    static func write(value: NeptuneGraphClientTypes.ImportTaskDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["dictionaryEntryCount"].write(value.dictionaryEntryCount)
-        try writer["errorCount"].write(value.errorCount)
-        try writer["errorDetails"].write(value.errorDetails)
-        try writer["progressPercentage"].write(value.progressPercentage)
-        try writer["startTime"].writeTimestamp(value.startTime, format: .epochSeconds)
-        try writer["statementCount"].write(value.statementCount)
-        try writer["status"].write(value.status)
-        try writer["timeElapsedSeconds"].write(value.timeElapsedSeconds)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> NeptuneGraphClientTypes.ImportTaskDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = NeptuneGraphClientTypes.ImportTaskDetails()
@@ -2580,16 +2519,6 @@ extension NeptuneGraphClientTypes {
 }
 
 extension NeptuneGraphClientTypes.ImportTaskSummary {
-
-    static func write(value: NeptuneGraphClientTypes.ImportTaskSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["format"].write(value.format)
-        try writer["graphId"].write(value.graphId)
-        try writer["roleArn"].write(value.roleArn)
-        try writer["source"].write(value.source)
-        try writer["status"].write(value.status)
-        try writer["taskId"].write(value.taskId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> NeptuneGraphClientTypes.ImportTaskSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3261,13 +3190,6 @@ extension NeptuneGraphClientTypes {
 
 extension NeptuneGraphClientTypes.NodeStructure {
 
-    static func write(value: NeptuneGraphClientTypes.NodeStructure?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["count"].write(value.count)
-        try writer["distinctOutgoingEdgeLabels"].writeList(value.distinctOutgoingEdgeLabels, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["nodeProperties"].writeList(value.nodeProperties, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> NeptuneGraphClientTypes.NodeStructure {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = NeptuneGraphClientTypes.NodeStructure()
@@ -3372,14 +3294,6 @@ extension NeptuneGraphClientTypes {
 }
 
 extension NeptuneGraphClientTypes.PrivateGraphEndpointSummary {
-
-    static func write(value: NeptuneGraphClientTypes.PrivateGraphEndpointSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["status"].write(value.status)
-        try writer["subnetIds"].writeList(value.subnetIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["vpcEndpointId"].write(value.vpcEndpointId)
-        try writer["vpcId"].write(value.vpcId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> NeptuneGraphClientTypes.PrivateGraphEndpointSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3520,15 +3434,6 @@ extension NeptuneGraphClientTypes {
 }
 
 extension NeptuneGraphClientTypes.QuerySummary {
-
-    static func write(value: NeptuneGraphClientTypes.QuerySummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["elapsed"].write(value.elapsed)
-        try writer["id"].write(value.id)
-        try writer["queryString"].write(value.queryString)
-        try writer["state"].write(value.state)
-        try writer["waited"].write(value.waited)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> NeptuneGraphClientTypes.QuerySummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

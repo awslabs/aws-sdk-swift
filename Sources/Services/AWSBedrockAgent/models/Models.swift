@@ -180,15 +180,6 @@ extension BedrockAgentClientTypes {
 
 extension BedrockAgentClientTypes.ActionGroupSummary {
 
-    static func write(value: BedrockAgentClientTypes.ActionGroupSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["actionGroupId"].write(value.actionGroupId)
-        try writer["actionGroupName"].write(value.actionGroupName)
-        try writer["actionGroupState"].write(value.actionGroupState)
-        try writer["description"].write(value.description)
-        try writer["updatedAt"].writeTimestamp(value.updatedAt, format: .dateTime)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.ActionGroupSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentClientTypes.ActionGroupSummary()
@@ -243,28 +234,6 @@ extension BedrockAgentClientTypes.Agent: Swift.CustomDebugStringConvertible {
 }
 
 extension BedrockAgentClientTypes.Agent {
-
-    static func write(value: BedrockAgentClientTypes.Agent?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["agentArn"].write(value.agentArn)
-        try writer["agentId"].write(value.agentId)
-        try writer["agentName"].write(value.agentName)
-        try writer["agentResourceRoleArn"].write(value.agentResourceRoleArn)
-        try writer["agentStatus"].write(value.agentStatus)
-        try writer["agentVersion"].write(value.agentVersion)
-        try writer["clientToken"].write(value.clientToken)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .dateTime)
-        try writer["customerEncryptionKeyArn"].write(value.customerEncryptionKeyArn)
-        try writer["description"].write(value.description)
-        try writer["failureReasons"].writeList(value.failureReasons, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["foundationModel"].write(value.foundationModel)
-        try writer["idleSessionTTLInSeconds"].write(value.idleSessionTTLInSeconds)
-        try writer["instruction"].write(value.instruction)
-        try writer["preparedAt"].writeTimestamp(value.preparedAt, format: .dateTime)
-        try writer["promptOverrideConfiguration"].write(value.promptOverrideConfiguration, with: BedrockAgentClientTypes.PromptOverrideConfiguration.write(value:to:))
-        try writer["recommendedActions"].writeList(value.recommendedActions, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["updatedAt"].writeTimestamp(value.updatedAt, format: .dateTime)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.Agent {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -400,23 +369,6 @@ extension BedrockAgentClientTypes {
 
 extension BedrockAgentClientTypes.AgentActionGroup {
 
-    static func write(value: BedrockAgentClientTypes.AgentActionGroup?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["actionGroupExecutor"].write(value.actionGroupExecutor, with: BedrockAgentClientTypes.ActionGroupExecutor.write(value:to:))
-        try writer["actionGroupId"].write(value.actionGroupId)
-        try writer["actionGroupName"].write(value.actionGroupName)
-        try writer["actionGroupState"].write(value.actionGroupState)
-        try writer["agentId"].write(value.agentId)
-        try writer["agentVersion"].write(value.agentVersion)
-        try writer["apiSchema"].write(value.apiSchema, with: BedrockAgentClientTypes.APISchema.write(value:to:))
-        try writer["clientToken"].write(value.clientToken)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .dateTime)
-        try writer["description"].write(value.description)
-        try writer["functionSchema"].write(value.functionSchema, with: BedrockAgentClientTypes.FunctionSchema.write(value:to:))
-        try writer["parentActionSignature"].write(value.parentActionSignature)
-        try writer["updatedAt"].writeTimestamp(value.updatedAt, format: .dateTime)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.AgentActionGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentClientTypes.AgentActionGroup()
@@ -509,22 +461,6 @@ extension BedrockAgentClientTypes {
 }
 
 extension BedrockAgentClientTypes.AgentAlias {
-
-    static func write(value: BedrockAgentClientTypes.AgentAlias?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["agentAliasArn"].write(value.agentAliasArn)
-        try writer["agentAliasHistoryEvents"].writeList(value.agentAliasHistoryEvents, memberWritingClosure: BedrockAgentClientTypes.AgentAliasHistoryEvent.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["agentAliasId"].write(value.agentAliasId)
-        try writer["agentAliasName"].write(value.agentAliasName)
-        try writer["agentAliasStatus"].write(value.agentAliasStatus)
-        try writer["agentId"].write(value.agentId)
-        try writer["clientToken"].write(value.clientToken)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .dateTime)
-        try writer["description"].write(value.description)
-        try writer["failureReasons"].writeList(value.failureReasons, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["routingConfiguration"].writeList(value.routingConfiguration, memberWritingClosure: BedrockAgentClientTypes.AgentAliasRoutingConfigurationListItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["updatedAt"].writeTimestamp(value.updatedAt, format: .dateTime)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.AgentAlias {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -624,13 +560,6 @@ extension BedrockAgentClientTypes {
 }
 
 extension BedrockAgentClientTypes.AgentAliasHistoryEvent {
-
-    static func write(value: BedrockAgentClientTypes.AgentAliasHistoryEvent?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["endDate"].writeTimestamp(value.endDate, format: .dateTime)
-        try writer["routingConfiguration"].writeList(value.routingConfiguration, memberWritingClosure: BedrockAgentClientTypes.AgentAliasRoutingConfigurationListItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["startDate"].writeTimestamp(value.startDate, format: .dateTime)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.AgentAliasHistoryEvent {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -744,17 +673,6 @@ extension BedrockAgentClientTypes {
 
 extension BedrockAgentClientTypes.AgentAliasSummary {
 
-    static func write(value: BedrockAgentClientTypes.AgentAliasSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["agentAliasId"].write(value.agentAliasId)
-        try writer["agentAliasName"].write(value.agentAliasName)
-        try writer["agentAliasStatus"].write(value.agentAliasStatus)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .dateTime)
-        try writer["description"].write(value.description)
-        try writer["routingConfiguration"].writeList(value.routingConfiguration, memberWritingClosure: BedrockAgentClientTypes.AgentAliasRoutingConfigurationListItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["updatedAt"].writeTimestamp(value.updatedAt, format: .dateTime)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.AgentAliasSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentClientTypes.AgentAliasSummary()
@@ -815,17 +733,6 @@ extension BedrockAgentClientTypes {
 }
 
 extension BedrockAgentClientTypes.AgentKnowledgeBase {
-
-    static func write(value: BedrockAgentClientTypes.AgentKnowledgeBase?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["agentId"].write(value.agentId)
-        try writer["agentVersion"].write(value.agentVersion)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .dateTime)
-        try writer["description"].write(value.description)
-        try writer["knowledgeBaseId"].write(value.knowledgeBaseId)
-        try writer["knowledgeBaseState"].write(value.knowledgeBaseState)
-        try writer["updatedAt"].writeTimestamp(value.updatedAt, format: .dateTime)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.AgentKnowledgeBase {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -889,14 +796,6 @@ extension BedrockAgentClientTypes {
 }
 
 extension BedrockAgentClientTypes.AgentKnowledgeBaseSummary {
-
-    static func write(value: BedrockAgentClientTypes.AgentKnowledgeBaseSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["description"].write(value.description)
-        try writer["knowledgeBaseId"].write(value.knowledgeBaseId)
-        try writer["knowledgeBaseState"].write(value.knowledgeBaseState)
-        try writer["updatedAt"].writeTimestamp(value.updatedAt, format: .dateTime)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.AgentKnowledgeBaseSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -990,16 +889,6 @@ extension BedrockAgentClientTypes {
 
 extension BedrockAgentClientTypes.AgentSummary {
 
-    static func write(value: BedrockAgentClientTypes.AgentSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["agentId"].write(value.agentId)
-        try writer["agentName"].write(value.agentName)
-        try writer["agentStatus"].write(value.agentStatus)
-        try writer["description"].write(value.description)
-        try writer["latestAgentVersion"].write(value.latestAgentVersion)
-        try writer["updatedAt"].writeTimestamp(value.updatedAt, format: .dateTime)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.AgentSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentClientTypes.AgentSummary()
@@ -1059,26 +948,6 @@ extension BedrockAgentClientTypes.AgentVersion: Swift.CustomDebugStringConvertib
 }
 
 extension BedrockAgentClientTypes.AgentVersion {
-
-    static func write(value: BedrockAgentClientTypes.AgentVersion?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["agentArn"].write(value.agentArn)
-        try writer["agentId"].write(value.agentId)
-        try writer["agentName"].write(value.agentName)
-        try writer["agentResourceRoleArn"].write(value.agentResourceRoleArn)
-        try writer["agentStatus"].write(value.agentStatus)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .dateTime)
-        try writer["customerEncryptionKeyArn"].write(value.customerEncryptionKeyArn)
-        try writer["description"].write(value.description)
-        try writer["failureReasons"].writeList(value.failureReasons, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["foundationModel"].write(value.foundationModel)
-        try writer["idleSessionTTLInSeconds"].write(value.idleSessionTTLInSeconds)
-        try writer["instruction"].write(value.instruction)
-        try writer["promptOverrideConfiguration"].write(value.promptOverrideConfiguration, with: BedrockAgentClientTypes.PromptOverrideConfiguration.write(value:to:))
-        try writer["recommendedActions"].writeList(value.recommendedActions, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["updatedAt"].writeTimestamp(value.updatedAt, format: .dateTime)
-        try writer["version"].write(value.version)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.AgentVersion {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1189,16 +1058,6 @@ extension BedrockAgentClientTypes {
 }
 
 extension BedrockAgentClientTypes.AgentVersionSummary {
-
-    static func write(value: BedrockAgentClientTypes.AgentVersionSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["agentName"].write(value.agentName)
-        try writer["agentStatus"].write(value.agentStatus)
-        try writer["agentVersion"].write(value.agentVersion)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .dateTime)
-        try writer["description"].write(value.description)
-        try writer["updatedAt"].writeTimestamp(value.updatedAt, format: .dateTime)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.AgentVersionSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2118,22 +1977,6 @@ extension BedrockAgentClientTypes {
 
 extension BedrockAgentClientTypes.DataSource {
 
-    static func write(value: BedrockAgentClientTypes.DataSource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .dateTime)
-        try writer["dataDeletionPolicy"].write(value.dataDeletionPolicy)
-        try writer["dataSourceConfiguration"].write(value.dataSourceConfiguration, with: BedrockAgentClientTypes.DataSourceConfiguration.write(value:to:))
-        try writer["dataSourceId"].write(value.dataSourceId)
-        try writer["description"].write(value.description)
-        try writer["failureReasons"].writeList(value.failureReasons, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["knowledgeBaseId"].write(value.knowledgeBaseId)
-        try writer["name"].write(value.name)
-        try writer["serverSideEncryptionConfiguration"].write(value.serverSideEncryptionConfiguration, with: BedrockAgentClientTypes.ServerSideEncryptionConfiguration.write(value:to:))
-        try writer["status"].write(value.status)
-        try writer["updatedAt"].writeTimestamp(value.updatedAt, format: .dateTime)
-        try writer["vectorIngestionConfiguration"].write(value.vectorIngestionConfiguration, with: BedrockAgentClientTypes.VectorIngestionConfiguration.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.DataSource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentClientTypes.DataSource()
@@ -2296,16 +2139,6 @@ extension BedrockAgentClientTypes {
 }
 
 extension BedrockAgentClientTypes.DataSourceSummary {
-
-    static func write(value: BedrockAgentClientTypes.DataSourceSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["dataSourceId"].write(value.dataSourceId)
-        try writer["description"].write(value.description)
-        try writer["knowledgeBaseId"].write(value.knowledgeBaseId)
-        try writer["name"].write(value.name)
-        try writer["status"].write(value.status)
-        try writer["updatedAt"].writeTimestamp(value.updatedAt, format: .dateTime)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.DataSourceSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3776,19 +3609,6 @@ extension BedrockAgentClientTypes {
 
 extension BedrockAgentClientTypes.IngestionJob {
 
-    static func write(value: BedrockAgentClientTypes.IngestionJob?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["dataSourceId"].write(value.dataSourceId)
-        try writer["description"].write(value.description)
-        try writer["failureReasons"].writeList(value.failureReasons, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ingestionJobId"].write(value.ingestionJobId)
-        try writer["knowledgeBaseId"].write(value.knowledgeBaseId)
-        try writer["startedAt"].writeTimestamp(value.startedAt, format: .dateTime)
-        try writer["statistics"].write(value.statistics, with: BedrockAgentClientTypes.IngestionJobStatistics.write(value:to:))
-        try writer["status"].write(value.status)
-        try writer["updatedAt"].writeTimestamp(value.updatedAt, format: .dateTime)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.IngestionJob {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentClientTypes.IngestionJob()
@@ -3872,15 +3692,6 @@ extension BedrockAgentClientTypes.IngestionJobFilter {
         try writer["attribute"].write(value.attribute)
         try writer["operator"].write(value.`operator`)
         try writer["values"].writeList(value.values, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.IngestionJobFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockAgentClientTypes.IngestionJobFilter()
-        value.attribute = try reader["attribute"].readIfPresent()
-        value.`operator` = try reader["operator"].readIfPresent()
-        value.values = try reader["values"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -3972,14 +3783,6 @@ extension BedrockAgentClientTypes.IngestionJobSortBy {
         try writer["attribute"].write(value.attribute)
         try writer["order"].write(value.order)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.IngestionJobSortBy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockAgentClientTypes.IngestionJobSortBy()
-        value.attribute = try reader["attribute"].readIfPresent()
-        value.order = try reader["order"].readIfPresent()
-        return value
-    }
 }
 
 extension BedrockAgentClientTypes {
@@ -4035,17 +3838,6 @@ extension BedrockAgentClientTypes {
 }
 
 extension BedrockAgentClientTypes.IngestionJobStatistics {
-
-    static func write(value: BedrockAgentClientTypes.IngestionJobStatistics?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["numberOfDocumentsDeleted"].write(value.numberOfDocumentsDeleted)
-        try writer["numberOfDocumentsFailed"].write(value.numberOfDocumentsFailed)
-        try writer["numberOfDocumentsScanned"].write(value.numberOfDocumentsScanned)
-        try writer["numberOfMetadataDocumentsModified"].write(value.numberOfMetadataDocumentsModified)
-        try writer["numberOfMetadataDocumentsScanned"].write(value.numberOfMetadataDocumentsScanned)
-        try writer["numberOfModifiedDocumentsIndexed"].write(value.numberOfModifiedDocumentsIndexed)
-        try writer["numberOfNewDocumentsIndexed"].write(value.numberOfNewDocumentsIndexed)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.IngestionJobStatistics {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4138,18 +3930,6 @@ extension BedrockAgentClientTypes {
 }
 
 extension BedrockAgentClientTypes.IngestionJobSummary {
-
-    static func write(value: BedrockAgentClientTypes.IngestionJobSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["dataSourceId"].write(value.dataSourceId)
-        try writer["description"].write(value.description)
-        try writer["ingestionJobId"].write(value.ingestionJobId)
-        try writer["knowledgeBaseId"].write(value.knowledgeBaseId)
-        try writer["startedAt"].writeTimestamp(value.startedAt, format: .dateTime)
-        try writer["statistics"].write(value.statistics, with: BedrockAgentClientTypes.IngestionJobStatistics.write(value:to:))
-        try writer["status"].write(value.status)
-        try writer["updatedAt"].writeTimestamp(value.updatedAt, format: .dateTime)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.IngestionJobSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4254,21 +4034,6 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 }
 
 extension BedrockAgentClientTypes.KnowledgeBase {
-
-    static func write(value: BedrockAgentClientTypes.KnowledgeBase?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .dateTime)
-        try writer["description"].write(value.description)
-        try writer["failureReasons"].writeList(value.failureReasons, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["knowledgeBaseArn"].write(value.knowledgeBaseArn)
-        try writer["knowledgeBaseConfiguration"].write(value.knowledgeBaseConfiguration, with: BedrockAgentClientTypes.KnowledgeBaseConfiguration.write(value:to:))
-        try writer["knowledgeBaseId"].write(value.knowledgeBaseId)
-        try writer["name"].write(value.name)
-        try writer["roleArn"].write(value.roleArn)
-        try writer["status"].write(value.status)
-        try writer["storageConfiguration"].write(value.storageConfiguration, with: BedrockAgentClientTypes.StorageConfiguration.write(value:to:))
-        try writer["updatedAt"].writeTimestamp(value.updatedAt, format: .dateTime)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.KnowledgeBase {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4513,15 +4278,6 @@ extension BedrockAgentClientTypes {
 }
 
 extension BedrockAgentClientTypes.KnowledgeBaseSummary {
-
-    static func write(value: BedrockAgentClientTypes.KnowledgeBaseSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["description"].write(value.description)
-        try writer["knowledgeBaseId"].write(value.knowledgeBaseId)
-        try writer["name"].write(value.name)
-        try writer["status"].write(value.status)
-        try writer["updatedAt"].writeTimestamp(value.updatedAt, format: .dateTime)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.KnowledgeBaseSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7513,12 +7269,6 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 extension BedrockAgentClientTypes.ValidationExceptionField {
-
-    static func write(value: BedrockAgentClientTypes.ValidationExceptionField?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.message)
-        try writer["name"].write(value.name)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.ValidationExceptionField {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

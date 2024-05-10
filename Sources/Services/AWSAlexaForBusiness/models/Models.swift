@@ -6,13 +6,6 @@ import SmithyReadWrite
 
 extension AlexaForBusinessClientTypes.AddressBook {
 
-    static func write(value: AlexaForBusinessClientTypes.AddressBook?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AddressBookArn"].write(value.addressBookArn)
-        try writer["Description"].write(value.description)
-        try writer["Name"].write(value.name)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AlexaForBusinessClientTypes.AddressBook {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AlexaForBusinessClientTypes.AddressBook()
@@ -48,13 +41,6 @@ extension AlexaForBusinessClientTypes {
 }
 
 extension AlexaForBusinessClientTypes.AddressBookData {
-
-    static func write(value: AlexaForBusinessClientTypes.AddressBookData?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AddressBookArn"].write(value.addressBookArn)
-        try writer["Description"].write(value.description)
-        try writer["Name"].write(value.name)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AlexaForBusinessClientTypes.AddressBookData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -548,14 +534,6 @@ extension AlexaForBusinessClientTypes.Audio {
         try writer["Locale"].write(value.locale)
         try writer["Location"].write(value.location)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AlexaForBusinessClientTypes.Audio {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AlexaForBusinessClientTypes.Audio()
-        value.locale = try reader["Locale"].readIfPresent()
-        value.location = try reader["Location"].readIfPresent()
-        return value
-    }
 }
 
 extension AlexaForBusinessClientTypes {
@@ -581,15 +559,6 @@ extension AlexaForBusinessClientTypes {
 }
 
 extension AlexaForBusinessClientTypes.BusinessReport {
-
-    static func write(value: AlexaForBusinessClientTypes.BusinessReport?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DeliveryTime"].writeTimestamp(value.deliveryTime, format: .epochSeconds)
-        try writer["DownloadUrl"].write(value.downloadUrl)
-        try writer["FailureCode"].write(value.failureCode)
-        try writer["S3Location"].write(value.s3Location, with: AlexaForBusinessClientTypes.BusinessReportS3Location.write(value:to:))
-        try writer["Status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AlexaForBusinessClientTypes.BusinessReport {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -796,12 +765,6 @@ extension AlexaForBusinessClientTypes {
 
 extension AlexaForBusinessClientTypes.BusinessReportS3Location {
 
-    static func write(value: AlexaForBusinessClientTypes.BusinessReportS3Location?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BucketName"].write(value.bucketName)
-        try writer["Path"].write(value.path)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AlexaForBusinessClientTypes.BusinessReportS3Location {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AlexaForBusinessClientTypes.BusinessReportS3Location()
@@ -832,18 +795,6 @@ extension AlexaForBusinessClientTypes {
 }
 
 extension AlexaForBusinessClientTypes.BusinessReportSchedule {
-
-    static func write(value: AlexaForBusinessClientTypes.BusinessReportSchedule?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ContentRange"].write(value.contentRange, with: AlexaForBusinessClientTypes.BusinessReportContentRange.write(value:to:))
-        try writer["Format"].write(value.format)
-        try writer["LastBusinessReport"].write(value.lastBusinessReport, with: AlexaForBusinessClientTypes.BusinessReport.write(value:to:))
-        try writer["Recurrence"].write(value.recurrence, with: AlexaForBusinessClientTypes.BusinessReportRecurrence.write(value:to:))
-        try writer["S3BucketName"].write(value.s3BucketName)
-        try writer["S3KeyPrefix"].write(value.s3KeyPrefix)
-        try writer["ScheduleArn"].write(value.scheduleArn)
-        try writer["ScheduleName"].write(value.scheduleName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AlexaForBusinessClientTypes.BusinessReportSchedule {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -938,12 +889,6 @@ extension AlexaForBusinessClientTypes {
 }
 
 extension AlexaForBusinessClientTypes.Category {
-
-    static func write(value: AlexaForBusinessClientTypes.Category?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CategoryId"].write(value.categoryId)
-        try writer["CategoryName"].write(value.categoryName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AlexaForBusinessClientTypes.Category {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1076,16 +1021,6 @@ extension AlexaForBusinessClientTypes {
 }
 
 extension AlexaForBusinessClientTypes.ConferenceProvider {
-
-    static func write(value: AlexaForBusinessClientTypes.ConferenceProvider?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["IPDialIn"].write(value.ipDialIn, with: AlexaForBusinessClientTypes.IPDialIn.write(value:to:))
-        try writer["MeetingSetting"].write(value.meetingSetting, with: AlexaForBusinessClientTypes.MeetingSetting.write(value:to:))
-        try writer["Name"].write(value.name)
-        try writer["PSTNDialIn"].write(value.pstnDialIn, with: AlexaForBusinessClientTypes.PSTNDialIn.write(value:to:))
-        try writer["Type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AlexaForBusinessClientTypes.ConferenceProvider {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1227,17 +1162,6 @@ extension AlexaForBusinessClientTypes.Contact: Swift.CustomDebugStringConvertibl
 
 extension AlexaForBusinessClientTypes.Contact {
 
-    static func write(value: AlexaForBusinessClientTypes.Contact?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ContactArn"].write(value.contactArn)
-        try writer["DisplayName"].write(value.displayName)
-        try writer["FirstName"].write(value.firstName)
-        try writer["LastName"].write(value.lastName)
-        try writer["PhoneNumber"].write(value.phoneNumber)
-        try writer["PhoneNumbers"].writeList(value.phoneNumbers, memberWritingClosure: AlexaForBusinessClientTypes.PhoneNumber.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["SipAddresses"].writeList(value.sipAddresses, memberWritingClosure: AlexaForBusinessClientTypes.SipAddress.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AlexaForBusinessClientTypes.Contact {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AlexaForBusinessClientTypes.Contact()
@@ -1298,17 +1222,6 @@ extension AlexaForBusinessClientTypes.ContactData: Swift.CustomDebugStringConver
 }
 
 extension AlexaForBusinessClientTypes.ContactData {
-
-    static func write(value: AlexaForBusinessClientTypes.ContactData?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ContactArn"].write(value.contactArn)
-        try writer["DisplayName"].write(value.displayName)
-        try writer["FirstName"].write(value.firstName)
-        try writer["LastName"].write(value.lastName)
-        try writer["PhoneNumber"].write(value.phoneNumber)
-        try writer["PhoneNumbers"].writeList(value.phoneNumbers, memberWritingClosure: AlexaForBusinessClientTypes.PhoneNumber.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["SipAddresses"].writeList(value.sipAddresses, memberWritingClosure: AlexaForBusinessClientTypes.SipAddress.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AlexaForBusinessClientTypes.ContactData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1371,15 +1284,6 @@ extension AlexaForBusinessClientTypes.Content {
         try writer["AudioList"].writeList(value.audioList, memberWritingClosure: AlexaForBusinessClientTypes.Audio.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["SsmlList"].writeList(value.ssmlList, memberWritingClosure: AlexaForBusinessClientTypes.Ssml.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["TextList"].writeList(value.textList, memberWritingClosure: AlexaForBusinessClientTypes.Text.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AlexaForBusinessClientTypes.Content {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AlexaForBusinessClientTypes.Content()
-        value.textList = try reader["TextList"].readListIfPresent(memberReadingClosure: AlexaForBusinessClientTypes.Text.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.ssmlList = try reader["SsmlList"].readListIfPresent(memberReadingClosure: AlexaForBusinessClientTypes.Ssml.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.audioList = try reader["AudioList"].readListIfPresent(memberReadingClosure: AlexaForBusinessClientTypes.Audio.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -1804,15 +1708,6 @@ extension AlexaForBusinessClientTypes.CreateEndOfMeetingReminder {
         try writer["ReminderAtMinutes"].writeList(value.reminderAtMinutes, memberWritingClosure: Swift.Int.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ReminderType"].write(value.reminderType)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AlexaForBusinessClientTypes.CreateEndOfMeetingReminder {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AlexaForBusinessClientTypes.CreateEndOfMeetingReminder()
-        value.reminderAtMinutes = try reader["ReminderAtMinutes"].readListIfPresent(memberReadingClosure: Swift.Int.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.reminderType = try reader["ReminderType"].readIfPresent()
-        value.enabled = try reader["Enabled"].readIfPresent()
-        return value
-    }
 }
 
 extension AlexaForBusinessClientTypes {
@@ -1932,14 +1827,6 @@ extension AlexaForBusinessClientTypes.CreateInstantBooking {
         try writer["DurationInMinutes"].write(value.durationInMinutes)
         try writer["Enabled"].write(value.enabled)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AlexaForBusinessClientTypes.CreateInstantBooking {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AlexaForBusinessClientTypes.CreateInstantBooking()
-        value.durationInMinutes = try reader["DurationInMinutes"].readIfPresent()
-        value.enabled = try reader["Enabled"].readIfPresent()
-        return value
-    }
 }
 
 extension AlexaForBusinessClientTypes {
@@ -1973,17 +1860,6 @@ extension AlexaForBusinessClientTypes.CreateMeetingRoomConfiguration {
         try writer["ProactiveJoin"].write(value.proactiveJoin, with: AlexaForBusinessClientTypes.CreateProactiveJoin.write(value:to:))
         try writer["RequireCheckIn"].write(value.requireCheckIn, with: AlexaForBusinessClientTypes.CreateRequireCheckIn.write(value:to:))
         try writer["RoomUtilizationMetricsEnabled"].write(value.roomUtilizationMetricsEnabled)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AlexaForBusinessClientTypes.CreateMeetingRoomConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AlexaForBusinessClientTypes.CreateMeetingRoomConfiguration()
-        value.roomUtilizationMetricsEnabled = try reader["RoomUtilizationMetricsEnabled"].readIfPresent()
-        value.endOfMeetingReminder = try reader["EndOfMeetingReminder"].readIfPresent(with: AlexaForBusinessClientTypes.CreateEndOfMeetingReminder.read(from:))
-        value.instantBooking = try reader["InstantBooking"].readIfPresent(with: AlexaForBusinessClientTypes.CreateInstantBooking.read(from:))
-        value.requireCheckIn = try reader["RequireCheckIn"].readIfPresent(with: AlexaForBusinessClientTypes.CreateRequireCheckIn.read(from:))
-        value.proactiveJoin = try reader["ProactiveJoin"].readIfPresent(with: AlexaForBusinessClientTypes.CreateProactiveJoin.read(from:))
-        return value
     }
 }
 
@@ -2152,13 +2028,6 @@ extension AlexaForBusinessClientTypes.CreateProactiveJoin {
         guard let value else { return }
         try writer["EnabledByMotion"].write(value.enabledByMotion)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AlexaForBusinessClientTypes.CreateProactiveJoin {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AlexaForBusinessClientTypes.CreateProactiveJoin()
-        value.enabledByMotion = try reader["EnabledByMotion"].readIfPresent()
-        return value
-    }
 }
 
 extension AlexaForBusinessClientTypes {
@@ -2320,14 +2189,6 @@ extension AlexaForBusinessClientTypes.CreateRequireCheckIn {
         guard let value else { return }
         try writer["Enabled"].write(value.enabled)
         try writer["ReleaseAfterMinutes"].write(value.releaseAfterMinutes)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AlexaForBusinessClientTypes.CreateRequireCheckIn {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AlexaForBusinessClientTypes.CreateRequireCheckIn()
-        value.releaseAfterMinutes = try reader["ReleaseAfterMinutes"].readIfPresent()
-        value.enabled = try reader["Enabled"].readIfPresent()
-        return value
     }
 }
 
@@ -3417,14 +3278,6 @@ enum DeleteUserOutputError {
 
 extension AlexaForBusinessClientTypes.DeveloperInfo {
 
-    static func write(value: AlexaForBusinessClientTypes.DeveloperInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DeveloperName"].write(value.developerName)
-        try writer["Email"].write(value.email)
-        try writer["PrivacyPolicy"].write(value.privacyPolicy)
-        try writer["Url"].write(value.url)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AlexaForBusinessClientTypes.DeveloperInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AlexaForBusinessClientTypes.DeveloperInfo()
@@ -3465,20 +3318,6 @@ extension AlexaForBusinessClientTypes {
 }
 
 extension AlexaForBusinessClientTypes.Device {
-
-    static func write(value: AlexaForBusinessClientTypes.Device?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DeviceArn"].write(value.deviceArn)
-        try writer["DeviceName"].write(value.deviceName)
-        try writer["DeviceSerialNumber"].write(value.deviceSerialNumber)
-        try writer["DeviceStatus"].write(value.deviceStatus)
-        try writer["DeviceStatusInfo"].write(value.deviceStatusInfo, with: AlexaForBusinessClientTypes.DeviceStatusInfo.write(value:to:))
-        try writer["DeviceType"].write(value.deviceType)
-        try writer["MacAddress"].write(value.macAddress)
-        try writer["NetworkProfileInfo"].write(value.networkProfileInfo, with: AlexaForBusinessClientTypes.DeviceNetworkProfileInfo.write(value:to:))
-        try writer["RoomArn"].write(value.roomArn)
-        try writer["SoftwareVersion"].write(value.softwareVersion)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AlexaForBusinessClientTypes.Device {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3550,23 +3389,6 @@ extension AlexaForBusinessClientTypes {
 }
 
 extension AlexaForBusinessClientTypes.DeviceData {
-
-    static func write(value: AlexaForBusinessClientTypes.DeviceData?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedTime"].writeTimestamp(value.createdTime, format: .epochSeconds)
-        try writer["DeviceArn"].write(value.deviceArn)
-        try writer["DeviceName"].write(value.deviceName)
-        try writer["DeviceSerialNumber"].write(value.deviceSerialNumber)
-        try writer["DeviceStatus"].write(value.deviceStatus)
-        try writer["DeviceStatusInfo"].write(value.deviceStatusInfo, with: AlexaForBusinessClientTypes.DeviceStatusInfo.write(value:to:))
-        try writer["DeviceType"].write(value.deviceType)
-        try writer["MacAddress"].write(value.macAddress)
-        try writer["NetworkProfileArn"].write(value.networkProfileArn)
-        try writer["NetworkProfileName"].write(value.networkProfileName)
-        try writer["RoomArn"].write(value.roomArn)
-        try writer["RoomName"].write(value.roomName)
-        try writer["SoftwareVersion"].write(value.softwareVersion)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AlexaForBusinessClientTypes.DeviceData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3654,13 +3476,6 @@ extension AlexaForBusinessClientTypes {
 
 extension AlexaForBusinessClientTypes.DeviceEvent {
 
-    static func write(value: AlexaForBusinessClientTypes.DeviceEvent?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Timestamp"].writeTimestamp(value.timestamp, format: .epochSeconds)
-        try writer["Type"].write(value.type)
-        try writer["Value"].write(value.value)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AlexaForBusinessClientTypes.DeviceEvent {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AlexaForBusinessClientTypes.DeviceEvent()
@@ -3726,13 +3541,6 @@ extension AlexaForBusinessClientTypes {
 }
 
 extension AlexaForBusinessClientTypes.DeviceNetworkProfileInfo {
-
-    static func write(value: AlexaForBusinessClientTypes.DeviceNetworkProfileInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CertificateArn"].write(value.certificateArn)
-        try writer["CertificateExpirationTime"].writeTimestamp(value.certificateExpirationTime, format: .epochSeconds)
-        try writer["NetworkProfileArn"].write(value.networkProfileArn)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AlexaForBusinessClientTypes.DeviceNetworkProfileInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3846,12 +3654,6 @@ extension AlexaForBusinessClientTypes {
 
 extension AlexaForBusinessClientTypes.DeviceStatusDetail {
 
-    static func write(value: AlexaForBusinessClientTypes.DeviceStatusDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Code"].write(value.code)
-        try writer["Feature"].write(value.feature)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AlexaForBusinessClientTypes.DeviceStatusDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AlexaForBusinessClientTypes.DeviceStatusDetail()
@@ -3957,13 +3759,6 @@ extension AlexaForBusinessClientTypes {
 }
 
 extension AlexaForBusinessClientTypes.DeviceStatusInfo {
-
-    static func write(value: AlexaForBusinessClientTypes.DeviceStatusInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ConnectionStatus"].write(value.connectionStatus)
-        try writer["ConnectionStatusUpdatedTime"].writeTimestamp(value.connectionStatusUpdatedTime, format: .epochSeconds)
-        try writer["DeviceStatusDetails"].writeList(value.deviceStatusDetails, memberWritingClosure: AlexaForBusinessClientTypes.DeviceStatusDetail.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AlexaForBusinessClientTypes.DeviceStatusInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4404,13 +4199,6 @@ extension AlexaForBusinessClientTypes {
 
 extension AlexaForBusinessClientTypes.EndOfMeetingReminder {
 
-    static func write(value: AlexaForBusinessClientTypes.EndOfMeetingReminder?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Enabled"].write(value.enabled)
-        try writer["ReminderAtMinutes"].writeList(value.reminderAtMinutes, memberWritingClosure: Swift.Int.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ReminderType"].write(value.reminderType)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AlexaForBusinessClientTypes.EndOfMeetingReminder {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AlexaForBusinessClientTypes.EndOfMeetingReminder()
@@ -4575,14 +4363,6 @@ extension AlexaForBusinessClientTypes.Filter {
         try writer["Key"].write(value.key)
         try writer["Values"].writeList(value.values, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AlexaForBusinessClientTypes.Filter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AlexaForBusinessClientTypes.Filter()
-        value.key = try reader["Key"].readIfPresent()
-        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
 }
 
 extension AlexaForBusinessClientTypes {
@@ -4663,15 +4443,6 @@ enum ForgetSmartHomeAppliancesOutputError {
 
 extension AlexaForBusinessClientTypes.Gateway {
 
-    static func write(value: AlexaForBusinessClientTypes.Gateway?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["Description"].write(value.description)
-        try writer["GatewayGroupArn"].write(value.gatewayGroupArn)
-        try writer["Name"].write(value.name)
-        try writer["SoftwareVersion"].write(value.softwareVersion)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AlexaForBusinessClientTypes.Gateway {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AlexaForBusinessClientTypes.Gateway()
@@ -4718,13 +4489,6 @@ extension AlexaForBusinessClientTypes {
 
 extension AlexaForBusinessClientTypes.GatewayGroup {
 
-    static func write(value: AlexaForBusinessClientTypes.GatewayGroup?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["Description"].write(value.description)
-        try writer["Name"].write(value.name)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AlexaForBusinessClientTypes.GatewayGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AlexaForBusinessClientTypes.GatewayGroup()
@@ -4761,13 +4525,6 @@ extension AlexaForBusinessClientTypes {
 
 extension AlexaForBusinessClientTypes.GatewayGroupSummary {
 
-    static func write(value: AlexaForBusinessClientTypes.GatewayGroupSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["Description"].write(value.description)
-        try writer["Name"].write(value.name)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AlexaForBusinessClientTypes.GatewayGroupSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AlexaForBusinessClientTypes.GatewayGroupSummary()
@@ -4803,15 +4560,6 @@ extension AlexaForBusinessClientTypes {
 }
 
 extension AlexaForBusinessClientTypes.GatewaySummary {
-
-    static func write(value: AlexaForBusinessClientTypes.GatewaySummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["Description"].write(value.description)
-        try writer["GatewayGroupArn"].write(value.gatewayGroupArn)
-        try writer["Name"].write(value.name)
-        try writer["SoftwareVersion"].write(value.softwareVersion)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AlexaForBusinessClientTypes.GatewaySummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5757,12 +5505,6 @@ extension AlexaForBusinessClientTypes {
 }
 
 extension AlexaForBusinessClientTypes.InstantBooking {
-
-    static func write(value: AlexaForBusinessClientTypes.InstantBooking?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DurationInMinutes"].write(value.durationInMinutes)
-        try writer["Enabled"].write(value.enabled)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AlexaForBusinessClientTypes.InstantBooking {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6836,15 +6578,6 @@ extension AlexaForBusinessClientTypes {
 
 extension AlexaForBusinessClientTypes.MeetingRoomConfiguration {
 
-    static func write(value: AlexaForBusinessClientTypes.MeetingRoomConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EndOfMeetingReminder"].write(value.endOfMeetingReminder, with: AlexaForBusinessClientTypes.EndOfMeetingReminder.write(value:to:))
-        try writer["InstantBooking"].write(value.instantBooking, with: AlexaForBusinessClientTypes.InstantBooking.write(value:to:))
-        try writer["ProactiveJoin"].write(value.proactiveJoin, with: AlexaForBusinessClientTypes.ProactiveJoin.write(value:to:))
-        try writer["RequireCheckIn"].write(value.requireCheckIn, with: AlexaForBusinessClientTypes.RequireCheckIn.write(value:to:))
-        try writer["RoomUtilizationMetricsEnabled"].write(value.roomUtilizationMetricsEnabled)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AlexaForBusinessClientTypes.MeetingRoomConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AlexaForBusinessClientTypes.MeetingRoomConfiguration()
@@ -6997,20 +6730,6 @@ extension AlexaForBusinessClientTypes.NetworkProfile: Swift.CustomDebugStringCon
 
 extension AlexaForBusinessClientTypes.NetworkProfile {
 
-    static func write(value: AlexaForBusinessClientTypes.NetworkProfile?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CertificateAuthorityArn"].write(value.certificateAuthorityArn)
-        try writer["CurrentPassword"].write(value.currentPassword)
-        try writer["Description"].write(value.description)
-        try writer["EapMethod"].write(value.eapMethod)
-        try writer["NetworkProfileArn"].write(value.networkProfileArn)
-        try writer["NetworkProfileName"].write(value.networkProfileName)
-        try writer["NextPassword"].write(value.nextPassword)
-        try writer["SecurityType"].write(value.securityType)
-        try writer["Ssid"].write(value.ssid)
-        try writer["TrustAnchors"].writeList(value.trustAnchors, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AlexaForBusinessClientTypes.NetworkProfile {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AlexaForBusinessClientTypes.NetworkProfile()
@@ -7081,17 +6800,6 @@ extension AlexaForBusinessClientTypes {
 }
 
 extension AlexaForBusinessClientTypes.NetworkProfileData {
-
-    static func write(value: AlexaForBusinessClientTypes.NetworkProfileData?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CertificateAuthorityArn"].write(value.certificateAuthorityArn)
-        try writer["Description"].write(value.description)
-        try writer["EapMethod"].write(value.eapMethod)
-        try writer["NetworkProfileArn"].write(value.networkProfileArn)
-        try writer["NetworkProfileName"].write(value.networkProfileName)
-        try writer["SecurityType"].write(value.securityType)
-        try writer["Ssid"].write(value.ssid)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AlexaForBusinessClientTypes.NetworkProfileData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7355,11 +7063,6 @@ extension AlexaForBusinessClientTypes {
 
 extension AlexaForBusinessClientTypes.ProactiveJoin {
 
-    static func write(value: AlexaForBusinessClientTypes.ProactiveJoin?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EnabledByMotion"].write(value.enabledByMotion)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AlexaForBusinessClientTypes.ProactiveJoin {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AlexaForBusinessClientTypes.ProactiveJoin()
@@ -7383,25 +7086,6 @@ extension AlexaForBusinessClientTypes {
 }
 
 extension AlexaForBusinessClientTypes.Profile {
-
-    static func write(value: AlexaForBusinessClientTypes.Profile?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Address"].write(value.address)
-        try writer["AddressBookArn"].write(value.addressBookArn)
-        try writer["DataRetentionOptIn"].write(value.dataRetentionOptIn)
-        try writer["DistanceUnit"].write(value.distanceUnit)
-        try writer["IsDefault"].write(value.isDefault)
-        try writer["Locale"].write(value.locale)
-        try writer["MaxVolumeLimit"].write(value.maxVolumeLimit)
-        try writer["MeetingRoomConfiguration"].write(value.meetingRoomConfiguration, with: AlexaForBusinessClientTypes.MeetingRoomConfiguration.write(value:to:))
-        try writer["PSTNEnabled"].write(value.pstnEnabled)
-        try writer["ProfileArn"].write(value.profileArn)
-        try writer["ProfileName"].write(value.profileName)
-        try writer["SetupModeDisabled"].write(value.setupModeDisabled)
-        try writer["TemperatureUnit"].write(value.temperatureUnit)
-        try writer["Timezone"].write(value.timezone)
-        try writer["WakeWord"].write(value.wakeWord)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AlexaForBusinessClientTypes.Profile {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7498,19 +7182,6 @@ extension AlexaForBusinessClientTypes {
 }
 
 extension AlexaForBusinessClientTypes.ProfileData {
-
-    static func write(value: AlexaForBusinessClientTypes.ProfileData?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Address"].write(value.address)
-        try writer["DistanceUnit"].write(value.distanceUnit)
-        try writer["IsDefault"].write(value.isDefault)
-        try writer["Locale"].write(value.locale)
-        try writer["ProfileArn"].write(value.profileArn)
-        try writer["ProfileName"].write(value.profileName)
-        try writer["TemperatureUnit"].write(value.temperatureUnit)
-        try writer["Timezone"].write(value.timezone)
-        try writer["WakeWord"].write(value.wakeWord)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AlexaForBusinessClientTypes.ProfileData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7990,12 +7661,6 @@ enum RejectSkillOutputError {
 
 extension AlexaForBusinessClientTypes.RequireCheckIn {
 
-    static func write(value: AlexaForBusinessClientTypes.RequireCheckIn?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Enabled"].write(value.enabled)
-        try writer["ReleaseAfterMinutes"].write(value.releaseAfterMinutes)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AlexaForBusinessClientTypes.RequireCheckIn {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AlexaForBusinessClientTypes.RequireCheckIn()
@@ -8280,15 +7945,6 @@ enum RevokeInvitationOutputError {
 
 extension AlexaForBusinessClientTypes.Room {
 
-    static func write(value: AlexaForBusinessClientTypes.Room?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Description"].write(value.description)
-        try writer["ProfileArn"].write(value.profileArn)
-        try writer["ProviderCalendarId"].write(value.providerCalendarId)
-        try writer["RoomArn"].write(value.roomArn)
-        try writer["RoomName"].write(value.roomName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AlexaForBusinessClientTypes.Room {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AlexaForBusinessClientTypes.Room()
@@ -8334,16 +7990,6 @@ extension AlexaForBusinessClientTypes {
 }
 
 extension AlexaForBusinessClientTypes.RoomData {
-
-    static func write(value: AlexaForBusinessClientTypes.RoomData?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Description"].write(value.description)
-        try writer["ProfileArn"].write(value.profileArn)
-        try writer["ProfileName"].write(value.profileName)
-        try writer["ProviderCalendarId"].write(value.providerCalendarId)
-        try writer["RoomArn"].write(value.roomArn)
-        try writer["RoomName"].write(value.roomName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AlexaForBusinessClientTypes.RoomData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -9357,20 +9003,6 @@ extension AlexaForBusinessClientTypes {
 
 extension AlexaForBusinessClientTypes.SkillDetails {
 
-    static func write(value: AlexaForBusinessClientTypes.SkillDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BulletPoints"].writeList(value.bulletPoints, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["DeveloperInfo"].write(value.developerInfo, with: AlexaForBusinessClientTypes.DeveloperInfo.write(value:to:))
-        try writer["EndUserLicenseAgreement"].write(value.endUserLicenseAgreement)
-        try writer["GenericKeywords"].writeList(value.genericKeywords, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["InvocationPhrase"].write(value.invocationPhrase)
-        try writer["NewInThisVersionBulletPoints"].writeList(value.newInThisVersionBulletPoints, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ProductDescription"].write(value.productDescription)
-        try writer["ReleaseDate"].write(value.releaseDate)
-        try writer["Reviews"].writeMap(value.reviews, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["SkillTypes"].writeList(value.skillTypes, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AlexaForBusinessClientTypes.SkillDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AlexaForBusinessClientTypes.SkillDetails()
@@ -9442,13 +9074,6 @@ extension AlexaForBusinessClientTypes {
 
 extension AlexaForBusinessClientTypes.SkillGroup {
 
-    static func write(value: AlexaForBusinessClientTypes.SkillGroup?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Description"].write(value.description)
-        try writer["SkillGroupArn"].write(value.skillGroupArn)
-        try writer["SkillGroupName"].write(value.skillGroupName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AlexaForBusinessClientTypes.SkillGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AlexaForBusinessClientTypes.SkillGroup()
@@ -9484,13 +9109,6 @@ extension AlexaForBusinessClientTypes {
 }
 
 extension AlexaForBusinessClientTypes.SkillGroupData {
-
-    static func write(value: AlexaForBusinessClientTypes.SkillGroupData?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Description"].write(value.description)
-        try writer["SkillGroupArn"].write(value.skillGroupArn)
-        try writer["SkillGroupName"].write(value.skillGroupName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AlexaForBusinessClientTypes.SkillGroupData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -9564,15 +9182,6 @@ public struct SkillNotLinkedException: ClientRuntime.ModeledError, AWSClientRunt
 }
 
 extension AlexaForBusinessClientTypes.SkillSummary {
-
-    static func write(value: AlexaForBusinessClientTypes.SkillSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EnablementType"].write(value.enablementType)
-        try writer["SkillId"].write(value.skillId)
-        try writer["SkillName"].write(value.skillName)
-        try writer["SkillType"].write(value.skillType)
-        try writer["SupportsLinking"].write(value.supportsLinking)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AlexaForBusinessClientTypes.SkillSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -9683,17 +9292,6 @@ extension AlexaForBusinessClientTypes {
 
 extension AlexaForBusinessClientTypes.SkillsStoreSkill {
 
-    static func write(value: AlexaForBusinessClientTypes.SkillsStoreSkill?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["IconUrl"].write(value.iconUrl)
-        try writer["SampleUtterances"].writeList(value.sampleUtterances, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ShortDescription"].write(value.shortDescription)
-        try writer["SkillDetails"].write(value.skillDetails, with: AlexaForBusinessClientTypes.SkillDetails.write(value:to:))
-        try writer["SkillId"].write(value.skillId)
-        try writer["SkillName"].write(value.skillName)
-        try writer["SupportsLinking"].write(value.supportsLinking)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AlexaForBusinessClientTypes.SkillsStoreSkill {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AlexaForBusinessClientTypes.SkillsStoreSkill()
@@ -9750,13 +9348,6 @@ extension AlexaForBusinessClientTypes {
 
 extension AlexaForBusinessClientTypes.SmartHomeAppliance {
 
-    static func write(value: AlexaForBusinessClientTypes.SmartHomeAppliance?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Description"].write(value.description)
-        try writer["FriendlyName"].write(value.friendlyName)
-        try writer["ManufacturerName"].write(value.manufacturerName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AlexaForBusinessClientTypes.SmartHomeAppliance {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AlexaForBusinessClientTypes.SmartHomeAppliance()
@@ -9797,14 +9388,6 @@ extension AlexaForBusinessClientTypes.Sort {
         guard let value else { return }
         try writer["Key"].write(value.key)
         try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AlexaForBusinessClientTypes.Sort {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AlexaForBusinessClientTypes.Sort()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
-        return value
     }
 }
 
@@ -9866,14 +9449,6 @@ extension AlexaForBusinessClientTypes.Ssml {
         guard let value else { return }
         try writer["Locale"].write(value.locale)
         try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AlexaForBusinessClientTypes.Ssml {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AlexaForBusinessClientTypes.Ssml()
-        value.locale = try reader["Locale"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
-        return value
     }
 }
 
@@ -10152,14 +9727,6 @@ extension AlexaForBusinessClientTypes.Text {
         guard let value else { return }
         try writer["Locale"].write(value.locale)
         try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AlexaForBusinessClientTypes.Text {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AlexaForBusinessClientTypes.Text()
-        value.locale = try reader["Locale"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
-        return value
     }
 }
 
@@ -10662,15 +10229,6 @@ extension AlexaForBusinessClientTypes.UpdateEndOfMeetingReminder {
         try writer["ReminderAtMinutes"].writeList(value.reminderAtMinutes, memberWritingClosure: Swift.Int.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ReminderType"].write(value.reminderType)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AlexaForBusinessClientTypes.UpdateEndOfMeetingReminder {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AlexaForBusinessClientTypes.UpdateEndOfMeetingReminder()
-        value.reminderAtMinutes = try reader["ReminderAtMinutes"].readListIfPresent(memberReadingClosure: Swift.Int.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.reminderType = try reader["ReminderType"].readIfPresent()
-        value.enabled = try reader["Enabled"].readIfPresent()
-        return value
-    }
 }
 
 extension AlexaForBusinessClientTypes {
@@ -10839,14 +10397,6 @@ extension AlexaForBusinessClientTypes.UpdateInstantBooking {
         try writer["DurationInMinutes"].write(value.durationInMinutes)
         try writer["Enabled"].write(value.enabled)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AlexaForBusinessClientTypes.UpdateInstantBooking {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AlexaForBusinessClientTypes.UpdateInstantBooking()
-        value.durationInMinutes = try reader["DurationInMinutes"].readIfPresent()
-        value.enabled = try reader["Enabled"].readIfPresent()
-        return value
-    }
 }
 
 extension AlexaForBusinessClientTypes {
@@ -10878,17 +10428,6 @@ extension AlexaForBusinessClientTypes.UpdateMeetingRoomConfiguration {
         try writer["ProactiveJoin"].write(value.proactiveJoin, with: AlexaForBusinessClientTypes.UpdateProactiveJoin.write(value:to:))
         try writer["RequireCheckIn"].write(value.requireCheckIn, with: AlexaForBusinessClientTypes.UpdateRequireCheckIn.write(value:to:))
         try writer["RoomUtilizationMetricsEnabled"].write(value.roomUtilizationMetricsEnabled)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AlexaForBusinessClientTypes.UpdateMeetingRoomConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AlexaForBusinessClientTypes.UpdateMeetingRoomConfiguration()
-        value.roomUtilizationMetricsEnabled = try reader["RoomUtilizationMetricsEnabled"].readIfPresent()
-        value.endOfMeetingReminder = try reader["EndOfMeetingReminder"].readIfPresent(with: AlexaForBusinessClientTypes.UpdateEndOfMeetingReminder.read(from:))
-        value.instantBooking = try reader["InstantBooking"].readIfPresent(with: AlexaForBusinessClientTypes.UpdateInstantBooking.read(from:))
-        value.requireCheckIn = try reader["RequireCheckIn"].readIfPresent(with: AlexaForBusinessClientTypes.UpdateRequireCheckIn.read(from:))
-        value.proactiveJoin = try reader["ProactiveJoin"].readIfPresent(with: AlexaForBusinessClientTypes.UpdateProactiveJoin.read(from:))
-        return value
     }
 }
 
@@ -11021,13 +10560,6 @@ extension AlexaForBusinessClientTypes.UpdateProactiveJoin {
     static func write(value: AlexaForBusinessClientTypes.UpdateProactiveJoin?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["EnabledByMotion"].write(value.enabledByMotion)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AlexaForBusinessClientTypes.UpdateProactiveJoin {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AlexaForBusinessClientTypes.UpdateProactiveJoin()
-        value.enabledByMotion = try reader["EnabledByMotion"].readIfPresent()
-        return value
     }
 }
 
@@ -11172,14 +10704,6 @@ extension AlexaForBusinessClientTypes.UpdateRequireCheckIn {
         guard let value else { return }
         try writer["Enabled"].write(value.enabled)
         try writer["ReleaseAfterMinutes"].write(value.releaseAfterMinutes)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AlexaForBusinessClientTypes.UpdateRequireCheckIn {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AlexaForBusinessClientTypes.UpdateRequireCheckIn()
-        value.releaseAfterMinutes = try reader["ReleaseAfterMinutes"].readIfPresent()
-        value.enabled = try reader["Enabled"].readIfPresent()
-        return value
     }
 }
 
@@ -11343,16 +10867,6 @@ enum UpdateSkillGroupOutputError {
 }
 
 extension AlexaForBusinessClientTypes.UserData {
-
-    static func write(value: AlexaForBusinessClientTypes.UserData?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Email"].write(value.email)
-        try writer["EnrollmentId"].write(value.enrollmentId)
-        try writer["EnrollmentStatus"].write(value.enrollmentStatus)
-        try writer["FirstName"].write(value.firstName)
-        try writer["LastName"].write(value.lastName)
-        try writer["UserArn"].write(value.userArn)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AlexaForBusinessClientTypes.UserData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

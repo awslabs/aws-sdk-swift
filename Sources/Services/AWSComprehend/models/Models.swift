@@ -136,12 +136,6 @@ public struct BatchDetectDominantLanguageInput {
 
 extension ComprehendClientTypes.BatchDetectDominantLanguageItemResult {
 
-    static func write(value: ComprehendClientTypes.BatchDetectDominantLanguageItemResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Index"].write(value.index)
-        try writer["Languages"].writeList(value.languages, memberWritingClosure: ComprehendClientTypes.DominantLanguage.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ComprehendClientTypes.BatchDetectDominantLanguageItemResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComprehendClientTypes.BatchDetectDominantLanguageItemResult()
@@ -265,12 +259,6 @@ public struct BatchDetectEntitiesInput {
 }
 
 extension ComprehendClientTypes.BatchDetectEntitiesItemResult {
-
-    static func write(value: ComprehendClientTypes.BatchDetectEntitiesItemResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Entities"].writeList(value.entities, memberWritingClosure: ComprehendClientTypes.Entity.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Index"].write(value.index)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ComprehendClientTypes.BatchDetectEntitiesItemResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -397,12 +385,6 @@ public struct BatchDetectKeyPhrasesInput {
 
 extension ComprehendClientTypes.BatchDetectKeyPhrasesItemResult {
 
-    static func write(value: ComprehendClientTypes.BatchDetectKeyPhrasesItemResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Index"].write(value.index)
-        try writer["KeyPhrases"].writeList(value.keyPhrases, memberWritingClosure: ComprehendClientTypes.KeyPhrase.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ComprehendClientTypes.BatchDetectKeyPhrasesItemResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComprehendClientTypes.BatchDetectKeyPhrasesItemResult()
@@ -527,13 +509,6 @@ public struct BatchDetectSentimentInput {
 }
 
 extension ComprehendClientTypes.BatchDetectSentimentItemResult {
-
-    static func write(value: ComprehendClientTypes.BatchDetectSentimentItemResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Index"].write(value.index)
-        try writer["Sentiment"].write(value.sentiment)
-        try writer["SentimentScore"].write(value.sentimentScore, with: ComprehendClientTypes.SentimentScore.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ComprehendClientTypes.BatchDetectSentimentItemResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -665,12 +640,6 @@ public struct BatchDetectSyntaxInput {
 
 extension ComprehendClientTypes.BatchDetectSyntaxItemResult {
 
-    static func write(value: ComprehendClientTypes.BatchDetectSyntaxItemResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Index"].write(value.index)
-        try writer["SyntaxTokens"].writeList(value.syntaxTokens, memberWritingClosure: ComprehendClientTypes.SyntaxToken.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ComprehendClientTypes.BatchDetectSyntaxItemResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComprehendClientTypes.BatchDetectSyntaxItemResult()
@@ -796,12 +765,6 @@ public struct BatchDetectTargetedSentimentInput {
 
 extension ComprehendClientTypes.BatchDetectTargetedSentimentItemResult {
 
-    static func write(value: ComprehendClientTypes.BatchDetectTargetedSentimentItemResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Entities"].writeList(value.entities, memberWritingClosure: ComprehendClientTypes.TargetedSentimentEntity.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Index"].write(value.index)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ComprehendClientTypes.BatchDetectTargetedSentimentItemResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComprehendClientTypes.BatchDetectTargetedSentimentItemResult()
@@ -888,13 +851,6 @@ enum BatchDetectTargetedSentimentOutputError {
 
 extension ComprehendClientTypes.BatchItemError {
 
-    static func write(value: ComprehendClientTypes.BatchItemError?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ErrorCode"].write(value.errorCode)
-        try writer["ErrorMessage"].write(value.errorMessage)
-        try writer["Index"].write(value.index)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ComprehendClientTypes.BatchItemError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComprehendClientTypes.BatchItemError()
@@ -968,16 +924,6 @@ public struct BatchSizeLimitExceededException: ClientRuntime.ModeledError, AWSCl
 
 extension ComprehendClientTypes.Block {
 
-    static func write(value: ComprehendClientTypes.Block?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BlockType"].write(value.blockType)
-        try writer["Geometry"].write(value.geometry, with: ComprehendClientTypes.Geometry.write(value:to:))
-        try writer["Id"].write(value.id)
-        try writer["Page"].write(value.page)
-        try writer["Relationships"].writeList(value.relationships, memberWritingClosure: ComprehendClientTypes.RelationshipsListItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Text"].write(value.text)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ComprehendClientTypes.Block {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComprehendClientTypes.Block()
@@ -1032,14 +978,6 @@ extension ComprehendClientTypes {
 }
 
 extension ComprehendClientTypes.BlockReference {
-
-    static func write(value: ComprehendClientTypes.BlockReference?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BeginOffset"].write(value.beginOffset)
-        try writer["BlockId"].write(value.blockId)
-        try writer["ChildBlocks"].writeList(value.childBlocks, memberWritingClosure: ComprehendClientTypes.ChildBlock.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["EndOffset"].write(value.endOffset)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ComprehendClientTypes.BlockReference {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1112,14 +1050,6 @@ extension ComprehendClientTypes {
 
 extension ComprehendClientTypes.BoundingBox {
 
-    static func write(value: ComprehendClientTypes.BoundingBox?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Height"].write(value.height)
-        try writer["Left"].write(value.`left`)
-        try writer["Top"].write(value.top)
-        try writer["Width"].write(value.width)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ComprehendClientTypes.BoundingBox {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComprehendClientTypes.BoundingBox()
@@ -1161,13 +1091,6 @@ extension ComprehendClientTypes {
 
 extension ComprehendClientTypes.ChildBlock {
 
-    static func write(value: ComprehendClientTypes.ChildBlock?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BeginOffset"].write(value.beginOffset)
-        try writer["ChildBlockId"].write(value.childBlockId)
-        try writer["EndOffset"].write(value.endOffset)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ComprehendClientTypes.ChildBlock {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComprehendClientTypes.ChildBlock()
@@ -1203,18 +1126,6 @@ extension ComprehendClientTypes {
 }
 
 extension ComprehendClientTypes.ClassifierEvaluationMetrics {
-
-    static func write(value: ComprehendClientTypes.ClassifierEvaluationMetrics?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Accuracy"].write(value.accuracy)
-        try writer["F1Score"].write(value.f1Score)
-        try writer["HammingLoss"].write(value.hammingLoss)
-        try writer["MicroF1Score"].write(value.microF1Score)
-        try writer["MicroPrecision"].write(value.microPrecision)
-        try writer["MicroRecall"].write(value.microRecall)
-        try writer["Precision"].write(value.precision)
-        try writer["Recall"].write(value.recall)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ComprehendClientTypes.ClassifierEvaluationMetrics {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1282,14 +1193,6 @@ extension ComprehendClientTypes.ClassifierMetadata: Swift.CustomDebugStringConve
 }
 
 extension ComprehendClientTypes.ClassifierMetadata {
-
-    static func write(value: ComprehendClientTypes.ClassifierMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EvaluationMetrics"].write(value.evaluationMetrics, with: ComprehendClientTypes.ClassifierEvaluationMetrics.write(value:to:))
-        try writer["NumberOfLabels"].write(value.numberOfLabels)
-        try writer["NumberOfTestDocuments"].write(value.numberOfTestDocuments)
-        try writer["NumberOfTrainedDocuments"].write(value.numberOfTrainedDocuments)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ComprehendClientTypes.ClassifierMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2240,17 +2143,6 @@ extension ComprehendClientTypes.DatasetAugmentedManifestsListItem {
         try writer["S3Uri"].write(value.s3Uri)
         try writer["SourceDocumentsS3Uri"].write(value.sourceDocumentsS3Uri)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ComprehendClientTypes.DatasetAugmentedManifestsListItem {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComprehendClientTypes.DatasetAugmentedManifestsListItem()
-        value.attributeNames = try reader["AttributeNames"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.s3Uri = try reader["S3Uri"].readIfPresent()
-        value.annotationDataS3Uri = try reader["AnnotationDataS3Uri"].readIfPresent()
-        value.sourceDocumentsS3Uri = try reader["SourceDocumentsS3Uri"].readIfPresent()
-        value.documentType = try reader["DocumentType"].readIfPresent()
-        return value
-    }
 }
 
 extension ComprehendClientTypes {
@@ -2324,14 +2216,6 @@ extension ComprehendClientTypes.DatasetDocumentClassifierInputDataConfig {
         try writer["LabelDelimiter"].write(value.labelDelimiter)
         try writer["S3Uri"].write(value.s3Uri)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ComprehendClientTypes.DatasetDocumentClassifierInputDataConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComprehendClientTypes.DatasetDocumentClassifierInputDataConfig()
-        value.s3Uri = try reader["S3Uri"].readIfPresent()
-        value.labelDelimiter = try reader["LabelDelimiter"].readIfPresent()
-        return value
-    }
 }
 
 extension ComprehendClientTypes {
@@ -2361,13 +2245,6 @@ extension ComprehendClientTypes.DatasetEntityRecognizerAnnotations {
         guard let value else { return }
         try writer["S3Uri"].write(value.s3Uri)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ComprehendClientTypes.DatasetEntityRecognizerAnnotations {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComprehendClientTypes.DatasetEntityRecognizerAnnotations()
-        value.s3Uri = try reader["S3Uri"].readIfPresent()
-        return value
-    }
 }
 
 extension ComprehendClientTypes {
@@ -2393,14 +2270,6 @@ extension ComprehendClientTypes.DatasetEntityRecognizerDocuments {
         guard let value else { return }
         try writer["InputFormat"].write(value.inputFormat)
         try writer["S3Uri"].write(value.s3Uri)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ComprehendClientTypes.DatasetEntityRecognizerDocuments {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComprehendClientTypes.DatasetEntityRecognizerDocuments()
-        value.s3Uri = try reader["S3Uri"].readIfPresent()
-        value.inputFormat = try reader["InputFormat"].readIfPresent()
-        return value
     }
 }
 
@@ -2431,13 +2300,6 @@ extension ComprehendClientTypes.DatasetEntityRecognizerEntityList {
         guard let value else { return }
         try writer["S3Uri"].write(value.s3Uri)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ComprehendClientTypes.DatasetEntityRecognizerEntityList {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComprehendClientTypes.DatasetEntityRecognizerEntityList()
-        value.s3Uri = try reader["S3Uri"].readIfPresent()
-        return value
-    }
 }
 
 extension ComprehendClientTypes {
@@ -2464,15 +2326,6 @@ extension ComprehendClientTypes.DatasetEntityRecognizerInputDataConfig {
         try writer["Annotations"].write(value.annotations, with: ComprehendClientTypes.DatasetEntityRecognizerAnnotations.write(value:to:))
         try writer["Documents"].write(value.documents, with: ComprehendClientTypes.DatasetEntityRecognizerDocuments.write(value:to:))
         try writer["EntityList"].write(value.entityList, with: ComprehendClientTypes.DatasetEntityRecognizerEntityList.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ComprehendClientTypes.DatasetEntityRecognizerInputDataConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComprehendClientTypes.DatasetEntityRecognizerInputDataConfig()
-        value.annotations = try reader["Annotations"].readIfPresent(with: ComprehendClientTypes.DatasetEntityRecognizerAnnotations.read(from:))
-        value.documents = try reader["Documents"].readIfPresent(with: ComprehendClientTypes.DatasetEntityRecognizerDocuments.read(from:))
-        value.entityList = try reader["EntityList"].readIfPresent(with: ComprehendClientTypes.DatasetEntityRecognizerEntityList.read(from:))
-        return value
     }
 }
 
@@ -2509,16 +2362,6 @@ extension ComprehendClientTypes.DatasetFilter {
         try writer["CreationTimeBefore"].writeTimestamp(value.creationTimeBefore, format: .epochSeconds)
         try writer["DatasetType"].write(value.datasetType)
         try writer["Status"].write(value.status)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ComprehendClientTypes.DatasetFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComprehendClientTypes.DatasetFilter()
-        value.status = try reader["Status"].readIfPresent()
-        value.datasetType = try reader["DatasetType"].readIfPresent()
-        value.creationTimeAfter = try reader["CreationTimeAfter"].readTimestampIfPresent(format: .epochSeconds)
-        value.creationTimeBefore = try reader["CreationTimeBefore"].readTimestampIfPresent(format: .epochSeconds)
-        return value
     }
 }
 
@@ -2559,16 +2402,6 @@ extension ComprehendClientTypes.DatasetInputDataConfig {
         try writer["DocumentClassifierInputDataConfig"].write(value.documentClassifierInputDataConfig, with: ComprehendClientTypes.DatasetDocumentClassifierInputDataConfig.write(value:to:))
         try writer["EntityRecognizerInputDataConfig"].write(value.entityRecognizerInputDataConfig, with: ComprehendClientTypes.DatasetEntityRecognizerInputDataConfig.write(value:to:))
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ComprehendClientTypes.DatasetInputDataConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComprehendClientTypes.DatasetInputDataConfig()
-        value.augmentedManifests = try reader["AugmentedManifests"].readListIfPresent(memberReadingClosure: ComprehendClientTypes.DatasetAugmentedManifestsListItem.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.dataFormat = try reader["DataFormat"].readIfPresent()
-        value.documentClassifierInputDataConfig = try reader["DocumentClassifierInputDataConfig"].readIfPresent(with: ComprehendClientTypes.DatasetDocumentClassifierInputDataConfig.read(from:))
-        value.entityRecognizerInputDataConfig = try reader["EntityRecognizerInputDataConfig"].readIfPresent(with: ComprehendClientTypes.DatasetEntityRecognizerInputDataConfig.read(from:))
-        return value
-    }
 }
 
 extension ComprehendClientTypes {
@@ -2600,20 +2433,6 @@ extension ComprehendClientTypes {
 }
 
 extension ComprehendClientTypes.DatasetProperties {
-
-    static func write(value: ComprehendClientTypes.DatasetProperties?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["DatasetArn"].write(value.datasetArn)
-        try writer["DatasetName"].write(value.datasetName)
-        try writer["DatasetS3Uri"].write(value.datasetS3Uri)
-        try writer["DatasetType"].write(value.datasetType)
-        try writer["Description"].write(value.description)
-        try writer["EndTime"].writeTimestamp(value.endTime, format: .epochSeconds)
-        try writer["Message"].write(value.message)
-        try writer["NumberOfDocuments"].write(value.numberOfDocuments)
-        try writer["Status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ComprehendClientTypes.DatasetProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4872,13 +4691,6 @@ enum DetectToxicContentOutputError {
 
 extension ComprehendClientTypes.DocumentClass {
 
-    static func write(value: ComprehendClientTypes.DocumentClass?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["Page"].write(value.page)
-        try writer["Score"].write(value.score)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ComprehendClientTypes.DocumentClass {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComprehendClientTypes.DocumentClass()
@@ -4960,16 +4772,6 @@ extension ComprehendClientTypes.DocumentClassificationJobFilter {
         try writer["SubmitTimeAfter"].writeTimestamp(value.submitTimeAfter, format: .epochSeconds)
         try writer["SubmitTimeBefore"].writeTimestamp(value.submitTimeBefore, format: .epochSeconds)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ComprehendClientTypes.DocumentClassificationJobFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComprehendClientTypes.DocumentClassificationJobFilter()
-        value.jobName = try reader["JobName"].readIfPresent()
-        value.jobStatus = try reader["JobStatus"].readIfPresent()
-        value.submitTimeBefore = try reader["SubmitTimeBefore"].readTimestampIfPresent(format: .epochSeconds)
-        value.submitTimeAfter = try reader["SubmitTimeAfter"].readTimestampIfPresent(format: .epochSeconds)
-        return value
-    }
 }
 
 extension ComprehendClientTypes {
@@ -5001,24 +4803,6 @@ extension ComprehendClientTypes {
 }
 
 extension ComprehendClientTypes.DocumentClassificationJobProperties {
-
-    static func write(value: ComprehendClientTypes.DocumentClassificationJobProperties?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DataAccessRoleArn"].write(value.dataAccessRoleArn)
-        try writer["DocumentClassifierArn"].write(value.documentClassifierArn)
-        try writer["EndTime"].writeTimestamp(value.endTime, format: .epochSeconds)
-        try writer["FlywheelArn"].write(value.flywheelArn)
-        try writer["InputDataConfig"].write(value.inputDataConfig, with: ComprehendClientTypes.InputDataConfig.write(value:to:))
-        try writer["JobArn"].write(value.jobArn)
-        try writer["JobId"].write(value.jobId)
-        try writer["JobName"].write(value.jobName)
-        try writer["JobStatus"].write(value.jobStatus)
-        try writer["Message"].write(value.message)
-        try writer["OutputDataConfig"].write(value.outputDataConfig, with: ComprehendClientTypes.OutputDataConfig.write(value:to:))
-        try writer["SubmitTime"].writeTimestamp(value.submitTime, format: .epochSeconds)
-        try writer["VolumeKmsKeyId"].write(value.volumeKmsKeyId)
-        try writer["VpcConfig"].write(value.vpcConfig, with: ComprehendClientTypes.VpcConfig.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ComprehendClientTypes.DocumentClassificationJobProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5219,16 +5003,6 @@ extension ComprehendClientTypes.DocumentClassifierFilter {
         try writer["Status"].write(value.status)
         try writer["SubmitTimeAfter"].writeTimestamp(value.submitTimeAfter, format: .epochSeconds)
         try writer["SubmitTimeBefore"].writeTimestamp(value.submitTimeBefore, format: .epochSeconds)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ComprehendClientTypes.DocumentClassifierFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComprehendClientTypes.DocumentClassifierFilter()
-        value.status = try reader["Status"].readIfPresent()
-        value.documentClassifierName = try reader["DocumentClassifierName"].readIfPresent()
-        value.submitTimeBefore = try reader["SubmitTimeBefore"].readTimestampIfPresent(format: .epochSeconds)
-        value.submitTimeAfter = try reader["SubmitTimeAfter"].readTimestampIfPresent(format: .epochSeconds)
-        return value
     }
 }
 
@@ -5437,29 +5211,6 @@ extension ComprehendClientTypes.DocumentClassifierProperties: Swift.CustomDebugS
 
 extension ComprehendClientTypes.DocumentClassifierProperties {
 
-    static func write(value: ComprehendClientTypes.DocumentClassifierProperties?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ClassifierMetadata"].write(value.classifierMetadata, with: ComprehendClientTypes.ClassifierMetadata.write(value:to:))
-        try writer["DataAccessRoleArn"].write(value.dataAccessRoleArn)
-        try writer["DocumentClassifierArn"].write(value.documentClassifierArn)
-        try writer["EndTime"].writeTimestamp(value.endTime, format: .epochSeconds)
-        try writer["FlywheelArn"].write(value.flywheelArn)
-        try writer["InputDataConfig"].write(value.inputDataConfig, with: ComprehendClientTypes.DocumentClassifierInputDataConfig.write(value:to:))
-        try writer["LanguageCode"].write(value.languageCode)
-        try writer["Message"].write(value.message)
-        try writer["Mode"].write(value.mode)
-        try writer["ModelKmsKeyId"].write(value.modelKmsKeyId)
-        try writer["OutputDataConfig"].write(value.outputDataConfig, with: ComprehendClientTypes.DocumentClassifierOutputDataConfig.write(value:to:))
-        try writer["SourceModelArn"].write(value.sourceModelArn)
-        try writer["Status"].write(value.status)
-        try writer["SubmitTime"].writeTimestamp(value.submitTime, format: .epochSeconds)
-        try writer["TrainingEndTime"].writeTimestamp(value.trainingEndTime, format: .epochSeconds)
-        try writer["TrainingStartTime"].writeTimestamp(value.trainingStartTime, format: .epochSeconds)
-        try writer["VersionName"].write(value.versionName)
-        try writer["VolumeKmsKeyId"].write(value.volumeKmsKeyId)
-        try writer["VpcConfig"].write(value.vpcConfig, with: ComprehendClientTypes.VpcConfig.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ComprehendClientTypes.DocumentClassifierProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComprehendClientTypes.DocumentClassifierProperties()
@@ -5584,15 +5335,6 @@ extension ComprehendClientTypes {
 
 extension ComprehendClientTypes.DocumentClassifierSummary {
 
-    static func write(value: ComprehendClientTypes.DocumentClassifierSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DocumentClassifierName"].write(value.documentClassifierName)
-        try writer["LatestVersionCreatedAt"].writeTimestamp(value.latestVersionCreatedAt, format: .epochSeconds)
-        try writer["LatestVersionName"].write(value.latestVersionName)
-        try writer["LatestVersionStatus"].write(value.latestVersionStatus)
-        try writer["NumberOfVersions"].write(value.numberOfVersions)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ComprehendClientTypes.DocumentClassifierSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComprehendClientTypes.DocumentClassifierSummary()
@@ -5639,13 +5381,6 @@ extension ComprehendClientTypes {
 
 extension ComprehendClientTypes.DocumentLabel {
 
-    static func write(value: ComprehendClientTypes.DocumentLabel?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["Page"].write(value.page)
-        try writer["Score"].write(value.score)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ComprehendClientTypes.DocumentLabel {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComprehendClientTypes.DocumentLabel()
@@ -5681,12 +5416,6 @@ extension ComprehendClientTypes {
 }
 
 extension ComprehendClientTypes.DocumentMetadata {
-
-    static func write(value: ComprehendClientTypes.DocumentMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ExtractedCharacters"].writeList(value.extractedCharacters, memberWritingClosure: ComprehendClientTypes.ExtractedCharactersListItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Pages"].write(value.pages)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ComprehendClientTypes.DocumentMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5920,12 +5649,6 @@ extension ComprehendClientTypes {
 
 extension ComprehendClientTypes.DocumentTypeListItem {
 
-    static func write(value: ComprehendClientTypes.DocumentTypeListItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Page"].write(value.page)
-        try writer["Type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ComprehendClientTypes.DocumentTypeListItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComprehendClientTypes.DocumentTypeListItem()
@@ -5956,12 +5679,6 @@ extension ComprehendClientTypes {
 }
 
 extension ComprehendClientTypes.DominantLanguage {
-
-    static func write(value: ComprehendClientTypes.DominantLanguage?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["LanguageCode"].write(value.languageCode)
-        try writer["Score"].write(value.score)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ComprehendClientTypes.DominantLanguage {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6001,16 +5718,6 @@ extension ComprehendClientTypes.DominantLanguageDetectionJobFilter {
         try writer["SubmitTimeAfter"].writeTimestamp(value.submitTimeAfter, format: .epochSeconds)
         try writer["SubmitTimeBefore"].writeTimestamp(value.submitTimeBefore, format: .epochSeconds)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ComprehendClientTypes.DominantLanguageDetectionJobFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComprehendClientTypes.DominantLanguageDetectionJobFilter()
-        value.jobName = try reader["JobName"].readIfPresent()
-        value.jobStatus = try reader["JobStatus"].readIfPresent()
-        value.submitTimeBefore = try reader["SubmitTimeBefore"].readTimestampIfPresent(format: .epochSeconds)
-        value.submitTimeAfter = try reader["SubmitTimeAfter"].readTimestampIfPresent(format: .epochSeconds)
-        return value
-    }
 }
 
 extension ComprehendClientTypes {
@@ -6042,22 +5749,6 @@ extension ComprehendClientTypes {
 }
 
 extension ComprehendClientTypes.DominantLanguageDetectionJobProperties {
-
-    static func write(value: ComprehendClientTypes.DominantLanguageDetectionJobProperties?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DataAccessRoleArn"].write(value.dataAccessRoleArn)
-        try writer["EndTime"].writeTimestamp(value.endTime, format: .epochSeconds)
-        try writer["InputDataConfig"].write(value.inputDataConfig, with: ComprehendClientTypes.InputDataConfig.write(value:to:))
-        try writer["JobArn"].write(value.jobArn)
-        try writer["JobId"].write(value.jobId)
-        try writer["JobName"].write(value.jobName)
-        try writer["JobStatus"].write(value.jobStatus)
-        try writer["Message"].write(value.message)
-        try writer["OutputDataConfig"].write(value.outputDataConfig, with: ComprehendClientTypes.OutputDataConfig.write(value:to:))
-        try writer["SubmitTime"].writeTimestamp(value.submitTime, format: .epochSeconds)
-        try writer["VolumeKmsKeyId"].write(value.volumeKmsKeyId)
-        try writer["VpcConfig"].write(value.vpcConfig, with: ComprehendClientTypes.VpcConfig.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ComprehendClientTypes.DominantLanguageDetectionJobProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6151,16 +5842,6 @@ extension ComprehendClientTypes.EndpointFilter {
         try writer["ModelArn"].write(value.modelArn)
         try writer["Status"].write(value.status)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ComprehendClientTypes.EndpointFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComprehendClientTypes.EndpointFilter()
-        value.modelArn = try reader["ModelArn"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.creationTimeBefore = try reader["CreationTimeBefore"].readTimestampIfPresent(format: .epochSeconds)
-        value.creationTimeAfter = try reader["CreationTimeAfter"].readTimestampIfPresent(format: .epochSeconds)
-        return value
-    }
 }
 
 extension ComprehendClientTypes {
@@ -6192,22 +5873,6 @@ extension ComprehendClientTypes {
 }
 
 extension ComprehendClientTypes.EndpointProperties {
-
-    static func write(value: ComprehendClientTypes.EndpointProperties?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["CurrentInferenceUnits"].write(value.currentInferenceUnits)
-        try writer["DataAccessRoleArn"].write(value.dataAccessRoleArn)
-        try writer["DesiredDataAccessRoleArn"].write(value.desiredDataAccessRoleArn)
-        try writer["DesiredInferenceUnits"].write(value.desiredInferenceUnits)
-        try writer["DesiredModelArn"].write(value.desiredModelArn)
-        try writer["EndpointArn"].write(value.endpointArn)
-        try writer["FlywheelArn"].write(value.flywheelArn)
-        try writer["LastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .epochSeconds)
-        try writer["Message"].write(value.message)
-        try writer["ModelArn"].write(value.modelArn)
-        try writer["Status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ComprehendClientTypes.EndpointProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6336,16 +6001,6 @@ extension ComprehendClientTypes.EntitiesDetectionJobFilter {
         try writer["SubmitTimeAfter"].writeTimestamp(value.submitTimeAfter, format: .epochSeconds)
         try writer["SubmitTimeBefore"].writeTimestamp(value.submitTimeBefore, format: .epochSeconds)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ComprehendClientTypes.EntitiesDetectionJobFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComprehendClientTypes.EntitiesDetectionJobFilter()
-        value.jobName = try reader["JobName"].readIfPresent()
-        value.jobStatus = try reader["JobStatus"].readIfPresent()
-        value.submitTimeBefore = try reader["SubmitTimeBefore"].readTimestampIfPresent(format: .epochSeconds)
-        value.submitTimeAfter = try reader["SubmitTimeAfter"].readTimestampIfPresent(format: .epochSeconds)
-        return value
-    }
 }
 
 extension ComprehendClientTypes {
@@ -6377,25 +6032,6 @@ extension ComprehendClientTypes {
 }
 
 extension ComprehendClientTypes.EntitiesDetectionJobProperties {
-
-    static func write(value: ComprehendClientTypes.EntitiesDetectionJobProperties?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DataAccessRoleArn"].write(value.dataAccessRoleArn)
-        try writer["EndTime"].writeTimestamp(value.endTime, format: .epochSeconds)
-        try writer["EntityRecognizerArn"].write(value.entityRecognizerArn)
-        try writer["FlywheelArn"].write(value.flywheelArn)
-        try writer["InputDataConfig"].write(value.inputDataConfig, with: ComprehendClientTypes.InputDataConfig.write(value:to:))
-        try writer["JobArn"].write(value.jobArn)
-        try writer["JobId"].write(value.jobId)
-        try writer["JobName"].write(value.jobName)
-        try writer["JobStatus"].write(value.jobStatus)
-        try writer["LanguageCode"].write(value.languageCode)
-        try writer["Message"].write(value.message)
-        try writer["OutputDataConfig"].write(value.outputDataConfig, with: ComprehendClientTypes.OutputDataConfig.write(value:to:))
-        try writer["SubmitTime"].writeTimestamp(value.submitTime, format: .epochSeconds)
-        try writer["VolumeKmsKeyId"].write(value.volumeKmsKeyId)
-        try writer["VpcConfig"].write(value.vpcConfig, with: ComprehendClientTypes.VpcConfig.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ComprehendClientTypes.EntitiesDetectionJobProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6497,16 +6133,6 @@ extension ComprehendClientTypes {
 
 extension ComprehendClientTypes.Entity {
 
-    static func write(value: ComprehendClientTypes.Entity?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BeginOffset"].write(value.beginOffset)
-        try writer["BlockReferences"].writeList(value.blockReferences, memberWritingClosure: ComprehendClientTypes.BlockReference.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["EndOffset"].write(value.endOffset)
-        try writer["Score"].write(value.score)
-        try writer["Text"].write(value.text)
-        try writer["Type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ComprehendClientTypes.Entity {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComprehendClientTypes.Entity()
@@ -6557,12 +6183,6 @@ extension ComprehendClientTypes {
 }
 
 extension ComprehendClientTypes.EntityLabel {
-
-    static func write(value: ComprehendClientTypes.EntityLabel?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["Score"].write(value.score)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ComprehendClientTypes.EntityLabel {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6771,13 +6391,6 @@ extension ComprehendClientTypes {
 
 extension ComprehendClientTypes.EntityRecognizerEvaluationMetrics {
 
-    static func write(value: ComprehendClientTypes.EntityRecognizerEvaluationMetrics?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["F1Score"].write(value.f1Score)
-        try writer["Precision"].write(value.precision)
-        try writer["Recall"].write(value.recall)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ComprehendClientTypes.EntityRecognizerEvaluationMetrics {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComprehendClientTypes.EntityRecognizerEvaluationMetrics()
@@ -6820,16 +6433,6 @@ extension ComprehendClientTypes.EntityRecognizerFilter {
         try writer["Status"].write(value.status)
         try writer["SubmitTimeAfter"].writeTimestamp(value.submitTimeAfter, format: .epochSeconds)
         try writer["SubmitTimeBefore"].writeTimestamp(value.submitTimeBefore, format: .epochSeconds)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ComprehendClientTypes.EntityRecognizerFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComprehendClientTypes.EntityRecognizerFilter()
-        value.status = try reader["Status"].readIfPresent()
-        value.recognizerName = try reader["RecognizerName"].readIfPresent()
-        value.submitTimeBefore = try reader["SubmitTimeBefore"].readTimestampIfPresent(format: .epochSeconds)
-        value.submitTimeAfter = try reader["SubmitTimeAfter"].readTimestampIfPresent(format: .epochSeconds)
-        return value
     }
 }
 
@@ -6938,14 +6541,6 @@ extension ComprehendClientTypes.EntityRecognizerMetadata: Swift.CustomDebugStrin
 
 extension ComprehendClientTypes.EntityRecognizerMetadata {
 
-    static func write(value: ComprehendClientTypes.EntityRecognizerMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EntityTypes"].writeList(value.entityTypes, memberWritingClosure: ComprehendClientTypes.EntityRecognizerMetadataEntityTypesListItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["EvaluationMetrics"].write(value.evaluationMetrics, with: ComprehendClientTypes.EntityRecognizerEvaluationMetrics.write(value:to:))
-        try writer["NumberOfTestDocuments"].write(value.numberOfTestDocuments)
-        try writer["NumberOfTrainedDocuments"].write(value.numberOfTrainedDocuments)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ComprehendClientTypes.EntityRecognizerMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComprehendClientTypes.EntityRecognizerMetadata()
@@ -6987,13 +6582,6 @@ extension ComprehendClientTypes {
 
 extension ComprehendClientTypes.EntityRecognizerMetadataEntityTypesListItem {
 
-    static func write(value: ComprehendClientTypes.EntityRecognizerMetadataEntityTypesListItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EvaluationMetrics"].write(value.evaluationMetrics, with: ComprehendClientTypes.EntityTypesEvaluationMetrics.write(value:to:))
-        try writer["NumberOfTrainMentions"].write(value.numberOfTrainMentions)
-        try writer["Type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ComprehendClientTypes.EntityRecognizerMetadataEntityTypesListItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComprehendClientTypes.EntityRecognizerMetadataEntityTypesListItem()
@@ -7030,11 +6618,6 @@ extension ComprehendClientTypes {
 
 extension ComprehendClientTypes.EntityRecognizerOutputDataConfig {
 
-    static func write(value: ComprehendClientTypes.EntityRecognizerOutputDataConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["FlywheelStatsS3Prefix"].write(value.flywheelStatsS3Prefix)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ComprehendClientTypes.EntityRecognizerOutputDataConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComprehendClientTypes.EntityRecognizerOutputDataConfig()
@@ -7065,28 +6648,6 @@ extension ComprehendClientTypes.EntityRecognizerProperties: Swift.CustomDebugStr
 }
 
 extension ComprehendClientTypes.EntityRecognizerProperties {
-
-    static func write(value: ComprehendClientTypes.EntityRecognizerProperties?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DataAccessRoleArn"].write(value.dataAccessRoleArn)
-        try writer["EndTime"].writeTimestamp(value.endTime, format: .epochSeconds)
-        try writer["EntityRecognizerArn"].write(value.entityRecognizerArn)
-        try writer["FlywheelArn"].write(value.flywheelArn)
-        try writer["InputDataConfig"].write(value.inputDataConfig, with: ComprehendClientTypes.EntityRecognizerInputDataConfig.write(value:to:))
-        try writer["LanguageCode"].write(value.languageCode)
-        try writer["Message"].write(value.message)
-        try writer["ModelKmsKeyId"].write(value.modelKmsKeyId)
-        try writer["OutputDataConfig"].write(value.outputDataConfig, with: ComprehendClientTypes.EntityRecognizerOutputDataConfig.write(value:to:))
-        try writer["RecognizerMetadata"].write(value.recognizerMetadata, with: ComprehendClientTypes.EntityRecognizerMetadata.write(value:to:))
-        try writer["SourceModelArn"].write(value.sourceModelArn)
-        try writer["Status"].write(value.status)
-        try writer["SubmitTime"].writeTimestamp(value.submitTime, format: .epochSeconds)
-        try writer["TrainingEndTime"].writeTimestamp(value.trainingEndTime, format: .epochSeconds)
-        try writer["TrainingStartTime"].writeTimestamp(value.trainingStartTime, format: .epochSeconds)
-        try writer["VersionName"].write(value.versionName)
-        try writer["VolumeKmsKeyId"].write(value.volumeKmsKeyId)
-        try writer["VpcConfig"].write(value.vpcConfig, with: ComprehendClientTypes.VpcConfig.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ComprehendClientTypes.EntityRecognizerProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7207,15 +6768,6 @@ extension ComprehendClientTypes {
 
 extension ComprehendClientTypes.EntityRecognizerSummary {
 
-    static func write(value: ComprehendClientTypes.EntityRecognizerSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["LatestVersionCreatedAt"].writeTimestamp(value.latestVersionCreatedAt, format: .epochSeconds)
-        try writer["LatestVersionName"].write(value.latestVersionName)
-        try writer["LatestVersionStatus"].write(value.latestVersionStatus)
-        try writer["NumberOfVersions"].write(value.numberOfVersions)
-        try writer["RecognizerName"].write(value.recognizerName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ComprehendClientTypes.EntityRecognizerSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComprehendClientTypes.EntityRecognizerSummary()
@@ -7313,13 +6865,6 @@ extension ComprehendClientTypes {
 
 extension ComprehendClientTypes.EntityTypesEvaluationMetrics {
 
-    static func write(value: ComprehendClientTypes.EntityTypesEvaluationMetrics?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["F1Score"].write(value.f1Score)
-        try writer["Precision"].write(value.precision)
-        try writer["Recall"].write(value.recall)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ComprehendClientTypes.EntityTypesEvaluationMetrics {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComprehendClientTypes.EntityTypesEvaluationMetrics()
@@ -7388,13 +6933,6 @@ extension ComprehendClientTypes {
 
 extension ComprehendClientTypes.ErrorsListItem {
 
-    static func write(value: ComprehendClientTypes.ErrorsListItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ErrorCode"].write(value.errorCode)
-        try writer["ErrorMessage"].write(value.errorMessage)
-        try writer["Page"].write(value.page)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ComprehendClientTypes.ErrorsListItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComprehendClientTypes.ErrorsListItem()
@@ -7448,16 +6986,6 @@ extension ComprehendClientTypes.EventsDetectionJobFilter {
         try writer["SubmitTimeAfter"].writeTimestamp(value.submitTimeAfter, format: .epochSeconds)
         try writer["SubmitTimeBefore"].writeTimestamp(value.submitTimeBefore, format: .epochSeconds)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ComprehendClientTypes.EventsDetectionJobFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComprehendClientTypes.EventsDetectionJobFilter()
-        value.jobName = try reader["JobName"].readIfPresent()
-        value.jobStatus = try reader["JobStatus"].readIfPresent()
-        value.submitTimeBefore = try reader["SubmitTimeBefore"].readTimestampIfPresent(format: .epochSeconds)
-        value.submitTimeAfter = try reader["SubmitTimeAfter"].readTimestampIfPresent(format: .epochSeconds)
-        return value
-    }
 }
 
 extension ComprehendClientTypes {
@@ -7489,22 +7017,6 @@ extension ComprehendClientTypes {
 }
 
 extension ComprehendClientTypes.EventsDetectionJobProperties {
-
-    static func write(value: ComprehendClientTypes.EventsDetectionJobProperties?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DataAccessRoleArn"].write(value.dataAccessRoleArn)
-        try writer["EndTime"].writeTimestamp(value.endTime, format: .epochSeconds)
-        try writer["InputDataConfig"].write(value.inputDataConfig, with: ComprehendClientTypes.InputDataConfig.write(value:to:))
-        try writer["JobArn"].write(value.jobArn)
-        try writer["JobId"].write(value.jobId)
-        try writer["JobName"].write(value.jobName)
-        try writer["JobStatus"].write(value.jobStatus)
-        try writer["LanguageCode"].write(value.languageCode)
-        try writer["Message"].write(value.message)
-        try writer["OutputDataConfig"].write(value.outputDataConfig, with: ComprehendClientTypes.OutputDataConfig.write(value:to:))
-        try writer["SubmitTime"].writeTimestamp(value.submitTime, format: .epochSeconds)
-        try writer["TargetEventTypes"].writeList(value.targetEventTypes, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ComprehendClientTypes.EventsDetectionJobProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7587,12 +7099,6 @@ extension ComprehendClientTypes {
 
 extension ComprehendClientTypes.ExtractedCharactersListItem {
 
-    static func write(value: ComprehendClientTypes.ExtractedCharactersListItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Count"].write(value.count)
-        try writer["Page"].write(value.page)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ComprehendClientTypes.ExtractedCharactersListItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComprehendClientTypes.ExtractedCharactersListItem()
@@ -7630,15 +7136,6 @@ extension ComprehendClientTypes.FlywheelFilter {
         try writer["CreationTimeBefore"].writeTimestamp(value.creationTimeBefore, format: .epochSeconds)
         try writer["Status"].write(value.status)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ComprehendClientTypes.FlywheelFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComprehendClientTypes.FlywheelFilter()
-        value.status = try reader["Status"].readIfPresent()
-        value.creationTimeAfter = try reader["CreationTimeAfter"].readTimestampIfPresent(format: .epochSeconds)
-        value.creationTimeBefore = try reader["CreationTimeBefore"].readTimestampIfPresent(format: .epochSeconds)
-        return value
-    }
 }
 
 extension ComprehendClientTypes {
@@ -7672,14 +7169,6 @@ extension ComprehendClientTypes.FlywheelIterationFilter {
         try writer["CreationTimeAfter"].writeTimestamp(value.creationTimeAfter, format: .epochSeconds)
         try writer["CreationTimeBefore"].writeTimestamp(value.creationTimeBefore, format: .epochSeconds)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ComprehendClientTypes.FlywheelIterationFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComprehendClientTypes.FlywheelIterationFilter()
-        value.creationTimeAfter = try reader["CreationTimeAfter"].readTimestampIfPresent(format: .epochSeconds)
-        value.creationTimeBefore = try reader["CreationTimeBefore"].readTimestampIfPresent(format: .epochSeconds)
-        return value
-    }
 }
 
 extension ComprehendClientTypes {
@@ -7703,21 +7192,6 @@ extension ComprehendClientTypes {
 }
 
 extension ComprehendClientTypes.FlywheelIterationProperties {
-
-    static func write(value: ComprehendClientTypes.FlywheelIterationProperties?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["EndTime"].writeTimestamp(value.endTime, format: .epochSeconds)
-        try writer["EvaluatedModelArn"].write(value.evaluatedModelArn)
-        try writer["EvaluatedModelMetrics"].write(value.evaluatedModelMetrics, with: ComprehendClientTypes.FlywheelModelEvaluationMetrics.write(value:to:))
-        try writer["EvaluationManifestS3Prefix"].write(value.evaluationManifestS3Prefix)
-        try writer["FlywheelArn"].write(value.flywheelArn)
-        try writer["FlywheelIterationId"].write(value.flywheelIterationId)
-        try writer["Message"].write(value.message)
-        try writer["Status"].write(value.status)
-        try writer["TrainedModelArn"].write(value.trainedModelArn)
-        try writer["TrainedModelMetrics"].write(value.trainedModelMetrics, with: ComprehendClientTypes.FlywheelModelEvaluationMetrics.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ComprehendClientTypes.FlywheelIterationProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7837,14 +7311,6 @@ extension ComprehendClientTypes {
 
 extension ComprehendClientTypes.FlywheelModelEvaluationMetrics {
 
-    static func write(value: ComprehendClientTypes.FlywheelModelEvaluationMetrics?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AverageAccuracy"].write(value.averageAccuracy)
-        try writer["AverageF1Score"].write(value.averageF1Score)
-        try writer["AveragePrecision"].write(value.averagePrecision)
-        try writer["AverageRecall"].write(value.averageRecall)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ComprehendClientTypes.FlywheelModelEvaluationMetrics {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComprehendClientTypes.FlywheelModelEvaluationMetrics()
@@ -7885,22 +7351,6 @@ extension ComprehendClientTypes {
 }
 
 extension ComprehendClientTypes.FlywheelProperties {
-
-    static func write(value: ComprehendClientTypes.FlywheelProperties?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ActiveModelArn"].write(value.activeModelArn)
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["DataAccessRoleArn"].write(value.dataAccessRoleArn)
-        try writer["DataLakeS3Uri"].write(value.dataLakeS3Uri)
-        try writer["DataSecurityConfig"].write(value.dataSecurityConfig, with: ComprehendClientTypes.DataSecurityConfig.write(value:to:))
-        try writer["FlywheelArn"].write(value.flywheelArn)
-        try writer["LastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .epochSeconds)
-        try writer["LatestFlywheelIteration"].write(value.latestFlywheelIteration)
-        try writer["Message"].write(value.message)
-        try writer["ModelType"].write(value.modelType)
-        try writer["Status"].write(value.status)
-        try writer["TaskConfig"].write(value.taskConfig, with: ComprehendClientTypes.TaskConfig.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ComprehendClientTypes.FlywheelProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8022,19 +7472,6 @@ extension ComprehendClientTypes {
 
 extension ComprehendClientTypes.FlywheelSummary {
 
-    static func write(value: ComprehendClientTypes.FlywheelSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ActiveModelArn"].write(value.activeModelArn)
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["DataLakeS3Uri"].write(value.dataLakeS3Uri)
-        try writer["FlywheelArn"].write(value.flywheelArn)
-        try writer["LastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .epochSeconds)
-        try writer["LatestFlywheelIteration"].write(value.latestFlywheelIteration)
-        try writer["Message"].write(value.message)
-        try writer["ModelType"].write(value.modelType)
-        try writer["Status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ComprehendClientTypes.FlywheelSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComprehendClientTypes.FlywheelSummary()
@@ -8100,12 +7537,6 @@ extension ComprehendClientTypes {
 }
 
 extension ComprehendClientTypes.Geometry {
-
-    static func write(value: ComprehendClientTypes.Geometry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BoundingBox"].write(value.boundingBox, with: ComprehendClientTypes.BoundingBox.write(value:to:))
-        try writer["Polygon"].writeList(value.polygon, memberWritingClosure: ComprehendClientTypes.Point.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ComprehendClientTypes.Geometry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8393,11 +7824,6 @@ public struct InvalidFilterException: ClientRuntime.ModeledError, AWSClientRunti
 
 extension ComprehendClientTypes.InvalidRequestDetail {
 
-    static func write(value: ComprehendClientTypes.InvalidRequestDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Reason"].write(value.reason)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ComprehendClientTypes.InvalidRequestDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComprehendClientTypes.InvalidRequestDetail()
@@ -8626,14 +8052,6 @@ extension ComprehendClientTypes {
 
 extension ComprehendClientTypes.KeyPhrase {
 
-    static func write(value: ComprehendClientTypes.KeyPhrase?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BeginOffset"].write(value.beginOffset)
-        try writer["EndOffset"].write(value.endOffset)
-        try writer["Score"].write(value.score)
-        try writer["Text"].write(value.text)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ComprehendClientTypes.KeyPhrase {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComprehendClientTypes.KeyPhrase()
@@ -8682,16 +8100,6 @@ extension ComprehendClientTypes.KeyPhrasesDetectionJobFilter {
         try writer["SubmitTimeAfter"].writeTimestamp(value.submitTimeAfter, format: .epochSeconds)
         try writer["SubmitTimeBefore"].writeTimestamp(value.submitTimeBefore, format: .epochSeconds)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ComprehendClientTypes.KeyPhrasesDetectionJobFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComprehendClientTypes.KeyPhrasesDetectionJobFilter()
-        value.jobName = try reader["JobName"].readIfPresent()
-        value.jobStatus = try reader["JobStatus"].readIfPresent()
-        value.submitTimeBefore = try reader["SubmitTimeBefore"].readTimestampIfPresent(format: .epochSeconds)
-        value.submitTimeAfter = try reader["SubmitTimeAfter"].readTimestampIfPresent(format: .epochSeconds)
-        return value
-    }
 }
 
 extension ComprehendClientTypes {
@@ -8723,23 +8131,6 @@ extension ComprehendClientTypes {
 }
 
 extension ComprehendClientTypes.KeyPhrasesDetectionJobProperties {
-
-    static func write(value: ComprehendClientTypes.KeyPhrasesDetectionJobProperties?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DataAccessRoleArn"].write(value.dataAccessRoleArn)
-        try writer["EndTime"].writeTimestamp(value.endTime, format: .epochSeconds)
-        try writer["InputDataConfig"].write(value.inputDataConfig, with: ComprehendClientTypes.InputDataConfig.write(value:to:))
-        try writer["JobArn"].write(value.jobArn)
-        try writer["JobId"].write(value.jobId)
-        try writer["JobName"].write(value.jobName)
-        try writer["JobStatus"].write(value.jobStatus)
-        try writer["LanguageCode"].write(value.languageCode)
-        try writer["Message"].write(value.message)
-        try writer["OutputDataConfig"].write(value.outputDataConfig, with: ComprehendClientTypes.OutputDataConfig.write(value:to:))
-        try writer["SubmitTime"].writeTimestamp(value.submitTime, format: .epochSeconds)
-        try writer["VolumeKmsKeyId"].write(value.volumeKmsKeyId)
-        try writer["VpcConfig"].write(value.vpcConfig, with: ComprehendClientTypes.VpcConfig.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ComprehendClientTypes.KeyPhrasesDetectionJobProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -10412,12 +9803,6 @@ enum ListTopicsDetectionJobsOutputError {
 
 extension ComprehendClientTypes.MentionSentiment {
 
-    static func write(value: ComprehendClientTypes.MentionSentiment?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Sentiment"].write(value.sentiment)
-        try writer["SentimentScore"].write(value.sentimentScore, with: ComprehendClientTypes.SentimentScore.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ComprehendClientTypes.MentionSentiment {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComprehendClientTypes.MentionSentiment()
@@ -10642,12 +10027,6 @@ extension ComprehendClientTypes {
 
 extension ComprehendClientTypes.PartOfSpeechTag {
 
-    static func write(value: ComprehendClientTypes.PartOfSpeechTag?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Score"].write(value.score)
-        try writer["Tag"].write(value.tag)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ComprehendClientTypes.PartOfSpeechTag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComprehendClientTypes.PartOfSpeechTag()
@@ -10764,16 +10143,6 @@ extension ComprehendClientTypes.PiiEntitiesDetectionJobFilter {
         try writer["SubmitTimeAfter"].writeTimestamp(value.submitTimeAfter, format: .epochSeconds)
         try writer["SubmitTimeBefore"].writeTimestamp(value.submitTimeBefore, format: .epochSeconds)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ComprehendClientTypes.PiiEntitiesDetectionJobFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComprehendClientTypes.PiiEntitiesDetectionJobFilter()
-        value.jobName = try reader["JobName"].readIfPresent()
-        value.jobStatus = try reader["JobStatus"].readIfPresent()
-        value.submitTimeBefore = try reader["SubmitTimeBefore"].readTimestampIfPresent(format: .epochSeconds)
-        value.submitTimeAfter = try reader["SubmitTimeAfter"].readTimestampIfPresent(format: .epochSeconds)
-        return value
-    }
 }
 
 extension ComprehendClientTypes {
@@ -10805,23 +10174,6 @@ extension ComprehendClientTypes {
 }
 
 extension ComprehendClientTypes.PiiEntitiesDetectionJobProperties {
-
-    static func write(value: ComprehendClientTypes.PiiEntitiesDetectionJobProperties?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DataAccessRoleArn"].write(value.dataAccessRoleArn)
-        try writer["EndTime"].writeTimestamp(value.endTime, format: .epochSeconds)
-        try writer["InputDataConfig"].write(value.inputDataConfig, with: ComprehendClientTypes.InputDataConfig.write(value:to:))
-        try writer["JobArn"].write(value.jobArn)
-        try writer["JobId"].write(value.jobId)
-        try writer["JobName"].write(value.jobName)
-        try writer["JobStatus"].write(value.jobStatus)
-        try writer["LanguageCode"].write(value.languageCode)
-        try writer["Message"].write(value.message)
-        try writer["Mode"].write(value.mode)
-        try writer["OutputDataConfig"].write(value.outputDataConfig, with: ComprehendClientTypes.PiiOutputDataConfig.write(value:to:))
-        try writer["RedactionConfig"].write(value.redactionConfig, with: ComprehendClientTypes.RedactionConfig.write(value:to:))
-        try writer["SubmitTime"].writeTimestamp(value.submitTime, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ComprehendClientTypes.PiiEntitiesDetectionJobProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -10968,14 +10320,6 @@ extension ComprehendClientTypes {
 }
 
 extension ComprehendClientTypes.PiiEntity {
-
-    static func write(value: ComprehendClientTypes.PiiEntity?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BeginOffset"].write(value.beginOffset)
-        try writer["EndOffset"].write(value.endOffset)
-        try writer["Score"].write(value.score)
-        try writer["Type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ComprehendClientTypes.PiiEntity {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -11153,12 +10497,6 @@ extension ComprehendClientTypes {
 
 extension ComprehendClientTypes.PiiOutputDataConfig {
 
-    static func write(value: ComprehendClientTypes.PiiOutputDataConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["KmsKeyId"].write(value.kmsKeyId)
-        try writer["S3Uri"].write(value.s3Uri)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ComprehendClientTypes.PiiOutputDataConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComprehendClientTypes.PiiOutputDataConfig()
@@ -11190,12 +10528,6 @@ extension ComprehendClientTypes {
 }
 
 extension ComprehendClientTypes.Point {
-
-    static func write(value: ComprehendClientTypes.Point?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["X"].write(value.x)
-        try writer["Y"].write(value.y)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ComprehendClientTypes.Point {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -11376,12 +10708,6 @@ extension ComprehendClientTypes {
 }
 
 extension ComprehendClientTypes.RelationshipsListItem {
-
-    static func write(value: ComprehendClientTypes.RelationshipsListItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Ids"].writeList(value.ids, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ComprehendClientTypes.RelationshipsListItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -11569,16 +10895,6 @@ extension ComprehendClientTypes.SentimentDetectionJobFilter {
         try writer["SubmitTimeAfter"].writeTimestamp(value.submitTimeAfter, format: .epochSeconds)
         try writer["SubmitTimeBefore"].writeTimestamp(value.submitTimeBefore, format: .epochSeconds)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ComprehendClientTypes.SentimentDetectionJobFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComprehendClientTypes.SentimentDetectionJobFilter()
-        value.jobName = try reader["JobName"].readIfPresent()
-        value.jobStatus = try reader["JobStatus"].readIfPresent()
-        value.submitTimeBefore = try reader["SubmitTimeBefore"].readTimestampIfPresent(format: .epochSeconds)
-        value.submitTimeAfter = try reader["SubmitTimeAfter"].readTimestampIfPresent(format: .epochSeconds)
-        return value
-    }
 }
 
 extension ComprehendClientTypes {
@@ -11610,23 +10926,6 @@ extension ComprehendClientTypes {
 }
 
 extension ComprehendClientTypes.SentimentDetectionJobProperties {
-
-    static func write(value: ComprehendClientTypes.SentimentDetectionJobProperties?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DataAccessRoleArn"].write(value.dataAccessRoleArn)
-        try writer["EndTime"].writeTimestamp(value.endTime, format: .epochSeconds)
-        try writer["InputDataConfig"].write(value.inputDataConfig, with: ComprehendClientTypes.InputDataConfig.write(value:to:))
-        try writer["JobArn"].write(value.jobArn)
-        try writer["JobId"].write(value.jobId)
-        try writer["JobName"].write(value.jobName)
-        try writer["JobStatus"].write(value.jobStatus)
-        try writer["LanguageCode"].write(value.languageCode)
-        try writer["Message"].write(value.message)
-        try writer["OutputDataConfig"].write(value.outputDataConfig, with: ComprehendClientTypes.OutputDataConfig.write(value:to:))
-        try writer["SubmitTime"].writeTimestamp(value.submitTime, format: .epochSeconds)
-        try writer["VolumeKmsKeyId"].write(value.volumeKmsKeyId)
-        try writer["VpcConfig"].write(value.vpcConfig, with: ComprehendClientTypes.VpcConfig.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ComprehendClientTypes.SentimentDetectionJobProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -11717,14 +11016,6 @@ extension ComprehendClientTypes {
 }
 
 extension ComprehendClientTypes.SentimentScore {
-
-    static func write(value: ComprehendClientTypes.SentimentScore?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Mixed"].write(value.mixed)
-        try writer["Negative"].write(value.negative)
-        try writer["Neutral"].write(value.neutral)
-        try writer["Positive"].write(value.positive)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ComprehendClientTypes.SentimentScore {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -13806,15 +13097,6 @@ extension ComprehendClientTypes {
 
 extension ComprehendClientTypes.SyntaxToken {
 
-    static func write(value: ComprehendClientTypes.SyntaxToken?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BeginOffset"].write(value.beginOffset)
-        try writer["EndOffset"].write(value.endOffset)
-        try writer["PartOfSpeech"].write(value.partOfSpeech, with: ComprehendClientTypes.PartOfSpeechTag.write(value:to:))
-        try writer["Text"].write(value.text)
-        try writer["TokenId"].write(value.tokenId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ComprehendClientTypes.SyntaxToken {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComprehendClientTypes.SyntaxToken()
@@ -13970,16 +13252,6 @@ extension ComprehendClientTypes.TargetedSentimentDetectionJobFilter {
         try writer["SubmitTimeAfter"].writeTimestamp(value.submitTimeAfter, format: .epochSeconds)
         try writer["SubmitTimeBefore"].writeTimestamp(value.submitTimeBefore, format: .epochSeconds)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ComprehendClientTypes.TargetedSentimentDetectionJobFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComprehendClientTypes.TargetedSentimentDetectionJobFilter()
-        value.jobName = try reader["JobName"].readIfPresent()
-        value.jobStatus = try reader["JobStatus"].readIfPresent()
-        value.submitTimeBefore = try reader["SubmitTimeBefore"].readTimestampIfPresent(format: .epochSeconds)
-        value.submitTimeAfter = try reader["SubmitTimeAfter"].readTimestampIfPresent(format: .epochSeconds)
-        return value
-    }
 }
 
 extension ComprehendClientTypes {
@@ -14011,23 +13283,6 @@ extension ComprehendClientTypes {
 }
 
 extension ComprehendClientTypes.TargetedSentimentDetectionJobProperties {
-
-    static func write(value: ComprehendClientTypes.TargetedSentimentDetectionJobProperties?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DataAccessRoleArn"].write(value.dataAccessRoleArn)
-        try writer["EndTime"].writeTimestamp(value.endTime, format: .epochSeconds)
-        try writer["InputDataConfig"].write(value.inputDataConfig, with: ComprehendClientTypes.InputDataConfig.write(value:to:))
-        try writer["JobArn"].write(value.jobArn)
-        try writer["JobId"].write(value.jobId)
-        try writer["JobName"].write(value.jobName)
-        try writer["JobStatus"].write(value.jobStatus)
-        try writer["LanguageCode"].write(value.languageCode)
-        try writer["Message"].write(value.message)
-        try writer["OutputDataConfig"].write(value.outputDataConfig, with: ComprehendClientTypes.OutputDataConfig.write(value:to:))
-        try writer["SubmitTime"].writeTimestamp(value.submitTime, format: .epochSeconds)
-        try writer["VolumeKmsKeyId"].write(value.volumeKmsKeyId)
-        try writer["VpcConfig"].write(value.vpcConfig, with: ComprehendClientTypes.VpcConfig.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ComprehendClientTypes.TargetedSentimentDetectionJobProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -14118,12 +13373,6 @@ extension ComprehendClientTypes {
 }
 
 extension ComprehendClientTypes.TargetedSentimentEntity {
-
-    static func write(value: ComprehendClientTypes.TargetedSentimentEntity?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DescriptiveMentionIndex"].writeList(value.descriptiveMentionIndex, memberWritingClosure: Swift.Int.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Mentions"].writeList(value.mentions, memberWritingClosure: ComprehendClientTypes.TargetedSentimentMention.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ComprehendClientTypes.TargetedSentimentEntity {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -14230,17 +13479,6 @@ extension ComprehendClientTypes {
 }
 
 extension ComprehendClientTypes.TargetedSentimentMention {
-
-    static func write(value: ComprehendClientTypes.TargetedSentimentMention?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BeginOffset"].write(value.beginOffset)
-        try writer["EndOffset"].write(value.endOffset)
-        try writer["GroupScore"].write(value.groupScore)
-        try writer["MentionSentiment"].write(value.mentionSentiment, with: ComprehendClientTypes.MentionSentiment.write(value:to:))
-        try writer["Score"].write(value.score)
-        try writer["Text"].write(value.text)
-        try writer["Type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ComprehendClientTypes.TargetedSentimentMention {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -14350,13 +13588,6 @@ extension ComprehendClientTypes.TextSegment {
     static func write(value: ComprehendClientTypes.TextSegment?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Text"].write(value.text)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ComprehendClientTypes.TextSegment {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComprehendClientTypes.TextSegment()
-        value.text = try reader["Text"].readIfPresent()
-        return value
     }
 }
 
@@ -14534,16 +13765,6 @@ extension ComprehendClientTypes.TopicsDetectionJobFilter {
         try writer["SubmitTimeAfter"].writeTimestamp(value.submitTimeAfter, format: .epochSeconds)
         try writer["SubmitTimeBefore"].writeTimestamp(value.submitTimeBefore, format: .epochSeconds)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ComprehendClientTypes.TopicsDetectionJobFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComprehendClientTypes.TopicsDetectionJobFilter()
-        value.jobName = try reader["JobName"].readIfPresent()
-        value.jobStatus = try reader["JobStatus"].readIfPresent()
-        value.submitTimeBefore = try reader["SubmitTimeBefore"].readTimestampIfPresent(format: .epochSeconds)
-        value.submitTimeAfter = try reader["SubmitTimeAfter"].readTimestampIfPresent(format: .epochSeconds)
-        return value
-    }
 }
 
 extension ComprehendClientTypes {
@@ -14575,23 +13796,6 @@ extension ComprehendClientTypes {
 }
 
 extension ComprehendClientTypes.TopicsDetectionJobProperties {
-
-    static func write(value: ComprehendClientTypes.TopicsDetectionJobProperties?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DataAccessRoleArn"].write(value.dataAccessRoleArn)
-        try writer["EndTime"].writeTimestamp(value.endTime, format: .epochSeconds)
-        try writer["InputDataConfig"].write(value.inputDataConfig, with: ComprehendClientTypes.InputDataConfig.write(value:to:))
-        try writer["JobArn"].write(value.jobArn)
-        try writer["JobId"].write(value.jobId)
-        try writer["JobName"].write(value.jobName)
-        try writer["JobStatus"].write(value.jobStatus)
-        try writer["Message"].write(value.message)
-        try writer["NumberOfTopics"].write(value.numberOfTopics)
-        try writer["OutputDataConfig"].write(value.outputDataConfig, with: ComprehendClientTypes.OutputDataConfig.write(value:to:))
-        try writer["SubmitTime"].writeTimestamp(value.submitTime, format: .epochSeconds)
-        try writer["VolumeKmsKeyId"].write(value.volumeKmsKeyId)
-        try writer["VpcConfig"].write(value.vpcConfig, with: ComprehendClientTypes.VpcConfig.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ComprehendClientTypes.TopicsDetectionJobProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -14683,12 +13887,6 @@ extension ComprehendClientTypes {
 
 extension ComprehendClientTypes.ToxicContent {
 
-    static func write(value: ComprehendClientTypes.ToxicContent?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["Score"].write(value.score)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ComprehendClientTypes.ToxicContent {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComprehendClientTypes.ToxicContent()
@@ -14764,12 +13962,6 @@ extension ComprehendClientTypes {
 }
 
 extension ComprehendClientTypes.ToxicLabels {
-
-    static func write(value: ComprehendClientTypes.ToxicLabels?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Labels"].writeList(value.labels, memberWritingClosure: ComprehendClientTypes.ToxicContent.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Toxicity"].write(value.toxicity)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ComprehendClientTypes.ToxicLabels {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -14908,15 +14100,6 @@ extension ComprehendClientTypes.UpdateDataSecurityConfig {
         try writer["ModelKmsKeyId"].write(value.modelKmsKeyId)
         try writer["VolumeKmsKeyId"].write(value.volumeKmsKeyId)
         try writer["VpcConfig"].write(value.vpcConfig, with: ComprehendClientTypes.VpcConfig.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ComprehendClientTypes.UpdateDataSecurityConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComprehendClientTypes.UpdateDataSecurityConfig()
-        value.modelKmsKeyId = try reader["ModelKmsKeyId"].readIfPresent()
-        value.volumeKmsKeyId = try reader["VolumeKmsKeyId"].readIfPresent()
-        value.vpcConfig = try reader["VpcConfig"].readIfPresent(with: ComprehendClientTypes.VpcConfig.read(from:))
-        return value
     }
 }
 
@@ -15165,13 +14348,6 @@ extension ComprehendClientTypes {
 }
 
 extension ComprehendClientTypes.WarningsListItem {
-
-    static func write(value: ComprehendClientTypes.WarningsListItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Page"].write(value.page)
-        try writer["WarnCode"].write(value.warnCode)
-        try writer["WarnMessage"].write(value.warnMessage)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ComprehendClientTypes.WarningsListItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

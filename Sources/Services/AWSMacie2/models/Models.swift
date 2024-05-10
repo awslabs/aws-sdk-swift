@@ -76,12 +76,6 @@ enum AcceptInvitationOutputError {
 
 extension Macie2ClientTypes.AccessControlList {
 
-    static func write(value: Macie2ClientTypes.AccessControlList?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["allowsPublicReadAccess"].write(value.allowsPublicReadAccess)
-        try writer["allowsPublicWriteAccess"].write(value.allowsPublicWriteAccess)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.AccessControlList {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Macie2ClientTypes.AccessControlList()
@@ -156,14 +150,6 @@ extension Macie2ClientTypes.AccountDetail {
         try writer["accountId"].write(value.accountId)
         try writer["email"].write(value.email)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.AccountDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Macie2ClientTypes.AccountDetail()
-        value.accountId = try reader["accountId"].readIfPresent()
-        value.email = try reader["email"].readIfPresent()
-        return value
-    }
 }
 
 extension Macie2ClientTypes {
@@ -190,11 +176,6 @@ extension Macie2ClientTypes {
 
 extension Macie2ClientTypes.AccountLevelPermissions {
 
-    static func write(value: Macie2ClientTypes.AccountLevelPermissions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["blockPublicAccess"].write(value.blockPublicAccess, with: Macie2ClientTypes.BlockPublicAccess.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.AccountLevelPermissions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Macie2ClientTypes.AccountLevelPermissions()
@@ -220,12 +201,6 @@ extension Macie2ClientTypes {
 }
 
 extension Macie2ClientTypes.AdminAccount {
-
-    static func write(value: Macie2ClientTypes.AdminAccount?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["accountId"].write(value.accountId)
-        try writer["status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.AdminAccount {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -326,12 +301,6 @@ extension Macie2ClientTypes {
 
 extension Macie2ClientTypes.AllowListStatus {
 
-    static func write(value: Macie2ClientTypes.AllowListStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["code"].write(value.code)
-        try writer["description"].write(value.description)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.AllowListStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Macie2ClientTypes.AllowListStatus()
@@ -429,16 +398,6 @@ extension Macie2ClientTypes {
 
 extension Macie2ClientTypes.AllowListSummary {
 
-    static func write(value: Macie2ClientTypes.AllowListSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .dateTime)
-        try writer["description"].write(value.description)
-        try writer["id"].write(value.id)
-        try writer["name"].write(value.name)
-        try writer["updatedAt"].writeTimestamp(value.updatedAt, format: .dateTime)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.AllowListSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Macie2ClientTypes.AllowListSummary()
@@ -523,14 +482,6 @@ extension Macie2ClientTypes {
 
 extension Macie2ClientTypes.ApiCallDetails {
 
-    static func write(value: Macie2ClientTypes.ApiCallDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["api"].write(value.api)
-        try writer["apiServiceName"].write(value.apiServiceName)
-        try writer["firstSeen"].writeTimestamp(value.firstSeen, format: .dateTime)
-        try writer["lastSeen"].writeTimestamp(value.lastSeen, format: .dateTime)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.ApiCallDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Macie2ClientTypes.ApiCallDetails()
@@ -571,15 +522,6 @@ extension Macie2ClientTypes {
 }
 
 extension Macie2ClientTypes.AssumedRole {
-
-    static func write(value: Macie2ClientTypes.AssumedRole?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["accessKeyId"].write(value.accessKeyId)
-        try writer["accountId"].write(value.accountId)
-        try writer["arn"].write(value.arn)
-        try writer["principalId"].write(value.principalId)
-        try writer["sessionContext"].write(value.sessionContext, with: Macie2ClientTypes.SessionContext.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.AssumedRole {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -689,12 +631,6 @@ extension Macie2ClientTypes {
 
 extension Macie2ClientTypes.AwsAccount {
 
-    static func write(value: Macie2ClientTypes.AwsAccount?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["accountId"].write(value.accountId)
-        try writer["principalId"].write(value.principalId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.AwsAccount {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Macie2ClientTypes.AwsAccount()
@@ -726,11 +662,6 @@ extension Macie2ClientTypes {
 
 extension Macie2ClientTypes.AwsService {
 
-    static func write(value: Macie2ClientTypes.AwsService?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["invokedBy"].write(value.invokedBy)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.AwsService {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Macie2ClientTypes.AwsService()
@@ -756,16 +687,6 @@ extension Macie2ClientTypes {
 }
 
 extension Macie2ClientTypes.BatchGetCustomDataIdentifierSummary {
-
-    static func write(value: Macie2ClientTypes.BatchGetCustomDataIdentifierSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .dateTime)
-        try writer["deleted"].write(value.deleted)
-        try writer["description"].write(value.description)
-        try writer["id"].write(value.id)
-        try writer["name"].write(value.name)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.BatchGetCustomDataIdentifierSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -894,14 +815,6 @@ enum BatchGetCustomDataIdentifiersOutputError {
 
 extension Macie2ClientTypes.BlockPublicAccess {
 
-    static func write(value: Macie2ClientTypes.BlockPublicAccess?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["blockPublicAcls"].write(value.blockPublicAcls)
-        try writer["blockPublicPolicy"].write(value.blockPublicPolicy)
-        try writer["ignorePublicAcls"].write(value.ignorePublicAcls)
-        try writer["restrictPublicBuckets"].write(value.restrictPublicBuckets)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.BlockPublicAccess {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Macie2ClientTypes.BlockPublicAccess()
@@ -942,14 +855,6 @@ extension Macie2ClientTypes {
 }
 
 extension Macie2ClientTypes.BucketCountByEffectivePermission {
-
-    static func write(value: Macie2ClientTypes.BucketCountByEffectivePermission?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["publiclyAccessible"].write(value.publiclyAccessible)
-        try writer["publiclyReadable"].write(value.publiclyReadable)
-        try writer["publiclyWritable"].write(value.publiclyWritable)
-        try writer["unknown"].write(value.unknown)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.BucketCountByEffectivePermission {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -992,14 +897,6 @@ extension Macie2ClientTypes {
 
 extension Macie2ClientTypes.BucketCountByEncryptionType {
 
-    static func write(value: Macie2ClientTypes.BucketCountByEncryptionType?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["kmsManaged"].write(value.kmsManaged)
-        try writer["s3Managed"].write(value.s3Managed)
-        try writer["unencrypted"].write(value.unencrypted)
-        try writer["unknown"].write(value.unknown)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.BucketCountByEncryptionType {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Macie2ClientTypes.BucketCountByEncryptionType()
@@ -1041,14 +938,6 @@ extension Macie2ClientTypes {
 
 extension Macie2ClientTypes.BucketCountBySharedAccessType {
 
-    static func write(value: Macie2ClientTypes.BucketCountBySharedAccessType?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["external"].write(value.external)
-        try writer["internal"].write(value.`internal`)
-        try writer["notShared"].write(value.notShared)
-        try writer["unknown"].write(value.unknown)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.BucketCountBySharedAccessType {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Macie2ClientTypes.BucketCountBySharedAccessType()
@@ -1089,13 +978,6 @@ extension Macie2ClientTypes {
 }
 
 extension Macie2ClientTypes.BucketCountPolicyAllowsUnencryptedObjectUploads {
-
-    static func write(value: Macie2ClientTypes.BucketCountPolicyAllowsUnencryptedObjectUploads?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["allowsUnencryptedObjectUploads"].write(value.allowsUnencryptedObjectUploads)
-        try writer["deniesUnencryptedObjectUploads"].write(value.deniesUnencryptedObjectUploads)
-        try writer["unknown"].write(value.unknown)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.BucketCountPolicyAllowsUnencryptedObjectUploads {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1143,19 +1025,6 @@ extension Macie2ClientTypes.BucketCriteriaAdditionalProperties {
         try writer["neq"].writeList(value.neq, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["prefix"].write(value.`prefix`)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.BucketCriteriaAdditionalProperties {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Macie2ClientTypes.BucketCriteriaAdditionalProperties()
-        value.eq = try reader["eq"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.gt = try reader["gt"].readIfPresent()
-        value.gte = try reader["gte"].readIfPresent()
-        value.lt = try reader["lt"].readIfPresent()
-        value.lte = try reader["lte"].readIfPresent()
-        value.neq = try reader["neq"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.`prefix` = try reader["prefix"].readIfPresent()
-        return value
-    }
 }
 
 extension Macie2ClientTypes {
@@ -1200,13 +1069,6 @@ extension Macie2ClientTypes {
 
 extension Macie2ClientTypes.BucketLevelPermissions {
 
-    static func write(value: Macie2ClientTypes.BucketLevelPermissions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["accessControlList"].write(value.accessControlList, with: Macie2ClientTypes.AccessControlList.write(value:to:))
-        try writer["blockPublicAccess"].write(value.blockPublicAccess, with: Macie2ClientTypes.BlockPublicAccess.write(value:to:))
-        try writer["bucketPolicy"].write(value.bucketPolicy, with: Macie2ClientTypes.BucketPolicy.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.BucketLevelPermissions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Macie2ClientTypes.BucketLevelPermissions()
@@ -1242,36 +1104,6 @@ extension Macie2ClientTypes {
 }
 
 extension Macie2ClientTypes.BucketMetadata {
-
-    static func write(value: Macie2ClientTypes.BucketMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["accountId"].write(value.accountId)
-        try writer["allowsUnencryptedObjectUploads"].write(value.allowsUnencryptedObjectUploads)
-        try writer["bucketArn"].write(value.bucketArn)
-        try writer["bucketCreatedAt"].writeTimestamp(value.bucketCreatedAt, format: .dateTime)
-        try writer["bucketName"].write(value.bucketName)
-        try writer["classifiableObjectCount"].write(value.classifiableObjectCount)
-        try writer["classifiableSizeInBytes"].write(value.classifiableSizeInBytes)
-        try writer["errorCode"].write(value.errorCode)
-        try writer["errorMessage"].write(value.errorMessage)
-        try writer["jobDetails"].write(value.jobDetails, with: Macie2ClientTypes.JobDetails.write(value:to:))
-        try writer["lastAutomatedDiscoveryTime"].writeTimestamp(value.lastAutomatedDiscoveryTime, format: .dateTime)
-        try writer["lastUpdated"].writeTimestamp(value.lastUpdated, format: .dateTime)
-        try writer["objectCount"].write(value.objectCount)
-        try writer["objectCountByEncryptionType"].write(value.objectCountByEncryptionType, with: Macie2ClientTypes.ObjectCountByEncryptionType.write(value:to:))
-        try writer["publicAccess"].write(value.publicAccess, with: Macie2ClientTypes.BucketPublicAccess.write(value:to:))
-        try writer["region"].write(value.region)
-        try writer["replicationDetails"].write(value.replicationDetails, with: Macie2ClientTypes.ReplicationDetails.write(value:to:))
-        try writer["sensitivityScore"].write(value.sensitivityScore)
-        try writer["serverSideEncryption"].write(value.serverSideEncryption, with: Macie2ClientTypes.BucketServerSideEncryption.write(value:to:))
-        try writer["sharedAccess"].write(value.sharedAccess)
-        try writer["sizeInBytes"].write(value.sizeInBytes)
-        try writer["sizeInBytesCompressed"].write(value.sizeInBytesCompressed)
-        try writer["tags"].writeList(value.tags, memberWritingClosure: Macie2ClientTypes.KeyValuePair.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["unclassifiableObjectCount"].write(value.unclassifiableObjectCount, with: Macie2ClientTypes.ObjectLevelStatistics.write(value:to:))
-        try writer["unclassifiableObjectSizeInBytes"].write(value.unclassifiableObjectSizeInBytes, with: Macie2ClientTypes.ObjectLevelStatistics.write(value:to:))
-        try writer["versioning"].write(value.versioning)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.BucketMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1472,12 +1304,6 @@ extension Macie2ClientTypes {
 
 extension Macie2ClientTypes.BucketPermissionConfiguration {
 
-    static func write(value: Macie2ClientTypes.BucketPermissionConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["accountLevelPermissions"].write(value.accountLevelPermissions, with: Macie2ClientTypes.AccountLevelPermissions.write(value:to:))
-        try writer["bucketLevelPermissions"].write(value.bucketLevelPermissions, with: Macie2ClientTypes.BucketLevelPermissions.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.BucketPermissionConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Macie2ClientTypes.BucketPermissionConfiguration()
@@ -1509,12 +1335,6 @@ extension Macie2ClientTypes {
 
 extension Macie2ClientTypes.BucketPolicy {
 
-    static func write(value: Macie2ClientTypes.BucketPolicy?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["allowsPublicReadAccess"].write(value.allowsPublicReadAccess)
-        try writer["allowsPublicWriteAccess"].write(value.allowsPublicWriteAccess)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.BucketPolicy {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Macie2ClientTypes.BucketPolicy()
@@ -1545,12 +1365,6 @@ extension Macie2ClientTypes {
 }
 
 extension Macie2ClientTypes.BucketPublicAccess {
-
-    static func write(value: Macie2ClientTypes.BucketPublicAccess?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["effectivePermission"].write(value.effectivePermission)
-        try writer["permissionConfiguration"].write(value.permissionConfiguration, with: Macie2ClientTypes.BucketPermissionConfiguration.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.BucketPublicAccess {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1588,12 +1402,6 @@ extension Macie2ClientTypes {
 }
 
 extension Macie2ClientTypes.BucketServerSideEncryption {
-
-    static func write(value: Macie2ClientTypes.BucketServerSideEncryption?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["kmsMasterKeyId"].write(value.kmsMasterKeyId)
-        try writer["type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.BucketServerSideEncryption {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1639,14 +1447,6 @@ extension Macie2ClientTypes.BucketSortCriteria {
         try writer["attributeName"].write(value.attributeName)
         try writer["orderBy"].write(value.orderBy)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.BucketSortCriteria {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Macie2ClientTypes.BucketSortCriteria()
-        value.attributeName = try reader["attributeName"].readIfPresent()
-        value.orderBy = try reader["orderBy"].readIfPresent()
-        return value
-    }
 }
 
 extension Macie2ClientTypes {
@@ -1670,14 +1470,6 @@ extension Macie2ClientTypes {
 }
 
 extension Macie2ClientTypes.BucketStatisticsBySensitivity {
-
-    static func write(value: Macie2ClientTypes.BucketStatisticsBySensitivity?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["classificationError"].write(value.classificationError, with: Macie2ClientTypes.SensitivityAggregations.write(value:to:))
-        try writer["notClassified"].write(value.notClassified, with: Macie2ClientTypes.SensitivityAggregations.write(value:to:))
-        try writer["notSensitive"].write(value.notSensitive, with: Macie2ClientTypes.SensitivityAggregations.write(value:to:))
-        try writer["sensitive"].write(value.sensitive, with: Macie2ClientTypes.SensitivityAggregations.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.BucketStatisticsBySensitivity {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1720,14 +1512,6 @@ extension Macie2ClientTypes {
 
 extension Macie2ClientTypes.Cell {
 
-    static func write(value: Macie2ClientTypes.Cell?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["cellReference"].write(value.cellReference)
-        try writer["column"].write(value.column)
-        try writer["columnName"].write(value.columnName)
-        try writer["row"].write(value.row)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.Cell {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Macie2ClientTypes.Cell()
@@ -1768,15 +1552,6 @@ extension Macie2ClientTypes {
 }
 
 extension Macie2ClientTypes.ClassificationDetails {
-
-    static func write(value: Macie2ClientTypes.ClassificationDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["detailedResultsLocation"].write(value.detailedResultsLocation)
-        try writer["jobArn"].write(value.jobArn)
-        try writer["jobId"].write(value.jobId)
-        try writer["originType"].write(value.originType)
-        try writer["result"].write(value.result, with: Macie2ClientTypes.ClassificationResult.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.ClassificationDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1855,16 +1630,6 @@ extension Macie2ClientTypes {
 
 extension Macie2ClientTypes.ClassificationResult {
 
-    static func write(value: Macie2ClientTypes.ClassificationResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["additionalOccurrences"].write(value.additionalOccurrences)
-        try writer["customDataIdentifiers"].write(value.customDataIdentifiers, with: Macie2ClientTypes.CustomDataIdentifiers.write(value:to:))
-        try writer["mimeType"].write(value.mimeType)
-        try writer["sensitiveData"].writeList(value.sensitiveData, memberWritingClosure: Macie2ClientTypes.SensitiveDataItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["sizeClassified"].write(value.sizeClassified)
-        try writer["status"].write(value.status, with: Macie2ClientTypes.ClassificationResultStatus.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.ClassificationResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Macie2ClientTypes.ClassificationResult()
@@ -1915,12 +1680,6 @@ extension Macie2ClientTypes {
 }
 
 extension Macie2ClientTypes.ClassificationResultStatus {
-
-    static func write(value: Macie2ClientTypes.ClassificationResultStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["code"].write(value.code)
-        try writer["reason"].write(value.reason)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.ClassificationResultStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2003,12 +1762,6 @@ extension Macie2ClientTypes {
 }
 
 extension Macie2ClientTypes.ClassificationScopeSummary {
-
-    static func write(value: Macie2ClientTypes.ClassificationScopeSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["id"].write(value.id)
-        try writer["name"].write(value.name)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.ClassificationScopeSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2972,15 +2725,6 @@ extension Macie2ClientTypes {
 
 extension Macie2ClientTypes.CustomDataIdentifierSummary {
 
-    static func write(value: Macie2ClientTypes.CustomDataIdentifierSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .dateTime)
-        try writer["description"].write(value.description)
-        try writer["id"].write(value.id)
-        try writer["name"].write(value.name)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.CustomDataIdentifierSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Macie2ClientTypes.CustomDataIdentifierSummary()
@@ -3027,12 +2771,6 @@ extension Macie2ClientTypes {
 
 extension Macie2ClientTypes.CustomDataIdentifiers {
 
-    static func write(value: Macie2ClientTypes.CustomDataIdentifiers?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["detections"].writeList(value.detections, memberWritingClosure: Macie2ClientTypes.CustomDetection.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["totalCount"].write(value.totalCount)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.CustomDataIdentifiers {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Macie2ClientTypes.CustomDataIdentifiers()
@@ -3063,14 +2801,6 @@ extension Macie2ClientTypes {
 }
 
 extension Macie2ClientTypes.CustomDetection {
-
-    static func write(value: Macie2ClientTypes.CustomDetection?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["count"].write(value.count)
-        try writer["name"].write(value.name)
-        try writer["occurrences"].write(value.occurrences, with: Macie2ClientTypes.Occurrences.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.CustomDetection {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3316,13 +3046,6 @@ enum DeclineInvitationsOutputError {
 }
 
 extension Macie2ClientTypes.DefaultDetection {
-
-    static func write(value: Macie2ClientTypes.DefaultDetection?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["count"].write(value.count)
-        try writer["occurrences"].write(value.occurrences, with: Macie2ClientTypes.Occurrences.write(value:to:))
-        try writer["type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.DefaultDetection {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4014,11 +3737,6 @@ enum DescribeOrganizationConfigurationOutputError {
 
 extension Macie2ClientTypes.DetectedDataDetails {
 
-    static func write(value: Macie2ClientTypes.DetectedDataDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["value"].write(value.value)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.DetectedDataDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Macie2ClientTypes.DetectedDataDetails()
@@ -4045,16 +3763,6 @@ extension Macie2ClientTypes {
 }
 
 extension Macie2ClientTypes.Detection {
-
-    static func write(value: Macie2ClientTypes.Detection?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["count"].write(value.count)
-        try writer["id"].write(value.id)
-        try writer["name"].write(value.name)
-        try writer["suppressed"].write(value.suppressed)
-        try writer["type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.Detection {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4360,11 +4068,6 @@ enum DisassociateMemberOutputError {
 
 extension Macie2ClientTypes.DomainDetails {
 
-    static func write(value: Macie2ClientTypes.DomainDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["domainName"].write(value.domainName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.DomainDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Macie2ClientTypes.DomainDetails()
@@ -4629,15 +4332,6 @@ extension Macie2ClientTypes {
 
 extension Macie2ClientTypes.FederatedUser {
 
-    static func write(value: Macie2ClientTypes.FederatedUser?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["accessKeyId"].write(value.accessKeyId)
-        try writer["accountId"].write(value.accountId)
-        try writer["arn"].write(value.arn)
-        try writer["principalId"].write(value.principalId)
-        try writer["sessionContext"].write(value.sessionContext, with: Macie2ClientTypes.SessionContext.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.FederatedUser {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Macie2ClientTypes.FederatedUser()
@@ -4683,28 +4377,6 @@ extension Macie2ClientTypes {
 }
 
 extension Macie2ClientTypes.Finding {
-
-    static func write(value: Macie2ClientTypes.Finding?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["accountId"].write(value.accountId)
-        try writer["archived"].write(value.archived)
-        try writer["category"].write(value.category)
-        try writer["classificationDetails"].write(value.classificationDetails, with: Macie2ClientTypes.ClassificationDetails.write(value:to:))
-        try writer["count"].write(value.count)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .dateTime)
-        try writer["description"].write(value.description)
-        try writer["id"].write(value.id)
-        try writer["partition"].write(value.partition)
-        try writer["policyDetails"].write(value.policyDetails, with: Macie2ClientTypes.PolicyDetails.write(value:to:))
-        try writer["region"].write(value.region)
-        try writer["resourcesAffected"].write(value.resourcesAffected, with: Macie2ClientTypes.ResourcesAffected.write(value:to:))
-        try writer["sample"].write(value.sample)
-        try writer["schemaVersion"].write(value.schemaVersion)
-        try writer["severity"].write(value.severity, with: Macie2ClientTypes.Severity.write(value:to:))
-        try writer["title"].write(value.title)
-        try writer["type"].write(value.type)
-        try writer["updatedAt"].writeTimestamp(value.updatedAt, format: .dateTime)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.Finding {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4817,12 +4489,6 @@ extension Macie2ClientTypes {
 
 extension Macie2ClientTypes.FindingAction {
 
-    static func write(value: Macie2ClientTypes.FindingAction?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["actionType"].write(value.actionType)
-        try writer["apiCallDetails"].write(value.apiCallDetails, with: Macie2ClientTypes.ApiCallDetails.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.FindingAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Macie2ClientTypes.FindingAction()
@@ -4881,13 +4547,6 @@ extension Macie2ClientTypes {
 }
 
 extension Macie2ClientTypes.FindingActor {
-
-    static func write(value: Macie2ClientTypes.FindingActor?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["domainDetails"].write(value.domainDetails, with: Macie2ClientTypes.DomainDetails.write(value:to:))
-        try writer["ipAddressDetails"].write(value.ipAddressDetails, with: Macie2ClientTypes.IpAddressDetails.write(value:to:))
-        try writer["userIdentity"].write(value.userIdentity, with: Macie2ClientTypes.UserIdentity.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.FindingActor {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5057,14 +4716,6 @@ extension Macie2ClientTypes.FindingStatisticsSortCriteria {
         try writer["attributeName"].write(value.attributeName)
         try writer["orderBy"].write(value.orderBy)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.FindingStatisticsSortCriteria {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Macie2ClientTypes.FindingStatisticsSortCriteria()
-        value.attributeName = try reader["attributeName"].readIfPresent()
-        value.orderBy = try reader["orderBy"].readIfPresent()
-        return value
-    }
 }
 
 extension Macie2ClientTypes {
@@ -5177,15 +4828,6 @@ extension Macie2ClientTypes {
 }
 
 extension Macie2ClientTypes.FindingsFilterListItem {
-
-    static func write(value: Macie2ClientTypes.FindingsFilterListItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["action"].write(value.action)
-        try writer["arn"].write(value.arn)
-        try writer["id"].write(value.id)
-        try writer["name"].write(value.name)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.FindingsFilterListItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7114,12 +6756,6 @@ extension Macie2ClientTypes {
 
 extension Macie2ClientTypes.GroupCount {
 
-    static func write(value: Macie2ClientTypes.GroupCount?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["count"].write(value.count)
-        try writer["groupKey"].write(value.groupKey)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.GroupCount {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Macie2ClientTypes.GroupCount()
@@ -7150,14 +6786,6 @@ extension Macie2ClientTypes {
 }
 
 extension Macie2ClientTypes.IamUser {
-
-    static func write(value: Macie2ClientTypes.IamUser?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["accountId"].write(value.accountId)
-        try writer["arn"].write(value.arn)
-        try writer["principalId"].write(value.principalId)
-        try writer["userName"].write(value.userName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.IamUser {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7238,14 +6866,6 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
 extension Macie2ClientTypes.Invitation {
 
-    static func write(value: Macie2ClientTypes.Invitation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["accountId"].write(value.accountId)
-        try writer["invitationId"].write(value.invitationId)
-        try writer["invitedAt"].writeTimestamp(value.invitedAt, format: .dateTime)
-        try writer["relationshipStatus"].write(value.relationshipStatus)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.Invitation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Macie2ClientTypes.Invitation()
@@ -7286,15 +6906,6 @@ extension Macie2ClientTypes {
 }
 
 extension Macie2ClientTypes.IpAddressDetails {
-
-    static func write(value: Macie2ClientTypes.IpAddressDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ipAddressV4"].write(value.ipAddressV4)
-        try writer["ipCity"].write(value.ipCity, with: Macie2ClientTypes.IpCity.write(value:to:))
-        try writer["ipCountry"].write(value.ipCountry, with: Macie2ClientTypes.IpCountry.write(value:to:))
-        try writer["ipGeoLocation"].write(value.ipGeoLocation, with: Macie2ClientTypes.IpGeoLocation.write(value:to:))
-        try writer["ipOwner"].write(value.ipOwner, with: Macie2ClientTypes.IpOwner.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.IpAddressDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7342,11 +6953,6 @@ extension Macie2ClientTypes {
 
 extension Macie2ClientTypes.IpCity {
 
-    static func write(value: Macie2ClientTypes.IpCity?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.IpCity {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Macie2ClientTypes.IpCity()
@@ -7372,12 +6978,6 @@ extension Macie2ClientTypes {
 }
 
 extension Macie2ClientTypes.IpCountry {
-
-    static func write(value: Macie2ClientTypes.IpCountry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["code"].write(value.code)
-        try writer["name"].write(value.name)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.IpCountry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7410,12 +7010,6 @@ extension Macie2ClientTypes {
 
 extension Macie2ClientTypes.IpGeoLocation {
 
-    static func write(value: Macie2ClientTypes.IpGeoLocation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["lat"].write(value.lat)
-        try writer["lon"].write(value.lon)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.IpGeoLocation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Macie2ClientTypes.IpGeoLocation()
@@ -7446,14 +7040,6 @@ extension Macie2ClientTypes {
 }
 
 extension Macie2ClientTypes.IpOwner {
-
-    static func write(value: Macie2ClientTypes.IpOwner?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["asn"].write(value.asn)
-        try writer["asnOrg"].write(value.asnOrg)
-        try writer["isp"].write(value.isp)
-        try writer["org"].write(value.org)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.IpOwner {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7610,14 +7196,6 @@ extension Macie2ClientTypes {
 }
 
 extension Macie2ClientTypes.JobDetails {
-
-    static func write(value: Macie2ClientTypes.JobDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["isDefinedInJob"].write(value.isDefinedInJob)
-        try writer["isMonitoredByJob"].write(value.isMonitoredByJob)
-        try writer["lastJobId"].write(value.lastJobId)
-        try writer["lastJobRunTime"].writeTimestamp(value.lastJobRunTime, format: .dateTime)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.JobDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7826,19 +7404,6 @@ extension Macie2ClientTypes {
 
 extension Macie2ClientTypes.JobSummary {
 
-    static func write(value: Macie2ClientTypes.JobSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["bucketCriteria"].write(value.bucketCriteria, with: Macie2ClientTypes.S3BucketCriteriaForJob.write(value:to:))
-        try writer["bucketDefinitions"].writeList(value.bucketDefinitions, memberWritingClosure: Macie2ClientTypes.S3BucketDefinitionForJob.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .dateTime)
-        try writer["jobId"].write(value.jobId)
-        try writer["jobStatus"].write(value.jobStatus)
-        try writer["jobType"].write(value.jobType)
-        try writer["lastRunErrorStatus"].write(value.lastRunErrorStatus, with: Macie2ClientTypes.LastRunErrorStatus.write(value:to:))
-        try writer["name"].write(value.name)
-        try writer["userPausedDetails"].write(value.userPausedDetails, with: Macie2ClientTypes.UserPausedDetails.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.JobSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Macie2ClientTypes.JobSummary()
@@ -7952,12 +7517,6 @@ extension Macie2ClientTypes {
 
 extension Macie2ClientTypes.KeyValuePair {
 
-    static func write(value: Macie2ClientTypes.KeyValuePair?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["key"].write(value.key)
-        try writer["value"].write(value.value)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.KeyValuePair {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Macie2ClientTypes.KeyValuePair()
@@ -7988,11 +7547,6 @@ extension Macie2ClientTypes {
 }
 
 extension Macie2ClientTypes.LastRunErrorStatus {
-
-    static func write(value: Macie2ClientTypes.LastRunErrorStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["code"].write(value.code)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.LastRunErrorStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8669,14 +8223,6 @@ extension Macie2ClientTypes.ListJobsFilterCriteria {
         try writer["excludes"].writeList(value.excludes, memberWritingClosure: Macie2ClientTypes.ListJobsFilterTerm.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["includes"].writeList(value.includes, memberWritingClosure: Macie2ClientTypes.ListJobsFilterTerm.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.ListJobsFilterCriteria {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Macie2ClientTypes.ListJobsFilterCriteria()
-        value.excludes = try reader["excludes"].readListIfPresent(memberReadingClosure: Macie2ClientTypes.ListJobsFilterTerm.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.includes = try reader["includes"].readListIfPresent(memberReadingClosure: Macie2ClientTypes.ListJobsFilterTerm.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
 }
 
 extension Macie2ClientTypes {
@@ -8743,15 +8289,6 @@ extension Macie2ClientTypes.ListJobsFilterTerm {
         try writer["comparator"].write(value.comparator)
         try writer["key"].write(value.key)
         try writer["values"].writeList(value.values, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.ListJobsFilterTerm {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Macie2ClientTypes.ListJobsFilterTerm()
-        value.comparator = try reader["comparator"].readIfPresent()
-        value.key = try reader["key"].readIfPresent()
-        value.values = try reader["values"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -8822,14 +8359,6 @@ extension Macie2ClientTypes.ListJobsSortCriteria {
         guard let value else { return }
         try writer["attributeName"].write(value.attributeName)
         try writer["orderBy"].write(value.orderBy)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.ListJobsSortCriteria {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Macie2ClientTypes.ListJobsSortCriteria()
-        value.attributeName = try reader["attributeName"].readIfPresent()
-        value.orderBy = try reader["orderBy"].readIfPresent()
-        return value
     }
 }
 
@@ -9514,12 +9043,6 @@ extension Macie2ClientTypes {
 
 extension Macie2ClientTypes.ManagedDataIdentifierSummary {
 
-    static func write(value: Macie2ClientTypes.ManagedDataIdentifierSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["category"].write(value.category)
-        try writer["id"].write(value.id)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.ManagedDataIdentifierSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Macie2ClientTypes.ManagedDataIdentifierSummary()
@@ -9550,25 +9073,6 @@ extension Macie2ClientTypes {
 }
 
 extension Macie2ClientTypes.MatchingBucket {
-
-    static func write(value: Macie2ClientTypes.MatchingBucket?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["accountId"].write(value.accountId)
-        try writer["bucketName"].write(value.bucketName)
-        try writer["classifiableObjectCount"].write(value.classifiableObjectCount)
-        try writer["classifiableSizeInBytes"].write(value.classifiableSizeInBytes)
-        try writer["errorCode"].write(value.errorCode)
-        try writer["errorMessage"].write(value.errorMessage)
-        try writer["jobDetails"].write(value.jobDetails, with: Macie2ClientTypes.JobDetails.write(value:to:))
-        try writer["lastAutomatedDiscoveryTime"].writeTimestamp(value.lastAutomatedDiscoveryTime, format: .dateTime)
-        try writer["objectCount"].write(value.objectCount)
-        try writer["objectCountByEncryptionType"].write(value.objectCountByEncryptionType, with: Macie2ClientTypes.ObjectCountByEncryptionType.write(value:to:))
-        try writer["sensitivityScore"].write(value.sensitivityScore)
-        try writer["sizeInBytes"].write(value.sizeInBytes)
-        try writer["sizeInBytesCompressed"].write(value.sizeInBytesCompressed)
-        try writer["unclassifiableObjectCount"].write(value.unclassifiableObjectCount, with: Macie2ClientTypes.ObjectLevelStatistics.write(value:to:))
-        try writer["unclassifiableObjectSizeInBytes"].write(value.unclassifiableObjectSizeInBytes, with: Macie2ClientTypes.ObjectLevelStatistics.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.MatchingBucket {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -9666,11 +9170,6 @@ extension Macie2ClientTypes {
 
 extension Macie2ClientTypes.MatchingResource {
 
-    static func write(value: Macie2ClientTypes.MatchingResource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["matchingBucket"].write(value.matchingBucket, with: Macie2ClientTypes.MatchingBucket.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.MatchingResource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Macie2ClientTypes.MatchingResource()
@@ -9696,19 +9195,6 @@ extension Macie2ClientTypes {
 }
 
 extension Macie2ClientTypes.Member {
-
-    static func write(value: Macie2ClientTypes.Member?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["accountId"].write(value.accountId)
-        try writer["administratorAccountId"].write(value.administratorAccountId)
-        try writer["arn"].write(value.arn)
-        try writer["email"].write(value.email)
-        try writer["invitedAt"].writeTimestamp(value.invitedAt, format: .dateTime)
-        try writer["masterAccountId"].write(value.masterAccountId)
-        try writer["relationshipStatus"].write(value.relationshipStatus)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["updatedAt"].writeTimestamp(value.updatedAt, format: .dateTime)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.Member {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -9807,15 +9293,6 @@ extension Macie2ClientTypes {
 
 extension Macie2ClientTypes.ObjectCountByEncryptionType {
 
-    static func write(value: Macie2ClientTypes.ObjectCountByEncryptionType?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["customerManaged"].write(value.customerManaged)
-        try writer["kmsManaged"].write(value.kmsManaged)
-        try writer["s3Managed"].write(value.s3Managed)
-        try writer["unencrypted"].write(value.unencrypted)
-        try writer["unknown"].write(value.unknown)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.ObjectCountByEncryptionType {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Macie2ClientTypes.ObjectCountByEncryptionType()
@@ -9862,13 +9339,6 @@ extension Macie2ClientTypes {
 
 extension Macie2ClientTypes.ObjectLevelStatistics {
 
-    static func write(value: Macie2ClientTypes.ObjectLevelStatistics?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["fileType"].write(value.fileType)
-        try writer["storageClass"].write(value.storageClass)
-        try writer["total"].write(value.total)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.ObjectLevelStatistics {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Macie2ClientTypes.ObjectLevelStatistics()
@@ -9904,15 +9374,6 @@ extension Macie2ClientTypes {
 }
 
 extension Macie2ClientTypes.Occurrences {
-
-    static func write(value: Macie2ClientTypes.Occurrences?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["cells"].writeList(value.cells, memberWritingClosure: Macie2ClientTypes.Cell.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["lineRanges"].writeList(value.lineRanges, memberWritingClosure: Macie2ClientTypes.Range.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["offsetRanges"].writeList(value.offsetRanges, memberWritingClosure: Macie2ClientTypes.Range.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["pages"].writeList(value.pages, memberWritingClosure: Macie2ClientTypes.Page.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["records"].writeList(value.records, memberWritingClosure: Macie2ClientTypes.Record.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.Occurrences {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -10021,13 +9482,6 @@ extension Macie2ClientTypes {
 
 extension Macie2ClientTypes.Page {
 
-    static func write(value: Macie2ClientTypes.Page?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["lineRange"].write(value.lineRange, with: Macie2ClientTypes.Range.write(value:to:))
-        try writer["offsetRange"].write(value.offsetRange, with: Macie2ClientTypes.Range.write(value:to:))
-        try writer["pageNumber"].write(value.pageNumber)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.Page {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Macie2ClientTypes.Page()
@@ -10063,12 +9517,6 @@ extension Macie2ClientTypes {
 }
 
 extension Macie2ClientTypes.PolicyDetails {
-
-    static func write(value: Macie2ClientTypes.PolicyDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["action"].write(value.action, with: Macie2ClientTypes.FindingAction.write(value:to:))
-        try writer["actor"].write(value.actor, with: Macie2ClientTypes.FindingActor.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.PolicyDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -10237,13 +9685,6 @@ enum PutFindingsPublicationConfigurationOutputError {
 
 extension Macie2ClientTypes.Range {
 
-    static func write(value: Macie2ClientTypes.Range?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["end"].write(value.end)
-        try writer["start"].write(value.start)
-        try writer["startColumn"].write(value.startColumn)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.Range {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Macie2ClientTypes.Range()
@@ -10279,12 +9720,6 @@ extension Macie2ClientTypes {
 }
 
 extension Macie2ClientTypes.Record {
-
-    static func write(value: Macie2ClientTypes.Record?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["jsonPath"].write(value.jsonPath)
-        try writer["recordIndex"].write(value.recordIndex)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.Record {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -10372,13 +9807,6 @@ extension Macie2ClientTypes {
 
 extension Macie2ClientTypes.ReplicationDetails {
 
-    static func write(value: Macie2ClientTypes.ReplicationDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["replicated"].write(value.replicated)
-        try writer["replicatedExternally"].write(value.replicatedExternally)
-        try writer["replicationAccounts"].writeList(value.replicationAccounts, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.ReplicationDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Macie2ClientTypes.ReplicationDetails()
@@ -10453,13 +9881,6 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
 extension Macie2ClientTypes.ResourceProfileArtifact {
 
-    static func write(value: Macie2ClientTypes.ResourceProfileArtifact?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["classificationResultStatus"].write(value.classificationResultStatus)
-        try writer["sensitive"].write(value.sensitive)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.ResourceProfileArtifact {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Macie2ClientTypes.ResourceProfileArtifact()
@@ -10503,19 +9924,6 @@ extension Macie2ClientTypes {
 }
 
 extension Macie2ClientTypes.ResourceStatistics {
-
-    static func write(value: Macie2ClientTypes.ResourceStatistics?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["totalBytesClassified"].write(value.totalBytesClassified)
-        try writer["totalDetections"].write(value.totalDetections)
-        try writer["totalDetectionsSuppressed"].write(value.totalDetectionsSuppressed)
-        try writer["totalItemsClassified"].write(value.totalItemsClassified)
-        try writer["totalItemsSensitive"].write(value.totalItemsSensitive)
-        try writer["totalItemsSkipped"].write(value.totalItemsSkipped)
-        try writer["totalItemsSkippedInvalidEncryption"].write(value.totalItemsSkippedInvalidEncryption)
-        try writer["totalItemsSkippedInvalidKms"].write(value.totalItemsSkippedInvalidKms)
-        try writer["totalItemsSkippedPermissionDenied"].write(value.totalItemsSkippedPermissionDenied)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.ResourceStatistics {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -10583,12 +9991,6 @@ extension Macie2ClientTypes {
 
 extension Macie2ClientTypes.ResourcesAffected {
 
-    static func write(value: Macie2ClientTypes.ResourcesAffected?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["s3Bucket"].write(value.s3Bucket, with: Macie2ClientTypes.S3Bucket.write(value:to:))
-        try writer["s3Object"].write(value.s3Object, with: Macie2ClientTypes.S3Object.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.ResourcesAffected {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Macie2ClientTypes.ResourcesAffected()
@@ -10619,13 +10021,6 @@ extension Macie2ClientTypes {
 }
 
 extension Macie2ClientTypes.RetrievalConfiguration {
-
-    static func write(value: Macie2ClientTypes.RetrievalConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["externalId"].write(value.externalId)
-        try writer["retrievalMode"].write(value.retrievalMode)
-        try writer["roleName"].write(value.roleName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.RetrievalConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -10798,18 +10193,6 @@ extension Macie2ClientTypes {
 
 extension Macie2ClientTypes.S3Bucket {
 
-    static func write(value: Macie2ClientTypes.S3Bucket?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["allowsUnencryptedObjectUploads"].write(value.allowsUnencryptedObjectUploads)
-        try writer["arn"].write(value.arn)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .dateTime)
-        try writer["defaultServerSideEncryption"].write(value.defaultServerSideEncryption, with: Macie2ClientTypes.ServerSideEncryption.write(value:to:))
-        try writer["name"].write(value.name)
-        try writer["owner"].write(value.owner, with: Macie2ClientTypes.S3BucketOwner.write(value:to:))
-        try writer["publicAccess"].write(value.publicAccess, with: Macie2ClientTypes.BucketPublicAccess.write(value:to:))
-        try writer["tags"].writeList(value.tags, memberWritingClosure: Macie2ClientTypes.KeyValuePair.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.S3Bucket {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Macie2ClientTypes.S3Bucket()
@@ -10956,12 +10339,6 @@ extension Macie2ClientTypes {
 
 extension Macie2ClientTypes.S3BucketOwner {
 
-    static func write(value: Macie2ClientTypes.S3BucketOwner?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["displayName"].write(value.displayName)
-        try writer["id"].write(value.id)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.S3BucketOwner {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Macie2ClientTypes.S3BucketOwner()
@@ -10993,11 +10370,6 @@ extension Macie2ClientTypes {
 
 extension Macie2ClientTypes.S3ClassificationScope {
 
-    static func write(value: Macie2ClientTypes.S3ClassificationScope?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["excludes"].write(value.excludes, with: Macie2ClientTypes.S3ClassificationScopeExclusion.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.S3ClassificationScope {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Macie2ClientTypes.S3ClassificationScope()
@@ -11024,11 +10396,6 @@ extension Macie2ClientTypes {
 }
 
 extension Macie2ClientTypes.S3ClassificationScopeExclusion {
-
-    static func write(value: Macie2ClientTypes.S3ClassificationScopeExclusion?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["bucketNames"].writeList(value.bucketNames, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.S3ClassificationScopeExclusion {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -11061,14 +10428,6 @@ extension Macie2ClientTypes.S3ClassificationScopeExclusionUpdate {
         guard let value else { return }
         try writer["bucketNames"].writeList(value.bucketNames, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["operation"].write(value.operation)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.S3ClassificationScopeExclusionUpdate {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Macie2ClientTypes.S3ClassificationScopeExclusionUpdate()
-        value.bucketNames = try reader["bucketNames"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.operation = try reader["operation"].readIfPresent()
-        return value
     }
 }
 
@@ -11105,13 +10464,6 @@ extension Macie2ClientTypes.S3ClassificationScopeUpdate {
     static func write(value: Macie2ClientTypes.S3ClassificationScopeUpdate?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["excludes"].write(value.excludes, with: Macie2ClientTypes.S3ClassificationScopeExclusionUpdate.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.S3ClassificationScopeUpdate {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Macie2ClientTypes.S3ClassificationScopeUpdate()
-        value.excludes = try reader["excludes"].readIfPresent(with: Macie2ClientTypes.S3ClassificationScopeExclusionUpdate.read(from:))
-        return value
     }
 }
 
@@ -11221,22 +10573,6 @@ extension Macie2ClientTypes {
 }
 
 extension Macie2ClientTypes.S3Object {
-
-    static func write(value: Macie2ClientTypes.S3Object?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["bucketArn"].write(value.bucketArn)
-        try writer["eTag"].write(value.eTag)
-        try writer["extension"].write(value.`extension`)
-        try writer["key"].write(value.key)
-        try writer["lastModified"].writeTimestamp(value.lastModified, format: .dateTime)
-        try writer["path"].write(value.path)
-        try writer["publicAccess"].write(value.publicAccess)
-        try writer["serverSideEncryption"].write(value.serverSideEncryption, with: Macie2ClientTypes.ServerSideEncryption.write(value:to:))
-        try writer["size"].write(value.size)
-        try writer["storageClass"].write(value.storageClass)
-        try writer["tags"].writeList(value.tags, memberWritingClosure: Macie2ClientTypes.KeyValuePair.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["versionId"].write(value.versionId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.S3Object {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -11437,14 +10773,6 @@ extension Macie2ClientTypes.SearchResourcesBucketCriteria {
         try writer["excludes"].write(value.excludes, with: Macie2ClientTypes.SearchResourcesCriteriaBlock.write(value:to:))
         try writer["includes"].write(value.includes, with: Macie2ClientTypes.SearchResourcesCriteriaBlock.write(value:to:))
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.SearchResourcesBucketCriteria {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Macie2ClientTypes.SearchResourcesBucketCriteria()
-        value.excludes = try reader["excludes"].readIfPresent(with: Macie2ClientTypes.SearchResourcesCriteriaBlock.read(from:))
-        value.includes = try reader["includes"].readIfPresent(with: Macie2ClientTypes.SearchResourcesCriteriaBlock.read(from:))
-        return value
-    }
 }
 
 extension Macie2ClientTypes {
@@ -11505,14 +10833,6 @@ extension Macie2ClientTypes.SearchResourcesCriteria {
         try writer["simpleCriterion"].write(value.simpleCriterion, with: Macie2ClientTypes.SearchResourcesSimpleCriterion.write(value:to:))
         try writer["tagCriterion"].write(value.tagCriterion, with: Macie2ClientTypes.SearchResourcesTagCriterion.write(value:to:))
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.SearchResourcesCriteria {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Macie2ClientTypes.SearchResourcesCriteria()
-        value.simpleCriterion = try reader["simpleCriterion"].readIfPresent(with: Macie2ClientTypes.SearchResourcesSimpleCriterion.read(from:))
-        value.tagCriterion = try reader["tagCriterion"].readIfPresent(with: Macie2ClientTypes.SearchResourcesTagCriterion.read(from:))
-        return value
-    }
 }
 
 extension Macie2ClientTypes {
@@ -11540,13 +10860,6 @@ extension Macie2ClientTypes.SearchResourcesCriteriaBlock {
     static func write(value: Macie2ClientTypes.SearchResourcesCriteriaBlock?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["and"].writeList(value.and, memberWritingClosure: Macie2ClientTypes.SearchResourcesCriteria.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.SearchResourcesCriteriaBlock {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Macie2ClientTypes.SearchResourcesCriteriaBlock()
-        value.and = try reader["and"].readListIfPresent(memberReadingClosure: Macie2ClientTypes.SearchResourcesCriteria.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -11664,15 +10977,6 @@ extension Macie2ClientTypes.SearchResourcesSimpleCriterion {
         try writer["comparator"].write(value.comparator)
         try writer["key"].write(value.key)
         try writer["values"].writeList(value.values, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.SearchResourcesSimpleCriterion {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Macie2ClientTypes.SearchResourcesSimpleCriterion()
-        value.comparator = try reader["comparator"].readIfPresent()
-        value.key = try reader["key"].readIfPresent()
-        value.values = try reader["values"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -11792,14 +11096,6 @@ extension Macie2ClientTypes.SearchResourcesSortCriteria {
         try writer["attributeName"].write(value.attributeName)
         try writer["orderBy"].write(value.orderBy)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.SearchResourcesSortCriteria {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Macie2ClientTypes.SearchResourcesSortCriteria()
-        value.attributeName = try reader["attributeName"].readIfPresent()
-        value.orderBy = try reader["orderBy"].readIfPresent()
-        return value
-    }
 }
 
 extension Macie2ClientTypes {
@@ -11829,14 +11125,6 @@ extension Macie2ClientTypes.SearchResourcesTagCriterion {
         try writer["comparator"].write(value.comparator)
         try writer["tagValues"].writeList(value.tagValues, memberWritingClosure: Macie2ClientTypes.SearchResourcesTagCriterionPair.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.SearchResourcesTagCriterion {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Macie2ClientTypes.SearchResourcesTagCriterion()
-        value.comparator = try reader["comparator"].readIfPresent()
-        value.tagValues = try reader["tagValues"].readListIfPresent(memberReadingClosure: Macie2ClientTypes.SearchResourcesTagCriterionPair.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
 }
 
 extension Macie2ClientTypes {
@@ -11865,14 +11153,6 @@ extension Macie2ClientTypes.SearchResourcesTagCriterionPair {
         guard let value else { return }
         try writer["key"].write(value.key)
         try writer["value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.SearchResourcesTagCriterionPair {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Macie2ClientTypes.SearchResourcesTagCriterionPair()
-        value.key = try reader["key"].readIfPresent()
-        value.value = try reader["value"].readIfPresent()
-        return value
     }
 }
 
@@ -11936,13 +11216,6 @@ extension Macie2ClientTypes {
 }
 
 extension Macie2ClientTypes.SensitiveDataItem {
-
-    static func write(value: Macie2ClientTypes.SensitiveDataItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["category"].write(value.category)
-        try writer["detections"].writeList(value.detections, memberWritingClosure: Macie2ClientTypes.DefaultDetection.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["totalCount"].write(value.totalCount)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.SensitiveDataItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -12016,14 +11289,6 @@ extension Macie2ClientTypes {
 }
 
 extension Macie2ClientTypes.SensitivityAggregations {
-
-    static func write(value: Macie2ClientTypes.SensitivityAggregations?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["classifiableSizeInBytes"].write(value.classifiableSizeInBytes)
-        try writer["publiclyAccessibleCount"].write(value.publiclyAccessibleCount)
-        try writer["totalCount"].write(value.totalCount)
-        try writer["totalSizeInBytes"].write(value.totalSizeInBytes)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.SensitivityAggregations {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -12140,12 +11405,6 @@ extension Macie2ClientTypes {
 
 extension Macie2ClientTypes.SensitivityInspectionTemplatesEntry {
 
-    static func write(value: Macie2ClientTypes.SensitivityInspectionTemplatesEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["id"].write(value.id)
-        try writer["name"].write(value.name)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.SensitivityInspectionTemplatesEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Macie2ClientTypes.SensitivityInspectionTemplatesEntry()
@@ -12177,12 +11436,6 @@ extension Macie2ClientTypes {
 
 extension Macie2ClientTypes.ServerSideEncryption {
 
-    static func write(value: Macie2ClientTypes.ServerSideEncryption?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["encryptionType"].write(value.encryptionType)
-        try writer["kmsMasterKeyId"].write(value.kmsMasterKeyId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.ServerSideEncryption {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Macie2ClientTypes.ServerSideEncryption()
@@ -12213,13 +11466,6 @@ extension Macie2ClientTypes {
 }
 
 extension Macie2ClientTypes.ServiceLimit {
-
-    static func write(value: Macie2ClientTypes.ServiceLimit?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["isServiceLimited"].write(value.isServiceLimited)
-        try writer["unit"].write(value.unit)
-        try writer["value"].write(value.value)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.ServiceLimit {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -12295,12 +11541,6 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
 extension Macie2ClientTypes.SessionContext {
 
-    static func write(value: Macie2ClientTypes.SessionContext?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["attributes"].write(value.attributes, with: Macie2ClientTypes.SessionContextAttributes.write(value:to:))
-        try writer["sessionIssuer"].write(value.sessionIssuer, with: Macie2ClientTypes.SessionIssuer.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.SessionContext {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Macie2ClientTypes.SessionContext()
@@ -12332,12 +11572,6 @@ extension Macie2ClientTypes {
 
 extension Macie2ClientTypes.SessionContextAttributes {
 
-    static func write(value: Macie2ClientTypes.SessionContextAttributes?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["creationDate"].writeTimestamp(value.creationDate, format: .dateTime)
-        try writer["mfaAuthenticated"].write(value.mfaAuthenticated)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.SessionContextAttributes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Macie2ClientTypes.SessionContextAttributes()
@@ -12368,15 +11602,6 @@ extension Macie2ClientTypes {
 }
 
 extension Macie2ClientTypes.SessionIssuer {
-
-    static func write(value: Macie2ClientTypes.SessionIssuer?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["accountId"].write(value.accountId)
-        try writer["arn"].write(value.arn)
-        try writer["principalId"].write(value.principalId)
-        try writer["type"].write(value.type)
-        try writer["userName"].write(value.userName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.SessionIssuer {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -12423,12 +11648,6 @@ extension Macie2ClientTypes {
 }
 
 extension Macie2ClientTypes.Severity {
-
-    static func write(value: Macie2ClientTypes.Severity?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["description"].write(value.description)
-        try writer["score"].write(value.score)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.Severity {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -12728,14 +11947,6 @@ extension Macie2ClientTypes.SortCriteria {
         try writer["attributeName"].write(value.attributeName)
         try writer["orderBy"].write(value.orderBy)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.SortCriteria {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Macie2ClientTypes.SortCriteria()
-        value.attributeName = try reader["attributeName"].readIfPresent()
-        value.orderBy = try reader["orderBy"].readIfPresent()
-        return value
-    }
 }
 
 extension Macie2ClientTypes {
@@ -12759,12 +11970,6 @@ extension Macie2ClientTypes {
 }
 
 extension Macie2ClientTypes.Statistics {
-
-    static func write(value: Macie2ClientTypes.Statistics?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["approximateNumberOfObjectsToProcess"].write(value.approximateNumberOfObjectsToProcess)
-        try writer["numberOfRuns"].write(value.numberOfRuns)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.Statistics {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -12853,14 +12058,6 @@ extension Macie2ClientTypes.SuppressDataIdentifier {
         guard let value else { return }
         try writer["id"].write(value.id)
         try writer["type"].write(value.type)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.SuppressDataIdentifier {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Macie2ClientTypes.SuppressDataIdentifier()
-        value.id = try reader["id"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
-        return value
     }
 }
 
@@ -13478,13 +12675,6 @@ public struct UnprocessableEntityException: ClientRuntime.ModeledError, AWSClien
 }
 
 extension Macie2ClientTypes.UnprocessedAccount {
-
-    static func write(value: Macie2ClientTypes.UnprocessedAccount?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["accountId"].write(value.accountId)
-        try writer["errorCode"].write(value.errorCode)
-        try writer["errorMessage"].write(value.errorMessage)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.UnprocessedAccount {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -14341,14 +13531,6 @@ extension Macie2ClientTypes.UpdateRetrievalConfiguration {
         try writer["retrievalMode"].write(value.retrievalMode)
         try writer["roleName"].write(value.roleName)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.UpdateRetrievalConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Macie2ClientTypes.UpdateRetrievalConfiguration()
-        value.retrievalMode = try reader["retrievalMode"].readIfPresent()
-        value.roleName = try reader["roleName"].readIfPresent()
-        return value
-    }
 }
 
 extension Macie2ClientTypes {
@@ -14528,14 +13710,6 @@ enum UpdateSensitivityInspectionTemplateOutputError {
 
 extension Macie2ClientTypes.UsageByAccount {
 
-    static func write(value: Macie2ClientTypes.UsageByAccount?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["currency"].write(value.currency)
-        try writer["estimatedCost"].write(value.estimatedCost)
-        try writer["serviceLimit"].write(value.serviceLimit, with: Macie2ClientTypes.ServiceLimit.write(value:to:))
-        try writer["type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.UsageByAccount {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Macie2ClientTypes.UsageByAccount()
@@ -14576,14 +13750,6 @@ extension Macie2ClientTypes {
 }
 
 extension Macie2ClientTypes.UsageRecord {
-
-    static func write(value: Macie2ClientTypes.UsageRecord?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["accountId"].write(value.accountId)
-        try writer["automatedDiscoveryFreeTrialStartDate"].writeTimestamp(value.automatedDiscoveryFreeTrialStartDate, format: .dateTime)
-        try writer["freeTrialStartDate"].writeTimestamp(value.freeTrialStartDate, format: .dateTime)
-        try writer["usage"].writeList(value.usage, memberWritingClosure: Macie2ClientTypes.UsageByAccount.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.UsageRecord {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -14631,15 +13797,6 @@ extension Macie2ClientTypes.UsageStatisticsFilter {
         try writer["comparator"].write(value.comparator)
         try writer["key"].write(value.key)
         try writer["values"].writeList(value.values, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.UsageStatisticsFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Macie2ClientTypes.UsageStatisticsFilter()
-        value.comparator = try reader["comparator"].readIfPresent()
-        value.key = try reader["key"].readIfPresent()
-        value.values = try reader["values"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -14765,14 +13922,6 @@ extension Macie2ClientTypes.UsageStatisticsSortBy {
         try writer["key"].write(value.key)
         try writer["orderBy"].write(value.orderBy)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.UsageStatisticsSortBy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Macie2ClientTypes.UsageStatisticsSortBy()
-        value.key = try reader["key"].readIfPresent()
-        value.orderBy = try reader["orderBy"].readIfPresent()
-        return value
-    }
 }
 
 extension Macie2ClientTypes {
@@ -14833,13 +13982,6 @@ extension Macie2ClientTypes {
 }
 
 extension Macie2ClientTypes.UsageTotal {
-
-    static func write(value: Macie2ClientTypes.UsageTotal?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["currency"].write(value.currency)
-        try writer["estimatedCost"].write(value.estimatedCost)
-        try writer["type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.UsageTotal {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -14914,17 +14056,6 @@ extension Macie2ClientTypes {
 
 extension Macie2ClientTypes.UserIdentity {
 
-    static func write(value: Macie2ClientTypes.UserIdentity?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["assumedRole"].write(value.assumedRole, with: Macie2ClientTypes.AssumedRole.write(value:to:))
-        try writer["awsAccount"].write(value.awsAccount, with: Macie2ClientTypes.AwsAccount.write(value:to:))
-        try writer["awsService"].write(value.awsService, with: Macie2ClientTypes.AwsService.write(value:to:))
-        try writer["federatedUser"].write(value.federatedUser, with: Macie2ClientTypes.FederatedUser.write(value:to:))
-        try writer["iamUser"].write(value.iamUser, with: Macie2ClientTypes.IamUser.write(value:to:))
-        try writer["root"].write(value.root, with: Macie2ClientTypes.UserIdentityRoot.write(value:to:))
-        try writer["type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.UserIdentity {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Macie2ClientTypes.UserIdentity()
@@ -14980,13 +14111,6 @@ extension Macie2ClientTypes {
 }
 
 extension Macie2ClientTypes.UserIdentityRoot {
-
-    static func write(value: Macie2ClientTypes.UserIdentityRoot?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["accountId"].write(value.accountId)
-        try writer["arn"].write(value.arn)
-        try writer["principalId"].write(value.principalId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.UserIdentityRoot {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -15066,13 +14190,6 @@ extension Macie2ClientTypes {
 }
 
 extension Macie2ClientTypes.UserPausedDetails {
-
-    static func write(value: Macie2ClientTypes.UserPausedDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["jobExpiresAt"].writeTimestamp(value.jobExpiresAt, format: .dateTime)
-        try writer["jobImminentExpirationHealthEventArn"].write(value.jobImminentExpirationHealthEventArn)
-        try writer["jobPausedAt"].writeTimestamp(value.jobPausedAt, format: .dateTime)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.UserPausedDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

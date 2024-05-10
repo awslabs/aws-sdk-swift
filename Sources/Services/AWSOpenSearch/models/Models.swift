@@ -153,12 +153,6 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
 extension OpenSearchClientTypes.AccessPoliciesStatus {
 
-    static func write(value: OpenSearchClientTypes.AccessPoliciesStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Options"].write(value.options)
-        try writer["Status"].write(value.status, with: OpenSearchClientTypes.OptionStatus.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.AccessPoliciesStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OpenSearchClientTypes.AccessPoliciesStatus()
@@ -457,12 +451,6 @@ enum AddTagsOutputError {
 
 extension OpenSearchClientTypes.AdditionalLimit {
 
-    static func write(value: OpenSearchClientTypes.AdditionalLimit?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["LimitName"].write(value.limitName)
-        try writer["LimitValues"].writeList(value.limitValues, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.AdditionalLimit {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OpenSearchClientTypes.AdditionalLimit()
@@ -495,12 +483,6 @@ extension OpenSearchClientTypes {
 }
 
 extension OpenSearchClientTypes.AdvancedOptionsStatus {
-
-    static func write(value: OpenSearchClientTypes.AdvancedOptionsStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Options"].writeMap(value.options, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["Status"].write(value.status, with: OpenSearchClientTypes.OptionStatus.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.AdvancedOptionsStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -545,15 +527,6 @@ extension OpenSearchClientTypes {
 }
 
 extension OpenSearchClientTypes.AdvancedSecurityOptions {
-
-    static func write(value: OpenSearchClientTypes.AdvancedSecurityOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AnonymousAuthDisableDate"].writeTimestamp(value.anonymousAuthDisableDate, format: .epochSeconds)
-        try writer["AnonymousAuthEnabled"].write(value.anonymousAuthEnabled)
-        try writer["Enabled"].write(value.enabled)
-        try writer["InternalUserDatabaseEnabled"].write(value.internalUserDatabaseEnabled)
-        try writer["SAMLOptions"].write(value.samlOptions, with: OpenSearchClientTypes.SAMLOptionsOutput.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.AdvancedSecurityOptions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -609,17 +582,6 @@ extension OpenSearchClientTypes.AdvancedSecurityOptionsInput {
         try writer["MasterUserOptions"].write(value.masterUserOptions, with: OpenSearchClientTypes.MasterUserOptions.write(value:to:))
         try writer["SAMLOptions"].write(value.samlOptions, with: OpenSearchClientTypes.SAMLOptionsInput.write(value:to:))
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.AdvancedSecurityOptionsInput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OpenSearchClientTypes.AdvancedSecurityOptionsInput()
-        value.enabled = try reader["Enabled"].readIfPresent()
-        value.internalUserDatabaseEnabled = try reader["InternalUserDatabaseEnabled"].readIfPresent()
-        value.masterUserOptions = try reader["MasterUserOptions"].readIfPresent(with: OpenSearchClientTypes.MasterUserOptions.read(from:))
-        value.samlOptions = try reader["SAMLOptions"].readIfPresent(with: OpenSearchClientTypes.SAMLOptionsInput.read(from:))
-        value.anonymousAuthEnabled = try reader["AnonymousAuthEnabled"].readIfPresent()
-        return value
-    }
 }
 
 extension OpenSearchClientTypes {
@@ -655,12 +617,6 @@ extension OpenSearchClientTypes {
 }
 
 extension OpenSearchClientTypes.AdvancedSecurityOptionsStatus {
-
-    static func write(value: OpenSearchClientTypes.AdvancedSecurityOptionsStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Options"].write(value.options, with: OpenSearchClientTypes.AdvancedSecurityOptions.write(value:to:))
-        try writer["Status"].write(value.status, with: OpenSearchClientTypes.OptionStatus.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.AdvancedSecurityOptionsStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -851,12 +807,6 @@ enum AuthorizeVpcEndpointAccessOutputError {
 
 extension OpenSearchClientTypes.AuthorizedPrincipal {
 
-    static func write(value: OpenSearchClientTypes.AuthorizedPrincipal?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Principal"].write(value.principal)
-        try writer["PrincipalType"].write(value.principalType)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.AuthorizedPrincipal {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OpenSearchClientTypes.AuthorizedPrincipal()
@@ -887,12 +837,6 @@ extension OpenSearchClientTypes {
 }
 
 extension OpenSearchClientTypes.AutoTune {
-
-    static func write(value: OpenSearchClientTypes.AutoTune?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AutoTuneDetails"].write(value.autoTuneDetails, with: OpenSearchClientTypes.AutoTuneDetails.write(value:to:))
-        try writer["AutoTuneType"].write(value.autoTuneType)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.AutoTune {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -955,11 +899,6 @@ extension OpenSearchClientTypes {
 }
 
 extension OpenSearchClientTypes.AutoTuneDetails {
-
-    static func write(value: OpenSearchClientTypes.AutoTuneDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ScheduledAutoTuneDetails"].write(value.scheduledAutoTuneDetails, with: OpenSearchClientTypes.ScheduledAutoTuneDetails.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.AutoTuneDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1085,15 +1024,6 @@ extension OpenSearchClientTypes.AutoTuneOptionsInput {
         try writer["MaintenanceSchedules"].writeList(value.maintenanceSchedules, memberWritingClosure: OpenSearchClientTypes.AutoTuneMaintenanceSchedule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["UseOffPeakWindow"].write(value.useOffPeakWindow)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.AutoTuneOptionsInput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OpenSearchClientTypes.AutoTuneOptionsInput()
-        value.desiredState = try reader["DesiredState"].readIfPresent()
-        value.maintenanceSchedules = try reader["MaintenanceSchedules"].readListIfPresent(memberReadingClosure: OpenSearchClientTypes.AutoTuneMaintenanceSchedule.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.useOffPeakWindow = try reader["UseOffPeakWindow"].readIfPresent()
-        return value
-    }
 }
 
 extension OpenSearchClientTypes {
@@ -1121,13 +1051,6 @@ extension OpenSearchClientTypes {
 }
 
 extension OpenSearchClientTypes.AutoTuneOptionsOutput {
-
-    static func write(value: OpenSearchClientTypes.AutoTuneOptionsOutput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ErrorMessage"].write(value.errorMessage)
-        try writer["State"].write(value.state)
-        try writer["UseOffPeakWindow"].write(value.useOffPeakWindow)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.AutoTuneOptionsOutput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1164,12 +1087,6 @@ extension OpenSearchClientTypes {
 }
 
 extension OpenSearchClientTypes.AutoTuneOptionsStatus {
-
-    static func write(value: OpenSearchClientTypes.AutoTuneOptionsStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Options"].write(value.options, with: OpenSearchClientTypes.AutoTuneOptions.write(value:to:))
-        try writer["Status"].write(value.status, with: OpenSearchClientTypes.AutoTuneStatus.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.AutoTuneOptionsStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1254,16 +1171,6 @@ extension OpenSearchClientTypes {
 
 extension OpenSearchClientTypes.AutoTuneStatus {
 
-    static func write(value: OpenSearchClientTypes.AutoTuneStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationDate"].writeTimestamp(value.creationDate, format: .epochSeconds)
-        try writer["ErrorMessage"].write(value.errorMessage)
-        try writer["PendingDeletion"].write(value.pendingDeletion)
-        try writer["State"].write(value.state)
-        try writer["UpdateDate"].writeTimestamp(value.updateDate, format: .epochSeconds)
-        try writer["UpdateVersion"].write(value.updateVersion)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.AutoTuneStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OpenSearchClientTypes.AutoTuneStatus()
@@ -1345,16 +1252,6 @@ extension OpenSearchClientTypes {
 }
 
 extension OpenSearchClientTypes.AvailabilityZoneInfo {
-
-    static func write(value: OpenSearchClientTypes.AvailabilityZoneInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AvailabilityZoneName"].write(value.availabilityZoneName)
-        try writer["AvailableDataNodeCount"].write(value.availableDataNodeCount)
-        try writer["ConfiguredDataNodeCount"].write(value.configuredDataNodeCount)
-        try writer["TotalShards"].write(value.totalShards)
-        try writer["TotalUnAssignedShards"].write(value.totalUnAssignedShards)
-        try writer["ZoneStatus"].write(value.zoneStatus)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.AvailabilityZoneInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1609,13 +1506,6 @@ enum CancelServiceSoftwareUpdateOutputError {
 
 extension OpenSearchClientTypes.CancelledChangeProperty {
 
-    static func write(value: OpenSearchClientTypes.CancelledChangeProperty?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ActiveValue"].write(value.activeValue)
-        try writer["CancelledValue"].write(value.cancelledValue)
-        try writer["PropertyName"].write(value.propertyName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.CancelledChangeProperty {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OpenSearchClientTypes.CancelledChangeProperty()
@@ -1651,16 +1541,6 @@ extension OpenSearchClientTypes {
 }
 
 extension OpenSearchClientTypes.ChangeProgressDetails {
-
-    static func write(value: OpenSearchClientTypes.ChangeProgressDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ChangeId"].write(value.changeId)
-        try writer["ConfigChangeStatus"].write(value.configChangeStatus)
-        try writer["InitiatedBy"].write(value.initiatedBy)
-        try writer["LastUpdatedTime"].writeTimestamp(value.lastUpdatedTime, format: .epochSeconds)
-        try writer["Message"].write(value.message)
-        try writer["StartTime"].writeTimestamp(value.startTime, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.ChangeProgressDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1713,14 +1593,6 @@ extension OpenSearchClientTypes {
 
 extension OpenSearchClientTypes.ChangeProgressStage {
 
-    static func write(value: OpenSearchClientTypes.ChangeProgressStage?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Description"].write(value.description)
-        try writer["LastUpdated"].writeTimestamp(value.lastUpdated, format: .epochSeconds)
-        try writer["Name"].write(value.name)
-        try writer["Status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.ChangeProgressStage {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OpenSearchClientTypes.ChangeProgressStage()
@@ -1761,20 +1633,6 @@ extension OpenSearchClientTypes {
 }
 
 extension OpenSearchClientTypes.ChangeProgressStatusDetails {
-
-    static func write(value: OpenSearchClientTypes.ChangeProgressStatusDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ChangeId"].write(value.changeId)
-        try writer["ChangeProgressStages"].writeList(value.changeProgressStages, memberWritingClosure: OpenSearchClientTypes.ChangeProgressStage.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["CompletedProperties"].writeList(value.completedProperties, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ConfigChangeStatus"].write(value.configChangeStatus)
-        try writer["InitiatedBy"].write(value.initiatedBy)
-        try writer["LastUpdatedTime"].writeTimestamp(value.lastUpdatedTime, format: .epochSeconds)
-        try writer["PendingProperties"].writeList(value.pendingProperties, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["StartTime"].writeTimestamp(value.startTime, format: .epochSeconds)
-        try writer["Status"].write(value.status)
-        try writer["TotalNumberOfStages"].write(value.totalNumberOfStages)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.ChangeProgressStatusDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1944,12 +1802,6 @@ extension OpenSearchClientTypes {
 
 extension OpenSearchClientTypes.ClusterConfigStatus {
 
-    static func write(value: OpenSearchClientTypes.ClusterConfigStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Options"].write(value.options, with: OpenSearchClientTypes.ClusterConfig.write(value:to:))
-        try writer["Status"].write(value.status, with: OpenSearchClientTypes.OptionStatus.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.ClusterConfigStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OpenSearchClientTypes.ClusterConfigStatus()
@@ -2032,12 +1884,6 @@ extension OpenSearchClientTypes {
 
 extension OpenSearchClientTypes.CognitoOptionsStatus {
 
-    static func write(value: OpenSearchClientTypes.CognitoOptionsStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Options"].write(value.options, with: OpenSearchClientTypes.CognitoOptions.write(value:to:))
-        try writer["Status"].write(value.status, with: OpenSearchClientTypes.OptionStatus.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.CognitoOptionsStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OpenSearchClientTypes.CognitoOptionsStatus()
@@ -2102,12 +1948,6 @@ extension OpenSearchClientTypes {
 }
 
 extension OpenSearchClientTypes.CompatibleVersionsMap {
-
-    static func write(value: OpenSearchClientTypes.CompatibleVersionsMap?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["SourceVersion"].write(value.sourceVersion)
-        try writer["TargetVersions"].writeList(value.targetVersions, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.CompatibleVersionsMap {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2799,13 +2639,6 @@ extension OpenSearchClientTypes {
 }
 
 extension OpenSearchClientTypes.DataSourceDetails {
-
-    static func write(value: OpenSearchClientTypes.DataSourceDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DataSourceType"].write(value.dataSourceType, with: OpenSearchClientTypes.DataSourceType.write(value:to:))
-        try writer["Description"].write(value.description)
-        try writer["Name"].write(value.name)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.DataSourceDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4305,14 +4138,6 @@ extension OpenSearchClientTypes.DescribePackagesFilter {
         try writer["Name"].write(value.name)
         try writer["Value"].writeList(value.value, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.DescribePackagesFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OpenSearchClientTypes.DescribePackagesFilter()
-        value.name = try reader["Name"].readIfPresent()
-        value.value = try reader["Value"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
 }
 
 extension OpenSearchClientTypes {
@@ -4842,29 +4667,6 @@ enum DissociatePackageOutputError {
 
 extension OpenSearchClientTypes.DomainConfig {
 
-    static func write(value: OpenSearchClientTypes.DomainConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccessPolicies"].write(value.accessPolicies, with: OpenSearchClientTypes.AccessPoliciesStatus.write(value:to:))
-        try writer["AdvancedOptions"].write(value.advancedOptions, with: OpenSearchClientTypes.AdvancedOptionsStatus.write(value:to:))
-        try writer["AdvancedSecurityOptions"].write(value.advancedSecurityOptions, with: OpenSearchClientTypes.AdvancedSecurityOptionsStatus.write(value:to:))
-        try writer["AutoTuneOptions"].write(value.autoTuneOptions, with: OpenSearchClientTypes.AutoTuneOptionsStatus.write(value:to:))
-        try writer["ChangeProgressDetails"].write(value.changeProgressDetails, with: OpenSearchClientTypes.ChangeProgressDetails.write(value:to:))
-        try writer["ClusterConfig"].write(value.clusterConfig, with: OpenSearchClientTypes.ClusterConfigStatus.write(value:to:))
-        try writer["CognitoOptions"].write(value.cognitoOptions, with: OpenSearchClientTypes.CognitoOptionsStatus.write(value:to:))
-        try writer["DomainEndpointOptions"].write(value.domainEndpointOptions, with: OpenSearchClientTypes.DomainEndpointOptionsStatus.write(value:to:))
-        try writer["EBSOptions"].write(value.ebsOptions, with: OpenSearchClientTypes.EBSOptionsStatus.write(value:to:))
-        try writer["EncryptionAtRestOptions"].write(value.encryptionAtRestOptions, with: OpenSearchClientTypes.EncryptionAtRestOptionsStatus.write(value:to:))
-        try writer["EngineVersion"].write(value.engineVersion, with: OpenSearchClientTypes.VersionStatus.write(value:to:))
-        try writer["IPAddressType"].write(value.ipAddressType, with: OpenSearchClientTypes.IPAddressTypeStatus.write(value:to:))
-        try writer["LogPublishingOptions"].write(value.logPublishingOptions, with: OpenSearchClientTypes.LogPublishingOptionsStatus.write(value:to:))
-        try writer["ModifyingProperties"].writeList(value.modifyingProperties, memberWritingClosure: OpenSearchClientTypes.ModifyingProperties.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["NodeToNodeEncryptionOptions"].write(value.nodeToNodeEncryptionOptions, with: OpenSearchClientTypes.NodeToNodeEncryptionOptionsStatus.write(value:to:))
-        try writer["OffPeakWindowOptions"].write(value.offPeakWindowOptions, with: OpenSearchClientTypes.OffPeakWindowOptionsStatus.write(value:to:))
-        try writer["SnapshotOptions"].write(value.snapshotOptions, with: OpenSearchClientTypes.SnapshotOptionsStatus.write(value:to:))
-        try writer["SoftwareUpdateOptions"].write(value.softwareUpdateOptions, with: OpenSearchClientTypes.SoftwareUpdateOptionsStatus.write(value:to:))
-        try writer["VPCOptions"].write(value.vpcOptions, with: OpenSearchClientTypes.VPCDerivedInfoStatus.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.DomainConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OpenSearchClientTypes.DomainConfig()
@@ -5042,12 +4844,6 @@ extension OpenSearchClientTypes {
 
 extension OpenSearchClientTypes.DomainEndpointOptionsStatus {
 
-    static func write(value: OpenSearchClientTypes.DomainEndpointOptionsStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Options"].write(value.options, with: OpenSearchClientTypes.DomainEndpointOptions.write(value:to:))
-        try writer["Status"].write(value.status, with: OpenSearchClientTypes.OptionStatus.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.DomainEndpointOptionsStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OpenSearchClientTypes.DomainEndpointOptionsStatus()
@@ -5117,12 +4913,6 @@ extension OpenSearchClientTypes {
 
 extension OpenSearchClientTypes.DomainInfo {
 
-    static func write(value: OpenSearchClientTypes.DomainInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DomainName"].write(value.domainName)
-        try writer["EngineType"].write(value.engineType)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.DomainInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OpenSearchClientTypes.DomainInfo()
@@ -5185,18 +4975,6 @@ extension OpenSearchClientTypes {
 
 extension OpenSearchClientTypes.DomainMaintenanceDetails {
 
-    static func write(value: OpenSearchClientTypes.DomainMaintenanceDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Action"].write(value.action)
-        try writer["CreatedAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["DomainName"].write(value.domainName)
-        try writer["MaintenanceId"].write(value.maintenanceId)
-        try writer["NodeId"].write(value.nodeId)
-        try writer["Status"].write(value.status)
-        try writer["StatusMessage"].write(value.statusMessage)
-        try writer["UpdatedAt"].writeTimestamp(value.updatedAt, format: .epochSeconds)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.DomainMaintenanceDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OpenSearchClientTypes.DomainMaintenanceDetails()
@@ -5258,18 +5036,6 @@ extension OpenSearchClientTypes {
 
 extension OpenSearchClientTypes.DomainNodesStatus {
 
-    static func write(value: OpenSearchClientTypes.DomainNodesStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AvailabilityZone"].write(value.availabilityZone)
-        try writer["InstanceType"].write(value.instanceType)
-        try writer["NodeId"].write(value.nodeId)
-        try writer["NodeStatus"].write(value.nodeStatus)
-        try writer["NodeType"].write(value.nodeType)
-        try writer["StorageSize"].write(value.storageSize)
-        try writer["StorageType"].write(value.storageType)
-        try writer["StorageVolumeType"].write(value.storageVolumeType)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.DomainNodesStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OpenSearchClientTypes.DomainNodesStatus()
@@ -5330,19 +5096,6 @@ extension OpenSearchClientTypes {
 }
 
 extension OpenSearchClientTypes.DomainPackageDetails {
-
-    static func write(value: OpenSearchClientTypes.DomainPackageDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DomainName"].write(value.domainName)
-        try writer["DomainPackageStatus"].write(value.domainPackageStatus)
-        try writer["ErrorDetails"].write(value.errorDetails, with: OpenSearchClientTypes.ErrorDetails.write(value:to:))
-        try writer["LastUpdated"].writeTimestamp(value.lastUpdated, format: .epochSeconds)
-        try writer["PackageID"].write(value.packageID)
-        try writer["PackageName"].write(value.packageName)
-        try writer["PackageType"].write(value.packageType)
-        try writer["PackageVersion"].write(value.packageVersion)
-        try writer["ReferencePath"].write(value.referencePath)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.DomainPackageDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5526,42 +5279,6 @@ extension OpenSearchClientTypes {
 }
 
 extension OpenSearchClientTypes.DomainStatus {
-
-    static func write(value: OpenSearchClientTypes.DomainStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ARN"].write(value.arn)
-        try writer["AccessPolicies"].write(value.accessPolicies)
-        try writer["AdvancedOptions"].writeMap(value.advancedOptions, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["AdvancedSecurityOptions"].write(value.advancedSecurityOptions, with: OpenSearchClientTypes.AdvancedSecurityOptions.write(value:to:))
-        try writer["AutoTuneOptions"].write(value.autoTuneOptions, with: OpenSearchClientTypes.AutoTuneOptionsOutput.write(value:to:))
-        try writer["ChangeProgressDetails"].write(value.changeProgressDetails, with: OpenSearchClientTypes.ChangeProgressDetails.write(value:to:))
-        try writer["ClusterConfig"].write(value.clusterConfig, with: OpenSearchClientTypes.ClusterConfig.write(value:to:))
-        try writer["CognitoOptions"].write(value.cognitoOptions, with: OpenSearchClientTypes.CognitoOptions.write(value:to:))
-        try writer["Created"].write(value.created)
-        try writer["Deleted"].write(value.deleted)
-        try writer["DomainEndpointOptions"].write(value.domainEndpointOptions, with: OpenSearchClientTypes.DomainEndpointOptions.write(value:to:))
-        try writer["DomainEndpointV2HostedZoneId"].write(value.domainEndpointV2HostedZoneId)
-        try writer["DomainId"].write(value.domainId)
-        try writer["DomainName"].write(value.domainName)
-        try writer["DomainProcessingStatus"].write(value.domainProcessingStatus)
-        try writer["EBSOptions"].write(value.ebsOptions, with: OpenSearchClientTypes.EBSOptions.write(value:to:))
-        try writer["EncryptionAtRestOptions"].write(value.encryptionAtRestOptions, with: OpenSearchClientTypes.EncryptionAtRestOptions.write(value:to:))
-        try writer["Endpoint"].write(value.endpoint)
-        try writer["EndpointV2"].write(value.endpointV2)
-        try writer["Endpoints"].writeMap(value.endpoints, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["EngineVersion"].write(value.engineVersion)
-        try writer["IPAddressType"].write(value.ipAddressType)
-        try writer["LogPublishingOptions"].writeMap(value.logPublishingOptions, valueWritingClosure: OpenSearchClientTypes.LogPublishingOption.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["ModifyingProperties"].writeList(value.modifyingProperties, memberWritingClosure: OpenSearchClientTypes.ModifyingProperties.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["NodeToNodeEncryptionOptions"].write(value.nodeToNodeEncryptionOptions, with: OpenSearchClientTypes.NodeToNodeEncryptionOptions.write(value:to:))
-        try writer["OffPeakWindowOptions"].write(value.offPeakWindowOptions, with: OpenSearchClientTypes.OffPeakWindowOptions.write(value:to:))
-        try writer["Processing"].write(value.processing)
-        try writer["ServiceSoftwareOptions"].write(value.serviceSoftwareOptions, with: OpenSearchClientTypes.ServiceSoftwareOptions.write(value:to:))
-        try writer["SnapshotOptions"].write(value.snapshotOptions, with: OpenSearchClientTypes.SnapshotOptions.write(value:to:))
-        try writer["SoftwareUpdateOptions"].write(value.softwareUpdateOptions, with: OpenSearchClientTypes.SoftwareUpdateOptions.write(value:to:))
-        try writer["UpgradeProcessing"].write(value.upgradeProcessing)
-        try writer["VPCOptions"].write(value.vpcOptions, with: OpenSearchClientTypes.VPCDerivedInfo.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.DomainStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5782,15 +5499,6 @@ extension OpenSearchClientTypes {
 
 extension OpenSearchClientTypes.DryRunProgressStatus {
 
-    static func write(value: OpenSearchClientTypes.DryRunProgressStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationDate"].write(value.creationDate)
-        try writer["DryRunId"].write(value.dryRunId)
-        try writer["DryRunStatus"].write(value.dryRunStatus)
-        try writer["UpdateDate"].write(value.updateDate)
-        try writer["ValidationFailures"].writeList(value.validationFailures, memberWritingClosure: OpenSearchClientTypes.ValidationFailure.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.DryRunProgressStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OpenSearchClientTypes.DryRunProgressStatus()
@@ -5840,12 +5548,6 @@ extension OpenSearchClientTypes {
 }
 
 extension OpenSearchClientTypes.DryRunResults {
-
-    static func write(value: OpenSearchClientTypes.DryRunResults?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DeploymentType"].write(value.deploymentType)
-        try writer["Message"].write(value.message)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.DryRunResults {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5978,12 +5680,6 @@ extension OpenSearchClientTypes {
 
 extension OpenSearchClientTypes.EBSOptionsStatus {
 
-    static func write(value: OpenSearchClientTypes.EBSOptionsStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Options"].write(value.options, with: OpenSearchClientTypes.EBSOptions.write(value:to:))
-        try writer["Status"].write(value.status, with: OpenSearchClientTypes.OptionStatus.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.EBSOptionsStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OpenSearchClientTypes.EBSOptionsStatus()
@@ -6054,12 +5750,6 @@ extension OpenSearchClientTypes {
 
 extension OpenSearchClientTypes.EncryptionAtRestOptionsStatus {
 
-    static func write(value: OpenSearchClientTypes.EncryptionAtRestOptionsStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Options"].write(value.options, with: OpenSearchClientTypes.EncryptionAtRestOptions.write(value:to:))
-        try writer["Status"].write(value.status, with: OpenSearchClientTypes.OptionStatus.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.EncryptionAtRestOptionsStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OpenSearchClientTypes.EncryptionAtRestOptionsStatus()
@@ -6123,11 +5813,6 @@ extension OpenSearchClientTypes {
 
 extension OpenSearchClientTypes.EnvironmentInfo {
 
-    static func write(value: OpenSearchClientTypes.EnvironmentInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AvailabilityZoneInformation"].writeList(value.availabilityZoneInformation, memberWritingClosure: OpenSearchClientTypes.AvailabilityZoneInfo.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.EnvironmentInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OpenSearchClientTypes.EnvironmentInfo()
@@ -6153,12 +5838,6 @@ extension OpenSearchClientTypes {
 }
 
 extension OpenSearchClientTypes.ErrorDetails {
-
-    static func write(value: OpenSearchClientTypes.ErrorDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ErrorMessage"].write(value.errorMessage)
-        try writer["ErrorType"].write(value.errorType)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.ErrorDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6195,14 +5874,6 @@ extension OpenSearchClientTypes.Filter {
         guard let value else { return }
         try writer["Name"].write(value.name)
         try writer["Values"].writeList(value.values, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.Filter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OpenSearchClientTypes.Filter()
-        value.name = try reader["Name"].readIfPresent()
-        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -6804,12 +6475,6 @@ extension OpenSearchClientTypes {
 
 extension OpenSearchClientTypes.IPAddressTypeStatus {
 
-    static func write(value: OpenSearchClientTypes.IPAddressTypeStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Options"].write(value.options)
-        try writer["Status"].write(value.status, with: OpenSearchClientTypes.OptionStatus.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.IPAddressTypeStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OpenSearchClientTypes.IPAddressTypeStatus()
@@ -6842,15 +6507,6 @@ extension OpenSearchClientTypes {
 }
 
 extension OpenSearchClientTypes.InboundConnection {
-
-    static func write(value: OpenSearchClientTypes.InboundConnection?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ConnectionId"].write(value.connectionId)
-        try writer["ConnectionMode"].write(value.connectionMode)
-        try writer["ConnectionStatus"].write(value.connectionStatus, with: OpenSearchClientTypes.InboundConnectionStatus.write(value:to:))
-        try writer["LocalDomainInfo"].write(value.localDomainInfo, with: OpenSearchClientTypes.DomainInformationContainer.write(value:to:))
-        try writer["RemoteDomainInfo"].write(value.remoteDomainInfo, with: OpenSearchClientTypes.DomainInformationContainer.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.InboundConnection {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6897,12 +6553,6 @@ extension OpenSearchClientTypes {
 }
 
 extension OpenSearchClientTypes.InboundConnectionStatus {
-
-    static func write(value: OpenSearchClientTypes.InboundConnectionStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.message)
-        try writer["StatusCode"].write(value.statusCode)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.InboundConnectionStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7029,12 +6679,6 @@ extension OpenSearchClientTypes {
 
 extension OpenSearchClientTypes.InstanceCountLimits {
 
-    static func write(value: OpenSearchClientTypes.InstanceCountLimits?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MaximumInstanceCount"].write(value.maximumInstanceCount)
-        try writer["MinimumInstanceCount"].write(value.minimumInstanceCount)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.InstanceCountLimits {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OpenSearchClientTypes.InstanceCountLimits()
@@ -7066,11 +6710,6 @@ extension OpenSearchClientTypes {
 
 extension OpenSearchClientTypes.InstanceLimits {
 
-    static func write(value: OpenSearchClientTypes.InstanceLimits?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["InstanceCountLimits"].write(value.instanceCountLimits, with: OpenSearchClientTypes.InstanceCountLimits.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.InstanceLimits {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OpenSearchClientTypes.InstanceLimits()
@@ -7096,18 +6735,6 @@ extension OpenSearchClientTypes {
 }
 
 extension OpenSearchClientTypes.InstanceTypeDetails {
-
-    static func write(value: OpenSearchClientTypes.InstanceTypeDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AdvancedSecurityEnabled"].write(value.advancedSecurityEnabled)
-        try writer["AppLogsEnabled"].write(value.appLogsEnabled)
-        try writer["AvailabilityZones"].writeList(value.availabilityZones, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["CognitoEnabled"].write(value.cognitoEnabled)
-        try writer["EncryptionEnabled"].write(value.encryptionEnabled)
-        try writer["InstanceRole"].writeList(value.instanceRole, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["InstanceType"].write(value.instanceType)
-        try writer["WarmEnabled"].write(value.warmEnabled)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.InstanceTypeDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7321,13 +6948,6 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 }
 
 extension OpenSearchClientTypes.Limits {
-
-    static func write(value: OpenSearchClientTypes.Limits?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AdditionalLimits"].writeList(value.additionalLimits, memberWritingClosure: OpenSearchClientTypes.AdditionalLimit.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["InstanceLimits"].write(value.instanceLimits, with: OpenSearchClientTypes.InstanceLimits.write(value:to:))
-        try writer["StorageTypes"].writeList(value.storageTypes, memberWritingClosure: OpenSearchClientTypes.StorageType.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.Limits {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8473,12 +8093,6 @@ extension OpenSearchClientTypes {
 
 extension OpenSearchClientTypes.LogPublishingOptionsStatus {
 
-    static func write(value: OpenSearchClientTypes.LogPublishingOptionsStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Options"].writeMap(value.options, valueWritingClosure: OpenSearchClientTypes.LogPublishingOption.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["Status"].write(value.status, with: OpenSearchClientTypes.OptionStatus.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.LogPublishingOptionsStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OpenSearchClientTypes.LogPublishingOptionsStatus()
@@ -8668,15 +8282,6 @@ extension OpenSearchClientTypes.MasterUserOptions {
         try writer["MasterUserName"].write(value.masterUserName)
         try writer["MasterUserPassword"].write(value.masterUserPassword)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.MasterUserOptions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OpenSearchClientTypes.MasterUserOptions()
-        value.masterUserARN = try reader["MasterUserARN"].readIfPresent()
-        value.masterUserName = try reader["MasterUserName"].readIfPresent()
-        value.masterUserPassword = try reader["MasterUserPassword"].readIfPresent()
-        return value
-    }
 }
 
 extension OpenSearchClientTypes {
@@ -8704,14 +8309,6 @@ extension OpenSearchClientTypes {
 }
 
 extension OpenSearchClientTypes.ModifyingProperties {
-
-    static func write(value: OpenSearchClientTypes.ModifyingProperties?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ActiveValue"].write(value.activeValue)
-        try writer["Name"].write(value.name)
-        try writer["PendingValue"].write(value.pendingValue)
-        try writer["ValueType"].write(value.valueType)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.ModifyingProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8821,12 +8418,6 @@ extension OpenSearchClientTypes {
 }
 
 extension OpenSearchClientTypes.NodeToNodeEncryptionOptionsStatus {
-
-    static func write(value: OpenSearchClientTypes.NodeToNodeEncryptionOptionsStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Options"].write(value.options, with: OpenSearchClientTypes.NodeToNodeEncryptionOptions.write(value:to:))
-        try writer["Status"].write(value.status, with: OpenSearchClientTypes.OptionStatus.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.NodeToNodeEncryptionOptionsStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8961,12 +8552,6 @@ extension OpenSearchClientTypes {
 }
 
 extension OpenSearchClientTypes.OffPeakWindowOptionsStatus {
-
-    static func write(value: OpenSearchClientTypes.OffPeakWindowOptionsStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Options"].write(value.options, with: OpenSearchClientTypes.OffPeakWindowOptions.write(value:to:))
-        try writer["Status"].write(value.status, with: OpenSearchClientTypes.OptionStatus.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.OffPeakWindowOptionsStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -9405,15 +8990,6 @@ extension OpenSearchClientTypes {
 
 extension OpenSearchClientTypes.OptionStatus {
 
-    static func write(value: OpenSearchClientTypes.OptionStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationDate"].writeTimestamp(value.creationDate, format: .epochSeconds)
-        try writer["PendingDeletion"].write(value.pendingDeletion)
-        try writer["State"].write(value.state)
-        try writer["UpdateDate"].writeTimestamp(value.updateDate, format: .epochSeconds)
-        try writer["UpdateVersion"].write(value.updateVersion)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.OptionStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OpenSearchClientTypes.OptionStatus()
@@ -9462,17 +9038,6 @@ extension OpenSearchClientTypes {
 }
 
 extension OpenSearchClientTypes.OutboundConnection {
-
-    static func write(value: OpenSearchClientTypes.OutboundConnection?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ConnectionAlias"].write(value.connectionAlias)
-        try writer["ConnectionId"].write(value.connectionId)
-        try writer["ConnectionMode"].write(value.connectionMode)
-        try writer["ConnectionProperties"].write(value.connectionProperties, with: OpenSearchClientTypes.ConnectionProperties.write(value:to:))
-        try writer["ConnectionStatus"].write(value.connectionStatus, with: OpenSearchClientTypes.OutboundConnectionStatus.write(value:to:))
-        try writer["LocalDomainInfo"].write(value.localDomainInfo, with: OpenSearchClientTypes.DomainInformationContainer.write(value:to:))
-        try writer["RemoteDomainInfo"].write(value.remoteDomainInfo, with: OpenSearchClientTypes.DomainInformationContainer.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.OutboundConnection {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -9529,12 +9094,6 @@ extension OpenSearchClientTypes {
 }
 
 extension OpenSearchClientTypes.OutboundConnectionStatus {
-
-    static func write(value: OpenSearchClientTypes.OutboundConnectionStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.message)
-        try writer["StatusCode"].write(value.statusCode)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.OutboundConnectionStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -9678,21 +9237,6 @@ extension OpenSearchClientTypes {
 
 extension OpenSearchClientTypes.PackageDetails {
 
-    static func write(value: OpenSearchClientTypes.PackageDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AvailablePackageVersion"].write(value.availablePackageVersion)
-        try writer["AvailablePluginProperties"].write(value.availablePluginProperties, with: OpenSearchClientTypes.PluginProperties.write(value:to:))
-        try writer["CreatedAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["EngineVersion"].write(value.engineVersion)
-        try writer["ErrorDetails"].write(value.errorDetails, with: OpenSearchClientTypes.ErrorDetails.write(value:to:))
-        try writer["LastUpdatedAt"].writeTimestamp(value.lastUpdatedAt, format: .epochSeconds)
-        try writer["PackageDescription"].write(value.packageDescription)
-        try writer["PackageID"].write(value.packageID)
-        try writer["PackageName"].write(value.packageName)
-        try writer["PackageStatus"].write(value.packageStatus)
-        try writer["PackageType"].write(value.packageType)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.PackageDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OpenSearchClientTypes.PackageDetails()
@@ -9773,14 +9317,6 @@ extension OpenSearchClientTypes.PackageSource {
         guard let value else { return }
         try writer["S3BucketName"].write(value.s3BucketName)
         try writer["S3Key"].write(value.s3Key)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.PackageSource {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OpenSearchClientTypes.PackageSource()
-        value.s3BucketName = try reader["S3BucketName"].readIfPresent()
-        value.s3Key = try reader["S3Key"].readIfPresent()
-        return value
     }
 }
 
@@ -9884,14 +9420,6 @@ extension OpenSearchClientTypes {
 
 extension OpenSearchClientTypes.PackageVersionHistory {
 
-    static func write(value: OpenSearchClientTypes.PackageVersionHistory?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CommitMessage"].write(value.commitMessage)
-        try writer["CreatedAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["PackageVersion"].write(value.packageVersion)
-        try writer["PluginProperties"].write(value.pluginProperties, with: OpenSearchClientTypes.PluginProperties.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.PackageVersionHistory {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OpenSearchClientTypes.PackageVersionHistory()
@@ -9932,15 +9460,6 @@ extension OpenSearchClientTypes {
 }
 
 extension OpenSearchClientTypes.PluginProperties {
-
-    static func write(value: OpenSearchClientTypes.PluginProperties?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ClassName"].write(value.className)
-        try writer["Description"].write(value.description)
-        try writer["Name"].write(value.name)
-        try writer["UncompressedSizeInBytes"].write(value.uncompressedSizeInBytes)
-        try writer["Version"].write(value.version)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.PluginProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -10137,12 +9656,6 @@ enum PurchaseReservedInstanceOfferingOutputError {
 
 extension OpenSearchClientTypes.RecurringCharge {
 
-    static func write(value: OpenSearchClientTypes.RecurringCharge?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["RecurringChargeAmount"].write(value.recurringChargeAmount)
-        try writer["RecurringChargeFrequency"].write(value.recurringChargeFrequency)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.RecurringCharge {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OpenSearchClientTypes.RecurringCharge()
@@ -10301,24 +9814,6 @@ enum RemoveTagsOutputError {
 
 extension OpenSearchClientTypes.ReservedInstance {
 
-    static func write(value: OpenSearchClientTypes.ReservedInstance?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BillingSubscriptionId"].write(value.billingSubscriptionId)
-        try writer["CurrencyCode"].write(value.currencyCode)
-        try writer["Duration"].write(value.duration)
-        try writer["FixedPrice"].write(value.fixedPrice)
-        try writer["InstanceCount"].write(value.instanceCount)
-        try writer["InstanceType"].write(value.instanceType)
-        try writer["PaymentOption"].write(value.paymentOption)
-        try writer["RecurringCharges"].writeList(value.recurringCharges, memberWritingClosure: OpenSearchClientTypes.RecurringCharge.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ReservationName"].write(value.reservationName)
-        try writer["ReservedInstanceId"].write(value.reservedInstanceId)
-        try writer["ReservedInstanceOfferingId"].write(value.reservedInstanceOfferingId)
-        try writer["StartTime"].writeTimestamp(value.startTime, format: .epochSeconds)
-        try writer["State"].write(value.state)
-        try writer["UsagePrice"].write(value.usagePrice)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.ReservedInstance {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OpenSearchClientTypes.ReservedInstance()
@@ -10409,18 +9904,6 @@ extension OpenSearchClientTypes {
 }
 
 extension OpenSearchClientTypes.ReservedInstanceOffering {
-
-    static func write(value: OpenSearchClientTypes.ReservedInstanceOffering?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CurrencyCode"].write(value.currencyCode)
-        try writer["Duration"].write(value.duration)
-        try writer["FixedPrice"].write(value.fixedPrice)
-        try writer["InstanceType"].write(value.instanceType)
-        try writer["PaymentOption"].write(value.paymentOption)
-        try writer["RecurringCharges"].writeList(value.recurringCharges, memberWritingClosure: OpenSearchClientTypes.RecurringCharge.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ReservedInstanceOfferingId"].write(value.reservedInstanceOfferingId)
-        try writer["UsagePrice"].write(value.usagePrice)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.ReservedInstanceOffering {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -10774,19 +10257,6 @@ extension OpenSearchClientTypes.SAMLOptionsInput {
         try writer["SessionTimeoutMinutes"].write(value.sessionTimeoutMinutes)
         try writer["SubjectKey"].write(value.subjectKey)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.SAMLOptionsInput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OpenSearchClientTypes.SAMLOptionsInput()
-        value.enabled = try reader["Enabled"].readIfPresent()
-        value.idp = try reader["Idp"].readIfPresent(with: OpenSearchClientTypes.SAMLIdp.read(from:))
-        value.masterUserName = try reader["MasterUserName"].readIfPresent()
-        value.masterBackendRole = try reader["MasterBackendRole"].readIfPresent()
-        value.subjectKey = try reader["SubjectKey"].readIfPresent()
-        value.rolesKey = try reader["RolesKey"].readIfPresent()
-        value.sessionTimeoutMinutes = try reader["SessionTimeoutMinutes"].readIfPresent()
-        return value
-    }
 }
 
 extension OpenSearchClientTypes {
@@ -10830,15 +10300,6 @@ extension OpenSearchClientTypes {
 }
 
 extension OpenSearchClientTypes.SAMLOptionsOutput {
-
-    static func write(value: OpenSearchClientTypes.SAMLOptionsOutput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Enabled"].write(value.enabled)
-        try writer["Idp"].write(value.idp, with: OpenSearchClientTypes.SAMLIdp.write(value:to:))
-        try writer["RolesKey"].write(value.rolesKey)
-        try writer["SessionTimeoutMinutes"].write(value.sessionTimeoutMinutes)
-        try writer["SubjectKey"].write(value.subjectKey)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.SAMLOptionsOutput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -10918,19 +10379,6 @@ extension OpenSearchClientTypes {
 }
 
 extension OpenSearchClientTypes.ScheduledAction {
-
-    static func write(value: OpenSearchClientTypes.ScheduledAction?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Cancellable"].write(value.cancellable)
-        try writer["Description"].write(value.description)
-        try writer["Id"].write(value.id)
-        try writer["Mandatory"].write(value.mandatory)
-        try writer["ScheduledBy"].write(value.scheduledBy)
-        try writer["ScheduledTime"].write(value.scheduledTime)
-        try writer["Severity"].write(value.severity)
-        try writer["Status"].write(value.status)
-        try writer["Type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.ScheduledAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -11032,14 +10480,6 @@ extension OpenSearchClientTypes {
 }
 
 extension OpenSearchClientTypes.ScheduledAutoTuneDetails {
-
-    static func write(value: OpenSearchClientTypes.ScheduledAutoTuneDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Action"].write(value.action)
-        try writer["ActionType"].write(value.actionType)
-        try writer["Date"].writeTimestamp(value.date, format: .epochSeconds)
-        try writer["Severity"].write(value.severity)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.ScheduledAutoTuneDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -11145,18 +10585,6 @@ extension OpenSearchClientTypes {
 }
 
 extension OpenSearchClientTypes.ServiceSoftwareOptions {
-
-    static func write(value: OpenSearchClientTypes.ServiceSoftwareOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AutomatedUpdateDate"].writeTimestamp(value.automatedUpdateDate, format: .epochSeconds)
-        try writer["Cancellable"].write(value.cancellable)
-        try writer["CurrentVersion"].write(value.currentVersion)
-        try writer["Description"].write(value.description)
-        try writer["NewVersion"].write(value.newVersion)
-        try writer["OptionalDeployment"].write(value.optionalDeployment)
-        try writer["UpdateAvailable"].write(value.updateAvailable)
-        try writer["UpdateStatus"].write(value.updateStatus)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.ServiceSoftwareOptions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -11328,12 +10756,6 @@ extension OpenSearchClientTypes {
 
 extension OpenSearchClientTypes.SnapshotOptionsStatus {
 
-    static func write(value: OpenSearchClientTypes.SnapshotOptionsStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Options"].write(value.options, with: OpenSearchClientTypes.SnapshotOptions.write(value:to:))
-        try writer["Status"].write(value.status, with: OpenSearchClientTypes.OptionStatus.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.SnapshotOptionsStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OpenSearchClientTypes.SnapshotOptionsStatus()
@@ -11397,12 +10819,6 @@ extension OpenSearchClientTypes {
 }
 
 extension OpenSearchClientTypes.SoftwareUpdateOptionsStatus {
-
-    static func write(value: OpenSearchClientTypes.SoftwareUpdateOptionsStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Options"].write(value.options, with: OpenSearchClientTypes.SoftwareUpdateOptions.write(value:to:))
-        try writer["Status"].write(value.status, with: OpenSearchClientTypes.OptionStatus.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.SoftwareUpdateOptionsStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -11610,13 +11026,6 @@ enum StartServiceSoftwareUpdateOutputError {
 
 extension OpenSearchClientTypes.StorageType {
 
-    static func write(value: OpenSearchClientTypes.StorageType?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["StorageSubTypeName"].write(value.storageSubTypeName)
-        try writer["StorageTypeLimits"].writeList(value.storageTypeLimits, memberWritingClosure: OpenSearchClientTypes.StorageTypeLimit.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["StorageTypeName"].write(value.storageTypeName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.StorageType {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OpenSearchClientTypes.StorageType()
@@ -11652,12 +11061,6 @@ extension OpenSearchClientTypes {
 }
 
 extension OpenSearchClientTypes.StorageTypeLimit {
-
-    static func write(value: OpenSearchClientTypes.StorageTypeLimit?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["LimitName"].write(value.limitName)
-        try writer["LimitValues"].writeList(value.limitValues, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.StorageTypeLimit {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -12469,14 +11872,6 @@ enum UpgradeDomainOutputError {
 
 extension OpenSearchClientTypes.UpgradeHistory {
 
-    static func write(value: OpenSearchClientTypes.UpgradeHistory?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["StartTimestamp"].writeTimestamp(value.startTimestamp, format: .epochSeconds)
-        try writer["StepsList"].writeList(value.stepsList, memberWritingClosure: OpenSearchClientTypes.UpgradeStepItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["UpgradeName"].write(value.upgradeName)
-        try writer["UpgradeStatus"].write(value.upgradeStatus)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.UpgradeHistory {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OpenSearchClientTypes.UpgradeHistory()
@@ -12595,14 +11990,6 @@ extension OpenSearchClientTypes {
 
 extension OpenSearchClientTypes.UpgradeStepItem {
 
-    static func write(value: OpenSearchClientTypes.UpgradeStepItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Issues"].writeList(value.issues, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ProgressPercent"].write(value.progressPercent)
-        try writer["UpgradeStep"].write(value.upgradeStep)
-        try writer["UpgradeStepStatus"].write(value.upgradeStepStatus)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.UpgradeStepItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OpenSearchClientTypes.UpgradeStepItem()
@@ -12658,14 +12045,6 @@ extension OpenSearchClientTypes {
 
 extension OpenSearchClientTypes.VPCDerivedInfo {
 
-    static func write(value: OpenSearchClientTypes.VPCDerivedInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AvailabilityZones"].writeList(value.availabilityZones, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["SecurityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["SubnetIds"].writeList(value.subnetIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["VPCId"].write(value.vpcId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.VPCDerivedInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OpenSearchClientTypes.VPCDerivedInfo()
@@ -12707,12 +12086,6 @@ extension OpenSearchClientTypes {
 
 extension OpenSearchClientTypes.VPCDerivedInfoStatus {
 
-    static func write(value: OpenSearchClientTypes.VPCDerivedInfoStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Options"].write(value.options, with: OpenSearchClientTypes.VPCDerivedInfo.write(value:to:))
-        try writer["Status"].write(value.status, with: OpenSearchClientTypes.OptionStatus.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.VPCDerivedInfoStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OpenSearchClientTypes.VPCDerivedInfoStatus()
@@ -12750,14 +12123,6 @@ extension OpenSearchClientTypes.VPCOptions {
         guard let value else { return }
         try writer["SecurityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["SubnetIds"].writeList(value.subnetIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.VPCOptions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OpenSearchClientTypes.VPCOptions()
-        value.subnetIds = try reader["SubnetIds"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.securityGroupIds = try reader["SecurityGroupIds"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -12821,12 +12186,6 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
 extension OpenSearchClientTypes.ValidationFailure {
 
-    static func write(value: OpenSearchClientTypes.ValidationFailure?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Code"].write(value.code)
-        try writer["Message"].write(value.message)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.ValidationFailure {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OpenSearchClientTypes.ValidationFailure()
@@ -12857,12 +12216,6 @@ extension OpenSearchClientTypes {
 }
 
 extension OpenSearchClientTypes.VersionStatus {
-
-    static func write(value: OpenSearchClientTypes.VersionStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Options"].write(value.options)
-        try writer["Status"].write(value.status, with: OpenSearchClientTypes.OptionStatus.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.VersionStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -12934,16 +12287,6 @@ extension OpenSearchClientTypes {
 
 extension OpenSearchClientTypes.VpcEndpoint {
 
-    static func write(value: OpenSearchClientTypes.VpcEndpoint?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DomainArn"].write(value.domainArn)
-        try writer["Endpoint"].write(value.endpoint)
-        try writer["Status"].write(value.status)
-        try writer["VpcEndpointId"].write(value.vpcEndpointId)
-        try writer["VpcEndpointOwner"].write(value.vpcEndpointOwner)
-        try writer["VpcOptions"].write(value.vpcOptions, with: OpenSearchClientTypes.VPCDerivedInfo.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.VpcEndpoint {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OpenSearchClientTypes.VpcEndpoint()
@@ -12994,13 +12337,6 @@ extension OpenSearchClientTypes {
 }
 
 extension OpenSearchClientTypes.VpcEndpointError {
-
-    static func write(value: OpenSearchClientTypes.VpcEndpointError?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ErrorCode"].write(value.errorCode)
-        try writer["ErrorMessage"].write(value.errorMessage)
-        try writer["VpcEndpointId"].write(value.vpcEndpointId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.VpcEndpointError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -13112,14 +12448,6 @@ extension OpenSearchClientTypes {
 }
 
 extension OpenSearchClientTypes.VpcEndpointSummary {
-
-    static func write(value: OpenSearchClientTypes.VpcEndpointSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DomainArn"].write(value.domainArn)
-        try writer["Status"].write(value.status)
-        try writer["VpcEndpointId"].write(value.vpcEndpointId)
-        try writer["VpcEndpointOwner"].write(value.vpcEndpointOwner)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.VpcEndpointSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

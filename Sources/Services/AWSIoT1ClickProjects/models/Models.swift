@@ -981,15 +981,6 @@ enum ListTagsForResourceOutputError {
 
 extension IoT1ClickProjectsClientTypes.PlacementDescription {
 
-    static func write(value: IoT1ClickProjectsClientTypes.PlacementDescription?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["attributes"].writeMap(value.attributes, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["createdDate"].writeTimestamp(value.createdDate, format: .epochSeconds)
-        try writer["placementName"].write(value.placementName)
-        try writer["projectName"].write(value.projectName)
-        try writer["updatedDate"].writeTimestamp(value.updatedDate, format: .epochSeconds)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoT1ClickProjectsClientTypes.PlacementDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoT1ClickProjectsClientTypes.PlacementDescription()
@@ -1040,14 +1031,6 @@ extension IoT1ClickProjectsClientTypes {
 }
 
 extension IoT1ClickProjectsClientTypes.PlacementSummary {
-
-    static func write(value: IoT1ClickProjectsClientTypes.PlacementSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["createdDate"].writeTimestamp(value.createdDate, format: .epochSeconds)
-        try writer["placementName"].write(value.placementName)
-        try writer["projectName"].write(value.projectName)
-        try writer["updatedDate"].writeTimestamp(value.updatedDate, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoT1ClickProjectsClientTypes.PlacementSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1131,17 +1114,6 @@ extension IoT1ClickProjectsClientTypes {
 
 extension IoT1ClickProjectsClientTypes.ProjectDescription {
 
-    static func write(value: IoT1ClickProjectsClientTypes.ProjectDescription?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["createdDate"].writeTimestamp(value.createdDate, format: .epochSeconds)
-        try writer["description"].write(value.description)
-        try writer["placementTemplate"].write(value.placementTemplate, with: IoT1ClickProjectsClientTypes.PlacementTemplate.write(value:to:))
-        try writer["projectName"].write(value.projectName)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["updatedDate"].writeTimestamp(value.updatedDate, format: .epochSeconds)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoT1ClickProjectsClientTypes.ProjectDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoT1ClickProjectsClientTypes.ProjectDescription()
@@ -1200,15 +1172,6 @@ extension IoT1ClickProjectsClientTypes {
 }
 
 extension IoT1ClickProjectsClientTypes.ProjectSummary {
-
-    static func write(value: IoT1ClickProjectsClientTypes.ProjectSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["createdDate"].writeTimestamp(value.createdDate, format: .epochSeconds)
-        try writer["projectName"].write(value.projectName)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["updatedDate"].writeTimestamp(value.updatedDate, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoT1ClickProjectsClientTypes.ProjectSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

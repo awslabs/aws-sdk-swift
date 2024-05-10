@@ -43,14 +43,6 @@ public struct AccessForbidden: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
 
 extension SageMakerFeatureStoreRuntimeClientTypes.BatchGetRecordError {
 
-    static func write(value: SageMakerFeatureStoreRuntimeClientTypes.BatchGetRecordError?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ErrorCode"].write(value.errorCode)
-        try writer["ErrorMessage"].write(value.errorMessage)
-        try writer["FeatureGroupName"].write(value.featureGroupName)
-        try writer["RecordIdentifierValueAsString"].write(value.recordIdentifierValueAsString)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerFeatureStoreRuntimeClientTypes.BatchGetRecordError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerFeatureStoreRuntimeClientTypes.BatchGetRecordError()
@@ -227,14 +219,6 @@ enum BatchGetRecordOutputError {
 }
 
 extension SageMakerFeatureStoreRuntimeClientTypes.BatchGetRecordResultDetail {
-
-    static func write(value: SageMakerFeatureStoreRuntimeClientTypes.BatchGetRecordResultDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ExpiresAt"].write(value.expiresAt)
-        try writer["FeatureGroupName"].write(value.featureGroupName)
-        try writer["Record"].writeList(value.record, memberWritingClosure: SageMakerFeatureStoreRuntimeClientTypes.FeatureValue.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["RecordIdentifierValueAsString"].write(value.recordIdentifierValueAsString)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerFeatureStoreRuntimeClientTypes.BatchGetRecordResultDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -819,14 +803,6 @@ extension SageMakerFeatureStoreRuntimeClientTypes.TtlDuration {
         guard let value else { return }
         try writer["Unit"].write(value.unit)
         try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerFeatureStoreRuntimeClientTypes.TtlDuration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SageMakerFeatureStoreRuntimeClientTypes.TtlDuration()
-        value.unit = try reader["Unit"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
-        return value
     }
 }
 

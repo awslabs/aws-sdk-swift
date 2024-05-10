@@ -10383,11 +10383,6 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes.Endpoint {
 
-    static func write(value: MediaConvertClientTypes.Endpoint?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["url"].write(value.url)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.Endpoint {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaConvertClientTypes.Endpoint()
@@ -16388,37 +16383,6 @@ public struct InternalServerErrorException: ClientRuntime.ModeledError, AWSClien
 
 extension MediaConvertClientTypes.Job {
 
-    static func write(value: MediaConvertClientTypes.Job?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["accelerationSettings"].write(value.accelerationSettings, with: MediaConvertClientTypes.AccelerationSettings.write(value:to:))
-        try writer["accelerationStatus"].write(value.accelerationStatus)
-        try writer["arn"].write(value.arn)
-        try writer["billingTagsSource"].write(value.billingTagsSource)
-        try writer["clientRequestToken"].write(value.clientRequestToken)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["currentPhase"].write(value.currentPhase)
-        try writer["errorCode"].write(value.errorCode)
-        try writer["errorMessage"].write(value.errorMessage)
-        try writer["hopDestinations"].writeList(value.hopDestinations, memberWritingClosure: MediaConvertClientTypes.HopDestination.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["id"].write(value.id)
-        try writer["jobPercentComplete"].write(value.jobPercentComplete)
-        try writer["jobTemplate"].write(value.jobTemplate)
-        try writer["messages"].write(value.messages, with: MediaConvertClientTypes.JobMessages.write(value:to:))
-        try writer["outputGroupDetails"].writeList(value.outputGroupDetails, memberWritingClosure: MediaConvertClientTypes.OutputGroupDetail.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["priority"].write(value.priority)
-        try writer["queue"].write(value.queue)
-        try writer["queueTransitions"].writeList(value.queueTransitions, memberWritingClosure: MediaConvertClientTypes.QueueTransition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["retryCount"].write(value.retryCount)
-        try writer["role"].write(value.role)
-        try writer["settings"].write(value.settings, with: MediaConvertClientTypes.JobSettings.write(value:to:))
-        try writer["simulateReservedQueue"].write(value.simulateReservedQueue)
-        try writer["status"].write(value.status)
-        try writer["statusUpdateInterval"].write(value.statusUpdateInterval)
-        try writer["timing"].write(value.timing, with: MediaConvertClientTypes.Timing.write(value:to:))
-        try writer["userMetadata"].writeMap(value.userMetadata, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["warnings"].writeList(value.warnings, memberWritingClosure: MediaConvertClientTypes.WarningGroup.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.Job {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaConvertClientTypes.Job()
@@ -16576,12 +16540,6 @@ extension MediaConvertClientTypes {
 }
 
 extension MediaConvertClientTypes.JobMessages {
-
-    static func write(value: MediaConvertClientTypes.JobMessages?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["info"].writeList(value.info, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["warning"].writeList(value.warning, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.JobMessages {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -16796,23 +16754,6 @@ extension MediaConvertClientTypes {
 }
 
 extension MediaConvertClientTypes.JobTemplate {
-
-    static func write(value: MediaConvertClientTypes.JobTemplate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["accelerationSettings"].write(value.accelerationSettings, with: MediaConvertClientTypes.AccelerationSettings.write(value:to:))
-        try writer["arn"].write(value.arn)
-        try writer["category"].write(value.category)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["description"].write(value.description)
-        try writer["hopDestinations"].writeList(value.hopDestinations, memberWritingClosure: MediaConvertClientTypes.HopDestination.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["lastUpdated"].writeTimestamp(value.lastUpdated, format: .epochSeconds)
-        try writer["name"].write(value.name)
-        try writer["priority"].write(value.priority)
-        try writer["queue"].write(value.queue)
-        try writer["settings"].write(value.settings, with: MediaConvertClientTypes.JobTemplateSettings.write(value:to:))
-        try writer["statusUpdateInterval"].write(value.statusUpdateInterval)
-        try writer["type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.JobTemplate {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -22565,12 +22506,6 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes.OutputDetail {
 
-    static func write(value: MediaConvertClientTypes.OutputDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["durationInMs"].write(value.durationInMs)
-        try writer["videoDetails"].write(value.videoDetails, with: MediaConvertClientTypes.VideoDetail.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.OutputDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaConvertClientTypes.OutputDetail()
@@ -22656,11 +22591,6 @@ extension MediaConvertClientTypes {
 }
 
 extension MediaConvertClientTypes.OutputGroupDetail {
-
-    static func write(value: MediaConvertClientTypes.OutputGroupDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["outputDetails"].writeList(value.outputDetails, memberWritingClosure: MediaConvertClientTypes.OutputDetail.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.OutputGroupDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -22961,18 +22891,6 @@ extension MediaConvertClientTypes {
 }
 
 extension MediaConvertClientTypes.Preset {
-
-    static func write(value: MediaConvertClientTypes.Preset?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["category"].write(value.category)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["description"].write(value.description)
-        try writer["lastUpdated"].writeTimestamp(value.lastUpdated, format: .epochSeconds)
-        try writer["name"].write(value.name)
-        try writer["settings"].write(value.settings, with: MediaConvertClientTypes.PresetSettings.write(value:to:))
-        try writer["type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.Preset {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -23628,21 +23546,6 @@ enum PutPolicyOutputError {
 
 extension MediaConvertClientTypes.Queue {
 
-    static func write(value: MediaConvertClientTypes.Queue?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["description"].write(value.description)
-        try writer["lastUpdated"].writeTimestamp(value.lastUpdated, format: .epochSeconds)
-        try writer["name"].write(value.name)
-        try writer["pricingPlan"].write(value.pricingPlan)
-        try writer["progressingJobsCount"].write(value.progressingJobsCount)
-        try writer["reservationPlan"].write(value.reservationPlan, with: MediaConvertClientTypes.ReservationPlan.write(value:to:))
-        try writer["status"].write(value.status)
-        try writer["submittedJobsCount"].write(value.submittedJobsCount)
-        try writer["type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.Queue {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaConvertClientTypes.Queue()
@@ -23781,13 +23684,6 @@ extension MediaConvertClientTypes {
 }
 
 extension MediaConvertClientTypes.QueueTransition {
-
-    static func write(value: MediaConvertClientTypes.QueueTransition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["destinationQueue"].write(value.destinationQueue)
-        try writer["sourceQueue"].write(value.sourceQueue)
-        try writer["timestamp"].writeTimestamp(value.timestamp, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.QueueTransition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -23991,16 +23887,6 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes.ReservationPlan {
 
-    static func write(value: MediaConvertClientTypes.ReservationPlan?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["commitment"].write(value.commitment)
-        try writer["expiresAt"].writeTimestamp(value.expiresAt, format: .epochSeconds)
-        try writer["purchasedAt"].writeTimestamp(value.purchasedAt, format: .epochSeconds)
-        try writer["renewalType"].write(value.renewalType)
-        try writer["reservedSlots"].write(value.reservedSlots)
-        try writer["status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.ReservationPlan {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaConvertClientTypes.ReservationPlan()
@@ -24057,15 +23943,6 @@ extension MediaConvertClientTypes.ReservationPlanSettings {
         try writer["commitment"].write(value.commitment)
         try writer["renewalType"].write(value.renewalType)
         try writer["reservedSlots"].write(value.reservedSlots)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.ReservationPlanSettings {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaConvertClientTypes.ReservationPlanSettings()
-        value.commitment = try reader["commitment"].readIfPresent()
-        value.renewalType = try reader["renewalType"].readIfPresent()
-        value.reservedSlots = try reader["reservedSlots"].readIfPresent()
-        return value
     }
 }
 
@@ -24128,12 +24005,6 @@ extension MediaConvertClientTypes {
 }
 
 extension MediaConvertClientTypes.ResourceTags {
-
-    static func write(value: MediaConvertClientTypes.ResourceTags?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.ResourceTags {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -25341,13 +25212,6 @@ extension MediaConvertClientTypes {
 }
 
 extension MediaConvertClientTypes.Timing {
-
-    static func write(value: MediaConvertClientTypes.Timing?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["finishTime"].writeTimestamp(value.finishTime, format: .epochSeconds)
-        try writer["startTime"].writeTimestamp(value.startTime, format: .epochSeconds)
-        try writer["submitTime"].writeTimestamp(value.submitTime, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.Timing {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -26848,12 +26712,6 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes.VideoDetail {
 
-    static func write(value: MediaConvertClientTypes.VideoDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["heightInPx"].write(value.heightInPx)
-        try writer["widthInPx"].write(value.widthInPx)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.VideoDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaConvertClientTypes.VideoDetail()
@@ -27777,12 +27635,6 @@ extension MediaConvertClientTypes {
 }
 
 extension MediaConvertClientTypes.WarningGroup {
-
-    static func write(value: MediaConvertClientTypes.WarningGroup?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["code"].write(value.code)
-        try writer["count"].write(value.count)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.WarningGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

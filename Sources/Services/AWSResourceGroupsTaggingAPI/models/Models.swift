@@ -6,13 +6,6 @@ import SmithyReadWrite
 
 extension ResourceGroupsTaggingAPIClientTypes.ComplianceDetails {
 
-    static func write(value: ResourceGroupsTaggingAPIClientTypes.ComplianceDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ComplianceStatus"].write(value.complianceStatus)
-        try writer["KeysWithNoncompliantValues"].writeList(value.keysWithNoncompliantValues, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["NoncompliantKeys"].writeList(value.noncompliantKeys, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ResourceGroupsTaggingAPIClientTypes.ComplianceDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ResourceGroupsTaggingAPIClientTypes.ComplianceDetails()
@@ -242,13 +235,6 @@ extension ResourceGroupsTaggingAPIClientTypes {
 }
 
 extension ResourceGroupsTaggingAPIClientTypes.FailureInfo {
-
-    static func write(value: ResourceGroupsTaggingAPIClientTypes.FailureInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ErrorCode"].write(value.errorCode)
-        try writer["ErrorMessage"].write(value.errorMessage)
-        try writer["StatusCode"].write(value.statusCode)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ResourceGroupsTaggingAPIClientTypes.FailureInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -837,13 +823,6 @@ public enum ResourceGroupsTaggingAPIClientTypes {}
 
 extension ResourceGroupsTaggingAPIClientTypes.ResourceTagMapping {
 
-    static func write(value: ResourceGroupsTaggingAPIClientTypes.ResourceTagMapping?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ComplianceDetails"].write(value.complianceDetails, with: ResourceGroupsTaggingAPIClientTypes.ComplianceDetails.write(value:to:))
-        try writer["ResourceARN"].write(value.resourceARN)
-        try writer["Tags"].writeList(value.tags, memberWritingClosure: ResourceGroupsTaggingAPIClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ResourceGroupsTaggingAPIClientTypes.ResourceTagMapping {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ResourceGroupsTaggingAPIClientTypes.ResourceTagMapping()
@@ -938,16 +917,6 @@ enum StartReportCreationOutputError {
 
 extension ResourceGroupsTaggingAPIClientTypes.Summary {
 
-    static func write(value: ResourceGroupsTaggingAPIClientTypes.Summary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["LastUpdated"].write(value.lastUpdated)
-        try writer["NonCompliantResources"].write(value.nonCompliantResources)
-        try writer["Region"].write(value.region)
-        try writer["ResourceType"].write(value.resourceType)
-        try writer["TargetId"].write(value.targetId)
-        try writer["TargetIdType"].write(value.targetIdType)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ResourceGroupsTaggingAPIClientTypes.Summary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ResourceGroupsTaggingAPIClientTypes.Summary()
@@ -999,12 +968,6 @@ extension ResourceGroupsTaggingAPIClientTypes {
 
 extension ResourceGroupsTaggingAPIClientTypes.Tag {
 
-    static func write(value: ResourceGroupsTaggingAPIClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Key"].write(value.key)
-        try writer["Value"].write(value.value)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ResourceGroupsTaggingAPIClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ResourceGroupsTaggingAPIClientTypes.Tag()
@@ -1042,14 +1005,6 @@ extension ResourceGroupsTaggingAPIClientTypes.TagFilter {
         guard let value else { return }
         try writer["Key"].write(value.key)
         try writer["Values"].writeList(value.values, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ResourceGroupsTaggingAPIClientTypes.TagFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ResourceGroupsTaggingAPIClientTypes.TagFilter()
-        value.key = try reader["Key"].readIfPresent()
-        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 

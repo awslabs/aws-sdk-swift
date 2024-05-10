@@ -121,17 +121,6 @@ extension ConnectCampaignsClientTypes {
 
 extension ConnectCampaignsClientTypes.Campaign {
 
-    static func write(value: ConnectCampaignsClientTypes.Campaign?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["connectInstanceId"].write(value.connectInstanceId)
-        try writer["dialerConfig"].write(value.dialerConfig, with: ConnectCampaignsClientTypes.DialerConfig.write(value:to:))
-        try writer["id"].write(value.id)
-        try writer["name"].write(value.name)
-        try writer["outboundCallConfig"].write(value.outboundCallConfig, with: ConnectCampaignsClientTypes.OutboundCallConfig.write(value:to:))
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsClientTypes.Campaign {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConnectCampaignsClientTypes.Campaign()
@@ -198,13 +187,6 @@ extension ConnectCampaignsClientTypes.CampaignFilters {
         guard let value else { return }
         try writer["instanceIdFilter"].write(value.instanceIdFilter, with: ConnectCampaignsClientTypes.InstanceIdFilter.write(value:to:))
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsClientTypes.CampaignFilters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectCampaignsClientTypes.CampaignFilters()
-        value.instanceIdFilter = try reader["instanceIdFilter"].readIfPresent(with: ConnectCampaignsClientTypes.InstanceIdFilter.read(from:))
-        return value
-    }
 }
 
 extension ConnectCampaignsClientTypes {
@@ -269,14 +251,6 @@ extension ConnectCampaignsClientTypes {
 }
 
 extension ConnectCampaignsClientTypes.CampaignSummary {
-
-    static func write(value: ConnectCampaignsClientTypes.CampaignSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["connectInstanceId"].write(value.connectInstanceId)
-        try writer["id"].write(value.id)
-        try writer["name"].write(value.name)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsClientTypes.CampaignSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -718,16 +692,6 @@ extension ConnectCampaignsClientTypes.DialRequest {
         try writer["expirationTime"].writeTimestamp(value.expirationTime, format: .dateTime)
         try writer["phoneNumber"].write(value.phoneNumber)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsClientTypes.DialRequest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectCampaignsClientTypes.DialRequest()
-        value.clientToken = try reader["clientToken"].readIfPresent()
-        value.phoneNumber = try reader["phoneNumber"].readIfPresent()
-        value.expirationTime = try reader["expirationTime"].readTimestampIfPresent(format: .dateTime)
-        value.attributes = try reader["attributes"].readMapIfPresent(valueReadingClosure: Swift.String.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
 }
 
 extension ConnectCampaignsClientTypes {
@@ -882,12 +846,6 @@ extension ConnectCampaignsClientTypes {
 
 extension ConnectCampaignsClientTypes.FailedCampaignStateResponse {
 
-    static func write(value: ConnectCampaignsClientTypes.FailedCampaignStateResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["campaignId"].write(value.campaignId)
-        try writer["failureCode"].write(value.failureCode)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsClientTypes.FailedCampaignStateResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConnectCampaignsClientTypes.FailedCampaignStateResponse()
@@ -918,13 +876,6 @@ extension ConnectCampaignsClientTypes {
 }
 
 extension ConnectCampaignsClientTypes.FailedRequest {
-
-    static func write(value: ConnectCampaignsClientTypes.FailedRequest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["clientToken"].write(value.clientToken)
-        try writer["failureCode"].write(value.failureCode)
-        try writer["id"].write(value.id)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsClientTypes.FailedRequest {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1307,13 +1258,6 @@ enum GetInstanceOnboardingJobStatusOutputError {
 
 extension ConnectCampaignsClientTypes.InstanceConfig {
 
-    static func write(value: ConnectCampaignsClientTypes.InstanceConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["connectInstanceId"].write(value.connectInstanceId)
-        try writer["encryptionConfig"].write(value.encryptionConfig, with: ConnectCampaignsClientTypes.EncryptionConfig.write(value:to:))
-        try writer["serviceLinkedRoleArn"].write(value.serviceLinkedRoleArn)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsClientTypes.InstanceConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConnectCampaignsClientTypes.InstanceConfig()
@@ -1357,14 +1301,6 @@ extension ConnectCampaignsClientTypes.InstanceIdFilter {
         guard let value else { return }
         try writer["operator"].write(value.`operator`)
         try writer["value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsClientTypes.InstanceIdFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectCampaignsClientTypes.InstanceIdFilter()
-        value.value = try reader["value"].readIfPresent()
-        value.`operator` = try reader["operator"].readIfPresent()
-        return value
     }
 }
 
@@ -1463,13 +1399,6 @@ extension ConnectCampaignsClientTypes {
 }
 
 extension ConnectCampaignsClientTypes.InstanceOnboardingJobStatus {
-
-    static func write(value: ConnectCampaignsClientTypes.InstanceOnboardingJobStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["connectInstanceId"].write(value.connectInstanceId)
-        try writer["failureCode"].write(value.failureCode)
-        try writer["status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsClientTypes.InstanceOnboardingJobStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2448,12 +2377,6 @@ enum StopCampaignOutputError {
 
 extension ConnectCampaignsClientTypes.SuccessfulCampaignStateResponse {
 
-    static func write(value: ConnectCampaignsClientTypes.SuccessfulCampaignStateResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["campaignId"].write(value.campaignId)
-        try writer["state"].write(value.state)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsClientTypes.SuccessfulCampaignStateResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConnectCampaignsClientTypes.SuccessfulCampaignStateResponse()
@@ -2484,12 +2407,6 @@ extension ConnectCampaignsClientTypes {
 }
 
 extension ConnectCampaignsClientTypes.SuccessfulRequest {
-
-    static func write(value: ConnectCampaignsClientTypes.SuccessfulRequest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["clientToken"].write(value.clientToken)
-        try writer["id"].write(value.id)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsClientTypes.SuccessfulRequest {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

@@ -47,14 +47,6 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
 extension RedshiftServerlessClientTypes.Association {
 
-    static func write(value: RedshiftServerlessClientTypes.Association?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["customDomainCertificateArn"].write(value.customDomainCertificateArn)
-        try writer["customDomainCertificateExpiryTime"].writeTimestamp(value.customDomainCertificateExpiryTime, format: .dateTime)
-        try writer["customDomainName"].write(value.customDomainName)
-        try writer["workgroupName"].write(value.workgroupName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> RedshiftServerlessClientTypes.Association {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RedshiftServerlessClientTypes.Association()
@@ -1752,13 +1744,6 @@ enum DeleteWorkgroupOutputError {
 
 extension RedshiftServerlessClientTypes.Endpoint {
 
-    static func write(value: RedshiftServerlessClientTypes.Endpoint?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["address"].write(value.address)
-        try writer["port"].write(value.port)
-        try writer["vpcEndpoints"].writeList(value.vpcEndpoints, memberWritingClosure: RedshiftServerlessClientTypes.VpcEndpoint.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> RedshiftServerlessClientTypes.Endpoint {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RedshiftServerlessClientTypes.Endpoint()
@@ -1794,20 +1779,6 @@ extension RedshiftServerlessClientTypes {
 }
 
 extension RedshiftServerlessClientTypes.EndpointAccess {
-
-    static func write(value: RedshiftServerlessClientTypes.EndpointAccess?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["address"].write(value.address)
-        try writer["endpointArn"].write(value.endpointArn)
-        try writer["endpointCreateTime"].writeTimestamp(value.endpointCreateTime, format: .dateTime)
-        try writer["endpointName"].write(value.endpointName)
-        try writer["endpointStatus"].write(value.endpointStatus)
-        try writer["port"].write(value.port)
-        try writer["subnetIds"].writeList(value.subnetIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["vpcEndpoint"].write(value.vpcEndpoint, with: RedshiftServerlessClientTypes.VpcEndpoint.write(value:to:))
-        try writer["vpcSecurityGroups"].writeList(value.vpcSecurityGroups, memberWritingClosure: RedshiftServerlessClientTypes.VpcSecurityGroupMembership.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["workgroupName"].write(value.workgroupName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> RedshiftServerlessClientTypes.EndpointAccess {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3795,23 +3766,6 @@ extension RedshiftServerlessClientTypes.Namespace: Swift.CustomDebugStringConver
 
 extension RedshiftServerlessClientTypes.Namespace {
 
-    static func write(value: RedshiftServerlessClientTypes.Namespace?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["adminPasswordSecretArn"].write(value.adminPasswordSecretArn)
-        try writer["adminPasswordSecretKmsKeyId"].write(value.adminPasswordSecretKmsKeyId)
-        try writer["adminUsername"].write(value.adminUsername)
-        try writer["creationDate"].writeTimestamp(value.creationDate, format: .dateTime)
-        try writer["dbName"].write(value.dbName)
-        try writer["defaultIamRoleArn"].write(value.defaultIamRoleArn)
-        try writer["iamRoles"].writeList(value.iamRoles, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["kmsKeyId"].write(value.kmsKeyId)
-        try writer["logExports"].writeList(value.logExports, memberWritingClosure: RedshiftServerlessClientTypes.LogExport.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["namespaceArn"].write(value.namespaceArn)
-        try writer["namespaceId"].write(value.namespaceId)
-        try writer["namespaceName"].write(value.namespaceName)
-        try writer["status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> RedshiftServerlessClientTypes.Namespace {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RedshiftServerlessClientTypes.Namespace()
@@ -3931,14 +3885,6 @@ extension RedshiftServerlessClientTypes {
 
 extension RedshiftServerlessClientTypes.NetworkInterface {
 
-    static func write(value: RedshiftServerlessClientTypes.NetworkInterface?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["availabilityZone"].write(value.availabilityZone)
-        try writer["networkInterfaceId"].write(value.networkInterfaceId)
-        try writer["privateIpAddress"].write(value.privateIpAddress)
-        try writer["subnetId"].write(value.subnetId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> RedshiftServerlessClientTypes.NetworkInterface {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RedshiftServerlessClientTypes.NetworkInterface()
@@ -4056,16 +4002,6 @@ enum PutResourcePolicyOutputError {
 
 extension RedshiftServerlessClientTypes.RecoveryPoint {
 
-    static func write(value: RedshiftServerlessClientTypes.RecoveryPoint?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["namespaceArn"].write(value.namespaceArn)
-        try writer["namespaceName"].write(value.namespaceName)
-        try writer["recoveryPointCreateTime"].writeTimestamp(value.recoveryPointCreateTime, format: .dateTime)
-        try writer["recoveryPointId"].write(value.recoveryPointId)
-        try writer["totalSizeInMegaBytes"].write(value.totalSizeInMegaBytes)
-        try writer["workgroupName"].write(value.workgroupName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> RedshiftServerlessClientTypes.RecoveryPoint {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RedshiftServerlessClientTypes.RecoveryPoint()
@@ -4161,12 +4097,6 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 extension RedshiftServerlessClientTypes.ResourcePolicy {
-
-    static func write(value: RedshiftServerlessClientTypes.ResourcePolicy?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["policy"].write(value.policy)
-        try writer["resourceArn"].write(value.resourceArn)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> RedshiftServerlessClientTypes.ResourcePolicy {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4674,12 +4604,6 @@ extension RedshiftServerlessClientTypes {
 
 extension RedshiftServerlessClientTypes.ScheduledActionAssociation {
 
-    static func write(value: RedshiftServerlessClientTypes.ScheduledActionAssociation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["namespaceName"].write(value.namespaceName)
-        try writer["scheduledActionName"].write(value.scheduledActionName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> RedshiftServerlessClientTypes.ScheduledActionAssociation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RedshiftServerlessClientTypes.ScheduledActionAssociation()
@@ -4710,21 +4634,6 @@ extension RedshiftServerlessClientTypes {
 }
 
 extension RedshiftServerlessClientTypes.ScheduledActionResponse {
-
-    static func write(value: RedshiftServerlessClientTypes.ScheduledActionResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["endTime"].writeTimestamp(value.endTime, format: .epochSeconds)
-        try writer["namespaceName"].write(value.namespaceName)
-        try writer["nextInvocations"].writeList(value.nextInvocations, memberWritingClosure: timestampWritingClosure(format: .epochSeconds), memberNodeInfo: "member", isFlattened: false)
-        try writer["roleArn"].write(value.roleArn)
-        try writer["schedule"].write(value.schedule, with: RedshiftServerlessClientTypes.Schedule.write(value:to:))
-        try writer["scheduledActionDescription"].write(value.scheduledActionDescription)
-        try writer["scheduledActionName"].write(value.scheduledActionName)
-        try writer["scheduledActionUuid"].write(value.scheduledActionUuid)
-        try writer["startTime"].writeTimestamp(value.startTime, format: .epochSeconds)
-        try writer["state"].write(value.state)
-        try writer["targetAction"].write(value.targetAction, with: RedshiftServerlessClientTypes.TargetAction.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> RedshiftServerlessClientTypes.ScheduledActionResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4843,32 +4752,6 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 }
 
 extension RedshiftServerlessClientTypes.Snapshot {
-
-    static func write(value: RedshiftServerlessClientTypes.Snapshot?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["accountsWithProvisionedRestoreAccess"].writeList(value.accountsWithProvisionedRestoreAccess, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["accountsWithRestoreAccess"].writeList(value.accountsWithRestoreAccess, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["actualIncrementalBackupSizeInMegaBytes"].write(value.actualIncrementalBackupSizeInMegaBytes)
-        try writer["adminPasswordSecretArn"].write(value.adminPasswordSecretArn)
-        try writer["adminPasswordSecretKmsKeyId"].write(value.adminPasswordSecretKmsKeyId)
-        try writer["adminUsername"].write(value.adminUsername)
-        try writer["backupProgressInMegaBytes"].write(value.backupProgressInMegaBytes)
-        try writer["currentBackupRateInMegaBytesPerSecond"].write(value.currentBackupRateInMegaBytesPerSecond)
-        try writer["elapsedTimeInSeconds"].write(value.elapsedTimeInSeconds)
-        try writer["estimatedSecondsToCompletion"].write(value.estimatedSecondsToCompletion)
-        try writer["kmsKeyId"].write(value.kmsKeyId)
-        try writer["namespaceArn"].write(value.namespaceArn)
-        try writer["namespaceName"].write(value.namespaceName)
-        try writer["ownerAccount"].write(value.ownerAccount)
-        try writer["snapshotArn"].write(value.snapshotArn)
-        try writer["snapshotCreateTime"].writeTimestamp(value.snapshotCreateTime, format: .dateTime)
-        try writer["snapshotName"].write(value.snapshotName)
-        try writer["snapshotRemainingDays"].write(value.snapshotRemainingDays)
-        try writer["snapshotRetentionPeriod"].write(value.snapshotRetentionPeriod)
-        try writer["snapshotRetentionStartTime"].writeTimestamp(value.snapshotRetentionStartTime, format: .dateTime)
-        try writer["status"].write(value.status)
-        try writer["totalBackupSizeInMegaBytes"].write(value.totalBackupSizeInMegaBytes)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> RedshiftServerlessClientTypes.Snapshot {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5001,16 +4884,6 @@ extension RedshiftServerlessClientTypes {
 
 extension RedshiftServerlessClientTypes.SnapshotCopyConfiguration {
 
-    static func write(value: RedshiftServerlessClientTypes.SnapshotCopyConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["destinationKmsKeyId"].write(value.destinationKmsKeyId)
-        try writer["destinationRegion"].write(value.destinationRegion)
-        try writer["namespaceName"].write(value.namespaceName)
-        try writer["snapshotCopyConfigurationArn"].write(value.snapshotCopyConfigurationArn)
-        try writer["snapshotCopyConfigurationId"].write(value.snapshotCopyConfigurationId)
-        try writer["snapshotRetentionPeriod"].write(value.snapshotRetentionPeriod)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> RedshiftServerlessClientTypes.SnapshotCopyConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RedshiftServerlessClientTypes.SnapshotCopyConfiguration()
@@ -5133,26 +5006,6 @@ extension RedshiftServerlessClientTypes {
 }
 
 extension RedshiftServerlessClientTypes.TableRestoreStatus {
-
-    static func write(value: RedshiftServerlessClientTypes.TableRestoreStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.message)
-        try writer["namespaceName"].write(value.namespaceName)
-        try writer["newTableName"].write(value.newTableName)
-        try writer["progressInMegaBytes"].write(value.progressInMegaBytes)
-        try writer["recoveryPointId"].write(value.recoveryPointId)
-        try writer["requestTime"].writeTimestamp(value.requestTime, format: .epochSeconds)
-        try writer["snapshotName"].write(value.snapshotName)
-        try writer["sourceDatabaseName"].write(value.sourceDatabaseName)
-        try writer["sourceSchemaName"].write(value.sourceSchemaName)
-        try writer["sourceTableName"].write(value.sourceTableName)
-        try writer["status"].write(value.status)
-        try writer["tableRestoreRequestId"].write(value.tableRestoreRequestId)
-        try writer["targetDatabaseName"].write(value.targetDatabaseName)
-        try writer["targetSchemaName"].write(value.targetSchemaName)
-        try writer["totalDataInMegaBytes"].write(value.totalDataInMegaBytes)
-        try writer["workgroupName"].write(value.workgroupName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> RedshiftServerlessClientTypes.TableRestoreStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6274,17 +6127,6 @@ enum UpdateWorkgroupOutputError {
 
 extension RedshiftServerlessClientTypes.UsageLimit {
 
-    static func write(value: RedshiftServerlessClientTypes.UsageLimit?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["amount"].write(value.amount)
-        try writer["breachAction"].write(value.breachAction)
-        try writer["period"].write(value.period)
-        try writer["resourceArn"].write(value.resourceArn)
-        try writer["usageLimitArn"].write(value.usageLimitArn)
-        try writer["usageLimitId"].write(value.usageLimitId)
-        try writer["usageType"].write(value.usageType)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> RedshiftServerlessClientTypes.UsageLimit {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RedshiftServerlessClientTypes.UsageLimit()
@@ -6475,13 +6317,6 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
 extension RedshiftServerlessClientTypes.VpcEndpoint {
 
-    static func write(value: RedshiftServerlessClientTypes.VpcEndpoint?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["networkInterfaces"].writeList(value.networkInterfaces, memberWritingClosure: RedshiftServerlessClientTypes.NetworkInterface.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["vpcEndpointId"].write(value.vpcEndpointId)
-        try writer["vpcId"].write(value.vpcId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> RedshiftServerlessClientTypes.VpcEndpoint {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RedshiftServerlessClientTypes.VpcEndpoint()
@@ -6518,12 +6353,6 @@ extension RedshiftServerlessClientTypes {
 
 extension RedshiftServerlessClientTypes.VpcSecurityGroupMembership {
 
-    static func write(value: RedshiftServerlessClientTypes.VpcSecurityGroupMembership?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["status"].write(value.status)
-        try writer["vpcSecurityGroupId"].write(value.vpcSecurityGroupId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> RedshiftServerlessClientTypes.VpcSecurityGroupMembership {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RedshiftServerlessClientTypes.VpcSecurityGroupMembership()
@@ -6554,31 +6383,6 @@ extension RedshiftServerlessClientTypes {
 }
 
 extension RedshiftServerlessClientTypes.Workgroup {
-
-    static func write(value: RedshiftServerlessClientTypes.Workgroup?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["baseCapacity"].write(value.baseCapacity)
-        try writer["configParameters"].writeList(value.configParameters, memberWritingClosure: RedshiftServerlessClientTypes.ConfigParameter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["creationDate"].writeTimestamp(value.creationDate, format: .dateTime)
-        try writer["crossAccountVpcs"].writeList(value.crossAccountVpcs, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["customDomainCertificateArn"].write(value.customDomainCertificateArn)
-        try writer["customDomainCertificateExpiryTime"].writeTimestamp(value.customDomainCertificateExpiryTime, format: .dateTime)
-        try writer["customDomainName"].write(value.customDomainName)
-        try writer["endpoint"].write(value.endpoint, with: RedshiftServerlessClientTypes.Endpoint.write(value:to:))
-        try writer["enhancedVpcRouting"].write(value.enhancedVpcRouting)
-        try writer["maxCapacity"].write(value.maxCapacity)
-        try writer["namespaceName"].write(value.namespaceName)
-        try writer["patchVersion"].write(value.patchVersion)
-        try writer["port"].write(value.port)
-        try writer["publiclyAccessible"].write(value.publiclyAccessible)
-        try writer["securityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["status"].write(value.status)
-        try writer["subnetIds"].writeList(value.subnetIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["workgroupArn"].write(value.workgroupArn)
-        try writer["workgroupId"].write(value.workgroupId)
-        try writer["workgroupName"].write(value.workgroupName)
-        try writer["workgroupVersion"].write(value.workgroupVersion)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> RedshiftServerlessClientTypes.Workgroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

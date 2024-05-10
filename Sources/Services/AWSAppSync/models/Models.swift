@@ -92,14 +92,6 @@ extension AppSyncClientTypes {
 
 extension AppSyncClientTypes.ApiAssociation {
 
-    static func write(value: AppSyncClientTypes.ApiAssociation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["apiId"].write(value.apiId)
-        try writer["associationStatus"].write(value.associationStatus)
-        try writer["deploymentDetail"].write(value.deploymentDetail)
-        try writer["domainName"].write(value.domainName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AppSyncClientTypes.ApiAssociation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppSyncClientTypes.ApiAssociation()
@@ -146,17 +138,6 @@ extension AppSyncClientTypes {
 }
 
 extension AppSyncClientTypes.ApiCache {
-
-    static func write(value: AppSyncClientTypes.ApiCache?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["apiCachingBehavior"].write(value.apiCachingBehavior)
-        try writer["atRestEncryptionEnabled"].write(value.atRestEncryptionEnabled)
-        try writer["healthMetricsConfig"].write(value.healthMetricsConfig)
-        try writer["status"].write(value.status)
-        try writer["transitEncryptionEnabled"].write(value.transitEncryptionEnabled)
-        try writer["ttl"].write(value.ttl)
-        try writer["type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppSyncClientTypes.ApiCache {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -405,14 +386,6 @@ extension AppSyncClientTypes {
 }
 
 extension AppSyncClientTypes.ApiKey {
-
-    static func write(value: AppSyncClientTypes.ApiKey?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["deletes"].write(value.deletes)
-        try writer["description"].write(value.description)
-        try writer["expires"].write(value.expires)
-        try writer["id"].write(value.id)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppSyncClientTypes.ApiKey {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1063,11 +1036,6 @@ extension AppSyncClientTypes {
 
 extension AppSyncClientTypes.BadRequestDetail {
 
-    static func write(value: AppSyncClientTypes.BadRequestDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["codeErrors"].writeList(value.codeErrors, memberWritingClosure: AppSyncClientTypes.CodeError.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AppSyncClientTypes.BadRequestDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppSyncClientTypes.BadRequestDetail()
@@ -1237,13 +1205,6 @@ extension AppSyncClientTypes {
 
 extension AppSyncClientTypes.CodeError {
 
-    static func write(value: AppSyncClientTypes.CodeError?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["errorType"].write(value.errorType)
-        try writer["location"].write(value.location, with: AppSyncClientTypes.CodeErrorLocation.write(value:to:))
-        try writer["value"].write(value.value)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AppSyncClientTypes.CodeError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppSyncClientTypes.CodeError()
@@ -1279,13 +1240,6 @@ extension AppSyncClientTypes {
 }
 
 extension AppSyncClientTypes.CodeErrorLocation {
-
-    static func write(value: AppSyncClientTypes.CodeErrorLocation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["column"].write(value.column)
-        try writer["line"].write(value.line)
-        try writer["span"].write(value.span)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppSyncClientTypes.CodeErrorLocation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2424,23 +2378,6 @@ enum CreateTypeOutputError {
 
 extension AppSyncClientTypes.DataSource {
 
-    static func write(value: AppSyncClientTypes.DataSource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["dataSourceArn"].write(value.dataSourceArn)
-        try writer["description"].write(value.description)
-        try writer["dynamodbConfig"].write(value.dynamodbConfig, with: AppSyncClientTypes.DynamodbDataSourceConfig.write(value:to:))
-        try writer["elasticsearchConfig"].write(value.elasticsearchConfig, with: AppSyncClientTypes.ElasticsearchDataSourceConfig.write(value:to:))
-        try writer["eventBridgeConfig"].write(value.eventBridgeConfig, with: AppSyncClientTypes.EventBridgeDataSourceConfig.write(value:to:))
-        try writer["httpConfig"].write(value.httpConfig, with: AppSyncClientTypes.HttpDataSourceConfig.write(value:to:))
-        try writer["lambdaConfig"].write(value.lambdaConfig, with: AppSyncClientTypes.LambdaDataSourceConfig.write(value:to:))
-        try writer["metricsConfig"].write(value.metricsConfig)
-        try writer["name"].write(value.name)
-        try writer["openSearchServiceConfig"].write(value.openSearchServiceConfig, with: AppSyncClientTypes.OpenSearchServiceDataSourceConfig.write(value:to:))
-        try writer["relationalDatabaseConfig"].write(value.relationalDatabaseConfig, with: AppSyncClientTypes.RelationalDatabaseDataSourceConfig.write(value:to:))
-        try writer["serviceRoleArn"].write(value.serviceRoleArn)
-        try writer["type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AppSyncClientTypes.DataSource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppSyncClientTypes.DataSource()
@@ -2543,15 +2480,6 @@ extension AppSyncClientTypes {
 
 extension AppSyncClientTypes.DataSourceIntrospectionModel {
 
-    static func write(value: AppSyncClientTypes.DataSourceIntrospectionModel?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["fields"].writeList(value.fields, memberWritingClosure: AppSyncClientTypes.DataSourceIntrospectionModelField.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["indexes"].writeList(value.indexes, memberWritingClosure: AppSyncClientTypes.DataSourceIntrospectionModelIndex.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["name"].write(value.name)
-        try writer["primaryKey"].write(value.primaryKey, with: AppSyncClientTypes.DataSourceIntrospectionModelIndex.write(value:to:))
-        try writer["sdl"].write(value.sdl)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AppSyncClientTypes.DataSourceIntrospectionModel {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppSyncClientTypes.DataSourceIntrospectionModel()
@@ -2598,13 +2526,6 @@ extension AppSyncClientTypes {
 
 extension AppSyncClientTypes.DataSourceIntrospectionModelField {
 
-    static func write(value: AppSyncClientTypes.DataSourceIntrospectionModelField?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["length"].write(value.length)
-        try writer["name"].write(value.name)
-        try writer["type"].write(value.type, with: AppSyncClientTypes.DataSourceIntrospectionModelFieldType.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AppSyncClientTypes.DataSourceIntrospectionModelField {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppSyncClientTypes.DataSourceIntrospectionModelField()
@@ -2640,14 +2561,6 @@ extension AppSyncClientTypes {
 }
 
 extension AppSyncClientTypes.DataSourceIntrospectionModelFieldType {
-
-    static func write(value: AppSyncClientTypes.DataSourceIntrospectionModelFieldType?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["kind"].write(value.kind)
-        try writer["name"].write(value.name)
-        try writer["type"].write(value.type, with: AppSyncClientTypes.DataSourceIntrospectionModelFieldType.write(value:to:))
-        try writer["values"].writeList(value.values, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppSyncClientTypes.DataSourceIntrospectionModelFieldType {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2696,12 +2609,6 @@ extension AppSyncClientTypes {
 
 extension AppSyncClientTypes.DataSourceIntrospectionModelIndex {
 
-    static func write(value: AppSyncClientTypes.DataSourceIntrospectionModelIndex?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["fields"].writeList(value.fields, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["name"].write(value.name)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AppSyncClientTypes.DataSourceIntrospectionModelIndex {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppSyncClientTypes.DataSourceIntrospectionModelIndex()
@@ -2732,12 +2639,6 @@ extension AppSyncClientTypes {
 }
 
 extension AppSyncClientTypes.DataSourceIntrospectionResult {
-
-    static func write(value: AppSyncClientTypes.DataSourceIntrospectionResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["models"].writeList(value.models, memberWritingClosure: AppSyncClientTypes.DataSourceIntrospectionModel.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["nextToken"].write(value.nextToken)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppSyncClientTypes.DataSourceIntrospectionResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3657,15 +3558,6 @@ enum DisassociateSourceGraphqlApiOutputError {
 
 extension AppSyncClientTypes.DomainNameConfig {
 
-    static func write(value: AppSyncClientTypes.DomainNameConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["appsyncDomainName"].write(value.appsyncDomainName)
-        try writer["certificateArn"].write(value.certificateArn)
-        try writer["description"].write(value.description)
-        try writer["domainName"].write(value.domainName)
-        try writer["hostedZoneId"].write(value.hostedZoneId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AppSyncClientTypes.DomainNameConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppSyncClientTypes.DomainNameConfig()
@@ -3940,11 +3832,6 @@ extension AppSyncClientTypes {
 
 extension AppSyncClientTypes.ErrorDetail {
 
-    static func write(value: AppSyncClientTypes.ErrorDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.message)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AppSyncClientTypes.ErrorDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppSyncClientTypes.ErrorDetail()
@@ -3970,12 +3857,6 @@ extension AppSyncClientTypes {
 }
 
 extension AppSyncClientTypes.EvaluateCodeErrorDetail {
-
-    static func write(value: AppSyncClientTypes.EvaluateCodeErrorDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["codeErrors"].writeList(value.codeErrors, memberWritingClosure: AppSyncClientTypes.CodeError.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["message"].write(value.message)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppSyncClientTypes.EvaluateCodeErrorDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4306,22 +4187,6 @@ enum FlushApiCacheOutputError {
 }
 
 extension AppSyncClientTypes.FunctionConfiguration {
-
-    static func write(value: AppSyncClientTypes.FunctionConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["code"].write(value.code)
-        try writer["dataSourceName"].write(value.dataSourceName)
-        try writer["description"].write(value.description)
-        try writer["functionArn"].write(value.functionArn)
-        try writer["functionId"].write(value.functionId)
-        try writer["functionVersion"].write(value.functionVersion)
-        try writer["maxBatchSize"].write(value.maxBatchSize)
-        try writer["name"].write(value.name)
-        try writer["requestMappingTemplate"].write(value.requestMappingTemplate)
-        try writer["responseMappingTemplate"].write(value.responseMappingTemplate)
-        try writer["runtime"].write(value.runtime, with: AppSyncClientTypes.AppSyncRuntime.write(value:to:))
-        try writer["syncConfig"].write(value.syncConfig, with: AppSyncClientTypes.SyncConfig.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppSyncClientTypes.FunctionConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5519,33 +5384,6 @@ public struct GraphQLSchemaException: ClientRuntime.ModeledError, AWSClientRunti
 }
 
 extension AppSyncClientTypes.GraphqlApi {
-
-    static func write(value: AppSyncClientTypes.GraphqlApi?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["additionalAuthenticationProviders"].writeList(value.additionalAuthenticationProviders, memberWritingClosure: AppSyncClientTypes.AdditionalAuthenticationProvider.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["apiId"].write(value.apiId)
-        try writer["apiType"].write(value.apiType)
-        try writer["arn"].write(value.arn)
-        try writer["authenticationType"].write(value.authenticationType)
-        try writer["dns"].writeMap(value.dns, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["enhancedMetricsConfig"].write(value.enhancedMetricsConfig, with: AppSyncClientTypes.EnhancedMetricsConfig.write(value:to:))
-        try writer["introspectionConfig"].write(value.introspectionConfig)
-        try writer["lambdaAuthorizerConfig"].write(value.lambdaAuthorizerConfig, with: AppSyncClientTypes.LambdaAuthorizerConfig.write(value:to:))
-        try writer["logConfig"].write(value.logConfig, with: AppSyncClientTypes.LogConfig.write(value:to:))
-        try writer["mergedApiExecutionRoleArn"].write(value.mergedApiExecutionRoleArn)
-        try writer["name"].write(value.name)
-        try writer["openIDConnectConfig"].write(value.openIDConnectConfig, with: AppSyncClientTypes.OpenIDConnectConfig.write(value:to:))
-        try writer["owner"].write(value.owner)
-        try writer["ownerContact"].write(value.ownerContact)
-        try writer["queryDepthLimit"].write(value.queryDepthLimit)
-        try writer["resolverCountLimit"].write(value.resolverCountLimit)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["uris"].writeMap(value.uris, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["userPoolConfig"].write(value.userPoolConfig, with: AppSyncClientTypes.UserPoolConfig.write(value:to:))
-        try writer["visibility"].write(value.visibility)
-        try writer["wafWebAclArn"].write(value.wafWebAclArn)
-        try writer["xrayEnabled"].write(value.xrayEnabled)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppSyncClientTypes.GraphqlApi {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7037,15 +6875,6 @@ extension AppSyncClientTypes {
 
 extension AppSyncClientTypes.ModelType {
 
-    static func write(value: AppSyncClientTypes.ModelType?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["definition"].write(value.definition)
-        try writer["description"].write(value.description)
-        try writer["format"].write(value.format)
-        try writer["name"].write(value.name)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AppSyncClientTypes.ModelType {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppSyncClientTypes.ModelType()
@@ -7405,15 +7234,6 @@ extension AppSyncClientTypes.RdsDataApiConfig {
         try writer["resourceArn"].write(value.resourceArn)
         try writer["secretArn"].write(value.secretArn)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppSyncClientTypes.RdsDataApiConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppSyncClientTypes.RdsDataApiConfig()
-        value.resourceArn = try reader["resourceArn"].readIfPresent()
-        value.secretArn = try reader["secretArn"].readIfPresent()
-        value.databaseName = try reader["databaseName"].readIfPresent()
-        return value
-    }
 }
 
 extension AppSyncClientTypes {
@@ -7565,24 +7385,6 @@ extension AppSyncClientTypes {
 }
 
 extension AppSyncClientTypes.Resolver {
-
-    static func write(value: AppSyncClientTypes.Resolver?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["cachingConfig"].write(value.cachingConfig, with: AppSyncClientTypes.CachingConfig.write(value:to:))
-        try writer["code"].write(value.code)
-        try writer["dataSourceName"].write(value.dataSourceName)
-        try writer["fieldName"].write(value.fieldName)
-        try writer["kind"].write(value.kind)
-        try writer["maxBatchSize"].write(value.maxBatchSize)
-        try writer["metricsConfig"].write(value.metricsConfig)
-        try writer["pipelineConfig"].write(value.pipelineConfig, with: AppSyncClientTypes.PipelineConfig.write(value:to:))
-        try writer["requestMappingTemplate"].write(value.requestMappingTemplate)
-        try writer["resolverArn"].write(value.resolverArn)
-        try writer["responseMappingTemplate"].write(value.responseMappingTemplate)
-        try writer["runtime"].write(value.runtime, with: AppSyncClientTypes.AppSyncRuntime.write(value:to:))
-        try writer["syncConfig"].write(value.syncConfig, with: AppSyncClientTypes.SyncConfig.write(value:to:))
-        try writer["typeName"].write(value.typeName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppSyncClientTypes.Resolver {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7838,21 +7640,6 @@ extension AppSyncClientTypes {
 
 extension AppSyncClientTypes.SourceApiAssociation {
 
-    static func write(value: AppSyncClientTypes.SourceApiAssociation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["associationArn"].write(value.associationArn)
-        try writer["associationId"].write(value.associationId)
-        try writer["description"].write(value.description)
-        try writer["lastSuccessfulMergeDate"].writeTimestamp(value.lastSuccessfulMergeDate, format: .epochSeconds)
-        try writer["mergedApiArn"].write(value.mergedApiArn)
-        try writer["mergedApiId"].write(value.mergedApiId)
-        try writer["sourceApiArn"].write(value.sourceApiArn)
-        try writer["sourceApiAssociationConfig"].write(value.sourceApiAssociationConfig, with: AppSyncClientTypes.SourceApiAssociationConfig.write(value:to:))
-        try writer["sourceApiAssociationStatus"].write(value.sourceApiAssociationStatus)
-        try writer["sourceApiAssociationStatusDetail"].write(value.sourceApiAssociationStatusDetail)
-        try writer["sourceApiId"].write(value.sourceApiId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AppSyncClientTypes.SourceApiAssociation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppSyncClientTypes.SourceApiAssociation()
@@ -8007,17 +7794,6 @@ extension AppSyncClientTypes {
 }
 
 extension AppSyncClientTypes.SourceApiAssociationSummary {
-
-    static func write(value: AppSyncClientTypes.SourceApiAssociationSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["associationArn"].write(value.associationArn)
-        try writer["associationId"].write(value.associationId)
-        try writer["description"].write(value.description)
-        try writer["mergedApiArn"].write(value.mergedApiArn)
-        try writer["mergedApiId"].write(value.mergedApiId)
-        try writer["sourceApiArn"].write(value.sourceApiArn)
-        try writer["sourceApiId"].write(value.sourceApiId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppSyncClientTypes.SourceApiAssociationSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

@@ -43,12 +43,6 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
 extension RolesAnywhereClientTypes.AttributeMapping {
 
-    static func write(value: RolesAnywhereClientTypes.AttributeMapping?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["certificateField"].write(value.certificateField)
-        try writer["mappingRules"].writeList(value.mappingRules, memberWritingClosure: RolesAnywhereClientTypes.MappingRule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> RolesAnywhereClientTypes.AttributeMapping {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RolesAnywhereClientTypes.AttributeMapping()
@@ -305,16 +299,6 @@ enum CreateTrustAnchorOutputError {
 
 extension RolesAnywhereClientTypes.CredentialSummary {
 
-    static func write(value: RolesAnywhereClientTypes.CredentialSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["enabled"].write(value.enabled)
-        try writer["failed"].write(value.failed)
-        try writer["issuer"].write(value.issuer)
-        try writer["seenAt"].writeTimestamp(value.seenAt, format: .dateTime)
-        try writer["serialNumber"].write(value.serialNumber)
-        try writer["x509CertificateData"].write(value.x509CertificateData)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> RolesAnywhereClientTypes.CredentialSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RolesAnywhereClientTypes.CredentialSummary()
@@ -365,18 +349,6 @@ extension RolesAnywhereClientTypes {
 }
 
 extension RolesAnywhereClientTypes.CrlDetail {
-
-    static func write(value: RolesAnywhereClientTypes.CrlDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .dateTime)
-        try writer["crlArn"].write(value.crlArn)
-        try writer["crlData"].write(value.crlData)
-        try writer["crlId"].write(value.crlId)
-        try writer["enabled"].write(value.enabled)
-        try writer["name"].write(value.name)
-        try writer["trustAnchorArn"].write(value.trustAnchorArn)
-        try writer["updatedAt"].writeTimestamp(value.updatedAt, format: .dateTime)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> RolesAnywhereClientTypes.CrlDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1436,13 +1408,6 @@ enum ImportCrlOutputError {
 
 extension RolesAnywhereClientTypes.InstanceProperty {
 
-    static func write(value: RolesAnywhereClientTypes.InstanceProperty?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["failed"].write(value.failed)
-        try writer["properties"].writeMap(value.properties, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["seenAt"].writeTimestamp(value.seenAt, format: .dateTime)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> RolesAnywhereClientTypes.InstanceProperty {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RolesAnywhereClientTypes.InstanceProperty()
@@ -1981,16 +1946,6 @@ extension RolesAnywhereClientTypes.NotificationSetting {
         try writer["event"].write(value.event)
         try writer["threshold"].write(value.threshold)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RolesAnywhereClientTypes.NotificationSetting {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RolesAnywhereClientTypes.NotificationSetting()
-        value.enabled = try reader["enabled"].readIfPresent()
-        value.event = try reader["event"].readIfPresent()
-        value.threshold = try reader["threshold"].readIfPresent()
-        value.channel = try reader["channel"].readIfPresent()
-        return value
-    }
 }
 
 extension RolesAnywhereClientTypes {
@@ -2024,15 +1979,6 @@ extension RolesAnywhereClientTypes {
 }
 
 extension RolesAnywhereClientTypes.NotificationSettingDetail {
-
-    static func write(value: RolesAnywhereClientTypes.NotificationSettingDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["channel"].write(value.channel)
-        try writer["configuredBy"].write(value.configuredBy)
-        try writer["enabled"].write(value.enabled)
-        try writer["event"].write(value.event)
-        try writer["threshold"].write(value.threshold)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> RolesAnywhereClientTypes.NotificationSettingDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2087,14 +2033,6 @@ extension RolesAnywhereClientTypes.NotificationSettingKey {
         try writer["channel"].write(value.channel)
         try writer["event"].write(value.event)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RolesAnywhereClientTypes.NotificationSettingKey {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RolesAnywhereClientTypes.NotificationSettingKey()
-        value.event = try reader["event"].readIfPresent()
-        value.channel = try reader["channel"].readIfPresent()
-        return value
-    }
 }
 
 extension RolesAnywhereClientTypes {
@@ -2119,23 +2057,6 @@ extension RolesAnywhereClientTypes {
 }
 
 extension RolesAnywhereClientTypes.ProfileDetail {
-
-    static func write(value: RolesAnywhereClientTypes.ProfileDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["attributeMappings"].writeList(value.attributeMappings, memberWritingClosure: RolesAnywhereClientTypes.AttributeMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .dateTime)
-        try writer["createdBy"].write(value.createdBy)
-        try writer["durationSeconds"].write(value.durationSeconds)
-        try writer["enabled"].write(value.enabled)
-        try writer["managedPolicyArns"].writeList(value.managedPolicyArns, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["name"].write(value.name)
-        try writer["profileArn"].write(value.profileArn)
-        try writer["profileId"].write(value.profileId)
-        try writer["requireInstanceProperties"].write(value.requireInstanceProperties)
-        try writer["roleArns"].writeList(value.roleArns, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["sessionPolicy"].write(value.sessionPolicy)
-        try writer["updatedAt"].writeTimestamp(value.updatedAt, format: .dateTime)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> RolesAnywhereClientTypes.ProfileDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2572,19 +2493,6 @@ extension RolesAnywhereClientTypes {
 
 extension RolesAnywhereClientTypes.SubjectDetail {
 
-    static func write(value: RolesAnywhereClientTypes.SubjectDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .dateTime)
-        try writer["credentials"].writeList(value.credentials, memberWritingClosure: RolesAnywhereClientTypes.CredentialSummary.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["enabled"].write(value.enabled)
-        try writer["instanceProperties"].writeList(value.instanceProperties, memberWritingClosure: RolesAnywhereClientTypes.InstanceProperty.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["lastSeenAt"].writeTimestamp(value.lastSeenAt, format: .dateTime)
-        try writer["subjectArn"].write(value.subjectArn)
-        try writer["subjectId"].write(value.subjectId)
-        try writer["updatedAt"].writeTimestamp(value.updatedAt, format: .dateTime)
-        try writer["x509Subject"].write(value.x509Subject)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> RolesAnywhereClientTypes.SubjectDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RolesAnywhereClientTypes.SubjectDetail()
@@ -2650,17 +2558,6 @@ extension RolesAnywhereClientTypes {
 }
 
 extension RolesAnywhereClientTypes.SubjectSummary {
-
-    static func write(value: RolesAnywhereClientTypes.SubjectSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .dateTime)
-        try writer["enabled"].write(value.enabled)
-        try writer["lastSeenAt"].writeTimestamp(value.lastSeenAt, format: .dateTime)
-        try writer["subjectArn"].write(value.subjectArn)
-        try writer["subjectId"].write(value.subjectId)
-        try writer["updatedAt"].writeTimestamp(value.updatedAt, format: .dateTime)
-        try writer["x509Subject"].write(value.x509Subject)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> RolesAnywhereClientTypes.SubjectSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2861,18 +2758,6 @@ public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime
 }
 
 extension RolesAnywhereClientTypes.TrustAnchorDetail {
-
-    static func write(value: RolesAnywhereClientTypes.TrustAnchorDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .dateTime)
-        try writer["enabled"].write(value.enabled)
-        try writer["name"].write(value.name)
-        try writer["notificationSettings"].writeList(value.notificationSettings, memberWritingClosure: RolesAnywhereClientTypes.NotificationSettingDetail.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["source"].write(value.source, with: RolesAnywhereClientTypes.Source.write(value:to:))
-        try writer["trustAnchorArn"].write(value.trustAnchorArn)
-        try writer["trustAnchorId"].write(value.trustAnchorId)
-        try writer["updatedAt"].writeTimestamp(value.updatedAt, format: .dateTime)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> RolesAnywhereClientTypes.TrustAnchorDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

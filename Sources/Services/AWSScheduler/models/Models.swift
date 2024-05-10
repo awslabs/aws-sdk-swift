@@ -1798,15 +1798,6 @@ extension SchedulerClientTypes {
 
 extension SchedulerClientTypes.ScheduleGroupSummary {
 
-    static func write(value: SchedulerClientTypes.ScheduleGroupSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["CreationDate"].writeTimestamp(value.creationDate, format: .epochSeconds)
-        try writer["LastModificationDate"].writeTimestamp(value.lastModificationDate, format: .epochSeconds)
-        try writer["Name"].write(value.name)
-        try writer["State"].write(value.state)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SchedulerClientTypes.ScheduleGroupSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SchedulerClientTypes.ScheduleGroupSummary()
@@ -1882,17 +1873,6 @@ extension SchedulerClientTypes {
 }
 
 extension SchedulerClientTypes.ScheduleSummary {
-
-    static func write(value: SchedulerClientTypes.ScheduleSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["CreationDate"].writeTimestamp(value.creationDate, format: .epochSeconds)
-        try writer["GroupName"].write(value.groupName)
-        try writer["LastModificationDate"].writeTimestamp(value.lastModificationDate, format: .epochSeconds)
-        try writer["Name"].write(value.name)
-        try writer["State"].write(value.state)
-        try writer["Target"].write(value.target, with: SchedulerClientTypes.TargetSummary.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SchedulerClientTypes.ScheduleSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2212,11 +2192,6 @@ extension SchedulerClientTypes {
 }
 
 extension SchedulerClientTypes.TargetSummary {
-
-    static func write(value: SchedulerClientTypes.TargetSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SchedulerClientTypes.TargetSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

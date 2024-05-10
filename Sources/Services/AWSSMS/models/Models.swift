@@ -249,29 +249,6 @@ extension SMSClientTypes {
 
 extension SMSClientTypes.AppSummary {
 
-    static func write(value: SMSClientTypes.AppSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["appId"].write(value.appId)
-        try writer["creationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["description"].write(value.description)
-        try writer["importedAppId"].write(value.importedAppId)
-        try writer["lastModified"].writeTimestamp(value.lastModified, format: .epochSeconds)
-        try writer["latestReplicationTime"].writeTimestamp(value.latestReplicationTime, format: .epochSeconds)
-        try writer["launchConfigurationStatus"].write(value.launchConfigurationStatus)
-        try writer["launchDetails"].write(value.launchDetails, with: SMSClientTypes.LaunchDetails.write(value:to:))
-        try writer["launchStatus"].write(value.launchStatus)
-        try writer["launchStatusMessage"].write(value.launchStatusMessage)
-        try writer["name"].write(value.name)
-        try writer["replicationConfigurationStatus"].write(value.replicationConfigurationStatus)
-        try writer["replicationStatus"].write(value.replicationStatus)
-        try writer["replicationStatusMessage"].write(value.replicationStatusMessage)
-        try writer["roleName"].write(value.roleName)
-        try writer["status"].write(value.status)
-        try writer["statusMessage"].write(value.statusMessage)
-        try writer["totalServerGroups"].write(value.totalServerGroups)
-        try writer["totalServers"].write(value.totalServers)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SMSClientTypes.AppSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SMSClientTypes.AppSummary()
@@ -437,11 +414,6 @@ extension SMSClientTypes {
 
 extension SMSClientTypes.AppValidationOutput {
 
-    static func write(value: SMSClientTypes.AppValidationOutput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ssmOutput"].write(value.ssmOutput, with: SMSClientTypes.SSMOutput.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SMSClientTypes.AppValidationOutput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SMSClientTypes.AppValidationOutput()
@@ -494,20 +466,6 @@ extension SMSClientTypes {
 }
 
 extension SMSClientTypes.Connector {
-
-    static func write(value: SMSClientTypes.Connector?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["associatedOn"].writeTimestamp(value.associatedOn, format: .epochSeconds)
-        try writer["capabilityList"].writeList(value.capabilityList, memberWritingClosure: SMSClientTypes.ConnectorCapability.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["connectorId"].write(value.connectorId)
-        try writer["ipAddress"].write(value.ipAddress)
-        try writer["macAddress"].write(value.macAddress)
-        try writer["status"].write(value.status)
-        try writer["version"].write(value.version)
-        try writer["vmManagerId"].write(value.vmManagerId)
-        try writer["vmManagerName"].write(value.vmManagerName)
-        try writer["vmManagerType"].write(value.vmManagerType)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SMSClientTypes.Connector {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2425,13 +2383,6 @@ enum LaunchAppOutputError {
 
 extension SMSClientTypes.LaunchDetails {
 
-    static func write(value: SMSClientTypes.LaunchDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["latestLaunchTime"].writeTimestamp(value.latestLaunchTime, format: .epochSeconds)
-        try writer["stackId"].write(value.stackId)
-        try writer["stackName"].write(value.stackName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SMSClientTypes.LaunchDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SMSClientTypes.LaunchDetails()
@@ -2661,15 +2612,6 @@ extension SMSClientTypes.NotificationContext {
         try writer["status"].write(value.status)
         try writer["statusMessage"].write(value.statusMessage)
         try writer["validationId"].write(value.validationId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SMSClientTypes.NotificationContext {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SMSClientTypes.NotificationContext()
-        value.validationId = try reader["validationId"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.statusMessage = try reader["statusMessage"].readIfPresent()
-        return value
     }
 }
 
@@ -3031,28 +2973,6 @@ enum PutAppValidationConfigurationOutputError {
 
 extension SMSClientTypes.ReplicationJob {
 
-    static func write(value: SMSClientTypes.ReplicationJob?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["description"].write(value.description)
-        try writer["encrypted"].write(value.encrypted)
-        try writer["frequency"].write(value.frequency)
-        try writer["kmsKeyId"].write(value.kmsKeyId)
-        try writer["latestAmiId"].write(value.latestAmiId)
-        try writer["licenseType"].write(value.licenseType)
-        try writer["nextReplicationRunStartTime"].writeTimestamp(value.nextReplicationRunStartTime, format: .epochSeconds)
-        try writer["numberOfRecentAmisToKeep"].write(value.numberOfRecentAmisToKeep)
-        try writer["replicationJobId"].write(value.replicationJobId)
-        try writer["replicationRunList"].writeList(value.replicationRunList, memberWritingClosure: SMSClientTypes.ReplicationRun.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["roleName"].write(value.roleName)
-        try writer["runOnce"].write(value.runOnce)
-        try writer["seedReplicationTime"].writeTimestamp(value.seedReplicationTime, format: .epochSeconds)
-        try writer["serverId"].write(value.serverId)
-        try writer["serverType"].write(value.serverType)
-        try writer["state"].write(value.state)
-        try writer["statusMessage"].write(value.statusMessage)
-        try writer["vmServer"].write(value.vmServer, with: SMSClientTypes.VmServer.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SMSClientTypes.ReplicationJob {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SMSClientTypes.ReplicationJob()
@@ -3297,21 +3217,6 @@ extension SMSClientTypes {
 
 extension SMSClientTypes.ReplicationRun {
 
-    static func write(value: SMSClientTypes.ReplicationRun?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["amiId"].write(value.amiId)
-        try writer["completedTime"].writeTimestamp(value.completedTime, format: .epochSeconds)
-        try writer["description"].write(value.description)
-        try writer["encrypted"].write(value.encrypted)
-        try writer["kmsKeyId"].write(value.kmsKeyId)
-        try writer["replicationRunId"].write(value.replicationRunId)
-        try writer["scheduledStartTime"].writeTimestamp(value.scheduledStartTime, format: .epochSeconds)
-        try writer["stageDetails"].write(value.stageDetails, with: SMSClientTypes.ReplicationRunStageDetails.write(value:to:))
-        try writer["state"].write(value.state)
-        try writer["statusMessage"].write(value.statusMessage)
-        try writer["type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SMSClientTypes.ReplicationRun {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SMSClientTypes.ReplicationRun()
@@ -3435,12 +3340,6 @@ public struct ReplicationRunLimitExceededException: ClientRuntime.ModeledError, 
 }
 
 extension SMSClientTypes.ReplicationRunStageDetails {
-
-    static func write(value: SMSClientTypes.ReplicationRunStageDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["stage"].write(value.stage)
-        try writer["stageProgress"].write(value.stageProgress)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SMSClientTypes.ReplicationRunStageDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3586,11 +3485,6 @@ extension SMSClientTypes {
 public enum SMSClientTypes {}
 
 extension SMSClientTypes.SSMOutput {
-
-    static func write(value: SMSClientTypes.SSMOutput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["s3Location"].write(value.s3Location, with: SMSClientTypes.S3Location.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SMSClientTypes.SSMOutput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4293,11 +4187,6 @@ extension SMSClientTypes {
 }
 
 extension SMSClientTypes.ServerValidationOutput {
-
-    static func write(value: SMSClientTypes.ServerValidationOutput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["server"].write(value.server, with: SMSClientTypes.Server.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SMSClientTypes.ServerValidationOutput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5074,17 +4963,6 @@ extension SMSClientTypes {
 }
 
 extension SMSClientTypes.ValidationOutput {
-
-    static func write(value: SMSClientTypes.ValidationOutput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["appValidationOutput"].write(value.appValidationOutput, with: SMSClientTypes.AppValidationOutput.write(value:to:))
-        try writer["latestValidationTime"].writeTimestamp(value.latestValidationTime, format: .epochSeconds)
-        try writer["name"].write(value.name)
-        try writer["serverValidationOutput"].write(value.serverValidationOutput, with: SMSClientTypes.ServerValidationOutput.write(value:to:))
-        try writer["status"].write(value.status)
-        try writer["statusMessage"].write(value.statusMessage)
-        try writer["validationId"].write(value.validationId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SMSClientTypes.ValidationOutput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

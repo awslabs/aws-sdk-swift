@@ -2173,14 +2173,6 @@ extension Route53ResolverClientTypes.Filter {
         try writer["Name"].write(value.name)
         try writer["Values"].writeList(value.values, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> Route53ResolverClientTypes.Filter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Route53ResolverClientTypes.Filter()
-        value.name = try reader["Name"].readIfPresent()
-        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
 }
 
 extension Route53ResolverClientTypes {
@@ -2294,14 +2286,6 @@ extension Route53ResolverClientTypes {
 
 extension Route53ResolverClientTypes.FirewallConfig {
 
-    static func write(value: Route53ResolverClientTypes.FirewallConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["FirewallFailOpen"].write(value.firewallFailOpen)
-        try writer["Id"].write(value.id)
-        try writer["OwnerId"].write(value.ownerId)
-        try writer["ResourceId"].write(value.resourceId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> Route53ResolverClientTypes.FirewallConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Route53ResolverClientTypes.FirewallConfig()
@@ -2377,20 +2361,6 @@ extension Route53ResolverClientTypes {
 
 extension Route53ResolverClientTypes.FirewallDomainList {
 
-    static func write(value: Route53ResolverClientTypes.FirewallDomainList?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["CreationTime"].write(value.creationTime)
-        try writer["CreatorRequestId"].write(value.creatorRequestId)
-        try writer["DomainCount"].write(value.domainCount)
-        try writer["Id"].write(value.id)
-        try writer["ManagedOwnerName"].write(value.managedOwnerName)
-        try writer["ModificationTime"].write(value.modificationTime)
-        try writer["Name"].write(value.name)
-        try writer["Status"].write(value.status)
-        try writer["StatusMessage"].write(value.statusMessage)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> Route53ResolverClientTypes.FirewallDomainList {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Route53ResolverClientTypes.FirewallDomainList()
@@ -2461,15 +2431,6 @@ extension Route53ResolverClientTypes {
 }
 
 extension Route53ResolverClientTypes.FirewallDomainListMetadata {
-
-    static func write(value: Route53ResolverClientTypes.FirewallDomainListMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["CreatorRequestId"].write(value.creatorRequestId)
-        try writer["Id"].write(value.id)
-        try writer["ManagedOwnerName"].write(value.managedOwnerName)
-        try writer["Name"].write(value.name)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Route53ResolverClientTypes.FirewallDomainListMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2652,24 +2613,6 @@ extension Route53ResolverClientTypes {
 
 extension Route53ResolverClientTypes.FirewallRule {
 
-    static func write(value: Route53ResolverClientTypes.FirewallRule?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Action"].write(value.action)
-        try writer["BlockOverrideDnsType"].write(value.blockOverrideDnsType)
-        try writer["BlockOverrideDomain"].write(value.blockOverrideDomain)
-        try writer["BlockOverrideTtl"].write(value.blockOverrideTtl)
-        try writer["BlockResponse"].write(value.blockResponse)
-        try writer["CreationTime"].write(value.creationTime)
-        try writer["CreatorRequestId"].write(value.creatorRequestId)
-        try writer["FirewallDomainListId"].write(value.firewallDomainListId)
-        try writer["FirewallDomainRedirectionAction"].write(value.firewallDomainRedirectionAction)
-        try writer["FirewallRuleGroupId"].write(value.firewallRuleGroupId)
-        try writer["ModificationTime"].write(value.modificationTime)
-        try writer["Name"].write(value.name)
-        try writer["Priority"].write(value.priority)
-        try writer["Qtype"].write(value.qtype)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> Route53ResolverClientTypes.FirewallRule {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Route53ResolverClientTypes.FirewallRule()
@@ -2801,21 +2744,6 @@ extension Route53ResolverClientTypes {
 
 extension Route53ResolverClientTypes.FirewallRuleGroup {
 
-    static func write(value: Route53ResolverClientTypes.FirewallRuleGroup?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["CreationTime"].write(value.creationTime)
-        try writer["CreatorRequestId"].write(value.creatorRequestId)
-        try writer["Id"].write(value.id)
-        try writer["ModificationTime"].write(value.modificationTime)
-        try writer["Name"].write(value.name)
-        try writer["OwnerId"].write(value.ownerId)
-        try writer["RuleCount"].write(value.ruleCount)
-        try writer["ShareStatus"].write(value.shareStatus)
-        try writer["Status"].write(value.status)
-        try writer["StatusMessage"].write(value.statusMessage)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> Route53ResolverClientTypes.FirewallRuleGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Route53ResolverClientTypes.FirewallRuleGroup()
@@ -2891,23 +2819,6 @@ extension Route53ResolverClientTypes {
 }
 
 extension Route53ResolverClientTypes.FirewallRuleGroupAssociation {
-
-    static func write(value: Route53ResolverClientTypes.FirewallRuleGroupAssociation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["CreationTime"].write(value.creationTime)
-        try writer["CreatorRequestId"].write(value.creatorRequestId)
-        try writer["FirewallRuleGroupId"].write(value.firewallRuleGroupId)
-        try writer["Id"].write(value.id)
-        try writer["ManagedOwnerName"].write(value.managedOwnerName)
-        try writer["ModificationTime"].write(value.modificationTime)
-        try writer["MutationProtection"].write(value.mutationProtection)
-        try writer["Name"].write(value.name)
-        try writer["Priority"].write(value.priority)
-        try writer["Status"].write(value.status)
-        try writer["StatusMessage"].write(value.statusMessage)
-        try writer["VpcId"].write(value.vpcId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Route53ResolverClientTypes.FirewallRuleGroupAssociation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3027,16 +2938,6 @@ extension Route53ResolverClientTypes {
 }
 
 extension Route53ResolverClientTypes.FirewallRuleGroupMetadata {
-
-    static func write(value: Route53ResolverClientTypes.FirewallRuleGroupMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["CreatorRequestId"].write(value.creatorRequestId)
-        try writer["Id"].write(value.id)
-        try writer["Name"].write(value.name)
-        try writer["OwnerId"].write(value.ownerId)
-        try writer["ShareStatus"].write(value.shareStatus)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Route53ResolverClientTypes.FirewallRuleGroupMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4502,15 +4403,6 @@ extension Route53ResolverClientTypes.IpAddressRequest {
         try writer["Ipv6"].write(value.ipv6)
         try writer["SubnetId"].write(value.subnetId)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> Route53ResolverClientTypes.IpAddressRequest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Route53ResolverClientTypes.IpAddressRequest()
-        value.subnetId = try reader["SubnetId"].readIfPresent()
-        value.ip = try reader["Ip"].readIfPresent()
-        value.ipv6 = try reader["Ipv6"].readIfPresent()
-        return value
-    }
 }
 
 extension Route53ResolverClientTypes {
@@ -4539,18 +4431,6 @@ extension Route53ResolverClientTypes {
 }
 
 extension Route53ResolverClientTypes.IpAddressResponse {
-
-    static func write(value: Route53ResolverClientTypes.IpAddressResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationTime"].write(value.creationTime)
-        try writer["Ip"].write(value.ip)
-        try writer["IpId"].write(value.ipId)
-        try writer["Ipv6"].write(value.ipv6)
-        try writer["ModificationTime"].write(value.modificationTime)
-        try writer["Status"].write(value.status)
-        try writer["StatusMessage"].write(value.statusMessage)
-        try writer["SubnetId"].write(value.subnetId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Route53ResolverClientTypes.IpAddressResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4679,16 +4559,6 @@ extension Route53ResolverClientTypes.IpAddressUpdate {
         try writer["IpId"].write(value.ipId)
         try writer["Ipv6"].write(value.ipv6)
         try writer["SubnetId"].write(value.subnetId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> Route53ResolverClientTypes.IpAddressUpdate {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Route53ResolverClientTypes.IpAddressUpdate()
-        value.ipId = try reader["IpId"].readIfPresent()
-        value.subnetId = try reader["SubnetId"].readIfPresent()
-        value.ip = try reader["Ip"].readIfPresent()
-        value.ipv6 = try reader["Ipv6"].readIfPresent()
-        return value
     }
 }
 
@@ -6278,21 +6148,6 @@ extension Route53ResolverClientTypes {
 
 extension Route53ResolverClientTypes.OutpostResolver {
 
-    static func write(value: Route53ResolverClientTypes.OutpostResolver?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["CreationTime"].write(value.creationTime)
-        try writer["CreatorRequestId"].write(value.creatorRequestId)
-        try writer["Id"].write(value.id)
-        try writer["InstanceCount"].write(value.instanceCount)
-        try writer["ModificationTime"].write(value.modificationTime)
-        try writer["Name"].write(value.name)
-        try writer["OutpostArn"].write(value.outpostArn)
-        try writer["PreferredInstanceType"].write(value.preferredInstanceType)
-        try writer["Status"].write(value.status)
-        try writer["StatusMessage"].write(value.statusMessage)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> Route53ResolverClientTypes.OutpostResolver {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Route53ResolverClientTypes.OutpostResolver()
@@ -6742,14 +6597,6 @@ extension Route53ResolverClientTypes {
 
 extension Route53ResolverClientTypes.ResolverConfig {
 
-    static func write(value: Route53ResolverClientTypes.ResolverConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AutodefinedReverse"].write(value.autodefinedReverse)
-        try writer["Id"].write(value.id)
-        try writer["OwnerId"].write(value.ownerId)
-        try writer["ResourceId"].write(value.resourceId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> Route53ResolverClientTypes.ResolverConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Route53ResolverClientTypes.ResolverConfig()
@@ -6841,14 +6688,6 @@ extension Route53ResolverClientTypes {
 
 extension Route53ResolverClientTypes.ResolverDnssecConfig {
 
-    static func write(value: Route53ResolverClientTypes.ResolverDnssecConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Id"].write(value.id)
-        try writer["OwnerId"].write(value.ownerId)
-        try writer["ResourceId"].write(value.resourceId)
-        try writer["ValidationStatus"].write(value.validationStatus)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> Route53ResolverClientTypes.ResolverDnssecConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Route53ResolverClientTypes.ResolverDnssecConfig()
@@ -6897,26 +6736,6 @@ extension Route53ResolverClientTypes {
 }
 
 extension Route53ResolverClientTypes.ResolverEndpoint {
-
-    static func write(value: Route53ResolverClientTypes.ResolverEndpoint?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["CreationTime"].write(value.creationTime)
-        try writer["CreatorRequestId"].write(value.creatorRequestId)
-        try writer["Direction"].write(value.direction)
-        try writer["HostVPCId"].write(value.hostVPCId)
-        try writer["Id"].write(value.id)
-        try writer["IpAddressCount"].write(value.ipAddressCount)
-        try writer["ModificationTime"].write(value.modificationTime)
-        try writer["Name"].write(value.name)
-        try writer["OutpostArn"].write(value.outpostArn)
-        try writer["PreferredInstanceType"].write(value.preferredInstanceType)
-        try writer["Protocols"].writeList(value.protocols, memberWritingClosure: Route53ResolverClientTypes.ModelProtocol.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ResolverEndpointType"].write(value.resolverEndpointType)
-        try writer["SecurityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Status"].write(value.status)
-        try writer["StatusMessage"].write(value.statusMessage)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Route53ResolverClientTypes.ResolverEndpoint {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7170,20 +6989,6 @@ extension Route53ResolverClientTypes {
 
 extension Route53ResolverClientTypes.ResolverQueryLogConfig {
 
-    static func write(value: Route53ResolverClientTypes.ResolverQueryLogConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["AssociationCount"].write(value.associationCount)
-        try writer["CreationTime"].write(value.creationTime)
-        try writer["CreatorRequestId"].write(value.creatorRequestId)
-        try writer["DestinationArn"].write(value.destinationArn)
-        try writer["Id"].write(value.id)
-        try writer["Name"].write(value.name)
-        try writer["OwnerId"].write(value.ownerId)
-        try writer["ShareStatus"].write(value.shareStatus)
-        try writer["Status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> Route53ResolverClientTypes.ResolverQueryLogConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Route53ResolverClientTypes.ResolverQueryLogConfig()
@@ -7266,17 +7071,6 @@ extension Route53ResolverClientTypes {
 }
 
 extension Route53ResolverClientTypes.ResolverQueryLogConfigAssociation {
-
-    static func write(value: Route53ResolverClientTypes.ResolverQueryLogConfigAssociation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationTime"].write(value.creationTime)
-        try writer["Error"].write(value.error)
-        try writer["ErrorMessage"].write(value.errorMessage)
-        try writer["Id"].write(value.id)
-        try writer["ResolverQueryLogConfigId"].write(value.resolverQueryLogConfigId)
-        try writer["ResourceId"].write(value.resourceId)
-        try writer["Status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Route53ResolverClientTypes.ResolverQueryLogConfigAssociation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7460,24 +7254,6 @@ extension Route53ResolverClientTypes {
 
 extension Route53ResolverClientTypes.ResolverRule {
 
-    static func write(value: Route53ResolverClientTypes.ResolverRule?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["CreationTime"].write(value.creationTime)
-        try writer["CreatorRequestId"].write(value.creatorRequestId)
-        try writer["DomainName"].write(value.domainName)
-        try writer["Id"].write(value.id)
-        try writer["ModificationTime"].write(value.modificationTime)
-        try writer["Name"].write(value.name)
-        try writer["OwnerId"].write(value.ownerId)
-        try writer["ResolverEndpointId"].write(value.resolverEndpointId)
-        try writer["RuleType"].write(value.ruleType)
-        try writer["ShareStatus"].write(value.shareStatus)
-        try writer["Status"].write(value.status)
-        try writer["StatusMessage"].write(value.statusMessage)
-        try writer["TargetIps"].writeList(value.targetIps, memberWritingClosure: Route53ResolverClientTypes.TargetAddress.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> Route53ResolverClientTypes.ResolverRule {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Route53ResolverClientTypes.ResolverRule()
@@ -7568,16 +7344,6 @@ extension Route53ResolverClientTypes {
 }
 
 extension Route53ResolverClientTypes.ResolverRuleAssociation {
-
-    static func write(value: Route53ResolverClientTypes.ResolverRuleAssociation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Id"].write(value.id)
-        try writer["Name"].write(value.name)
-        try writer["ResolverRuleId"].write(value.resolverRuleId)
-        try writer["Status"].write(value.status)
-        try writer["StatusMessage"].write(value.statusMessage)
-        try writer["VPCId"].write(value.vpcId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Route53ResolverClientTypes.ResolverRuleAssociation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7674,15 +7440,6 @@ extension Route53ResolverClientTypes.ResolverRuleConfig {
         try writer["Name"].write(value.name)
         try writer["ResolverEndpointId"].write(value.resolverEndpointId)
         try writer["TargetIps"].writeList(value.targetIps, memberWritingClosure: Route53ResolverClientTypes.TargetAddress.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> Route53ResolverClientTypes.ResolverRuleConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Route53ResolverClientTypes.ResolverRuleConfig()
-        value.name = try reader["Name"].readIfPresent()
-        value.targetIps = try reader["TargetIps"].readListIfPresent(memberReadingClosure: Route53ResolverClientTypes.TargetAddress.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.resolverEndpointId = try reader["ResolverEndpointId"].readIfPresent()
-        return value
     }
 }
 
@@ -8836,14 +8593,6 @@ extension Route53ResolverClientTypes.UpdateIpAddress {
         guard let value else { return }
         try writer["IpId"].write(value.ipId)
         try writer["Ipv6"].write(value.ipv6)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> Route53ResolverClientTypes.UpdateIpAddress {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Route53ResolverClientTypes.UpdateIpAddress()
-        value.ipId = try reader["IpId"].readIfPresent()
-        value.ipv6 = try reader["Ipv6"].readIfPresent()
-        return value
     }
 }
 

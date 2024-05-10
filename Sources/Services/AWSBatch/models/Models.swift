@@ -40,13 +40,6 @@ extension BatchClientTypes.ArrayProperties {
         guard let value else { return }
         try writer["size"].write(value.size)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.ArrayProperties {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BatchClientTypes.ArrayProperties()
-        value.size = try reader["size"].readIfPresent()
-        return value
-    }
 }
 
 extension BatchClientTypes {
@@ -66,13 +59,6 @@ extension BatchClientTypes {
 }
 
 extension BatchClientTypes.ArrayPropertiesDetail {
-
-    static func write(value: BatchClientTypes.ArrayPropertiesDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["index"].write(value.index)
-        try writer["size"].write(value.size)
-        try writer["statusSummary"].writeMap(value.statusSummary, valueWritingClosure: Swift.Int.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.ArrayPropertiesDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -109,12 +95,6 @@ extension BatchClientTypes {
 }
 
 extension BatchClientTypes.ArrayPropertiesSummary {
-
-    static func write(value: BatchClientTypes.ArrayPropertiesSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["index"].write(value.index)
-        try writer["size"].write(value.size)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.ArrayPropertiesSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -177,16 +157,6 @@ extension BatchClientTypes {
 
 extension BatchClientTypes.AttemptContainerDetail {
 
-    static func write(value: BatchClientTypes.AttemptContainerDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["containerInstanceArn"].write(value.containerInstanceArn)
-        try writer["exitCode"].write(value.exitCode)
-        try writer["logStreamName"].write(value.logStreamName)
-        try writer["networkInterfaces"].writeList(value.networkInterfaces, memberWritingClosure: BatchClientTypes.NetworkInterface.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["reason"].write(value.reason)
-        try writer["taskArn"].write(value.taskArn)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.AttemptContainerDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BatchClientTypes.AttemptContainerDetail()
@@ -238,15 +208,6 @@ extension BatchClientTypes {
 
 extension BatchClientTypes.AttemptDetail {
 
-    static func write(value: BatchClientTypes.AttemptDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["container"].write(value.container, with: BatchClientTypes.AttemptContainerDetail.write(value:to:))
-        try writer["startedAt"].write(value.startedAt)
-        try writer["statusReason"].write(value.statusReason)
-        try writer["stoppedAt"].write(value.stoppedAt)
-        try writer["taskProperties"].writeList(value.taskProperties, memberWritingClosure: BatchClientTypes.AttemptEcsTaskDetails.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.AttemptDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BatchClientTypes.AttemptDetail()
@@ -293,13 +254,6 @@ extension BatchClientTypes {
 
 extension BatchClientTypes.AttemptEcsTaskDetails {
 
-    static func write(value: BatchClientTypes.AttemptEcsTaskDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["containerInstanceArn"].write(value.containerInstanceArn)
-        try writer["containers"].writeList(value.containers, memberWritingClosure: BatchClientTypes.AttemptTaskContainerDetails.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["taskArn"].write(value.taskArn)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.AttemptEcsTaskDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BatchClientTypes.AttemptEcsTaskDetails()
@@ -335,15 +289,6 @@ extension BatchClientTypes {
 }
 
 extension BatchClientTypes.AttemptTaskContainerDetails {
-
-    static func write(value: BatchClientTypes.AttemptTaskContainerDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["exitCode"].write(value.exitCode)
-        try writer["logStreamName"].write(value.logStreamName)
-        try writer["name"].write(value.name)
-        try writer["networkInterfaces"].writeList(value.networkInterfaces, memberWritingClosure: BatchClientTypes.NetworkInterface.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["reason"].write(value.reason)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.AttemptTaskContainerDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -699,25 +644,6 @@ public struct ClientException: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
 
 extension BatchClientTypes.ComputeEnvironmentDetail {
 
-    static func write(value: BatchClientTypes.ComputeEnvironmentDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["computeEnvironmentArn"].write(value.computeEnvironmentArn)
-        try writer["computeEnvironmentName"].write(value.computeEnvironmentName)
-        try writer["computeResources"].write(value.computeResources, with: BatchClientTypes.ComputeResource.write(value:to:))
-        try writer["containerOrchestrationType"].write(value.containerOrchestrationType)
-        try writer["ecsClusterArn"].write(value.ecsClusterArn)
-        try writer["eksConfiguration"].write(value.eksConfiguration, with: BatchClientTypes.EksConfiguration.write(value:to:))
-        try writer["serviceRole"].write(value.serviceRole)
-        try writer["state"].write(value.state)
-        try writer["status"].write(value.status)
-        try writer["statusReason"].write(value.statusReason)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["type"].write(value.type)
-        try writer["unmanagedvCpus"].write(value.unmanagedvCpus)
-        try writer["updatePolicy"].write(value.updatePolicy, with: BatchClientTypes.UpdatePolicy.write(value:to:))
-        try writer["uuid"].write(value.uuid)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.ComputeEnvironmentDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BatchClientTypes.ComputeEnvironmentDetail()
@@ -1006,29 +932,6 @@ extension BatchClientTypes.ComputeResourceUpdate {
         try writer["type"].write(value.type)
         try writer["updateToLatestImageVersion"].write(value.updateToLatestImageVersion)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.ComputeResourceUpdate {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BatchClientTypes.ComputeResourceUpdate()
-        value.minvCpus = try reader["minvCpus"].readIfPresent()
-        value.maxvCpus = try reader["maxvCpus"].readIfPresent()
-        value.desiredvCpus = try reader["desiredvCpus"].readIfPresent()
-        value.subnets = try reader["subnets"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.securityGroupIds = try reader["securityGroupIds"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.allocationStrategy = try reader["allocationStrategy"].readIfPresent()
-        value.instanceTypes = try reader["instanceTypes"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.ec2KeyPair = try reader["ec2KeyPair"].readIfPresent()
-        value.instanceRole = try reader["instanceRole"].readIfPresent()
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: Swift.String.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.placementGroup = try reader["placementGroup"].readIfPresent()
-        value.bidPercentage = try reader["bidPercentage"].readIfPresent()
-        value.launchTemplate = try reader["launchTemplate"].readIfPresent(with: BatchClientTypes.LaunchTemplateSpecification.read(from:))
-        value.ec2Configuration = try reader["ec2Configuration"].readListIfPresent(memberReadingClosure: BatchClientTypes.Ec2Configuration.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.updateToLatestImageVersion = try reader["updateToLatestImageVersion"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
-        value.imageId = try reader["imageId"].readIfPresent()
-        return value
-    }
 }
 
 extension BatchClientTypes {
@@ -1112,39 +1015,6 @@ extension BatchClientTypes {
 }
 
 extension BatchClientTypes.ContainerDetail {
-
-    static func write(value: BatchClientTypes.ContainerDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["command"].writeList(value.command, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["containerInstanceArn"].write(value.containerInstanceArn)
-        try writer["environment"].writeList(value.environment, memberWritingClosure: BatchClientTypes.KeyValuePair.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ephemeralStorage"].write(value.ephemeralStorage, with: BatchClientTypes.EphemeralStorage.write(value:to:))
-        try writer["executionRoleArn"].write(value.executionRoleArn)
-        try writer["exitCode"].write(value.exitCode)
-        try writer["fargatePlatformConfiguration"].write(value.fargatePlatformConfiguration, with: BatchClientTypes.FargatePlatformConfiguration.write(value:to:))
-        try writer["image"].write(value.image)
-        try writer["instanceType"].write(value.instanceType)
-        try writer["jobRoleArn"].write(value.jobRoleArn)
-        try writer["linuxParameters"].write(value.linuxParameters, with: BatchClientTypes.LinuxParameters.write(value:to:))
-        try writer["logConfiguration"].write(value.logConfiguration, with: BatchClientTypes.LogConfiguration.write(value:to:))
-        try writer["logStreamName"].write(value.logStreamName)
-        try writer["memory"].write(value.memory)
-        try writer["mountPoints"].writeList(value.mountPoints, memberWritingClosure: BatchClientTypes.MountPoint.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["networkConfiguration"].write(value.networkConfiguration, with: BatchClientTypes.NetworkConfiguration.write(value:to:))
-        try writer["networkInterfaces"].writeList(value.networkInterfaces, memberWritingClosure: BatchClientTypes.NetworkInterface.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["privileged"].write(value.privileged)
-        try writer["readonlyRootFilesystem"].write(value.readonlyRootFilesystem)
-        try writer["reason"].write(value.reason)
-        try writer["repositoryCredentials"].write(value.repositoryCredentials, with: BatchClientTypes.RepositoryCredentials.write(value:to:))
-        try writer["resourceRequirements"].writeList(value.resourceRequirements, memberWritingClosure: BatchClientTypes.ResourceRequirement.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["runtimePlatform"].write(value.runtimePlatform, with: BatchClientTypes.RuntimePlatform.write(value:to:))
-        try writer["secrets"].writeList(value.secrets, memberWritingClosure: BatchClientTypes.Secret.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["taskArn"].write(value.taskArn)
-        try writer["ulimits"].writeList(value.ulimits, memberWritingClosure: BatchClientTypes.Ulimit.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["user"].write(value.user)
-        try writer["vcpus"].write(value.vcpus)
-        try writer["volumes"].writeList(value.volumes, memberWritingClosure: BatchClientTypes.Volume.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.ContainerDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1320,18 +1190,6 @@ extension BatchClientTypes.ContainerOverrides {
         try writer["memory"].write(value.memory)
         try writer["resourceRequirements"].writeList(value.resourceRequirements, memberWritingClosure: BatchClientTypes.ResourceRequirement.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["vcpus"].write(value.vcpus)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.ContainerOverrides {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BatchClientTypes.ContainerOverrides()
-        value.vcpus = try reader["vcpus"].readIfPresent()
-        value.memory = try reader["memory"].readIfPresent()
-        value.command = try reader["command"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.instanceType = try reader["instanceType"].readIfPresent()
-        value.environment = try reader["environment"].readListIfPresent(memberReadingClosure: BatchClientTypes.KeyValuePair.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.resourceRequirements = try reader["resourceRequirements"].readListIfPresent(memberReadingClosure: BatchClientTypes.ResourceRequirement.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -1549,12 +1407,6 @@ extension BatchClientTypes {
 }
 
 extension BatchClientTypes.ContainerSummary {
-
-    static func write(value: BatchClientTypes.ContainerSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["exitCode"].write(value.exitCode)
-        try writer["reason"].write(value.reason)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.ContainerSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2809,11 +2661,6 @@ extension BatchClientTypes {
 
 extension BatchClientTypes.EcsPropertiesDetail {
 
-    static func write(value: BatchClientTypes.EcsPropertiesDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["taskProperties"].writeList(value.taskProperties, memberWritingClosure: BatchClientTypes.EcsTaskDetails.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.EcsPropertiesDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BatchClientTypes.EcsPropertiesDetail()
@@ -2844,13 +2691,6 @@ extension BatchClientTypes.EcsPropertiesOverride {
         guard let value else { return }
         try writer["taskProperties"].writeList(value.taskProperties, memberWritingClosure: BatchClientTypes.TaskPropertiesOverride.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.EcsPropertiesOverride {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BatchClientTypes.EcsPropertiesOverride()
-        value.taskProperties = try reader["taskProperties"].readListIfPresent(memberReadingClosure: BatchClientTypes.TaskPropertiesOverride.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
 }
 
 extension BatchClientTypes {
@@ -2870,22 +2710,6 @@ extension BatchClientTypes {
 }
 
 extension BatchClientTypes.EcsTaskDetails {
-
-    static func write(value: BatchClientTypes.EcsTaskDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["containerInstanceArn"].write(value.containerInstanceArn)
-        try writer["containers"].writeList(value.containers, memberWritingClosure: BatchClientTypes.TaskContainerDetails.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ephemeralStorage"].write(value.ephemeralStorage, with: BatchClientTypes.EphemeralStorage.write(value:to:))
-        try writer["executionRoleArn"].write(value.executionRoleArn)
-        try writer["ipcMode"].write(value.ipcMode)
-        try writer["networkConfiguration"].write(value.networkConfiguration, with: BatchClientTypes.NetworkConfiguration.write(value:to:))
-        try writer["pidMode"].write(value.pidMode)
-        try writer["platformVersion"].write(value.platformVersion)
-        try writer["runtimePlatform"].write(value.runtimePlatform, with: BatchClientTypes.RuntimePlatform.write(value:to:))
-        try writer["taskArn"].write(value.taskArn)
-        try writer["taskRoleArn"].write(value.taskRoleArn)
-        try writer["volumes"].writeList(value.volumes, memberWritingClosure: BatchClientTypes.Volume.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.EcsTaskDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3054,13 +2878,6 @@ extension BatchClientTypes {
 
 extension BatchClientTypes.EksAttemptContainerDetail {
 
-    static func write(value: BatchClientTypes.EksAttemptContainerDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["exitCode"].write(value.exitCode)
-        try writer["name"].write(value.name)
-        try writer["reason"].write(value.reason)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.EksAttemptContainerDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BatchClientTypes.EksAttemptContainerDetail()
@@ -3096,17 +2913,6 @@ extension BatchClientTypes {
 }
 
 extension BatchClientTypes.EksAttemptDetail {
-
-    static func write(value: BatchClientTypes.EksAttemptDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["containers"].writeList(value.containers, memberWritingClosure: BatchClientTypes.EksAttemptContainerDetail.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["initContainers"].writeList(value.initContainers, memberWritingClosure: BatchClientTypes.EksAttemptContainerDetail.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["nodeName"].write(value.nodeName)
-        try writer["podName"].write(value.podName)
-        try writer["startedAt"].write(value.startedAt)
-        try writer["statusReason"].write(value.statusReason)
-        try writer["stoppedAt"].write(value.stoppedAt)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.EksAttemptDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3283,21 +3089,6 @@ extension BatchClientTypes {
 
 extension BatchClientTypes.EksContainerDetail {
 
-    static func write(value: BatchClientTypes.EksContainerDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["args"].writeList(value.args, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["command"].writeList(value.command, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["env"].writeList(value.env, memberWritingClosure: BatchClientTypes.EksContainerEnvironmentVariable.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["exitCode"].write(value.exitCode)
-        try writer["image"].write(value.image)
-        try writer["imagePullPolicy"].write(value.imagePullPolicy)
-        try writer["name"].write(value.name)
-        try writer["reason"].write(value.reason)
-        try writer["resources"].write(value.resources, with: BatchClientTypes.EksContainerResourceRequirements.write(value:to:))
-        try writer["securityContext"].write(value.securityContext, with: BatchClientTypes.EksContainerSecurityContext.write(value:to:))
-        try writer["volumeMounts"].writeList(value.volumeMounts, memberWritingClosure: BatchClientTypes.EksContainerVolumeMount.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.EksContainerDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BatchClientTypes.EksContainerDetail()
@@ -3420,18 +3211,6 @@ extension BatchClientTypes.EksContainerOverride {
         try writer["image"].write(value.image)
         try writer["name"].write(value.name)
         try writer["resources"].write(value.resources, with: BatchClientTypes.EksContainerResourceRequirements.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.EksContainerOverride {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BatchClientTypes.EksContainerOverride()
-        value.name = try reader["name"].readIfPresent()
-        value.image = try reader["image"].readIfPresent()
-        value.command = try reader["command"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.args = try reader["args"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.env = try reader["env"].readListIfPresent(memberReadingClosure: BatchClientTypes.EksContainerEnvironmentVariable.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.resources = try reader["resources"].readIfPresent(with: BatchClientTypes.EksContainerResourceRequirements.read(from:))
-        return value
     }
 }
 
@@ -3792,21 +3571,6 @@ extension BatchClientTypes {
 
 extension BatchClientTypes.EksPodPropertiesDetail {
 
-    static func write(value: BatchClientTypes.EksPodPropertiesDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["containers"].writeList(value.containers, memberWritingClosure: BatchClientTypes.EksContainerDetail.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["dnsPolicy"].write(value.dnsPolicy)
-        try writer["hostNetwork"].write(value.hostNetwork)
-        try writer["imagePullSecrets"].writeList(value.imagePullSecrets, memberWritingClosure: BatchClientTypes.ImagePullSecret.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["initContainers"].writeList(value.initContainers, memberWritingClosure: BatchClientTypes.EksContainerDetail.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["metadata"].write(value.metadata, with: BatchClientTypes.EksMetadata.write(value:to:))
-        try writer["nodeName"].write(value.nodeName)
-        try writer["podName"].write(value.podName)
-        try writer["serviceAccountName"].write(value.serviceAccountName)
-        try writer["shareProcessNamespace"].write(value.shareProcessNamespace)
-        try writer["volumes"].writeList(value.volumes, memberWritingClosure: BatchClientTypes.EksVolume.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.EksPodPropertiesDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BatchClientTypes.EksPodPropertiesDetail()
@@ -3889,15 +3653,6 @@ extension BatchClientTypes.EksPodPropertiesOverride {
         try writer["initContainers"].writeList(value.initContainers, memberWritingClosure: BatchClientTypes.EksContainerOverride.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["metadata"].write(value.metadata, with: BatchClientTypes.EksMetadata.write(value:to:))
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.EksPodPropertiesOverride {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BatchClientTypes.EksPodPropertiesOverride()
-        value.containers = try reader["containers"].readListIfPresent(memberReadingClosure: BatchClientTypes.EksContainerOverride.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.initContainers = try reader["initContainers"].readListIfPresent(memberReadingClosure: BatchClientTypes.EksContainerOverride.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.metadata = try reader["metadata"].readIfPresent(with: BatchClientTypes.EksMetadata.read(from:))
-        return value
-    }
 }
 
 extension BatchClientTypes {
@@ -3957,11 +3712,6 @@ extension BatchClientTypes {
 
 extension BatchClientTypes.EksPropertiesDetail {
 
-    static func write(value: BatchClientTypes.EksPropertiesDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["podProperties"].write(value.podProperties, with: BatchClientTypes.EksPodPropertiesDetail.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.EksPropertiesDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BatchClientTypes.EksPropertiesDetail()
@@ -3991,13 +3741,6 @@ extension BatchClientTypes.EksPropertiesOverride {
     static func write(value: BatchClientTypes.EksPropertiesOverride?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["podProperties"].write(value.podProperties, with: BatchClientTypes.EksPodPropertiesOverride.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.EksPropertiesOverride {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BatchClientTypes.EksPropertiesOverride()
-        value.podProperties = try reader["podProperties"].readIfPresent(with: BatchClientTypes.EksPodPropertiesOverride.read(from:))
-        return value
     }
 }
 
@@ -4398,27 +4141,6 @@ extension BatchClientTypes {
 
 extension BatchClientTypes.JobDefinition {
 
-    static func write(value: BatchClientTypes.JobDefinition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["containerOrchestrationType"].write(value.containerOrchestrationType)
-        try writer["containerProperties"].write(value.containerProperties, with: BatchClientTypes.ContainerProperties.write(value:to:))
-        try writer["ecsProperties"].write(value.ecsProperties, with: BatchClientTypes.EcsProperties.write(value:to:))
-        try writer["eksProperties"].write(value.eksProperties, with: BatchClientTypes.EksProperties.write(value:to:))
-        try writer["jobDefinitionArn"].write(value.jobDefinitionArn)
-        try writer["jobDefinitionName"].write(value.jobDefinitionName)
-        try writer["nodeProperties"].write(value.nodeProperties, with: BatchClientTypes.NodeProperties.write(value:to:))
-        try writer["parameters"].writeMap(value.parameters, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["platformCapabilities"].writeList(value.platformCapabilities, memberWritingClosure: BatchClientTypes.PlatformCapability.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["propagateTags"].write(value.propagateTags)
-        try writer["retryStrategy"].write(value.retryStrategy, with: BatchClientTypes.RetryStrategy.write(value:to:))
-        try writer["revision"].write(value.revision)
-        try writer["schedulingPriority"].write(value.schedulingPriority)
-        try writer["status"].write(value.status)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["timeout"].write(value.timeout, with: BatchClientTypes.JobTimeout.write(value:to:))
-        try writer["type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.JobDefinition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BatchClientTypes.JobDefinition()
@@ -4595,39 +4317,6 @@ extension BatchClientTypes {
 }
 
 extension BatchClientTypes.JobDetail {
-
-    static func write(value: BatchClientTypes.JobDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arrayProperties"].write(value.arrayProperties, with: BatchClientTypes.ArrayPropertiesDetail.write(value:to:))
-        try writer["attempts"].writeList(value.attempts, memberWritingClosure: BatchClientTypes.AttemptDetail.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["container"].write(value.container, with: BatchClientTypes.ContainerDetail.write(value:to:))
-        try writer["createdAt"].write(value.createdAt)
-        try writer["dependsOn"].writeList(value.dependsOn, memberWritingClosure: BatchClientTypes.JobDependency.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ecsProperties"].write(value.ecsProperties, with: BatchClientTypes.EcsPropertiesDetail.write(value:to:))
-        try writer["eksAttempts"].writeList(value.eksAttempts, memberWritingClosure: BatchClientTypes.EksAttemptDetail.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["eksProperties"].write(value.eksProperties, with: BatchClientTypes.EksPropertiesDetail.write(value:to:))
-        try writer["isCancelled"].write(value.isCancelled)
-        try writer["isTerminated"].write(value.isTerminated)
-        try writer["jobArn"].write(value.jobArn)
-        try writer["jobDefinition"].write(value.jobDefinition)
-        try writer["jobId"].write(value.jobId)
-        try writer["jobName"].write(value.jobName)
-        try writer["jobQueue"].write(value.jobQueue)
-        try writer["nodeDetails"].write(value.nodeDetails, with: BatchClientTypes.NodeDetails.write(value:to:))
-        try writer["nodeProperties"].write(value.nodeProperties, with: BatchClientTypes.NodeProperties.write(value:to:))
-        try writer["parameters"].writeMap(value.parameters, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["platformCapabilities"].writeList(value.platformCapabilities, memberWritingClosure: BatchClientTypes.PlatformCapability.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["propagateTags"].write(value.propagateTags)
-        try writer["retryStrategy"].write(value.retryStrategy, with: BatchClientTypes.RetryStrategy.write(value:to:))
-        try writer["schedulingPriority"].write(value.schedulingPriority)
-        try writer["shareIdentifier"].write(value.shareIdentifier)
-        try writer["startedAt"].write(value.startedAt)
-        try writer["status"].write(value.status)
-        try writer["statusReason"].write(value.statusReason)
-        try writer["stoppedAt"].write(value.stoppedAt)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["timeout"].write(value.timeout, with: BatchClientTypes.JobTimeout.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.JobDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4808,20 +4497,6 @@ extension BatchClientTypes {
 }
 
 extension BatchClientTypes.JobQueueDetail {
-
-    static func write(value: BatchClientTypes.JobQueueDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["computeEnvironmentOrder"].writeList(value.computeEnvironmentOrder, memberWritingClosure: BatchClientTypes.ComputeEnvironmentOrder.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["jobQueueArn"].write(value.jobQueueArn)
-        try writer["jobQueueName"].write(value.jobQueueName)
-        try writer["jobStateTimeLimitActions"].writeList(value.jobStateTimeLimitActions, memberWritingClosure: BatchClientTypes.JobStateTimeLimitAction.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["priority"].write(value.priority)
-        try writer["schedulingPolicyArn"].write(value.schedulingPolicyArn)
-        try writer["state"].write(value.state)
-        try writer["status"].write(value.status)
-        try writer["statusReason"].write(value.statusReason)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.JobQueueDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5051,22 +4726,6 @@ extension BatchClientTypes {
 
 extension BatchClientTypes.JobSummary {
 
-    static func write(value: BatchClientTypes.JobSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arrayProperties"].write(value.arrayProperties, with: BatchClientTypes.ArrayPropertiesSummary.write(value:to:))
-        try writer["container"].write(value.container, with: BatchClientTypes.ContainerSummary.write(value:to:))
-        try writer["createdAt"].write(value.createdAt)
-        try writer["jobArn"].write(value.jobArn)
-        try writer["jobDefinition"].write(value.jobDefinition)
-        try writer["jobId"].write(value.jobId)
-        try writer["jobName"].write(value.jobName)
-        try writer["nodeProperties"].write(value.nodeProperties, with: BatchClientTypes.NodePropertiesSummary.write(value:to:))
-        try writer["startedAt"].write(value.startedAt)
-        try writer["status"].write(value.status)
-        try writer["statusReason"].write(value.statusReason)
-        try writer["stoppedAt"].write(value.stoppedAt)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.JobSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BatchClientTypes.JobSummary()
@@ -5222,14 +4881,6 @@ extension BatchClientTypes.KeyValuesPair {
         guard let value else { return }
         try writer["name"].write(value.name)
         try writer["values"].writeList(value.values, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.KeyValuesPair {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BatchClientTypes.KeyValuesPair()
-        value.name = try reader["name"].readIfPresent()
-        value.values = try reader["values"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -5774,13 +5425,6 @@ extension BatchClientTypes {
 
 extension BatchClientTypes.NetworkInterface {
 
-    static func write(value: BatchClientTypes.NetworkInterface?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["attachmentId"].write(value.attachmentId)
-        try writer["ipv6Address"].write(value.ipv6Address)
-        try writer["privateIpv4Address"].write(value.privateIpv4Address)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.NetworkInterface {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BatchClientTypes.NetworkInterface()
@@ -5817,12 +5461,6 @@ extension BatchClientTypes {
 
 extension BatchClientTypes.NodeDetails {
 
-    static func write(value: BatchClientTypes.NodeDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["isMainNode"].write(value.isMainNode)
-        try writer["nodeIndex"].write(value.nodeIndex)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.NodeDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BatchClientTypes.NodeDetails()
@@ -5858,14 +5496,6 @@ extension BatchClientTypes.NodeOverrides {
         guard let value else { return }
         try writer["nodePropertyOverrides"].writeList(value.nodePropertyOverrides, memberWritingClosure: BatchClientTypes.NodePropertyOverride.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["numNodes"].write(value.numNodes)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.NodeOverrides {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BatchClientTypes.NodeOverrides()
-        value.numNodes = try reader["numNodes"].readIfPresent()
-        value.nodePropertyOverrides = try reader["nodePropertyOverrides"].readListIfPresent(memberReadingClosure: BatchClientTypes.NodePropertyOverride.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -5943,13 +5573,6 @@ extension BatchClientTypes {
 
 extension BatchClientTypes.NodePropertiesSummary {
 
-    static func write(value: BatchClientTypes.NodePropertiesSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["isMainNode"].write(value.isMainNode)
-        try writer["nodeIndex"].write(value.nodeIndex)
-        try writer["numNodes"].write(value.numNodes)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.NodePropertiesSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BatchClientTypes.NodePropertiesSummary()
@@ -5992,16 +5615,6 @@ extension BatchClientTypes.NodePropertyOverride {
         try writer["ecsPropertiesOverride"].write(value.ecsPropertiesOverride, with: BatchClientTypes.EcsPropertiesOverride.write(value:to:))
         try writer["instanceTypes"].writeList(value.instanceTypes, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["targetNodes"].write(value.targetNodes)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.NodePropertyOverride {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BatchClientTypes.NodePropertyOverride()
-        value.targetNodes = try reader["targetNodes"].readIfPresent()
-        value.containerOverrides = try reader["containerOverrides"].readIfPresent(with: BatchClientTypes.ContainerOverrides.read(from:))
-        value.ecsPropertiesOverride = try reader["ecsPropertiesOverride"].readIfPresent(with: BatchClientTypes.EcsPropertiesOverride.read(from:))
-        value.instanceTypes = try reader["instanceTypes"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -6503,14 +6116,6 @@ extension BatchClientTypes {
 
 extension BatchClientTypes.SchedulingPolicyDetail {
 
-    static func write(value: BatchClientTypes.SchedulingPolicyDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["fairsharePolicy"].write(value.fairsharePolicy, with: BatchClientTypes.FairsharePolicy.write(value:to:))
-        try writer["name"].write(value.name)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.SchedulingPolicyDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BatchClientTypes.SchedulingPolicyDetail()
@@ -6553,11 +6158,6 @@ extension BatchClientTypes {
 }
 
 extension BatchClientTypes.SchedulingPolicyListingDetail {
-
-    static func write(value: BatchClientTypes.SchedulingPolicyListingDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.SchedulingPolicyListingDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6971,30 +6571,6 @@ extension BatchClientTypes {
 
 extension BatchClientTypes.TaskContainerDetails {
 
-    static func write(value: BatchClientTypes.TaskContainerDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["command"].writeList(value.command, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["dependsOn"].writeList(value.dependsOn, memberWritingClosure: BatchClientTypes.TaskContainerDependency.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["environment"].writeList(value.environment, memberWritingClosure: BatchClientTypes.KeyValuePair.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["essential"].write(value.essential)
-        try writer["exitCode"].write(value.exitCode)
-        try writer["image"].write(value.image)
-        try writer["linuxParameters"].write(value.linuxParameters, with: BatchClientTypes.LinuxParameters.write(value:to:))
-        try writer["logConfiguration"].write(value.logConfiguration, with: BatchClientTypes.LogConfiguration.write(value:to:))
-        try writer["logStreamName"].write(value.logStreamName)
-        try writer["mountPoints"].writeList(value.mountPoints, memberWritingClosure: BatchClientTypes.MountPoint.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["name"].write(value.name)
-        try writer["networkInterfaces"].writeList(value.networkInterfaces, memberWritingClosure: BatchClientTypes.NetworkInterface.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["privileged"].write(value.privileged)
-        try writer["readonlyRootFilesystem"].write(value.readonlyRootFilesystem)
-        try writer["reason"].write(value.reason)
-        try writer["repositoryCredentials"].write(value.repositoryCredentials, with: BatchClientTypes.RepositoryCredentials.write(value:to:))
-        try writer["resourceRequirements"].writeList(value.resourceRequirements, memberWritingClosure: BatchClientTypes.ResourceRequirement.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["secrets"].writeList(value.secrets, memberWritingClosure: BatchClientTypes.Secret.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ulimits"].writeList(value.ulimits, memberWritingClosure: BatchClientTypes.Ulimit.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["user"].write(value.user)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.TaskContainerDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BatchClientTypes.TaskContainerDetails()
@@ -7138,16 +6714,6 @@ extension BatchClientTypes.TaskContainerOverrides {
         try writer["environment"].writeList(value.environment, memberWritingClosure: BatchClientTypes.KeyValuePair.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["name"].write(value.name)
         try writer["resourceRequirements"].writeList(value.resourceRequirements, memberWritingClosure: BatchClientTypes.ResourceRequirement.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.TaskContainerOverrides {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BatchClientTypes.TaskContainerOverrides()
-        value.command = try reader["command"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.environment = try reader["environment"].readListIfPresent(memberReadingClosure: BatchClientTypes.KeyValuePair.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.name = try reader["name"].readIfPresent()
-        value.resourceRequirements = try reader["resourceRequirements"].readListIfPresent(memberReadingClosure: BatchClientTypes.ResourceRequirement.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -7321,13 +6887,6 @@ extension BatchClientTypes.TaskPropertiesOverride {
     static func write(value: BatchClientTypes.TaskPropertiesOverride?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["containers"].writeList(value.containers, memberWritingClosure: BatchClientTypes.TaskContainerOverrides.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.TaskPropertiesOverride {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BatchClientTypes.TaskPropertiesOverride()
-        value.containers = try reader["containers"].readListIfPresent(memberReadingClosure: BatchClientTypes.TaskContainerOverrides.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 

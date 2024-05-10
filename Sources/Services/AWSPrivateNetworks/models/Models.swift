@@ -470,13 +470,6 @@ extension PrivateNetworksClientTypes {
 
 extension PrivateNetworksClientTypes.CommitmentInformation {
 
-    static func write(value: PrivateNetworksClientTypes.CommitmentInformation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["commitmentConfiguration"].write(value.commitmentConfiguration, with: PrivateNetworksClientTypes.CommitmentConfiguration.write(value:to:))
-        try writer["expiresOn"].writeTimestamp(value.expiresOn, format: .dateTime)
-        try writer["startAt"].writeTimestamp(value.startAt, format: .dateTime)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> PrivateNetworksClientTypes.CommitmentInformation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PrivateNetworksClientTypes.CommitmentInformation()
@@ -1103,19 +1096,6 @@ extension PrivateNetworksClientTypes.DeviceIdentifier: Swift.CustomDebugStringCo
 }
 
 extension PrivateNetworksClientTypes.DeviceIdentifier {
-
-    static func write(value: PrivateNetworksClientTypes.DeviceIdentifier?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .dateTime)
-        try writer["deviceIdentifierArn"].write(value.deviceIdentifierArn)
-        try writer["iccid"].write(value.iccid)
-        try writer["imsi"].write(value.imsi)
-        try writer["networkArn"].write(value.networkArn)
-        try writer["orderArn"].write(value.orderArn)
-        try writer["status"].write(value.status)
-        try writer["trafficGroupArn"].write(value.trafficGroupArn)
-        try writer["vendor"].write(value.vendor)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PrivateNetworksClientTypes.DeviceIdentifier {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2365,16 +2345,6 @@ extension PrivateNetworksClientTypes {
 
 extension PrivateNetworksClientTypes.Network {
 
-    static func write(value: PrivateNetworksClientTypes.Network?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .dateTime)
-        try writer["description"].write(value.description)
-        try writer["networkArn"].write(value.networkArn)
-        try writer["networkName"].write(value.networkName)
-        try writer["status"].write(value.status)
-        try writer["statusReason"].write(value.statusReason)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> PrivateNetworksClientTypes.Network {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PrivateNetworksClientTypes.Network()
@@ -2455,27 +2425,6 @@ extension PrivateNetworksClientTypes {
 }
 
 extension PrivateNetworksClientTypes.NetworkResource {
-
-    static func write(value: PrivateNetworksClientTypes.NetworkResource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["attributes"].writeList(value.attributes, memberWritingClosure: PrivateNetworksClientTypes.NameValuePair.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["commitmentInformation"].write(value.commitmentInformation, with: PrivateNetworksClientTypes.CommitmentInformation.write(value:to:))
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .dateTime)
-        try writer["description"].write(value.description)
-        try writer["health"].write(value.health)
-        try writer["model"].write(value.model)
-        try writer["networkArn"].write(value.networkArn)
-        try writer["networkResourceArn"].write(value.networkResourceArn)
-        try writer["networkSiteArn"].write(value.networkSiteArn)
-        try writer["orderArn"].write(value.orderArn)
-        try writer["position"].write(value.position, with: PrivateNetworksClientTypes.Position.write(value:to:))
-        try writer["returnInformation"].write(value.returnInformation, with: PrivateNetworksClientTypes.ReturnInformation.write(value:to:))
-        try writer["serialNumber"].write(value.serialNumber)
-        try writer["status"].write(value.status)
-        try writer["statusReason"].write(value.statusReason)
-        try writer["type"].write(value.type)
-        try writer["vendor"].write(value.vendor)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PrivateNetworksClientTypes.NetworkResource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2766,21 +2715,6 @@ extension PrivateNetworksClientTypes {
 
 extension PrivateNetworksClientTypes.NetworkSite {
 
-    static func write(value: PrivateNetworksClientTypes.NetworkSite?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["availabilityZone"].write(value.availabilityZone)
-        try writer["availabilityZoneId"].write(value.availabilityZoneId)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .dateTime)
-        try writer["currentPlan"].write(value.currentPlan, with: PrivateNetworksClientTypes.SitePlan.write(value:to:))
-        try writer["description"].write(value.description)
-        try writer["networkArn"].write(value.networkArn)
-        try writer["networkSiteArn"].write(value.networkSiteArn)
-        try writer["networkSiteName"].write(value.networkSiteName)
-        try writer["pendingPlan"].write(value.pendingPlan, with: PrivateNetworksClientTypes.SitePlan.write(value:to:))
-        try writer["status"].write(value.status)
-        try writer["statusReason"].write(value.statusReason)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> PrivateNetworksClientTypes.NetworkSite {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PrivateNetworksClientTypes.NetworkSite()
@@ -2966,18 +2900,6 @@ extension PrivateNetworksClientTypes {
 
 extension PrivateNetworksClientTypes.Order {
 
-    static func write(value: PrivateNetworksClientTypes.Order?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["acknowledgmentStatus"].write(value.acknowledgmentStatus)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .dateTime)
-        try writer["networkArn"].write(value.networkArn)
-        try writer["networkSiteArn"].write(value.networkSiteArn)
-        try writer["orderArn"].write(value.orderArn)
-        try writer["orderedResources"].writeList(value.orderedResources, memberWritingClosure: PrivateNetworksClientTypes.OrderedResourceDefinition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["shippingAddress"].write(value.shippingAddress, with: PrivateNetworksClientTypes.Address.write(value:to:))
-        try writer["trackingInformation"].writeList(value.trackingInformation, memberWritingClosure: PrivateNetworksClientTypes.TrackingInformation.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> PrivateNetworksClientTypes.Order {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PrivateNetworksClientTypes.Order()
@@ -3068,13 +2990,6 @@ extension PrivateNetworksClientTypes {
 }
 
 extension PrivateNetworksClientTypes.OrderedResourceDefinition {
-
-    static func write(value: PrivateNetworksClientTypes.OrderedResourceDefinition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["commitmentConfiguration"].write(value.commitmentConfiguration, with: PrivateNetworksClientTypes.CommitmentConfiguration.write(value:to:))
-        try writer["count"].write(value.count)
-        try writer["type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PrivateNetworksClientTypes.OrderedResourceDefinition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3271,14 +3186,6 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 extension PrivateNetworksClientTypes.ReturnInformation {
-
-    static func write(value: PrivateNetworksClientTypes.ReturnInformation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["replacementOrderArn"].write(value.replacementOrderArn)
-        try writer["returnReason"].write(value.returnReason)
-        try writer["shippingAddress"].write(value.shippingAddress, with: PrivateNetworksClientTypes.Address.write(value:to:))
-        try writer["shippingLabel"].write(value.shippingLabel)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PrivateNetworksClientTypes.ReturnInformation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3573,11 +3480,6 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 extension PrivateNetworksClientTypes.TrackingInformation {
-
-    static func write(value: PrivateNetworksClientTypes.TrackingInformation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["trackingNumber"].write(value.trackingNumber)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PrivateNetworksClientTypes.TrackingInformation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3943,12 +3845,6 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 extension PrivateNetworksClientTypes.ValidationExceptionField {
-
-    static func write(value: PrivateNetworksClientTypes.ValidationExceptionField?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.message)
-        try writer["name"].write(value.name)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PrivateNetworksClientTypes.ValidationExceptionField {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

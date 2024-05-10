@@ -33,18 +33,6 @@ extension PIClientTypes {
 
 extension PIClientTypes.AnalysisReport {
 
-    static func write(value: PIClientTypes.AnalysisReport?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AnalysisReportId"].write(value.analysisReportId)
-        try writer["CreateTime"].writeTimestamp(value.createTime, format: .epochSeconds)
-        try writer["EndTime"].writeTimestamp(value.endTime, format: .epochSeconds)
-        try writer["Identifier"].write(value.identifier)
-        try writer["Insights"].writeList(value.insights, memberWritingClosure: PIClientTypes.Insight.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ServiceType"].write(value.serviceType)
-        try writer["StartTime"].writeTimestamp(value.startTime, format: .epochSeconds)
-        try writer["Status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> PIClientTypes.AnalysisReport {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PIClientTypes.AnalysisReport()
@@ -110,16 +98,6 @@ extension PIClientTypes {
 }
 
 extension PIClientTypes.AnalysisReportSummary {
-
-    static func write(value: PIClientTypes.AnalysisReportSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AnalysisReportId"].write(value.analysisReportId)
-        try writer["CreateTime"].writeTimestamp(value.createTime, format: .epochSeconds)
-        try writer["EndTime"].writeTimestamp(value.endTime, format: .epochSeconds)
-        try writer["StartTime"].writeTimestamp(value.startTime, format: .epochSeconds)
-        try writer["Status"].write(value.status)
-        try writer["Tags"].writeList(value.tags, memberWritingClosure: PIClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PIClientTypes.AnalysisReportSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -326,11 +304,6 @@ enum CreatePerformanceAnalysisReportOutputError {
 
 extension PIClientTypes.Data {
 
-    static func write(value: PIClientTypes.Data?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["PerformanceInsightsMetric"].write(value.performanceInsightsMetric, with: PIClientTypes.PerformanceInsightsMetric.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> PIClientTypes.Data {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PIClientTypes.Data()
@@ -356,12 +329,6 @@ extension PIClientTypes {
 }
 
 extension PIClientTypes.DataPoint {
-
-    static func write(value: PIClientTypes.DataPoint?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Timestamp"].writeTimestamp(value.timestamp, format: .epochSeconds)
-        try writer["Value"].write(value.value)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PIClientTypes.DataPoint {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -673,11 +640,6 @@ extension PIClientTypes {
 
 extension PIClientTypes.DimensionDetail {
 
-    static func write(value: PIClientTypes.DimensionDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Identifier"].write(value.identifier)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> PIClientTypes.DimensionDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PIClientTypes.DimensionDetail()
@@ -709,15 +671,6 @@ extension PIClientTypes.DimensionGroup {
         try writer["Dimensions"].writeList(value.dimensions, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Group"].write(value.group)
         try writer["Limit"].write(value.limit)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PIClientTypes.DimensionGroup {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PIClientTypes.DimensionGroup()
-        value.group = try reader["Group"].readIfPresent()
-        value.dimensions = try reader["Dimensions"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.limit = try reader["Limit"].readIfPresent()
-        return value
     }
 }
 
@@ -881,12 +834,6 @@ extension PIClientTypes {
 
 extension PIClientTypes.DimensionGroupDetail {
 
-    static func write(value: PIClientTypes.DimensionGroupDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Dimensions"].writeList(value.dimensions, memberWritingClosure: PIClientTypes.DimensionDetail.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Group"].write(value.group)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> PIClientTypes.DimensionGroupDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PIClientTypes.DimensionGroupDetail()
@@ -917,14 +864,6 @@ extension PIClientTypes {
 }
 
 extension PIClientTypes.DimensionKeyDescription {
-
-    static func write(value: PIClientTypes.DimensionKeyDescription?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AdditionalMetrics"].writeMap(value.additionalMetrics, valueWritingClosure: Swift.Double.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["Dimensions"].writeMap(value.dimensions, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["Partitions"].writeList(value.partitions, memberWritingClosure: Swift.Double.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Total"].write(value.total)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PIClientTypes.DimensionKeyDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -966,13 +905,6 @@ extension PIClientTypes {
 }
 
 extension PIClientTypes.DimensionKeyDetail {
-
-    static func write(value: PIClientTypes.DimensionKeyDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Dimension"].write(value.dimension)
-        try writer["Status"].write(value.status)
-        try writer["Value"].write(value.value)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PIClientTypes.DimensionKeyDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1023,11 +955,6 @@ extension PIClientTypes {
 }
 
 extension PIClientTypes.FeatureMetadata {
-
-    static func write(value: PIClientTypes.FeatureMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PIClientTypes.FeatureMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1534,21 +1461,6 @@ extension PIClientTypes.Insight: Swift.CustomDebugStringConvertible {
 }
 
 extension PIClientTypes.Insight {
-
-    static func write(value: PIClientTypes.Insight?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BaselineData"].writeList(value.baselineData, memberWritingClosure: PIClientTypes.Data.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Context"].write(value.context)
-        try writer["Description"].write(value.description)
-        try writer["EndTime"].writeTimestamp(value.endTime, format: .epochSeconds)
-        try writer["InsightData"].writeList(value.insightData, memberWritingClosure: PIClientTypes.Data.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["InsightId"].write(value.insightId)
-        try writer["InsightType"].write(value.insightType)
-        try writer["Recommendations"].writeList(value.recommendations, memberWritingClosure: PIClientTypes.Recommendation.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Severity"].write(value.severity)
-        try writer["StartTime"].writeTimestamp(value.startTime, format: .epochSeconds)
-        try writer["SupportingInsights"].writeList(value.supportingInsights, memberWritingClosure: PIClientTypes.Insight.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PIClientTypes.Insight {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2067,12 +1979,6 @@ enum ListTagsForResourceOutputError {
 
 extension PIClientTypes.MetricDimensionGroups {
 
-    static func write(value: PIClientTypes.MetricDimensionGroups?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Groups"].writeList(value.groups, memberWritingClosure: PIClientTypes.DimensionGroupDetail.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Metric"].write(value.metric)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> PIClientTypes.MetricDimensionGroups {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PIClientTypes.MetricDimensionGroups()
@@ -2103,12 +2009,6 @@ extension PIClientTypes {
 }
 
 extension PIClientTypes.MetricKeyDataPoints {
-
-    static func write(value: PIClientTypes.MetricKeyDataPoints?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DataPoints"].writeList(value.dataPoints, memberWritingClosure: PIClientTypes.DataPoint.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Key"].write(value.key, with: PIClientTypes.ResponseResourceMetricKey.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PIClientTypes.MetricKeyDataPoints {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2146,15 +2046,6 @@ extension PIClientTypes.MetricQuery {
         try writer["Filter"].writeMap(value.filter, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["GroupBy"].write(value.groupBy, with: PIClientTypes.DimensionGroup.write(value:to:))
         try writer["Metric"].write(value.metric)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PIClientTypes.MetricQuery {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PIClientTypes.MetricQuery()
-        value.metric = try reader["Metric"].readIfPresent()
-        value.groupBy = try reader["GroupBy"].readIfPresent(with: PIClientTypes.DimensionGroup.read(from:))
-        value.filter = try reader["Filter"].readMapIfPresent(valueReadingClosure: Swift.String.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
     }
 }
 
@@ -2239,14 +2130,6 @@ public enum PIClientTypes {}
 
 extension PIClientTypes.PerformanceInsightsMetric {
 
-    static func write(value: PIClientTypes.PerformanceInsightsMetric?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Dimensions"].writeMap(value.dimensions, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["DisplayName"].write(value.displayName)
-        try writer["Metric"].write(value.metric)
-        try writer["Value"].write(value.value)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> PIClientTypes.PerformanceInsightsMetric {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PIClientTypes.PerformanceInsightsMetric()
@@ -2323,12 +2206,6 @@ extension PIClientTypes.Recommendation: Swift.CustomDebugStringConvertible {
 
 extension PIClientTypes.Recommendation {
 
-    static func write(value: PIClientTypes.Recommendation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["RecommendationDescription"].write(value.recommendationDescription)
-        try writer["RecommendationId"].write(value.recommendationId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> PIClientTypes.Recommendation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PIClientTypes.Recommendation()
@@ -2360,11 +2237,6 @@ extension PIClientTypes {
 
 extension PIClientTypes.ResponsePartitionKey {
 
-    static func write(value: PIClientTypes.ResponsePartitionKey?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Dimensions"].writeMap(value.dimensions, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> PIClientTypes.ResponsePartitionKey {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PIClientTypes.ResponsePartitionKey()
@@ -2391,13 +2263,6 @@ extension PIClientTypes {
 }
 
 extension PIClientTypes.ResponseResourceMetric {
-
-    static func write(value: PIClientTypes.ResponseResourceMetric?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Description"].write(value.description)
-        try writer["Metric"].write(value.metric)
-        try writer["Unit"].write(value.unit)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PIClientTypes.ResponseResourceMetric {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2434,12 +2299,6 @@ extension PIClientTypes {
 }
 
 extension PIClientTypes.ResponseResourceMetricKey {
-
-    static func write(value: PIClientTypes.ResponseResourceMetricKey?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Dimensions"].writeMap(value.dimensions, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["Metric"].write(value.metric)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PIClientTypes.ResponseResourceMetricKey {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

@@ -43,18 +43,6 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
 extension ManagedBlockchainClientTypes.Accessor {
 
-    static func write(value: ManagedBlockchainClientTypes.Accessor?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["BillingToken"].write(value.billingToken)
-        try writer["CreationDate"].writeTimestamp(value.creationDate, format: .dateTime)
-        try writer["Id"].write(value.id)
-        try writer["NetworkType"].write(value.networkType)
-        try writer["Status"].write(value.status)
-        try writer["Tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["Type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ManagedBlockchainClientTypes.Accessor {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ManagedBlockchainClientTypes.Accessor()
@@ -187,16 +175,6 @@ extension ManagedBlockchainClientTypes {
 }
 
 extension ManagedBlockchainClientTypes.AccessorSummary {
-
-    static func write(value: ManagedBlockchainClientTypes.AccessorSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["CreationDate"].writeTimestamp(value.creationDate, format: .dateTime)
-        try writer["Id"].write(value.id)
-        try writer["NetworkType"].write(value.networkType)
-        try writer["Status"].write(value.status)
-        try writer["Type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ManagedBlockchainClientTypes.AccessorSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1561,16 +1539,6 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
 
 extension ManagedBlockchainClientTypes.Invitation {
 
-    static func write(value: ManagedBlockchainClientTypes.Invitation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["CreationDate"].writeTimestamp(value.creationDate, format: .dateTime)
-        try writer["ExpirationDate"].writeTimestamp(value.expirationDate, format: .dateTime)
-        try writer["InvitationId"].write(value.invitationId)
-        try writer["NetworkSummary"].write(value.networkSummary, with: ManagedBlockchainClientTypes.NetworkSummary.write(value:to:))
-        try writer["Status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ManagedBlockchainClientTypes.Invitation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ManagedBlockchainClientTypes.Invitation()
@@ -2541,21 +2509,6 @@ public enum ManagedBlockchainClientTypes {}
 
 extension ManagedBlockchainClientTypes.Member {
 
-    static func write(value: ManagedBlockchainClientTypes.Member?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["CreationDate"].writeTimestamp(value.creationDate, format: .dateTime)
-        try writer["Description"].write(value.description)
-        try writer["FrameworkAttributes"].write(value.frameworkAttributes, with: ManagedBlockchainClientTypes.MemberFrameworkAttributes.write(value:to:))
-        try writer["Id"].write(value.id)
-        try writer["KmsKeyArn"].write(value.kmsKeyArn)
-        try writer["LogPublishingConfiguration"].write(value.logPublishingConfiguration, with: ManagedBlockchainClientTypes.MemberLogPublishingConfiguration.write(value:to:))
-        try writer["Name"].write(value.name)
-        try writer["NetworkId"].write(value.networkId)
-        try writer["Status"].write(value.status)
-        try writer["Tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ManagedBlockchainClientTypes.Member {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ManagedBlockchainClientTypes.Member()
@@ -2655,18 +2608,6 @@ extension ManagedBlockchainClientTypes.MemberConfiguration {
         try writer["Name"].write(value.name)
         try writer["Tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ManagedBlockchainClientTypes.MemberConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ManagedBlockchainClientTypes.MemberConfiguration()
-        value.name = try reader["Name"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.frameworkConfiguration = try reader["FrameworkConfiguration"].readIfPresent(with: ManagedBlockchainClientTypes.MemberFrameworkConfiguration.read(from:))
-        value.logPublishingConfiguration = try reader["LogPublishingConfiguration"].readIfPresent(with: ManagedBlockchainClientTypes.MemberLogPublishingConfiguration.read(from:))
-        value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: Swift.String.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.kmsKeyArn = try reader["KmsKeyArn"].readIfPresent()
-        return value
-    }
 }
 
 extension ManagedBlockchainClientTypes {
@@ -2713,12 +2654,6 @@ extension ManagedBlockchainClientTypes {
 
 extension ManagedBlockchainClientTypes.MemberFabricAttributes {
 
-    static func write(value: ManagedBlockchainClientTypes.MemberFabricAttributes?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AdminUsername"].write(value.adminUsername)
-        try writer["CaEndpoint"].write(value.caEndpoint)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ManagedBlockchainClientTypes.MemberFabricAttributes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ManagedBlockchainClientTypes.MemberFabricAttributes()
@@ -2759,14 +2694,6 @@ extension ManagedBlockchainClientTypes.MemberFabricConfiguration {
         guard let value else { return }
         try writer["AdminPassword"].write(value.adminPassword)
         try writer["AdminUsername"].write(value.adminUsername)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ManagedBlockchainClientTypes.MemberFabricConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ManagedBlockchainClientTypes.MemberFabricConfiguration()
-        value.adminUsername = try reader["AdminUsername"].readIfPresent()
-        value.adminPassword = try reader["AdminPassword"].readIfPresent()
-        return value
     }
 }
 
@@ -2825,11 +2752,6 @@ extension ManagedBlockchainClientTypes {
 
 extension ManagedBlockchainClientTypes.MemberFrameworkAttributes {
 
-    static func write(value: ManagedBlockchainClientTypes.MemberFrameworkAttributes?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Fabric"].write(value.fabric, with: ManagedBlockchainClientTypes.MemberFabricAttributes.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ManagedBlockchainClientTypes.MemberFrameworkAttributes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ManagedBlockchainClientTypes.MemberFrameworkAttributes()
@@ -2859,13 +2781,6 @@ extension ManagedBlockchainClientTypes.MemberFrameworkConfiguration {
     static func write(value: ManagedBlockchainClientTypes.MemberFrameworkConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Fabric"].write(value.fabric, with: ManagedBlockchainClientTypes.MemberFabricConfiguration.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ManagedBlockchainClientTypes.MemberFrameworkConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ManagedBlockchainClientTypes.MemberFrameworkConfiguration()
-        value.fabric = try reader["Fabric"].readIfPresent(with: ManagedBlockchainClientTypes.MemberFabricConfiguration.read(from:))
-        return value
     }
 }
 
@@ -2963,17 +2878,6 @@ extension ManagedBlockchainClientTypes {
 
 extension ManagedBlockchainClientTypes.MemberSummary {
 
-    static func write(value: ManagedBlockchainClientTypes.MemberSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["CreationDate"].writeTimestamp(value.creationDate, format: .dateTime)
-        try writer["Description"].write(value.description)
-        try writer["Id"].write(value.id)
-        try writer["IsOwned"].write(value.isOwned)
-        try writer["Name"].write(value.name)
-        try writer["Status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ManagedBlockchainClientTypes.MemberSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ManagedBlockchainClientTypes.MemberSummary()
@@ -3043,22 +2947,6 @@ extension ManagedBlockchainClientTypes {
 }
 
 extension ManagedBlockchainClientTypes.Network {
-
-    static func write(value: ManagedBlockchainClientTypes.Network?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["CreationDate"].writeTimestamp(value.creationDate, format: .dateTime)
-        try writer["Description"].write(value.description)
-        try writer["Framework"].write(value.framework)
-        try writer["FrameworkAttributes"].write(value.frameworkAttributes, with: ManagedBlockchainClientTypes.NetworkFrameworkAttributes.write(value:to:))
-        try writer["FrameworkVersion"].write(value.frameworkVersion)
-        try writer["Id"].write(value.id)
-        try writer["Name"].write(value.name)
-        try writer["Status"].write(value.status)
-        try writer["Tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["VotingPolicy"].write(value.votingPolicy, with: ManagedBlockchainClientTypes.VotingPolicy.write(value:to:))
-        try writer["VpcEndpointServiceName"].write(value.vpcEndpointServiceName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ManagedBlockchainClientTypes.Network {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3141,11 +3029,6 @@ extension ManagedBlockchainClientTypes {
 
 extension ManagedBlockchainClientTypes.NetworkEthereumAttributes {
 
-    static func write(value: ManagedBlockchainClientTypes.NetworkEthereumAttributes?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ChainId"].write(value.chainId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ManagedBlockchainClientTypes.NetworkEthereumAttributes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ManagedBlockchainClientTypes.NetworkEthereumAttributes()
@@ -3175,12 +3058,6 @@ extension ManagedBlockchainClientTypes {
 }
 
 extension ManagedBlockchainClientTypes.NetworkFabricAttributes {
-
-    static func write(value: ManagedBlockchainClientTypes.NetworkFabricAttributes?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Edition"].write(value.edition)
-        try writer["OrderingServiceEndpoint"].write(value.orderingServiceEndpoint)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ManagedBlockchainClientTypes.NetworkFabricAttributes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3217,13 +3094,6 @@ extension ManagedBlockchainClientTypes.NetworkFabricConfiguration {
         guard let value else { return }
         try writer["Edition"].write(value.edition)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ManagedBlockchainClientTypes.NetworkFabricConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ManagedBlockchainClientTypes.NetworkFabricConfiguration()
-        value.edition = try reader["Edition"].readIfPresent()
-        return value
-    }
 }
 
 extension ManagedBlockchainClientTypes {
@@ -3244,12 +3114,6 @@ extension ManagedBlockchainClientTypes {
 }
 
 extension ManagedBlockchainClientTypes.NetworkFrameworkAttributes {
-
-    static func write(value: ManagedBlockchainClientTypes.NetworkFrameworkAttributes?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Ethereum"].write(value.ethereum, with: ManagedBlockchainClientTypes.NetworkEthereumAttributes.write(value:to:))
-        try writer["Fabric"].write(value.fabric, with: ManagedBlockchainClientTypes.NetworkFabricAttributes.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ManagedBlockchainClientTypes.NetworkFrameworkAttributes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3285,13 +3149,6 @@ extension ManagedBlockchainClientTypes.NetworkFrameworkConfiguration {
     static func write(value: ManagedBlockchainClientTypes.NetworkFrameworkConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Fabric"].write(value.fabric, with: ManagedBlockchainClientTypes.NetworkFabricConfiguration.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ManagedBlockchainClientTypes.NetworkFrameworkConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ManagedBlockchainClientTypes.NetworkFrameworkConfiguration()
-        value.fabric = try reader["Fabric"].readIfPresent(with: ManagedBlockchainClientTypes.NetworkFabricConfiguration.read(from:))
-        return value
     }
 }
 
@@ -3351,18 +3208,6 @@ extension ManagedBlockchainClientTypes {
 }
 
 extension ManagedBlockchainClientTypes.NetworkSummary {
-
-    static func write(value: ManagedBlockchainClientTypes.NetworkSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["CreationDate"].writeTimestamp(value.creationDate, format: .dateTime)
-        try writer["Description"].write(value.description)
-        try writer["Framework"].write(value.framework)
-        try writer["FrameworkVersion"].write(value.frameworkVersion)
-        try writer["Id"].write(value.id)
-        try writer["Name"].write(value.name)
-        try writer["Status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ManagedBlockchainClientTypes.NetworkSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3424,23 +3269,6 @@ extension ManagedBlockchainClientTypes {
 }
 
 extension ManagedBlockchainClientTypes.Node {
-
-    static func write(value: ManagedBlockchainClientTypes.Node?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["AvailabilityZone"].write(value.availabilityZone)
-        try writer["CreationDate"].writeTimestamp(value.creationDate, format: .dateTime)
-        try writer["FrameworkAttributes"].write(value.frameworkAttributes, with: ManagedBlockchainClientTypes.NodeFrameworkAttributes.write(value:to:))
-        try writer["Id"].write(value.id)
-        try writer["InstanceType"].write(value.instanceType)
-        try writer["KmsKeyArn"].write(value.kmsKeyArn)
-        try writer["LogPublishingConfiguration"].write(value.logPublishingConfiguration, with: ManagedBlockchainClientTypes.NodeLogPublishingConfiguration.write(value:to:))
-        try writer["MemberId"].write(value.memberId)
-        try writer["NetworkId"].write(value.networkId)
-        try writer["StateDB"].write(value.stateDB)
-        try writer["Status"].write(value.status)
-        try writer["Tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ManagedBlockchainClientTypes.Node {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3553,16 +3381,6 @@ extension ManagedBlockchainClientTypes.NodeConfiguration {
         try writer["LogPublishingConfiguration"].write(value.logPublishingConfiguration, with: ManagedBlockchainClientTypes.NodeLogPublishingConfiguration.write(value:to:))
         try writer["StateDB"].write(value.stateDB)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ManagedBlockchainClientTypes.NodeConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ManagedBlockchainClientTypes.NodeConfiguration()
-        value.instanceType = try reader["InstanceType"].readIfPresent()
-        value.availabilityZone = try reader["AvailabilityZone"].readIfPresent()
-        value.logPublishingConfiguration = try reader["LogPublishingConfiguration"].readIfPresent(with: ManagedBlockchainClientTypes.NodeLogPublishingConfiguration.read(from:))
-        value.stateDB = try reader["StateDB"].readIfPresent()
-        return value
-    }
 }
 
 extension ManagedBlockchainClientTypes {
@@ -3596,12 +3414,6 @@ extension ManagedBlockchainClientTypes {
 
 extension ManagedBlockchainClientTypes.NodeEthereumAttributes {
 
-    static func write(value: ManagedBlockchainClientTypes.NodeEthereumAttributes?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["HttpEndpoint"].write(value.httpEndpoint)
-        try writer["WebSocketEndpoint"].write(value.webSocketEndpoint)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ManagedBlockchainClientTypes.NodeEthereumAttributes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ManagedBlockchainClientTypes.NodeEthereumAttributes()
@@ -3632,12 +3444,6 @@ extension ManagedBlockchainClientTypes {
 }
 
 extension ManagedBlockchainClientTypes.NodeFabricAttributes {
-
-    static func write(value: ManagedBlockchainClientTypes.NodeFabricAttributes?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["PeerEndpoint"].write(value.peerEndpoint)
-        try writer["PeerEventEndpoint"].write(value.peerEventEndpoint)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ManagedBlockchainClientTypes.NodeFabricAttributes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3706,12 +3512,6 @@ extension ManagedBlockchainClientTypes {
 }
 
 extension ManagedBlockchainClientTypes.NodeFrameworkAttributes {
-
-    static func write(value: ManagedBlockchainClientTypes.NodeFrameworkAttributes?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Ethereum"].write(value.ethereum, with: ManagedBlockchainClientTypes.NodeEthereumAttributes.write(value:to:))
-        try writer["Fabric"].write(value.fabric, with: ManagedBlockchainClientTypes.NodeFabricAttributes.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ManagedBlockchainClientTypes.NodeFrameworkAttributes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3826,16 +3626,6 @@ extension ManagedBlockchainClientTypes {
 
 extension ManagedBlockchainClientTypes.NodeSummary {
 
-    static func write(value: ManagedBlockchainClientTypes.NodeSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["AvailabilityZone"].write(value.availabilityZone)
-        try writer["CreationDate"].writeTimestamp(value.creationDate, format: .dateTime)
-        try writer["Id"].write(value.id)
-        try writer["InstanceType"].write(value.instanceType)
-        try writer["Status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ManagedBlockchainClientTypes.NodeSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ManagedBlockchainClientTypes.NodeSummary()
@@ -3886,24 +3676,6 @@ extension ManagedBlockchainClientTypes {
 }
 
 extension ManagedBlockchainClientTypes.Proposal {
-
-    static func write(value: ManagedBlockchainClientTypes.Proposal?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Actions"].write(value.actions, with: ManagedBlockchainClientTypes.ProposalActions.write(value:to:))
-        try writer["Arn"].write(value.arn)
-        try writer["CreationDate"].writeTimestamp(value.creationDate, format: .dateTime)
-        try writer["Description"].write(value.description)
-        try writer["ExpirationDate"].writeTimestamp(value.expirationDate, format: .dateTime)
-        try writer["NetworkId"].write(value.networkId)
-        try writer["NoVoteCount"].write(value.noVoteCount)
-        try writer["OutstandingVoteCount"].write(value.outstandingVoteCount)
-        try writer["ProposalId"].write(value.proposalId)
-        try writer["ProposedByMemberId"].write(value.proposedByMemberId)
-        try writer["ProposedByMemberName"].write(value.proposedByMemberName)
-        try writer["Status"].write(value.status)
-        try writer["Tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["YesVoteCount"].write(value.yesVoteCount)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ManagedBlockchainClientTypes.Proposal {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4081,18 +3853,6 @@ extension ManagedBlockchainClientTypes {
 }
 
 extension ManagedBlockchainClientTypes.ProposalSummary {
-
-    static func write(value: ManagedBlockchainClientTypes.ProposalSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["CreationDate"].writeTimestamp(value.creationDate, format: .dateTime)
-        try writer["Description"].write(value.description)
-        try writer["ExpirationDate"].writeTimestamp(value.expirationDate, format: .dateTime)
-        try writer["ProposalId"].write(value.proposalId)
-        try writer["ProposedByMemberId"].write(value.proposedByMemberId)
-        try writer["ProposedByMemberName"].write(value.proposedByMemberName)
-        try writer["Status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ManagedBlockchainClientTypes.ProposalSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4900,13 +4660,6 @@ enum VoteOnProposalOutputError {
 }
 
 extension ManagedBlockchainClientTypes.VoteSummary {
-
-    static func write(value: ManagedBlockchainClientTypes.VoteSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MemberId"].write(value.memberId)
-        try writer["MemberName"].write(value.memberName)
-        try writer["Vote"].write(value.vote)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ManagedBlockchainClientTypes.VoteSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

@@ -191,13 +191,6 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
 
 extension GreengrassClientTypes.BulkDeployment {
 
-    static func write(value: GreengrassClientTypes.BulkDeployment?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BulkDeploymentArn"].write(value.bulkDeploymentArn)
-        try writer["BulkDeploymentId"].write(value.bulkDeploymentId)
-        try writer["CreatedAt"].write(value.createdAt)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GreengrassClientTypes.BulkDeployment {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GreengrassClientTypes.BulkDeployment()
@@ -234,13 +227,6 @@ extension GreengrassClientTypes {
 
 extension GreengrassClientTypes.BulkDeploymentMetrics {
 
-    static func write(value: GreengrassClientTypes.BulkDeploymentMetrics?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["InvalidInputRecords"].write(value.invalidInputRecords)
-        try writer["RecordsProcessed"].write(value.recordsProcessed)
-        try writer["RetryAttempts"].write(value.retryAttempts)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GreengrassClientTypes.BulkDeploymentMetrics {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GreengrassClientTypes.BulkDeploymentMetrics()
@@ -276,18 +262,6 @@ extension GreengrassClientTypes {
 }
 
 extension GreengrassClientTypes.BulkDeploymentResult {
-
-    static func write(value: GreengrassClientTypes.BulkDeploymentResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedAt"].write(value.createdAt)
-        try writer["DeploymentArn"].write(value.deploymentArn)
-        try writer["DeploymentId"].write(value.deploymentId)
-        try writer["DeploymentStatus"].write(value.deploymentStatus)
-        try writer["DeploymentType"].write(value.deploymentType)
-        try writer["ErrorDetails"].writeList(value.errorDetails, memberWritingClosure: GreengrassClientTypes.ErrorDetail.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ErrorMessage"].write(value.errorMessage)
-        try writer["GroupArn"].write(value.groupArn)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GreengrassClientTypes.BulkDeploymentResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2755,18 +2729,6 @@ enum CreateSubscriptionDefinitionVersionOutputError {
 
 extension GreengrassClientTypes.DefinitionInformation {
 
-    static func write(value: GreengrassClientTypes.DefinitionInformation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["CreationTimestamp"].write(value.creationTimestamp)
-        try writer["Id"].write(value.id)
-        try writer["LastUpdatedTimestamp"].write(value.lastUpdatedTimestamp)
-        try writer["LatestVersion"].write(value.latestVersion)
-        try writer["LatestVersionArn"].write(value.latestVersionArn)
-        try writer["Name"].write(value.name)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GreengrassClientTypes.DefinitionInformation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GreengrassClientTypes.DefinitionInformation()
@@ -3220,15 +3182,6 @@ enum DeleteSubscriptionDefinitionOutputError {
 
 extension GreengrassClientTypes.Deployment {
 
-    static func write(value: GreengrassClientTypes.Deployment?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedAt"].write(value.createdAt)
-        try writer["DeploymentArn"].write(value.deploymentArn)
-        try writer["DeploymentId"].write(value.deploymentId)
-        try writer["DeploymentType"].write(value.deploymentType)
-        try writer["GroupArn"].write(value.groupArn)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GreengrassClientTypes.Deployment {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GreengrassClientTypes.Deployment()
@@ -3536,12 +3489,6 @@ extension GreengrassClientTypes {
 }
 
 extension GreengrassClientTypes.ErrorDetail {
-
-    static func write(value: GreengrassClientTypes.ErrorDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DetailedErrorCode"].write(value.detailedErrorCode)
-        try writer["DetailedErrorMessage"].write(value.detailedErrorMessage)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GreengrassClientTypes.ErrorDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6115,12 +6062,6 @@ public enum GreengrassClientTypes {}
 
 extension GreengrassClientTypes.GroupCertificateAuthorityProperties {
 
-    static func write(value: GreengrassClientTypes.GroupCertificateAuthorityProperties?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["GroupCertificateAuthorityArn"].write(value.groupCertificateAuthorityArn)
-        try writer["GroupCertificateAuthorityId"].write(value.groupCertificateAuthorityId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GreengrassClientTypes.GroupCertificateAuthorityProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GreengrassClientTypes.GroupCertificateAuthorityProperties()
@@ -6151,17 +6092,6 @@ extension GreengrassClientTypes {
 }
 
 extension GreengrassClientTypes.GroupInformation {
-
-    static func write(value: GreengrassClientTypes.GroupInformation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["CreationTimestamp"].write(value.creationTimestamp)
-        try writer["Id"].write(value.id)
-        try writer["LastUpdatedTimestamp"].write(value.lastUpdatedTimestamp)
-        try writer["LatestVersion"].write(value.latestVersion)
-        try writer["LatestVersionArn"].write(value.latestVersionArn)
-        try writer["Name"].write(value.name)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GreengrassClientTypes.GroupInformation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8722,11 +8652,6 @@ extension GreengrassClientTypes {
 
 extension GreengrassClientTypes.RuntimeConfiguration {
 
-    static func write(value: GreengrassClientTypes.RuntimeConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["TelemetryConfiguration"].write(value.telemetryConfiguration, with: GreengrassClientTypes.TelemetryConfiguration.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GreengrassClientTypes.RuntimeConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GreengrassClientTypes.RuntimeConfiguration()
@@ -9229,12 +9154,6 @@ extension GreengrassClientTypes {
 
 extension GreengrassClientTypes.TelemetryConfiguration {
 
-    static func write(value: GreengrassClientTypes.TelemetryConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ConfigurationSyncStatus"].write(value.configurationSyncStatus)
-        try writer["Telemetry"].write(value.telemetry)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GreengrassClientTypes.TelemetryConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GreengrassClientTypes.TelemetryConfiguration()
@@ -9270,13 +9189,6 @@ extension GreengrassClientTypes.TelemetryConfigurationUpdate {
     static func write(value: GreengrassClientTypes.TelemetryConfigurationUpdate?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Telemetry"].write(value.telemetry)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GreengrassClientTypes.TelemetryConfigurationUpdate {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GreengrassClientTypes.TelemetryConfigurationUpdate()
-        value.telemetry = try reader["Telemetry"].readIfPresent()
-        return value
     }
 }
 
@@ -10205,14 +10117,6 @@ enum UpdateThingRuntimeConfigurationOutputError {
 }
 
 extension GreengrassClientTypes.VersionInformation {
-
-    static func write(value: GreengrassClientTypes.VersionInformation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["CreationTimestamp"].write(value.creationTimestamp)
-        try writer["Id"].write(value.id)
-        try writer["Version"].write(value.version)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GreengrassClientTypes.VersionInformation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

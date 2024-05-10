@@ -129,14 +129,6 @@ enum GetIceServerConfigOutputError {
 
 extension KinesisVideoSignalingClientTypes.IceServer {
 
-    static func write(value: KinesisVideoSignalingClientTypes.IceServer?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Password"].write(value.password)
-        try writer["Ttl"].write(value.ttl)
-        try writer["Uris"].writeList(value.uris, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Username"].write(value.username)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> KinesisVideoSignalingClientTypes.IceServer {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = KinesisVideoSignalingClientTypes.IceServer()

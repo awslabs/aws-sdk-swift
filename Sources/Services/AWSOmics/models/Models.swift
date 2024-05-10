@@ -208,15 +208,6 @@ extension OmicsClientTypes.ActivateReadSetFilter {
         try writer["createdBefore"].writeTimestamp(value.createdBefore, format: .dateTime)
         try writer["status"].write(value.status)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OmicsClientTypes.ActivateReadSetFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OmicsClientTypes.ActivateReadSetFilter()
-        value.status = try reader["status"].readIfPresent()
-        value.createdAfter = try reader["createdAfter"].readTimestampIfPresent(format: .dateTime)
-        value.createdBefore = try reader["createdBefore"].readTimestampIfPresent(format: .dateTime)
-        return value
-    }
 }
 
 extension OmicsClientTypes {
@@ -244,15 +235,6 @@ extension OmicsClientTypes {
 }
 
 extension OmicsClientTypes.ActivateReadSetJobItem {
-
-    static func write(value: OmicsClientTypes.ActivateReadSetJobItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["completionTime"].writeTimestamp(value.completionTime, format: .dateTime)
-        try writer["creationTime"].writeTimestamp(value.creationTime, format: .dateTime)
-        try writer["id"].write(value.id)
-        try writer["sequenceStoreId"].write(value.sequenceStoreId)
-        try writer["status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> OmicsClientTypes.ActivateReadSetJobItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -304,13 +286,6 @@ extension OmicsClientTypes {
 
 extension OmicsClientTypes.ActivateReadSetSourceItem {
 
-    static func write(value: OmicsClientTypes.ActivateReadSetSourceItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["readSetId"].write(value.readSetId)
-        try writer["status"].write(value.status)
-        try writer["statusMessage"].write(value.statusMessage)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> OmicsClientTypes.ActivateReadSetSourceItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OmicsClientTypes.ActivateReadSetSourceItem()
@@ -349,12 +324,6 @@ extension OmicsClientTypes {
 
 extension OmicsClientTypes.AnnotationImportItemDetail {
 
-    static func write(value: OmicsClientTypes.AnnotationImportItemDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["jobStatus"].write(value.jobStatus)
-        try writer["source"].write(value.source)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> OmicsClientTypes.AnnotationImportItemDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OmicsClientTypes.AnnotationImportItemDetail()
@@ -392,13 +361,6 @@ extension OmicsClientTypes.AnnotationImportItemSource {
         guard let value else { return }
         try writer["source"].write(value.source)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OmicsClientTypes.AnnotationImportItemSource {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OmicsClientTypes.AnnotationImportItemSource()
-        value.source = try reader["source"].readIfPresent()
-        return value
-    }
 }
 
 extension OmicsClientTypes {
@@ -419,20 +381,6 @@ extension OmicsClientTypes {
 }
 
 extension OmicsClientTypes.AnnotationImportJobItem {
-
-    static func write(value: OmicsClientTypes.AnnotationImportJobItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["annotationFields"].writeMap(value.annotationFields, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["completionTime"].writeTimestamp(value.completionTime, format: .dateTime)
-        try writer["creationTime"].writeTimestamp(value.creationTime, format: .dateTime)
-        try writer["destinationName"].write(value.destinationName)
-        try writer["id"].write(value.id)
-        try writer["roleArn"].write(value.roleArn)
-        try writer["runLeftNormalization"].write(value.runLeftNormalization)
-        try writer["status"].write(value.status)
-        try writer["updateTime"].writeTimestamp(value.updateTime, format: .dateTime)
-        try writer["versionName"].write(value.versionName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> OmicsClientTypes.AnnotationImportJobItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -511,22 +459,6 @@ extension OmicsClientTypes {
 }
 
 extension OmicsClientTypes.AnnotationStoreItem {
-
-    static func write(value: OmicsClientTypes.AnnotationStoreItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["creationTime"].writeTimestamp(value.creationTime, format: .dateTime)
-        try writer["description"].write(value.description)
-        try writer["id"].write(value.id)
-        try writer["name"].write(value.name)
-        try writer["reference"].write(value.reference, with: OmicsClientTypes.ReferenceItem.write(value:to:))
-        try writer["sseConfig"].write(value.sseConfig, with: OmicsClientTypes.SseConfig.write(value:to:))
-        try writer["status"].write(value.status)
-        try writer["statusMessage"].write(value.statusMessage)
-        try writer["storeArn"].write(value.storeArn)
-        try writer["storeFormat"].write(value.storeFormat)
-        try writer["storeSizeBytes"].write(value.storeSizeBytes)
-        try writer["updateTime"].writeTimestamp(value.updateTime, format: .dateTime)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> OmicsClientTypes.AnnotationStoreItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -620,21 +552,6 @@ extension OmicsClientTypes {
 }
 
 extension OmicsClientTypes.AnnotationStoreVersionItem {
-
-    static func write(value: OmicsClientTypes.AnnotationStoreVersionItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["creationTime"].writeTimestamp(value.creationTime, format: .dateTime)
-        try writer["description"].write(value.description)
-        try writer["id"].write(value.id)
-        try writer["name"].write(value.name)
-        try writer["status"].write(value.status)
-        try writer["statusMessage"].write(value.statusMessage)
-        try writer["storeId"].write(value.storeId)
-        try writer["updateTime"].writeTimestamp(value.updateTime, format: .dateTime)
-        try writer["versionArn"].write(value.versionArn)
-        try writer["versionName"].write(value.versionName)
-        try writer["versionSizeBytes"].write(value.versionSizeBytes)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> OmicsClientTypes.AnnotationStoreVersionItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1111,15 +1028,6 @@ extension OmicsClientTypes.CompleteReadSetUploadPartListItem {
         try writer["checksum"].write(value.checksum)
         try writer["partNumber"].write(value.partNumber)
         try writer["partSource"].write(value.partSource)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OmicsClientTypes.CompleteReadSetUploadPartListItem {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OmicsClientTypes.CompleteReadSetUploadPartListItem()
-        value.partNumber = try reader["partNumber"].readIfPresent()
-        value.partSource = try reader["partSource"].readIfPresent()
-        value.checksum = try reader["checksum"].readIfPresent()
-        return value
     }
 }
 
@@ -3066,13 +2974,6 @@ enum DeleteWorkflowOutputError {
 
 extension OmicsClientTypes.ETag {
 
-    static func write(value: OmicsClientTypes.ETag?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["algorithm"].write(value.algorithm)
-        try writer["source1"].write(value.source1)
-        try writer["source2"].write(value.source2)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> OmicsClientTypes.ETag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OmicsClientTypes.ETag()
@@ -3225,13 +3126,6 @@ extension OmicsClientTypes.ExportReadSet {
         guard let value else { return }
         try writer["readSetId"].write(value.readSetId)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OmicsClientTypes.ExportReadSet {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OmicsClientTypes.ExportReadSet()
-        value.readSetId = try reader["readSetId"].readIfPresent()
-        return value
-    }
 }
 
 extension OmicsClientTypes {
@@ -3252,13 +3146,6 @@ extension OmicsClientTypes {
 }
 
 extension OmicsClientTypes.ExportReadSetDetail {
-
-    static func write(value: OmicsClientTypes.ExportReadSetDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["id"].write(value.id)
-        try writer["status"].write(value.status)
-        try writer["statusMessage"].write(value.statusMessage)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> OmicsClientTypes.ExportReadSetDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3304,15 +3191,6 @@ extension OmicsClientTypes.ExportReadSetFilter {
         try writer["createdBefore"].writeTimestamp(value.createdBefore, format: .dateTime)
         try writer["status"].write(value.status)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OmicsClientTypes.ExportReadSetFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OmicsClientTypes.ExportReadSetFilter()
-        value.status = try reader["status"].readIfPresent()
-        value.createdAfter = try reader["createdAfter"].readTimestampIfPresent(format: .dateTime)
-        value.createdBefore = try reader["createdBefore"].readTimestampIfPresent(format: .dateTime)
-        return value
-    }
 }
 
 extension OmicsClientTypes {
@@ -3340,16 +3218,6 @@ extension OmicsClientTypes {
 }
 
 extension OmicsClientTypes.ExportReadSetJobDetail {
-
-    static func write(value: OmicsClientTypes.ExportReadSetJobDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["completionTime"].writeTimestamp(value.completionTime, format: .dateTime)
-        try writer["creationTime"].writeTimestamp(value.creationTime, format: .dateTime)
-        try writer["destination"].write(value.destination)
-        try writer["id"].write(value.id)
-        try writer["sequenceStoreId"].write(value.sequenceStoreId)
-        try writer["status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> OmicsClientTypes.ExportReadSetJobDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3406,14 +3274,6 @@ extension OmicsClientTypes {
 }
 
 extension OmicsClientTypes.FileInformation {
-
-    static func write(value: OmicsClientTypes.FileInformation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["contentLength"].write(value.contentLength)
-        try writer["partSize"].write(value.partSize)
-        try writer["s3Access"].write(value.s3Access, with: OmicsClientTypes.ReadSetS3Access.write(value:to:))
-        try writer["totalParts"].write(value.totalParts)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> OmicsClientTypes.FileInformation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3497,15 +3357,6 @@ extension OmicsClientTypes.Filter {
         try writer["resourceArns"].writeList(value.resourceArns, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["status"].writeList(value.status, memberWritingClosure: OmicsClientTypes.ShareStatus.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["type"].writeList(value.type, memberWritingClosure: OmicsClientTypes.ShareResourceType.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OmicsClientTypes.Filter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OmicsClientTypes.Filter()
-        value.resourceArns = try reader["resourceArns"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.status = try reader["status"].readListIfPresent(memberReadingClosure: OmicsClientTypes.ShareStatus.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.type = try reader["type"].readListIfPresent(memberReadingClosure: OmicsClientTypes.ShareResourceType.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -6201,15 +6052,6 @@ extension OmicsClientTypes.ImportReadSetFilter {
         try writer["createdBefore"].writeTimestamp(value.createdBefore, format: .dateTime)
         try writer["status"].write(value.status)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OmicsClientTypes.ImportReadSetFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OmicsClientTypes.ImportReadSetFilter()
-        value.status = try reader["status"].readIfPresent()
-        value.createdAfter = try reader["createdAfter"].readTimestampIfPresent(format: .dateTime)
-        value.createdBefore = try reader["createdBefore"].readTimestampIfPresent(format: .dateTime)
-        return value
-    }
 }
 
 extension OmicsClientTypes {
@@ -6237,16 +6079,6 @@ extension OmicsClientTypes {
 }
 
 extension OmicsClientTypes.ImportReadSetJobItem {
-
-    static func write(value: OmicsClientTypes.ImportReadSetJobItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["completionTime"].writeTimestamp(value.completionTime, format: .dateTime)
-        try writer["creationTime"].writeTimestamp(value.creationTime, format: .dateTime)
-        try writer["id"].write(value.id)
-        try writer["roleArn"].write(value.roleArn)
-        try writer["sequenceStoreId"].write(value.sequenceStoreId)
-        try writer["status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> OmicsClientTypes.ImportReadSetJobItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6303,21 +6135,6 @@ extension OmicsClientTypes {
 }
 
 extension OmicsClientTypes.ImportReadSetSourceItem {
-
-    static func write(value: OmicsClientTypes.ImportReadSetSourceItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["description"].write(value.description)
-        try writer["generatedFrom"].write(value.generatedFrom)
-        try writer["name"].write(value.name)
-        try writer["referenceArn"].write(value.referenceArn)
-        try writer["sampleId"].write(value.sampleId)
-        try writer["sourceFileType"].write(value.sourceFileType)
-        try writer["sourceFiles"].write(value.sourceFiles, with: OmicsClientTypes.SourceFiles.write(value:to:))
-        try writer["status"].write(value.status)
-        try writer["statusMessage"].write(value.statusMessage)
-        try writer["subjectId"].write(value.subjectId)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> OmicsClientTypes.ImportReadSetSourceItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6406,15 +6223,6 @@ extension OmicsClientTypes.ImportReferenceFilter {
         try writer["createdBefore"].writeTimestamp(value.createdBefore, format: .dateTime)
         try writer["status"].write(value.status)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OmicsClientTypes.ImportReferenceFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OmicsClientTypes.ImportReferenceFilter()
-        value.status = try reader["status"].readIfPresent()
-        value.createdAfter = try reader["createdAfter"].readTimestampIfPresent(format: .dateTime)
-        value.createdBefore = try reader["createdBefore"].readTimestampIfPresent(format: .dateTime)
-        return value
-    }
 }
 
 extension OmicsClientTypes {
@@ -6442,16 +6250,6 @@ extension OmicsClientTypes {
 }
 
 extension OmicsClientTypes.ImportReferenceJobItem {
-
-    static func write(value: OmicsClientTypes.ImportReferenceJobItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["completionTime"].writeTimestamp(value.completionTime, format: .dateTime)
-        try writer["creationTime"].writeTimestamp(value.creationTime, format: .dateTime)
-        try writer["id"].write(value.id)
-        try writer["referenceStoreId"].write(value.referenceStoreId)
-        try writer["roleArn"].write(value.roleArn)
-        try writer["status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> OmicsClientTypes.ImportReferenceJobItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6508,16 +6306,6 @@ extension OmicsClientTypes {
 }
 
 extension OmicsClientTypes.ImportReferenceSourceItem {
-
-    static func write(value: OmicsClientTypes.ImportReferenceSourceItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["description"].write(value.description)
-        try writer["name"].write(value.name)
-        try writer["sourceFile"].write(value.sourceFile)
-        try writer["status"].write(value.status)
-        try writer["statusMessage"].write(value.statusMessage)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> OmicsClientTypes.ImportReferenceSourceItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6662,14 +6450,6 @@ extension OmicsClientTypes.ListAnnotationImportJobsFilter {
         try writer["status"].write(value.status)
         try writer["storeName"].write(value.storeName)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OmicsClientTypes.ListAnnotationImportJobsFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OmicsClientTypes.ListAnnotationImportJobsFilter()
-        value.status = try reader["status"].readIfPresent()
-        value.storeName = try reader["storeName"].readIfPresent()
-        return value
-    }
 }
 
 extension OmicsClientTypes {
@@ -6801,13 +6581,6 @@ extension OmicsClientTypes.ListAnnotationStoreVersionsFilter {
         guard let value else { return }
         try writer["status"].write(value.status)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OmicsClientTypes.ListAnnotationStoreVersionsFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OmicsClientTypes.ListAnnotationStoreVersionsFilter()
-        value.status = try reader["status"].readIfPresent()
-        return value
-    }
 }
 
 extension OmicsClientTypes {
@@ -6937,13 +6710,6 @@ extension OmicsClientTypes.ListAnnotationStoresFilter {
     static func write(value: OmicsClientTypes.ListAnnotationStoresFilter?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["status"].write(value.status)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OmicsClientTypes.ListAnnotationStoresFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OmicsClientTypes.ListAnnotationStoresFilter()
-        value.status = try reader["status"].readIfPresent()
-        return value
     }
 }
 
@@ -8626,14 +8392,6 @@ extension OmicsClientTypes.ListVariantImportJobsFilter {
         try writer["status"].write(value.status)
         try writer["storeName"].write(value.storeName)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OmicsClientTypes.ListVariantImportJobsFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OmicsClientTypes.ListVariantImportJobsFilter()
-        value.status = try reader["status"].readIfPresent()
-        value.storeName = try reader["storeName"].readIfPresent()
-        return value
-    }
 }
 
 extension OmicsClientTypes {
@@ -8764,13 +8522,6 @@ extension OmicsClientTypes.ListVariantStoresFilter {
     static func write(value: OmicsClientTypes.ListVariantStoresFilter?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["status"].write(value.status)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OmicsClientTypes.ListVariantStoresFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OmicsClientTypes.ListVariantStoresFilter()
-        value.status = try reader["status"].readIfPresent()
-        return value
     }
 }
 
@@ -8999,21 +8750,6 @@ enum ListWorkflowsOutputError {
 }
 
 extension OmicsClientTypes.MultipartReadSetUploadListItem {
-
-    static func write(value: OmicsClientTypes.MultipartReadSetUploadListItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["creationTime"].writeTimestamp(value.creationTime, format: .dateTime)
-        try writer["description"].write(value.description)
-        try writer["generatedFrom"].write(value.generatedFrom)
-        try writer["name"].write(value.name)
-        try writer["referenceArn"].write(value.referenceArn)
-        try writer["sampleId"].write(value.sampleId)
-        try writer["sequenceStoreId"].write(value.sequenceStoreId)
-        try writer["sourceFileType"].write(value.sourceFileType)
-        try writer["subjectId"].write(value.subjectId)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["uploadId"].write(value.uploadId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> OmicsClientTypes.MultipartReadSetUploadListItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -9337,13 +9073,6 @@ extension OmicsClientTypes {
 
 extension OmicsClientTypes.ReadSetBatchError {
 
-    static func write(value: OmicsClientTypes.ReadSetBatchError?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["code"].write(value.code)
-        try writer["id"].write(value.id)
-        try writer["message"].write(value.message)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> OmicsClientTypes.ReadSetBatchError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OmicsClientTypes.ReadSetBatchError()
@@ -9497,13 +9226,6 @@ extension OmicsClientTypes {
 
 extension OmicsClientTypes.ReadSetFiles {
 
-    static func write(value: OmicsClientTypes.ReadSetFiles?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["index"].write(value.index, with: OmicsClientTypes.FileInformation.write(value:to:))
-        try writer["source1"].write(value.source1, with: OmicsClientTypes.FileInformation.write(value:to:))
-        try writer["source2"].write(value.source2, with: OmicsClientTypes.FileInformation.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> OmicsClientTypes.ReadSetFiles {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OmicsClientTypes.ReadSetFiles()
@@ -9551,21 +9273,6 @@ extension OmicsClientTypes.ReadSetFilter {
         try writer["sampleId"].write(value.sampleId)
         try writer["status"].write(value.status)
         try writer["subjectId"].write(value.subjectId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OmicsClientTypes.ReadSetFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OmicsClientTypes.ReadSetFilter()
-        value.name = try reader["name"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.referenceArn = try reader["referenceArn"].readIfPresent()
-        value.createdAfter = try reader["createdAfter"].readTimestampIfPresent(format: .dateTime)
-        value.createdBefore = try reader["createdBefore"].readTimestampIfPresent(format: .dateTime)
-        value.sampleId = try reader["sampleId"].readIfPresent()
-        value.subjectId = try reader["subjectId"].readIfPresent()
-        value.generatedFrom = try reader["generatedFrom"].readIfPresent()
-        value.creationType = try reader["creationType"].readIfPresent()
-        return value
     }
 }
 
@@ -9700,25 +9407,6 @@ extension OmicsClientTypes {
 
 extension OmicsClientTypes.ReadSetListItem {
 
-    static func write(value: OmicsClientTypes.ReadSetListItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["creationTime"].writeTimestamp(value.creationTime, format: .dateTime)
-        try writer["creationType"].write(value.creationType)
-        try writer["description"].write(value.description)
-        try writer["etag"].write(value.etag, with: OmicsClientTypes.ETag.write(value:to:))
-        try writer["fileType"].write(value.fileType)
-        try writer["id"].write(value.id)
-        try writer["name"].write(value.name)
-        try writer["referenceArn"].write(value.referenceArn)
-        try writer["sampleId"].write(value.sampleId)
-        try writer["sequenceInformation"].write(value.sequenceInformation, with: OmicsClientTypes.SequenceInformation.write(value:to:))
-        try writer["sequenceStoreId"].write(value.sequenceStoreId)
-        try writer["status"].write(value.status)
-        try writer["statusMessage"].write(value.statusMessage)
-        try writer["subjectId"].write(value.subjectId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> OmicsClientTypes.ReadSetListItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OmicsClientTypes.ReadSetListItem()
@@ -9851,11 +9539,6 @@ extension OmicsClientTypes {
 
 extension OmicsClientTypes.ReadSetS3Access {
 
-    static func write(value: OmicsClientTypes.ReadSetS3Access?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["s3Uri"].write(value.s3Uri)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> OmicsClientTypes.ReadSetS3Access {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OmicsClientTypes.ReadSetS3Access()
@@ -9932,14 +9615,6 @@ extension OmicsClientTypes.ReadSetUploadPartListFilter {
         try writer["createdAfter"].writeTimestamp(value.createdAfter, format: .dateTime)
         try writer["createdBefore"].writeTimestamp(value.createdBefore, format: .dateTime)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OmicsClientTypes.ReadSetUploadPartListFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OmicsClientTypes.ReadSetUploadPartListFilter()
-        value.createdAfter = try reader["createdAfter"].readTimestampIfPresent(format: .dateTime)
-        value.createdBefore = try reader["createdBefore"].readTimestampIfPresent(format: .dateTime)
-        return value
-    }
 }
 
 extension OmicsClientTypes {
@@ -9963,16 +9638,6 @@ extension OmicsClientTypes {
 }
 
 extension OmicsClientTypes.ReadSetUploadPartListItem {
-
-    static func write(value: OmicsClientTypes.ReadSetUploadPartListItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["checksum"].write(value.checksum)
-        try writer["creationTime"].writeTimestamp(value.creationTime, format: .dateTime)
-        try writer["lastUpdatedTime"].writeTimestamp(value.lastUpdatedTime, format: .dateTime)
-        try writer["partNumber"].write(value.partNumber)
-        try writer["partSize"].write(value.partSize)
-        try writer["partSource"].write(value.partSource)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> OmicsClientTypes.ReadSetUploadPartListItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -10059,12 +9724,6 @@ extension OmicsClientTypes {
 
 extension OmicsClientTypes.ReferenceFiles {
 
-    static func write(value: OmicsClientTypes.ReferenceFiles?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["index"].write(value.index, with: OmicsClientTypes.FileInformation.write(value:to:))
-        try writer["source"].write(value.source, with: OmicsClientTypes.FileInformation.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> OmicsClientTypes.ReferenceFiles {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OmicsClientTypes.ReferenceFiles()
@@ -10102,16 +9761,6 @@ extension OmicsClientTypes.ReferenceFilter {
         try writer["createdBefore"].writeTimestamp(value.createdBefore, format: .dateTime)
         try writer["md5"].write(value.md5)
         try writer["name"].write(value.name)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OmicsClientTypes.ReferenceFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OmicsClientTypes.ReferenceFilter()
-        value.name = try reader["name"].readIfPresent()
-        value.md5 = try reader["md5"].readIfPresent()
-        value.createdAfter = try reader["createdAfter"].readTimestampIfPresent(format: .dateTime)
-        value.createdBefore = try reader["createdBefore"].readTimestampIfPresent(format: .dateTime)
-        return value
     }
 }
 
@@ -10260,19 +9909,6 @@ extension OmicsClientTypes {
 
 extension OmicsClientTypes.ReferenceListItem {
 
-    static func write(value: OmicsClientTypes.ReferenceListItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["creationTime"].writeTimestamp(value.creationTime, format: .dateTime)
-        try writer["description"].write(value.description)
-        try writer["id"].write(value.id)
-        try writer["md5"].write(value.md5)
-        try writer["name"].write(value.name)
-        try writer["referenceStoreId"].write(value.referenceStoreId)
-        try writer["status"].write(value.status)
-        try writer["updateTime"].writeTimestamp(value.updateTime, format: .dateTime)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> OmicsClientTypes.ReferenceListItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OmicsClientTypes.ReferenceListItem()
@@ -10378,16 +10014,6 @@ extension OmicsClientTypes {
 
 extension OmicsClientTypes.ReferenceStoreDetail {
 
-    static func write(value: OmicsClientTypes.ReferenceStoreDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["creationTime"].writeTimestamp(value.creationTime, format: .dateTime)
-        try writer["description"].write(value.description)
-        try writer["id"].write(value.id)
-        try writer["name"].write(value.name)
-        try writer["sseConfig"].write(value.sseConfig, with: OmicsClientTypes.SseConfig.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> OmicsClientTypes.ReferenceStoreDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OmicsClientTypes.ReferenceStoreDetail()
@@ -10447,15 +10073,6 @@ extension OmicsClientTypes.ReferenceStoreFilter {
         try writer["createdAfter"].writeTimestamp(value.createdAfter, format: .dateTime)
         try writer["createdBefore"].writeTimestamp(value.createdBefore, format: .dateTime)
         try writer["name"].write(value.name)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OmicsClientTypes.ReferenceStoreFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OmicsClientTypes.ReferenceStoreFilter()
-        value.name = try reader["name"].readIfPresent()
-        value.createdAfter = try reader["createdAfter"].readTimestampIfPresent(format: .dateTime)
-        value.createdBefore = try reader["createdBefore"].readTimestampIfPresent(format: .dateTime)
-        return value
     }
 }
 
@@ -10620,18 +10237,6 @@ extension OmicsClientTypes {
 
 extension OmicsClientTypes.RunGroupListItem {
 
-    static func write(value: OmicsClientTypes.RunGroupListItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["creationTime"].writeTimestamp(value.creationTime, format: .dateTime)
-        try writer["id"].write(value.id)
-        try writer["maxCpus"].write(value.maxCpus)
-        try writer["maxDuration"].write(value.maxDuration)
-        try writer["maxGpus"].write(value.maxGpus)
-        try writer["maxRuns"].write(value.maxRuns)
-        try writer["name"].write(value.name)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> OmicsClientTypes.RunGroupListItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OmicsClientTypes.RunGroupListItem()
@@ -10692,21 +10297,6 @@ extension OmicsClientTypes {
 }
 
 extension OmicsClientTypes.RunListItem {
-
-    static func write(value: OmicsClientTypes.RunListItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["creationTime"].writeTimestamp(value.creationTime, format: .dateTime)
-        try writer["id"].write(value.id)
-        try writer["name"].write(value.name)
-        try writer["priority"].write(value.priority)
-        try writer["startTime"].writeTimestamp(value.startTime, format: .dateTime)
-        try writer["status"].write(value.status)
-        try writer["stopTime"].writeTimestamp(value.stopTime, format: .dateTime)
-        try writer["storageCapacity"].write(value.storageCapacity)
-        try writer["storageType"].write(value.storageType)
-        try writer["workflowId"].write(value.workflowId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> OmicsClientTypes.RunListItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -10819,12 +10409,6 @@ extension OmicsClientTypes {
 }
 
 extension OmicsClientTypes.RunLogLocation {
-
-    static func write(value: OmicsClientTypes.RunLogLocation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["engineLogStream"].write(value.engineLogStream)
-        try writer["runLogStream"].write(value.runLogStream)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> OmicsClientTypes.RunLogLocation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -10983,14 +10567,6 @@ extension OmicsClientTypes {
 
 extension OmicsClientTypes.SequenceInformation {
 
-    static func write(value: OmicsClientTypes.SequenceInformation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["alignment"].write(value.alignment)
-        try writer["generatedFrom"].write(value.generatedFrom)
-        try writer["totalBaseCount"].write(value.totalBaseCount)
-        try writer["totalReadCount"].write(value.totalReadCount)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> OmicsClientTypes.SequenceInformation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OmicsClientTypes.SequenceInformation()
@@ -11031,18 +10607,6 @@ extension OmicsClientTypes {
 }
 
 extension OmicsClientTypes.SequenceStoreDetail {
-
-    static func write(value: OmicsClientTypes.SequenceStoreDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["creationTime"].writeTimestamp(value.creationTime, format: .dateTime)
-        try writer["description"].write(value.description)
-        try writer["eTagAlgorithmFamily"].write(value.eTagAlgorithmFamily)
-        try writer["fallbackLocation"].write(value.fallbackLocation)
-        try writer["id"].write(value.id)
-        try writer["name"].write(value.name)
-        try writer["sseConfig"].write(value.sseConfig, with: OmicsClientTypes.SseConfig.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> OmicsClientTypes.SequenceStoreDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -11114,15 +10678,6 @@ extension OmicsClientTypes.SequenceStoreFilter {
         try writer["createdBefore"].writeTimestamp(value.createdBefore, format: .dateTime)
         try writer["name"].write(value.name)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OmicsClientTypes.SequenceStoreFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OmicsClientTypes.SequenceStoreFilter()
-        value.name = try reader["name"].readIfPresent()
-        value.createdAfter = try reader["createdAfter"].readTimestampIfPresent(format: .dateTime)
-        value.createdBefore = try reader["createdBefore"].readTimestampIfPresent(format: .dateTime)
-        return value
-    }
 }
 
 extension OmicsClientTypes {
@@ -11150,12 +10705,6 @@ extension OmicsClientTypes {
 }
 
 extension OmicsClientTypes.SequenceStoreS3Access {
-
-    static func write(value: OmicsClientTypes.SequenceStoreS3Access?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["s3AccessPointArn"].write(value.s3AccessPointArn)
-        try writer["s3Uri"].write(value.s3Uri)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> OmicsClientTypes.SequenceStoreS3Access {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -11225,20 +10774,6 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 }
 
 extension OmicsClientTypes.ShareDetails {
-
-    static func write(value: OmicsClientTypes.ShareDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["creationTime"].writeTimestamp(value.creationTime, format: .dateTime)
-        try writer["ownerId"].write(value.ownerId)
-        try writer["principalSubscriber"].write(value.principalSubscriber)
-        try writer["resourceArn"].write(value.resourceArn)
-        try writer["resourceId"].write(value.resourceId)
-        try writer["shareId"].write(value.shareId)
-        try writer["shareName"].write(value.shareName)
-        try writer["status"].write(value.status)
-        try writer["statusMessage"].write(value.statusMessage)
-        try writer["updateTime"].writeTimestamp(value.updateTime, format: .dateTime)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> OmicsClientTypes.ShareDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -11683,13 +11218,6 @@ extension OmicsClientTypes.StartReadSetActivationJobSourceItem {
         guard let value else { return }
         try writer["readSetId"].write(value.readSetId)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OmicsClientTypes.StartReadSetActivationJobSourceItem {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OmicsClientTypes.StartReadSetActivationJobSourceItem()
-        value.readSetId = try reader["readSetId"].readIfPresent()
-        return value
-    }
 }
 
 extension OmicsClientTypes {
@@ -11961,21 +11489,6 @@ extension OmicsClientTypes.StartReadSetImportJobSourceItem {
         try writer["subjectId"].write(value.subjectId)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OmicsClientTypes.StartReadSetImportJobSourceItem {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OmicsClientTypes.StartReadSetImportJobSourceItem()
-        value.sourceFiles = try reader["sourceFiles"].readIfPresent(with: OmicsClientTypes.SourceFiles.read(from:))
-        value.sourceFileType = try reader["sourceFileType"].readIfPresent()
-        value.subjectId = try reader["subjectId"].readIfPresent()
-        value.sampleId = try reader["sampleId"].readIfPresent()
-        value.generatedFrom = try reader["generatedFrom"].readIfPresent()
-        value.referenceArn = try reader["referenceArn"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.description = try reader["description"].readIfPresent()
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: Swift.String.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
 }
 
 extension OmicsClientTypes {
@@ -12154,16 +11667,6 @@ extension OmicsClientTypes.StartReferenceImportJobSourceItem {
         try writer["name"].write(value.name)
         try writer["sourceFile"].write(value.sourceFile)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OmicsClientTypes.StartReferenceImportJobSourceItem {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OmicsClientTypes.StartReferenceImportJobSourceItem()
-        value.sourceFile = try reader["sourceFile"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.description = try reader["description"].readIfPresent()
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: Swift.String.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
     }
 }
 
@@ -12679,20 +12182,6 @@ enum TagResourceOutputError {
 }
 
 extension OmicsClientTypes.TaskListItem {
-
-    static func write(value: OmicsClientTypes.TaskListItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["cpus"].write(value.cpus)
-        try writer["creationTime"].writeTimestamp(value.creationTime, format: .dateTime)
-        try writer["gpus"].write(value.gpus)
-        try writer["instanceType"].write(value.instanceType)
-        try writer["memory"].write(value.memory)
-        try writer["name"].write(value.name)
-        try writer["startTime"].writeTimestamp(value.startTime, format: .dateTime)
-        try writer["status"].write(value.status)
-        try writer["stopTime"].writeTimestamp(value.stopTime, format: .dateTime)
-        try writer["taskId"].write(value.taskId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> OmicsClientTypes.TaskListItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -13727,13 +13216,6 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
 extension OmicsClientTypes.VariantImportItemDetail {
 
-    static func write(value: OmicsClientTypes.VariantImportItemDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["jobStatus"].write(value.jobStatus)
-        try writer["source"].write(value.source)
-        try writer["statusMessage"].write(value.statusMessage)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> OmicsClientTypes.VariantImportItemDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OmicsClientTypes.VariantImportItemDetail()
@@ -13776,13 +13258,6 @@ extension OmicsClientTypes.VariantImportItemSource {
         guard let value else { return }
         try writer["source"].write(value.source)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OmicsClientTypes.VariantImportItemSource {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OmicsClientTypes.VariantImportItemSource()
-        value.source = try reader["source"].readIfPresent()
-        return value
-    }
 }
 
 extension OmicsClientTypes {
@@ -13803,19 +13278,6 @@ extension OmicsClientTypes {
 }
 
 extension OmicsClientTypes.VariantImportJobItem {
-
-    static func write(value: OmicsClientTypes.VariantImportJobItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["annotationFields"].writeMap(value.annotationFields, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["completionTime"].writeTimestamp(value.completionTime, format: .dateTime)
-        try writer["creationTime"].writeTimestamp(value.creationTime, format: .dateTime)
-        try writer["destinationName"].write(value.destinationName)
-        try writer["id"].write(value.id)
-        try writer["roleArn"].write(value.roleArn)
-        try writer["runLeftNormalization"].write(value.runLeftNormalization)
-        try writer["status"].write(value.status)
-        try writer["updateTime"].writeTimestamp(value.updateTime, format: .dateTime)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> OmicsClientTypes.VariantImportJobItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -13888,21 +13350,6 @@ extension OmicsClientTypes {
 }
 
 extension OmicsClientTypes.VariantStoreItem {
-
-    static func write(value: OmicsClientTypes.VariantStoreItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["creationTime"].writeTimestamp(value.creationTime, format: .dateTime)
-        try writer["description"].write(value.description)
-        try writer["id"].write(value.id)
-        try writer["name"].write(value.name)
-        try writer["reference"].write(value.reference, with: OmicsClientTypes.ReferenceItem.write(value:to:))
-        try writer["sseConfig"].write(value.sseConfig, with: OmicsClientTypes.SseConfig.write(value:to:))
-        try writer["status"].write(value.status)
-        try writer["statusMessage"].write(value.statusMessage)
-        try writer["storeArn"].write(value.storeArn)
-        try writer["storeSizeBytes"].write(value.storeSizeBytes)
-        try writer["updateTime"].writeTimestamp(value.updateTime, format: .dateTime)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> OmicsClientTypes.VariantStoreItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -14027,12 +13474,6 @@ extension OmicsClientTypes {
 }
 
 extension OmicsClientTypes.VersionDeleteError {
-
-    static func write(value: OmicsClientTypes.VersionDeleteError?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.message)
-        try writer["versionName"].write(value.versionName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> OmicsClientTypes.VersionDeleteError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -14204,18 +13645,6 @@ extension OmicsClientTypes {
 }
 
 extension OmicsClientTypes.WorkflowListItem {
-
-    static func write(value: OmicsClientTypes.WorkflowListItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["creationTime"].writeTimestamp(value.creationTime, format: .dateTime)
-        try writer["digest"].write(value.digest)
-        try writer["id"].write(value.id)
-        try writer["metadata"].writeMap(value.metadata, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["name"].write(value.name)
-        try writer["status"].write(value.status)
-        try writer["type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> OmicsClientTypes.WorkflowListItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

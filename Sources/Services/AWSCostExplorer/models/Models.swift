@@ -36,19 +36,6 @@ extension CostExplorerClientTypes {
 
 extension CostExplorerClientTypes.Anomaly {
 
-    static func write(value: CostExplorerClientTypes.Anomaly?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AnomalyEndDate"].write(value.anomalyEndDate)
-        try writer["AnomalyId"].write(value.anomalyId)
-        try writer["AnomalyScore"].write(value.anomalyScore, with: CostExplorerClientTypes.AnomalyScore.write(value:to:))
-        try writer["AnomalyStartDate"].write(value.anomalyStartDate)
-        try writer["DimensionValue"].write(value.dimensionValue)
-        try writer["Feedback"].write(value.feedback)
-        try writer["Impact"].write(value.impact, with: CostExplorerClientTypes.Impact.write(value:to:))
-        try writer["MonitorArn"].write(value.monitorArn)
-        try writer["RootCauses"].writeList(value.rootCauses, memberWritingClosure: CostExplorerClientTypes.RootCause.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.Anomaly {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CostExplorerClientTypes.Anomaly()
@@ -123,14 +110,6 @@ extension CostExplorerClientTypes.AnomalyDateInterval {
         guard let value else { return }
         try writer["EndDate"].write(value.endDate)
         try writer["StartDate"].write(value.startDate)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.AnomalyDateInterval {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CostExplorerClientTypes.AnomalyDateInterval()
-        value.startDate = try reader["StartDate"].readIfPresent()
-        value.endDate = try reader["EndDate"].readIfPresent()
-        return value
     }
 }
 
@@ -320,12 +299,6 @@ extension CostExplorerClientTypes {
 }
 
 extension CostExplorerClientTypes.AnomalyScore {
-
-    static func write(value: CostExplorerClientTypes.AnomalyScore?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CurrentScore"].write(value.currentScore)
-        try writer["MaxScore"].write(value.maxScore)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.AnomalyScore {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -616,15 +589,6 @@ extension CostExplorerClientTypes {
 
 extension CostExplorerClientTypes.CostAllocationTag {
 
-    static func write(value: CostExplorerClientTypes.CostAllocationTag?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["LastUpdatedDate"].write(value.lastUpdatedDate)
-        try writer["LastUsedDate"].write(value.lastUsedDate)
-        try writer["Status"].write(value.status)
-        try writer["TagKey"].write(value.tagKey)
-        try writer["Type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.CostAllocationTag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CostExplorerClientTypes.CostAllocationTag()
@@ -673,15 +637,6 @@ extension CostExplorerClientTypes {
 }
 
 extension CostExplorerClientTypes.CostAllocationTagBackfillRequest {
-
-    static func write(value: CostExplorerClientTypes.CostAllocationTagBackfillRequest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BackfillFrom"].write(value.backfillFrom)
-        try writer["BackfillStatus"].write(value.backfillStatus)
-        try writer["CompletedAt"].write(value.completedAt)
-        try writer["LastUpdatedAt"].write(value.lastUpdatedAt)
-        try writer["RequestedAt"].write(value.requestedAt)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.CostAllocationTagBackfillRequest {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -797,14 +752,6 @@ extension CostExplorerClientTypes.CostAllocationTagStatusEntry {
         try writer["Status"].write(value.status)
         try writer["TagKey"].write(value.tagKey)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.CostAllocationTagStatusEntry {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CostExplorerClientTypes.CostAllocationTagStatusEntry()
-        value.tagKey = try reader["TagKey"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        return value
-    }
 }
 
 extension CostExplorerClientTypes {
@@ -860,19 +807,6 @@ extension CostExplorerClientTypes {
 }
 
 extension CostExplorerClientTypes.CostCategory {
-
-    static func write(value: CostExplorerClientTypes.CostCategory?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CostCategoryArn"].write(value.costCategoryArn)
-        try writer["DefaultValue"].write(value.defaultValue)
-        try writer["EffectiveEnd"].write(value.effectiveEnd)
-        try writer["EffectiveStart"].write(value.effectiveStart)
-        try writer["Name"].write(value.name)
-        try writer["ProcessingStatus"].writeList(value.processingStatus, memberWritingClosure: CostExplorerClientTypes.CostCategoryProcessingStatus.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["RuleVersion"].write(value.ruleVersion)
-        try writer["Rules"].writeList(value.rules, memberWritingClosure: CostExplorerClientTypes.CostCategoryRule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["SplitChargeRules"].writeList(value.splitChargeRules, memberWritingClosure: CostExplorerClientTypes.CostCategorySplitChargeRule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.CostCategory {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1012,12 +946,6 @@ extension CostExplorerClientTypes {
 
 extension CostExplorerClientTypes.CostCategoryProcessingStatus {
 
-    static func write(value: CostExplorerClientTypes.CostCategoryProcessingStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Component"].write(value.component)
-        try writer["Status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.CostCategoryProcessingStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CostExplorerClientTypes.CostCategoryProcessingStatus()
@@ -1048,18 +976,6 @@ extension CostExplorerClientTypes {
 }
 
 extension CostExplorerClientTypes.CostCategoryReference {
-
-    static func write(value: CostExplorerClientTypes.CostCategoryReference?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CostCategoryArn"].write(value.costCategoryArn)
-        try writer["DefaultValue"].write(value.defaultValue)
-        try writer["EffectiveEnd"].write(value.effectiveEnd)
-        try writer["EffectiveStart"].write(value.effectiveStart)
-        try writer["Name"].write(value.name)
-        try writer["NumberOfRules"].write(value.numberOfRules)
-        try writer["ProcessingStatus"].writeList(value.processingStatus, memberWritingClosure: CostExplorerClientTypes.CostCategoryProcessingStatus.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Values"].writeList(value.values, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.CostCategoryReference {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1482,13 +1398,6 @@ public enum CostExplorerClientTypes {}
 
 extension CostExplorerClientTypes.Coverage {
 
-    static func write(value: CostExplorerClientTypes.Coverage?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CoverageCost"].write(value.coverageCost, with: CostExplorerClientTypes.CoverageCost.write(value:to:))
-        try writer["CoverageHours"].write(value.coverageHours, with: CostExplorerClientTypes.CoverageHours.write(value:to:))
-        try writer["CoverageNormalizedUnits"].write(value.coverageNormalizedUnits, with: CostExplorerClientTypes.CoverageNormalizedUnits.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.Coverage {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CostExplorerClientTypes.Coverage()
@@ -1524,13 +1433,6 @@ extension CostExplorerClientTypes {
 }
 
 extension CostExplorerClientTypes.CoverageByTime {
-
-    static func write(value: CostExplorerClientTypes.CoverageByTime?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Groups"].writeList(value.groups, memberWritingClosure: CostExplorerClientTypes.ReservationCoverageGroup.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["TimePeriod"].write(value.timePeriod, with: CostExplorerClientTypes.DateInterval.write(value:to:))
-        try writer["Total"].write(value.total, with: CostExplorerClientTypes.Coverage.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.CoverageByTime {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1568,11 +1470,6 @@ extension CostExplorerClientTypes {
 
 extension CostExplorerClientTypes.CoverageCost {
 
-    static func write(value: CostExplorerClientTypes.CoverageCost?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["OnDemandCost"].write(value.onDemandCost)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.CoverageCost {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CostExplorerClientTypes.CoverageCost()
@@ -1598,14 +1495,6 @@ extension CostExplorerClientTypes {
 }
 
 extension CostExplorerClientTypes.CoverageHours {
-
-    static func write(value: CostExplorerClientTypes.CoverageHours?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CoverageHoursPercentage"].write(value.coverageHoursPercentage)
-        try writer["OnDemandHours"].write(value.onDemandHours)
-        try writer["ReservedHours"].write(value.reservedHours)
-        try writer["TotalRunningHours"].write(value.totalRunningHours)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.CoverageHours {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1647,14 +1536,6 @@ extension CostExplorerClientTypes {
 }
 
 extension CostExplorerClientTypes.CoverageNormalizedUnits {
-
-    static func write(value: CostExplorerClientTypes.CoverageNormalizedUnits?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CoverageNormalizedUnitsPercentage"].write(value.coverageNormalizedUnitsPercentage)
-        try writer["OnDemandNormalizedUnits"].write(value.onDemandNormalizedUnits)
-        try writer["ReservedNormalizedUnits"].write(value.reservedNormalizedUnits)
-        try writer["TotalRunningNormalizedUnits"].write(value.totalRunningNormalizedUnits)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.CoverageNormalizedUnits {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1987,21 +1868,6 @@ enum CreateCostCategoryDefinitionOutputError {
 }
 
 extension CostExplorerClientTypes.CurrentInstance {
-
-    static func write(value: CostExplorerClientTypes.CurrentInstance?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CurrencyCode"].write(value.currencyCode)
-        try writer["InstanceName"].write(value.instanceName)
-        try writer["MonthlyCost"].write(value.monthlyCost)
-        try writer["OnDemandHoursInLookbackPeriod"].write(value.onDemandHoursInLookbackPeriod)
-        try writer["ReservationCoveredHoursInLookbackPeriod"].write(value.reservationCoveredHoursInLookbackPeriod)
-        try writer["ResourceDetails"].write(value.resourceDetails, with: CostExplorerClientTypes.ResourceDetails.write(value:to:))
-        try writer["ResourceId"].write(value.resourceId)
-        try writer["ResourceUtilization"].write(value.resourceUtilization, with: CostExplorerClientTypes.ResourceUtilization.write(value:to:))
-        try writer["SavingsPlansCoveredHoursInLookbackPeriod"].write(value.savingsPlansCoveredHoursInLookbackPeriod)
-        try writer["Tags"].writeList(value.tags, memberWritingClosure: CostExplorerClientTypes.TagValues.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["TotalRunningHoursInLookbackPeriod"].write(value.totalRunningHoursInLookbackPeriod)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.CurrentInstance {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2578,12 +2444,6 @@ extension CostExplorerClientTypes {
 
 extension CostExplorerClientTypes.DimensionValuesWithAttributes {
 
-    static func write(value: CostExplorerClientTypes.DimensionValuesWithAttributes?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Attributes"].writeMap(value.attributes, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["Value"].write(value.value)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.DimensionValuesWithAttributes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CostExplorerClientTypes.DimensionValuesWithAttributes()
@@ -2614,14 +2474,6 @@ extension CostExplorerClientTypes {
 }
 
 extension CostExplorerClientTypes.DiskResourceUtilization {
-
-    static func write(value: CostExplorerClientTypes.DiskResourceUtilization?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DiskReadBytesPerSecond"].write(value.diskReadBytesPerSecond)
-        try writer["DiskReadOpsPerSecond"].write(value.diskReadOpsPerSecond)
-        try writer["DiskWriteBytesPerSecond"].write(value.diskWriteBytesPerSecond)
-        try writer["DiskWriteOpsPerSecond"].write(value.diskWriteOpsPerSecond)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.DiskResourceUtilization {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2664,14 +2516,6 @@ extension CostExplorerClientTypes {
 
 extension CostExplorerClientTypes.EBSResourceUtilization {
 
-    static func write(value: CostExplorerClientTypes.EBSResourceUtilization?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EbsReadBytesPerSecond"].write(value.ebsReadBytesPerSecond)
-        try writer["EbsReadOpsPerSecond"].write(value.ebsReadOpsPerSecond)
-        try writer["EbsWriteBytesPerSecond"].write(value.ebsWriteBytesPerSecond)
-        try writer["EbsWriteOpsPerSecond"].write(value.ebsWriteOpsPerSecond)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.EBSResourceUtilization {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CostExplorerClientTypes.EBSResourceUtilization()
@@ -2712,18 +2556,6 @@ extension CostExplorerClientTypes {
 }
 
 extension CostExplorerClientTypes.EC2InstanceDetails {
-
-    static func write(value: CostExplorerClientTypes.EC2InstanceDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AvailabilityZone"].write(value.availabilityZone)
-        try writer["CurrentGeneration"].write(value.currentGeneration)
-        try writer["Family"].write(value.family)
-        try writer["InstanceType"].write(value.instanceType)
-        try writer["Platform"].write(value.platform)
-        try writer["Region"].write(value.region)
-        try writer["SizeFlexEligible"].write(value.sizeFlexEligible)
-        try writer["Tenancy"].write(value.tenancy)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.EC2InstanceDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2785,19 +2617,6 @@ extension CostExplorerClientTypes {
 }
 
 extension CostExplorerClientTypes.EC2ResourceDetails {
-
-    static func write(value: CostExplorerClientTypes.EC2ResourceDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["HourlyOnDemandRate"].write(value.hourlyOnDemandRate)
-        try writer["InstanceType"].write(value.instanceType)
-        try writer["Memory"].write(value.memory)
-        try writer["NetworkPerformance"].write(value.networkPerformance)
-        try writer["Platform"].write(value.platform)
-        try writer["Region"].write(value.region)
-        try writer["Sku"].write(value.sku)
-        try writer["Storage"].write(value.storage)
-        try writer["Vcpu"].write(value.vcpu)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.EC2ResourceDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2864,16 +2683,6 @@ extension CostExplorerClientTypes {
 }
 
 extension CostExplorerClientTypes.EC2ResourceUtilization {
-
-    static func write(value: CostExplorerClientTypes.EC2ResourceUtilization?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DiskResourceUtilization"].write(value.diskResourceUtilization, with: CostExplorerClientTypes.DiskResourceUtilization.write(value:to:))
-        try writer["EBSResourceUtilization"].write(value.ebsResourceUtilization, with: CostExplorerClientTypes.EBSResourceUtilization.write(value:to:))
-        try writer["MaxCpuUtilizationPercentage"].write(value.maxCpuUtilizationPercentage)
-        try writer["MaxMemoryUtilizationPercentage"].write(value.maxMemoryUtilizationPercentage)
-        try writer["MaxStorageUtilizationPercentage"].write(value.maxStorageUtilizationPercentage)
-        try writer["NetworkResourceUtilization"].write(value.networkResourceUtilization, with: CostExplorerClientTypes.NetworkResourceUtilization.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.EC2ResourceUtilization {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2957,15 +2766,6 @@ extension CostExplorerClientTypes {
 
 extension CostExplorerClientTypes.ESInstanceDetails {
 
-    static func write(value: CostExplorerClientTypes.ESInstanceDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CurrentGeneration"].write(value.currentGeneration)
-        try writer["InstanceClass"].write(value.instanceClass)
-        try writer["InstanceSize"].write(value.instanceSize)
-        try writer["Region"].write(value.region)
-        try writer["SizeFlexEligible"].write(value.sizeFlexEligible)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.ESInstanceDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CostExplorerClientTypes.ESInstanceDetails()
@@ -3011,16 +2811,6 @@ extension CostExplorerClientTypes {
 }
 
 extension CostExplorerClientTypes.ElastiCacheInstanceDetails {
-
-    static func write(value: CostExplorerClientTypes.ElastiCacheInstanceDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CurrentGeneration"].write(value.currentGeneration)
-        try writer["Family"].write(value.family)
-        try writer["NodeType"].write(value.nodeType)
-        try writer["ProductDescription"].write(value.productDescription)
-        try writer["Region"].write(value.region)
-        try writer["SizeFlexEligible"].write(value.sizeFlexEligible)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.ElastiCacheInstanceDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3256,14 +3046,6 @@ extension CostExplorerClientTypes {
 
 extension CostExplorerClientTypes.ForecastResult {
 
-    static func write(value: CostExplorerClientTypes.ForecastResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MeanValue"].write(value.meanValue)
-        try writer["PredictionIntervalLowerBound"].write(value.predictionIntervalLowerBound)
-        try writer["PredictionIntervalUpperBound"].write(value.predictionIntervalUpperBound)
-        try writer["TimePeriod"].write(value.timePeriod, with: CostExplorerClientTypes.DateInterval.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.ForecastResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CostExplorerClientTypes.ForecastResult()
@@ -3374,15 +3156,6 @@ extension CostExplorerClientTypes {
 }
 
 extension CostExplorerClientTypes.GenerationSummary {
-
-    static func write(value: CostExplorerClientTypes.GenerationSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EstimatedCompletionTime"].write(value.estimatedCompletionTime)
-        try writer["GenerationCompletionTime"].write(value.generationCompletionTime)
-        try writer["GenerationStartedTime"].write(value.generationStartedTime)
-        try writer["GenerationStatus"].write(value.generationStatus)
-        try writer["RecommendationId"].write(value.recommendationId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.GenerationSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6324,12 +6097,6 @@ extension CostExplorerClientTypes {
 
 extension CostExplorerClientTypes.Group {
 
-    static func write(value: CostExplorerClientTypes.Group?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Keys"].writeList(value.keys, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Metrics"].writeMap(value.metrics, valueWritingClosure: CostExplorerClientTypes.MetricValue.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.Group {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CostExplorerClientTypes.Group()
@@ -6431,15 +6198,6 @@ extension CostExplorerClientTypes {
 
 extension CostExplorerClientTypes.Impact {
 
-    static func write(value: CostExplorerClientTypes.Impact?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MaxImpact"].write(value.maxImpact)
-        try writer["TotalActualSpend"].write(value.totalActualSpend)
-        try writer["TotalExpectedSpend"].write(value.totalExpectedSpend)
-        try writer["TotalImpact"].write(value.totalImpact)
-        try writer["TotalImpactPercentage"].write(value.totalImpactPercentage)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.Impact {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CostExplorerClientTypes.Impact()
@@ -6486,16 +6244,6 @@ extension CostExplorerClientTypes {
 }
 
 extension CostExplorerClientTypes.InstanceDetails {
-
-    static func write(value: CostExplorerClientTypes.InstanceDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EC2InstanceDetails"].write(value.ec2InstanceDetails, with: CostExplorerClientTypes.EC2InstanceDetails.write(value:to:))
-        try writer["ESInstanceDetails"].write(value.esInstanceDetails, with: CostExplorerClientTypes.ESInstanceDetails.write(value:to:))
-        try writer["ElastiCacheInstanceDetails"].write(value.elastiCacheInstanceDetails, with: CostExplorerClientTypes.ElastiCacheInstanceDetails.write(value:to:))
-        try writer["MemoryDBInstanceDetails"].write(value.memoryDBInstanceDetails, with: CostExplorerClientTypes.MemoryDBInstanceDetails.write(value:to:))
-        try writer["RDSInstanceDetails"].write(value.rdsInstanceDetails, with: CostExplorerClientTypes.RDSInstanceDetails.write(value:to:))
-        try writer["RedshiftInstanceDetails"].write(value.redshiftInstanceDetails, with: CostExplorerClientTypes.RedshiftInstanceDetails.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.InstanceDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7104,15 +6852,6 @@ extension CostExplorerClientTypes {
 
 extension CostExplorerClientTypes.MemoryDBInstanceDetails {
 
-    static func write(value: CostExplorerClientTypes.MemoryDBInstanceDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CurrentGeneration"].write(value.currentGeneration)
-        try writer["Family"].write(value.family)
-        try writer["NodeType"].write(value.nodeType)
-        try writer["Region"].write(value.region)
-        try writer["SizeFlexEligible"].write(value.sizeFlexEligible)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.MemoryDBInstanceDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CostExplorerClientTypes.MemoryDBInstanceDetails()
@@ -7204,12 +6943,6 @@ extension CostExplorerClientTypes {
 
 extension CostExplorerClientTypes.MetricValue {
 
-    static func write(value: CostExplorerClientTypes.MetricValue?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Amount"].write(value.amount)
-        try writer["Unit"].write(value.unit)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.MetricValue {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CostExplorerClientTypes.MetricValue()
@@ -7240,11 +6973,6 @@ extension CostExplorerClientTypes {
 }
 
 extension CostExplorerClientTypes.ModifyRecommendationDetail {
-
-    static func write(value: CostExplorerClientTypes.ModifyRecommendationDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["TargetInstances"].writeList(value.targetInstances, memberWritingClosure: CostExplorerClientTypes.TargetInstance.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.ModifyRecommendationDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7328,14 +7056,6 @@ extension CostExplorerClientTypes {
 }
 
 extension CostExplorerClientTypes.NetworkResourceUtilization {
-
-    static func write(value: CostExplorerClientTypes.NetworkResourceUtilization?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["NetworkInBytesPerSecond"].write(value.networkInBytesPerSecond)
-        try writer["NetworkOutBytesPerSecond"].write(value.networkOutBytesPerSecond)
-        try writer["NetworkPacketsInPerSecond"].write(value.networkPacketsInPerSecond)
-        try writer["NetworkPacketsOutPerSecond"].write(value.networkPacketsOutPerSecond)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.NetworkResourceUtilization {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7604,19 +7324,6 @@ enum ProvideAnomalyFeedbackOutputError {
 
 extension CostExplorerClientTypes.RDSInstanceDetails {
 
-    static func write(value: CostExplorerClientTypes.RDSInstanceDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CurrentGeneration"].write(value.currentGeneration)
-        try writer["DatabaseEdition"].write(value.databaseEdition)
-        try writer["DatabaseEngine"].write(value.databaseEngine)
-        try writer["DeploymentOption"].write(value.deploymentOption)
-        try writer["Family"].write(value.family)
-        try writer["InstanceType"].write(value.instanceType)
-        try writer["LicenseModel"].write(value.licenseModel)
-        try writer["Region"].write(value.region)
-        try writer["SizeFlexEligible"].write(value.sizeFlexEligible)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.RDSInstanceDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CostExplorerClientTypes.RDSInstanceDetails()
@@ -7682,39 +7389,6 @@ extension CostExplorerClientTypes {
 }
 
 extension CostExplorerClientTypes.RecommendationDetailData {
-
-    static func write(value: CostExplorerClientTypes.RecommendationDetailData?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccountId"].write(value.accountId)
-        try writer["AccountScope"].write(value.accountScope)
-        try writer["CurrencyCode"].write(value.currencyCode)
-        try writer["CurrentAverageCoverage"].write(value.currentAverageCoverage)
-        try writer["CurrentAverageHourlyOnDemandSpend"].write(value.currentAverageHourlyOnDemandSpend)
-        try writer["CurrentMaximumHourlyOnDemandSpend"].write(value.currentMaximumHourlyOnDemandSpend)
-        try writer["CurrentMinimumHourlyOnDemandSpend"].write(value.currentMinimumHourlyOnDemandSpend)
-        try writer["EstimatedAverageCoverage"].write(value.estimatedAverageCoverage)
-        try writer["EstimatedAverageUtilization"].write(value.estimatedAverageUtilization)
-        try writer["EstimatedMonthlySavingsAmount"].write(value.estimatedMonthlySavingsAmount)
-        try writer["EstimatedOnDemandCost"].write(value.estimatedOnDemandCost)
-        try writer["EstimatedOnDemandCostWithCurrentCommitment"].write(value.estimatedOnDemandCostWithCurrentCommitment)
-        try writer["EstimatedROI"].write(value.estimatedROI)
-        try writer["EstimatedSPCost"].write(value.estimatedSPCost)
-        try writer["EstimatedSavingsAmount"].write(value.estimatedSavingsAmount)
-        try writer["EstimatedSavingsPercentage"].write(value.estimatedSavingsPercentage)
-        try writer["ExistingHourlyCommitment"].write(value.existingHourlyCommitment)
-        try writer["GenerationTimestamp"].write(value.generationTimestamp)
-        try writer["HourlyCommitmentToPurchase"].write(value.hourlyCommitmentToPurchase)
-        try writer["InstanceFamily"].write(value.instanceFamily)
-        try writer["LatestUsageTimestamp"].write(value.latestUsageTimestamp)
-        try writer["LookbackPeriodInDays"].write(value.lookbackPeriodInDays)
-        try writer["MetricsOverLookbackPeriod"].writeList(value.metricsOverLookbackPeriod, memberWritingClosure: CostExplorerClientTypes.RecommendationDetailHourlyMetrics.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["OfferingId"].write(value.offeringId)
-        try writer["PaymentOption"].write(value.paymentOption)
-        try writer["Region"].write(value.region)
-        try writer["SavingsPlansType"].write(value.savingsPlansType)
-        try writer["TermInYears"].write(value.termInYears)
-        try writer["UpfrontCost"].write(value.upfrontCost)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.RecommendationDetailData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7882,15 +7556,6 @@ extension CostExplorerClientTypes {
 
 extension CostExplorerClientTypes.RecommendationDetailHourlyMetrics {
 
-    static func write(value: CostExplorerClientTypes.RecommendationDetailHourlyMetrics?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CurrentCoverage"].write(value.currentCoverage)
-        try writer["EstimatedCoverage"].write(value.estimatedCoverage)
-        try writer["EstimatedNewCommitmentUtilization"].write(value.estimatedNewCommitmentUtilization)
-        try writer["EstimatedOnDemandCost"].write(value.estimatedOnDemandCost)
-        try writer["StartTime"].write(value.startTime)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.RecommendationDetailHourlyMetrics {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CostExplorerClientTypes.RecommendationDetailHourlyMetrics()
@@ -7966,15 +7631,6 @@ extension CostExplorerClientTypes {
 }
 
 extension CostExplorerClientTypes.RedshiftInstanceDetails {
-
-    static func write(value: CostExplorerClientTypes.RedshiftInstanceDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CurrentGeneration"].write(value.currentGeneration)
-        try writer["Family"].write(value.family)
-        try writer["NodeType"].write(value.nodeType)
-        try writer["Region"].write(value.region)
-        try writer["SizeFlexEligible"].write(value.sizeFlexEligible)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.RedshiftInstanceDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8058,27 +7714,6 @@ public struct RequestChangedException: ClientRuntime.ModeledError, AWSClientRunt
 }
 
 extension CostExplorerClientTypes.ReservationAggregates {
-
-    static func write(value: CostExplorerClientTypes.ReservationAggregates?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AmortizedRecurringFee"].write(value.amortizedRecurringFee)
-        try writer["AmortizedUpfrontFee"].write(value.amortizedUpfrontFee)
-        try writer["NetRISavings"].write(value.netRISavings)
-        try writer["OnDemandCostOfRIHoursUsed"].write(value.onDemandCostOfRIHoursUsed)
-        try writer["PurchasedHours"].write(value.purchasedHours)
-        try writer["PurchasedUnits"].write(value.purchasedUnits)
-        try writer["RICostForUnusedHours"].write(value.riCostForUnusedHours)
-        try writer["RealizedSavings"].write(value.realizedSavings)
-        try writer["TotalActualHours"].write(value.totalActualHours)
-        try writer["TotalActualUnits"].write(value.totalActualUnits)
-        try writer["TotalAmortizedFee"].write(value.totalAmortizedFee)
-        try writer["TotalPotentialRISavings"].write(value.totalPotentialRISavings)
-        try writer["UnrealizedSavings"].write(value.unrealizedSavings)
-        try writer["UnusedHours"].write(value.unusedHours)
-        try writer["UnusedUnits"].write(value.unusedUnits)
-        try writer["UtilizationPercentage"].write(value.utilizationPercentage)
-        try writer["UtilizationPercentageInUnits"].write(value.utilizationPercentageInUnits)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.ReservationAggregates {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8186,12 +7821,6 @@ extension CostExplorerClientTypes {
 
 extension CostExplorerClientTypes.ReservationCoverageGroup {
 
-    static func write(value: CostExplorerClientTypes.ReservationCoverageGroup?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Attributes"].writeMap(value.attributes, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["Coverage"].write(value.coverage, with: CostExplorerClientTypes.Coverage.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.ReservationCoverageGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CostExplorerClientTypes.ReservationCoverageGroup()
@@ -8222,17 +7851,6 @@ extension CostExplorerClientTypes {
 }
 
 extension CostExplorerClientTypes.ReservationPurchaseRecommendation {
-
-    static func write(value: CostExplorerClientTypes.ReservationPurchaseRecommendation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccountScope"].write(value.accountScope)
-        try writer["LookbackPeriodInDays"].write(value.lookbackPeriodInDays)
-        try writer["PaymentOption"].write(value.paymentOption)
-        try writer["RecommendationDetails"].writeList(value.recommendationDetails, memberWritingClosure: CostExplorerClientTypes.ReservationPurchaseRecommendationDetail.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["RecommendationSummary"].write(value.recommendationSummary, with: CostExplorerClientTypes.ReservationPurchaseRecommendationSummary.write(value:to:))
-        try writer["ServiceSpecification"].write(value.serviceSpecification, with: CostExplorerClientTypes.ServiceSpecification.write(value:to:))
-        try writer["TermInYears"].write(value.termInYears)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.ReservationPurchaseRecommendation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8289,29 +7907,6 @@ extension CostExplorerClientTypes {
 }
 
 extension CostExplorerClientTypes.ReservationPurchaseRecommendationDetail {
-
-    static func write(value: CostExplorerClientTypes.ReservationPurchaseRecommendationDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccountId"].write(value.accountId)
-        try writer["AverageNormalizedUnitsUsedPerHour"].write(value.averageNormalizedUnitsUsedPerHour)
-        try writer["AverageNumberOfInstancesUsedPerHour"].write(value.averageNumberOfInstancesUsedPerHour)
-        try writer["AverageUtilization"].write(value.averageUtilization)
-        try writer["CurrencyCode"].write(value.currencyCode)
-        try writer["EstimatedBreakEvenInMonths"].write(value.estimatedBreakEvenInMonths)
-        try writer["EstimatedMonthlyOnDemandCost"].write(value.estimatedMonthlyOnDemandCost)
-        try writer["EstimatedMonthlySavingsAmount"].write(value.estimatedMonthlySavingsAmount)
-        try writer["EstimatedMonthlySavingsPercentage"].write(value.estimatedMonthlySavingsPercentage)
-        try writer["EstimatedReservationCostForLookbackPeriod"].write(value.estimatedReservationCostForLookbackPeriod)
-        try writer["InstanceDetails"].write(value.instanceDetails, with: CostExplorerClientTypes.InstanceDetails.write(value:to:))
-        try writer["MaximumNormalizedUnitsUsedPerHour"].write(value.maximumNormalizedUnitsUsedPerHour)
-        try writer["MaximumNumberOfInstancesUsedPerHour"].write(value.maximumNumberOfInstancesUsedPerHour)
-        try writer["MinimumNormalizedUnitsUsedPerHour"].write(value.minimumNormalizedUnitsUsedPerHour)
-        try writer["MinimumNumberOfInstancesUsedPerHour"].write(value.minimumNumberOfInstancesUsedPerHour)
-        try writer["RecommendedNormalizedUnitsToPurchase"].write(value.recommendedNormalizedUnitsToPurchase)
-        try writer["RecommendedNumberOfInstancesToPurchase"].write(value.recommendedNumberOfInstancesToPurchase)
-        try writer["RecurringStandardMonthlyCost"].write(value.recurringStandardMonthlyCost)
-        try writer["UpfrontCost"].write(value.upfrontCost)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.ReservationPurchaseRecommendationDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8429,13 +8024,6 @@ extension CostExplorerClientTypes {
 
 extension CostExplorerClientTypes.ReservationPurchaseRecommendationMetadata {
 
-    static func write(value: CostExplorerClientTypes.ReservationPurchaseRecommendationMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AdditionalMetadata"].write(value.additionalMetadata)
-        try writer["GenerationTimestamp"].write(value.generationTimestamp)
-        try writer["RecommendationId"].write(value.recommendationId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.ReservationPurchaseRecommendationMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CostExplorerClientTypes.ReservationPurchaseRecommendationMetadata()
@@ -8472,13 +8060,6 @@ extension CostExplorerClientTypes {
 
 extension CostExplorerClientTypes.ReservationPurchaseRecommendationSummary {
 
-    static func write(value: CostExplorerClientTypes.ReservationPurchaseRecommendationSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CurrencyCode"].write(value.currencyCode)
-        try writer["TotalEstimatedMonthlySavingsAmount"].write(value.totalEstimatedMonthlySavingsAmount)
-        try writer["TotalEstimatedMonthlySavingsPercentage"].write(value.totalEstimatedMonthlySavingsPercentage)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.ReservationPurchaseRecommendationSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CostExplorerClientTypes.ReservationPurchaseRecommendationSummary()
@@ -8514,14 +8095,6 @@ extension CostExplorerClientTypes {
 }
 
 extension CostExplorerClientTypes.ReservationUtilizationGroup {
-
-    static func write(value: CostExplorerClientTypes.ReservationUtilizationGroup?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Attributes"].writeMap(value.attributes, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["Key"].write(value.key)
-        try writer["Utilization"].write(value.utilization, with: CostExplorerClientTypes.ReservationAggregates.write(value:to:))
-        try writer["Value"].write(value.value)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.ReservationUtilizationGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8563,11 +8136,6 @@ extension CostExplorerClientTypes {
 }
 
 extension CostExplorerClientTypes.ResourceDetails {
-
-    static func write(value: CostExplorerClientTypes.ResourceDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EC2ResourceDetails"].write(value.ec2ResourceDetails, with: CostExplorerClientTypes.EC2ResourceDetails.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.ResourceDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8675,11 +8243,6 @@ extension CostExplorerClientTypes {
 
 extension CostExplorerClientTypes.ResourceUtilization {
 
-    static func write(value: CostExplorerClientTypes.ResourceUtilization?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EC2ResourceUtilization"].write(value.ec2ResourceUtilization, with: CostExplorerClientTypes.EC2ResourceUtilization.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.ResourceUtilization {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CostExplorerClientTypes.ResourceUtilization()
@@ -8705,14 +8268,6 @@ extension CostExplorerClientTypes {
 }
 
 extension CostExplorerClientTypes.ResultByTime {
-
-    static func write(value: CostExplorerClientTypes.ResultByTime?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Estimated"].write(value.estimated)
-        try writer["Groups"].writeList(value.groups, memberWritingClosure: CostExplorerClientTypes.Group.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["TimePeriod"].write(value.timePeriod, with: CostExplorerClientTypes.DateInterval.write(value:to:))
-        try writer["Total"].writeMap(value.total, valueWritingClosure: CostExplorerClientTypes.MetricValue.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.ResultByTime {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8754,16 +8309,6 @@ extension CostExplorerClientTypes {
 }
 
 extension CostExplorerClientTypes.RightsizingRecommendation {
-
-    static func write(value: CostExplorerClientTypes.RightsizingRecommendation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccountId"].write(value.accountId)
-        try writer["CurrentInstance"].write(value.currentInstance, with: CostExplorerClientTypes.CurrentInstance.write(value:to:))
-        try writer["FindingReasonCodes"].writeList(value.findingReasonCodes, memberWritingClosure: CostExplorerClientTypes.FindingReasonCode.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ModifyRecommendationDetail"].write(value.modifyRecommendationDetail, with: CostExplorerClientTypes.ModifyRecommendationDetail.write(value:to:))
-        try writer["RightsizingType"].write(value.rightsizingType)
-        try writer["TerminateRecommendationDetail"].write(value.terminateRecommendationDetail, with: CostExplorerClientTypes.TerminateRecommendationDetail.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.RightsizingRecommendation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8855,14 +8400,6 @@ extension CostExplorerClientTypes {
 
 extension CostExplorerClientTypes.RightsizingRecommendationMetadata {
 
-    static func write(value: CostExplorerClientTypes.RightsizingRecommendationMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AdditionalMetadata"].write(value.additionalMetadata)
-        try writer["GenerationTimestamp"].write(value.generationTimestamp)
-        try writer["LookbackPeriodInDays"].write(value.lookbackPeriodInDays)
-        try writer["RecommendationId"].write(value.recommendationId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.RightsizingRecommendationMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CostExplorerClientTypes.RightsizingRecommendationMetadata()
@@ -8903,14 +8440,6 @@ extension CostExplorerClientTypes {
 }
 
 extension CostExplorerClientTypes.RightsizingRecommendationSummary {
-
-    static func write(value: CostExplorerClientTypes.RightsizingRecommendationSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EstimatedTotalMonthlySavingsAmount"].write(value.estimatedTotalMonthlySavingsAmount)
-        try writer["SavingsCurrencyCode"].write(value.savingsCurrencyCode)
-        try writer["SavingsPercentage"].write(value.savingsPercentage)
-        try writer["TotalRecommendationCount"].write(value.totalRecommendationCount)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.RightsizingRecommendationSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8983,15 +8512,6 @@ extension CostExplorerClientTypes {
 
 extension CostExplorerClientTypes.RootCause {
 
-    static func write(value: CostExplorerClientTypes.RootCause?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["LinkedAccount"].write(value.linkedAccount)
-        try writer["LinkedAccountName"].write(value.linkedAccountName)
-        try writer["Region"].write(value.region)
-        try writer["Service"].write(value.service)
-        try writer["UsageType"].write(value.usageType)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.RootCause {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CostExplorerClientTypes.RootCause()
@@ -9038,13 +8558,6 @@ extension CostExplorerClientTypes {
 
 extension CostExplorerClientTypes.SavingsPlansAmortizedCommitment {
 
-    static func write(value: CostExplorerClientTypes.SavingsPlansAmortizedCommitment?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AmortizedRecurringCommitment"].write(value.amortizedRecurringCommitment)
-        try writer["AmortizedUpfrontCommitment"].write(value.amortizedUpfrontCommitment)
-        try writer["TotalAmortizedCommitment"].write(value.totalAmortizedCommitment)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.SavingsPlansAmortizedCommitment {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CostExplorerClientTypes.SavingsPlansAmortizedCommitment()
@@ -9081,13 +8594,6 @@ extension CostExplorerClientTypes {
 
 extension CostExplorerClientTypes.SavingsPlansCoverage {
 
-    static func write(value: CostExplorerClientTypes.SavingsPlansCoverage?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Attributes"].writeMap(value.attributes, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["Coverage"].write(value.coverage, with: CostExplorerClientTypes.SavingsPlansCoverageData.write(value:to:))
-        try writer["TimePeriod"].write(value.timePeriod, with: CostExplorerClientTypes.DateInterval.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.SavingsPlansCoverage {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CostExplorerClientTypes.SavingsPlansCoverage()
@@ -9123,14 +8629,6 @@ extension CostExplorerClientTypes {
 }
 
 extension CostExplorerClientTypes.SavingsPlansCoverageData {
-
-    static func write(value: CostExplorerClientTypes.SavingsPlansCoverageData?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CoveragePercentage"].write(value.coveragePercentage)
-        try writer["OnDemandCost"].write(value.onDemandCost)
-        try writer["SpendCoveredBySavingsPlans"].write(value.spendCoveredBySavingsPlans)
-        try writer["TotalCost"].write(value.totalCost)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.SavingsPlansCoverageData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -9209,13 +8707,6 @@ extension CostExplorerClientTypes {
 
 extension CostExplorerClientTypes.SavingsPlansDetails {
 
-    static func write(value: CostExplorerClientTypes.SavingsPlansDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["InstanceFamily"].write(value.instanceFamily)
-        try writer["OfferingId"].write(value.offeringId)
-        try writer["Region"].write(value.region)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.SavingsPlansDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CostExplorerClientTypes.SavingsPlansDetails()
@@ -9251,17 +8742,6 @@ extension CostExplorerClientTypes {
 }
 
 extension CostExplorerClientTypes.SavingsPlansPurchaseRecommendation {
-
-    static func write(value: CostExplorerClientTypes.SavingsPlansPurchaseRecommendation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccountScope"].write(value.accountScope)
-        try writer["LookbackPeriodInDays"].write(value.lookbackPeriodInDays)
-        try writer["PaymentOption"].write(value.paymentOption)
-        try writer["SavingsPlansPurchaseRecommendationDetails"].writeList(value.savingsPlansPurchaseRecommendationDetails, memberWritingClosure: CostExplorerClientTypes.SavingsPlansPurchaseRecommendationDetail.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["SavingsPlansPurchaseRecommendationSummary"].write(value.savingsPlansPurchaseRecommendationSummary, with: CostExplorerClientTypes.SavingsPlansPurchaseRecommendationSummary.write(value:to:))
-        try writer["SavingsPlansType"].write(value.savingsPlansType)
-        try writer["TermInYears"].write(value.termInYears)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.SavingsPlansPurchaseRecommendation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -9318,27 +8798,6 @@ extension CostExplorerClientTypes {
 }
 
 extension CostExplorerClientTypes.SavingsPlansPurchaseRecommendationDetail {
-
-    static func write(value: CostExplorerClientTypes.SavingsPlansPurchaseRecommendationDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccountId"].write(value.accountId)
-        try writer["CurrencyCode"].write(value.currencyCode)
-        try writer["CurrentAverageHourlyOnDemandSpend"].write(value.currentAverageHourlyOnDemandSpend)
-        try writer["CurrentMaximumHourlyOnDemandSpend"].write(value.currentMaximumHourlyOnDemandSpend)
-        try writer["CurrentMinimumHourlyOnDemandSpend"].write(value.currentMinimumHourlyOnDemandSpend)
-        try writer["EstimatedAverageUtilization"].write(value.estimatedAverageUtilization)
-        try writer["EstimatedMonthlySavingsAmount"].write(value.estimatedMonthlySavingsAmount)
-        try writer["EstimatedOnDemandCost"].write(value.estimatedOnDemandCost)
-        try writer["EstimatedOnDemandCostWithCurrentCommitment"].write(value.estimatedOnDemandCostWithCurrentCommitment)
-        try writer["EstimatedROI"].write(value.estimatedROI)
-        try writer["EstimatedSPCost"].write(value.estimatedSPCost)
-        try writer["EstimatedSavingsAmount"].write(value.estimatedSavingsAmount)
-        try writer["EstimatedSavingsPercentage"].write(value.estimatedSavingsPercentage)
-        try writer["HourlyCommitmentToPurchase"].write(value.hourlyCommitmentToPurchase)
-        try writer["RecommendationDetailId"].write(value.recommendationDetailId)
-        try writer["SavingsPlansDetails"].write(value.savingsPlansDetails, with: CostExplorerClientTypes.SavingsPlansDetails.write(value:to:))
-        try writer["UpfrontCost"].write(value.upfrontCost)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.SavingsPlansPurchaseRecommendationDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -9446,13 +8905,6 @@ extension CostExplorerClientTypes {
 
 extension CostExplorerClientTypes.SavingsPlansPurchaseRecommendationMetadata {
 
-    static func write(value: CostExplorerClientTypes.SavingsPlansPurchaseRecommendationMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AdditionalMetadata"].write(value.additionalMetadata)
-        try writer["GenerationTimestamp"].write(value.generationTimestamp)
-        try writer["RecommendationId"].write(value.recommendationId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.SavingsPlansPurchaseRecommendationMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CostExplorerClientTypes.SavingsPlansPurchaseRecommendationMetadata()
@@ -9488,21 +8940,6 @@ extension CostExplorerClientTypes {
 }
 
 extension CostExplorerClientTypes.SavingsPlansPurchaseRecommendationSummary {
-
-    static func write(value: CostExplorerClientTypes.SavingsPlansPurchaseRecommendationSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CurrencyCode"].write(value.currencyCode)
-        try writer["CurrentOnDemandSpend"].write(value.currentOnDemandSpend)
-        try writer["DailyCommitmentToPurchase"].write(value.dailyCommitmentToPurchase)
-        try writer["EstimatedMonthlySavingsAmount"].write(value.estimatedMonthlySavingsAmount)
-        try writer["EstimatedOnDemandCostWithCurrentCommitment"].write(value.estimatedOnDemandCostWithCurrentCommitment)
-        try writer["EstimatedROI"].write(value.estimatedROI)
-        try writer["EstimatedSavingsAmount"].write(value.estimatedSavingsAmount)
-        try writer["EstimatedSavingsPercentage"].write(value.estimatedSavingsPercentage)
-        try writer["EstimatedTotalCost"].write(value.estimatedTotalCost)
-        try writer["HourlyCommitmentToPurchase"].write(value.hourlyCommitmentToPurchase)
-        try writer["TotalRecommendationCount"].write(value.totalRecommendationCount)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.SavingsPlansPurchaseRecommendationSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -9580,12 +9017,6 @@ extension CostExplorerClientTypes {
 
 extension CostExplorerClientTypes.SavingsPlansSavings {
 
-    static func write(value: CostExplorerClientTypes.SavingsPlansSavings?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["NetSavings"].write(value.netSavings)
-        try writer["OnDemandCostEquivalent"].write(value.onDemandCostEquivalent)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.SavingsPlansSavings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CostExplorerClientTypes.SavingsPlansSavings()
@@ -9616,14 +9047,6 @@ extension CostExplorerClientTypes {
 }
 
 extension CostExplorerClientTypes.SavingsPlansUtilization {
-
-    static func write(value: CostExplorerClientTypes.SavingsPlansUtilization?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["TotalCommitment"].write(value.totalCommitment)
-        try writer["UnusedCommitment"].write(value.unusedCommitment)
-        try writer["UsedCommitment"].write(value.usedCommitment)
-        try writer["UtilizationPercentage"].write(value.utilizationPercentage)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.SavingsPlansUtilization {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -9666,13 +9089,6 @@ extension CostExplorerClientTypes {
 
 extension CostExplorerClientTypes.SavingsPlansUtilizationAggregates {
 
-    static func write(value: CostExplorerClientTypes.SavingsPlansUtilizationAggregates?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AmortizedCommitment"].write(value.amortizedCommitment, with: CostExplorerClientTypes.SavingsPlansAmortizedCommitment.write(value:to:))
-        try writer["Savings"].write(value.savings, with: CostExplorerClientTypes.SavingsPlansSavings.write(value:to:))
-        try writer["Utilization"].write(value.utilization, with: CostExplorerClientTypes.SavingsPlansUtilization.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.SavingsPlansUtilizationAggregates {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CostExplorerClientTypes.SavingsPlansUtilizationAggregates()
@@ -9709,14 +9125,6 @@ extension CostExplorerClientTypes {
 }
 
 extension CostExplorerClientTypes.SavingsPlansUtilizationByTime {
-
-    static func write(value: CostExplorerClientTypes.SavingsPlansUtilizationByTime?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AmortizedCommitment"].write(value.amortizedCommitment, with: CostExplorerClientTypes.SavingsPlansAmortizedCommitment.write(value:to:))
-        try writer["Savings"].write(value.savings, with: CostExplorerClientTypes.SavingsPlansSavings.write(value:to:))
-        try writer["TimePeriod"].write(value.timePeriod, with: CostExplorerClientTypes.DateInterval.write(value:to:))
-        try writer["Utilization"].write(value.utilization, with: CostExplorerClientTypes.SavingsPlansUtilization.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.SavingsPlansUtilizationByTime {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -9760,15 +9168,6 @@ extension CostExplorerClientTypes {
 }
 
 extension CostExplorerClientTypes.SavingsPlansUtilizationDetail {
-
-    static func write(value: CostExplorerClientTypes.SavingsPlansUtilizationDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AmortizedCommitment"].write(value.amortizedCommitment, with: CostExplorerClientTypes.SavingsPlansAmortizedCommitment.write(value:to:))
-        try writer["Attributes"].writeMap(value.attributes, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["Savings"].write(value.savings, with: CostExplorerClientTypes.SavingsPlansSavings.write(value:to:))
-        try writer["SavingsPlanArn"].write(value.savingsPlanArn)
-        try writer["Utilization"].write(value.utilization, with: CostExplorerClientTypes.SavingsPlansUtilization.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.SavingsPlansUtilizationDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -9888,14 +9287,6 @@ extension CostExplorerClientTypes.SortDefinition {
         guard let value else { return }
         try writer["Key"].write(value.key)
         try writer["SortOrder"].write(value.sortOrder)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.SortDefinition {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CostExplorerClientTypes.SortDefinition()
-        value.key = try reader["Key"].readIfPresent()
-        value.sortOrder = try reader["SortOrder"].readIfPresent()
-        return value
     }
 }
 
@@ -10345,17 +9736,6 @@ extension CostExplorerClientTypes {
 
 extension CostExplorerClientTypes.TargetInstance {
 
-    static func write(value: CostExplorerClientTypes.TargetInstance?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CurrencyCode"].write(value.currencyCode)
-        try writer["DefaultTargetInstance"].write(value.defaultTargetInstance)
-        try writer["EstimatedMonthlyCost"].write(value.estimatedMonthlyCost)
-        try writer["EstimatedMonthlySavings"].write(value.estimatedMonthlySavings)
-        try writer["ExpectedResourceUtilization"].write(value.expectedResourceUtilization, with: CostExplorerClientTypes.ResourceUtilization.write(value:to:))
-        try writer["PlatformDifferences"].writeList(value.platformDifferences, memberWritingClosure: CostExplorerClientTypes.PlatformDifference.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ResourceDetails"].write(value.resourceDetails, with: CostExplorerClientTypes.ResourceDetails.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.TargetInstance {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CostExplorerClientTypes.TargetInstance()
@@ -10442,12 +9822,6 @@ extension CostExplorerClientTypes {
 
 extension CostExplorerClientTypes.TerminateRecommendationDetail {
 
-    static func write(value: CostExplorerClientTypes.TerminateRecommendationDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CurrencyCode"].write(value.currencyCode)
-        try writer["EstimatedMonthlySavings"].write(value.estimatedMonthlySavings)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.TerminateRecommendationDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CostExplorerClientTypes.TerminateRecommendationDetail()
@@ -10525,15 +9899,6 @@ extension CostExplorerClientTypes.TotalImpactFilter {
         try writer["EndValue"].write(value.endValue)
         try writer["NumericOperator"].write(value.numericOperator)
         try writer["StartValue"].write(value.startValue)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.TotalImpactFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CostExplorerClientTypes.TotalImpactFilter()
-        value.numericOperator = try reader["NumericOperator"].readIfPresent()
-        value.startValue = try reader["StartValue"].readIfPresent() ?? 0
-        value.endValue = try reader["EndValue"].readIfPresent() ?? 0
-        return value
     }
 }
 
@@ -10918,13 +10283,6 @@ enum UpdateAnomalySubscriptionOutputError {
 
 extension CostExplorerClientTypes.UpdateCostAllocationTagsStatusError {
 
-    static func write(value: CostExplorerClientTypes.UpdateCostAllocationTagsStatusError?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Code"].write(value.code)
-        try writer["Message"].write(value.message)
-        try writer["TagKey"].write(value.tagKey)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.UpdateCostAllocationTagsStatusError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CostExplorerClientTypes.UpdateCostAllocationTagsStatusError()
@@ -11126,13 +10484,6 @@ enum UpdateCostCategoryDefinitionOutputError {
 }
 
 extension CostExplorerClientTypes.UtilizationByTime {
-
-    static func write(value: CostExplorerClientTypes.UtilizationByTime?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Groups"].writeList(value.groups, memberWritingClosure: CostExplorerClientTypes.ReservationUtilizationGroup.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["TimePeriod"].write(value.timePeriod, with: CostExplorerClientTypes.DateInterval.write(value:to:))
-        try writer["Total"].write(value.total, with: CostExplorerClientTypes.ReservationAggregates.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.UtilizationByTime {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

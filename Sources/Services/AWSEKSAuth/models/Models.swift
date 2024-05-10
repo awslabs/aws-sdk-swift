@@ -160,12 +160,6 @@ enum AssumeRoleForPodIdentityOutputError {
 
 extension EKSAuthClientTypes.AssumedRoleUser {
 
-    static func write(value: EKSAuthClientTypes.AssumedRoleUser?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["assumeRoleId"].write(value.assumeRoleId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> EKSAuthClientTypes.AssumedRoleUser {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EKSAuthClientTypes.AssumedRoleUser()
@@ -204,14 +198,6 @@ extension EKSAuthClientTypes.Credentials: Swift.CustomDebugStringConvertible {
 }
 
 extension EKSAuthClientTypes.Credentials {
-
-    static func write(value: EKSAuthClientTypes.Credentials?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["accessKeyId"].write(value.accessKeyId)
-        try writer["expiration"].writeTimestamp(value.expiration, format: .epochSeconds)
-        try writer["secretAccessKey"].write(value.secretAccessKey)
-        try writer["sessionToken"].write(value.sessionToken)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> EKSAuthClientTypes.Credentials {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -445,12 +431,6 @@ public struct InvalidTokenException: ClientRuntime.ModeledError, AWSClientRuntim
 
 extension EKSAuthClientTypes.PodIdentityAssociation {
 
-    static func write(value: EKSAuthClientTypes.PodIdentityAssociation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["associationArn"].write(value.associationArn)
-        try writer["associationId"].write(value.associationId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> EKSAuthClientTypes.PodIdentityAssociation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EKSAuthClientTypes.PodIdentityAssociation()
@@ -557,12 +537,6 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
 }
 
 extension EKSAuthClientTypes.Subject {
-
-    static func write(value: EKSAuthClientTypes.Subject?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["namespace"].write(value.namespace)
-        try writer["serviceAccount"].write(value.serviceAccount)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> EKSAuthClientTypes.Subject {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

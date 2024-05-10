@@ -213,15 +213,6 @@ extension AuditManagerClientTypes.Assessment: Swift.CustomDebugStringConvertible
 
 extension AuditManagerClientTypes.Assessment {
 
-    static func write(value: AuditManagerClientTypes.Assessment?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["awsAccount"].write(value.awsAccount, with: AuditManagerClientTypes.AWSAccount.write(value:to:))
-        try writer["framework"].write(value.framework, with: AuditManagerClientTypes.AssessmentFramework.write(value:to:))
-        try writer["metadata"].write(value.metadata, with: AuditManagerClientTypes.AssessmentMetadata.write(value:to:))
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.Assessment {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AuditManagerClientTypes.Assessment()
@@ -267,19 +258,6 @@ extension AuditManagerClientTypes {
 }
 
 extension AuditManagerClientTypes.AssessmentControl {
-
-    static func write(value: AuditManagerClientTypes.AssessmentControl?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["assessmentReportEvidenceCount"].write(value.assessmentReportEvidenceCount)
-        try writer["comments"].writeList(value.comments, memberWritingClosure: AuditManagerClientTypes.ControlComment.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["description"].write(value.description)
-        try writer["evidenceCount"].write(value.evidenceCount)
-        try writer["evidenceSources"].writeList(value.evidenceSources, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["id"].write(value.id)
-        try writer["name"].write(value.name)
-        try writer["response"].write(value.response)
-        try writer["status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.AssessmentControl {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -352,18 +330,6 @@ extension AuditManagerClientTypes.AssessmentControlSet: Swift.CustomDebugStringC
 
 extension AuditManagerClientTypes.AssessmentControlSet {
 
-    static func write(value: AuditManagerClientTypes.AssessmentControlSet?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["controls"].writeList(value.controls, memberWritingClosure: AuditManagerClientTypes.AssessmentControl.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["delegations"].writeList(value.delegations, memberWritingClosure: AuditManagerClientTypes.Delegation.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["description"].write(value.description)
-        try writer["id"].write(value.id)
-        try writer["manualEvidenceCount"].write(value.manualEvidenceCount)
-        try writer["roles"].writeList(value.roles, memberWritingClosure: AuditManagerClientTypes.Role.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["status"].write(value.status)
-        try writer["systemEvidenceCount"].write(value.systemEvidenceCount)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.AssessmentControlSet {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AuditManagerClientTypes.AssessmentControlSet()
@@ -424,28 +390,6 @@ extension AuditManagerClientTypes {
 }
 
 extension AuditManagerClientTypes.AssessmentEvidenceFolder {
-
-    static func write(value: AuditManagerClientTypes.AssessmentEvidenceFolder?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["assessmentId"].write(value.assessmentId)
-        try writer["assessmentReportSelectionCount"].write(value.assessmentReportSelectionCount)
-        try writer["author"].write(value.author)
-        try writer["controlId"].write(value.controlId)
-        try writer["controlName"].write(value.controlName)
-        try writer["controlSetId"].write(value.controlSetId)
-        try writer["dataSource"].write(value.dataSource)
-        try writer["date"].writeTimestamp(value.date, format: .epochSeconds)
-        try writer["evidenceAwsServiceSourceCount"].write(value.evidenceAwsServiceSourceCount)
-        try writer["evidenceByTypeComplianceCheckCount"].write(value.evidenceByTypeComplianceCheckCount)
-        try writer["evidenceByTypeComplianceCheckIssuesCount"].write(value.evidenceByTypeComplianceCheckIssuesCount)
-        try writer["evidenceByTypeConfigurationDataCount"].write(value.evidenceByTypeConfigurationDataCount)
-        try writer["evidenceByTypeManualCount"].write(value.evidenceByTypeManualCount)
-        try writer["evidenceByTypeUserActivityCount"].write(value.evidenceByTypeUserActivityCount)
-        try writer["evidenceResourcesIncludedCount"].write(value.evidenceResourcesIncludedCount)
-        try writer["id"].write(value.id)
-        try writer["name"].write(value.name)
-        try writer["totalEvidence"].write(value.totalEvidence)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.AssessmentEvidenceFolder {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -564,14 +508,6 @@ extension AuditManagerClientTypes.AssessmentFramework: Swift.CustomDebugStringCo
 
 extension AuditManagerClientTypes.AssessmentFramework {
 
-    static func write(value: AuditManagerClientTypes.AssessmentFramework?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["controlSets"].writeList(value.controlSets, memberWritingClosure: AuditManagerClientTypes.AssessmentControlSet.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["id"].write(value.id)
-        try writer["metadata"].write(value.metadata, with: AuditManagerClientTypes.FrameworkMetadata.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.AssessmentFramework {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AuditManagerClientTypes.AssessmentFramework()
@@ -617,21 +553,6 @@ extension AuditManagerClientTypes.AssessmentFrameworkMetadata: Swift.CustomDebug
 }
 
 extension AuditManagerClientTypes.AssessmentFrameworkMetadata {
-
-    static func write(value: AuditManagerClientTypes.AssessmentFrameworkMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["complianceType"].write(value.complianceType)
-        try writer["controlSetsCount"].write(value.controlSetsCount)
-        try writer["controlsCount"].write(value.controlsCount)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["description"].write(value.description)
-        try writer["id"].write(value.id)
-        try writer["lastUpdatedAt"].writeTimestamp(value.lastUpdatedAt, format: .epochSeconds)
-        try writer["logo"].write(value.logo)
-        try writer["name"].write(value.name)
-        try writer["type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.AssessmentFrameworkMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -713,25 +634,6 @@ extension AuditManagerClientTypes.AssessmentFrameworkShareRequest: Swift.CustomD
 }
 
 extension AuditManagerClientTypes.AssessmentFrameworkShareRequest {
-
-    static func write(value: AuditManagerClientTypes.AssessmentFrameworkShareRequest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["comment"].write(value.comment)
-        try writer["complianceType"].write(value.complianceType)
-        try writer["creationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["customControlsCount"].write(value.customControlsCount)
-        try writer["destinationAccount"].write(value.destinationAccount)
-        try writer["destinationRegion"].write(value.destinationRegion)
-        try writer["expirationTime"].writeTimestamp(value.expirationTime, format: .epochSeconds)
-        try writer["frameworkDescription"].write(value.frameworkDescription)
-        try writer["frameworkId"].write(value.frameworkId)
-        try writer["frameworkName"].write(value.frameworkName)
-        try writer["id"].write(value.id)
-        try writer["lastUpdated"].writeTimestamp(value.lastUpdated, format: .epochSeconds)
-        try writer["sourceAccount"].write(value.sourceAccount)
-        try writer["standardControlsCount"].write(value.standardControlsCount)
-        try writer["status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.AssessmentFrameworkShareRequest {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -834,21 +736,6 @@ extension AuditManagerClientTypes.AssessmentMetadata: Swift.CustomDebugStringCon
 
 extension AuditManagerClientTypes.AssessmentMetadata {
 
-    static func write(value: AuditManagerClientTypes.AssessmentMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["assessmentReportsDestination"].write(value.assessmentReportsDestination, with: AuditManagerClientTypes.AssessmentReportsDestination.write(value:to:))
-        try writer["complianceType"].write(value.complianceType)
-        try writer["creationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["delegations"].writeList(value.delegations, memberWritingClosure: AuditManagerClientTypes.Delegation.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["description"].write(value.description)
-        try writer["id"].write(value.id)
-        try writer["lastUpdated"].writeTimestamp(value.lastUpdated, format: .epochSeconds)
-        try writer["name"].write(value.name)
-        try writer["roles"].writeList(value.roles, memberWritingClosure: AuditManagerClientTypes.Role.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["scope"].write(value.scope, with: AuditManagerClientTypes.Scope.write(value:to:))
-        try writer["status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.AssessmentMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AuditManagerClientTypes.AssessmentMetadata()
@@ -930,18 +817,6 @@ extension AuditManagerClientTypes.AssessmentMetadataItem: Swift.CustomDebugStrin
 
 extension AuditManagerClientTypes.AssessmentMetadataItem {
 
-    static func write(value: AuditManagerClientTypes.AssessmentMetadataItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["complianceType"].write(value.complianceType)
-        try writer["creationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["delegations"].writeList(value.delegations, memberWritingClosure: AuditManagerClientTypes.Delegation.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["id"].write(value.id)
-        try writer["lastUpdated"].writeTimestamp(value.lastUpdated, format: .epochSeconds)
-        try writer["name"].write(value.name)
-        try writer["roles"].writeList(value.roles, memberWritingClosure: AuditManagerClientTypes.Role.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.AssessmentMetadataItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AuditManagerClientTypes.AssessmentMetadataItem()
@@ -1007,19 +882,6 @@ extension AuditManagerClientTypes.AssessmentReport: Swift.CustomDebugStringConve
 }
 
 extension AuditManagerClientTypes.AssessmentReport {
-
-    static func write(value: AuditManagerClientTypes.AssessmentReport?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["assessmentId"].write(value.assessmentId)
-        try writer["assessmentName"].write(value.assessmentName)
-        try writer["author"].write(value.author)
-        try writer["awsAccountId"].write(value.awsAccountId)
-        try writer["creationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["description"].write(value.description)
-        try writer["id"].write(value.id)
-        try writer["name"].write(value.name)
-        try writer["status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.AssessmentReport {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1114,13 +976,6 @@ extension AuditManagerClientTypes {
 
 extension AuditManagerClientTypes.AssessmentReportEvidenceError {
 
-    static func write(value: AuditManagerClientTypes.AssessmentReportEvidenceError?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["errorCode"].write(value.errorCode)
-        try writer["errorMessage"].write(value.errorMessage)
-        try writer["evidenceId"].write(value.evidenceId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.AssessmentReportEvidenceError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AuditManagerClientTypes.AssessmentReportEvidenceError()
@@ -1161,18 +1016,6 @@ extension AuditManagerClientTypes.AssessmentReportMetadata: Swift.CustomDebugStr
 }
 
 extension AuditManagerClientTypes.AssessmentReportMetadata {
-
-    static func write(value: AuditManagerClientTypes.AssessmentReportMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["assessmentId"].write(value.assessmentId)
-        try writer["assessmentName"].write(value.assessmentName)
-        try writer["author"].write(value.author)
-        try writer["creationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["description"].write(value.description)
-        try writer["id"].write(value.id)
-        try writer["name"].write(value.name)
-        try writer["status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.AssessmentReportMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1496,13 +1339,6 @@ enum BatchAssociateAssessmentReportEvidenceOutputError {
 
 extension AuditManagerClientTypes.BatchCreateDelegationByAssessmentError {
 
-    static func write(value: AuditManagerClientTypes.BatchCreateDelegationByAssessmentError?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["createDelegationRequest"].write(value.createDelegationRequest, with: AuditManagerClientTypes.CreateDelegationRequest.write(value:to:))
-        try writer["errorCode"].write(value.errorCode)
-        try writer["errorMessage"].write(value.errorMessage)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.BatchCreateDelegationByAssessmentError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AuditManagerClientTypes.BatchCreateDelegationByAssessmentError()
@@ -1630,13 +1466,6 @@ enum BatchCreateDelegationByAssessmentOutputError {
 }
 
 extension AuditManagerClientTypes.BatchDeleteDelegationByAssessmentError {
-
-    static func write(value: AuditManagerClientTypes.BatchDeleteDelegationByAssessmentError?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["delegationId"].write(value.delegationId)
-        try writer["errorCode"].write(value.errorCode)
-        try writer["errorMessage"].write(value.errorMessage)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.BatchDeleteDelegationByAssessmentError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1844,13 +1673,6 @@ enum BatchDisassociateAssessmentReportEvidenceOutputError {
 
 extension AuditManagerClientTypes.BatchImportEvidenceToAssessmentControlError {
 
-    static func write(value: AuditManagerClientTypes.BatchImportEvidenceToAssessmentControlError?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["errorCode"].write(value.errorCode)
-        try writer["errorMessage"].write(value.errorMessage)
-        try writer["manualEvidence"].write(value.manualEvidence, with: AuditManagerClientTypes.ManualEvidence.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.BatchImportEvidenceToAssessmentControlError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AuditManagerClientTypes.BatchImportEvidenceToAssessmentControlError()
@@ -1981,15 +1803,6 @@ enum BatchImportEvidenceToAssessmentControlOutputError {
 
 extension AuditManagerClientTypes.ChangeLog {
 
-    static func write(value: AuditManagerClientTypes.ChangeLog?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["action"].write(value.action)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["createdBy"].write(value.createdBy)
-        try writer["objectName"].write(value.objectName)
-        try writer["objectType"].write(value.objectType)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.ChangeLog {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AuditManagerClientTypes.ChangeLog()
@@ -2040,25 +1853,6 @@ extension AuditManagerClientTypes.Control: Swift.CustomDebugStringConvertible {
 }
 
 extension AuditManagerClientTypes.Control {
-
-    static func write(value: AuditManagerClientTypes.Control?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["actionPlanInstructions"].write(value.actionPlanInstructions)
-        try writer["actionPlanTitle"].write(value.actionPlanTitle)
-        try writer["arn"].write(value.arn)
-        try writer["controlMappingSources"].writeList(value.controlMappingSources, memberWritingClosure: AuditManagerClientTypes.ControlMappingSource.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["controlSources"].write(value.controlSources)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["createdBy"].write(value.createdBy)
-        try writer["description"].write(value.description)
-        try writer["id"].write(value.id)
-        try writer["lastUpdatedAt"].writeTimestamp(value.lastUpdatedAt, format: .epochSeconds)
-        try writer["lastUpdatedBy"].write(value.lastUpdatedBy)
-        try writer["name"].write(value.name)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["testingInformation"].write(value.testingInformation)
-        try writer["type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.Control {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2161,13 +1955,6 @@ extension AuditManagerClientTypes.ControlComment: Swift.CustomDebugStringConvert
 
 extension AuditManagerClientTypes.ControlComment {
 
-    static func write(value: AuditManagerClientTypes.ControlComment?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["authorName"].write(value.authorName)
-        try writer["commentBody"].write(value.commentBody)
-        try writer["postedDate"].writeTimestamp(value.postedDate, format: .epochSeconds)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.ControlComment {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AuditManagerClientTypes.ControlComment()
@@ -2203,16 +1990,6 @@ extension AuditManagerClientTypes {
 }
 
 extension AuditManagerClientTypes.ControlDomainInsights {
-
-    static func write(value: AuditManagerClientTypes.ControlDomainInsights?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["controlsCountByNoncompliantEvidence"].write(value.controlsCountByNoncompliantEvidence)
-        try writer["evidenceInsights"].write(value.evidenceInsights, with: AuditManagerClientTypes.EvidenceInsights.write(value:to:))
-        try writer["id"].write(value.id)
-        try writer["lastUpdated"].writeTimestamp(value.lastUpdated, format: .epochSeconds)
-        try writer["name"].write(value.name)
-        try writer["totalControlsCount"].write(value.totalControlsCount)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.ControlDomainInsights {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2265,15 +2042,6 @@ extension AuditManagerClientTypes {
 
 extension AuditManagerClientTypes.ControlInsightsMetadataByAssessmentItem {
 
-    static func write(value: AuditManagerClientTypes.ControlInsightsMetadataByAssessmentItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["controlSetName"].write(value.controlSetName)
-        try writer["evidenceInsights"].write(value.evidenceInsights, with: AuditManagerClientTypes.EvidenceInsights.write(value:to:))
-        try writer["id"].write(value.id)
-        try writer["lastUpdated"].writeTimestamp(value.lastUpdated, format: .epochSeconds)
-        try writer["name"].write(value.name)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.ControlInsightsMetadataByAssessmentItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AuditManagerClientTypes.ControlInsightsMetadataByAssessmentItem()
@@ -2319,14 +2087,6 @@ extension AuditManagerClientTypes {
 }
 
 extension AuditManagerClientTypes.ControlInsightsMetadataItem {
-
-    static func write(value: AuditManagerClientTypes.ControlInsightsMetadataItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["evidenceInsights"].write(value.evidenceInsights, with: AuditManagerClientTypes.EvidenceInsights.write(value:to:))
-        try writer["id"].write(value.id)
-        try writer["lastUpdated"].writeTimestamp(value.lastUpdated, format: .epochSeconds)
-        try writer["name"].write(value.name)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.ControlInsightsMetadataItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2455,16 +2215,6 @@ extension AuditManagerClientTypes {
 
 extension AuditManagerClientTypes.ControlMetadata {
 
-    static func write(value: AuditManagerClientTypes.ControlMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["controlSources"].write(value.controlSources)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["id"].write(value.id)
-        try writer["lastUpdatedAt"].writeTimestamp(value.lastUpdatedAt, format: .epochSeconds)
-        try writer["name"].write(value.name)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.ControlMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AuditManagerClientTypes.ControlMetadata()
@@ -2551,13 +2301,6 @@ extension AuditManagerClientTypes {
 }
 
 extension AuditManagerClientTypes.ControlSet {
-
-    static func write(value: AuditManagerClientTypes.ControlSet?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["controls"].writeList(value.controls, memberWritingClosure: AuditManagerClientTypes.Control.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["id"].write(value.id)
-        try writer["name"].write(value.name)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.ControlSet {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2695,13 +2438,6 @@ extension AuditManagerClientTypes.CreateAssessmentFrameworkControl {
         guard let value else { return }
         try writer["id"].write(value.id)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.CreateAssessmentFrameworkControl {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AuditManagerClientTypes.CreateAssessmentFrameworkControl()
-        value.id = try reader["id"].readIfPresent()
-        return value
-    }
 }
 
 extension AuditManagerClientTypes {
@@ -2727,14 +2463,6 @@ extension AuditManagerClientTypes.CreateAssessmentFrameworkControlSet {
         guard let value else { return }
         try writer["controls"].writeList(value.controls, memberWritingClosure: AuditManagerClientTypes.CreateAssessmentFrameworkControl.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["name"].write(value.name)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.CreateAssessmentFrameworkControlSet {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AuditManagerClientTypes.CreateAssessmentFrameworkControlSet()
-        value.name = try reader["name"].readIfPresent()
-        value.controls = try reader["controls"].readListIfPresent(memberReadingClosure: AuditManagerClientTypes.CreateAssessmentFrameworkControl.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -3137,19 +2865,6 @@ extension AuditManagerClientTypes.CreateControlMappingSource {
         try writer["sourceType"].write(value.sourceType)
         try writer["troubleshootingText"].write(value.troubleshootingText)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.CreateControlMappingSource {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AuditManagerClientTypes.CreateControlMappingSource()
-        value.sourceName = try reader["sourceName"].readIfPresent()
-        value.sourceDescription = try reader["sourceDescription"].readIfPresent()
-        value.sourceSetUpOption = try reader["sourceSetUpOption"].readIfPresent()
-        value.sourceType = try reader["sourceType"].readIfPresent()
-        value.sourceKeyword = try reader["sourceKeyword"].readIfPresent(with: AuditManagerClientTypes.SourceKeyword.read(from:))
-        value.sourceFrequency = try reader["sourceFrequency"].readIfPresent()
-        value.troubleshootingText = try reader["troubleshootingText"].readIfPresent()
-        return value
-    }
 }
 
 extension AuditManagerClientTypes {
@@ -3341,21 +3056,6 @@ extension AuditManagerClientTypes.Delegation: Swift.CustomDebugStringConvertible
 
 extension AuditManagerClientTypes.Delegation {
 
-    static func write(value: AuditManagerClientTypes.Delegation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["assessmentId"].write(value.assessmentId)
-        try writer["assessmentName"].write(value.assessmentName)
-        try writer["comment"].write(value.comment)
-        try writer["controlSetId"].write(value.controlSetId)
-        try writer["createdBy"].write(value.createdBy)
-        try writer["creationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["id"].write(value.id)
-        try writer["lastUpdated"].writeTimestamp(value.lastUpdated, format: .epochSeconds)
-        try writer["roleArn"].write(value.roleArn)
-        try writer["roleType"].write(value.roleType)
-        try writer["status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.Delegation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AuditManagerClientTypes.Delegation()
@@ -3436,17 +3136,6 @@ extension AuditManagerClientTypes.DelegationMetadata: Swift.CustomDebugStringCon
 }
 
 extension AuditManagerClientTypes.DelegationMetadata {
-
-    static func write(value: AuditManagerClientTypes.DelegationMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["assessmentId"].write(value.assessmentId)
-        try writer["assessmentName"].write(value.assessmentName)
-        try writer["controlSetName"].write(value.controlSetName)
-        try writer["creationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["id"].write(value.id)
-        try writer["roleArn"].write(value.roleArn)
-        try writer["status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.DelegationMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4063,25 +3752,6 @@ enum DisassociateAssessmentReportEvidenceFolderOutputError {
 
 extension AuditManagerClientTypes.Evidence {
 
-    static func write(value: AuditManagerClientTypes.Evidence?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["assessmentReportSelection"].write(value.assessmentReportSelection)
-        try writer["attributes"].writeMap(value.attributes, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["awsAccountId"].write(value.awsAccountId)
-        try writer["awsOrganization"].write(value.awsOrganization)
-        try writer["complianceCheck"].write(value.complianceCheck)
-        try writer["dataSource"].write(value.dataSource)
-        try writer["eventName"].write(value.eventName)
-        try writer["eventSource"].write(value.eventSource)
-        try writer["evidenceAwsAccountId"].write(value.evidenceAwsAccountId)
-        try writer["evidenceByType"].write(value.evidenceByType)
-        try writer["evidenceFolderId"].write(value.evidenceFolderId)
-        try writer["iamId"].write(value.iamId)
-        try writer["id"].write(value.id)
-        try writer["resourcesIncluded"].writeList(value.resourcesIncluded, memberWritingClosure: AuditManagerClientTypes.Resource.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["time"].writeTimestamp(value.time, format: .epochSeconds)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.Evidence {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AuditManagerClientTypes.Evidence()
@@ -4217,14 +3887,6 @@ extension AuditManagerClientTypes {
 
 extension AuditManagerClientTypes.EvidenceFinderEnablement {
 
-    static func write(value: AuditManagerClientTypes.EvidenceFinderEnablement?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["backfillStatus"].write(value.backfillStatus)
-        try writer["enablementStatus"].write(value.enablementStatus)
-        try writer["error"].write(value.error)
-        try writer["eventDataStoreArn"].write(value.eventDataStoreArn)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.EvidenceFinderEnablement {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AuditManagerClientTypes.EvidenceFinderEnablement()
@@ -4316,13 +3978,6 @@ extension AuditManagerClientTypes {
 
 extension AuditManagerClientTypes.EvidenceInsights {
 
-    static func write(value: AuditManagerClientTypes.EvidenceInsights?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["compliantEvidenceCount"].write(value.compliantEvidenceCount)
-        try writer["inconclusiveEvidenceCount"].write(value.inconclusiveEvidenceCount)
-        try writer["noncompliantEvidenceCount"].write(value.noncompliantEvidenceCount)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.EvidenceInsights {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AuditManagerClientTypes.EvidenceInsights()
@@ -4390,24 +4045,6 @@ extension AuditManagerClientTypes.Framework: Swift.CustomDebugStringConvertible 
 }
 
 extension AuditManagerClientTypes.Framework {
-
-    static func write(value: AuditManagerClientTypes.Framework?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["complianceType"].write(value.complianceType)
-        try writer["controlSets"].writeList(value.controlSets, memberWritingClosure: AuditManagerClientTypes.ControlSet.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["controlSources"].write(value.controlSources)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["createdBy"].write(value.createdBy)
-        try writer["description"].write(value.description)
-        try writer["id"].write(value.id)
-        try writer["lastUpdatedAt"].writeTimestamp(value.lastUpdatedAt, format: .epochSeconds)
-        try writer["lastUpdatedBy"].write(value.lastUpdatedBy)
-        try writer["logo"].write(value.logo)
-        try writer["name"].write(value.name)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.Framework {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4504,14 +4141,6 @@ extension AuditManagerClientTypes.FrameworkMetadata: Swift.CustomDebugStringConv
 }
 
 extension AuditManagerClientTypes.FrameworkMetadata {
-
-    static func write(value: AuditManagerClientTypes.FrameworkMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["complianceType"].write(value.complianceType)
-        try writer["description"].write(value.description)
-        try writer["logo"].write(value.logo)
-        try writer["name"].write(value.name)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.FrameworkMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5953,17 +5582,6 @@ enum GetSettingsOutputError {
 
 extension AuditManagerClientTypes.Insights {
 
-    static func write(value: AuditManagerClientTypes.Insights?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["activeAssessmentsCount"].write(value.activeAssessmentsCount)
-        try writer["assessmentControlsCountByNoncompliantEvidence"].write(value.assessmentControlsCountByNoncompliantEvidence)
-        try writer["compliantEvidenceCount"].write(value.compliantEvidenceCount)
-        try writer["inconclusiveEvidenceCount"].write(value.inconclusiveEvidenceCount)
-        try writer["lastUpdated"].writeTimestamp(value.lastUpdated, format: .epochSeconds)
-        try writer["noncompliantEvidenceCount"].write(value.noncompliantEvidenceCount)
-        try writer["totalAssessmentControlsCount"].write(value.totalAssessmentControlsCount)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.Insights {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AuditManagerClientTypes.Insights()
@@ -6023,16 +5641,6 @@ extension AuditManagerClientTypes {
 }
 
 extension AuditManagerClientTypes.InsightsByAssessment {
-
-    static func write(value: AuditManagerClientTypes.InsightsByAssessment?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["assessmentControlsCountByNoncompliantEvidence"].write(value.assessmentControlsCountByNoncompliantEvidence)
-        try writer["compliantEvidenceCount"].write(value.compliantEvidenceCount)
-        try writer["inconclusiveEvidenceCount"].write(value.inconclusiveEvidenceCount)
-        try writer["lastUpdated"].writeTimestamp(value.lastUpdated, format: .epochSeconds)
-        try writer["noncompliantEvidenceCount"].write(value.noncompliantEvidenceCount)
-        try writer["totalAssessmentControlsCount"].write(value.totalAssessmentControlsCount)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.InsightsByAssessment {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7300,18 +6908,6 @@ extension AuditManagerClientTypes.Notification: Swift.CustomDebugStringConvertib
 
 extension AuditManagerClientTypes.Notification {
 
-    static func write(value: AuditManagerClientTypes.Notification?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["assessmentId"].write(value.assessmentId)
-        try writer["assessmentName"].write(value.assessmentName)
-        try writer["controlSetId"].write(value.controlSetId)
-        try writer["controlSetName"].write(value.controlSetName)
-        try writer["description"].write(value.description)
-        try writer["eventTime"].writeTimestamp(value.eventTime, format: .epochSeconds)
-        try writer["id"].write(value.id)
-        try writer["source"].write(value.source)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.Notification {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AuditManagerClientTypes.Notification()
@@ -7560,13 +7156,6 @@ enum RegisterOrganizationAdminAccountOutputError {
 
 extension AuditManagerClientTypes.Resource {
 
-    static func write(value: AuditManagerClientTypes.Resource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["complianceCheck"].write(value.complianceCheck)
-        try writer["value"].write(value.value)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.Resource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AuditManagerClientTypes.Resource()
@@ -7771,14 +7360,6 @@ extension AuditManagerClientTypes {
 
 extension AuditManagerClientTypes.ServiceMetadata {
 
-    static func write(value: AuditManagerClientTypes.ServiceMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["category"].write(value.category)
-        try writer["description"].write(value.description)
-        try writer["displayName"].write(value.displayName)
-        try writer["name"].write(value.name)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.ServiceMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AuditManagerClientTypes.ServiceMetadata()
@@ -7910,18 +7491,6 @@ extension AuditManagerClientTypes.Settings: Swift.CustomDebugStringConvertible {
 }
 
 extension AuditManagerClientTypes.Settings {
-
-    static func write(value: AuditManagerClientTypes.Settings?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["defaultAssessmentReportsDestination"].write(value.defaultAssessmentReportsDestination, with: AuditManagerClientTypes.AssessmentReportsDestination.write(value:to:))
-        try writer["defaultExportDestination"].write(value.defaultExportDestination, with: AuditManagerClientTypes.DefaultExportDestination.write(value:to:))
-        try writer["defaultProcessOwners"].writeList(value.defaultProcessOwners, memberWritingClosure: AuditManagerClientTypes.Role.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["deregistrationPolicy"].write(value.deregistrationPolicy, with: AuditManagerClientTypes.DeregistrationPolicy.write(value:to:))
-        try writer["evidenceFinderEnablement"].write(value.evidenceFinderEnablement, with: AuditManagerClientTypes.EvidenceFinderEnablement.write(value:to:))
-        try writer["isAwsOrgEnabled"].write(value.isAwsOrgEnabled)
-        try writer["kmsKey"].write(value.kmsKey)
-        try writer["snsTopic"].write(value.snsTopic)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.Settings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8486,12 +8055,6 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
 extension AuditManagerClientTypes.URL {
 
-    static func write(value: AuditManagerClientTypes.URL?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["hyperlinkName"].write(value.hyperlinkName)
-        try writer["link"].write(value.link)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.URL {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AuditManagerClientTypes.URL()
@@ -8798,15 +8361,6 @@ extension AuditManagerClientTypes.UpdateAssessmentFrameworkControlSet {
         try writer["controls"].writeList(value.controls, memberWritingClosure: AuditManagerClientTypes.CreateAssessmentFrameworkControl.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["id"].write(value.id)
         try writer["name"].write(value.name)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.UpdateAssessmentFrameworkControlSet {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AuditManagerClientTypes.UpdateAssessmentFrameworkControlSet()
-        value.id = try reader["id"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.controls = try reader["controls"].readListIfPresent(memberReadingClosure: AuditManagerClientTypes.CreateAssessmentFrameworkControl.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -9546,12 +9100,6 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 extension AuditManagerClientTypes.ValidationExceptionField {
-
-    static func write(value: AuditManagerClientTypes.ValidationExceptionField?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.message)
-        try writer["name"].write(value.name)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.ValidationExceptionField {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

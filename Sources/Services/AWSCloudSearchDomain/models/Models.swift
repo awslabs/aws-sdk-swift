@@ -6,12 +6,6 @@ import SmithyReadWrite
 
 extension CloudSearchDomainClientTypes.Bucket {
 
-    static func write(value: CloudSearchDomainClientTypes.Bucket?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["count"].write(value.count)
-        try writer["value"].write(value.value)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CloudSearchDomainClientTypes.Bucket {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudSearchDomainClientTypes.Bucket()
@@ -42,11 +36,6 @@ extension CloudSearchDomainClientTypes {
 }
 
 extension CloudSearchDomainClientTypes.BucketInfo {
-
-    static func write(value: CloudSearchDomainClientTypes.BucketInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["buckets"].writeList(value.buckets, memberWritingClosure: CloudSearchDomainClientTypes.Bucket.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CloudSearchDomainClientTypes.BucketInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -149,11 +138,6 @@ public struct DocumentServiceException: ClientRuntime.ModeledError, AWSClientRun
 
 extension CloudSearchDomainClientTypes.DocumentServiceWarning {
 
-    static func write(value: CloudSearchDomainClientTypes.DocumentServiceWarning?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.message)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CloudSearchDomainClientTypes.DocumentServiceWarning {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudSearchDomainClientTypes.DocumentServiceWarning()
@@ -179,18 +163,6 @@ extension CloudSearchDomainClientTypes {
 }
 
 extension CloudSearchDomainClientTypes.FieldStats {
-
-    static func write(value: CloudSearchDomainClientTypes.FieldStats?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["count"].write(value.count)
-        try writer["max"].write(value.max)
-        try writer["mean"].write(value.mean)
-        try writer["min"].write(value.min)
-        try writer["missing"].write(value.missing)
-        try writer["stddev"].write(value.stddev)
-        try writer["sum"].write(value.sum)
-        try writer["sumOfSquares"].write(value.sumOfSquares)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CloudSearchDomainClientTypes.FieldStats {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -253,14 +225,6 @@ extension CloudSearchDomainClientTypes {
 
 extension CloudSearchDomainClientTypes.Hit {
 
-    static func write(value: CloudSearchDomainClientTypes.Hit?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["exprs"].writeMap(value.exprs, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["fields"].writeMap(value.fields, valueWritingClosure: listWritingClosure(memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["highlights"].writeMap(value.highlights, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["id"].write(value.id)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CloudSearchDomainClientTypes.Hit {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudSearchDomainClientTypes.Hit()
@@ -301,14 +265,6 @@ extension CloudSearchDomainClientTypes {
 }
 
 extension CloudSearchDomainClientTypes.Hits {
-
-    static func write(value: CloudSearchDomainClientTypes.Hits?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["cursor"].write(value.cursor)
-        try writer["found"].write(value.found)
-        try writer["hit"].writeList(value.hit, memberWritingClosure: CloudSearchDomainClientTypes.Hit.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["start"].write(value.start)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CloudSearchDomainClientTypes.Hits {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -662,12 +618,6 @@ enum SearchOutputError {
 
 extension CloudSearchDomainClientTypes.SearchStatus {
 
-    static func write(value: CloudSearchDomainClientTypes.SearchStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["rid"].write(value.rid)
-        try writer["timems"].write(value.timems)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CloudSearchDomainClientTypes.SearchStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudSearchDomainClientTypes.SearchStatus()
@@ -755,13 +705,6 @@ public struct SuggestInput {
 
 extension CloudSearchDomainClientTypes.SuggestModel {
 
-    static func write(value: CloudSearchDomainClientTypes.SuggestModel?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["found"].write(value.found)
-        try writer["query"].write(value.query)
-        try writer["suggestions"].writeList(value.suggestions, memberWritingClosure: CloudSearchDomainClientTypes.SuggestionMatch.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CloudSearchDomainClientTypes.SuggestModel {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudSearchDomainClientTypes.SuggestModel()
@@ -842,12 +785,6 @@ enum SuggestOutputError {
 
 extension CloudSearchDomainClientTypes.SuggestStatus {
 
-    static func write(value: CloudSearchDomainClientTypes.SuggestStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["rid"].write(value.rid)
-        try writer["timems"].write(value.timems)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CloudSearchDomainClientTypes.SuggestStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudSearchDomainClientTypes.SuggestStatus()
@@ -878,13 +815,6 @@ extension CloudSearchDomainClientTypes {
 }
 
 extension CloudSearchDomainClientTypes.SuggestionMatch {
-
-    static func write(value: CloudSearchDomainClientTypes.SuggestionMatch?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["id"].write(value.id)
-        try writer["score"].write(value.score)
-        try writer["suggestion"].write(value.suggestion)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CloudSearchDomainClientTypes.SuggestionMatch {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

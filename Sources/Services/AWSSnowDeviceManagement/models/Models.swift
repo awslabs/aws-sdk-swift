@@ -145,15 +145,6 @@ enum CancelTaskOutputError {
 
 extension SnowDeviceManagementClientTypes.Capacity {
 
-    static func write(value: SnowDeviceManagementClientTypes.Capacity?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["available"].write(value.available)
-        try writer["name"].write(value.name)
-        try writer["total"].write(value.total)
-        try writer["unit"].write(value.unit)
-        try writer["used"].write(value.used)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SnowDeviceManagementClientTypes.Capacity {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SnowDeviceManagementClientTypes.Capacity()
@@ -211,19 +202,6 @@ extension SnowDeviceManagementClientTypes.Command {
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SnowDeviceManagementClientTypes.Command {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "unlock":
-                return .unlock(try reader["unlock"].read(with: SnowDeviceManagementClientTypes.Unlock.read(from:)))
-            case "reboot":
-                return .reboot(try reader["reboot"].read(with: SnowDeviceManagementClientTypes.Reboot.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
 }
 
 extension SnowDeviceManagementClientTypes {
@@ -239,12 +217,6 @@ extension SnowDeviceManagementClientTypes {
 }
 
 extension SnowDeviceManagementClientTypes.CpuOptions {
-
-    static func write(value: SnowDeviceManagementClientTypes.CpuOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["coreCount"].write(value.coreCount)
-        try writer["threadsPerCore"].write(value.threadsPerCore)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SnowDeviceManagementClientTypes.CpuOptions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -770,14 +742,6 @@ enum DescribeTaskOutputError {
 
 extension SnowDeviceManagementClientTypes.DeviceSummary {
 
-    static func write(value: SnowDeviceManagementClientTypes.DeviceSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["associatedWithJob"].write(value.associatedWithJob)
-        try writer["managedDeviceArn"].write(value.managedDeviceArn)
-        try writer["managedDeviceId"].write(value.managedDeviceId)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SnowDeviceManagementClientTypes.DeviceSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SnowDeviceManagementClientTypes.DeviceSummary()
@@ -818,14 +782,6 @@ extension SnowDeviceManagementClientTypes {
 }
 
 extension SnowDeviceManagementClientTypes.EbsInstanceBlockDevice {
-
-    static func write(value: SnowDeviceManagementClientTypes.EbsInstanceBlockDevice?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["attachTime"].writeTimestamp(value.attachTime, format: .epochSeconds)
-        try writer["deleteOnTermination"].write(value.deleteOnTermination)
-        try writer["status"].write(value.status)
-        try writer["volumeId"].write(value.volumeId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SnowDeviceManagementClientTypes.EbsInstanceBlockDevice {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -913,14 +869,6 @@ extension SnowDeviceManagementClientTypes {
 
 extension SnowDeviceManagementClientTypes.ExecutionSummary {
 
-    static func write(value: SnowDeviceManagementClientTypes.ExecutionSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["executionId"].write(value.executionId)
-        try writer["managedDeviceId"].write(value.managedDeviceId)
-        try writer["state"].write(value.state)
-        try writer["taskId"].write(value.taskId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SnowDeviceManagementClientTypes.ExecutionSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SnowDeviceManagementClientTypes.ExecutionSummary()
@@ -961,23 +909,6 @@ extension SnowDeviceManagementClientTypes {
 }
 
 extension SnowDeviceManagementClientTypes.Instance {
-
-    static func write(value: SnowDeviceManagementClientTypes.Instance?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["amiLaunchIndex"].write(value.amiLaunchIndex)
-        try writer["blockDeviceMappings"].writeList(value.blockDeviceMappings, memberWritingClosure: SnowDeviceManagementClientTypes.InstanceBlockDeviceMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["cpuOptions"].write(value.cpuOptions, with: SnowDeviceManagementClientTypes.CpuOptions.write(value:to:))
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["imageId"].write(value.imageId)
-        try writer["instanceId"].write(value.instanceId)
-        try writer["instanceType"].write(value.instanceType)
-        try writer["privateIpAddress"].write(value.privateIpAddress)
-        try writer["publicIpAddress"].write(value.publicIpAddress)
-        try writer["rootDeviceName"].write(value.rootDeviceName)
-        try writer["securityGroups"].writeList(value.securityGroups, memberWritingClosure: SnowDeviceManagementClientTypes.SecurityGroupIdentifier.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["state"].write(value.state, with: SnowDeviceManagementClientTypes.InstanceState.write(value:to:))
-        try writer["updatedAt"].writeTimestamp(value.updatedAt, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SnowDeviceManagementClientTypes.Instance {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1065,12 +996,6 @@ extension SnowDeviceManagementClientTypes {
 
 extension SnowDeviceManagementClientTypes.InstanceBlockDeviceMapping {
 
-    static func write(value: SnowDeviceManagementClientTypes.InstanceBlockDeviceMapping?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["deviceName"].write(value.deviceName)
-        try writer["ebs"].write(value.ebs, with: SnowDeviceManagementClientTypes.EbsInstanceBlockDevice.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SnowDeviceManagementClientTypes.InstanceBlockDeviceMapping {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SnowDeviceManagementClientTypes.InstanceBlockDeviceMapping()
@@ -1101,12 +1026,6 @@ extension SnowDeviceManagementClientTypes {
 }
 
 extension SnowDeviceManagementClientTypes.InstanceState {
-
-    static func write(value: SnowDeviceManagementClientTypes.InstanceState?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["code"].write(value.code)
-        try writer["name"].write(value.name)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SnowDeviceManagementClientTypes.InstanceState {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1195,12 +1114,6 @@ extension SnowDeviceManagementClientTypes {
 }
 
 extension SnowDeviceManagementClientTypes.InstanceSummary {
-
-    static func write(value: SnowDeviceManagementClientTypes.InstanceSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["instance"].write(value.instance, with: SnowDeviceManagementClientTypes.Instance.write(value:to:))
-        try writer["lastUpdatedAt"].writeTimestamp(value.lastUpdatedAt, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SnowDeviceManagementClientTypes.InstanceSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1796,17 +1709,6 @@ extension SnowDeviceManagementClientTypes {
 
 extension SnowDeviceManagementClientTypes.PhysicalNetworkInterface {
 
-    static func write(value: SnowDeviceManagementClientTypes.PhysicalNetworkInterface?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["defaultGateway"].write(value.defaultGateway)
-        try writer["ipAddress"].write(value.ipAddress)
-        try writer["ipAddressAssignment"].write(value.ipAddressAssignment)
-        try writer["macAddress"].write(value.macAddress)
-        try writer["netmask"].write(value.netmask)
-        try writer["physicalConnectorType"].write(value.physicalConnectorType)
-        try writer["physicalNetworkInterfaceId"].write(value.physicalNetworkInterfaceId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SnowDeviceManagementClientTypes.PhysicalNetworkInterface {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SnowDeviceManagementClientTypes.PhysicalNetworkInterface()
@@ -1867,11 +1769,6 @@ extension SnowDeviceManagementClientTypes.Reboot {
         guard value != nil else { return }
         _ = writer[""]  // create an empty structure
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SnowDeviceManagementClientTypes.Reboot {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        return SnowDeviceManagementClientTypes.Reboot()
-    }
 }
 
 extension SnowDeviceManagementClientTypes {
@@ -1923,13 +1820,6 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
 extension SnowDeviceManagementClientTypes.ResourceSummary {
 
-    static func write(value: SnowDeviceManagementClientTypes.ResourceSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["id"].write(value.id)
-        try writer["resourceType"].write(value.resourceType)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SnowDeviceManagementClientTypes.ResourceSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SnowDeviceManagementClientTypes.ResourceSummary()
@@ -1966,12 +1856,6 @@ extension SnowDeviceManagementClientTypes {
 }
 
 extension SnowDeviceManagementClientTypes.SecurityGroupIdentifier {
-
-    static func write(value: SnowDeviceManagementClientTypes.SecurityGroupIdentifier?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["groupId"].write(value.groupId)
-        try writer["groupName"].write(value.groupName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SnowDeviceManagementClientTypes.SecurityGroupIdentifier {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2043,13 +1927,6 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 public enum SnowDeviceManagementClientTypes {}
 
 extension SnowDeviceManagementClientTypes.SoftwareInformation {
-
-    static func write(value: SnowDeviceManagementClientTypes.SoftwareInformation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["installState"].write(value.installState)
-        try writer["installedVersion"].write(value.installedVersion)
-        try writer["installingVersion"].write(value.installingVersion)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SnowDeviceManagementClientTypes.SoftwareInformation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2184,14 +2061,6 @@ extension SnowDeviceManagementClientTypes {
 
 extension SnowDeviceManagementClientTypes.TaskSummary {
 
-    static func write(value: SnowDeviceManagementClientTypes.TaskSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["state"].write(value.state)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["taskArn"].write(value.taskArn)
-        try writer["taskId"].write(value.taskId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SnowDeviceManagementClientTypes.TaskSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SnowDeviceManagementClientTypes.TaskSummary()
@@ -2275,11 +2144,6 @@ extension SnowDeviceManagementClientTypes.Unlock {
     static func write(value: SnowDeviceManagementClientTypes.Unlock?, to writer: SmithyJSON.Writer) throws {
         guard value != nil else { return }
         _ = writer[""]  // create an empty structure
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SnowDeviceManagementClientTypes.Unlock {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        return SnowDeviceManagementClientTypes.Unlock()
     }
 }
 

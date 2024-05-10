@@ -365,11 +365,6 @@ extension ForecastClientTypes {
 
 extension ForecastClientTypes.Baseline {
 
-    static func write(value: ForecastClientTypes.Baseline?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["PredictorBaseline"].write(value.predictorBaseline, with: ForecastClientTypes.PredictorBaseline.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.Baseline {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ForecastClientTypes.Baseline()
@@ -395,12 +390,6 @@ extension ForecastClientTypes {
 }
 
 extension ForecastClientTypes.BaselineMetric {
-
-    static func write(value: ForecastClientTypes.BaselineMetric?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["Value"].write(value.value)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.BaselineMetric {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2275,14 +2264,6 @@ extension ForecastClientTypes {
 
 extension ForecastClientTypes.DatasetGroupSummary {
 
-    static func write(value: ForecastClientTypes.DatasetGroupSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["DatasetGroupArn"].write(value.datasetGroupArn)
-        try writer["DatasetGroupName"].write(value.datasetGroupName)
-        try writer["LastModificationTime"].writeTimestamp(value.lastModificationTime, format: .epochSeconds)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.DatasetGroupSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ForecastClientTypes.DatasetGroupSummary()
@@ -2323,18 +2304,6 @@ extension ForecastClientTypes {
 }
 
 extension ForecastClientTypes.DatasetImportJobSummary {
-
-    static func write(value: ForecastClientTypes.DatasetImportJobSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["DataSource"].write(value.dataSource, with: ForecastClientTypes.DataSource.write(value:to:))
-        try writer["DatasetImportJobArn"].write(value.datasetImportJobArn)
-        try writer["DatasetImportJobName"].write(value.datasetImportJobName)
-        try writer["ImportMode"].write(value.importMode)
-        try writer["LastModificationTime"].writeTimestamp(value.lastModificationTime, format: .epochSeconds)
-        try writer["Message"].write(value.message)
-        try writer["Status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.DatasetImportJobSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2414,16 +2383,6 @@ extension ForecastClientTypes {
 }
 
 extension ForecastClientTypes.DatasetSummary {
-
-    static func write(value: ForecastClientTypes.DatasetSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["DatasetArn"].write(value.datasetArn)
-        try writer["DatasetName"].write(value.datasetName)
-        try writer["DatasetType"].write(value.datasetType)
-        try writer["Domain"].write(value.domain)
-        try writer["LastModificationTime"].writeTimestamp(value.lastModificationTime, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.DatasetSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5388,15 +5347,6 @@ extension ForecastClientTypes {
 
 extension ForecastClientTypes.ErrorMetric {
 
-    static func write(value: ForecastClientTypes.ErrorMetric?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ForecastType"].write(value.forecastType)
-        try writer["MAPE"].write(value.mape)
-        try writer["MASE"].write(value.mase)
-        try writer["RMSE"].write(value.rmse)
-        try writer["WAPE"].write(value.wape)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.ErrorMetric {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ForecastClientTypes.ErrorMetric()
@@ -5479,12 +5429,6 @@ extension ForecastClientTypes {
 }
 
 extension ForecastClientTypes.EvaluationResult {
-
-    static func write(value: ForecastClientTypes.EvaluationResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AlgorithmArn"].write(value.algorithmArn)
-        try writer["TestWindows"].writeList(value.testWindows, memberWritingClosure: ForecastClientTypes.WindowSummary.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.EvaluationResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5586,17 +5530,6 @@ extension ForecastClientTypes {
 
 extension ForecastClientTypes.ExplainabilityExportSummary {
 
-    static func write(value: ForecastClientTypes.ExplainabilityExportSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["Destination"].write(value.destination, with: ForecastClientTypes.DataDestination.write(value:to:))
-        try writer["ExplainabilityExportArn"].write(value.explainabilityExportArn)
-        try writer["ExplainabilityExportName"].write(value.explainabilityExportName)
-        try writer["LastModificationTime"].writeTimestamp(value.lastModificationTime, format: .epochSeconds)
-        try writer["Message"].write(value.message)
-        try writer["Status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.ExplainabilityExportSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ForecastClientTypes.ExplainabilityExportSummary()
@@ -5671,12 +5604,6 @@ extension ForecastClientTypes {
 
 extension ForecastClientTypes.ExplainabilityInfo {
 
-    static func write(value: ForecastClientTypes.ExplainabilityInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ExplainabilityArn"].write(value.explainabilityArn)
-        try writer["Status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.ExplainabilityInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ForecastClientTypes.ExplainabilityInfo()
@@ -5715,18 +5642,6 @@ extension ForecastClientTypes {
 }
 
 extension ForecastClientTypes.ExplainabilitySummary {
-
-    static func write(value: ForecastClientTypes.ExplainabilitySummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["ExplainabilityArn"].write(value.explainabilityArn)
-        try writer["ExplainabilityConfig"].write(value.explainabilityConfig, with: ForecastClientTypes.ExplainabilityConfig.write(value:to:))
-        try writer["ExplainabilityName"].write(value.explainabilityName)
-        try writer["LastModificationTime"].writeTimestamp(value.lastModificationTime, format: .epochSeconds)
-        try writer["Message"].write(value.message)
-        try writer["ResourceArn"].write(value.resourceArn)
-        try writer["Status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.ExplainabilitySummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6018,15 +5933,6 @@ extension ForecastClientTypes.Filter {
         try writer["Key"].write(value.key)
         try writer["Value"].write(value.value)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.Filter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ForecastClientTypes.Filter()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
-        value.condition = try reader["Condition"].readIfPresent()
-        return value
-    }
 }
 
 extension ForecastClientTypes {
@@ -6089,17 +5995,6 @@ extension ForecastClientTypes {
 public enum ForecastClientTypes {}
 
 extension ForecastClientTypes.ForecastExportJobSummary {
-
-    static func write(value: ForecastClientTypes.ForecastExportJobSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["Destination"].write(value.destination, with: ForecastClientTypes.DataDestination.write(value:to:))
-        try writer["ForecastExportJobArn"].write(value.forecastExportJobArn)
-        try writer["ForecastExportJobName"].write(value.forecastExportJobName)
-        try writer["LastModificationTime"].writeTimestamp(value.lastModificationTime, format: .epochSeconds)
-        try writer["Message"].write(value.message)
-        try writer["Status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.ForecastExportJobSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6177,19 +6072,6 @@ extension ForecastClientTypes {
 }
 
 extension ForecastClientTypes.ForecastSummary {
-
-    static func write(value: ForecastClientTypes.ForecastSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedUsingAutoPredictor"].write(value.createdUsingAutoPredictor)
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["DatasetGroupArn"].write(value.datasetGroupArn)
-        try writer["ForecastArn"].write(value.forecastArn)
-        try writer["ForecastName"].write(value.forecastName)
-        try writer["LastModificationTime"].writeTimestamp(value.lastModificationTime, format: .epochSeconds)
-        try writer["Message"].write(value.message)
-        try writer["PredictorArn"].write(value.predictorArn)
-        try writer["Status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.ForecastSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7918,12 +7800,6 @@ enum ListWhatIfForecastsOutputError {
 
 extension ForecastClientTypes.MetricResult {
 
-    static func write(value: ForecastClientTypes.MetricResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MetricName"].write(value.metricName)
-        try writer["MetricValue"].write(value.metricValue)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.MetricResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ForecastClientTypes.MetricResult()
@@ -7954,14 +7830,6 @@ extension ForecastClientTypes {
 }
 
 extension ForecastClientTypes.Metrics {
-
-    static func write(value: ForecastClientTypes.Metrics?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AverageWeightedQuantileLoss"].write(value.averageWeightedQuantileLoss)
-        try writer["ErrorMetrics"].writeList(value.errorMetrics, memberWritingClosure: ForecastClientTypes.ErrorMetric.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["RMSE"].write(value.rmse)
-        try writer["WeightedQuantileLosses"].writeList(value.weightedQuantileLosses, memberWritingClosure: ForecastClientTypes.WeightedQuantileLoss.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.Metrics {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8009,13 +7877,6 @@ extension ForecastClientTypes.MonitorConfig {
         guard let value else { return }
         try writer["MonitorName"].write(value.monitorName)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.MonitorConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ForecastClientTypes.MonitorConfig()
-        value.monitorName = try reader["MonitorName"].readIfPresent()
-        return value
-    }
 }
 
 extension ForecastClientTypes {
@@ -8036,13 +7897,6 @@ extension ForecastClientTypes {
 }
 
 extension ForecastClientTypes.MonitorDataSource {
-
-    static func write(value: ForecastClientTypes.MonitorDataSource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DatasetImportJobArn"].write(value.datasetImportJobArn)
-        try writer["ForecastArn"].write(value.forecastArn)
-        try writer["PredictorArn"].write(value.predictorArn)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.MonitorDataSource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8079,12 +7933,6 @@ extension ForecastClientTypes {
 }
 
 extension ForecastClientTypes.MonitorInfo {
-
-    static func write(value: ForecastClientTypes.MonitorInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MonitorArn"].write(value.monitorArn)
-        try writer["Status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.MonitorInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8126,16 +7974,6 @@ extension ForecastClientTypes {
 }
 
 extension ForecastClientTypes.MonitorSummary {
-
-    static func write(value: ForecastClientTypes.MonitorSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["LastModificationTime"].writeTimestamp(value.lastModificationTime, format: .epochSeconds)
-        try writer["MonitorArn"].write(value.monitorArn)
-        try writer["MonitorName"].write(value.monitorName)
-        try writer["ResourceArn"].write(value.resourceArn)
-        try writer["Status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.MonitorSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8384,17 +8222,6 @@ extension ForecastClientTypes {
 
 extension ForecastClientTypes.PredictorBacktestExportJobSummary {
 
-    static func write(value: ForecastClientTypes.PredictorBacktestExportJobSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["Destination"].write(value.destination, with: ForecastClientTypes.DataDestination.write(value:to:))
-        try writer["LastModificationTime"].writeTimestamp(value.lastModificationTime, format: .epochSeconds)
-        try writer["Message"].write(value.message)
-        try writer["PredictorBacktestExportJobArn"].write(value.predictorBacktestExportJobArn)
-        try writer["PredictorBacktestExportJobName"].write(value.predictorBacktestExportJobName)
-        try writer["Status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.PredictorBacktestExportJobSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ForecastClientTypes.PredictorBacktestExportJobSummary()
@@ -8469,11 +8296,6 @@ extension ForecastClientTypes {
 
 extension ForecastClientTypes.PredictorBaseline {
 
-    static func write(value: ForecastClientTypes.PredictorBaseline?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BaselineMetrics"].writeList(value.baselineMetrics, memberWritingClosure: ForecastClientTypes.BaselineMetric.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.PredictorBaseline {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ForecastClientTypes.PredictorBaseline()
@@ -8499,12 +8321,6 @@ extension ForecastClientTypes {
 }
 
 extension ForecastClientTypes.PredictorEvent {
-
-    static func write(value: ForecastClientTypes.PredictorEvent?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Datetime"].writeTimestamp(value.datetime, format: .epochSeconds)
-        try writer["Detail"].write(value.detail)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.PredictorEvent {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8537,12 +8353,6 @@ extension ForecastClientTypes {
 
 extension ForecastClientTypes.PredictorExecution {
 
-    static func write(value: ForecastClientTypes.PredictorExecution?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AlgorithmArn"].write(value.algorithmArn)
-        try writer["TestWindows"].writeList(value.testWindows, memberWritingClosure: ForecastClientTypes.TestWindowSummary.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.PredictorExecution {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ForecastClientTypes.PredictorExecution()
@@ -8574,11 +8384,6 @@ extension ForecastClientTypes {
 
 extension ForecastClientTypes.PredictorExecutionDetails {
 
-    static func write(value: ForecastClientTypes.PredictorExecutionDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["PredictorExecutions"].writeList(value.predictorExecutions, memberWritingClosure: ForecastClientTypes.PredictorExecution.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.PredictorExecutionDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ForecastClientTypes.PredictorExecutionDetails()
@@ -8604,21 +8409,6 @@ extension ForecastClientTypes {
 }
 
 extension ForecastClientTypes.PredictorMonitorEvaluation {
-
-    static func write(value: ForecastClientTypes.PredictorMonitorEvaluation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EvaluationState"].write(value.evaluationState)
-        try writer["EvaluationTime"].writeTimestamp(value.evaluationTime, format: .epochSeconds)
-        try writer["Message"].write(value.message)
-        try writer["MetricResults"].writeList(value.metricResults, memberWritingClosure: ForecastClientTypes.MetricResult.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["MonitorArn"].write(value.monitorArn)
-        try writer["MonitorDataSource"].write(value.monitorDataSource, with: ForecastClientTypes.MonitorDataSource.write(value:to:))
-        try writer["NumItemsEvaluated"].write(value.numItemsEvaluated)
-        try writer["PredictorEvent"].write(value.predictorEvent, with: ForecastClientTypes.PredictorEvent.write(value:to:))
-        try writer["ResourceArn"].write(value.resourceArn)
-        try writer["WindowEndDatetime"].writeTimestamp(value.windowEndDatetime, format: .epochSeconds)
-        try writer["WindowStartDatetime"].writeTimestamp(value.windowStartDatetime, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.PredictorMonitorEvaluation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8695,19 +8485,6 @@ extension ForecastClientTypes {
 }
 
 extension ForecastClientTypes.PredictorSummary {
-
-    static func write(value: ForecastClientTypes.PredictorSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["DatasetGroupArn"].write(value.datasetGroupArn)
-        try writer["IsAutoPredictor"].write(value.isAutoPredictor)
-        try writer["LastModificationTime"].writeTimestamp(value.lastModificationTime, format: .epochSeconds)
-        try writer["Message"].write(value.message)
-        try writer["PredictorArn"].write(value.predictorArn)
-        try writer["PredictorName"].write(value.predictorName)
-        try writer["ReferencePredictorSummary"].write(value.referencePredictorSummary, with: ForecastClientTypes.ReferencePredictorSummary.write(value:to:))
-        try writer["Status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.PredictorSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8795,12 +8572,6 @@ extension ForecastClientTypes {
 }
 
 extension ForecastClientTypes.ReferencePredictorSummary {
-
-    static func write(value: ForecastClientTypes.ReferencePredictorSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["State"].write(value.state)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.ReferencePredictorSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -9179,22 +8950,6 @@ extension ForecastClientTypes {
 }
 
 extension ForecastClientTypes.Statistics {
-
-    static func write(value: ForecastClientTypes.Statistics?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Avg"].write(value.avg)
-        try writer["Count"].write(value.count)
-        try writer["CountDistinct"].write(value.countDistinct)
-        try writer["CountDistinctLong"].write(value.countDistinctLong)
-        try writer["CountLong"].write(value.countLong)
-        try writer["CountNan"].write(value.countNan)
-        try writer["CountNanLong"].write(value.countNanLong)
-        try writer["CountNull"].write(value.countNull)
-        try writer["CountNullLong"].write(value.countNullLong)
-        try writer["Max"].write(value.max)
-        try writer["Min"].write(value.min)
-        try writer["Stddev"].write(value.stddev)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.Statistics {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -9637,14 +9392,6 @@ enum TagResourceOutputError {
 }
 
 extension ForecastClientTypes.TestWindowSummary {
-
-    static func write(value: ForecastClientTypes.TestWindowSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.message)
-        try writer["Status"].write(value.status)
-        try writer["TestWindowEnd"].writeTimestamp(value.testWindowEnd, format: .epochSeconds)
-        try writer["TestWindowStart"].writeTimestamp(value.testWindowStart, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.TestWindowSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -10139,12 +9886,6 @@ enum UpdateDatasetGroupOutputError {
 
 extension ForecastClientTypes.WeightedQuantileLoss {
 
-    static func write(value: ForecastClientTypes.WeightedQuantileLoss?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["LossValue"].write(value.lossValue)
-        try writer["Quantile"].write(value.quantile)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.WeightedQuantileLoss {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ForecastClientTypes.WeightedQuantileLoss()
@@ -10175,17 +9916,6 @@ extension ForecastClientTypes {
 }
 
 extension ForecastClientTypes.WhatIfAnalysisSummary {
-
-    static func write(value: ForecastClientTypes.WhatIfAnalysisSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["ForecastArn"].write(value.forecastArn)
-        try writer["LastModificationTime"].writeTimestamp(value.lastModificationTime, format: .epochSeconds)
-        try writer["Message"].write(value.message)
-        try writer["Status"].write(value.status)
-        try writer["WhatIfAnalysisArn"].write(value.whatIfAnalysisArn)
-        try writer["WhatIfAnalysisName"].write(value.whatIfAnalysisName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.WhatIfAnalysisSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -10263,18 +9993,6 @@ extension ForecastClientTypes {
 }
 
 extension ForecastClientTypes.WhatIfForecastExportSummary {
-
-    static func write(value: ForecastClientTypes.WhatIfForecastExportSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["Destination"].write(value.destination, with: ForecastClientTypes.DataDestination.write(value:to:))
-        try writer["LastModificationTime"].writeTimestamp(value.lastModificationTime, format: .epochSeconds)
-        try writer["Message"].write(value.message)
-        try writer["Status"].write(value.status)
-        try writer["WhatIfForecastArns"].writeList(value.whatIfForecastArns, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["WhatIfForecastExportArn"].write(value.whatIfForecastExportArn)
-        try writer["WhatIfForecastExportName"].write(value.whatIfForecastExportName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.WhatIfForecastExportSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -10358,17 +10076,6 @@ extension ForecastClientTypes {
 
 extension ForecastClientTypes.WhatIfForecastSummary {
 
-    static func write(value: ForecastClientTypes.WhatIfForecastSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["LastModificationTime"].writeTimestamp(value.lastModificationTime, format: .epochSeconds)
-        try writer["Message"].write(value.message)
-        try writer["Status"].write(value.status)
-        try writer["WhatIfAnalysisArn"].write(value.whatIfAnalysisArn)
-        try writer["WhatIfForecastArn"].write(value.whatIfForecastArn)
-        try writer["WhatIfForecastName"].write(value.whatIfForecastName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.WhatIfForecastSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ForecastClientTypes.WhatIfForecastSummary()
@@ -10445,15 +10152,6 @@ extension ForecastClientTypes {
 }
 
 extension ForecastClientTypes.WindowSummary {
-
-    static func write(value: ForecastClientTypes.WindowSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EvaluationType"].write(value.evaluationType)
-        try writer["ItemCount"].write(value.itemCount)
-        try writer["Metrics"].write(value.metrics, with: ForecastClientTypes.Metrics.write(value:to:))
-        try writer["TestWindowEnd"].writeTimestamp(value.testWindowEnd, format: .epochSeconds)
-        try writer["TestWindowStart"].writeTimestamp(value.testWindowStart, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.WindowSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

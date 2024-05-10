@@ -389,19 +389,6 @@ extension KendraRankingClientTypes.Document {
         try writer["TokenizedBody"].writeList(value.tokenizedBody, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["TokenizedTitle"].writeList(value.tokenizedTitle, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraRankingClientTypes.Document {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraRankingClientTypes.Document()
-        value.id = try reader["Id"].readIfPresent()
-        value.groupId = try reader["GroupId"].readIfPresent()
-        value.title = try reader["Title"].readIfPresent()
-        value.body = try reader["Body"].readIfPresent()
-        value.tokenizedTitle = try reader["TokenizedTitle"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.tokenizedBody = try reader["TokenizedBody"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.originalScore = try reader["OriginalScore"].readIfPresent()
-        return value
-    }
 }
 
 extension KendraRankingClientTypes {
@@ -682,15 +669,6 @@ extension KendraRankingClientTypes {
 
 extension KendraRankingClientTypes.RescoreExecutionPlanSummary {
 
-    static func write(value: KendraRankingClientTypes.RescoreExecutionPlanSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["Id"].write(value.id)
-        try writer["Name"].write(value.name)
-        try writer["Status"].write(value.status)
-        try writer["UpdatedAt"].writeTimestamp(value.updatedAt, format: .epochSeconds)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> KendraRankingClientTypes.RescoreExecutionPlanSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = KendraRankingClientTypes.RescoreExecutionPlanSummary()
@@ -823,12 +801,6 @@ enum RescoreOutputError {
 }
 
 extension KendraRankingClientTypes.RescoreResultItem {
-
-    static func write(value: KendraRankingClientTypes.RescoreResultItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DocumentId"].write(value.documentId)
-        try writer["Score"].write(value.score)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> KendraRankingClientTypes.RescoreResultItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

@@ -194,26 +194,6 @@ extension TranscribeClientTypes {
 
 extension TranscribeClientTypes.CallAnalyticsJob {
 
-    static func write(value: TranscribeClientTypes.CallAnalyticsJob?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CallAnalyticsJobDetails"].write(value.callAnalyticsJobDetails, with: TranscribeClientTypes.CallAnalyticsJobDetails.write(value:to:))
-        try writer["CallAnalyticsJobName"].write(value.callAnalyticsJobName)
-        try writer["CallAnalyticsJobStatus"].write(value.callAnalyticsJobStatus)
-        try writer["ChannelDefinitions"].writeList(value.channelDefinitions, memberWritingClosure: TranscribeClientTypes.ChannelDefinition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["CompletionTime"].writeTimestamp(value.completionTime, format: .epochSeconds)
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["DataAccessRoleArn"].write(value.dataAccessRoleArn)
-        try writer["FailureReason"].write(value.failureReason)
-        try writer["IdentifiedLanguageScore"].write(value.identifiedLanguageScore)
-        try writer["LanguageCode"].write(value.languageCode)
-        try writer["Media"].write(value.media, with: TranscribeClientTypes.Media.write(value:to:))
-        try writer["MediaFormat"].write(value.mediaFormat)
-        try writer["MediaSampleRateHertz"].write(value.mediaSampleRateHertz)
-        try writer["Settings"].write(value.settings, with: TranscribeClientTypes.CallAnalyticsJobSettings.write(value:to:))
-        try writer["StartTime"].writeTimestamp(value.startTime, format: .epochSeconds)
-        try writer["Transcript"].write(value.transcript, with: TranscribeClientTypes.Transcript.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> TranscribeClientTypes.CallAnalyticsJob {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TranscribeClientTypes.CallAnalyticsJob()
@@ -326,11 +306,6 @@ extension TranscribeClientTypes {
 }
 
 extension TranscribeClientTypes.CallAnalyticsJobDetails {
-
-    static func write(value: TranscribeClientTypes.CallAnalyticsJobDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Skipped"].writeList(value.skipped, memberWritingClosure: TranscribeClientTypes.CallAnalyticsSkippedFeature.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> TranscribeClientTypes.CallAnalyticsJobDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -467,18 +442,6 @@ extension TranscribeClientTypes {
 
 extension TranscribeClientTypes.CallAnalyticsJobSummary {
 
-    static func write(value: TranscribeClientTypes.CallAnalyticsJobSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CallAnalyticsJobDetails"].write(value.callAnalyticsJobDetails, with: TranscribeClientTypes.CallAnalyticsJobDetails.write(value:to:))
-        try writer["CallAnalyticsJobName"].write(value.callAnalyticsJobName)
-        try writer["CallAnalyticsJobStatus"].write(value.callAnalyticsJobStatus)
-        try writer["CompletionTime"].writeTimestamp(value.completionTime, format: .epochSeconds)
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["FailureReason"].write(value.failureReason)
-        try writer["LanguageCode"].write(value.languageCode)
-        try writer["StartTime"].writeTimestamp(value.startTime, format: .epochSeconds)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> TranscribeClientTypes.CallAnalyticsJobSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TranscribeClientTypes.CallAnalyticsJobSummary()
@@ -539,13 +502,6 @@ extension TranscribeClientTypes {
 }
 
 extension TranscribeClientTypes.CallAnalyticsSkippedFeature {
-
-    static func write(value: TranscribeClientTypes.CallAnalyticsSkippedFeature?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Feature"].write(value.feature)
-        try writer["Message"].write(value.message)
-        try writer["ReasonCode"].write(value.reasonCode)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> TranscribeClientTypes.CallAnalyticsSkippedFeature {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -612,15 +568,6 @@ extension TranscribeClientTypes {
 }
 
 extension TranscribeClientTypes.CategoryProperties {
-
-    static func write(value: TranscribeClientTypes.CategoryProperties?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CategoryName"].write(value.categoryName)
-        try writer["CreateTime"].writeTimestamp(value.createTime, format: .epochSeconds)
-        try writer["InputType"].write(value.inputType)
-        try writer["LastUpdateTime"].writeTimestamp(value.lastUpdateTime, format: .epochSeconds)
-        try writer["Rules"].writeList(value.rules, memberWritingClosure: TranscribeClientTypes.Rule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> TranscribeClientTypes.CategoryProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3042,12 +2989,6 @@ extension TranscribeClientTypes {
 
 extension TranscribeClientTypes.LanguageCodeItem {
 
-    static func write(value: TranscribeClientTypes.LanguageCodeItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DurationInSeconds"].write(value.durationInSeconds)
-        try writer["LanguageCode"].write(value.languageCode)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> TranscribeClientTypes.LanguageCodeItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TranscribeClientTypes.LanguageCodeItem()
@@ -3121,19 +3062,6 @@ extension TranscribeClientTypes {
 }
 
 extension TranscribeClientTypes.LanguageModel {
-
-    static func write(value: TranscribeClientTypes.LanguageModel?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BaseModelName"].write(value.baseModelName)
-        try writer["CreateTime"].writeTimestamp(value.createTime, format: .epochSeconds)
-        try writer["FailureReason"].write(value.failureReason)
-        try writer["InputDataConfig"].write(value.inputDataConfig, with: TranscribeClientTypes.InputDataConfig.write(value:to:))
-        try writer["LanguageCode"].write(value.languageCode)
-        try writer["LastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .epochSeconds)
-        try writer["ModelName"].write(value.modelName)
-        try writer["ModelStatus"].write(value.modelStatus)
-        try writer["UpgradeAvailability"].write(value.upgradeAvailability)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> TranscribeClientTypes.LanguageModel {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4330,23 +4258,6 @@ extension TranscribeClientTypes {
 
 extension TranscribeClientTypes.MedicalScribeJob {
 
-    static func write(value: TranscribeClientTypes.MedicalScribeJob?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ChannelDefinitions"].writeList(value.channelDefinitions, memberWritingClosure: TranscribeClientTypes.MedicalScribeChannelDefinition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["CompletionTime"].writeTimestamp(value.completionTime, format: .epochSeconds)
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["DataAccessRoleArn"].write(value.dataAccessRoleArn)
-        try writer["FailureReason"].write(value.failureReason)
-        try writer["LanguageCode"].write(value.languageCode)
-        try writer["Media"].write(value.media, with: TranscribeClientTypes.Media.write(value:to:))
-        try writer["MedicalScribeJobName"].write(value.medicalScribeJobName)
-        try writer["MedicalScribeJobStatus"].write(value.medicalScribeJobStatus)
-        try writer["MedicalScribeOutput"].write(value.medicalScribeOutput, with: TranscribeClientTypes.MedicalScribeOutput.write(value:to:))
-        try writer["Settings"].write(value.settings, with: TranscribeClientTypes.MedicalScribeSettings.write(value:to:))
-        try writer["StartTime"].writeTimestamp(value.startTime, format: .epochSeconds)
-        try writer["Tags"].writeList(value.tags, memberWritingClosure: TranscribeClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> TranscribeClientTypes.MedicalScribeJob {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TranscribeClientTypes.MedicalScribeJob()
@@ -4469,17 +4380,6 @@ extension TranscribeClientTypes {
 
 extension TranscribeClientTypes.MedicalScribeJobSummary {
 
-    static func write(value: TranscribeClientTypes.MedicalScribeJobSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CompletionTime"].writeTimestamp(value.completionTime, format: .epochSeconds)
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["FailureReason"].write(value.failureReason)
-        try writer["LanguageCode"].write(value.languageCode)
-        try writer["MedicalScribeJobName"].write(value.medicalScribeJobName)
-        try writer["MedicalScribeJobStatus"].write(value.medicalScribeJobStatus)
-        try writer["StartTime"].writeTimestamp(value.startTime, format: .epochSeconds)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> TranscribeClientTypes.MedicalScribeJobSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TranscribeClientTypes.MedicalScribeJobSummary()
@@ -4562,12 +4462,6 @@ extension TranscribeClientTypes {
 }
 
 extension TranscribeClientTypes.MedicalScribeOutput {
-
-    static func write(value: TranscribeClientTypes.MedicalScribeOutput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ClinicalDocumentUri"].write(value.clinicalDocumentUri)
-        try writer["TranscriptFileUri"].write(value.transcriptFileUri)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> TranscribeClientTypes.MedicalScribeOutput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4693,11 +4587,6 @@ extension TranscribeClientTypes {
 
 extension TranscribeClientTypes.MedicalTranscript {
 
-    static func write(value: TranscribeClientTypes.MedicalTranscript?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["TranscriptFileUri"].write(value.transcriptFileUri)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> TranscribeClientTypes.MedicalTranscript {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TranscribeClientTypes.MedicalTranscript()
@@ -4723,26 +4612,6 @@ extension TranscribeClientTypes {
 }
 
 extension TranscribeClientTypes.MedicalTranscriptionJob {
-
-    static func write(value: TranscribeClientTypes.MedicalTranscriptionJob?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CompletionTime"].writeTimestamp(value.completionTime, format: .epochSeconds)
-        try writer["ContentIdentificationType"].write(value.contentIdentificationType)
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["FailureReason"].write(value.failureReason)
-        try writer["LanguageCode"].write(value.languageCode)
-        try writer["Media"].write(value.media, with: TranscribeClientTypes.Media.write(value:to:))
-        try writer["MediaFormat"].write(value.mediaFormat)
-        try writer["MediaSampleRateHertz"].write(value.mediaSampleRateHertz)
-        try writer["MedicalTranscriptionJobName"].write(value.medicalTranscriptionJobName)
-        try writer["Settings"].write(value.settings, with: TranscribeClientTypes.MedicalTranscriptionSetting.write(value:to:))
-        try writer["Specialty"].write(value.specialty)
-        try writer["StartTime"].writeTimestamp(value.startTime, format: .epochSeconds)
-        try writer["Tags"].writeList(value.tags, memberWritingClosure: TranscribeClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Transcript"].write(value.transcript, with: TranscribeClientTypes.MedicalTranscript.write(value:to:))
-        try writer["TranscriptionJobStatus"].write(value.transcriptionJobStatus)
-        try writer["Type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> TranscribeClientTypes.MedicalTranscriptionJob {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4856,21 +4725,6 @@ extension TranscribeClientTypes {
 }
 
 extension TranscribeClientTypes.MedicalTranscriptionJobSummary {
-
-    static func write(value: TranscribeClientTypes.MedicalTranscriptionJobSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CompletionTime"].writeTimestamp(value.completionTime, format: .epochSeconds)
-        try writer["ContentIdentificationType"].write(value.contentIdentificationType)
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["FailureReason"].write(value.failureReason)
-        try writer["LanguageCode"].write(value.languageCode)
-        try writer["MedicalTranscriptionJobName"].write(value.medicalTranscriptionJobName)
-        try writer["OutputLocationType"].write(value.outputLocationType)
-        try writer["Specialty"].write(value.specialty)
-        try writer["StartTime"].writeTimestamp(value.startTime, format: .epochSeconds)
-        try writer["TranscriptionJobStatus"].write(value.transcriptionJobStatus)
-        try writer["Type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> TranscribeClientTypes.MedicalTranscriptionJobSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6298,14 +6152,6 @@ extension TranscribeClientTypes.Subtitles {
         try writer["Formats"].writeList(value.formats, memberWritingClosure: TranscribeClientTypes.SubtitleFormat.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["OutputStartIndex"].write(value.outputStartIndex)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TranscribeClientTypes.Subtitles {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TranscribeClientTypes.Subtitles()
-        value.formats = try reader["Formats"].readListIfPresent(memberReadingClosure: TranscribeClientTypes.SubtitleFormat.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.outputStartIndex = try reader["OutputStartIndex"].readIfPresent()
-        return value
-    }
 }
 
 extension TranscribeClientTypes {
@@ -6329,13 +6175,6 @@ extension TranscribeClientTypes {
 }
 
 extension TranscribeClientTypes.SubtitlesOutput {
-
-    static func write(value: TranscribeClientTypes.SubtitlesOutput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Formats"].writeList(value.formats, memberWritingClosure: TranscribeClientTypes.SubtitleFormat.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["OutputStartIndex"].write(value.outputStartIndex)
-        try writer["SubtitleFileUris"].writeList(value.subtitleFileUris, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> TranscribeClientTypes.SubtitlesOutput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6568,12 +6407,6 @@ public enum TranscribeClientTypes {}
 
 extension TranscribeClientTypes.Transcript {
 
-    static func write(value: TranscribeClientTypes.Transcript?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["RedactedTranscriptFileUri"].write(value.redactedTranscriptFileUri)
-        try writer["TranscriptFileUri"].write(value.transcriptFileUri)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> TranscribeClientTypes.Transcript {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TranscribeClientTypes.Transcript()
@@ -6703,34 +6536,6 @@ extension TranscribeClientTypes {
 }
 
 extension TranscribeClientTypes.TranscriptionJob {
-
-    static func write(value: TranscribeClientTypes.TranscriptionJob?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CompletionTime"].writeTimestamp(value.completionTime, format: .epochSeconds)
-        try writer["ContentRedaction"].write(value.contentRedaction, with: TranscribeClientTypes.ContentRedaction.write(value:to:))
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["FailureReason"].write(value.failureReason)
-        try writer["IdentifiedLanguageScore"].write(value.identifiedLanguageScore)
-        try writer["IdentifyLanguage"].write(value.identifyLanguage)
-        try writer["IdentifyMultipleLanguages"].write(value.identifyMultipleLanguages)
-        try writer["JobExecutionSettings"].write(value.jobExecutionSettings, with: TranscribeClientTypes.JobExecutionSettings.write(value:to:))
-        try writer["LanguageCode"].write(value.languageCode)
-        try writer["LanguageCodes"].writeList(value.languageCodes, memberWritingClosure: TranscribeClientTypes.LanguageCodeItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["LanguageIdSettings"].writeMap(value.languageIdSettings, valueWritingClosure: TranscribeClientTypes.LanguageIdSettings.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["LanguageOptions"].writeList(value.languageOptions, memberWritingClosure: TranscribeClientTypes.LanguageCode.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Media"].write(value.media, with: TranscribeClientTypes.Media.write(value:to:))
-        try writer["MediaFormat"].write(value.mediaFormat)
-        try writer["MediaSampleRateHertz"].write(value.mediaSampleRateHertz)
-        try writer["ModelSettings"].write(value.modelSettings, with: TranscribeClientTypes.ModelSettings.write(value:to:))
-        try writer["Settings"].write(value.settings, with: TranscribeClientTypes.Settings.write(value:to:))
-        try writer["StartTime"].writeTimestamp(value.startTime, format: .epochSeconds)
-        try writer["Subtitles"].write(value.subtitles, with: TranscribeClientTypes.SubtitlesOutput.write(value:to:))
-        try writer["Tags"].writeList(value.tags, memberWritingClosure: TranscribeClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ToxicityDetection"].writeList(value.toxicityDetection, memberWritingClosure: TranscribeClientTypes.ToxicityDetectionSettings.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Transcript"].write(value.transcript, with: TranscribeClientTypes.Transcript.write(value:to:))
-        try writer["TranscriptionJobName"].write(value.transcriptionJobName)
-        try writer["TranscriptionJobStatus"].write(value.transcriptionJobStatus)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> TranscribeClientTypes.TranscriptionJob {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6920,25 +6725,6 @@ extension TranscribeClientTypes {
 }
 
 extension TranscribeClientTypes.TranscriptionJobSummary {
-
-    static func write(value: TranscribeClientTypes.TranscriptionJobSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CompletionTime"].writeTimestamp(value.completionTime, format: .epochSeconds)
-        try writer["ContentRedaction"].write(value.contentRedaction, with: TranscribeClientTypes.ContentRedaction.write(value:to:))
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["FailureReason"].write(value.failureReason)
-        try writer["IdentifiedLanguageScore"].write(value.identifiedLanguageScore)
-        try writer["IdentifyLanguage"].write(value.identifyLanguage)
-        try writer["IdentifyMultipleLanguages"].write(value.identifyMultipleLanguages)
-        try writer["LanguageCode"].write(value.languageCode)
-        try writer["LanguageCodes"].writeList(value.languageCodes, memberWritingClosure: TranscribeClientTypes.LanguageCodeItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ModelSettings"].write(value.modelSettings, with: TranscribeClientTypes.ModelSettings.write(value:to:))
-        try writer["OutputLocationType"].write(value.outputLocationType)
-        try writer["StartTime"].writeTimestamp(value.startTime, format: .epochSeconds)
-        try writer["ToxicityDetection"].writeList(value.toxicityDetection, memberWritingClosure: TranscribeClientTypes.ToxicityDetectionSettings.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["TranscriptionJobName"].write(value.transcriptionJobName)
-        try writer["TranscriptionJobStatus"].write(value.transcriptionJobStatus)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> TranscribeClientTypes.TranscriptionJobSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7503,13 +7289,6 @@ enum UpdateVocabularyOutputError {
 
 extension TranscribeClientTypes.VocabularyFilterInfo {
 
-    static func write(value: TranscribeClientTypes.VocabularyFilterInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["LanguageCode"].write(value.languageCode)
-        try writer["LastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .epochSeconds)
-        try writer["VocabularyFilterName"].write(value.vocabularyFilterName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> TranscribeClientTypes.VocabularyFilterInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TranscribeClientTypes.VocabularyFilterInfo()
@@ -7578,14 +7357,6 @@ extension TranscribeClientTypes {
 }
 
 extension TranscribeClientTypes.VocabularyInfo {
-
-    static func write(value: TranscribeClientTypes.VocabularyInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["LanguageCode"].write(value.languageCode)
-        try writer["LastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .epochSeconds)
-        try writer["VocabularyName"].write(value.vocabularyName)
-        try writer["VocabularyState"].write(value.vocabularyState)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> TranscribeClientTypes.VocabularyInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

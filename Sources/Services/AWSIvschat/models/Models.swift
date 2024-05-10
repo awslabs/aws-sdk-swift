@@ -1465,18 +1465,6 @@ extension IvschatClientTypes {
 
 extension IvschatClientTypes.LoggingConfigurationSummary {
 
-    static func write(value: IvschatClientTypes.LoggingConfigurationSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["createTime"].writeTimestamp(value.createTime, format: .dateTime)
-        try writer["destinationConfiguration"].write(value.destinationConfiguration, with: IvschatClientTypes.DestinationConfiguration.write(value:to:))
-        try writer["id"].write(value.id)
-        try writer["name"].write(value.name)
-        try writer["state"].write(value.state)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["updateTime"].writeTimestamp(value.updateTime, format: .dateTime)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IvschatClientTypes.LoggingConfigurationSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IvschatClientTypes.LoggingConfigurationSummary()
@@ -1689,18 +1677,6 @@ extension IvschatClientTypes {
 }
 
 extension IvschatClientTypes.RoomSummary {
-
-    static func write(value: IvschatClientTypes.RoomSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["createTime"].writeTimestamp(value.createTime, format: .dateTime)
-        try writer["id"].write(value.id)
-        try writer["loggingConfigurationIdentifiers"].writeList(value.loggingConfigurationIdentifiers, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["messageReviewHandler"].write(value.messageReviewHandler, with: IvschatClientTypes.MessageReviewHandler.write(value:to:))
-        try writer["name"].write(value.name)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["updateTime"].writeTimestamp(value.updateTime, format: .dateTime)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IvschatClientTypes.RoomSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2453,12 +2429,6 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 extension IvschatClientTypes.ValidationExceptionField {
-
-    static func write(value: IvschatClientTypes.ValidationExceptionField?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.message)
-        try writer["name"].write(value.name)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IvschatClientTypes.ValidationExceptionField {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

@@ -1790,14 +1790,6 @@ enum AssociateVirtualInterfaceOutputError {
 
 extension DirectConnectClientTypes.AssociatedGateway {
 
-    static func write(value: DirectConnectClientTypes.AssociatedGateway?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["id"].write(value.id)
-        try writer["ownerAccount"].write(value.ownerAccount)
-        try writer["region"].write(value.region)
-        try writer["type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DirectConnectClientTypes.AssociatedGateway {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DirectConnectClientTypes.AssociatedGateway()
@@ -1838,20 +1830,6 @@ extension DirectConnectClientTypes {
 }
 
 extension DirectConnectClientTypes.BGPPeer {
-
-    static func write(value: DirectConnectClientTypes.BGPPeer?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["addressFamily"].write(value.addressFamily)
-        try writer["amazonAddress"].write(value.amazonAddress)
-        try writer["asn"].write(value.asn)
-        try writer["authKey"].write(value.authKey)
-        try writer["awsDeviceV2"].write(value.awsDeviceV2)
-        try writer["awsLogicalDeviceId"].write(value.awsLogicalDeviceId)
-        try writer["bgpPeerId"].write(value.bgpPeerId)
-        try writer["bgpPeerState"].write(value.bgpPeerState)
-        try writer["bgpStatus"].write(value.bgpStatus)
-        try writer["customerAddress"].write(value.customerAddress)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DirectConnectClientTypes.BGPPeer {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2433,32 +2411,6 @@ enum ConfirmTransitVirtualInterfaceOutputError {
 }
 
 extension DirectConnectClientTypes.Connection {
-
-    static func write(value: DirectConnectClientTypes.Connection?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["awsDevice"].write(value.awsDevice)
-        try writer["awsDeviceV2"].write(value.awsDeviceV2)
-        try writer["awsLogicalDeviceId"].write(value.awsLogicalDeviceId)
-        try writer["bandwidth"].write(value.bandwidth)
-        try writer["connectionId"].write(value.connectionId)
-        try writer["connectionName"].write(value.connectionName)
-        try writer["connectionState"].write(value.connectionState)
-        try writer["encryptionMode"].write(value.encryptionMode)
-        try writer["hasLogicalRedundancy"].write(value.hasLogicalRedundancy)
-        try writer["jumboFrameCapable"].write(value.jumboFrameCapable)
-        try writer["lagId"].write(value.lagId)
-        try writer["loaIssueTime"].writeTimestamp(value.loaIssueTime, format: .epochSeconds)
-        try writer["location"].write(value.location)
-        try writer["macSecCapable"].write(value.macSecCapable)
-        try writer["macSecKeys"].writeList(value.macSecKeys, memberWritingClosure: DirectConnectClientTypes.MacSecKey.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ownerAccount"].write(value.ownerAccount)
-        try writer["partnerName"].write(value.partnerName)
-        try writer["portEncryptionStatus"].write(value.portEncryptionStatus)
-        try writer["providerName"].write(value.providerName)
-        try writer["region"].write(value.region)
-        try writer["tags"].writeList(value.tags, memberWritingClosure: DirectConnectClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["vlan"].write(value.vlan)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DirectConnectClientTypes.Connection {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4123,12 +4075,6 @@ enum CreateTransitVirtualInterfaceOutputError {
 }
 
 extension DirectConnectClientTypes.CustomerAgreement {
-
-    static func write(value: DirectConnectClientTypes.CustomerAgreement?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["agreementName"].write(value.agreementName)
-        try writer["status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DirectConnectClientTypes.CustomerAgreement {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6369,16 +6315,6 @@ public enum DirectConnectClientTypes {}
 
 extension DirectConnectClientTypes.DirectConnectGateway {
 
-    static func write(value: DirectConnectClientTypes.DirectConnectGateway?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["amazonSideAsn"].write(value.amazonSideAsn)
-        try writer["directConnectGatewayId"].write(value.directConnectGatewayId)
-        try writer["directConnectGatewayName"].write(value.directConnectGatewayName)
-        try writer["directConnectGatewayState"].write(value.directConnectGatewayState)
-        try writer["ownerAccount"].write(value.ownerAccount)
-        try writer["stateChangeError"].write(value.stateChangeError)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DirectConnectClientTypes.DirectConnectGateway {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DirectConnectClientTypes.DirectConnectGateway()
@@ -6437,20 +6373,6 @@ extension DirectConnectClientTypes {
 }
 
 extension DirectConnectClientTypes.DirectConnectGatewayAssociation {
-
-    static func write(value: DirectConnectClientTypes.DirectConnectGatewayAssociation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["allowedPrefixesToDirectConnectGateway"].writeList(value.allowedPrefixesToDirectConnectGateway, memberWritingClosure: DirectConnectClientTypes.RouteFilterPrefix.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["associatedGateway"].write(value.associatedGateway, with: DirectConnectClientTypes.AssociatedGateway.write(value:to:))
-        try writer["associationId"].write(value.associationId)
-        try writer["associationState"].write(value.associationState)
-        try writer["directConnectGatewayId"].write(value.directConnectGatewayId)
-        try writer["directConnectGatewayOwnerAccount"].write(value.directConnectGatewayOwnerAccount)
-        try writer["stateChangeError"].write(value.stateChangeError)
-        try writer["virtualGatewayId"].write(value.virtualGatewayId)
-        try writer["virtualGatewayOwnerAccount"].write(value.virtualGatewayOwnerAccount)
-        try writer["virtualGatewayRegion"].write(value.virtualGatewayRegion)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DirectConnectClientTypes.DirectConnectGatewayAssociation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6533,17 +6455,6 @@ extension DirectConnectClientTypes {
 }
 
 extension DirectConnectClientTypes.DirectConnectGatewayAssociationProposal {
-
-    static func write(value: DirectConnectClientTypes.DirectConnectGatewayAssociationProposal?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["associatedGateway"].write(value.associatedGateway, with: DirectConnectClientTypes.AssociatedGateway.write(value:to:))
-        try writer["directConnectGatewayId"].write(value.directConnectGatewayId)
-        try writer["directConnectGatewayOwnerAccount"].write(value.directConnectGatewayOwnerAccount)
-        try writer["existingAllowedPrefixesToDirectConnectGateway"].writeList(value.existingAllowedPrefixesToDirectConnectGateway, memberWritingClosure: DirectConnectClientTypes.RouteFilterPrefix.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["proposalId"].write(value.proposalId)
-        try writer["proposalState"].write(value.proposalState)
-        try writer["requestedAllowedPrefixesToDirectConnectGateway"].writeList(value.requestedAllowedPrefixesToDirectConnectGateway, memberWritingClosure: DirectConnectClientTypes.RouteFilterPrefix.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DirectConnectClientTypes.DirectConnectGatewayAssociationProposal {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6678,17 +6589,6 @@ extension DirectConnectClientTypes {
 }
 
 extension DirectConnectClientTypes.DirectConnectGatewayAttachment {
-
-    static func write(value: DirectConnectClientTypes.DirectConnectGatewayAttachment?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["attachmentState"].write(value.attachmentState)
-        try writer["attachmentType"].write(value.attachmentType)
-        try writer["directConnectGatewayId"].write(value.directConnectGatewayId)
-        try writer["stateChangeError"].write(value.stateChangeError)
-        try writer["virtualInterfaceId"].write(value.virtualInterfaceId)
-        try writer["virtualInterfaceOwnerAccount"].write(value.virtualInterfaceOwnerAccount)
-        try writer["virtualInterfaceRegion"].write(value.virtualInterfaceRegion)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DirectConnectClientTypes.DirectConnectGatewayAttachment {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7269,25 +7169,6 @@ extension DirectConnectClientTypes {
 
 extension DirectConnectClientTypes.Interconnect {
 
-    static func write(value: DirectConnectClientTypes.Interconnect?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["awsDevice"].write(value.awsDevice)
-        try writer["awsDeviceV2"].write(value.awsDeviceV2)
-        try writer["awsLogicalDeviceId"].write(value.awsLogicalDeviceId)
-        try writer["bandwidth"].write(value.bandwidth)
-        try writer["hasLogicalRedundancy"].write(value.hasLogicalRedundancy)
-        try writer["interconnectId"].write(value.interconnectId)
-        try writer["interconnectName"].write(value.interconnectName)
-        try writer["interconnectState"].write(value.interconnectState)
-        try writer["jumboFrameCapable"].write(value.jumboFrameCapable)
-        try writer["lagId"].write(value.lagId)
-        try writer["loaIssueTime"].writeTimestamp(value.loaIssueTime, format: .epochSeconds)
-        try writer["location"].write(value.location)
-        try writer["providerName"].write(value.providerName)
-        try writer["region"].write(value.region)
-        try writer["tags"].writeList(value.tags, memberWritingClosure: DirectConnectClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DirectConnectClientTypes.Interconnect {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DirectConnectClientTypes.Interconnect()
@@ -7443,31 +7324,6 @@ extension DirectConnectClientTypes {
 }
 
 extension DirectConnectClientTypes.Lag {
-
-    static func write(value: DirectConnectClientTypes.Lag?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["allowsHostedConnections"].write(value.allowsHostedConnections)
-        try writer["awsDevice"].write(value.awsDevice)
-        try writer["awsDeviceV2"].write(value.awsDeviceV2)
-        try writer["awsLogicalDeviceId"].write(value.awsLogicalDeviceId)
-        try writer["connections"].writeList(value.connections, memberWritingClosure: DirectConnectClientTypes.Connection.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["connectionsBandwidth"].write(value.connectionsBandwidth)
-        try writer["encryptionMode"].write(value.encryptionMode)
-        try writer["hasLogicalRedundancy"].write(value.hasLogicalRedundancy)
-        try writer["jumboFrameCapable"].write(value.jumboFrameCapable)
-        try writer["lagId"].write(value.lagId)
-        try writer["lagName"].write(value.lagName)
-        try writer["lagState"].write(value.lagState)
-        try writer["location"].write(value.location)
-        try writer["macSecCapable"].write(value.macSecCapable)
-        try writer["macSecKeys"].writeList(value.macSecKeys, memberWritingClosure: DirectConnectClientTypes.MacSecKey.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["minimumLinks"].write(value.minimumLinks)
-        try writer["numberOfConnections"].write(value.numberOfConnections)
-        try writer["ownerAccount"].write(value.ownerAccount)
-        try writer["providerName"].write(value.providerName)
-        try writer["region"].write(value.region)
-        try writer["tags"].writeList(value.tags, memberWritingClosure: DirectConnectClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DirectConnectClientTypes.Lag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7751,12 +7607,6 @@ enum ListVirtualInterfaceTestHistoryOutputError {
 
 extension DirectConnectClientTypes.Loa {
 
-    static func write(value: DirectConnectClientTypes.Loa?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["loaContent"].write(value.loaContent)
-        try writer["loaContentType"].write(value.loaContentType)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DirectConnectClientTypes.Loa {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DirectConnectClientTypes.Loa()
@@ -7815,16 +7665,6 @@ extension DirectConnectClientTypes {
 
 extension DirectConnectClientTypes.Location {
 
-    static func write(value: DirectConnectClientTypes.Location?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["availableMacSecPortSpeeds"].writeList(value.availableMacSecPortSpeeds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["availablePortSpeeds"].writeList(value.availablePortSpeeds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["availableProviders"].writeList(value.availableProviders, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["locationCode"].write(value.locationCode)
-        try writer["locationName"].write(value.locationName)
-        try writer["region"].write(value.region)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DirectConnectClientTypes.Location {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DirectConnectClientTypes.Location()
@@ -7875,14 +7715,6 @@ extension DirectConnectClientTypes {
 }
 
 extension DirectConnectClientTypes.MacSecKey {
-
-    static func write(value: DirectConnectClientTypes.MacSecKey?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ckn"].write(value.ckn)
-        try writer["secretARN"].write(value.secretARN)
-        try writer["startOn"].write(value.startOn)
-        try writer["state"].write(value.state)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DirectConnectClientTypes.MacSecKey {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7941,17 +7773,6 @@ extension DirectConnectClientTypes.NewBGPPeer {
         try writer["authKey"].write(value.authKey)
         try writer["customerAddress"].write(value.customerAddress)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DirectConnectClientTypes.NewBGPPeer {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DirectConnectClientTypes.NewBGPPeer()
-        value.asn = try reader["asn"].readIfPresent() ?? 0
-        value.authKey = try reader["authKey"].readIfPresent()
-        value.addressFamily = try reader["addressFamily"].readIfPresent()
-        value.amazonAddress = try reader["amazonAddress"].readIfPresent()
-        value.customerAddress = try reader["customerAddress"].readIfPresent()
-        return value
-    }
 }
 
 extension DirectConnectClientTypes {
@@ -8002,24 +7823,6 @@ extension DirectConnectClientTypes.NewPrivateVirtualInterface {
         try writer["virtualGatewayId"].write(value.virtualGatewayId)
         try writer["virtualInterfaceName"].write(value.virtualInterfaceName)
         try writer["vlan"].write(value.vlan)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DirectConnectClientTypes.NewPrivateVirtualInterface {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DirectConnectClientTypes.NewPrivateVirtualInterface()
-        value.virtualInterfaceName = try reader["virtualInterfaceName"].readIfPresent()
-        value.vlan = try reader["vlan"].readIfPresent() ?? 0
-        value.asn = try reader["asn"].readIfPresent() ?? 0
-        value.mtu = try reader["mtu"].readIfPresent()
-        value.authKey = try reader["authKey"].readIfPresent()
-        value.amazonAddress = try reader["amazonAddress"].readIfPresent()
-        value.customerAddress = try reader["customerAddress"].readIfPresent()
-        value.addressFamily = try reader["addressFamily"].readIfPresent()
-        value.virtualGatewayId = try reader["virtualGatewayId"].readIfPresent()
-        value.directConnectGatewayId = try reader["directConnectGatewayId"].readIfPresent()
-        value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: DirectConnectClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.enableSiteLink = try reader["enableSiteLink"].readIfPresent()
-        return value
     }
 }
 
@@ -8100,21 +7903,6 @@ extension DirectConnectClientTypes.NewPrivateVirtualInterfaceAllocation {
         try writer["virtualInterfaceName"].write(value.virtualInterfaceName)
         try writer["vlan"].write(value.vlan)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DirectConnectClientTypes.NewPrivateVirtualInterfaceAllocation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DirectConnectClientTypes.NewPrivateVirtualInterfaceAllocation()
-        value.virtualInterfaceName = try reader["virtualInterfaceName"].readIfPresent()
-        value.vlan = try reader["vlan"].readIfPresent() ?? 0
-        value.asn = try reader["asn"].readIfPresent() ?? 0
-        value.mtu = try reader["mtu"].readIfPresent()
-        value.authKey = try reader["authKey"].readIfPresent()
-        value.amazonAddress = try reader["amazonAddress"].readIfPresent()
-        value.addressFamily = try reader["addressFamily"].readIfPresent()
-        value.customerAddress = try reader["customerAddress"].readIfPresent()
-        value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: DirectConnectClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
 }
 
 extension DirectConnectClientTypes {
@@ -8182,21 +7970,6 @@ extension DirectConnectClientTypes.NewPublicVirtualInterface {
         try writer["virtualInterfaceName"].write(value.virtualInterfaceName)
         try writer["vlan"].write(value.vlan)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DirectConnectClientTypes.NewPublicVirtualInterface {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DirectConnectClientTypes.NewPublicVirtualInterface()
-        value.virtualInterfaceName = try reader["virtualInterfaceName"].readIfPresent()
-        value.vlan = try reader["vlan"].readIfPresent() ?? 0
-        value.asn = try reader["asn"].readIfPresent() ?? 0
-        value.authKey = try reader["authKey"].readIfPresent()
-        value.amazonAddress = try reader["amazonAddress"].readIfPresent()
-        value.customerAddress = try reader["customerAddress"].readIfPresent()
-        value.addressFamily = try reader["addressFamily"].readIfPresent()
-        value.routeFilterPrefixes = try reader["routeFilterPrefixes"].readListIfPresent(memberReadingClosure: DirectConnectClientTypes.RouteFilterPrefix.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: DirectConnectClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
 }
 
 extension DirectConnectClientTypes {
@@ -8263,21 +8036,6 @@ extension DirectConnectClientTypes.NewPublicVirtualInterfaceAllocation {
         try writer["tags"].writeList(value.tags, memberWritingClosure: DirectConnectClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["virtualInterfaceName"].write(value.virtualInterfaceName)
         try writer["vlan"].write(value.vlan)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DirectConnectClientTypes.NewPublicVirtualInterfaceAllocation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DirectConnectClientTypes.NewPublicVirtualInterfaceAllocation()
-        value.virtualInterfaceName = try reader["virtualInterfaceName"].readIfPresent()
-        value.vlan = try reader["vlan"].readIfPresent() ?? 0
-        value.asn = try reader["asn"].readIfPresent() ?? 0
-        value.authKey = try reader["authKey"].readIfPresent()
-        value.amazonAddress = try reader["amazonAddress"].readIfPresent()
-        value.customerAddress = try reader["customerAddress"].readIfPresent()
-        value.addressFamily = try reader["addressFamily"].readIfPresent()
-        value.routeFilterPrefixes = try reader["routeFilterPrefixes"].readListIfPresent(memberReadingClosure: DirectConnectClientTypes.RouteFilterPrefix.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: DirectConnectClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -8347,23 +8105,6 @@ extension DirectConnectClientTypes.NewTransitVirtualInterface {
         try writer["tags"].writeList(value.tags, memberWritingClosure: DirectConnectClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["virtualInterfaceName"].write(value.virtualInterfaceName)
         try writer["vlan"].write(value.vlan)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DirectConnectClientTypes.NewTransitVirtualInterface {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DirectConnectClientTypes.NewTransitVirtualInterface()
-        value.virtualInterfaceName = try reader["virtualInterfaceName"].readIfPresent()
-        value.vlan = try reader["vlan"].readIfPresent() ?? 0
-        value.asn = try reader["asn"].readIfPresent() ?? 0
-        value.mtu = try reader["mtu"].readIfPresent()
-        value.authKey = try reader["authKey"].readIfPresent()
-        value.amazonAddress = try reader["amazonAddress"].readIfPresent()
-        value.customerAddress = try reader["customerAddress"].readIfPresent()
-        value.addressFamily = try reader["addressFamily"].readIfPresent()
-        value.directConnectGatewayId = try reader["directConnectGatewayId"].readIfPresent()
-        value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: DirectConnectClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.enableSiteLink = try reader["enableSiteLink"].readIfPresent()
-        return value
     }
 }
 
@@ -8436,21 +8177,6 @@ extension DirectConnectClientTypes.NewTransitVirtualInterfaceAllocation {
         try writer["tags"].writeList(value.tags, memberWritingClosure: DirectConnectClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["virtualInterfaceName"].write(value.virtualInterfaceName)
         try writer["vlan"].write(value.vlan)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DirectConnectClientTypes.NewTransitVirtualInterfaceAllocation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DirectConnectClientTypes.NewTransitVirtualInterfaceAllocation()
-        value.virtualInterfaceName = try reader["virtualInterfaceName"].readIfPresent()
-        value.vlan = try reader["vlan"].readIfPresent() ?? 0
-        value.asn = try reader["asn"].readIfPresent() ?? 0
-        value.mtu = try reader["mtu"].readIfPresent()
-        value.authKey = try reader["authKey"].readIfPresent()
-        value.amazonAddress = try reader["amazonAddress"].readIfPresent()
-        value.customerAddress = try reader["customerAddress"].readIfPresent()
-        value.addressFamily = try reader["addressFamily"].readIfPresent()
-        value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: DirectConnectClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -8537,12 +8263,6 @@ extension DirectConnectClientTypes {
 
 extension DirectConnectClientTypes.ResourceTag {
 
-    static func write(value: DirectConnectClientTypes.ResourceTag?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["resourceArn"].write(value.resourceArn)
-        try writer["tags"].writeList(value.tags, memberWritingClosure: DirectConnectClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DirectConnectClientTypes.ResourceTag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DirectConnectClientTypes.ResourceTag()
@@ -8604,16 +8324,6 @@ extension DirectConnectClientTypes {
 }
 
 extension DirectConnectClientTypes.RouterType {
-
-    static func write(value: DirectConnectClientTypes.RouterType?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["platform"].write(value.platform)
-        try writer["routerTypeIdentifier"].write(value.routerTypeIdentifier)
-        try writer["software"].write(value.software)
-        try writer["vendor"].write(value.vendor)
-        try writer["xsltTemplateName"].write(value.xsltTemplateName)
-        try writer["xsltTemplateNameForMacSec"].write(value.xsltTemplateNameForMacSec)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DirectConnectClientTypes.RouterType {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -9784,12 +9494,6 @@ enum UpdateVirtualInterfaceAttributesOutputError {
 
 extension DirectConnectClientTypes.VirtualGateway {
 
-    static func write(value: DirectConnectClientTypes.VirtualGateway?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["virtualGatewayId"].write(value.virtualGatewayId)
-        try writer["virtualGatewayState"].write(value.virtualGatewayState)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DirectConnectClientTypes.VirtualGateway {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DirectConnectClientTypes.VirtualGateway()
@@ -9828,36 +9532,6 @@ extension DirectConnectClientTypes {
 }
 
 extension DirectConnectClientTypes.VirtualInterface {
-
-    static func write(value: DirectConnectClientTypes.VirtualInterface?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["addressFamily"].write(value.addressFamily)
-        try writer["amazonAddress"].write(value.amazonAddress)
-        try writer["amazonSideAsn"].write(value.amazonSideAsn)
-        try writer["asn"].write(value.asn)
-        try writer["authKey"].write(value.authKey)
-        try writer["awsDeviceV2"].write(value.awsDeviceV2)
-        try writer["awsLogicalDeviceId"].write(value.awsLogicalDeviceId)
-        try writer["bgpPeers"].writeList(value.bgpPeers, memberWritingClosure: DirectConnectClientTypes.BGPPeer.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["connectionId"].write(value.connectionId)
-        try writer["customerAddress"].write(value.customerAddress)
-        try writer["customerRouterConfig"].write(value.customerRouterConfig)
-        try writer["directConnectGatewayId"].write(value.directConnectGatewayId)
-        try writer["jumboFrameCapable"].write(value.jumboFrameCapable)
-        try writer["location"].write(value.location)
-        try writer["mtu"].write(value.mtu)
-        try writer["ownerAccount"].write(value.ownerAccount)
-        try writer["region"].write(value.region)
-        try writer["routeFilterPrefixes"].writeList(value.routeFilterPrefixes, memberWritingClosure: DirectConnectClientTypes.RouteFilterPrefix.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["siteLinkEnabled"].write(value.siteLinkEnabled)
-        try writer["tags"].writeList(value.tags, memberWritingClosure: DirectConnectClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["virtualGatewayId"].write(value.virtualGatewayId)
-        try writer["virtualInterfaceId"].write(value.virtualInterfaceId)
-        try writer["virtualInterfaceName"].write(value.virtualInterfaceName)
-        try writer["virtualInterfaceState"].write(value.virtualInterfaceState)
-        try writer["virtualInterfaceType"].write(value.virtualInterfaceType)
-        try writer["vlan"].write(value.vlan)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DirectConnectClientTypes.VirtualInterface {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -10078,18 +9752,6 @@ extension DirectConnectClientTypes {
 }
 
 extension DirectConnectClientTypes.VirtualInterfaceTestHistory {
-
-    static func write(value: DirectConnectClientTypes.VirtualInterfaceTestHistory?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["bgpPeers"].writeList(value.bgpPeers, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["endTime"].writeTimestamp(value.endTime, format: .epochSeconds)
-        try writer["ownerAccount"].write(value.ownerAccount)
-        try writer["startTime"].writeTimestamp(value.startTime, format: .epochSeconds)
-        try writer["status"].write(value.status)
-        try writer["testDurationInMinutes"].write(value.testDurationInMinutes)
-        try writer["testId"].write(value.testId)
-        try writer["virtualInterfaceId"].write(value.virtualInterfaceId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DirectConnectClientTypes.VirtualInterfaceTestHistory {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

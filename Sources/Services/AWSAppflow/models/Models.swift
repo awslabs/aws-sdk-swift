@@ -147,14 +147,6 @@ extension AppflowClientTypes.AmplitudeConnectorProfileCredentials {
         try writer["apiKey"].write(value.apiKey)
         try writer["secretKey"].write(value.secretKey)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.AmplitudeConnectorProfileCredentials {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppflowClientTypes.AmplitudeConnectorProfileCredentials()
-        value.apiKey = try reader["apiKey"].readIfPresent()
-        value.secretKey = try reader["secretKey"].readIfPresent()
-        return value
-    }
 }
 
 extension AppflowClientTypes {
@@ -202,11 +194,6 @@ extension AppflowClientTypes {
 }
 
 extension AppflowClientTypes.AmplitudeMetadata {
-
-    static func write(value: AppflowClientTypes.AmplitudeMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.AmplitudeMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -267,14 +254,6 @@ extension AppflowClientTypes.ApiKeyCredentials {
         try writer["apiKey"].write(value.apiKey)
         try writer["apiSecretKey"].write(value.apiSecretKey)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.ApiKeyCredentials {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppflowClientTypes.ApiKeyCredentials()
-        value.apiKey = try reader["apiKey"].readIfPresent()
-        value.apiSecretKey = try reader["apiSecretKey"].readIfPresent()
-        return value
-    }
 }
 
 extension AppflowClientTypes {
@@ -301,16 +280,6 @@ extension AppflowClientTypes {
 public enum AppflowClientTypes {}
 
 extension AppflowClientTypes.AuthParameter {
-
-    static func write(value: AppflowClientTypes.AuthParameter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["connectorSuppliedValues"].writeList(value.connectorSuppliedValues, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["description"].write(value.description)
-        try writer["isRequired"].write(value.isRequired)
-        try writer["isSensitiveField"].write(value.isSensitiveField)
-        try writer["key"].write(value.key)
-        try writer["label"].write(value.label)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.AuthParameter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -362,16 +331,6 @@ extension AppflowClientTypes {
 }
 
 extension AppflowClientTypes.AuthenticationConfig {
-
-    static func write(value: AppflowClientTypes.AuthenticationConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["customAuthConfigs"].writeList(value.customAuthConfigs, memberWritingClosure: AppflowClientTypes.CustomAuthConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["isApiKeyAuthSupported"].write(value.isApiKeyAuthSupported)
-        try writer["isBasicAuthSupported"].write(value.isBasicAuthSupported)
-        try writer["isCustomAuthSupported"].write(value.isCustomAuthSupported)
-        try writer["isOAuth2Supported"].write(value.isOAuth2Supported)
-        try writer["oAuth2Defaults"].write(value.oAuth2Defaults, with: AppflowClientTypes.OAuth2Defaults.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.AuthenticationConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -469,14 +428,6 @@ extension AppflowClientTypes.BasicAuthCredentials {
         guard let value else { return }
         try writer["password"].write(value.password)
         try writer["username"].write(value.username)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.BasicAuthCredentials {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppflowClientTypes.BasicAuthCredentials()
-        value.username = try reader["username"].readIfPresent()
-        value.password = try reader["password"].readIfPresent()
-        return value
     }
 }
 
@@ -710,38 +661,6 @@ public struct ConnectorAuthenticationException: ClientRuntime.ModeledError, AWSC
 
 extension AppflowClientTypes.ConnectorConfiguration {
 
-    static func write(value: AppflowClientTypes.ConnectorConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["authenticationConfig"].write(value.authenticationConfig, with: AppflowClientTypes.AuthenticationConfig.write(value:to:))
-        try writer["canUseAsDestination"].write(value.canUseAsDestination)
-        try writer["canUseAsSource"].write(value.canUseAsSource)
-        try writer["connectorArn"].write(value.connectorArn)
-        try writer["connectorDescription"].write(value.connectorDescription)
-        try writer["connectorLabel"].write(value.connectorLabel)
-        try writer["connectorMetadata"].write(value.connectorMetadata, with: AppflowClientTypes.ConnectorMetadata.write(value:to:))
-        try writer["connectorModes"].writeList(value.connectorModes, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["connectorName"].write(value.connectorName)
-        try writer["connectorOwner"].write(value.connectorOwner)
-        try writer["connectorProvisioningConfig"].write(value.connectorProvisioningConfig, with: AppflowClientTypes.ConnectorProvisioningConfig.write(value:to:))
-        try writer["connectorProvisioningType"].write(value.connectorProvisioningType)
-        try writer["connectorRuntimeSettings"].writeList(value.connectorRuntimeSettings, memberWritingClosure: AppflowClientTypes.ConnectorRuntimeSetting.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["connectorType"].write(value.connectorType)
-        try writer["connectorVersion"].write(value.connectorVersion)
-        try writer["isPrivateLinkEnabled"].write(value.isPrivateLinkEnabled)
-        try writer["isPrivateLinkEndpointUrlRequired"].write(value.isPrivateLinkEndpointUrlRequired)
-        try writer["logoURL"].write(value.logoURL)
-        try writer["registeredAt"].writeTimestamp(value.registeredAt, format: .epochSeconds)
-        try writer["registeredBy"].write(value.registeredBy)
-        try writer["supportedApiVersions"].writeList(value.supportedApiVersions, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["supportedDataTransferApis"].writeList(value.supportedDataTransferApis, memberWritingClosure: AppflowClientTypes.DataTransferApi.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["supportedDataTransferTypes"].writeList(value.supportedDataTransferTypes, memberWritingClosure: AppflowClientTypes.SupportedDataTransferType.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["supportedDestinationConnectors"].writeList(value.supportedDestinationConnectors, memberWritingClosure: AppflowClientTypes.ConnectorType.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["supportedOperators"].writeList(value.supportedOperators, memberWritingClosure: AppflowClientTypes.Operators.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["supportedSchedulingFrequencies"].writeList(value.supportedSchedulingFrequencies, memberWritingClosure: AppflowClientTypes.ScheduleFrequencyType.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["supportedTriggerTypes"].writeList(value.supportedTriggerTypes, memberWritingClosure: AppflowClientTypes.TriggerType.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["supportedWriteOperations"].writeList(value.supportedWriteOperations, memberWritingClosure: AppflowClientTypes.WriteOperationType.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.ConnectorConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppflowClientTypes.ConnectorConfiguration()
@@ -903,22 +822,6 @@ extension AppflowClientTypes {
 
 extension AppflowClientTypes.ConnectorDetail {
 
-    static func write(value: AppflowClientTypes.ConnectorDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["applicationType"].write(value.applicationType)
-        try writer["connectorDescription"].write(value.connectorDescription)
-        try writer["connectorLabel"].write(value.connectorLabel)
-        try writer["connectorModes"].writeList(value.connectorModes, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["connectorName"].write(value.connectorName)
-        try writer["connectorOwner"].write(value.connectorOwner)
-        try writer["connectorProvisioningType"].write(value.connectorProvisioningType)
-        try writer["connectorType"].write(value.connectorType)
-        try writer["connectorVersion"].write(value.connectorVersion)
-        try writer["registeredAt"].writeTimestamp(value.registeredAt, format: .epochSeconds)
-        try writer["registeredBy"].write(value.registeredBy)
-        try writer["supportedDataTransferTypes"].writeList(value.supportedDataTransferTypes, memberWritingClosure: AppflowClientTypes.SupportedDataTransferType.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.ConnectorDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppflowClientTypes.ConnectorDetail()
@@ -1000,13 +903,6 @@ extension AppflowClientTypes {
 
 extension AppflowClientTypes.ConnectorEntity {
 
-    static func write(value: AppflowClientTypes.ConnectorEntity?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["hasNestedEntities"].write(value.hasNestedEntities)
-        try writer["label"].write(value.label)
-        try writer["name"].write(value.name)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.ConnectorEntity {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppflowClientTypes.ConnectorEntity()
@@ -1043,21 +939,6 @@ extension AppflowClientTypes {
 }
 
 extension AppflowClientTypes.ConnectorEntityField {
-
-    static func write(value: AppflowClientTypes.ConnectorEntityField?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["customProperties"].writeMap(value.customProperties, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["defaultValue"].write(value.defaultValue)
-        try writer["description"].write(value.description)
-        try writer["destinationProperties"].write(value.destinationProperties, with: AppflowClientTypes.DestinationFieldProperties.write(value:to:))
-        try writer["identifier"].write(value.identifier)
-        try writer["isDeprecated"].write(value.isDeprecated)
-        try writer["isPrimaryKey"].write(value.isPrimaryKey)
-        try writer["label"].write(value.label)
-        try writer["parentIdentifier"].write(value.parentIdentifier)
-        try writer["sourceProperties"].write(value.sourceProperties, with: AppflowClientTypes.SourceFieldProperties.write(value:to:))
-        try writer["supportedFieldTypeDetails"].write(value.supportedFieldTypeDetails, with: AppflowClientTypes.SupportedFieldTypeDetails.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.ConnectorEntityField {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1135,32 +1016,6 @@ extension AppflowClientTypes {
 }
 
 extension AppflowClientTypes.ConnectorMetadata {
-
-    static func write(value: AppflowClientTypes.ConnectorMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Amplitude"].write(value.amplitude, with: AppflowClientTypes.AmplitudeMetadata.write(value:to:))
-        try writer["CustomerProfiles"].write(value.customerProfiles, with: AppflowClientTypes.CustomerProfilesMetadata.write(value:to:))
-        try writer["Datadog"].write(value.datadog, with: AppflowClientTypes.DatadogMetadata.write(value:to:))
-        try writer["Dynatrace"].write(value.dynatrace, with: AppflowClientTypes.DynatraceMetadata.write(value:to:))
-        try writer["EventBridge"].write(value.eventBridge, with: AppflowClientTypes.EventBridgeMetadata.write(value:to:))
-        try writer["GoogleAnalytics"].write(value.googleAnalytics, with: AppflowClientTypes.GoogleAnalyticsMetadata.write(value:to:))
-        try writer["Honeycode"].write(value.honeycode, with: AppflowClientTypes.HoneycodeMetadata.write(value:to:))
-        try writer["InforNexus"].write(value.inforNexus, with: AppflowClientTypes.InforNexusMetadata.write(value:to:))
-        try writer["Marketo"].write(value.marketo, with: AppflowClientTypes.MarketoMetadata.write(value:to:))
-        try writer["Pardot"].write(value.pardot, with: AppflowClientTypes.PardotMetadata.write(value:to:))
-        try writer["Redshift"].write(value.redshift, with: AppflowClientTypes.RedshiftMetadata.write(value:to:))
-        try writer["S3"].write(value.s3, with: AppflowClientTypes.S3Metadata.write(value:to:))
-        try writer["SAPOData"].write(value.sapoData, with: AppflowClientTypes.SAPODataMetadata.write(value:to:))
-        try writer["Salesforce"].write(value.salesforce, with: AppflowClientTypes.SalesforceMetadata.write(value:to:))
-        try writer["ServiceNow"].write(value.serviceNow, with: AppflowClientTypes.ServiceNowMetadata.write(value:to:))
-        try writer["Singular"].write(value.singular, with: AppflowClientTypes.SingularMetadata.write(value:to:))
-        try writer["Slack"].write(value.slack, with: AppflowClientTypes.SlackMetadata.write(value:to:))
-        try writer["Snowflake"].write(value.snowflake, with: AppflowClientTypes.SnowflakeMetadata.write(value:to:))
-        try writer["Trendmicro"].write(value.trendmicro, with: AppflowClientTypes.TrendmicroMetadata.write(value:to:))
-        try writer["Upsolver"].write(value.upsolver, with: AppflowClientTypes.UpsolverMetadata.write(value:to:))
-        try writer["Veeva"].write(value.veeva, with: AppflowClientTypes.VeevaMetadata.write(value:to:))
-        try writer["Zendesk"].write(value.zendesk, with: AppflowClientTypes.ZendeskMetadata.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.ConnectorMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1297,14 +1152,6 @@ extension AppflowClientTypes.ConnectorOAuthRequest {
         guard let value else { return }
         try writer["authCode"].write(value.authCode)
         try writer["redirectUri"].write(value.redirectUri)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.ConnectorOAuthRequest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppflowClientTypes.ConnectorOAuthRequest()
-        value.authCode = try reader["authCode"].readIfPresent()
-        value.redirectUri = try reader["redirectUri"].readIfPresent()
-        return value
     }
 }
 
@@ -1457,20 +1304,6 @@ extension AppflowClientTypes {
 
 extension AppflowClientTypes.ConnectorProfile {
 
-    static func write(value: AppflowClientTypes.ConnectorProfile?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["connectionMode"].write(value.connectionMode)
-        try writer["connectorLabel"].write(value.connectorLabel)
-        try writer["connectorProfileArn"].write(value.connectorProfileArn)
-        try writer["connectorProfileName"].write(value.connectorProfileName)
-        try writer["connectorProfileProperties"].write(value.connectorProfileProperties, with: AppflowClientTypes.ConnectorProfileProperties.write(value:to:))
-        try writer["connectorType"].write(value.connectorType)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["credentialsArn"].write(value.credentialsArn)
-        try writer["lastUpdatedAt"].writeTimestamp(value.lastUpdatedAt, format: .epochSeconds)
-        try writer["privateConnectionProvisioningState"].write(value.privateConnectionProvisioningState, with: AppflowClientTypes.PrivateConnectionProvisioningState.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.ConnectorProfile {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppflowClientTypes.ConnectorProfile()
@@ -1547,14 +1380,6 @@ extension AppflowClientTypes.ConnectorProfileConfig {
         try writer["connectorProfileCredentials"].write(value.connectorProfileCredentials, with: AppflowClientTypes.ConnectorProfileCredentials.write(value:to:))
         try writer["connectorProfileProperties"].write(value.connectorProfileProperties, with: AppflowClientTypes.ConnectorProfileProperties.write(value:to:))
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.ConnectorProfileConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppflowClientTypes.ConnectorProfileConfig()
-        value.connectorProfileProperties = try reader["connectorProfileProperties"].readIfPresent(with: AppflowClientTypes.ConnectorProfileProperties.read(from:))
-        value.connectorProfileCredentials = try reader["connectorProfileCredentials"].readIfPresent(with: AppflowClientTypes.ConnectorProfileCredentials.read(from:))
-        return value
-    }
 }
 
 extension AppflowClientTypes {
@@ -1601,31 +1426,6 @@ extension AppflowClientTypes.ConnectorProfileCredentials {
         try writer["Trendmicro"].write(value.trendmicro, with: AppflowClientTypes.TrendmicroConnectorProfileCredentials.write(value:to:))
         try writer["Veeva"].write(value.veeva, with: AppflowClientTypes.VeevaConnectorProfileCredentials.write(value:to:))
         try writer["Zendesk"].write(value.zendesk, with: AppflowClientTypes.ZendeskConnectorProfileCredentials.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.ConnectorProfileCredentials {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppflowClientTypes.ConnectorProfileCredentials()
-        value.amplitude = try reader["Amplitude"].readIfPresent(with: AppflowClientTypes.AmplitudeConnectorProfileCredentials.read(from:))
-        value.datadog = try reader["Datadog"].readIfPresent(with: AppflowClientTypes.DatadogConnectorProfileCredentials.read(from:))
-        value.dynatrace = try reader["Dynatrace"].readIfPresent(with: AppflowClientTypes.DynatraceConnectorProfileCredentials.read(from:))
-        value.googleAnalytics = try reader["GoogleAnalytics"].readIfPresent(with: AppflowClientTypes.GoogleAnalyticsConnectorProfileCredentials.read(from:))
-        value.honeycode = try reader["Honeycode"].readIfPresent(with: AppflowClientTypes.HoneycodeConnectorProfileCredentials.read(from:))
-        value.inforNexus = try reader["InforNexus"].readIfPresent(with: AppflowClientTypes.InforNexusConnectorProfileCredentials.read(from:))
-        value.marketo = try reader["Marketo"].readIfPresent(with: AppflowClientTypes.MarketoConnectorProfileCredentials.read(from:))
-        value.redshift = try reader["Redshift"].readIfPresent(with: AppflowClientTypes.RedshiftConnectorProfileCredentials.read(from:))
-        value.salesforce = try reader["Salesforce"].readIfPresent(with: AppflowClientTypes.SalesforceConnectorProfileCredentials.read(from:))
-        value.serviceNow = try reader["ServiceNow"].readIfPresent(with: AppflowClientTypes.ServiceNowConnectorProfileCredentials.read(from:))
-        value.singular = try reader["Singular"].readIfPresent(with: AppflowClientTypes.SingularConnectorProfileCredentials.read(from:))
-        value.slack = try reader["Slack"].readIfPresent(with: AppflowClientTypes.SlackConnectorProfileCredentials.read(from:))
-        value.snowflake = try reader["Snowflake"].readIfPresent(with: AppflowClientTypes.SnowflakeConnectorProfileCredentials.read(from:))
-        value.trendmicro = try reader["Trendmicro"].readIfPresent(with: AppflowClientTypes.TrendmicroConnectorProfileCredentials.read(from:))
-        value.veeva = try reader["Veeva"].readIfPresent(with: AppflowClientTypes.VeevaConnectorProfileCredentials.read(from:))
-        value.zendesk = try reader["Zendesk"].readIfPresent(with: AppflowClientTypes.ZendeskConnectorProfileCredentials.read(from:))
-        value.sapoData = try reader["SAPOData"].readIfPresent(with: AppflowClientTypes.SAPODataConnectorProfileCredentials.read(from:))
-        value.customConnector = try reader["CustomConnector"].readIfPresent(with: AppflowClientTypes.CustomConnectorProfileCredentials.read(from:))
-        value.pardot = try reader["Pardot"].readIfPresent(with: AppflowClientTypes.PardotConnectorProfileCredentials.read(from:))
-        return value
     }
 }
 
@@ -1916,17 +1716,6 @@ extension AppflowClientTypes {
 }
 
 extension AppflowClientTypes.ConnectorRuntimeSetting {
-
-    static func write(value: AppflowClientTypes.ConnectorRuntimeSetting?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["connectorSuppliedValueOptions"].writeList(value.connectorSuppliedValueOptions, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["dataType"].write(value.dataType)
-        try writer["description"].write(value.description)
-        try writer["isRequired"].write(value.isRequired)
-        try writer["key"].write(value.key)
-        try writer["label"].write(value.label)
-        try writer["scope"].write(value.scope)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.ConnectorRuntimeSetting {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2347,12 +2136,6 @@ enum CreateFlowOutputError {
 
 extension AppflowClientTypes.CustomAuthConfig {
 
-    static func write(value: AppflowClientTypes.CustomAuthConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["authParameters"].writeList(value.authParameters, memberWritingClosure: AppflowClientTypes.AuthParameter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["customAuthenticationType"].write(value.customAuthenticationType)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.CustomAuthConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppflowClientTypes.CustomAuthConfig()
@@ -2388,14 +2171,6 @@ extension AppflowClientTypes.CustomAuthCredentials {
         guard let value else { return }
         try writer["credentialsMap"].writeMap(value.credentialsMap, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["customAuthenticationType"].write(value.customAuthenticationType)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.CustomAuthCredentials {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppflowClientTypes.CustomAuthCredentials()
-        value.customAuthenticationType = try reader["customAuthenticationType"].readIfPresent()
-        value.credentialsMap = try reader["credentialsMap"].readMapIfPresent(valueReadingClosure: Swift.String.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
     }
 }
 
@@ -2485,17 +2260,6 @@ extension AppflowClientTypes.CustomConnectorProfileCredentials {
         try writer["basic"].write(value.basic, with: AppflowClientTypes.BasicAuthCredentials.write(value:to:))
         try writer["custom"].write(value.custom, with: AppflowClientTypes.CustomAuthCredentials.write(value:to:))
         try writer["oauth2"].write(value.oauth2, with: AppflowClientTypes.OAuth2Credentials.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.CustomConnectorProfileCredentials {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppflowClientTypes.CustomConnectorProfileCredentials()
-        value.authenticationType = try reader["authenticationType"].readIfPresent()
-        value.basic = try reader["basic"].readIfPresent(with: AppflowClientTypes.BasicAuthCredentials.read(from:))
-        value.oauth2 = try reader["oauth2"].readIfPresent(with: AppflowClientTypes.OAuth2Credentials.read(from:))
-        value.apiKey = try reader["apiKey"].readIfPresent(with: AppflowClientTypes.ApiKeyCredentials.read(from:))
-        value.custom = try reader["custom"].readIfPresent(with: AppflowClientTypes.CustomAuthCredentials.read(from:))
-        return value
     }
 }
 
@@ -2652,11 +2416,6 @@ extension AppflowClientTypes {
 }
 
 extension AppflowClientTypes.CustomerProfilesMetadata {
-
-    static func write(value: AppflowClientTypes.CustomerProfilesMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.CustomerProfilesMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2854,14 +2613,6 @@ extension AppflowClientTypes.DatadogConnectorProfileCredentials {
         try writer["apiKey"].write(value.apiKey)
         try writer["applicationKey"].write(value.applicationKey)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.DatadogConnectorProfileCredentials {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppflowClientTypes.DatadogConnectorProfileCredentials()
-        value.apiKey = try reader["apiKey"].readIfPresent()
-        value.applicationKey = try reader["applicationKey"].readIfPresent()
-        return value
-    }
 }
 
 extension AppflowClientTypes {
@@ -2919,11 +2670,6 @@ extension AppflowClientTypes {
 }
 
 extension AppflowClientTypes.DatadogMetadata {
-
-    static func write(value: AppflowClientTypes.DatadogMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.DatadogMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3781,16 +3527,6 @@ extension AppflowClientTypes {
 
 extension AppflowClientTypes.DestinationFieldProperties {
 
-    static func write(value: AppflowClientTypes.DestinationFieldProperties?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["isCreatable"].write(value.isCreatable)
-        try writer["isDefaultedOnCreate"].write(value.isDefaultedOnCreate)
-        try writer["isNullable"].write(value.isNullable)
-        try writer["isUpdatable"].write(value.isUpdatable)
-        try writer["isUpsertable"].write(value.isUpsertable)
-        try writer["supportedWriteOperations"].writeList(value.supportedWriteOperations, memberWritingClosure: AppflowClientTypes.WriteOperationType.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.DestinationFieldProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppflowClientTypes.DestinationFieldProperties()
@@ -3966,13 +3702,6 @@ extension AppflowClientTypes.DynatraceConnectorProfileCredentials {
         guard let value else { return }
         try writer["apiToken"].write(value.apiToken)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.DynatraceConnectorProfileCredentials {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppflowClientTypes.DynatraceConnectorProfileCredentials()
-        value.apiToken = try reader["apiToken"].readIfPresent()
-        return value
-    }
 }
 
 extension AppflowClientTypes {
@@ -4025,11 +3754,6 @@ extension AppflowClientTypes {
 }
 
 extension AppflowClientTypes.DynatraceMetadata {
-
-    static func write(value: AppflowClientTypes.DynatraceMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.DynatraceMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4123,12 +3847,6 @@ extension AppflowClientTypes {
 
 extension AppflowClientTypes.ErrorInfo {
 
-    static func write(value: AppflowClientTypes.ErrorInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["executionMessage"].write(value.executionMessage)
-        try writer["putFailuresCount"].write(value.putFailuresCount)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.ErrorInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppflowClientTypes.ErrorInfo()
@@ -4198,11 +3916,6 @@ extension AppflowClientTypes {
 
 extension AppflowClientTypes.EventBridgeMetadata {
 
-    static func write(value: AppflowClientTypes.EventBridgeMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.EventBridgeMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         return AppflowClientTypes.EventBridgeMetadata()
@@ -4219,13 +3932,6 @@ extension AppflowClientTypes {
 }
 
 extension AppflowClientTypes.ExecutionDetails {
-
-    static func write(value: AppflowClientTypes.ExecutionDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["mostRecentExecutionMessage"].write(value.mostRecentExecutionMessage)
-        try writer["mostRecentExecutionStatus"].write(value.mostRecentExecutionStatus)
-        try writer["mostRecentExecutionTime"].writeTimestamp(value.mostRecentExecutionTime, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.ExecutionDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4262,18 +3968,6 @@ extension AppflowClientTypes {
 }
 
 extension AppflowClientTypes.ExecutionRecord {
-
-    static func write(value: AppflowClientTypes.ExecutionRecord?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["dataPullEndTime"].writeTimestamp(value.dataPullEndTime, format: .epochSeconds)
-        try writer["dataPullStartTime"].writeTimestamp(value.dataPullStartTime, format: .epochSeconds)
-        try writer["executionId"].write(value.executionId)
-        try writer["executionResult"].write(value.executionResult, with: AppflowClientTypes.ExecutionResult.write(value:to:))
-        try writer["executionStatus"].write(value.executionStatus)
-        try writer["lastUpdatedAt"].writeTimestamp(value.lastUpdatedAt, format: .epochSeconds)
-        try writer["metadataCatalogDetails"].writeList(value.metadataCatalogDetails, memberWritingClosure: AppflowClientTypes.MetadataCatalogDetail.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["startedAt"].writeTimestamp(value.startedAt, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.ExecutionRecord {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4335,16 +4029,6 @@ extension AppflowClientTypes {
 }
 
 extension AppflowClientTypes.ExecutionResult {
-
-    static func write(value: AppflowClientTypes.ExecutionResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["bytesProcessed"].write(value.bytesProcessed)
-        try writer["bytesWritten"].write(value.bytesWritten)
-        try writer["errorInfo"].write(value.errorInfo, with: AppflowClientTypes.ErrorInfo.write(value:to:))
-        try writer["maxPageSize"].write(value.maxPageSize)
-        try writer["numParallelProcesses"].write(value.numParallelProcesses)
-        try writer["recordsProcessed"].write(value.recordsProcessed)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.ExecutionResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4436,17 +4120,6 @@ extension AppflowClientTypes {
 
 extension AppflowClientTypes.FieldTypeDetails {
 
-    static func write(value: AppflowClientTypes.FieldTypeDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["fieldLengthRange"].write(value.fieldLengthRange, with: AppflowClientTypes.Range.write(value:to:))
-        try writer["fieldType"].write(value.fieldType)
-        try writer["fieldValueRange"].write(value.fieldValueRange, with: AppflowClientTypes.Range.write(value:to:))
-        try writer["filterOperators"].writeList(value.filterOperators, memberWritingClosure: AppflowClientTypes.Operator.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["supportedDateFormat"].write(value.supportedDateFormat)
-        try writer["supportedValues"].writeList(value.supportedValues, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["valueRegexPattern"].write(value.valueRegexPattern)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.FieldTypeDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppflowClientTypes.FieldTypeDetails()
@@ -4537,25 +4210,6 @@ extension AppflowClientTypes {
 }
 
 extension AppflowClientTypes.FlowDefinition {
-
-    static func write(value: AppflowClientTypes.FlowDefinition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["createdBy"].write(value.createdBy)
-        try writer["description"].write(value.description)
-        try writer["destinationConnectorLabel"].write(value.destinationConnectorLabel)
-        try writer["destinationConnectorType"].write(value.destinationConnectorType)
-        try writer["flowArn"].write(value.flowArn)
-        try writer["flowName"].write(value.flowName)
-        try writer["flowStatus"].write(value.flowStatus)
-        try writer["lastRunExecutionDetails"].write(value.lastRunExecutionDetails, with: AppflowClientTypes.ExecutionDetails.write(value:to:))
-        try writer["lastUpdatedAt"].writeTimestamp(value.lastUpdatedAt, format: .epochSeconds)
-        try writer["lastUpdatedBy"].write(value.lastUpdatedBy)
-        try writer["sourceConnectorLabel"].write(value.sourceConnectorLabel)
-        try writer["sourceConnectorType"].write(value.sourceConnectorType)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["triggerType"].write(value.triggerType)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.FlowDefinition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4784,17 +4438,6 @@ extension AppflowClientTypes.GoogleAnalyticsConnectorProfileCredentials {
         try writer["oAuthRequest"].write(value.oAuthRequest, with: AppflowClientTypes.ConnectorOAuthRequest.write(value:to:))
         try writer["refreshToken"].write(value.refreshToken)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.GoogleAnalyticsConnectorProfileCredentials {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppflowClientTypes.GoogleAnalyticsConnectorProfileCredentials()
-        value.clientId = try reader["clientId"].readIfPresent()
-        value.clientSecret = try reader["clientSecret"].readIfPresent()
-        value.accessToken = try reader["accessToken"].readIfPresent()
-        value.refreshToken = try reader["refreshToken"].readIfPresent()
-        value.oAuthRequest = try reader["oAuthRequest"].readIfPresent(with: AppflowClientTypes.ConnectorOAuthRequest.read(from:))
-        return value
-    }
 }
 
 extension AppflowClientTypes {
@@ -4854,11 +4497,6 @@ extension AppflowClientTypes {
 }
 
 extension AppflowClientTypes.GoogleAnalyticsMetadata {
-
-    static func write(value: AppflowClientTypes.GoogleAnalyticsMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["oAuthScopes"].writeList(value.oAuthScopes, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.GoogleAnalyticsMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4928,15 +4566,6 @@ extension AppflowClientTypes.HoneycodeConnectorProfileCredentials {
         try writer["accessToken"].write(value.accessToken)
         try writer["oAuthRequest"].write(value.oAuthRequest, with: AppflowClientTypes.ConnectorOAuthRequest.write(value:to:))
         try writer["refreshToken"].write(value.refreshToken)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.HoneycodeConnectorProfileCredentials {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppflowClientTypes.HoneycodeConnectorProfileCredentials()
-        value.accessToken = try reader["accessToken"].readIfPresent()
-        value.refreshToken = try reader["refreshToken"].readIfPresent()
-        value.oAuthRequest = try reader["oAuthRequest"].readIfPresent(with: AppflowClientTypes.ConnectorOAuthRequest.read(from:))
-        return value
     }
 }
 
@@ -5025,11 +4654,6 @@ extension AppflowClientTypes {
 }
 
 extension AppflowClientTypes.HoneycodeMetadata {
-
-    static func write(value: AppflowClientTypes.HoneycodeMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["oAuthScopes"].writeList(value.oAuthScopes, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.HoneycodeMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5169,16 +4793,6 @@ extension AppflowClientTypes.InforNexusConnectorProfileCredentials {
         try writer["secretAccessKey"].write(value.secretAccessKey)
         try writer["userId"].write(value.userId)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.InforNexusConnectorProfileCredentials {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppflowClientTypes.InforNexusConnectorProfileCredentials()
-        value.accessKeyId = try reader["accessKeyId"].readIfPresent()
-        value.userId = try reader["userId"].readIfPresent()
-        value.secretAccessKey = try reader["secretAccessKey"].readIfPresent()
-        value.datakey = try reader["datakey"].readIfPresent()
-        return value
-    }
 }
 
 extension AppflowClientTypes {
@@ -5246,11 +4860,6 @@ extension AppflowClientTypes {
 }
 
 extension AppflowClientTypes.InforNexusMetadata {
-
-    static func write(value: AppflowClientTypes.InforNexusMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.InforNexusMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5791,16 +5400,6 @@ extension AppflowClientTypes.MarketoConnectorProfileCredentials {
         try writer["clientSecret"].write(value.clientSecret)
         try writer["oAuthRequest"].write(value.oAuthRequest, with: AppflowClientTypes.ConnectorOAuthRequest.write(value:to:))
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.MarketoConnectorProfileCredentials {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppflowClientTypes.MarketoConnectorProfileCredentials()
-        value.clientId = try reader["clientId"].readIfPresent()
-        value.clientSecret = try reader["clientSecret"].readIfPresent()
-        value.accessToken = try reader["accessToken"].readIfPresent()
-        value.oAuthRequest = try reader["oAuthRequest"].readIfPresent(with: AppflowClientTypes.ConnectorOAuthRequest.read(from:))
-        return value
-    }
 }
 
 extension AppflowClientTypes {
@@ -5905,11 +5504,6 @@ extension AppflowClientTypes {
 
 extension AppflowClientTypes.MarketoMetadata {
 
-    static func write(value: AppflowClientTypes.MarketoMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.MarketoMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         return AppflowClientTypes.MarketoMetadata()
@@ -5990,14 +5584,6 @@ extension AppflowClientTypes {
 
 extension AppflowClientTypes.MetadataCatalogDetail {
 
-    static func write(value: AppflowClientTypes.MetadataCatalogDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["catalogType"].write(value.catalogType)
-        try writer["partitionRegistrationOutput"].write(value.partitionRegistrationOutput, with: AppflowClientTypes.RegistrationOutput.write(value:to:))
-        try writer["tableName"].write(value.tableName)
-        try writer["tableRegistrationOutput"].write(value.tableRegistrationOutput, with: AppflowClientTypes.RegistrationOutput.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.MetadataCatalogDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppflowClientTypes.MetadataCatalogDetail()
@@ -6052,17 +5638,6 @@ extension AppflowClientTypes.OAuth2Credentials {
         try writer["oAuthRequest"].write(value.oAuthRequest, with: AppflowClientTypes.ConnectorOAuthRequest.write(value:to:))
         try writer["refreshToken"].write(value.refreshToken)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.OAuth2Credentials {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppflowClientTypes.OAuth2Credentials()
-        value.clientId = try reader["clientId"].readIfPresent()
-        value.clientSecret = try reader["clientSecret"].readIfPresent()
-        value.accessToken = try reader["accessToken"].readIfPresent()
-        value.refreshToken = try reader["refreshToken"].readIfPresent()
-        value.oAuthRequest = try reader["oAuthRequest"].readIfPresent(with: AppflowClientTypes.ConnectorOAuthRequest.read(from:))
-        return value
-    }
 }
 
 extension AppflowClientTypes {
@@ -6098,17 +5673,6 @@ extension AppflowClientTypes {
 }
 
 extension AppflowClientTypes.OAuth2CustomParameter {
-
-    static func write(value: AppflowClientTypes.OAuth2CustomParameter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["connectorSuppliedValues"].writeList(value.connectorSuppliedValues, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["description"].write(value.description)
-        try writer["isRequired"].write(value.isRequired)
-        try writer["isSensitiveField"].write(value.isSensitiveField)
-        try writer["key"].write(value.key)
-        try writer["label"].write(value.label)
-        try writer["type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.OAuth2CustomParameter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6195,15 +5759,6 @@ extension AppflowClientTypes {
 }
 
 extension AppflowClientTypes.OAuth2Defaults {
-
-    static func write(value: AppflowClientTypes.OAuth2Defaults?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["authCodeUrls"].writeList(value.authCodeUrls, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["oauth2CustomProperties"].writeList(value.oauth2CustomProperties, memberWritingClosure: AppflowClientTypes.OAuth2CustomParameter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["oauth2GrantTypesSupported"].writeList(value.oauth2GrantTypesSupported, memberWritingClosure: AppflowClientTypes.OAuth2GrantType.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["oauthScopes"].writeList(value.oauthScopes, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["tokenUrls"].writeList(value.tokenUrls, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.OAuth2Defaults {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6341,17 +5896,6 @@ extension AppflowClientTypes.OAuthCredentials {
         try writer["clientSecret"].write(value.clientSecret)
         try writer["oAuthRequest"].write(value.oAuthRequest, with: AppflowClientTypes.ConnectorOAuthRequest.write(value:to:))
         try writer["refreshToken"].write(value.refreshToken)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.OAuthCredentials {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppflowClientTypes.OAuthCredentials()
-        value.clientId = try reader["clientId"].readIfPresent()
-        value.clientSecret = try reader["clientSecret"].readIfPresent()
-        value.accessToken = try reader["accessToken"].readIfPresent()
-        value.refreshToken = try reader["refreshToken"].readIfPresent()
-        value.oAuthRequest = try reader["oAuthRequest"].readIfPresent(with: AppflowClientTypes.ConnectorOAuthRequest.read(from:))
-        return value
     }
 }
 
@@ -6764,16 +6308,6 @@ extension AppflowClientTypes.PardotConnectorProfileCredentials {
         try writer["oAuthRequest"].write(value.oAuthRequest, with: AppflowClientTypes.ConnectorOAuthRequest.write(value:to:))
         try writer["refreshToken"].write(value.refreshToken)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.PardotConnectorProfileCredentials {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppflowClientTypes.PardotConnectorProfileCredentials()
-        value.accessToken = try reader["accessToken"].readIfPresent()
-        value.refreshToken = try reader["refreshToken"].readIfPresent()
-        value.oAuthRequest = try reader["oAuthRequest"].readIfPresent(with: AppflowClientTypes.ConnectorOAuthRequest.read(from:))
-        value.clientCredentialsArn = try reader["clientCredentialsArn"].readIfPresent()
-        return value
-    }
 }
 
 extension AppflowClientTypes {
@@ -6848,11 +6382,6 @@ extension AppflowClientTypes {
 }
 
 extension AppflowClientTypes.PardotMetadata {
-
-    static func write(value: AppflowClientTypes.PardotMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.PardotMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7093,13 +6622,6 @@ extension AppflowClientTypes {
 
 extension AppflowClientTypes.PrivateConnectionProvisioningState {
 
-    static func write(value: AppflowClientTypes.PrivateConnectionProvisioningState?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["failureCause"].write(value.failureCause)
-        try writer["failureMessage"].write(value.failureMessage)
-        try writer["status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.PrivateConnectionProvisioningState {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppflowClientTypes.PrivateConnectionProvisioningState()
@@ -7169,12 +6691,6 @@ extension AppflowClientTypes {
 
 extension AppflowClientTypes.Range {
 
-    static func write(value: AppflowClientTypes.Range?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["maximum"].write(value.maximum)
-        try writer["minimum"].write(value.minimum)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.Range {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppflowClientTypes.Range()
@@ -7215,14 +6731,6 @@ extension AppflowClientTypes.RedshiftConnectorProfileCredentials {
         guard let value else { return }
         try writer["password"].write(value.password)
         try writer["username"].write(value.username)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.RedshiftConnectorProfileCredentials {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppflowClientTypes.RedshiftConnectorProfileCredentials()
-        value.username = try reader["username"].readIfPresent()
-        value.password = try reader["password"].readIfPresent()
-        return value
     }
 }
 
@@ -7380,11 +6888,6 @@ extension AppflowClientTypes {
 
 extension AppflowClientTypes.RedshiftMetadata {
 
-    static func write(value: AppflowClientTypes.RedshiftMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.RedshiftMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         return AppflowClientTypes.RedshiftMetadata()
@@ -7494,13 +6997,6 @@ enum RegisterConnectorOutputError {
 }
 
 extension AppflowClientTypes.RegistrationOutput {
-
-    static func write(value: AppflowClientTypes.RegistrationOutput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.message)
-        try writer["result"].write(value.result)
-        try writer["status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.RegistrationOutput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7840,11 +7336,6 @@ extension AppflowClientTypes {
 
 extension AppflowClientTypes.S3Metadata {
 
-    static func write(value: AppflowClientTypes.S3Metadata?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.S3Metadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         return AppflowClientTypes.S3Metadata()
@@ -8051,14 +7542,6 @@ extension AppflowClientTypes.SAPODataConnectorProfileCredentials {
         try writer["basicAuthCredentials"].write(value.basicAuthCredentials, with: AppflowClientTypes.BasicAuthCredentials.write(value:to:))
         try writer["oAuthCredentials"].write(value.oAuthCredentials, with: AppflowClientTypes.OAuthCredentials.write(value:to:))
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.SAPODataConnectorProfileCredentials {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppflowClientTypes.SAPODataConnectorProfileCredentials()
-        value.basicAuthCredentials = try reader["basicAuthCredentials"].readIfPresent(with: AppflowClientTypes.BasicAuthCredentials.read(from:))
-        value.oAuthCredentials = try reader["oAuthCredentials"].readIfPresent(with: AppflowClientTypes.OAuthCredentials.read(from:))
-        return value
-    }
 }
 
 extension AppflowClientTypes {
@@ -8215,11 +7698,6 @@ extension AppflowClientTypes {
 }
 
 extension AppflowClientTypes.SAPODataMetadata {
-
-    static func write(value: AppflowClientTypes.SAPODataMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.SAPODataMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8446,18 +7924,6 @@ extension AppflowClientTypes.SalesforceConnectorProfileCredentials {
         try writer["oAuthRequest"].write(value.oAuthRequest, with: AppflowClientTypes.ConnectorOAuthRequest.write(value:to:))
         try writer["refreshToken"].write(value.refreshToken)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.SalesforceConnectorProfileCredentials {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppflowClientTypes.SalesforceConnectorProfileCredentials()
-        value.accessToken = try reader["accessToken"].readIfPresent()
-        value.refreshToken = try reader["refreshToken"].readIfPresent()
-        value.oAuthRequest = try reader["oAuthRequest"].readIfPresent(with: AppflowClientTypes.ConnectorOAuthRequest.read(from:))
-        value.clientCredentialsArn = try reader["clientCredentialsArn"].readIfPresent()
-        value.oAuth2GrantType = try reader["oAuth2GrantType"].readIfPresent()
-        value.jwtToken = try reader["jwtToken"].readIfPresent()
-        return value
-    }
 }
 
 extension AppflowClientTypes {
@@ -8647,13 +8113,6 @@ extension AppflowClientTypes {
 }
 
 extension AppflowClientTypes.SalesforceMetadata {
-
-    static func write(value: AppflowClientTypes.SalesforceMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["dataTransferApis"].writeList(value.dataTransferApis, memberWritingClosure: AppflowClientTypes.SalesforceDataTransferApi.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["oAuthScopes"].writeList(value.oAuthScopes, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["oauth2GrantTypesSupported"].writeList(value.oauth2GrantTypesSupported, memberWritingClosure: AppflowClientTypes.OAuth2GrantType.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.SalesforceMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8955,15 +8414,6 @@ extension AppflowClientTypes.ServiceNowConnectorProfileCredentials {
         try writer["password"].write(value.password)
         try writer["username"].write(value.username)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.ServiceNowConnectorProfileCredentials {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppflowClientTypes.ServiceNowConnectorProfileCredentials()
-        value.username = try reader["username"].readIfPresent()
-        value.password = try reader["password"].readIfPresent()
-        value.oAuth2Credentials = try reader["oAuth2Credentials"].readIfPresent(with: AppflowClientTypes.OAuth2Credentials.read(from:))
-        return value
-    }
 }
 
 extension AppflowClientTypes {
@@ -9023,11 +8473,6 @@ extension AppflowClientTypes {
 }
 
 extension AppflowClientTypes.ServiceNowMetadata {
-
-    static func write(value: AppflowClientTypes.ServiceNowMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.ServiceNowMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -9190,13 +8635,6 @@ extension AppflowClientTypes.SingularConnectorProfileCredentials {
         guard let value else { return }
         try writer["apiKey"].write(value.apiKey)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.SingularConnectorProfileCredentials {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppflowClientTypes.SingularConnectorProfileCredentials()
-        value.apiKey = try reader["apiKey"].readIfPresent()
-        return value
-    }
 }
 
 extension AppflowClientTypes {
@@ -9239,11 +8677,6 @@ extension AppflowClientTypes {
 }
 
 extension AppflowClientTypes.SingularMetadata {
-
-    static func write(value: AppflowClientTypes.SingularMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.SingularMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -9387,16 +8820,6 @@ extension AppflowClientTypes.SlackConnectorProfileCredentials {
         try writer["clientSecret"].write(value.clientSecret)
         try writer["oAuthRequest"].write(value.oAuthRequest, with: AppflowClientTypes.ConnectorOAuthRequest.write(value:to:))
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.SlackConnectorProfileCredentials {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppflowClientTypes.SlackConnectorProfileCredentials()
-        value.clientId = try reader["clientId"].readIfPresent()
-        value.clientSecret = try reader["clientSecret"].readIfPresent()
-        value.accessToken = try reader["accessToken"].readIfPresent()
-        value.oAuthRequest = try reader["oAuthRequest"].readIfPresent(with: AppflowClientTypes.ConnectorOAuthRequest.read(from:))
-        return value
-    }
 }
 
 extension AppflowClientTypes {
@@ -9462,11 +8885,6 @@ extension AppflowClientTypes {
 }
 
 extension AppflowClientTypes.SlackMetadata {
-
-    static func write(value: AppflowClientTypes.SlackMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["oAuthScopes"].writeList(value.oAuthScopes, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.SlackMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -9535,14 +8953,6 @@ extension AppflowClientTypes.SnowflakeConnectorProfileCredentials {
         guard let value else { return }
         try writer["password"].write(value.password)
         try writer["username"].write(value.username)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.SnowflakeConnectorProfileCredentials {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppflowClientTypes.SnowflakeConnectorProfileCredentials()
-        value.username = try reader["username"].readIfPresent()
-        value.password = try reader["password"].readIfPresent()
-        return value
     }
 }
 
@@ -9690,11 +9100,6 @@ extension AppflowClientTypes {
 }
 
 extension AppflowClientTypes.SnowflakeMetadata {
-
-    static func write(value: AppflowClientTypes.SnowflakeMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["supportedRegions"].writeList(value.supportedRegions, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.SnowflakeMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -9848,13 +9253,6 @@ extension AppflowClientTypes {
 }
 
 extension AppflowClientTypes.SourceFieldProperties {
-
-    static func write(value: AppflowClientTypes.SourceFieldProperties?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["isQueryable"].write(value.isQueryable)
-        try writer["isRetrievable"].write(value.isRetrievable)
-        try writer["isTimestampFieldForIncrementalQueries"].write(value.isTimestampFieldForIncrementalQueries)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.SourceFieldProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -10174,11 +9572,6 @@ extension AppflowClientTypes {
 
 extension AppflowClientTypes.SupportedFieldTypeDetails {
 
-    static func write(value: AppflowClientTypes.SupportedFieldTypeDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["v1"].write(value.v1, with: AppflowClientTypes.FieldTypeDetails.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.SupportedFieldTypeDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppflowClientTypes.SupportedFieldTypeDetails()
@@ -10493,13 +9886,6 @@ extension AppflowClientTypes.TrendmicroConnectorProfileCredentials {
         guard let value else { return }
         try writer["apiSecretKey"].write(value.apiSecretKey)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.TrendmicroConnectorProfileCredentials {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppflowClientTypes.TrendmicroConnectorProfileCredentials()
-        value.apiSecretKey = try reader["apiSecretKey"].readIfPresent()
-        return value
-    }
 }
 
 extension AppflowClientTypes {
@@ -10542,11 +9928,6 @@ extension AppflowClientTypes {
 }
 
 extension AppflowClientTypes.TrendmicroMetadata {
-
-    static func write(value: AppflowClientTypes.TrendmicroMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.TrendmicroMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -11202,11 +10583,6 @@ extension AppflowClientTypes {
 
 extension AppflowClientTypes.UpsolverMetadata {
 
-    static func write(value: AppflowClientTypes.UpsolverMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.UpsolverMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         return AppflowClientTypes.UpsolverMetadata()
@@ -11402,14 +10778,6 @@ extension AppflowClientTypes.VeevaConnectorProfileCredentials {
         try writer["password"].write(value.password)
         try writer["username"].write(value.username)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.VeevaConnectorProfileCredentials {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppflowClientTypes.VeevaConnectorProfileCredentials()
-        value.username = try reader["username"].readIfPresent()
-        value.password = try reader["password"].readIfPresent()
-        return value
-    }
 }
 
 extension AppflowClientTypes {
@@ -11467,11 +10835,6 @@ extension AppflowClientTypes {
 }
 
 extension AppflowClientTypes.VeevaMetadata {
-
-    static func write(value: AppflowClientTypes.VeevaMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.VeevaMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -11661,16 +11024,6 @@ extension AppflowClientTypes.ZendeskConnectorProfileCredentials {
         try writer["clientSecret"].write(value.clientSecret)
         try writer["oAuthRequest"].write(value.oAuthRequest, with: AppflowClientTypes.ConnectorOAuthRequest.write(value:to:))
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.ZendeskConnectorProfileCredentials {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppflowClientTypes.ZendeskConnectorProfileCredentials()
-        value.clientId = try reader["clientId"].readIfPresent()
-        value.clientSecret = try reader["clientSecret"].readIfPresent()
-        value.accessToken = try reader["accessToken"].readIfPresent()
-        value.oAuthRequest = try reader["oAuthRequest"].readIfPresent(with: AppflowClientTypes.ConnectorOAuthRequest.read(from:))
-        return value
-    }
 }
 
 extension AppflowClientTypes {
@@ -11786,11 +11139,6 @@ extension AppflowClientTypes {
 }
 
 extension AppflowClientTypes.ZendeskMetadata {
-
-    static func write(value: AppflowClientTypes.ZendeskMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["oAuthScopes"].writeList(value.oAuthScopes, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.ZendeskMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

@@ -47,13 +47,6 @@ extension PaymentCryptographyDataClientTypes.AmexCardSecurityCodeVersion1 {
         guard let value else { return }
         try writer["CardExpiryDate"].write(value.cardExpiryDate)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PaymentCryptographyDataClientTypes.AmexCardSecurityCodeVersion1 {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PaymentCryptographyDataClientTypes.AmexCardSecurityCodeVersion1()
-        value.cardExpiryDate = try reader["CardExpiryDate"].readIfPresent()
-        return value
-    }
 }
 
 extension PaymentCryptographyDataClientTypes {
@@ -79,14 +72,6 @@ extension PaymentCryptographyDataClientTypes.AmexCardSecurityCodeVersion2 {
         guard let value else { return }
         try writer["CardExpiryDate"].write(value.cardExpiryDate)
         try writer["ServiceCode"].write(value.serviceCode)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PaymentCryptographyDataClientTypes.AmexCardSecurityCodeVersion2 {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PaymentCryptographyDataClientTypes.AmexCardSecurityCodeVersion2()
-        value.cardExpiryDate = try reader["CardExpiryDate"].readIfPresent()
-        value.serviceCode = try reader["ServiceCode"].readIfPresent()
-        return value
     }
 }
 
@@ -117,13 +102,6 @@ extension PaymentCryptographyDataClientTypes.AsymmetricEncryptionAttributes {
     static func write(value: PaymentCryptographyDataClientTypes.AsymmetricEncryptionAttributes?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["PaddingType"].write(value.paddingType)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PaymentCryptographyDataClientTypes.AsymmetricEncryptionAttributes {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PaymentCryptographyDataClientTypes.AsymmetricEncryptionAttributes()
-        value.paddingType = try reader["PaddingType"].readIfPresent()
-        return value
     }
 }
 
@@ -166,29 +144,6 @@ extension PaymentCryptographyDataClientTypes.CardGenerationAttributes {
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PaymentCryptographyDataClientTypes.CardGenerationAttributes {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "AmexCardSecurityCodeVersion1":
-                return .amexcardsecuritycodeversion1(try reader["AmexCardSecurityCodeVersion1"].read(with: PaymentCryptographyDataClientTypes.AmexCardSecurityCodeVersion1.read(from:)))
-            case "AmexCardSecurityCodeVersion2":
-                return .amexcardsecuritycodeversion2(try reader["AmexCardSecurityCodeVersion2"].read(with: PaymentCryptographyDataClientTypes.AmexCardSecurityCodeVersion2.read(from:)))
-            case "CardVerificationValue1":
-                return .cardverificationvalue1(try reader["CardVerificationValue1"].read(with: PaymentCryptographyDataClientTypes.CardVerificationValue1.read(from:)))
-            case "CardVerificationValue2":
-                return .cardverificationvalue2(try reader["CardVerificationValue2"].read(with: PaymentCryptographyDataClientTypes.CardVerificationValue2.read(from:)))
-            case "CardHolderVerificationValue":
-                return .cardholderverificationvalue(try reader["CardHolderVerificationValue"].read(with: PaymentCryptographyDataClientTypes.CardHolderVerificationValue.read(from:)))
-            case "DynamicCardVerificationCode":
-                return .dynamiccardverificationcode(try reader["DynamicCardVerificationCode"].read(with: PaymentCryptographyDataClientTypes.DynamicCardVerificationCode.read(from:)))
-            case "DynamicCardVerificationValue":
-                return .dynamiccardverificationvalue(try reader["DynamicCardVerificationValue"].read(with: PaymentCryptographyDataClientTypes.DynamicCardVerificationValue.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
 }
 
 extension PaymentCryptographyDataClientTypes {
@@ -220,15 +175,6 @@ extension PaymentCryptographyDataClientTypes.CardHolderVerificationValue {
         try writer["ApplicationTransactionCounter"].write(value.applicationTransactionCounter)
         try writer["PanSequenceNumber"].write(value.panSequenceNumber)
         try writer["UnpredictableNumber"].write(value.unpredictableNumber)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PaymentCryptographyDataClientTypes.CardHolderVerificationValue {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PaymentCryptographyDataClientTypes.CardHolderVerificationValue()
-        value.unpredictableNumber = try reader["UnpredictableNumber"].readIfPresent()
-        value.panSequenceNumber = try reader["PanSequenceNumber"].readIfPresent()
-        value.applicationTransactionCounter = try reader["ApplicationTransactionCounter"].readIfPresent()
-        return value
     }
 }
 
@@ -284,31 +230,6 @@ extension PaymentCryptographyDataClientTypes.CardVerificationAttributes {
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PaymentCryptographyDataClientTypes.CardVerificationAttributes {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "AmexCardSecurityCodeVersion1":
-                return .amexcardsecuritycodeversion1(try reader["AmexCardSecurityCodeVersion1"].read(with: PaymentCryptographyDataClientTypes.AmexCardSecurityCodeVersion1.read(from:)))
-            case "AmexCardSecurityCodeVersion2":
-                return .amexcardsecuritycodeversion2(try reader["AmexCardSecurityCodeVersion2"].read(with: PaymentCryptographyDataClientTypes.AmexCardSecurityCodeVersion2.read(from:)))
-            case "CardVerificationValue1":
-                return .cardverificationvalue1(try reader["CardVerificationValue1"].read(with: PaymentCryptographyDataClientTypes.CardVerificationValue1.read(from:)))
-            case "CardVerificationValue2":
-                return .cardverificationvalue2(try reader["CardVerificationValue2"].read(with: PaymentCryptographyDataClientTypes.CardVerificationValue2.read(from:)))
-            case "CardHolderVerificationValue":
-                return .cardholderverificationvalue(try reader["CardHolderVerificationValue"].read(with: PaymentCryptographyDataClientTypes.CardHolderVerificationValue.read(from:)))
-            case "DynamicCardVerificationCode":
-                return .dynamiccardverificationcode(try reader["DynamicCardVerificationCode"].read(with: PaymentCryptographyDataClientTypes.DynamicCardVerificationCode.read(from:)))
-            case "DynamicCardVerificationValue":
-                return .dynamiccardverificationvalue(try reader["DynamicCardVerificationValue"].read(with: PaymentCryptographyDataClientTypes.DynamicCardVerificationValue.read(from:)))
-            case "DiscoverDynamicCardVerificationCode":
-                return .discoverdynamiccardverificationcode(try reader["DiscoverDynamicCardVerificationCode"].read(with: PaymentCryptographyDataClientTypes.DiscoverDynamicCardVerificationCode.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
 }
 
 extension PaymentCryptographyDataClientTypes {
@@ -342,14 +263,6 @@ extension PaymentCryptographyDataClientTypes.CardVerificationValue1 {
         try writer["CardExpiryDate"].write(value.cardExpiryDate)
         try writer["ServiceCode"].write(value.serviceCode)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PaymentCryptographyDataClientTypes.CardVerificationValue1 {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PaymentCryptographyDataClientTypes.CardVerificationValue1()
-        value.cardExpiryDate = try reader["CardExpiryDate"].readIfPresent()
-        value.serviceCode = try reader["ServiceCode"].readIfPresent()
-        return value
-    }
 }
 
 extension PaymentCryptographyDataClientTypes {
@@ -379,13 +292,6 @@ extension PaymentCryptographyDataClientTypes.CardVerificationValue2 {
     static func write(value: PaymentCryptographyDataClientTypes.CardVerificationValue2?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["CardExpiryDate"].write(value.cardExpiryDate)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PaymentCryptographyDataClientTypes.CardVerificationValue2 {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PaymentCryptographyDataClientTypes.CardVerificationValue2()
-        value.cardExpiryDate = try reader["CardExpiryDate"].readIfPresent()
-        return value
     }
 }
 
@@ -419,19 +325,6 @@ extension PaymentCryptographyDataClientTypes.CryptogramAuthResponse {
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PaymentCryptographyDataClientTypes.CryptogramAuthResponse {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "ArpcMethod1":
-                return .arpcmethod1(try reader["ArpcMethod1"].read(with: PaymentCryptographyDataClientTypes.CryptogramVerificationArpcMethod1.read(from:)))
-            case "ArpcMethod2":
-                return .arpcmethod2(try reader["ArpcMethod2"].read(with: PaymentCryptographyDataClientTypes.CryptogramVerificationArpcMethod2.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
 }
 
 extension PaymentCryptographyDataClientTypes {
@@ -451,13 +344,6 @@ extension PaymentCryptographyDataClientTypes.CryptogramVerificationArpcMethod1 {
     static func write(value: PaymentCryptographyDataClientTypes.CryptogramVerificationArpcMethod1?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["AuthResponseCode"].write(value.authResponseCode)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PaymentCryptographyDataClientTypes.CryptogramVerificationArpcMethod1 {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PaymentCryptographyDataClientTypes.CryptogramVerificationArpcMethod1()
-        value.authResponseCode = try reader["AuthResponseCode"].readIfPresent()
-        return value
     }
 }
 
@@ -484,14 +370,6 @@ extension PaymentCryptographyDataClientTypes.CryptogramVerificationArpcMethod2 {
         guard let value else { return }
         try writer["CardStatusUpdate"].write(value.cardStatusUpdate)
         try writer["ProprietaryAuthenticationData"].write(value.proprietaryAuthenticationData)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PaymentCryptographyDataClientTypes.CryptogramVerificationArpcMethod2 {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PaymentCryptographyDataClientTypes.CryptogramVerificationArpcMethod2()
-        value.cardStatusUpdate = try reader["CardStatusUpdate"].readIfPresent()
-        value.proprietaryAuthenticationData = try reader["ProprietaryAuthenticationData"].readIfPresent()
-        return value
     }
 }
 
@@ -631,15 +509,6 @@ extension PaymentCryptographyDataClientTypes.DiscoverDynamicCardVerificationCode
         try writer["CardExpiryDate"].write(value.cardExpiryDate)
         try writer["UnpredictableNumber"].write(value.unpredictableNumber)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PaymentCryptographyDataClientTypes.DiscoverDynamicCardVerificationCode {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PaymentCryptographyDataClientTypes.DiscoverDynamicCardVerificationCode()
-        value.cardExpiryDate = try reader["CardExpiryDate"].readIfPresent()
-        value.unpredictableNumber = try reader["UnpredictableNumber"].readIfPresent()
-        value.applicationTransactionCounter = try reader["ApplicationTransactionCounter"].readIfPresent()
-        return value
-    }
 }
 
 extension PaymentCryptographyDataClientTypes {
@@ -676,14 +545,6 @@ extension PaymentCryptographyDataClientTypes.DukptAttributes {
         try writer["DukptDerivationType"].write(value.dukptDerivationType)
         try writer["KeySerialNumber"].write(value.keySerialNumber)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PaymentCryptographyDataClientTypes.DukptAttributes {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PaymentCryptographyDataClientTypes.DukptAttributes()
-        value.keySerialNumber = try reader["KeySerialNumber"].readIfPresent()
-        value.dukptDerivationType = try reader["DukptDerivationType"].readIfPresent()
-        return value
-    }
 }
 
 extension PaymentCryptographyDataClientTypes {
@@ -715,15 +576,6 @@ extension PaymentCryptographyDataClientTypes.DukptDerivationAttributes {
         try writer["DukptKeyDerivationType"].write(value.dukptKeyDerivationType)
         try writer["DukptKeyVariant"].write(value.dukptKeyVariant)
         try writer["KeySerialNumber"].write(value.keySerialNumber)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PaymentCryptographyDataClientTypes.DukptDerivationAttributes {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PaymentCryptographyDataClientTypes.DukptDerivationAttributes()
-        value.keySerialNumber = try reader["KeySerialNumber"].readIfPresent()
-        value.dukptKeyDerivationType = try reader["DukptKeyDerivationType"].readIfPresent()
-        value.dukptKeyVariant = try reader["DukptKeyVariant"].readIfPresent()
-        return value
     }
 }
 
@@ -805,17 +657,6 @@ extension PaymentCryptographyDataClientTypes.DukptEncryptionAttributes {
         try writer["InitializationVector"].write(value.initializationVector)
         try writer["KeySerialNumber"].write(value.keySerialNumber)
         try writer["Mode"].write(value.mode)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PaymentCryptographyDataClientTypes.DukptEncryptionAttributes {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PaymentCryptographyDataClientTypes.DukptEncryptionAttributes()
-        value.keySerialNumber = try reader["KeySerialNumber"].readIfPresent()
-        value.mode = try reader["Mode"].readIfPresent()
-        value.dukptKeyDerivationType = try reader["DukptKeyDerivationType"].readIfPresent()
-        value.dukptKeyVariant = try reader["DukptKeyVariant"].readIfPresent()
-        value.initializationVector = try reader["InitializationVector"].readIfPresent()
-        return value
     }
 }
 
@@ -924,16 +765,6 @@ extension PaymentCryptographyDataClientTypes.DynamicCardVerificationCode {
         try writer["TrackData"].write(value.trackData)
         try writer["UnpredictableNumber"].write(value.unpredictableNumber)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PaymentCryptographyDataClientTypes.DynamicCardVerificationCode {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PaymentCryptographyDataClientTypes.DynamicCardVerificationCode()
-        value.unpredictableNumber = try reader["UnpredictableNumber"].readIfPresent()
-        value.panSequenceNumber = try reader["PanSequenceNumber"].readIfPresent()
-        value.applicationTransactionCounter = try reader["ApplicationTransactionCounter"].readIfPresent()
-        value.trackData = try reader["TrackData"].readIfPresent()
-        return value
-    }
 }
 
 extension PaymentCryptographyDataClientTypes {
@@ -976,16 +807,6 @@ extension PaymentCryptographyDataClientTypes.DynamicCardVerificationValue {
         try writer["CardExpiryDate"].write(value.cardExpiryDate)
         try writer["PanSequenceNumber"].write(value.panSequenceNumber)
         try writer["ServiceCode"].write(value.serviceCode)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PaymentCryptographyDataClientTypes.DynamicCardVerificationValue {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PaymentCryptographyDataClientTypes.DynamicCardVerificationValue()
-        value.panSequenceNumber = try reader["PanSequenceNumber"].readIfPresent()
-        value.cardExpiryDate = try reader["CardExpiryDate"].readIfPresent()
-        value.serviceCode = try reader["ServiceCode"].readIfPresent()
-        value.applicationTransactionCounter = try reader["ApplicationTransactionCounter"].readIfPresent()
-        return value
     }
 }
 
@@ -1036,18 +857,6 @@ extension PaymentCryptographyDataClientTypes.EmvEncryptionAttributes {
         try writer["PanSequenceNumber"].write(value.panSequenceNumber)
         try writer["PrimaryAccountNumber"].write(value.primaryAccountNumber)
         try writer["SessionDerivationData"].write(value.sessionDerivationData)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PaymentCryptographyDataClientTypes.EmvEncryptionAttributes {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PaymentCryptographyDataClientTypes.EmvEncryptionAttributes()
-        value.majorKeyDerivationMode = try reader["MajorKeyDerivationMode"].readIfPresent()
-        value.primaryAccountNumber = try reader["PrimaryAccountNumber"].readIfPresent()
-        value.panSequenceNumber = try reader["PanSequenceNumber"].readIfPresent()
-        value.sessionDerivationData = try reader["SessionDerivationData"].readIfPresent()
-        value.mode = try reader["Mode"].readIfPresent()
-        value.initializationVector = try reader["InitializationVector"].readIfPresent()
-        return value
     }
 }
 
@@ -1272,23 +1081,6 @@ extension PaymentCryptographyDataClientTypes.EncryptionDecryptionAttributes {
                 try writer["Symmetric"].write(symmetric, with: PaymentCryptographyDataClientTypes.SymmetricEncryptionAttributes.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PaymentCryptographyDataClientTypes.EncryptionDecryptionAttributes {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "Symmetric":
-                return .symmetric(try reader["Symmetric"].read(with: PaymentCryptographyDataClientTypes.SymmetricEncryptionAttributes.read(from:)))
-            case "Asymmetric":
-                return .asymmetric(try reader["Asymmetric"].read(with: PaymentCryptographyDataClientTypes.AsymmetricEncryptionAttributes.read(from:)))
-            case "Dukpt":
-                return .dukpt(try reader["Dukpt"].read(with: PaymentCryptographyDataClientTypes.DukptEncryptionAttributes.read(from:)))
-            case "Emv":
-                return .emv(try reader["Emv"].read(with: PaymentCryptographyDataClientTypes.EmvEncryptionAttributes.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
         }
     }
 }
@@ -1710,15 +1502,6 @@ extension PaymentCryptographyDataClientTypes.Ibm3624NaturalPin {
         try writer["PinValidationData"].write(value.pinValidationData)
         try writer["PinValidationDataPadCharacter"].write(value.pinValidationDataPadCharacter)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PaymentCryptographyDataClientTypes.Ibm3624NaturalPin {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PaymentCryptographyDataClientTypes.Ibm3624NaturalPin()
-        value.decimalizationTable = try reader["DecimalizationTable"].readIfPresent()
-        value.pinValidationDataPadCharacter = try reader["PinValidationDataPadCharacter"].readIfPresent()
-        value.pinValidationData = try reader["PinValidationData"].readIfPresent()
-        return value
-    }
 }
 
 extension PaymentCryptographyDataClientTypes {
@@ -1756,16 +1539,6 @@ extension PaymentCryptographyDataClientTypes.Ibm3624PinFromOffset {
         try writer["PinOffset"].write(value.pinOffset)
         try writer["PinValidationData"].write(value.pinValidationData)
         try writer["PinValidationDataPadCharacter"].write(value.pinValidationDataPadCharacter)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PaymentCryptographyDataClientTypes.Ibm3624PinFromOffset {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PaymentCryptographyDataClientTypes.Ibm3624PinFromOffset()
-        value.decimalizationTable = try reader["DecimalizationTable"].readIfPresent()
-        value.pinValidationDataPadCharacter = try reader["PinValidationDataPadCharacter"].readIfPresent()
-        value.pinValidationData = try reader["PinValidationData"].readIfPresent()
-        value.pinOffset = try reader["PinOffset"].readIfPresent()
-        return value
     }
 }
 
@@ -1810,16 +1583,6 @@ extension PaymentCryptographyDataClientTypes.Ibm3624PinOffset {
         try writer["PinValidationData"].write(value.pinValidationData)
         try writer["PinValidationDataPadCharacter"].write(value.pinValidationDataPadCharacter)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PaymentCryptographyDataClientTypes.Ibm3624PinOffset {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PaymentCryptographyDataClientTypes.Ibm3624PinOffset()
-        value.encryptedPinBlock = try reader["EncryptedPinBlock"].readIfPresent()
-        value.decimalizationTable = try reader["DecimalizationTable"].readIfPresent()
-        value.pinValidationDataPadCharacter = try reader["PinValidationDataPadCharacter"].readIfPresent()
-        value.pinValidationData = try reader["PinValidationData"].readIfPresent()
-        return value
-    }
 }
 
 extension PaymentCryptographyDataClientTypes {
@@ -1863,16 +1626,6 @@ extension PaymentCryptographyDataClientTypes.Ibm3624PinVerification {
         try writer["PinValidationData"].write(value.pinValidationData)
         try writer["PinValidationDataPadCharacter"].write(value.pinValidationDataPadCharacter)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PaymentCryptographyDataClientTypes.Ibm3624PinVerification {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PaymentCryptographyDataClientTypes.Ibm3624PinVerification()
-        value.decimalizationTable = try reader["DecimalizationTable"].readIfPresent()
-        value.pinValidationDataPadCharacter = try reader["PinValidationDataPadCharacter"].readIfPresent()
-        value.pinValidationData = try reader["PinValidationData"].readIfPresent()
-        value.pinOffset = try reader["PinOffset"].readIfPresent()
-        return value
-    }
 }
 
 extension PaymentCryptographyDataClientTypes {
@@ -1914,15 +1667,6 @@ extension PaymentCryptographyDataClientTypes.Ibm3624RandomPin {
         try writer["DecimalizationTable"].write(value.decimalizationTable)
         try writer["PinValidationData"].write(value.pinValidationData)
         try writer["PinValidationDataPadCharacter"].write(value.pinValidationDataPadCharacter)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PaymentCryptographyDataClientTypes.Ibm3624RandomPin {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PaymentCryptographyDataClientTypes.Ibm3624RandomPin()
-        value.decimalizationTable = try reader["DecimalizationTable"].readIfPresent()
-        value.pinValidationDataPadCharacter = try reader["PinValidationDataPadCharacter"].readIfPresent()
-        value.pinValidationData = try reader["PinValidationData"].readIfPresent()
-        return value
     }
 }
 
@@ -2043,15 +1787,6 @@ extension PaymentCryptographyDataClientTypes.MacAlgorithmDukpt {
         try writer["DukptKeyVariant"].write(value.dukptKeyVariant)
         try writer["KeySerialNumber"].write(value.keySerialNumber)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PaymentCryptographyDataClientTypes.MacAlgorithmDukpt {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PaymentCryptographyDataClientTypes.MacAlgorithmDukpt()
-        value.keySerialNumber = try reader["KeySerialNumber"].readIfPresent()
-        value.dukptKeyVariant = try reader["DukptKeyVariant"].readIfPresent()
-        value.dukptDerivationType = try reader["DukptDerivationType"].readIfPresent()
-        return value
-    }
 }
 
 extension PaymentCryptographyDataClientTypes {
@@ -2094,17 +1829,6 @@ extension PaymentCryptographyDataClientTypes.MacAlgorithmEmv {
         try writer["PrimaryAccountNumber"].write(value.primaryAccountNumber)
         try writer["SessionKeyDerivationMode"].write(value.sessionKeyDerivationMode)
         try writer["SessionKeyDerivationValue"].write(value.sessionKeyDerivationValue, with: PaymentCryptographyDataClientTypes.SessionKeyDerivationValue.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PaymentCryptographyDataClientTypes.MacAlgorithmEmv {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PaymentCryptographyDataClientTypes.MacAlgorithmEmv()
-        value.majorKeyDerivationMode = try reader["MajorKeyDerivationMode"].readIfPresent()
-        value.primaryAccountNumber = try reader["PrimaryAccountNumber"].readIfPresent()
-        value.panSequenceNumber = try reader["PanSequenceNumber"].readIfPresent()
-        value.sessionKeyDerivationMode = try reader["SessionKeyDerivationMode"].readIfPresent()
-        value.sessionKeyDerivationValue = try reader["SessionKeyDerivationValue"].readIfPresent(with: PaymentCryptographyDataClientTypes.SessionKeyDerivationValue.read(from:))
-        return value
     }
 }
 
@@ -2162,25 +1886,6 @@ extension PaymentCryptographyDataClientTypes.MacAttributes {
                 try writer["EmvMac"].write(emvmac, with: PaymentCryptographyDataClientTypes.MacAlgorithmEmv.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PaymentCryptographyDataClientTypes.MacAttributes {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "Algorithm":
-                return .algorithm(try reader["Algorithm"].read())
-            case "EmvMac":
-                return .emvmac(try reader["EmvMac"].read(with: PaymentCryptographyDataClientTypes.MacAlgorithmEmv.read(from:)))
-            case "DukptIso9797Algorithm1":
-                return .dukptiso9797algorithm1(try reader["DukptIso9797Algorithm1"].read(with: PaymentCryptographyDataClientTypes.MacAlgorithmDukpt.read(from:)))
-            case "DukptIso9797Algorithm3":
-                return .dukptiso9797algorithm3(try reader["DukptIso9797Algorithm3"].read(with: PaymentCryptographyDataClientTypes.MacAlgorithmDukpt.read(from:)))
-            case "DukptCmac":
-                return .dukptcmac(try reader["DukptCmac"].read(with: PaymentCryptographyDataClientTypes.MacAlgorithmDukpt.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
         }
     }
 }
@@ -2303,18 +2008,6 @@ extension PaymentCryptographyDataClientTypes {
 
 extension PaymentCryptographyDataClientTypes.PinData {
 
-    static func write(value: PaymentCryptographyDataClientTypes.PinData?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .pinoffset(pinoffset):
-                try writer["PinOffset"].write(pinoffset)
-            case let .verificationvalue(verificationvalue):
-                try writer["VerificationValue"].write(verificationvalue)
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> PaymentCryptographyDataClientTypes.PinData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
@@ -2362,27 +2055,6 @@ extension PaymentCryptographyDataClientTypes.PinGenerationAttributes {
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PaymentCryptographyDataClientTypes.PinGenerationAttributes {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "VisaPin":
-                return .visapin(try reader["VisaPin"].read(with: PaymentCryptographyDataClientTypes.VisaPin.read(from:)))
-            case "VisaPinVerificationValue":
-                return .visapinverificationvalue(try reader["VisaPinVerificationValue"].read(with: PaymentCryptographyDataClientTypes.VisaPinVerificationValue.read(from:)))
-            case "Ibm3624PinOffset":
-                return .ibm3624pinoffset(try reader["Ibm3624PinOffset"].read(with: PaymentCryptographyDataClientTypes.Ibm3624PinOffset.read(from:)))
-            case "Ibm3624NaturalPin":
-                return .ibm3624naturalpin(try reader["Ibm3624NaturalPin"].read(with: PaymentCryptographyDataClientTypes.Ibm3624NaturalPin.read(from:)))
-            case "Ibm3624RandomPin":
-                return .ibm3624randompin(try reader["Ibm3624RandomPin"].read(with: PaymentCryptographyDataClientTypes.Ibm3624RandomPin.read(from:)))
-            case "Ibm3624PinFromOffset":
-                return .ibm3624pinfromoffset(try reader["Ibm3624PinFromOffset"].read(with: PaymentCryptographyDataClientTypes.Ibm3624PinFromOffset.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
 }
 
 extension PaymentCryptographyDataClientTypes {
@@ -2416,19 +2088,6 @@ extension PaymentCryptographyDataClientTypes.PinVerificationAttributes {
                 try writer["VisaPin"].write(visapin, with: PaymentCryptographyDataClientTypes.VisaPinVerification.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PaymentCryptographyDataClientTypes.PinVerificationAttributes {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "VisaPin":
-                return .visapin(try reader["VisaPin"].read(with: PaymentCryptographyDataClientTypes.VisaPinVerification.read(from:)))
-            case "Ibm3624Pin":
-                return .ibm3624pin(try reader["Ibm3624Pin"].read(with: PaymentCryptographyDataClientTypes.Ibm3624PinVerification.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
         }
     }
 }
@@ -2577,19 +2236,6 @@ extension PaymentCryptographyDataClientTypes.ReEncryptionAttributes {
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PaymentCryptographyDataClientTypes.ReEncryptionAttributes {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "Symmetric":
-                return .symmetric(try reader["Symmetric"].read(with: PaymentCryptographyDataClientTypes.SymmetricEncryptionAttributes.read(from:)))
-            case "Dukpt":
-                return .dukpt(try reader["Dukpt"].read(with: PaymentCryptographyDataClientTypes.DukptEncryptionAttributes.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
 }
 
 extension PaymentCryptographyDataClientTypes {
@@ -2654,14 +2300,6 @@ extension PaymentCryptographyDataClientTypes.SessionKeyAmex {
         try writer["PanSequenceNumber"].write(value.panSequenceNumber)
         try writer["PrimaryAccountNumber"].write(value.primaryAccountNumber)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PaymentCryptographyDataClientTypes.SessionKeyAmex {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PaymentCryptographyDataClientTypes.SessionKeyAmex()
-        value.primaryAccountNumber = try reader["PrimaryAccountNumber"].readIfPresent()
-        value.panSequenceNumber = try reader["PanSequenceNumber"].readIfPresent()
-        return value
-    }
 }
 
 extension PaymentCryptographyDataClientTypes {
@@ -2703,25 +2341,6 @@ extension PaymentCryptographyDataClientTypes.SessionKeyDerivation {
                 try writer["Visa"].write(visa, with: PaymentCryptographyDataClientTypes.SessionKeyVisa.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PaymentCryptographyDataClientTypes.SessionKeyDerivation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "EmvCommon":
-                return .emvcommon(try reader["EmvCommon"].read(with: PaymentCryptographyDataClientTypes.SessionKeyEmvCommon.read(from:)))
-            case "Mastercard":
-                return .mastercard(try reader["Mastercard"].read(with: PaymentCryptographyDataClientTypes.SessionKeyMastercard.read(from:)))
-            case "Emv2000":
-                return .emv2000(try reader["Emv2000"].read(with: PaymentCryptographyDataClientTypes.SessionKeyEmv2000.read(from:)))
-            case "Amex":
-                return .amex(try reader["Amex"].read(with: PaymentCryptographyDataClientTypes.SessionKeyAmex.read(from:)))
-            case "Visa":
-                return .visa(try reader["Visa"].read(with: PaymentCryptographyDataClientTypes.SessionKeyVisa.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
         }
     }
 }
@@ -2796,19 +2415,6 @@ extension PaymentCryptographyDataClientTypes.SessionKeyDerivationValue {
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PaymentCryptographyDataClientTypes.SessionKeyDerivationValue {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "ApplicationCryptogram":
-                return .applicationcryptogram(try reader["ApplicationCryptogram"].read())
-            case "ApplicationTransactionCounter":
-                return .applicationtransactioncounter(try reader["ApplicationTransactionCounter"].read())
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
 }
 
 extension PaymentCryptographyDataClientTypes {
@@ -2835,15 +2441,6 @@ extension PaymentCryptographyDataClientTypes.SessionKeyEmv2000 {
         try writer["ApplicationTransactionCounter"].write(value.applicationTransactionCounter)
         try writer["PanSequenceNumber"].write(value.panSequenceNumber)
         try writer["PrimaryAccountNumber"].write(value.primaryAccountNumber)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PaymentCryptographyDataClientTypes.SessionKeyEmv2000 {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PaymentCryptographyDataClientTypes.SessionKeyEmv2000()
-        value.primaryAccountNumber = try reader["PrimaryAccountNumber"].readIfPresent()
-        value.panSequenceNumber = try reader["PanSequenceNumber"].readIfPresent()
-        value.applicationTransactionCounter = try reader["ApplicationTransactionCounter"].readIfPresent()
-        return value
     }
 }
 
@@ -2887,15 +2484,6 @@ extension PaymentCryptographyDataClientTypes.SessionKeyEmvCommon {
         try writer["PanSequenceNumber"].write(value.panSequenceNumber)
         try writer["PrimaryAccountNumber"].write(value.primaryAccountNumber)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PaymentCryptographyDataClientTypes.SessionKeyEmvCommon {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PaymentCryptographyDataClientTypes.SessionKeyEmvCommon()
-        value.primaryAccountNumber = try reader["PrimaryAccountNumber"].readIfPresent()
-        value.panSequenceNumber = try reader["PanSequenceNumber"].readIfPresent()
-        value.applicationTransactionCounter = try reader["ApplicationTransactionCounter"].readIfPresent()
-        return value
-    }
 }
 
 extension PaymentCryptographyDataClientTypes {
@@ -2938,16 +2526,6 @@ extension PaymentCryptographyDataClientTypes.SessionKeyMastercard {
         try writer["PanSequenceNumber"].write(value.panSequenceNumber)
         try writer["PrimaryAccountNumber"].write(value.primaryAccountNumber)
         try writer["UnpredictableNumber"].write(value.unpredictableNumber)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PaymentCryptographyDataClientTypes.SessionKeyMastercard {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PaymentCryptographyDataClientTypes.SessionKeyMastercard()
-        value.primaryAccountNumber = try reader["PrimaryAccountNumber"].readIfPresent()
-        value.panSequenceNumber = try reader["PanSequenceNumber"].readIfPresent()
-        value.applicationTransactionCounter = try reader["ApplicationTransactionCounter"].readIfPresent()
-        value.unpredictableNumber = try reader["UnpredictableNumber"].readIfPresent()
-        return value
     }
 }
 
@@ -2995,14 +2573,6 @@ extension PaymentCryptographyDataClientTypes.SessionKeyVisa {
         try writer["PanSequenceNumber"].write(value.panSequenceNumber)
         try writer["PrimaryAccountNumber"].write(value.primaryAccountNumber)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PaymentCryptographyDataClientTypes.SessionKeyVisa {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PaymentCryptographyDataClientTypes.SessionKeyVisa()
-        value.primaryAccountNumber = try reader["PrimaryAccountNumber"].readIfPresent()
-        value.panSequenceNumber = try reader["PanSequenceNumber"].readIfPresent()
-        return value
-    }
 }
 
 extension PaymentCryptographyDataClientTypes {
@@ -3039,15 +2609,6 @@ extension PaymentCryptographyDataClientTypes.SymmetricEncryptionAttributes {
         try writer["InitializationVector"].write(value.initializationVector)
         try writer["Mode"].write(value.mode)
         try writer["PaddingType"].write(value.paddingType)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PaymentCryptographyDataClientTypes.SymmetricEncryptionAttributes {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PaymentCryptographyDataClientTypes.SymmetricEncryptionAttributes()
-        value.mode = try reader["Mode"].readIfPresent()
-        value.initializationVector = try reader["InitializationVector"].readIfPresent()
-        value.paddingType = try reader["PaddingType"].readIfPresent()
-        return value
     }
 }
 
@@ -3252,23 +2813,6 @@ extension PaymentCryptographyDataClientTypes.TranslationIsoFormats {
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PaymentCryptographyDataClientTypes.TranslationIsoFormats {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "IsoFormat0":
-                return .isoformat0(try reader["IsoFormat0"].read(with: PaymentCryptographyDataClientTypes.TranslationPinDataIsoFormat034.read(from:)))
-            case "IsoFormat1":
-                return .isoformat1(try reader["IsoFormat1"].read(with: PaymentCryptographyDataClientTypes.TranslationPinDataIsoFormat1.read(from:)))
-            case "IsoFormat3":
-                return .isoformat3(try reader["IsoFormat3"].read(with: PaymentCryptographyDataClientTypes.TranslationPinDataIsoFormat034.read(from:)))
-            case "IsoFormat4":
-                return .isoformat4(try reader["IsoFormat4"].read(with: PaymentCryptographyDataClientTypes.TranslationPinDataIsoFormat034.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
 }
 
 extension PaymentCryptographyDataClientTypes {
@@ -3298,13 +2842,6 @@ extension PaymentCryptographyDataClientTypes.TranslationPinDataIsoFormat034 {
         guard let value else { return }
         try writer["PrimaryAccountNumber"].write(value.primaryAccountNumber)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PaymentCryptographyDataClientTypes.TranslationPinDataIsoFormat034 {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PaymentCryptographyDataClientTypes.TranslationPinDataIsoFormat034()
-        value.primaryAccountNumber = try reader["PrimaryAccountNumber"].readIfPresent()
-        return value
-    }
 }
 
 extension PaymentCryptographyDataClientTypes {
@@ -3329,11 +2866,6 @@ extension PaymentCryptographyDataClientTypes.TranslationPinDataIsoFormat1 {
     static func write(value: PaymentCryptographyDataClientTypes.TranslationPinDataIsoFormat1?, to writer: SmithyJSON.Writer) throws {
         guard value != nil else { return }
         _ = writer[""]  // create an empty structure
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PaymentCryptographyDataClientTypes.TranslationPinDataIsoFormat1 {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        return PaymentCryptographyDataClientTypes.TranslationPinDataIsoFormat1()
     }
 }
 
@@ -3390,12 +2922,6 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 extension PaymentCryptographyDataClientTypes.ValidationExceptionField {
-
-    static func write(value: PaymentCryptographyDataClientTypes.ValidationExceptionField?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.message)
-        try writer["path"].write(value.path)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PaymentCryptographyDataClientTypes.ValidationExceptionField {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3968,13 +3494,6 @@ extension PaymentCryptographyDataClientTypes.VisaPin {
         guard let value else { return }
         try writer["PinVerificationKeyIndex"].write(value.pinVerificationKeyIndex)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PaymentCryptographyDataClientTypes.VisaPin {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PaymentCryptographyDataClientTypes.VisaPin()
-        value.pinVerificationKeyIndex = try reader["PinVerificationKeyIndex"].readIfPresent()
-        return value
-    }
 }
 
 extension PaymentCryptographyDataClientTypes {
@@ -4000,14 +3519,6 @@ extension PaymentCryptographyDataClientTypes.VisaPinVerification {
         guard let value else { return }
         try writer["PinVerificationKeyIndex"].write(value.pinVerificationKeyIndex)
         try writer["VerificationValue"].write(value.verificationValue)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PaymentCryptographyDataClientTypes.VisaPinVerification {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PaymentCryptographyDataClientTypes.VisaPinVerification()
-        value.pinVerificationKeyIndex = try reader["PinVerificationKeyIndex"].readIfPresent()
-        value.verificationValue = try reader["VerificationValue"].readIfPresent()
-        return value
     }
 }
 
@@ -4039,14 +3550,6 @@ extension PaymentCryptographyDataClientTypes.VisaPinVerificationValue {
         guard let value else { return }
         try writer["EncryptedPinBlock"].write(value.encryptedPinBlock)
         try writer["PinVerificationKeyIndex"].write(value.pinVerificationKeyIndex)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PaymentCryptographyDataClientTypes.VisaPinVerificationValue {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PaymentCryptographyDataClientTypes.VisaPinVerificationValue()
-        value.encryptedPinBlock = try reader["EncryptedPinBlock"].readIfPresent()
-        value.pinVerificationKeyIndex = try reader["PinVerificationKeyIndex"].readIfPresent()
-        return value
     }
 }
 

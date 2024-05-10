@@ -6,11 +6,6 @@ import SmithyReadWrite
 
 extension IoT1ClickDevicesClientTypes.Attributes {
 
-    static func write(value: IoT1ClickDevicesClientTypes.Attributes?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoT1ClickDevicesClientTypes.Attributes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         return IoT1ClickDevicesClientTypes.Attributes()
@@ -158,13 +153,6 @@ enum DescribeDeviceOutputError {
 
 extension IoT1ClickDevicesClientTypes.Device {
 
-    static func write(value: IoT1ClickDevicesClientTypes.Device?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["attributes"].write(value.attributes, with: IoT1ClickDevicesClientTypes.Attributes.write(value:to:))
-        try writer["deviceId"].write(value.deviceId)
-        try writer["type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoT1ClickDevicesClientTypes.Device {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoT1ClickDevicesClientTypes.Device()
@@ -199,17 +187,6 @@ extension IoT1ClickDevicesClientTypes {
 }
 
 extension IoT1ClickDevicesClientTypes.DeviceDescription {
-
-    static func write(value: IoT1ClickDevicesClientTypes.DeviceDescription?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["attributes"].writeMap(value.attributes, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["deviceId"].write(value.deviceId)
-        try writer["enabled"].write(value.enabled)
-        try writer["remainingLife"].write(value.remainingLife)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoT1ClickDevicesClientTypes.DeviceDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -265,12 +242,6 @@ extension IoT1ClickDevicesClientTypes {
 }
 
 extension IoT1ClickDevicesClientTypes.DeviceEvent {
-
-    static func write(value: IoT1ClickDevicesClientTypes.DeviceEvent?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["device"].write(value.device, with: IoT1ClickDevicesClientTypes.Device.write(value:to:))
-        try writer["stdEvent"].write(value.stdEvent)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoT1ClickDevicesClientTypes.DeviceEvent {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

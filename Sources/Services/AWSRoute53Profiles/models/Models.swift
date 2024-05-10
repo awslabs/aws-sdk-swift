@@ -1266,20 +1266,6 @@ enum ListTagsForResourceOutputError {
 
 extension Route53ProfilesClientTypes.Profile {
 
-    static func write(value: Route53ProfilesClientTypes.Profile?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["ClientToken"].write(value.clientToken)
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["Id"].write(value.id)
-        try writer["ModificationTime"].writeTimestamp(value.modificationTime, format: .epochSeconds)
-        try writer["Name"].write(value.name)
-        try writer["OwnerId"].write(value.ownerId)
-        try writer["ShareStatus"].write(value.shareStatus)
-        try writer["Status"].write(value.status)
-        try writer["StatusMessage"].write(value.statusMessage)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> Route53ProfilesClientTypes.Profile {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Route53ProfilesClientTypes.Profile()
@@ -1351,19 +1337,6 @@ extension Route53ProfilesClientTypes {
 
 extension Route53ProfilesClientTypes.ProfileAssociation {
 
-    static func write(value: Route53ProfilesClientTypes.ProfileAssociation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["Id"].write(value.id)
-        try writer["ModificationTime"].writeTimestamp(value.modificationTime, format: .epochSeconds)
-        try writer["Name"].write(value.name)
-        try writer["OwnerId"].write(value.ownerId)
-        try writer["ProfileId"].write(value.profileId)
-        try writer["ResourceId"].write(value.resourceId)
-        try writer["Status"].write(value.status)
-        try writer["StatusMessage"].write(value.statusMessage)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> Route53ProfilesClientTypes.ProfileAssociation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Route53ProfilesClientTypes.ProfileAssociation()
@@ -1429,21 +1402,6 @@ extension Route53ProfilesClientTypes {
 }
 
 extension Route53ProfilesClientTypes.ProfileResourceAssociation {
-
-    static func write(value: Route53ProfilesClientTypes.ProfileResourceAssociation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["Id"].write(value.id)
-        try writer["ModificationTime"].writeTimestamp(value.modificationTime, format: .epochSeconds)
-        try writer["Name"].write(value.name)
-        try writer["OwnerId"].write(value.ownerId)
-        try writer["ProfileId"].write(value.profileId)
-        try writer["ResourceArn"].write(value.resourceArn)
-        try writer["ResourceProperties"].write(value.resourceProperties)
-        try writer["ResourceType"].write(value.resourceType)
-        try writer["Status"].write(value.status)
-        try writer["StatusMessage"].write(value.statusMessage)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Route53ProfilesClientTypes.ProfileResourceAssociation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1562,14 +1520,6 @@ extension Route53ProfilesClientTypes {
 }
 
 extension Route53ProfilesClientTypes.ProfileSummary {
-
-    static func write(value: Route53ProfilesClientTypes.ProfileSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["Id"].write(value.id)
-        try writer["Name"].write(value.name)
-        try writer["ShareStatus"].write(value.shareStatus)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Route53ProfilesClientTypes.ProfileSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1735,14 +1685,6 @@ extension Route53ProfilesClientTypes.Tag {
         guard let value else { return }
         try writer["Key"].write(value.key)
         try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> Route53ProfilesClientTypes.Tag {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Route53ProfilesClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
-        return value
     }
 }
 
