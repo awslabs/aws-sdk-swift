@@ -14,6 +14,8 @@ import software.amazon.smithy.swift.codegen.SwiftDependency
 import software.amazon.smithy.swift.codegen.SwiftTypes
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
+import software.amazon.smithy.swift.codegen.integration.serde.readwrite.ReadingClosureUtils
+import software.amazon.smithy.swift.codegen.integration.serde.struct.readerSymbol
 import software.amazon.smithy.swift.codegen.model.eventStreamErrors
 import software.amazon.smithy.swift.codegen.model.eventStreamEvents
 import software.amazon.smithy.swift.codegen.model.expectShape
@@ -31,122 +33,85 @@ class MessageUnmarshallableGenerator(val ctx: ProtocolGenerator.GenerationContex
             .build()
 
         val streamShape = ctx.model.expectShape<UnionShape>(streamingMember.target)
-        val service = ctx.settings.getService(ctx.model)
-        val serviceSymbol = ctx.symbolProvider.toSymbol(service)
         val streamSymbol = ctx.symbolProvider.toSymbol(streamShape)
 
         ctx.delegator.useShapeWriter(streamMember) { writer ->
 
             writer.addImport(SwiftDependency.CLIENT_RUNTIME.target)
             writer.addImport(AWSSwiftDependency.AWS_CLIENT_RUNTIME.target)
-            writer.openBlock(
-                "extension ${streamSymbol.fullName}: \$N {", "}",
-                ClientRuntimeTypes.Serde.MessageUnmarshallable
-            ) {
+            writer.openBlock("extension \$L {", "}", streamSymbol.fullName) {
                 writer.openBlock(
-                    "public init(message: \$N, decoder: \$N) throws {", "}",
-                    ClientRuntimeTypes.EventStream.Message,
-                    ClientRuntimeTypes.Serde.ResponseDecoder
+                    "static var unmarshal: \$N<\$N> {", "}",
+                    ClientRuntimeTypes.EventStream.UnmarshalClosure,
+                    streamSymbol,
                 ) {
-                    writer.write("switch try message.type() {")
-                    writer.write("case .event(let params):")
-                    writer.indent {
-                        writer.write("switch params.eventType {")
-                        streamShape.eventStreamEvents(ctx.model).forEach { member ->
-                            writer.write("case \"${member.memberName}\":")
-                            writer.indent {
-                                renderDeserializeEventVariant(ctx, streamSymbol, member, writer)
-                            }
-                        }
-                        writer.write("default:")
+                    writer.openBlock("{ message in", "}") {
+                        writer.write("switch try message.type() {")
+                        writer.write("case .event(let params):")
                         writer.indent {
-                            writer.write("self = .sdkUnknown(\"error processing event stream, unrecognized event: \\(params.eventType)\")")
-                        }
-                        writer.write("}")
-                    }
-                    writer.write("case .exception(let params):")
-                    writer.indent {
-                        writer.write(
-                            "let makeError: (\$N, \$N) throws -> \$N = { message, params in",
-                            ClientRuntimeTypes.EventStream.Message,
-                            ClientRuntimeTypes.EventStream.ExceptionParams,
-                            SwiftTypes.Error
-                        )
-                        writer.indent {
-                            writer.write("switch params.exceptionType {")
-                            streamShape.eventStreamErrors(ctx.model).forEach { member ->
+                            writer.write("switch params.eventType {")
+                            streamShape.eventStreamEvents(ctx.model).forEach { member ->
                                 writer.write("case \"${member.memberName}\":")
                                 writer.indent {
-                                    val targetShape = ctx.model.expectShape(member.target)
-                                    val symbol = ctx.symbolProvider.toSymbol(targetShape)
-                                    writer.write("return try decoder.decode(responseBody: message.payload) as \$N", symbol)
+                                    renderDeserializeEventVariant(ctx, streamSymbol, member, writer)
                                 }
                             }
                             writer.write("default:")
                             writer.indent {
-                                writer.write("let httpResponse = HttpResponse(body: .data(message.payload), statusCode: .ok)")
-                                writer.write(
-                                    "return \$L(httpResponse: httpResponse, message: \"error processing event stream, unrecognized ':exceptionType': \\(params.exceptionType); contentType: \\(params.contentType ?? \"nil\")\", requestID: nil, typeName: nil)",
-                                    AWSClientRuntimeTypes.Core.UnknownAWSHTTPServiceError
-                                )
+                                writer.write("return .sdkUnknown(\"error processing event stream, unrecognized event: \\(params.eventType)\")")
                             }
                             writer.write("}")
                         }
+                        writer.write("case .exception(let params):")
+                        writer.indent {
+                            writer.write(
+                                "let makeError: (\$N, \$N) throws -> \$N = { message, params in",
+                                ClientRuntimeTypes.EventStream.Message,
+                                ClientRuntimeTypes.EventStream.ExceptionParams,
+                                SwiftTypes.Error
+                            )
+                            writer.indent {
+                                writer.write("switch params.exceptionType {")
+                                streamShape.eventStreamErrors(ctx.model).forEach { member ->
+                                    writer.write("case \$S:", member.memberName)
+                                    writer.indent {
+                                        renderReadToValue(writer, member)
+                                        writer.write("return value")
+                                    }
+                                }
+                                writer.write("default:")
+                                writer.indent {
+                                    writer.write("let httpResponse = HttpResponse(body: .data(message.payload), statusCode: .ok)")
+                                    writer.write(
+                                        "return \$L(httpResponse: httpResponse, message: \"error processing event stream, unrecognized ':exceptionType': \\(params.exceptionType); contentType: \\(params.contentType ?? \"nil\")\", requestID: nil, typeName: nil)",
+                                        AWSClientRuntimeTypes.Core.UnknownAWSHTTPServiceError
+                                    )
+                                }
+                                writer.write("}")
+                            }
+                            writer.write("}")
+                            writer.write("let error = try makeError(message, params)")
+                            writer.write("throw error")
+                        }
+                        writer.write("case .error(let params):")
+                        writer.indent {
+                            // this is a service exception still, just un-modeled
+                            writer.write("let httpResponse = HttpResponse(body: .data(message.payload), statusCode: .ok)")
+                            writer.write(
+                                "throw \$L(httpResponse: httpResponse, message: \"error processing event stream, unrecognized ':errorType': \\(params.errorCode); message: \\(params.message ?? \"nil\")\", requestID: nil, typeName: nil)",
+                                AWSClientRuntimeTypes.Core.UnknownAWSHTTPServiceError
+                            )
+                        }
+                        writer.write("case .unknown(messageType: let messageType):")
+                        writer.indent {
+                            // this is a client exception because we failed to parse it
+                            writer.write(
+                                "throw \$L(\"unrecognized event stream message ':message-type': \\(messageType)\")",
+                                ClientRuntimeTypes.Core.UnknownClientError
+                            )
+                        }
                         writer.write("}")
-                        writer.write("let error = try makeError(message, params)")
-                        writer.write("throw error")
                     }
-                    writer.write("case .error(let params):")
-                    writer.indent {
-                        // this is a service exception still, just un-modeled
-                        writer.write("let httpResponse = HttpResponse(body: .data(message.payload), statusCode: .ok)")
-                        writer.write(
-                            "throw \$L(httpResponse: httpResponse, message: \"error processing event stream, unrecognized ':errorType': \\(params.errorCode); message: \\(params.message ?? \"nil\")\", requestID: nil, typeName: nil)",
-                            AWSClientRuntimeTypes.Core.UnknownAWSHTTPServiceError
-                        )
-                    }
-                    writer.write("case .unknown(messageType: let messageType):")
-                    writer.indent {
-                        // this is a client exception because we failed to parse it
-                        writer.write(
-                            "throw \$L(\"unrecognized event stream message ':message-type': \\(messageType)\")",
-                            ClientRuntimeTypes.Core.UnknownClientError
-                        )
-                    }
-                    writer.write("}")
-                }
-            }
-        }
-    }
-
-    fun renderNotImplemented(
-        streamingMember: MemberShape
-    ) {
-        val symbol: Symbol = ctx.symbolProvider.toSymbol(ctx.model.expectShape(streamingMember.target))
-        val rootNamespace = ctx.settings.moduleName
-        val streamMember = Symbol.builder()
-            .definitionFile("./$rootNamespace/models/${symbol.name}+MessageUnmarshallable.swift")
-            .name(symbol.name)
-            .build()
-
-        val streamShape = ctx.model.expectShape<UnionShape>(streamingMember.target)
-        val streamSymbol = ctx.symbolProvider.toSymbol(streamShape)
-
-        ctx.delegator.useShapeWriter(streamMember) { writer ->
-
-            writer.addImport(SwiftDependency.CLIENT_RUNTIME.target)
-            writer.addImport(AWSSwiftDependency.AWS_CLIENT_RUNTIME.target)
-            writer.openBlock(
-                "extension ${streamSymbol.fullName}: \$N {", "}",
-                ClientRuntimeTypes.Serde.MessageUnmarshallable
-            ) {
-                writer.write("")
-                writer.openBlock(
-                    "public init(message: \$N, decoder: \$N) throws {", "}",
-                    ClientRuntimeTypes.EventStream.Message,
-                    ClientRuntimeTypes.Serde.ResponseDecoder
-                ) {
-                    writer.write("fatalError(\"Not implemented\")")
                 }
             }
         }
@@ -161,7 +126,8 @@ class MessageUnmarshallableGenerator(val ctx: ProtocolGenerator.GenerationContex
         val memberName = ctx.symbolProvider.toMemberName(member)
 
         if (eventHeaderBindings.isEmpty() && eventPayloadBinding == null) {
-            writer.write("self = .\$L(try decoder.decode(responseBody: message.payload))", memberName)
+            renderReadToValue(writer, member)
+            writer.write("return .\$L(value)", memberName)
         } else {
             val variantSymbol = ctx.symbolProvider.toSymbol(variant)
             writer.write("var event = \$N()", variantSymbol)
@@ -181,7 +147,7 @@ class MessageUnmarshallableGenerator(val ctx: ProtocolGenerator.GenerationContex
                     else -> throw CodegenException("unsupported eventHeader shape: member=$hdrBinding; targetShape=$target")
                 }
 
-                writer.openBlock("if case let .\$L(value) = message.headers.value(name: \$S) {", "}", conversionFn, hdrBinding.memberName) {
+                writer.openBlock("if case .\$L(let value) = message.headers.value(name: \$S) {", "}", conversionFn, hdrBinding.memberName) {
                     val memberName = ctx.symbolProvider.toMemberName(hdrBinding)
                     when (target.type) {
                         ShapeType.INTEGER, ShapeType.LONG -> {
@@ -203,12 +169,12 @@ class MessageUnmarshallableGenerator(val ctx: ProtocolGenerator.GenerationContex
                     // for the overall event shape but only payload members will be considered for deserialization),
                     // and then assign each deserialized payload member to the current builder instance
                     unbound.forEach {
-                        val memberName = ctx.symbolProvider.toMemberName(it)
-                        writer.write("event.\$L = try decoder.decode(responseBody: message.payload)", memberName)
+                        renderReadToValue(writer, it)
+                        writer.write("event.\$L = value", ctx.symbolProvider.toMemberName(it))
                     }
                 }
             }
-            writer.write("self = .\$L(event)", memberName)
+            writer.write("return .\$L(event)", memberName)
         }
     }
 
@@ -223,9 +189,20 @@ class MessageUnmarshallableGenerator(val ctx: ProtocolGenerator.GenerationContex
             ShapeType.BLOB -> writer.write("event.\$L = message.payload", memberName)
             ShapeType.STRING -> writer.write("event.\$L = String(data: message.payload, encoding: .utf8)", memberName)
             ShapeType.STRUCTURE, ShapeType.UNION -> {
-                writer.write("event.\$L = .init(try decoder.decode(responseBody: message.payload))", memberName)
+                renderReadToValue(writer, member)
+                writer.write("event.\$L = value", ctx.symbolProvider.toMemberName(member))
             }
             else -> throw CodegenException("unsupported shape type `${target.type}` for target: $target; expected blob, string, structure, or union for eventPayload member: $member")
         }
+    }
+
+    private fun renderReadToValue(writer: SwiftWriter, memberShape: MemberShape) {
+        writer.addImport(ctx.service.readerSymbol.namespace)
+        val readingClosure = ReadingClosureUtils(ctx, writer).readingClosure(memberShape)
+        writer.write(
+            "let value = try \$N.readFrom(message.payload, with: \$L)",
+            ctx.service.readerSymbol,
+            readingClosure,
+        )
     }
 }

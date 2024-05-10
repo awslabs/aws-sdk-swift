@@ -7,8 +7,8 @@ package software.amazon.smithy.aws.swift.codegen
 
 import io.kotest.matchers.string.shouldContainOnlyOnce
 import org.junit.jupiter.api.Test
-import software.amazon.smithy.aws.swift.codegen.awsjson.AwsJson1_0_ProtocolGenerator
 import software.amazon.smithy.aws.swift.codegen.middleware.AWSXAmzTargetMiddleware
+import software.amazon.smithy.aws.swift.codegen.protocols.awsjson.AWSJSON1_0ProtocolGenerator
 import software.amazon.smithy.aws.traits.auth.UnsignedPayloadTrait
 import software.amazon.smithy.model.Model
 import software.amazon.smithy.model.shapes.OperationShape
@@ -47,7 +47,7 @@ stack.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XA
             .addShape(outputShape)
             .addShape(errorShape)
             .build()
-        val context = model.newTestContext("com.test#ExampleServiceShapeName", AwsJson1_0_ProtocolGenerator()).ctx
+        val context = model.newTestContext("com.test#ExampleServiceShapeName", AWSJSON1_0ProtocolGenerator()).ctx
         val sut = AWSXAmzTargetMiddleware(context.model, context.symbolProvider, context.service)
 
         sut.render(context, writer, operationShape, opStackName)

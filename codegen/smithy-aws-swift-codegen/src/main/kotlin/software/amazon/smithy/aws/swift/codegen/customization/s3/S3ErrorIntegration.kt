@@ -1,7 +1,6 @@
 package software.amazon.smithy.aws.swift.codegen.customization.s3
 
 import software.amazon.smithy.aws.swift.codegen.AWSClientRuntimeTypes
-import software.amazon.smithy.aws.swift.codegen.restxml.AWSRestXMLHttpResponseBindingErrorGenerator
 import software.amazon.smithy.aws.traits.protocols.RestXmlTrait
 import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.model.Model
@@ -17,7 +16,7 @@ import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.SectionWriter
 import software.amazon.smithy.swift.codegen.integration.SectionWriterBinding
 import software.amazon.smithy.swift.codegen.integration.SwiftIntegration
-import software.amazon.smithy.swift.codegen.integration.httpResponse.XMLHttpResponseBindingErrorInitGenerator
+import software.amazon.smithy.swift.codegen.integration.httpResponse.HTTPResponseBindingErrorInitGenerator
 import software.amazon.smithy.swift.codegen.model.expectShape
 import software.amazon.smithy.swift.codegen.model.getTrait
 import software.amazon.smithy.swift.codegen.utils.errorShapeName
@@ -31,11 +30,9 @@ class S3ErrorIntegration : SwiftIntegration {
     }
     override val sectionWriters: List<SectionWriterBinding>
         get() = listOf(
-            SectionWriterBinding(XMLHttpResponseBindingErrorInitGenerator.XMLHttpResponseBindingErrorInit, s3MembersParams),
-            SectionWriterBinding(XMLHttpResponseBindingErrorInitGenerator.XMLHttpResponseBindingErrorInitMemberAssignment, s3MembersAssignment),
+            SectionWriterBinding(HTTPResponseBindingErrorInitGenerator.XMLHttpResponseBindingErrorInit, s3MembersParams),
+            SectionWriterBinding(HTTPResponseBindingErrorInitGenerator.XMLHttpResponseBindingErrorInitMemberAssignment, s3MembersAssignment),
             SectionWriterBinding(StructureGenerator.AdditionalErrorMembers, s3Members),
-            SectionWriterBinding(AWSRestXMLHttpResponseBindingErrorGenerator.RestXMLResponseBindingSectionId, httpResponseBinding)
-
         )
 
     private val s3MembersParams = SectionWriter { writer, _ ->
@@ -52,7 +49,7 @@ class S3ErrorIntegration : SwiftIntegration {
     }
 
     private val s3MembersAssignment = SectionWriter { writer, _ ->
-        writer.write("value.requestID2 = requestID2")
+        writer.write("value.requestID2 = baseError.requestID2")
     }
 
     private val s3Members = SectionWriter { writer, _ ->

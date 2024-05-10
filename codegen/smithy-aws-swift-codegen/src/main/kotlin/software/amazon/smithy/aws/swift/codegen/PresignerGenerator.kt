@@ -98,7 +98,7 @@ class PresignerGenerator : SwiftIntegration {
                     )
                 }
                 val operationStackName = "operation"
-                for (prop in protocolGenerator.httpProtocolCustomizable.getClientProperties()) {
+                for (prop in protocolGenerator.customizations.getClientProperties()) {
                     prop.addImportsAndDependencies(writer)
                     prop.renderInstantiation(writer)
                     prop.renderConfiguration(writer)
@@ -108,7 +108,7 @@ class PresignerGenerator : SwiftIntegration {
                     protocolGeneratorContext,
                     writer,
                     httpBindingResolver,
-                    protocolGenerator.httpProtocolCustomizable,
+                    protocolGenerator.customizations,
                     operationMiddleware,
                     operationStackName
                 )
