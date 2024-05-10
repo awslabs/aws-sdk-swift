@@ -4,25 +4,17 @@
 import ClientRuntime
 import Foundation
 import Logging
+import SmithyJSON
+import SmithyReadWrite
 
 public class CloudFrontKeyValueStoreClient: Client {
     public static let clientName = "CloudFrontKeyValueStoreClient"
     let client: ClientRuntime.SdkHttpClient
     let config: CloudFrontKeyValueStoreClient.CloudFrontKeyValueStoreClientConfiguration
     let serviceName = "CloudFront KeyValueStore"
-    let encoder: ClientRuntime.RequestEncoder
-    let decoder: ClientRuntime.ResponseDecoder
 
     public required init(config: CloudFrontKeyValueStoreClient.CloudFrontKeyValueStoreClientConfiguration) {
         client = ClientRuntime.SdkHttpClient(engine: config.httpClientEngine, config: config.httpClientConfiguration)
-        let encoder = ClientRuntime.JSONEncoder()
-        encoder.dateEncodingStrategy = .secondsSince1970
-        encoder.nonConformingFloatEncodingStrategy = .convertToString(positiveInfinity: "Infinity", negativeInfinity: "-Infinity", nan: "NaN")
-        self.encoder = encoder
-        let decoder = ClientRuntime.JSONDecoder()
-        decoder.dateDecodingStrategy = .secondsSince1970
-        decoder.nonConformingFloatDecodingStrategy = .convertFromString(positiveInfinity: "Infinity", negativeInfinity: "-Infinity", nan: "NaN")
-        self.decoder = decoder
         self.config = config
     }
 
@@ -159,8 +151,6 @@ extension CloudFrontKeyValueStoreClient {
     /// - `ValidationException` : Validation failed.
     public func deleteKey(input: DeleteKeyInput) async throws -> DeleteKeyOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deleteKey")
@@ -189,7 +179,7 @@ extension CloudFrontKeyValueStoreClient {
         builder.retryStrategy(ClientRuntime.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteKeyOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteKeyOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteKeyOutputError.self, decoder: decoder)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteKeyOutput>(DeleteKeyOutput.httpOutput(from:), DeleteKeyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteKeyInput, DeleteKeyOutput>(clientLogMode: config.clientLogMode))
         let op = builder.attributes(context)
             .executeRequest(client)
@@ -214,8 +204,6 @@ extension CloudFrontKeyValueStoreClient {
     /// - `ResourceNotFoundException` : Resource was not found.
     public func describeKeyValueStore(input: DescribeKeyValueStoreInput) async throws -> DescribeKeyValueStoreOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "describeKeyValueStore")
@@ -243,7 +231,7 @@ extension CloudFrontKeyValueStoreClient {
         builder.retryStrategy(ClientRuntime.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeKeyValueStoreOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeKeyValueStoreOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribeKeyValueStoreOutputError.self, decoder: decoder)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeKeyValueStoreOutput>(DescribeKeyValueStoreOutput.httpOutput(from:), DescribeKeyValueStoreOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeKeyValueStoreInput, DescribeKeyValueStoreOutput>(clientLogMode: config.clientLogMode))
         let op = builder.attributes(context)
             .executeRequest(client)
@@ -268,8 +256,6 @@ extension CloudFrontKeyValueStoreClient {
     /// - `ResourceNotFoundException` : Resource was not found.
     public func getKey(input: GetKeyInput) async throws -> GetKeyOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getKey")
@@ -297,7 +283,7 @@ extension CloudFrontKeyValueStoreClient {
         builder.retryStrategy(ClientRuntime.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetKeyOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetKeyOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetKeyOutputError.self, decoder: decoder)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetKeyOutput>(GetKeyOutput.httpOutput(from:), GetKeyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetKeyInput, GetKeyOutput>(clientLogMode: config.clientLogMode))
         let op = builder.attributes(context)
             .executeRequest(client)
@@ -323,8 +309,6 @@ extension CloudFrontKeyValueStoreClient {
     /// - `ValidationException` : Validation failed.
     public func listKeys(input: ListKeysInput) async throws -> ListKeysOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listKeys")
@@ -353,7 +337,7 @@ extension CloudFrontKeyValueStoreClient {
         builder.retryStrategy(ClientRuntime.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListKeysOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListKeysOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListKeysOutputError.self, decoder: decoder)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListKeysOutput>(ListKeysOutput.httpOutput(from:), ListKeysOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListKeysInput, ListKeysOutput>(clientLogMode: config.clientLogMode))
         let op = builder.attributes(context)
             .executeRequest(client)
@@ -380,8 +364,6 @@ extension CloudFrontKeyValueStoreClient {
     /// - `ValidationException` : Validation failed.
     public func putKey(input: PutKeyInput) async throws -> PutKeyOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "putKey")
@@ -408,12 +390,12 @@ extension CloudFrontKeyValueStoreClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutKeyOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<PutKeyInput, PutKeyOutput>(PutKeyInput.headerProvider(_:)))
         builder.interceptors.add(ContentTypeMiddleware<PutKeyInput, PutKeyOutput>(contentType: "application/json"))
-        builder.serialize(ClientRuntime.BodyMiddleware<PutKeyInput, PutKeyOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        builder.serialize(ClientRuntime.BodyMiddleware<PutKeyInput, PutKeyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutKeyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutKeyInput, PutKeyOutput>())
         builder.retryStrategy(ClientRuntime.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutKeyOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutKeyOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutKeyOutputError.self, decoder: decoder)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutKeyOutput>(PutKeyOutput.httpOutput(from:), PutKeyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutKeyInput, PutKeyOutput>(clientLogMode: config.clientLogMode))
         let op = builder.attributes(context)
             .executeRequest(client)
@@ -440,8 +422,6 @@ extension CloudFrontKeyValueStoreClient {
     /// - `ValidationException` : Validation failed.
     public func updateKeys(input: UpdateKeysInput) async throws -> UpdateKeysOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "updateKeys")
@@ -468,12 +448,12 @@ extension CloudFrontKeyValueStoreClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateKeysOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<UpdateKeysInput, UpdateKeysOutput>(UpdateKeysInput.headerProvider(_:)))
         builder.interceptors.add(ContentTypeMiddleware<UpdateKeysInput, UpdateKeysOutput>(contentType: "application/json"))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateKeysInput, UpdateKeysOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateKeysInput, UpdateKeysOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateKeysInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateKeysInput, UpdateKeysOutput>())
         builder.retryStrategy(ClientRuntime.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateKeysOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateKeysOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateKeysOutputError.self, decoder: decoder)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateKeysOutput>(UpdateKeysOutput.httpOutput(from:), UpdateKeysOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateKeysInput, UpdateKeysOutput>(clientLogMode: config.clientLogMode))
         let op = builder.attributes(context)
             .executeRequest(client)
