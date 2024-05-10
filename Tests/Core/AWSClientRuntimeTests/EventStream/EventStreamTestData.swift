@@ -8,31 +8,35 @@
 import ClientRuntime
 import Foundation
 
-enum TestEvent: MessageMarshallable, MessageUnmarshallable {
+enum TestEvent {
     case allHeaders
     case emptyPayload
     case noHeaders
 
-    init(message: ClientRuntime.EventStream.Message, decoder: ResponseDecoder) {
-        if message == validMessageWithAllHeaders {
-            self = .allHeaders
-        } else if message == validMessageEmptyPayload {
-            self = .emptyPayload
-        } else if message == validMessageNoHeaders {
-            self = .noHeaders
-        } else {
-            fatalError("Unknown message")
+    static var unmarshal: ClientRuntime.UnmarshalClosure<TestEvent> {
+        { message in
+            if message == validMessageWithAllHeaders {
+                return .allHeaders
+            } else if message == validMessageEmptyPayload {
+                return .emptyPayload
+            } else if message == validMessageNoHeaders {
+                return .noHeaders
+            } else {
+                fatalError("Unknown message")
+            }
         }
     }
 
-    func marshall(encoder: RequestEncoder) -> ClientRuntime.EventStream.Message {
-        switch self {
-        case .allHeaders:
-            return validMessageWithAllHeaders
-        case .emptyPayload:
-            return validMessageEmptyPayload
-        case .noHeaders:
-            return validMessageNoHeaders
+    static var marshal: ClientRuntime.MarshalClosure<TestEvent> {
+        { (self) in
+            switch self {
+            case .allHeaders:
+                return validMessageWithAllHeaders
+            case .emptyPayload:
+                return validMessageEmptyPayload
+            case .noHeaders:
+                return validMessageNoHeaders
+            }
         }
     }
 }

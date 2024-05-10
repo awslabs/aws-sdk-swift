@@ -5,37 +5,35 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
+import protocol ClientRuntime.BaseError
+import enum ClientRuntime.BaseErrorDecodeError
+import class ClientRuntime.HttpResponse
 import class SmithyXML.Reader
 
-public struct RestXMLError {
+public struct RestXMLError: BaseError {
     public let code: String
     public let message: String?
     public let requestID: String?
+    public var requestID2: String? { httpResponse.requestId2 }
 
-    public static func errorBodyReader(responseReader: Reader, noErrorWrapping: Bool) -> Reader {
+    public let httpResponse: HttpResponse
+    private let responseReader: Reader
+    public let errorBodyReader: Reader
+
+    public init(httpResponse: HttpResponse, responseReader: Reader, noErrorWrapping: Bool) throws {
+        self.errorBodyReader = Self.errorBodyReader(responseReader: responseReader, noErrorWrapping: noErrorWrapping)
+        let code: String? = try errorBodyReader["Code"].readIfPresent()
+        if code == nil && httpResponse.statusCode != .notFound { throw BaseErrorDecodeError.missingRequiredData }
+        let message: String? = try errorBodyReader["Message"].readIfPresent()
+        let requestID: String? = try responseReader["RequestId"].readIfPresent() ?? httpResponse.requestId
+        self.code = code ?? "NotFound"
+        self.message = message
+        self.requestID = requestID
+        self.httpResponse = httpResponse
+        self.responseReader = responseReader
+    }
+
+    private static func errorBodyReader(responseReader: Reader, noErrorWrapping: Bool) -> Reader {
         noErrorWrapping ? responseReader : responseReader["Error"]
     }
-
-    public init(responseReader: Reader, noErrorWrapping: Bool) throws {
-        let reader = Self.errorBodyReader(responseReader: responseReader, noErrorWrapping: noErrorWrapping)
-        let code: String? = try reader["Code"].readIfPresent()
-        let message: String? = try reader["Message"].readIfPresent()
-        let requestID: String? = try responseReader["RequestId"].readIfPresent()
-        guard let code else {
-            throw RestXMLDecodeError.missingRequiredData
-        }
-        self.code = code
-        self.message = message
-        self.requestID = requestID
-    }
-
-    public init(code: String, message: String?, requestID: String?) {
-        self.code = code
-        self.message = message
-        self.requestID = requestID
-    }
-}
-
-public enum RestXMLDecodeError: Error {
-    case missingRequiredData
 }

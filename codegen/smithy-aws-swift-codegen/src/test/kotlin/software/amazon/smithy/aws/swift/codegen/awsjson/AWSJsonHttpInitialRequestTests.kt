@@ -4,6 +4,7 @@ import io.kotest.matchers.string.shouldContainOnlyOnce
 import org.junit.jupiter.api.Test
 import software.amazon.smithy.aws.swift.codegen.TestContext
 import software.amazon.smithy.aws.swift.codegen.TestUtils
+import software.amazon.smithy.aws.swift.codegen.protocols.awsjson.AWSJSON1_0ProtocolGenerator
 import software.amazon.smithy.aws.swift.codegen.shouldSyntacticSanityCheck
 import software.amazon.smithy.aws.traits.protocols.AwsJson1_0Trait
 
@@ -19,24 +20,25 @@ class AWSJsonHttpInitialRequestTests {
             "/Example/models/TestStream+MessageMarshallable.swift"
         )
         contents.shouldSyntacticSanityCheck()
-        val expectedContents =
-            """
-            extension InitialRequestTestClientTypes.TestStream: ClientRuntime.MessageMarshallable {
-                public func marshall(encoder: ClientRuntime.RequestEncoder) throws -> ClientRuntime.EventStream.Message {
-                    var headers: [ClientRuntime.EventStream.Header] = [.init(name: ":message-type", value: .string("event"))]
-                    var payload: ClientRuntime.Data? = nil
-                    switch self {
-                    case .messagewithstring(let value):
-                        headers.append(.init(name: ":event-type", value: .string("MessageWithString")))
-                        headers.append(.init(name: ":content-type", value: .string("text/plain")))
-                        payload = value.data?.data(using: .utf8)
-                    case .sdkUnknown(_):
-                        throw ClientRuntime.ClientError.unknownError("cannot serialize the unknown event type!")
-                    }
-                    return ClientRuntime.EventStream.Message(headers: headers, payload: payload ?? .init())
-                }
+        val expectedContents = """
+extension InitialRequestTestClientTypes.TestStream {
+    static var marshal: ClientRuntime.MarshalClosure<InitialRequestTestClientTypes.TestStream> {
+        { (self) in
+            var headers: [ClientRuntime.EventStream.Header] = [.init(name: ":message-type", value: .string("event"))]
+            var payload: ClientRuntime.Data? = nil
+            switch self {
+            case .messagewithstring(let value):
+                headers.append(.init(name: ":event-type", value: .string("MessageWithString")))
+                headers.append(.init(name: ":content-type", value: .string("text/plain")))
+                payload = value.data?.data(using: .utf8)
+            case .sdkUnknown(_):
+                throw ClientRuntime.ClientError.unknownError("cannot serialize the unknown event type!")
             }
-            """.trimIndent()
+            return ClientRuntime.EventStream.Message(headers: headers, payload: payload ?? .init())
+        }
+    }
+}
+"""
         contents.shouldContainOnlyOnce(expectedContents)
     }
 
@@ -52,8 +54,8 @@ class AWSJsonHttpInitialRequestTests {
         )
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.EventStreamBodyMiddleware<EventStreamOpInput, EventStreamOpOutput, InitialRequestTestClientTypes.TestStream>(keyPath: \.eventStream, defaultBody: "{}", marshalClosure: jsonMarshalClosure(requestEncoder: encoder), initialRequestMessage: try input.makeInitialRequestMessage(encoder: encoder)))
-        """
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.EventStreamBodyMiddleware<EventStreamOpInput, EventStreamOpOutput, InitialRequestTestClientTypes.TestStream>(keyPath: \.eventStream, defaultBody: "{}", marshalClosure: InitialRequestTestClientTypes.TestStream.marshal, initialRequestMessage: try input.makeInitialRequestMessage()))
+"""
         contents.shouldContainOnlyOnce(expectedContents)
     }
 
@@ -65,27 +67,19 @@ class AWSJsonHttpInitialRequestTests {
         )
         val contents = TestUtils.getFileContents(
             context.manifest,
-            "/Example/models/EventStreamOpInput+Encodable.swift"
+            "/Example/models/EventStreamOpInput+Write.swift"
         )
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
-        extension EventStreamOpInput: Swift.Encodable {
-            enum CodingKeys: Swift.String, Swift.CodingKey {
-                case inputMember1
-                case inputMember2
-            }
+extension EventStreamOpInput {
 
-            public func encode(to encoder: Swift.Encoder) throws {
-                var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-                if let inputMember1 = self.inputMember1 {
-                    try encodeContainer.encode(inputMember1, forKey: .inputMember1)
-                }
-                if let inputMember2 = self.inputMember2 {
-                    try encodeContainer.encode(inputMember2, forKey: .inputMember2)
-                }
-            }
-        }
-        """.trimIndent()
+    static func write(value: EventStreamOpInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["inputMember1"].write(value.inputMember1)
+        try writer["inputMember2"].write(value.inputMember2)
+    }
+}
+"""
         contents.shouldContainOnlyOnce(expectedContents)
     }
 
@@ -101,26 +95,28 @@ class AWSJsonHttpInitialRequestTests {
         )
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
-        extension EventStreamOpInput {
-            func makeInitialRequestMessage(encoder: ClientRuntime.RequestEncoder) throws -> EventStream.Message {
-                let initialRequestPayload = try ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder)(self, JSONReadWrite.writingClosure())
-                let initialRequestMessage = EventStream.Message(
-                    headers: [
-                        EventStream.Header(name: ":message-type", value: .string("event")),
-                        EventStream.Header(name: ":event-type", value: .string("initial-request")),
-                        EventStream.Header(name: ":content-type", value: .string("application/x-amz-json-1.0"))
-                    ],
-                    payload: initialRequestPayload
-                )
-                return initialRequestMessage
-            }
-        }
-        """.trimIndent()
+extension EventStreamOpInput {
+    func makeInitialRequestMessage() throws -> EventStream.Message {
+        let writer = SmithyJSON.Writer(nodeInfo: "")
+        try writer.write(self, with: EventStreamOpInput.write(value:to:))
+        let initialRequestPayload = try writer.data()
+        let initialRequestMessage = EventStream.Message(
+            headers: [
+                EventStream.Header(name: ":message-type", value: .string("event")),
+                EventStream.Header(name: ":event-type", value: .string("initial-request")),
+                EventStream.Header(name: ":content-type", value: .string("application/x-amz-json-1.0"))
+            ],
+            payload: initialRequestPayload
+        )
+        return initialRequestMessage
+    }
+}
+"""
         contents.shouldContainOnlyOnce(expectedContents)
     }
     private fun setupTests(smithyFile: String, serviceShapeId: String): TestContext {
         val context = TestUtils.executeDirectedCodegen(smithyFile, serviceShapeId, AwsJson1_0Trait.ID)
-        AwsJson1_0_ProtocolGenerator().run {
+        AWSJSON1_0ProtocolGenerator().run {
             generateMessageMarshallable(context.ctx)
             generateSerializers(context.ctx)
             initializeMiddleware(context.ctx)

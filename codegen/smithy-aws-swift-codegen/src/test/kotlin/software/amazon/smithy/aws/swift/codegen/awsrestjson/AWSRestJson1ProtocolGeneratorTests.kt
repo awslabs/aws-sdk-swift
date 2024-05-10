@@ -11,7 +11,7 @@ import software.amazon.smithy.aws.swift.codegen.TestContext
 import software.amazon.smithy.aws.swift.codegen.TestUtils.Companion.executeDirectedCodegen
 import software.amazon.smithy.aws.swift.codegen.TestUtils.Companion.getClientFileContents
 import software.amazon.smithy.aws.swift.codegen.TestUtils.Companion.getModelFileContents
-import software.amazon.smithy.aws.swift.codegen.restjson.AWSRestJson1ProtocolGenerator
+import software.amazon.smithy.aws.swift.codegen.protocols.restjson.AWSRestJson1ProtocolGenerator
 import software.amazon.smithy.aws.swift.codegen.shouldSyntacticSanityCheck
 import software.amazon.smithy.aws.traits.protocols.RestJson1Trait
 
@@ -20,54 +20,36 @@ class RestJsonProtocolGeneratorTests {
     @Test
     fun `define coding keys for unbound document payload members`() {
         val context = setupTests("http-binding-protocol-generator-test.smithy", "com.test#Example")
-        val contents = getModelFileContents("Example", "SmokeTestInput+Encodable.swift", context.manifest)
+        val contents = getModelFileContents("Example", "SmokeTestInput+Write.swift", context.manifest)
         contents.shouldSyntacticSanityCheck()
-        val expectedContents =
-            """
-            extension SmokeTestInput: Swift.Encodable {
-                enum CodingKeys: Swift.String, Swift.CodingKey {
-                    case payload1
-                    case payload2
-                    case payload3
-                }
-            
-                public func encode(to encoder: Swift.Encoder) throws {
-                    var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-                    if let payload1 = self.payload1 {
-                        try encodeContainer.encode(payload1, forKey: .payload1)
-                    }
-                    if let payload2 = self.payload2 {
-                        try encodeContainer.encode(payload2, forKey: .payload2)
-                    }
-                    if let payload3 = self.payload3 {
-                        try encodeContainer.encode(payload3, forKey: .payload3)
-                    }
-                }
-            }
-            """.trimIndent()
+        val expectedContents = """
+extension SmokeTestInput {
+
+    static func write(value: SmokeTestInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["payload1"].write(value.payload1)
+        try writer["payload2"].write(value.payload2)
+        try writer["payload3"].write(value.payload3, with: ExampleClientTypes.Nested.write(value:to:))
+    }
+}
+"""
         contents.shouldContainOnlyOnce(expectedContents)
     }
 
     @Test
     fun `define coding keys for payload member`() {
         val context = setupTests("http-binding-protocol-generator-test.smithy", "com.test#Example")
-        val contents = getModelFileContents("Example", "ExplicitBlobInput+Encodable.swift", context.manifest)
+        val contents = getModelFileContents("Example", "ExplicitBlobInput+Write.swift", context.manifest)
         contents.shouldSyntacticSanityCheck()
-        val expectedContents =
-            """
-            extension ExplicitBlobInput: Swift.Encodable {
-                enum CodingKeys: Swift.String, Swift.CodingKey {
-                    case payload1
-                }
-            
-                public func encode(to encoder: Swift.Encoder) throws {
-                    var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-                    if let payload1 = self.payload1 {
-                        try encodeContainer.encode(payload1.base64EncodedString(), forKey: .payload1)
-                    }
-                }
-            }
-            """.trimIndent()
+        val expectedContents = """
+extension ExplicitBlobInput {
+
+    static func write(value: ExplicitBlobInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["payload1"].write(value.payload1)
+    }
+}
+"""
         contents.shouldContainOnlyOnce(expectedContents)
     }
 
@@ -82,19 +64,9 @@ public class ExampleClient: Client {
     let client: ClientRuntime.SdkHttpClient
     let config: ExampleClient.ExampleClientConfiguration
     let serviceName = "Example"
-    let encoder: ClientRuntime.RequestEncoder
-    let decoder: ClientRuntime.ResponseDecoder
 
     public required init(config: ExampleClient.ExampleClientConfiguration) {
         client = ClientRuntime.SdkHttpClient(engine: config.httpClientEngine, config: config.httpClientConfiguration)
-        let encoder = ClientRuntime.JSONEncoder()
-        encoder.dateEncodingStrategy = .secondsSince1970
-        encoder.nonConformingFloatEncodingStrategy = .convertToString(positiveInfinity: "Infinity", negativeInfinity: "-Infinity", nan: "NaN")
-        self.encoder = encoder
-        let decoder = ClientRuntime.JSONDecoder()
-        decoder.dateDecodingStrategy = .secondsSince1970
-        decoder.nonConformingFloatDecodingStrategy = .convertFromString(positiveInfinity: "Infinity", negativeInfinity: "-Infinity", nan: "NaN")
-        self.decoder = decoder
         self.config = config
     }
 
