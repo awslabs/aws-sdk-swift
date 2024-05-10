@@ -6,36 +6,6 @@ import SmithyReadWrite
 
 extension MarketplaceAgreementClientTypes.AcceptedTerm {
 
-    static func write(value: MarketplaceAgreementClientTypes.AcceptedTerm?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .byolpricingterm(byolpricingterm):
-                try writer["byolPricingTerm"].write(byolpricingterm, with: MarketplaceAgreementClientTypes.ByolPricingTerm.write(value:to:))
-            case let .configurableupfrontpricingterm(configurableupfrontpricingterm):
-                try writer["configurableUpfrontPricingTerm"].write(configurableupfrontpricingterm, with: MarketplaceAgreementClientTypes.ConfigurableUpfrontPricingTerm.write(value:to:))
-            case let .fixedupfrontpricingterm(fixedupfrontpricingterm):
-                try writer["fixedUpfrontPricingTerm"].write(fixedupfrontpricingterm, with: MarketplaceAgreementClientTypes.FixedUpfrontPricingTerm.write(value:to:))
-            case let .freetrialpricingterm(freetrialpricingterm):
-                try writer["freeTrialPricingTerm"].write(freetrialpricingterm, with: MarketplaceAgreementClientTypes.FreeTrialPricingTerm.write(value:to:))
-            case let .legalterm(legalterm):
-                try writer["legalTerm"].write(legalterm, with: MarketplaceAgreementClientTypes.LegalTerm.write(value:to:))
-            case let .paymentscheduleterm(paymentscheduleterm):
-                try writer["paymentScheduleTerm"].write(paymentscheduleterm, with: MarketplaceAgreementClientTypes.PaymentScheduleTerm.write(value:to:))
-            case let .recurringpaymentterm(recurringpaymentterm):
-                try writer["recurringPaymentTerm"].write(recurringpaymentterm, with: MarketplaceAgreementClientTypes.RecurringPaymentTerm.write(value:to:))
-            case let .renewalterm(renewalterm):
-                try writer["renewalTerm"].write(renewalterm, with: MarketplaceAgreementClientTypes.RenewalTerm.write(value:to:))
-            case let .supportterm(supportterm):
-                try writer["supportTerm"].write(supportterm, with: MarketplaceAgreementClientTypes.SupportTerm.write(value:to:))
-            case let .usagebasedpricingterm(usagebasedpricingterm):
-                try writer["usageBasedPricingTerm"].write(usagebasedpricingterm, with: MarketplaceAgreementClientTypes.UsageBasedPricingTerm.write(value:to:))
-            case let .validityterm(validityterm):
-                try writer["validityTerm"].write(validityterm, with: MarketplaceAgreementClientTypes.ValidityTerm.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceAgreementClientTypes.AcceptedTerm {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
@@ -99,11 +69,6 @@ extension MarketplaceAgreementClientTypes {
 }
 
 extension MarketplaceAgreementClientTypes.Acceptor {
-
-    static func write(value: MarketplaceAgreementClientTypes.Acceptor?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["accountId"].write(value.accountId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceAgreementClientTypes.Acceptor {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -224,19 +189,6 @@ extension MarketplaceAgreementClientTypes {
 
 extension MarketplaceAgreementClientTypes.AgreementViewSummary {
 
-    static func write(value: MarketplaceAgreementClientTypes.AgreementViewSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["acceptanceTime"].writeTimestamp(value.acceptanceTime, format: .epochSeconds)
-        try writer["acceptor"].write(value.acceptor, with: MarketplaceAgreementClientTypes.Acceptor.write(value:to:))
-        try writer["agreementId"].write(value.agreementId)
-        try writer["agreementType"].write(value.agreementType)
-        try writer["endTime"].writeTimestamp(value.endTime, format: .epochSeconds)
-        try writer["proposalSummary"].write(value.proposalSummary, with: MarketplaceAgreementClientTypes.ProposalSummary.write(value:to:))
-        try writer["proposer"].write(value.proposer, with: MarketplaceAgreementClientTypes.Proposer.write(value:to:))
-        try writer["startTime"].writeTimestamp(value.startTime, format: .epochSeconds)
-        try writer["status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceAgreementClientTypes.AgreementViewSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MarketplaceAgreementClientTypes.AgreementViewSummary()
@@ -303,11 +255,6 @@ extension MarketplaceAgreementClientTypes {
 
 extension MarketplaceAgreementClientTypes.ByolPricingTerm {
 
-    static func write(value: MarketplaceAgreementClientTypes.ByolPricingTerm?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceAgreementClientTypes.ByolPricingTerm {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MarketplaceAgreementClientTypes.ByolPricingTerm()
@@ -333,14 +280,6 @@ extension MarketplaceAgreementClientTypes {
 }
 
 extension MarketplaceAgreementClientTypes.ConfigurableUpfrontPricingTerm {
-
-    static func write(value: MarketplaceAgreementClientTypes.ConfigurableUpfrontPricingTerm?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["configuration"].write(value.configuration, with: MarketplaceAgreementClientTypes.ConfigurableUpfrontPricingTermConfiguration.write(value:to:))
-        try writer["currencyCode"].write(value.currencyCode)
-        try writer["rateCards"].writeList(value.rateCards, memberWritingClosure: MarketplaceAgreementClientTypes.ConfigurableUpfrontRateCardItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceAgreementClientTypes.ConfigurableUpfrontPricingTerm {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -383,12 +322,6 @@ extension MarketplaceAgreementClientTypes {
 
 extension MarketplaceAgreementClientTypes.ConfigurableUpfrontPricingTermConfiguration {
 
-    static func write(value: MarketplaceAgreementClientTypes.ConfigurableUpfrontPricingTermConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["dimensions"].writeList(value.dimensions, memberWritingClosure: MarketplaceAgreementClientTypes.Dimension.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["selectorValue"].write(value.selectorValue)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceAgreementClientTypes.ConfigurableUpfrontPricingTermConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MarketplaceAgreementClientTypes.ConfigurableUpfrontPricingTermConfiguration()
@@ -421,13 +354,6 @@ extension MarketplaceAgreementClientTypes {
 }
 
 extension MarketplaceAgreementClientTypes.ConfigurableUpfrontRateCardItem {
-
-    static func write(value: MarketplaceAgreementClientTypes.ConfigurableUpfrontRateCardItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["constraints"].write(value.constraints, with: MarketplaceAgreementClientTypes.Constraints.write(value:to:))
-        try writer["rateCard"].writeList(value.rateCard, memberWritingClosure: MarketplaceAgreementClientTypes.RateCardItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["selector"].write(value.selector, with: MarketplaceAgreementClientTypes.Selector.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceAgreementClientTypes.ConfigurableUpfrontRateCardItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -464,12 +390,6 @@ extension MarketplaceAgreementClientTypes {
 }
 
 extension MarketplaceAgreementClientTypes.Constraints {
-
-    static func write(value: MarketplaceAgreementClientTypes.Constraints?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["multipleDimensionSelection"].write(value.multipleDimensionSelection)
-        try writer["quantityConfiguration"].write(value.quantityConfiguration)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceAgreementClientTypes.Constraints {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -635,12 +555,6 @@ enum DescribeAgreementOutputError {
 
 extension MarketplaceAgreementClientTypes.Dimension {
 
-    static func write(value: MarketplaceAgreementClientTypes.Dimension?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["dimensionKey"].write(value.dimensionKey)
-        try writer["dimensionValue"].write(value.dimensionValue)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceAgreementClientTypes.Dimension {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MarketplaceAgreementClientTypes.Dimension()
@@ -673,13 +587,6 @@ extension MarketplaceAgreementClientTypes {
 }
 
 extension MarketplaceAgreementClientTypes.DocumentItem {
-
-    static func write(value: MarketplaceAgreementClientTypes.DocumentItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["type"].write(value.type)
-        try writer["url"].write(value.url)
-        try writer["version"].write(value.version)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceAgreementClientTypes.DocumentItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -725,12 +632,6 @@ extension MarketplaceAgreementClientTypes {
 
 extension MarketplaceAgreementClientTypes.EstimatedCharges {
 
-    static func write(value: MarketplaceAgreementClientTypes.EstimatedCharges?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["agreementValue"].write(value.agreementValue)
-        try writer["currencyCode"].write(value.currencyCode)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceAgreementClientTypes.EstimatedCharges {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MarketplaceAgreementClientTypes.EstimatedCharges()
@@ -767,14 +668,6 @@ extension MarketplaceAgreementClientTypes.Filter {
         try writer["name"].write(value.name)
         try writer["values"].writeList(value.values, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceAgreementClientTypes.Filter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MarketplaceAgreementClientTypes.Filter()
-        value.name = try reader["name"].readIfPresent()
-        value.values = try reader["values"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
 }
 
 extension MarketplaceAgreementClientTypes {
@@ -798,15 +691,6 @@ extension MarketplaceAgreementClientTypes {
 }
 
 extension MarketplaceAgreementClientTypes.FixedUpfrontPricingTerm {
-
-    static func write(value: MarketplaceAgreementClientTypes.FixedUpfrontPricingTerm?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["currencyCode"].write(value.currencyCode)
-        try writer["duration"].write(value.duration)
-        try writer["grants"].writeList(value.grants, memberWritingClosure: MarketplaceAgreementClientTypes.GrantItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["price"].write(value.price)
-        try writer["type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceAgreementClientTypes.FixedUpfrontPricingTerm {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -853,13 +737,6 @@ extension MarketplaceAgreementClientTypes {
 }
 
 extension MarketplaceAgreementClientTypes.FreeTrialPricingTerm {
-
-    static func write(value: MarketplaceAgreementClientTypes.FreeTrialPricingTerm?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["duration"].write(value.duration)
-        try writer["grants"].writeList(value.grants, memberWritingClosure: MarketplaceAgreementClientTypes.GrantItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceAgreementClientTypes.FreeTrialPricingTerm {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -982,12 +859,6 @@ enum GetAgreementTermsOutputError {
 
 extension MarketplaceAgreementClientTypes.GrantItem {
 
-    static func write(value: MarketplaceAgreementClientTypes.GrantItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["dimensionKey"].write(value.dimensionKey)
-        try writer["maxQuantity"].write(value.maxQuantity)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceAgreementClientTypes.GrantItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MarketplaceAgreementClientTypes.GrantItem()
@@ -1061,12 +932,6 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
 extension MarketplaceAgreementClientTypes.LegalTerm {
 
-    static func write(value: MarketplaceAgreementClientTypes.LegalTerm?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["documents"].writeList(value.documents, memberWritingClosure: MarketplaceAgreementClientTypes.DocumentItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceAgreementClientTypes.LegalTerm {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MarketplaceAgreementClientTypes.LegalTerm()
@@ -1099,13 +964,6 @@ extension MarketplaceAgreementClientTypes {
 public enum MarketplaceAgreementClientTypes {}
 
 extension MarketplaceAgreementClientTypes.PaymentScheduleTerm {
-
-    static func write(value: MarketplaceAgreementClientTypes.PaymentScheduleTerm?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["currencyCode"].write(value.currencyCode)
-        try writer["schedule"].writeList(value.schedule, memberWritingClosure: MarketplaceAgreementClientTypes.ScheduleItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceAgreementClientTypes.PaymentScheduleTerm {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1143,12 +1001,6 @@ extension MarketplaceAgreementClientTypes {
 
 extension MarketplaceAgreementClientTypes.ProposalSummary {
 
-    static func write(value: MarketplaceAgreementClientTypes.ProposalSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["offerId"].write(value.offerId)
-        try writer["resources"].writeList(value.resources, memberWritingClosure: MarketplaceAgreementClientTypes.Resource.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceAgreementClientTypes.ProposalSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MarketplaceAgreementClientTypes.ProposalSummary()
@@ -1180,11 +1032,6 @@ extension MarketplaceAgreementClientTypes {
 
 extension MarketplaceAgreementClientTypes.Proposer {
 
-    static func write(value: MarketplaceAgreementClientTypes.Proposer?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["accountId"].write(value.accountId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceAgreementClientTypes.Proposer {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MarketplaceAgreementClientTypes.Proposer()
@@ -1210,12 +1057,6 @@ extension MarketplaceAgreementClientTypes {
 }
 
 extension MarketplaceAgreementClientTypes.RateCardItem {
-
-    static func write(value: MarketplaceAgreementClientTypes.RateCardItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["dimensionKey"].write(value.dimensionKey)
-        try writer["price"].write(value.price)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceAgreementClientTypes.RateCardItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1247,14 +1088,6 @@ extension MarketplaceAgreementClientTypes {
 }
 
 extension MarketplaceAgreementClientTypes.RecurringPaymentTerm {
-
-    static func write(value: MarketplaceAgreementClientTypes.RecurringPaymentTerm?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["billingPeriod"].write(value.billingPeriod)
-        try writer["currencyCode"].write(value.currencyCode)
-        try writer["price"].write(value.price)
-        try writer["type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceAgreementClientTypes.RecurringPaymentTerm {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1297,12 +1130,6 @@ extension MarketplaceAgreementClientTypes {
 
 extension MarketplaceAgreementClientTypes.RenewalTerm {
 
-    static func write(value: MarketplaceAgreementClientTypes.RenewalTerm?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["configuration"].write(value.configuration, with: MarketplaceAgreementClientTypes.RenewalTermConfiguration.write(value:to:))
-        try writer["type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceAgreementClientTypes.RenewalTerm {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MarketplaceAgreementClientTypes.RenewalTerm()
@@ -1334,11 +1161,6 @@ extension MarketplaceAgreementClientTypes {
 
 extension MarketplaceAgreementClientTypes.RenewalTermConfiguration {
 
-    static func write(value: MarketplaceAgreementClientTypes.RenewalTermConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["enableAutoRenew"].write(value.enableAutoRenew)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceAgreementClientTypes.RenewalTermConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MarketplaceAgreementClientTypes.RenewalTermConfiguration()
@@ -1365,12 +1187,6 @@ extension MarketplaceAgreementClientTypes {
 }
 
 extension MarketplaceAgreementClientTypes.Resource {
-
-    static func write(value: MarketplaceAgreementClientTypes.Resource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["id"].write(value.id)
-        try writer["type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceAgreementClientTypes.Resource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1481,12 +1297,6 @@ extension MarketplaceAgreementClientTypes {
 }
 
 extension MarketplaceAgreementClientTypes.ScheduleItem {
-
-    static func write(value: MarketplaceAgreementClientTypes.ScheduleItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["chargeAmount"].write(value.chargeAmount)
-        try writer["chargeDate"].writeTimestamp(value.chargeDate, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceAgreementClientTypes.ScheduleItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1630,12 +1440,6 @@ enum SearchAgreementsOutputError {
 
 extension MarketplaceAgreementClientTypes.Selector {
 
-    static func write(value: MarketplaceAgreementClientTypes.Selector?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["type"].write(value.type)
-        try writer["value"].write(value.value)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceAgreementClientTypes.Selector {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MarketplaceAgreementClientTypes.Selector()
@@ -1671,14 +1475,6 @@ extension MarketplaceAgreementClientTypes.Sort {
         guard let value else { return }
         try writer["sortBy"].write(value.sortBy)
         try writer["sortOrder"].write(value.sortOrder)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceAgreementClientTypes.Sort {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MarketplaceAgreementClientTypes.Sort()
-        value.sortBy = try reader["sortBy"].readIfPresent()
-        value.sortOrder = try reader["sortOrder"].readIfPresent()
-        return value
     }
 }
 
@@ -1733,12 +1529,6 @@ extension MarketplaceAgreementClientTypes {
 }
 
 extension MarketplaceAgreementClientTypes.SupportTerm {
-
-    static func write(value: MarketplaceAgreementClientTypes.SupportTerm?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["refundPolicy"].write(value.refundPolicy)
-        try writer["type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceAgreementClientTypes.SupportTerm {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1813,13 +1603,6 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
 extension MarketplaceAgreementClientTypes.UsageBasedPricingTerm {
 
-    static func write(value: MarketplaceAgreementClientTypes.UsageBasedPricingTerm?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["currencyCode"].write(value.currencyCode)
-        try writer["rateCards"].writeList(value.rateCards, memberWritingClosure: MarketplaceAgreementClientTypes.UsageBasedRateCardItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceAgreementClientTypes.UsageBasedPricingTerm {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MarketplaceAgreementClientTypes.UsageBasedPricingTerm()
@@ -1855,11 +1638,6 @@ extension MarketplaceAgreementClientTypes {
 }
 
 extension MarketplaceAgreementClientTypes.UsageBasedRateCardItem {
-
-    static func write(value: MarketplaceAgreementClientTypes.UsageBasedRateCardItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["rateCard"].writeList(value.rateCard, memberWritingClosure: MarketplaceAgreementClientTypes.RateCardItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceAgreementClientTypes.UsageBasedRateCardItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1938,12 +1716,6 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 extension MarketplaceAgreementClientTypes.ValidationExceptionField {
-
-    static func write(value: MarketplaceAgreementClientTypes.ValidationExceptionField?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.message)
-        try writer["name"].write(value.name)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceAgreementClientTypes.ValidationExceptionField {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2034,14 +1806,6 @@ extension MarketplaceAgreementClientTypes {
 }
 
 extension MarketplaceAgreementClientTypes.ValidityTerm {
-
-    static func write(value: MarketplaceAgreementClientTypes.ValidityTerm?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["agreementDuration"].write(value.agreementDuration)
-        try writer["agreementEndDate"].writeTimestamp(value.agreementEndDate, format: .epochSeconds)
-        try writer["agreementStartDate"].writeTimestamp(value.agreementStartDate, format: .epochSeconds)
-        try writer["type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceAgreementClientTypes.ValidityTerm {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

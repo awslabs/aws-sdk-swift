@@ -126,26 +126,6 @@ extension MachineLearningClientTypes {
 
 extension MachineLearningClientTypes.BatchPrediction {
 
-    static func write(value: MachineLearningClientTypes.BatchPrediction?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BatchPredictionDataSourceId"].write(value.batchPredictionDataSourceId)
-        try writer["BatchPredictionId"].write(value.batchPredictionId)
-        try writer["ComputeTime"].write(value.computeTime)
-        try writer["CreatedAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["CreatedByIamUser"].write(value.createdByIamUser)
-        try writer["FinishedAt"].writeTimestamp(value.finishedAt, format: .epochSeconds)
-        try writer["InputDataLocationS3"].write(value.inputDataLocationS3)
-        try writer["InvalidRecordCount"].write(value.invalidRecordCount)
-        try writer["LastUpdatedAt"].writeTimestamp(value.lastUpdatedAt, format: .epochSeconds)
-        try writer["MLModelId"].write(value.mlModelId)
-        try writer["Message"].write(value.message)
-        try writer["Name"].write(value.name)
-        try writer["OutputUri"].write(value.outputUri)
-        try writer["StartedAt"].writeTimestamp(value.startedAt, format: .epochSeconds)
-        try writer["Status"].write(value.status)
-        try writer["TotalRecordCount"].write(value.totalRecordCount)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MachineLearningClientTypes.BatchPrediction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MachineLearningClientTypes.BatchPrediction()
@@ -1018,28 +998,6 @@ enum CreateRealtimeEndpointOutputError {
 }
 
 extension MachineLearningClientTypes.DataSource {
-
-    static func write(value: MachineLearningClientTypes.DataSource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ComputeStatistics"].write(value.computeStatistics)
-        try writer["ComputeTime"].write(value.computeTime)
-        try writer["CreatedAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["CreatedByIamUser"].write(value.createdByIamUser)
-        try writer["DataLocationS3"].write(value.dataLocationS3)
-        try writer["DataRearrangement"].write(value.dataRearrangement)
-        try writer["DataSizeInBytes"].write(value.dataSizeInBytes)
-        try writer["DataSourceId"].write(value.dataSourceId)
-        try writer["FinishedAt"].writeTimestamp(value.finishedAt, format: .epochSeconds)
-        try writer["LastUpdatedAt"].writeTimestamp(value.lastUpdatedAt, format: .epochSeconds)
-        try writer["Message"].write(value.message)
-        try writer["Name"].write(value.name)
-        try writer["NumberOfFiles"].write(value.numberOfFiles)
-        try writer["RDSMetadata"].write(value.rdsMetadata, with: MachineLearningClientTypes.RDSMetadata.write(value:to:))
-        try writer["RedshiftMetadata"].write(value.redshiftMetadata, with: MachineLearningClientTypes.RedshiftMetadata.write(value:to:))
-        try writer["RoleARN"].write(value.roleARN)
-        try writer["StartedAt"].writeTimestamp(value.startedAt, format: .epochSeconds)
-        try writer["Status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MachineLearningClientTypes.DataSource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2421,24 +2379,6 @@ extension MachineLearningClientTypes {
 
 extension MachineLearningClientTypes.Evaluation {
 
-    static func write(value: MachineLearningClientTypes.Evaluation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ComputeTime"].write(value.computeTime)
-        try writer["CreatedAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["CreatedByIamUser"].write(value.createdByIamUser)
-        try writer["EvaluationDataSourceId"].write(value.evaluationDataSourceId)
-        try writer["EvaluationId"].write(value.evaluationId)
-        try writer["FinishedAt"].writeTimestamp(value.finishedAt, format: .epochSeconds)
-        try writer["InputDataLocationS3"].write(value.inputDataLocationS3)
-        try writer["LastUpdatedAt"].writeTimestamp(value.lastUpdatedAt, format: .epochSeconds)
-        try writer["MLModelId"].write(value.mlModelId)
-        try writer["Message"].write(value.message)
-        try writer["Name"].write(value.name)
-        try writer["PerformanceMetrics"].write(value.performanceMetrics, with: MachineLearningClientTypes.PerformanceMetrics.write(value:to:))
-        try writer["StartedAt"].writeTimestamp(value.startedAt, format: .epochSeconds)
-        try writer["Status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MachineLearningClientTypes.Evaluation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MachineLearningClientTypes.Evaluation()
@@ -3508,29 +3448,6 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 
 extension MachineLearningClientTypes.MLModel {
 
-    static func write(value: MachineLearningClientTypes.MLModel?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Algorithm"].write(value.algorithm)
-        try writer["ComputeTime"].write(value.computeTime)
-        try writer["CreatedAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["CreatedByIamUser"].write(value.createdByIamUser)
-        try writer["EndpointInfo"].write(value.endpointInfo, with: MachineLearningClientTypes.RealtimeEndpointInfo.write(value:to:))
-        try writer["FinishedAt"].writeTimestamp(value.finishedAt, format: .epochSeconds)
-        try writer["InputDataLocationS3"].write(value.inputDataLocationS3)
-        try writer["LastUpdatedAt"].writeTimestamp(value.lastUpdatedAt, format: .epochSeconds)
-        try writer["MLModelId"].write(value.mlModelId)
-        try writer["MLModelType"].write(value.mlModelType)
-        try writer["Message"].write(value.message)
-        try writer["Name"].write(value.name)
-        try writer["ScoreThreshold"].write(value.scoreThreshold)
-        try writer["ScoreThresholdLastUpdatedAt"].writeTimestamp(value.scoreThresholdLastUpdatedAt, format: .epochSeconds)
-        try writer["SizeInBytes"].write(value.sizeInBytes)
-        try writer["StartedAt"].writeTimestamp(value.startedAt, format: .epochSeconds)
-        try writer["Status"].write(value.status)
-        try writer["TrainingDataSourceId"].write(value.trainingDataSourceId)
-        try writer["TrainingParameters"].writeMap(value.trainingParameters, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MachineLearningClientTypes.MLModel {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MachineLearningClientTypes.MLModel()
@@ -3763,11 +3680,6 @@ public enum MachineLearningClientTypes {}
 
 extension MachineLearningClientTypes.PerformanceMetrics {
 
-    static func write(value: MachineLearningClientTypes.PerformanceMetrics?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Properties"].writeMap(value.properties, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MachineLearningClientTypes.PerformanceMetrics {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MachineLearningClientTypes.PerformanceMetrics()
@@ -3891,14 +3803,6 @@ enum PredictOutputError {
 
 extension MachineLearningClientTypes.Prediction {
 
-    static func write(value: MachineLearningClientTypes.Prediction?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["details"].writeMap(value.details, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["predictedLabel"].write(value.predictedLabel)
-        try writer["predictedScores"].writeMap(value.predictedScores, valueWritingClosure: Swift.Float.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["predictedValue"].write(value.predictedValue)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MachineLearningClientTypes.Prediction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MachineLearningClientTypes.Prediction()
@@ -3998,23 +3902,6 @@ extension MachineLearningClientTypes.RDSDataSpec {
         try writer["SelectSqlQuery"].write(value.selectSqlQuery)
         try writer["ServiceRole"].write(value.serviceRole)
         try writer["SubnetId"].write(value.subnetId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MachineLearningClientTypes.RDSDataSpec {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MachineLearningClientTypes.RDSDataSpec()
-        value.databaseInformation = try reader["DatabaseInformation"].readIfPresent(with: MachineLearningClientTypes.RDSDatabase.read(from:))
-        value.selectSqlQuery = try reader["SelectSqlQuery"].readIfPresent()
-        value.databaseCredentials = try reader["DatabaseCredentials"].readIfPresent(with: MachineLearningClientTypes.RDSDatabaseCredentials.read(from:))
-        value.s3StagingLocation = try reader["S3StagingLocation"].readIfPresent()
-        value.dataRearrangement = try reader["DataRearrangement"].readIfPresent()
-        value.dataSchema = try reader["DataSchema"].readIfPresent()
-        value.dataSchemaUri = try reader["DataSchemaUri"].readIfPresent()
-        value.resourceRole = try reader["ResourceRole"].readIfPresent()
-        value.serviceRole = try reader["ServiceRole"].readIfPresent()
-        value.subnetId = try reader["SubnetId"].readIfPresent()
-        value.securityGroupIds = try reader["SecurityGroupIds"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -4141,14 +4028,6 @@ extension MachineLearningClientTypes.RDSDatabaseCredentials {
         try writer["Password"].write(value.password)
         try writer["Username"].write(value.username)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MachineLearningClientTypes.RDSDatabaseCredentials {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MachineLearningClientTypes.RDSDatabaseCredentials()
-        value.username = try reader["Username"].readIfPresent()
-        value.password = try reader["Password"].readIfPresent()
-        return value
-    }
 }
 
 extension MachineLearningClientTypes {
@@ -4174,16 +4053,6 @@ extension MachineLearningClientTypes {
 }
 
 extension MachineLearningClientTypes.RDSMetadata {
-
-    static func write(value: MachineLearningClientTypes.RDSMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DataPipelineId"].write(value.dataPipelineId)
-        try writer["Database"].write(value.database, with: MachineLearningClientTypes.RDSDatabase.write(value:to:))
-        try writer["DatabaseUserName"].write(value.databaseUserName)
-        try writer["ResourceRole"].write(value.resourceRole)
-        try writer["SelectSqlQuery"].write(value.selectSqlQuery)
-        try writer["ServiceRole"].write(value.serviceRole)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MachineLearningClientTypes.RDSMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4235,14 +4104,6 @@ extension MachineLearningClientTypes {
 }
 
 extension MachineLearningClientTypes.RealtimeEndpointInfo {
-
-    static func write(value: MachineLearningClientTypes.RealtimeEndpointInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["EndpointStatus"].write(value.endpointStatus)
-        try writer["EndpointUrl"].write(value.endpointUrl)
-        try writer["PeakRequestsPerSecond"].write(value.peakRequestsPerSecond)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MachineLearningClientTypes.RealtimeEndpointInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4336,19 +4197,6 @@ extension MachineLearningClientTypes.RedshiftDataSpec {
         try writer["DatabaseInformation"].write(value.databaseInformation, with: MachineLearningClientTypes.RedshiftDatabase.write(value:to:))
         try writer["S3StagingLocation"].write(value.s3StagingLocation)
         try writer["SelectSqlQuery"].write(value.selectSqlQuery)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MachineLearningClientTypes.RedshiftDataSpec {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MachineLearningClientTypes.RedshiftDataSpec()
-        value.databaseInformation = try reader["DatabaseInformation"].readIfPresent(with: MachineLearningClientTypes.RedshiftDatabase.read(from:))
-        value.selectSqlQuery = try reader["SelectSqlQuery"].readIfPresent()
-        value.databaseCredentials = try reader["DatabaseCredentials"].readIfPresent(with: MachineLearningClientTypes.RedshiftDatabaseCredentials.read(from:))
-        value.s3StagingLocation = try reader["S3StagingLocation"].readIfPresent()
-        value.dataRearrangement = try reader["DataRearrangement"].readIfPresent()
-        value.dataSchema = try reader["DataSchema"].readIfPresent()
-        value.dataSchemaUri = try reader["DataSchemaUri"].readIfPresent()
-        return value
     }
 }
 
@@ -4455,14 +4303,6 @@ extension MachineLearningClientTypes.RedshiftDatabaseCredentials {
         try writer["Password"].write(value.password)
         try writer["Username"].write(value.username)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MachineLearningClientTypes.RedshiftDatabaseCredentials {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MachineLearningClientTypes.RedshiftDatabaseCredentials()
-        value.username = try reader["Username"].readIfPresent()
-        value.password = try reader["Password"].readIfPresent()
-        return value
-    }
 }
 
 extension MachineLearningClientTypes {
@@ -4488,13 +4328,6 @@ extension MachineLearningClientTypes {
 }
 
 extension MachineLearningClientTypes.RedshiftMetadata {
-
-    static func write(value: MachineLearningClientTypes.RedshiftMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DatabaseUserName"].write(value.databaseUserName)
-        try writer["RedshiftDatabase"].write(value.redshiftDatabase, with: MachineLearningClientTypes.RedshiftDatabase.write(value:to:))
-        try writer["SelectSqlQuery"].write(value.selectSqlQuery)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MachineLearningClientTypes.RedshiftMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4579,16 +4412,6 @@ extension MachineLearningClientTypes.S3DataSpec {
         try writer["DataRearrangement"].write(value.dataRearrangement)
         try writer["DataSchema"].write(value.dataSchema)
         try writer["DataSchemaLocationS3"].write(value.dataSchemaLocationS3)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MachineLearningClientTypes.S3DataSpec {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MachineLearningClientTypes.S3DataSpec()
-        value.dataLocationS3 = try reader["DataLocationS3"].readIfPresent()
-        value.dataRearrangement = try reader["DataRearrangement"].readIfPresent()
-        value.dataSchema = try reader["DataSchema"].readIfPresent()
-        value.dataSchemaLocationS3 = try reader["DataSchemaLocationS3"].readIfPresent()
-        return value
     }
 }
 

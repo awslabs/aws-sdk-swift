@@ -44,12 +44,6 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
 extension LookoutVisionClientTypes.Anomaly {
 
-    static func write(value: LookoutVisionClientTypes.Anomaly?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["PixelAnomaly"].write(value.pixelAnomaly, with: LookoutVisionClientTypes.PixelAnomaly.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutVisionClientTypes.Anomaly {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LookoutVisionClientTypes.Anomaly()
@@ -428,17 +422,6 @@ enum CreateProjectOutputError {
 
 extension LookoutVisionClientTypes.DatasetDescription {
 
-    static func write(value: LookoutVisionClientTypes.DatasetDescription?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationTimestamp"].writeTimestamp(value.creationTimestamp, format: .epochSeconds)
-        try writer["DatasetType"].write(value.datasetType)
-        try writer["ImageStats"].write(value.imageStats, with: LookoutVisionClientTypes.DatasetImageStats.write(value:to:))
-        try writer["LastUpdatedTimestamp"].writeTimestamp(value.lastUpdatedTimestamp, format: .epochSeconds)
-        try writer["ProjectName"].write(value.projectName)
-        try writer["Status"].write(value.status)
-        try writer["StatusMessage"].write(value.statusMessage)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutVisionClientTypes.DatasetDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LookoutVisionClientTypes.DatasetDescription()
@@ -499,13 +482,6 @@ extension LookoutVisionClientTypes.DatasetGroundTruthManifest {
         guard let value else { return }
         try writer["S3Object"].write(value.s3Object, with: LookoutVisionClientTypes.InputS3Object.write(value:to:))
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LookoutVisionClientTypes.DatasetGroundTruthManifest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LookoutVisionClientTypes.DatasetGroundTruthManifest()
-        value.s3Object = try reader["S3Object"].readIfPresent(with: LookoutVisionClientTypes.InputS3Object.read(from:))
-        return value
-    }
 }
 
 extension LookoutVisionClientTypes {
@@ -525,14 +501,6 @@ extension LookoutVisionClientTypes {
 }
 
 extension LookoutVisionClientTypes.DatasetImageStats {
-
-    static func write(value: LookoutVisionClientTypes.DatasetImageStats?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Anomaly"].write(value.anomaly)
-        try writer["Labeled"].write(value.labeled)
-        try writer["Normal"].write(value.normal)
-        try writer["Total"].write(value.total)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutVisionClientTypes.DatasetImageStats {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -574,14 +542,6 @@ extension LookoutVisionClientTypes {
 }
 
 extension LookoutVisionClientTypes.DatasetMetadata {
-
-    static func write(value: LookoutVisionClientTypes.DatasetMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationTimestamp"].writeTimestamp(value.creationTimestamp, format: .epochSeconds)
-        try writer["DatasetType"].write(value.datasetType)
-        try writer["Status"].write(value.status)
-        try writer["StatusMessage"].write(value.statusMessage)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutVisionClientTypes.DatasetMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -627,13 +587,6 @@ extension LookoutVisionClientTypes.DatasetSource {
     static func write(value: LookoutVisionClientTypes.DatasetSource?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["GroundTruthManifest"].write(value.groundTruthManifest, with: LookoutVisionClientTypes.DatasetGroundTruthManifest.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LookoutVisionClientTypes.DatasetSource {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LookoutVisionClientTypes.DatasetSource()
-        value.groundTruthManifest = try reader["GroundTruthManifest"].readIfPresent(with: LookoutVisionClientTypes.DatasetGroundTruthManifest.read(from:))
-        return value
     }
 }
 
@@ -1346,15 +1299,6 @@ enum DetectAnomaliesOutputError {
 
 extension LookoutVisionClientTypes.DetectAnomalyResult {
 
-    static func write(value: LookoutVisionClientTypes.DetectAnomalyResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Anomalies"].writeList(value.anomalies, memberWritingClosure: LookoutVisionClientTypes.Anomaly.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["AnomalyMask"].write(value.anomalyMask)
-        try writer["Confidence"].write(value.confidence)
-        try writer["IsAnomalous"].write(value.isAnomalous)
-        try writer["Source"].write(value.source, with: LookoutVisionClientTypes.ImageSource.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutVisionClientTypes.DetectAnomalyResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LookoutVisionClientTypes.DetectAnomalyResult()
@@ -1476,13 +1420,6 @@ extension LookoutVisionClientTypes {
 
 extension LookoutVisionClientTypes.GreengrassOutputDetails {
 
-    static func write(value: LookoutVisionClientTypes.GreengrassOutputDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ComponentName"].write(value.componentName)
-        try writer["ComponentVersion"].write(value.componentVersion)
-        try writer["ComponentVersionArn"].write(value.componentVersionArn)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutVisionClientTypes.GreengrassOutputDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LookoutVisionClientTypes.GreengrassOutputDetails()
@@ -1519,11 +1456,6 @@ extension LookoutVisionClientTypes {
 
 extension LookoutVisionClientTypes.ImageSource {
 
-    static func write(value: LookoutVisionClientTypes.ImageSource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutVisionClientTypes.ImageSource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LookoutVisionClientTypes.ImageSource()
@@ -1555,15 +1487,6 @@ extension LookoutVisionClientTypes.InputS3Object {
         try writer["Bucket"].write(value.bucket)
         try writer["Key"].write(value.key)
         try writer["VersionId"].write(value.versionId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LookoutVisionClientTypes.InputS3Object {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LookoutVisionClientTypes.InputS3Object()
-        value.bucket = try reader["Bucket"].readIfPresent()
-        value.key = try reader["Key"].readIfPresent()
-        value.versionId = try reader["VersionId"].readIfPresent()
-        return value
     }
 }
 
@@ -2128,24 +2051,6 @@ public enum LookoutVisionClientTypes {}
 
 extension LookoutVisionClientTypes.ModelDescription {
 
-    static func write(value: LookoutVisionClientTypes.ModelDescription?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationTimestamp"].writeTimestamp(value.creationTimestamp, format: .epochSeconds)
-        try writer["Description"].write(value.description)
-        try writer["EvaluationEndTimestamp"].writeTimestamp(value.evaluationEndTimestamp, format: .epochSeconds)
-        try writer["EvaluationManifest"].write(value.evaluationManifest, with: LookoutVisionClientTypes.OutputS3Object.write(value:to:))
-        try writer["EvaluationResult"].write(value.evaluationResult, with: LookoutVisionClientTypes.OutputS3Object.write(value:to:))
-        try writer["KmsKeyId"].write(value.kmsKeyId)
-        try writer["MaxInferenceUnits"].write(value.maxInferenceUnits)
-        try writer["MinInferenceUnits"].write(value.minInferenceUnits)
-        try writer["ModelArn"].write(value.modelArn)
-        try writer["ModelVersion"].write(value.modelVersion)
-        try writer["OutputConfig"].write(value.outputConfig, with: LookoutVisionClientTypes.OutputConfig.write(value:to:))
-        try writer["Performance"].write(value.performance, with: LookoutVisionClientTypes.ModelPerformance.write(value:to:))
-        try writer["Status"].write(value.status)
-        try writer["StatusMessage"].write(value.statusMessage)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutVisionClientTypes.ModelDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LookoutVisionClientTypes.ModelDescription()
@@ -2276,17 +2181,6 @@ extension LookoutVisionClientTypes {
 
 extension LookoutVisionClientTypes.ModelMetadata {
 
-    static func write(value: LookoutVisionClientTypes.ModelMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationTimestamp"].writeTimestamp(value.creationTimestamp, format: .epochSeconds)
-        try writer["Description"].write(value.description)
-        try writer["ModelArn"].write(value.modelArn)
-        try writer["ModelVersion"].write(value.modelVersion)
-        try writer["Performance"].write(value.performance, with: LookoutVisionClientTypes.ModelPerformance.write(value:to:))
-        try writer["Status"].write(value.status)
-        try writer["StatusMessage"].write(value.statusMessage)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutVisionClientTypes.ModelMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LookoutVisionClientTypes.ModelMetadata()
@@ -2375,21 +2269,6 @@ extension LookoutVisionClientTypes {
 
 extension LookoutVisionClientTypes.ModelPackagingDescription {
 
-    static func write(value: LookoutVisionClientTypes.ModelPackagingDescription?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationTimestamp"].writeTimestamp(value.creationTimestamp, format: .epochSeconds)
-        try writer["JobName"].write(value.jobName)
-        try writer["LastUpdatedTimestamp"].writeTimestamp(value.lastUpdatedTimestamp, format: .epochSeconds)
-        try writer["ModelPackagingConfiguration"].write(value.modelPackagingConfiguration, with: LookoutVisionClientTypes.ModelPackagingConfiguration.write(value:to:))
-        try writer["ModelPackagingJobDescription"].write(value.modelPackagingJobDescription)
-        try writer["ModelPackagingMethod"].write(value.modelPackagingMethod)
-        try writer["ModelPackagingOutputDetails"].write(value.modelPackagingOutputDetails, with: LookoutVisionClientTypes.ModelPackagingOutputDetails.write(value:to:))
-        try writer["ModelVersion"].write(value.modelVersion)
-        try writer["ProjectName"].write(value.projectName)
-        try writer["Status"].write(value.status)
-        try writer["StatusMessage"].write(value.statusMessage)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutVisionClientTypes.ModelPackagingDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LookoutVisionClientTypes.ModelPackagingDescription()
@@ -2465,19 +2344,6 @@ extension LookoutVisionClientTypes {
 }
 
 extension LookoutVisionClientTypes.ModelPackagingJobMetadata {
-
-    static func write(value: LookoutVisionClientTypes.ModelPackagingJobMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationTimestamp"].writeTimestamp(value.creationTimestamp, format: .epochSeconds)
-        try writer["JobName"].write(value.jobName)
-        try writer["LastUpdatedTimestamp"].writeTimestamp(value.lastUpdatedTimestamp, format: .epochSeconds)
-        try writer["ModelPackagingJobDescription"].write(value.modelPackagingJobDescription)
-        try writer["ModelPackagingMethod"].write(value.modelPackagingMethod)
-        try writer["ModelVersion"].write(value.modelVersion)
-        try writer["ProjectName"].write(value.projectName)
-        try writer["Status"].write(value.status)
-        try writer["StatusMessage"].write(value.statusMessage)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutVisionClientTypes.ModelPackagingJobMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2581,11 +2447,6 @@ extension LookoutVisionClientTypes {
 
 extension LookoutVisionClientTypes.ModelPackagingOutputDetails {
 
-    static func write(value: LookoutVisionClientTypes.ModelPackagingOutputDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Greengrass"].write(value.greengrass, with: LookoutVisionClientTypes.GreengrassOutputDetails.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutVisionClientTypes.ModelPackagingOutputDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LookoutVisionClientTypes.ModelPackagingOutputDetails()
@@ -2611,13 +2472,6 @@ extension LookoutVisionClientTypes {
 }
 
 extension LookoutVisionClientTypes.ModelPerformance {
-
-    static func write(value: LookoutVisionClientTypes.ModelPerformance?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["F1Score"].write(value.f1Score)
-        try writer["Precision"].write(value.precision)
-        try writer["Recall"].write(value.recall)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutVisionClientTypes.ModelPerformance {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2738,12 +2592,6 @@ extension LookoutVisionClientTypes {
 
 extension LookoutVisionClientTypes.OutputS3Object {
 
-    static func write(value: LookoutVisionClientTypes.OutputS3Object?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Bucket"].write(value.bucket)
-        try writer["Key"].write(value.key)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutVisionClientTypes.OutputS3Object {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LookoutVisionClientTypes.OutputS3Object()
@@ -2777,12 +2625,6 @@ extension LookoutVisionClientTypes {
 
 extension LookoutVisionClientTypes.PixelAnomaly {
 
-    static func write(value: LookoutVisionClientTypes.PixelAnomaly?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Color"].write(value.color)
-        try writer["TotalPercentageArea"].write(value.totalPercentageArea)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutVisionClientTypes.PixelAnomaly {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LookoutVisionClientTypes.PixelAnomaly()
@@ -2813,14 +2655,6 @@ extension LookoutVisionClientTypes {
 }
 
 extension LookoutVisionClientTypes.ProjectDescription {
-
-    static func write(value: LookoutVisionClientTypes.ProjectDescription?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationTimestamp"].writeTimestamp(value.creationTimestamp, format: .epochSeconds)
-        try writer["Datasets"].writeList(value.datasets, memberWritingClosure: LookoutVisionClientTypes.DatasetMetadata.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ProjectArn"].write(value.projectArn)
-        try writer["ProjectName"].write(value.projectName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutVisionClientTypes.ProjectDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2862,13 +2696,6 @@ extension LookoutVisionClientTypes {
 }
 
 extension LookoutVisionClientTypes.ProjectMetadata {
-
-    static func write(value: LookoutVisionClientTypes.ProjectMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationTimestamp"].writeTimestamp(value.creationTimestamp, format: .epochSeconds)
-        try writer["ProjectArn"].write(value.projectArn)
-        try writer["ProjectName"].write(value.projectName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutVisionClientTypes.ProjectMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

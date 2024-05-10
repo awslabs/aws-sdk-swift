@@ -100,17 +100,6 @@ extension S3ControlClientTypes {
 
 extension S3ControlClientTypes.AccessPoint {
 
-    static func write(value: S3ControlClientTypes.AccessPoint?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["AccessPointArn"].write(value.accessPointArn)
-        try writer["Alias"].write(value.alias)
-        try writer["Bucket"].write(value.bucket)
-        try writer["BucketAccountId"].write(value.bucketAccountId)
-        try writer["Name"].write(value.name)
-        try writer["NetworkOrigin"].write(value.networkOrigin)
-        try writer["VpcConfiguration"].write(value.vpcConfiguration, with: S3ControlClientTypes.VpcConfiguration.write(value:to:))
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.AccessPoint {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = S3ControlClientTypes.AccessPoint()
@@ -394,14 +383,6 @@ enum AssociateAccessGrantsIdentityCenterOutputError {
 
 extension S3ControlClientTypes.AsyncErrorDetails {
 
-    static func write(value: S3ControlClientTypes.AsyncErrorDetails?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Code"].write(value.code)
-        try writer["Message"].write(value.message)
-        try writer["RequestId"].write(value.requestId)
-        try writer["Resource"].write(value.resource)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.AsyncErrorDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = S3ControlClientTypes.AsyncErrorDetails()
@@ -442,16 +423,6 @@ extension S3ControlClientTypes {
 }
 
 extension S3ControlClientTypes.AsyncOperation {
-
-    static func write(value: S3ControlClientTypes.AsyncOperation?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .dateTime)
-        try writer["Operation"].write(value.operation)
-        try writer["RequestParameters"].write(value.requestParameters, with: S3ControlClientTypes.AsyncRequestParameters.write(value:to:))
-        try writer["RequestStatus"].write(value.requestStatus)
-        try writer["RequestTokenARN"].write(value.requestTokenARN)
-        try writer["ResponseDetails"].write(value.responseDetails, with: S3ControlClientTypes.AsyncResponseDetails.write(value:to:))
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.AsyncOperation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -537,13 +508,6 @@ extension S3ControlClientTypes {
 
 extension S3ControlClientTypes.AsyncRequestParameters {
 
-    static func write(value: S3ControlClientTypes.AsyncRequestParameters?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["CreateMultiRegionAccessPointRequest"].write(value.createMultiRegionAccessPointRequest, with: S3ControlClientTypes.CreateMultiRegionAccessPointInput.write(value:to:))
-        try writer["DeleteMultiRegionAccessPointRequest"].write(value.deleteMultiRegionAccessPointRequest, with: S3ControlClientTypes.DeleteMultiRegionAccessPointInput.write(value:to:))
-        try writer["PutMultiRegionAccessPointPolicyRequest"].write(value.putMultiRegionAccessPointPolicyRequest, with: S3ControlClientTypes.PutMultiRegionAccessPointPolicyInput.write(value:to:))
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.AsyncRequestParameters {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = S3ControlClientTypes.AsyncRequestParameters()
@@ -579,12 +543,6 @@ extension S3ControlClientTypes {
 }
 
 extension S3ControlClientTypes.AsyncResponseDetails {
-
-    static func write(value: S3ControlClientTypes.AsyncResponseDetails?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["ErrorDetails"].write(value.errorDetails, with: S3ControlClientTypes.AsyncErrorDetails.write(value:to:))
-        try writer["MultiRegionAccessPointDetails"].write(value.multiRegionAccessPointDetails, with: S3ControlClientTypes.MultiRegionAccessPointsAsyncResponse.write(value:to:))
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.AsyncResponseDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -662,21 +620,6 @@ extension BadRequestException {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension BadRequestException {
-
-    static func write(value: BadRequestException?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> BadRequestException {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BadRequestException()
-        value.properties.message = try reader["Message"].readIfPresent()
         return value
     }
 }
@@ -1549,13 +1492,6 @@ extension S3ControlClientTypes.CreateBucketConfiguration {
         guard let value else { return }
         try writer["LocationConstraint"].write(value.locationConstraint)
     }
-
-    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.CreateBucketConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = S3ControlClientTypes.CreateBucketConfiguration()
-        value.locationConstraint = try reader["LocationConstraint"].readIfPresent()
-        return value
-    }
 }
 
 extension S3ControlClientTypes {
@@ -2066,14 +2002,6 @@ extension S3ControlClientTypes.Credentials: Swift.CustomDebugStringConvertible {
 }
 
 extension S3ControlClientTypes.Credentials {
-
-    static func write(value: S3ControlClientTypes.Credentials?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["AccessKeyId"].write(value.accessKeyId)
-        try writer["Expiration"].writeTimestamp(value.expiration, format: .dateTime)
-        try writer["SecretAccessKey"].write(value.secretAccessKey)
-        try writer["SessionToken"].write(value.sessionToken)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.Credentials {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3769,11 +3697,6 @@ extension S3ControlClientTypes {
 }
 
 extension S3ControlClientTypes.EstablishedMultiRegionAccessPointPolicy {
-
-    static func write(value: S3ControlClientTypes.EstablishedMultiRegionAccessPointPolicy?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Policy"].write(value.policy)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.EstablishedMultiRegionAccessPointPolicy {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6473,21 +6396,6 @@ extension IdempotencyException {
     }
 }
 
-extension IdempotencyException {
-
-    static func write(value: IdempotencyException?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> IdempotencyException {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IdempotencyException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
 ///
 public struct IdempotencyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -6562,21 +6470,6 @@ extension InternalServiceException {
     }
 }
 
-extension InternalServiceException {
-
-    static func write(value: InternalServiceException?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> InternalServiceException {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = InternalServiceException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
 ///
 public struct InternalServiceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -6610,21 +6503,6 @@ extension InvalidNextTokenException {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidNextTokenException {
-
-    static func write(value: InvalidNextTokenException?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> InvalidNextTokenException {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = InvalidNextTokenException()
-        value.properties.message = try reader["Message"].readIfPresent()
         return value
     }
 }
@@ -6666,21 +6544,6 @@ extension InvalidRequestException {
     }
 }
 
-extension InvalidRequestException {
-
-    static func write(value: InvalidRequestException?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> InvalidRequestException {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = InvalidRequestException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
 ///
 public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -6706,29 +6569,6 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
 }
 
 extension S3ControlClientTypes.JobDescriptor {
-
-    static func write(value: S3ControlClientTypes.JobDescriptor?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["ConfirmationRequired"].write(value.confirmationRequired)
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .dateTime)
-        try writer["Description"].write(value.description)
-        try writer["FailureReasons"].writeList(value.failureReasons, memberWritingClosure: S3ControlClientTypes.JobFailure.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["GeneratedManifestDescriptor"].write(value.generatedManifestDescriptor, with: S3ControlClientTypes.S3GeneratedManifestDescriptor.write(value:to:))
-        try writer["JobArn"].write(value.jobArn)
-        try writer["JobId"].write(value.jobId)
-        try writer["Manifest"].write(value.manifest, with: S3ControlClientTypes.JobManifest.write(value:to:))
-        try writer["ManifestGenerator"].write(value.manifestGenerator, with: S3ControlClientTypes.JobManifestGenerator.write(value:to:))
-        try writer["Operation"].write(value.operation, with: S3ControlClientTypes.JobOperation.write(value:to:))
-        try writer["Priority"].write(value.priority)
-        try writer["ProgressSummary"].write(value.progressSummary, with: S3ControlClientTypes.JobProgressSummary.write(value:to:))
-        try writer["Report"].write(value.report, with: S3ControlClientTypes.JobReport.write(value:to:))
-        try writer["RoleArn"].write(value.roleArn)
-        try writer["Status"].write(value.status)
-        try writer["StatusUpdateReason"].write(value.statusUpdateReason)
-        try writer["SuspendedCause"].write(value.suspendedCause)
-        try writer["SuspendedDate"].writeTimestamp(value.suspendedDate, format: .dateTime)
-        try writer["TerminationDate"].writeTimestamp(value.terminationDate, format: .dateTime)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.JobDescriptor {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6846,12 +6686,6 @@ extension S3ControlClientTypes {
 
 extension S3ControlClientTypes.JobFailure {
 
-    static func write(value: S3ControlClientTypes.JobFailure?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["FailureCode"].write(value.failureCode)
-        try writer["FailureReason"].write(value.failureReason)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.JobFailure {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = S3ControlClientTypes.JobFailure()
@@ -6882,18 +6716,6 @@ extension S3ControlClientTypes {
 }
 
 extension S3ControlClientTypes.JobListDescriptor {
-
-    static func write(value: S3ControlClientTypes.JobListDescriptor?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .dateTime)
-        try writer["Description"].write(value.description)
-        try writer["JobId"].write(value.jobId)
-        try writer["Operation"].write(value.operation)
-        try writer["Priority"].write(value.priority)
-        try writer["ProgressSummary"].write(value.progressSummary, with: S3ControlClientTypes.JobProgressSummary.write(value:to:))
-        try writer["Status"].write(value.status)
-        try writer["TerminationDate"].writeTimestamp(value.terminationDate, format: .dateTime)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.JobListDescriptor {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7330,14 +7152,6 @@ extension S3ControlClientTypes {
 
 extension S3ControlClientTypes.JobProgressSummary {
 
-    static func write(value: S3ControlClientTypes.JobProgressSummary?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["NumberOfTasksFailed"].write(value.numberOfTasksFailed)
-        try writer["NumberOfTasksSucceeded"].write(value.numberOfTasksSucceeded)
-        try writer["Timers"].write(value.timers, with: S3ControlClientTypes.JobTimers.write(value:to:))
-        try writer["TotalNumberOfTasks"].write(value.totalNumberOfTasks)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.JobProgressSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = S3ControlClientTypes.JobProgressSummary()
@@ -7566,21 +7380,6 @@ extension JobStatusException {
     }
 }
 
-extension JobStatusException {
-
-    static func write(value: JobStatusException?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> JobStatusException {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = JobStatusException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
 ///
 public struct JobStatusException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -7606,11 +7405,6 @@ public struct JobStatusException: ClientRuntime.ModeledError, AWSClientRuntime.A
 }
 
 extension S3ControlClientTypes.JobTimers {
-
-    static func write(value: S3ControlClientTypes.JobTimers?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["ElapsedTimeInActiveSeconds"].write(value.elapsedTimeInActiveSeconds)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.JobTimers {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7727,13 +7521,6 @@ extension S3ControlClientTypes.LifecycleConfiguration {
     static func write(value: S3ControlClientTypes.LifecycleConfiguration?, to writer: SmithyXML.Writer) throws {
         guard let value else { return }
         try writer["Rules"].writeList(value.rules, memberWritingClosure: S3ControlClientTypes.LifecycleRule.write(value:to:), memberNodeInfo: "Rule", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.LifecycleConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = S3ControlClientTypes.LifecycleConfiguration()
-        value.rules = try reader["Rules"].readListIfPresent(memberReadingClosure: S3ControlClientTypes.LifecycleRule.read(from:), memberNodeInfo: "Rule", isFlattened: false)
-        return value
     }
 }
 
@@ -7976,19 +7763,6 @@ extension S3ControlClientTypes {
 
 extension S3ControlClientTypes.ListAccessGrantEntry {
 
-    static func write(value: S3ControlClientTypes.ListAccessGrantEntry?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["AccessGrantArn"].write(value.accessGrantArn)
-        try writer["AccessGrantId"].write(value.accessGrantId)
-        try writer["AccessGrantsLocationConfiguration"].write(value.accessGrantsLocationConfiguration, with: S3ControlClientTypes.AccessGrantsLocationConfiguration.write(value:to:))
-        try writer["AccessGrantsLocationId"].write(value.accessGrantsLocationId)
-        try writer["ApplicationArn"].write(value.applicationArn)
-        try writer["CreatedAt"].writeTimestamp(value.createdAt, format: .dateTime)
-        try writer["GrantScope"].write(value.grantScope)
-        try writer["Grantee"].write(value.grantee, with: S3ControlClientTypes.Grantee.write(value:to:))
-        try writer["Permission"].write(value.permission)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.ListAccessGrantEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = S3ControlClientTypes.ListAccessGrantEntry()
@@ -8168,14 +7942,6 @@ public struct ListAccessGrantsInput {
 
 extension S3ControlClientTypes.ListAccessGrantsInstanceEntry {
 
-    static func write(value: S3ControlClientTypes.ListAccessGrantsInstanceEntry?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["AccessGrantsInstanceArn"].write(value.accessGrantsInstanceArn)
-        try writer["AccessGrantsInstanceId"].write(value.accessGrantsInstanceId)
-        try writer["CreatedAt"].writeTimestamp(value.createdAt, format: .dateTime)
-        try writer["IdentityCenterArn"].write(value.identityCenterArn)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.ListAccessGrantsInstanceEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = S3ControlClientTypes.ListAccessGrantsInstanceEntry()
@@ -8313,15 +8079,6 @@ enum ListAccessGrantsInstancesOutputError {
 }
 
 extension S3ControlClientTypes.ListAccessGrantsLocationsEntry {
-
-    static func write(value: S3ControlClientTypes.ListAccessGrantsLocationsEntry?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["AccessGrantsLocationArn"].write(value.accessGrantsLocationArn)
-        try writer["AccessGrantsLocationId"].write(value.accessGrantsLocationId)
-        try writer["CreatedAt"].writeTimestamp(value.createdAt, format: .dateTime)
-        try writer["IAMRoleArn"].write(value.iamRoleArn)
-        try writer["LocationScope"].write(value.locationScope)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.ListAccessGrantsLocationsEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -9029,14 +8786,6 @@ enum ListRegionalBucketsOutputError {
 
 extension S3ControlClientTypes.ListStorageLensConfigurationEntry {
 
-    static func write(value: S3ControlClientTypes.ListStorageLensConfigurationEntry?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["HomeRegion"].write(value.homeRegion)
-        try writer["Id"].write(value.id)
-        try writer["IsEnabled"].write(value.isEnabled)
-        try writer["StorageLensArn"].write(value.storageLensArn)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.ListStorageLensConfigurationEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = S3ControlClientTypes.ListStorageLensConfigurationEntry()
@@ -9169,13 +8918,6 @@ enum ListStorageLensConfigurationsOutputError {
 }
 
 extension S3ControlClientTypes.ListStorageLensGroupEntry {
-
-    static func write(value: S3ControlClientTypes.ListStorageLensGroupEntry?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["HomeRegion"].write(value.homeRegion)
-        try writer["Name"].write(value.name)
-        try writer["StorageLensGroupArn"].write(value.storageLensGroupArn)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.ListStorageLensGroupEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -9583,12 +9325,6 @@ extension S3ControlClientTypes {
 
 extension S3ControlClientTypes.MultiRegionAccessPointPolicyDocument {
 
-    static func write(value: S3ControlClientTypes.MultiRegionAccessPointPolicyDocument?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Established"].write(value.established, with: S3ControlClientTypes.EstablishedMultiRegionAccessPointPolicy.write(value:to:))
-        try writer["Proposed"].write(value.proposed, with: S3ControlClientTypes.ProposedMultiRegionAccessPointPolicy.write(value:to:))
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.MultiRegionAccessPointPolicyDocument {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = S3ControlClientTypes.MultiRegionAccessPointPolicyDocument()
@@ -9620,12 +9356,6 @@ extension S3ControlClientTypes {
 
 extension S3ControlClientTypes.MultiRegionAccessPointRegionalResponse {
 
-    static func write(value: S3ControlClientTypes.MultiRegionAccessPointRegionalResponse?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["RequestStatus"].write(value.requestStatus)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.MultiRegionAccessPointRegionalResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = S3ControlClientTypes.MultiRegionAccessPointRegionalResponse()
@@ -9656,16 +9386,6 @@ extension S3ControlClientTypes {
 }
 
 extension S3ControlClientTypes.MultiRegionAccessPointReport {
-
-    static func write(value: S3ControlClientTypes.MultiRegionAccessPointReport?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Alias"].write(value.alias)
-        try writer["CreatedAt"].writeTimestamp(value.createdAt, format: .dateTime)
-        try writer["Name"].write(value.name)
-        try writer["PublicAccessBlock"].write(value.publicAccessBlock, with: S3ControlClientTypes.PublicAccessBlockConfiguration.write(value:to:))
-        try writer["Regions"].writeList(value.regions, memberWritingClosure: S3ControlClientTypes.RegionReport.write(value:to:), memberNodeInfo: "Region", isFlattened: false)
-        try writer["Status"].write(value.status)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.MultiRegionAccessPointReport {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -9804,11 +9524,6 @@ extension S3ControlClientTypes {
 
 extension S3ControlClientTypes.MultiRegionAccessPointsAsyncResponse {
 
-    static func write(value: S3ControlClientTypes.MultiRegionAccessPointsAsyncResponse?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Regions"].writeList(value.regions, memberWritingClosure: S3ControlClientTypes.MultiRegionAccessPointRegionalResponse.write(value:to:), memberNodeInfo: "Region", isFlattened: false)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.MultiRegionAccessPointsAsyncResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = S3ControlClientTypes.MultiRegionAccessPointsAsyncResponse()
@@ -9872,21 +9587,6 @@ extension NoSuchPublicAccessBlockConfiguration {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension NoSuchPublicAccessBlockConfiguration {
-
-    static func write(value: NoSuchPublicAccessBlockConfiguration?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> NoSuchPublicAccessBlockConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NoSuchPublicAccessBlockConfiguration()
-        value.properties.message = try reader["Message"].readIfPresent()
         return value
     }
 }
@@ -10002,21 +9702,6 @@ extension NotFoundException {
     }
 }
 
-extension NotFoundException {
-
-    static func write(value: NotFoundException?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> NotFoundException {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NotFoundException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
 ///
 public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -10042,13 +9727,6 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 }
 
 extension S3ControlClientTypes.ObjectLambdaAccessPoint {
-
-    static func write(value: S3ControlClientTypes.ObjectLambdaAccessPoint?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Alias"].write(value.alias, with: S3ControlClientTypes.ObjectLambdaAccessPointAlias.write(value:to:))
-        try writer["Name"].write(value.name)
-        try writer["ObjectLambdaAccessPointArn"].write(value.objectLambdaAccessPointArn)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.ObjectLambdaAccessPoint {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -10086,12 +9764,6 @@ extension S3ControlClientTypes {
 }
 
 extension S3ControlClientTypes.ObjectLambdaAccessPointAlias {
-
-    static func write(value: S3ControlClientTypes.ObjectLambdaAccessPointAlias?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Status"].write(value.status)
-        try writer["Value"].write(value.value)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.ObjectLambdaAccessPointAlias {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -10488,11 +10160,6 @@ extension S3ControlClientTypes {
 
 extension S3ControlClientTypes.PolicyStatus {
 
-    static func write(value: S3ControlClientTypes.PolicyStatus?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["IsPublic"].write(value.isPublic)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.PolicyStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = S3ControlClientTypes.PolicyStatus()
@@ -10617,11 +10284,6 @@ extension S3ControlClientTypes {
 }
 
 extension S3ControlClientTypes.ProposedMultiRegionAccessPointPolicy {
-
-    static func write(value: S3ControlClientTypes.ProposedMultiRegionAccessPointPolicy?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Policy"].write(value.policy)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.ProposedMultiRegionAccessPointPolicy {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -11905,13 +11567,6 @@ extension S3ControlClientTypes {
 
 extension S3ControlClientTypes.RegionReport {
 
-    static func write(value: S3ControlClientTypes.RegionReport?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Bucket"].write(value.bucket)
-        try writer["BucketAccountId"].write(value.bucketAccountId)
-        try writer["Region"].write(value.region)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.RegionReport {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = S3ControlClientTypes.RegionReport()
@@ -11947,15 +11602,6 @@ extension S3ControlClientTypes {
 }
 
 extension S3ControlClientTypes.RegionalBucket {
-
-    static func write(value: S3ControlClientTypes.RegionalBucket?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Bucket"].write(value.bucket)
-        try writer["BucketArn"].write(value.bucketArn)
-        try writer["CreationDate"].writeTimestamp(value.creationDate, format: .dateTime)
-        try writer["OutpostId"].write(value.outpostId)
-        try writer["PublicAccessBlockEnabled"].write(value.publicAccessBlockEnabled)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.RegionalBucket {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -12912,12 +12558,6 @@ extension S3ControlClientTypes {
 }
 
 extension S3ControlClientTypes.S3GeneratedManifestDescriptor {
-
-    static func write(value: S3ControlClientTypes.S3GeneratedManifestDescriptor?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Format"].write(value.format)
-        try writer["Location"].write(value.location, with: S3ControlClientTypes.JobManifestLocation.write(value:to:))
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.S3GeneratedManifestDescriptor {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -14853,13 +14493,6 @@ extension S3ControlClientTypes.Tagging {
         guard let value else { return }
         try writer["TagSet"].writeList(value.tagSet, memberWritingClosure: S3ControlClientTypes.S3Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-
-    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.Tagging {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = S3ControlClientTypes.Tagging()
-        value.tagSet = try reader["TagSet"].readListIfPresent(memberReadingClosure: S3ControlClientTypes.S3Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
 }
 
 extension S3ControlClientTypes {
@@ -14888,21 +14521,6 @@ extension TooManyRequestsException {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension TooManyRequestsException {
-
-    static func write(value: TooManyRequestsException?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> TooManyRequestsException {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TooManyRequestsException()
-        value.properties.message = try reader["Message"].readIfPresent()
         return value
     }
 }
@@ -14940,21 +14558,6 @@ extension TooManyTagsException {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension TooManyTagsException {
-
-    static func write(value: TooManyTagsException?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> TooManyTagsException {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TooManyTagsException()
-        value.properties.message = try reader["Message"].readIfPresent()
         return value
     }
 }
@@ -15566,14 +15169,6 @@ extension S3ControlClientTypes.VersioningConfiguration {
         guard let value else { return }
         try writer["MfaDelete"].write(value.mfaDelete)
         try writer["Status"].write(value.status)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.VersioningConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = S3ControlClientTypes.VersioningConfiguration()
-        value.mfaDelete = try reader["MfaDelete"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        return value
     }
 }
 

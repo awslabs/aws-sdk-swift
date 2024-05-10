@@ -49,14 +49,6 @@ extension BillingconductorClientTypes.AccountAssociationsListElement: Swift.Cust
 
 extension BillingconductorClientTypes.AccountAssociationsListElement {
 
-    static func write(value: BillingconductorClientTypes.AccountAssociationsListElement?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccountEmail"].write(value.accountEmail)
-        try writer["AccountId"].write(value.accountId)
-        try writer["AccountName"].write(value.accountName)
-        try writer["BillingGroupArn"].write(value.billingGroupArn)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> BillingconductorClientTypes.AccountAssociationsListElement {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BillingconductorClientTypes.AccountAssociationsListElement()
@@ -102,14 +94,6 @@ extension BillingconductorClientTypes.AccountGrouping {
         guard let value else { return }
         try writer["AutoAssociate"].write(value.autoAssociate)
         try writer["LinkedAccountIds"].writeList(value.linkedAccountIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BillingconductorClientTypes.AccountGrouping {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BillingconductorClientTypes.AccountGrouping()
-        value.linkedAccountIds = try reader["LinkedAccountIds"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.autoAssociate = try reader["AutoAssociate"].readIfPresent()
-        return value
     }
 }
 
@@ -292,12 +276,6 @@ enum AssociatePricingRulesOutputError {
 
 extension BillingconductorClientTypes.AssociateResourceError {
 
-    static func write(value: BillingconductorClientTypes.AssociateResourceError?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.message)
-        try writer["Reason"].write(value.reason)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> BillingconductorClientTypes.AssociateResourceError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BillingconductorClientTypes.AssociateResourceError()
@@ -368,12 +346,6 @@ extension BillingconductorClientTypes {
 
 extension BillingconductorClientTypes.AssociateResourceResponseElement {
 
-    static func write(value: BillingconductorClientTypes.AssociateResourceResponseElement?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["Error"].write(value.error, with: BillingconductorClientTypes.AssociateResourceError.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> BillingconductorClientTypes.AssociateResourceResponseElement {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BillingconductorClientTypes.AssociateResourceResponseElement()
@@ -404,12 +376,6 @@ extension BillingconductorClientTypes {
 }
 
 extension BillingconductorClientTypes.Attribute {
-
-    static func write(value: BillingconductorClientTypes.Attribute?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Key"].write(value.key)
-        try writer["Value"].write(value.value)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> BillingconductorClientTypes.Attribute {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -617,16 +583,6 @@ enum BatchDisassociateResourcesFromCustomLineItemOutputError {
 
 extension BillingconductorClientTypes.BillingGroupCostReportElement {
 
-    static func write(value: BillingconductorClientTypes.BillingGroupCostReportElement?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AWSCost"].write(value.awsCost)
-        try writer["Arn"].write(value.arn)
-        try writer["Currency"].write(value.currency)
-        try writer["Margin"].write(value.margin)
-        try writer["MarginPercentage"].write(value.marginPercentage)
-        try writer["ProformaCost"].write(value.proformaCost)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> BillingconductorClientTypes.BillingGroupCostReportElement {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BillingconductorClientTypes.BillingGroupCostReportElement()
@@ -677,17 +633,6 @@ extension BillingconductorClientTypes {
 }
 
 extension BillingconductorClientTypes.BillingGroupCostReportResultElement {
-
-    static func write(value: BillingconductorClientTypes.BillingGroupCostReportResultElement?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AWSCost"].write(value.awsCost)
-        try writer["Arn"].write(value.arn)
-        try writer["Attributes"].writeList(value.attributes, memberWritingClosure: BillingconductorClientTypes.Attribute.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Currency"].write(value.currency)
-        try writer["Margin"].write(value.margin)
-        try writer["MarginPercentage"].write(value.marginPercentage)
-        try writer["ProformaCost"].write(value.proformaCost)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> BillingconductorClientTypes.BillingGroupCostReportResultElement {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -749,21 +694,6 @@ extension BillingconductorClientTypes.BillingGroupListElement: Swift.CustomDebug
 }
 
 extension BillingconductorClientTypes.BillingGroupListElement {
-
-    static func write(value: BillingconductorClientTypes.BillingGroupListElement?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccountGrouping"].write(value.accountGrouping, with: BillingconductorClientTypes.ListBillingGroupAccountGrouping.write(value:to:))
-        try writer["Arn"].write(value.arn)
-        try writer["ComputationPreference"].write(value.computationPreference, with: BillingconductorClientTypes.ComputationPreference.write(value:to:))
-        try writer["CreationTime"].write(value.creationTime)
-        try writer["Description"].write(value.description)
-        try writer["LastModifiedTime"].write(value.lastModifiedTime)
-        try writer["Name"].write(value.name)
-        try writer["PrimaryAccountId"].write(value.primaryAccountId)
-        try writer["Size"].write(value.size)
-        try writer["Status"].write(value.status)
-        try writer["StatusReason"].write(value.statusReason)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> BillingconductorClientTypes.BillingGroupListElement {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -875,14 +805,6 @@ extension BillingconductorClientTypes.BillingPeriodRange {
         guard let value else { return }
         try writer["ExclusiveEndBillingPeriod"].write(value.exclusiveEndBillingPeriod)
         try writer["InclusiveStartBillingPeriod"].write(value.inclusiveStartBillingPeriod)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BillingconductorClientTypes.BillingPeriodRange {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BillingconductorClientTypes.BillingPeriodRange()
-        value.inclusiveStartBillingPeriod = try reader["InclusiveStartBillingPeriod"].readIfPresent()
-        value.exclusiveEndBillingPeriod = try reader["ExclusiveEndBillingPeriod"].readIfPresent()
-        return value
     }
 }
 
@@ -1284,13 +1206,6 @@ extension BillingconductorClientTypes.CreateFreeTierConfig {
         guard let value else { return }
         try writer["Activated"].write(value.activated)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BillingconductorClientTypes.CreateFreeTierConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BillingconductorClientTypes.CreateFreeTierConfig()
-        value.activated = try reader["Activated"].readIfPresent()
-        return value
-    }
 }
 
 extension BillingconductorClientTypes {
@@ -1566,13 +1481,6 @@ extension BillingconductorClientTypes.CreateTieringInput {
         guard let value else { return }
         try writer["FreeTier"].write(value.freeTier, with: BillingconductorClientTypes.CreateFreeTierConfig.write(value:to:))
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BillingconductorClientTypes.CreateTieringInput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BillingconductorClientTypes.CreateTieringInput()
-        value.freeTier = try reader["FreeTier"].readIfPresent(with: BillingconductorClientTypes.CreateFreeTierConfig.read(from:))
-        return value
-    }
 }
 
 extension BillingconductorClientTypes {
@@ -1629,14 +1537,6 @@ extension BillingconductorClientTypes.CustomLineItemBillingPeriodRange {
         try writer["ExclusiveEndBillingPeriod"].write(value.exclusiveEndBillingPeriod)
         try writer["InclusiveStartBillingPeriod"].write(value.inclusiveStartBillingPeriod)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BillingconductorClientTypes.CustomLineItemBillingPeriodRange {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BillingconductorClientTypes.CustomLineItemBillingPeriodRange()
-        value.inclusiveStartBillingPeriod = try reader["InclusiveStartBillingPeriod"].readIfPresent()
-        value.exclusiveEndBillingPeriod = try reader["ExclusiveEndBillingPeriod"].readIfPresent()
-        return value
-    }
 }
 
 extension BillingconductorClientTypes {
@@ -1668,16 +1568,6 @@ extension BillingconductorClientTypes.CustomLineItemChargeDetails {
         try writer["LineItemFilters"].writeList(value.lineItemFilters, memberWritingClosure: BillingconductorClientTypes.LineItemFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Percentage"].write(value.percentage, with: BillingconductorClientTypes.CustomLineItemPercentageChargeDetails.write(value:to:))
         try writer["Type"].write(value.type)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BillingconductorClientTypes.CustomLineItemChargeDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BillingconductorClientTypes.CustomLineItemChargeDetails()
-        value.flat = try reader["Flat"].readIfPresent(with: BillingconductorClientTypes.CustomLineItemFlatChargeDetails.read(from:))
-        value.percentage = try reader["Percentage"].readIfPresent(with: BillingconductorClientTypes.CustomLineItemPercentageChargeDetails.read(from:))
-        value.type = try reader["Type"].readIfPresent()
-        value.lineItemFilters = try reader["LineItemFilters"].readListIfPresent(memberReadingClosure: BillingconductorClientTypes.LineItemFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -1716,13 +1606,6 @@ extension BillingconductorClientTypes.CustomLineItemFlatChargeDetails {
         guard let value else { return }
         try writer["ChargeValue"].write(value.chargeValue)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BillingconductorClientTypes.CustomLineItemFlatChargeDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BillingconductorClientTypes.CustomLineItemFlatChargeDetails()
-        value.chargeValue = try reader["ChargeValue"].readIfPresent()
-        return value
-    }
 }
 
 extension BillingconductorClientTypes {
@@ -1748,21 +1631,6 @@ extension BillingconductorClientTypes.CustomLineItemListElement: Swift.CustomDeb
 }
 
 extension BillingconductorClientTypes.CustomLineItemListElement {
-
-    static func write(value: BillingconductorClientTypes.CustomLineItemListElement?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccountId"].write(value.accountId)
-        try writer["Arn"].write(value.arn)
-        try writer["AssociationSize"].write(value.associationSize)
-        try writer["BillingGroupArn"].write(value.billingGroupArn)
-        try writer["ChargeDetails"].write(value.chargeDetails, with: BillingconductorClientTypes.ListCustomLineItemChargeDetails.write(value:to:))
-        try writer["CreationTime"].write(value.creationTime)
-        try writer["CurrencyCode"].write(value.currencyCode)
-        try writer["Description"].write(value.description)
-        try writer["LastModifiedTime"].write(value.lastModifiedTime)
-        try writer["Name"].write(value.name)
-        try writer["ProductCode"].write(value.productCode)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> BillingconductorClientTypes.CustomLineItemListElement {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1844,14 +1712,6 @@ extension BillingconductorClientTypes.CustomLineItemPercentageChargeDetails {
         guard let value else { return }
         try writer["AssociatedValues"].writeList(value.associatedValues, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["PercentageValue"].write(value.percentageValue)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BillingconductorClientTypes.CustomLineItemPercentageChargeDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BillingconductorClientTypes.CustomLineItemPercentageChargeDetails()
-        value.percentageValue = try reader["PercentageValue"].readIfPresent()
-        value.associatedValues = try reader["AssociatedValues"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -1942,24 +1802,6 @@ extension BillingconductorClientTypes.CustomLineItemVersionListElement: Swift.Cu
 }
 
 extension BillingconductorClientTypes.CustomLineItemVersionListElement {
-
-    static func write(value: BillingconductorClientTypes.CustomLineItemVersionListElement?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccountId"].write(value.accountId)
-        try writer["Arn"].write(value.arn)
-        try writer["AssociationSize"].write(value.associationSize)
-        try writer["BillingGroupArn"].write(value.billingGroupArn)
-        try writer["ChargeDetails"].write(value.chargeDetails, with: BillingconductorClientTypes.ListCustomLineItemChargeDetails.write(value:to:))
-        try writer["CreationTime"].write(value.creationTime)
-        try writer["CurrencyCode"].write(value.currencyCode)
-        try writer["Description"].write(value.description)
-        try writer["EndBillingPeriod"].write(value.endBillingPeriod)
-        try writer["LastModifiedTime"].write(value.lastModifiedTime)
-        try writer["Name"].write(value.name)
-        try writer["ProductCode"].write(value.productCode)
-        try writer["StartBillingPeriod"].write(value.startBillingPeriod)
-        try writer["StartTime"].write(value.startTime)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> BillingconductorClientTypes.CustomLineItemVersionListElement {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2490,12 +2332,6 @@ enum DisassociatePricingRulesOutputError {
 
 extension BillingconductorClientTypes.DisassociateResourceResponseElement {
 
-    static func write(value: BillingconductorClientTypes.DisassociateResourceResponseElement?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["Error"].write(value.error, with: BillingconductorClientTypes.AssociateResourceError.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> BillingconductorClientTypes.DisassociateResourceResponseElement {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BillingconductorClientTypes.DisassociateResourceResponseElement()
@@ -2526,11 +2362,6 @@ extension BillingconductorClientTypes {
 }
 
 extension BillingconductorClientTypes.FreeTierConfig {
-
-    static func write(value: BillingconductorClientTypes.FreeTierConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Activated"].write(value.activated)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> BillingconductorClientTypes.FreeTierConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2836,15 +2667,6 @@ extension BillingconductorClientTypes.ListAccountAssociationsFilter {
         try writer["AccountIds"].writeList(value.accountIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Association"].write(value.association)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BillingconductorClientTypes.ListAccountAssociationsFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BillingconductorClientTypes.ListAccountAssociationsFilter()
-        value.association = try reader["Association"].readIfPresent()
-        value.accountId = try reader["AccountId"].readIfPresent()
-        value.accountIds = try reader["AccountIds"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
 }
 
 extension BillingconductorClientTypes {
@@ -2957,11 +2779,6 @@ enum ListAccountAssociationsOutputError {
 
 extension BillingconductorClientTypes.ListBillingGroupAccountGrouping {
 
-    static func write(value: BillingconductorClientTypes.ListBillingGroupAccountGrouping?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AutoAssociate"].write(value.autoAssociate)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> BillingconductorClientTypes.ListBillingGroupAccountGrouping {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BillingconductorClientTypes.ListBillingGroupAccountGrouping()
@@ -2991,13 +2808,6 @@ extension BillingconductorClientTypes.ListBillingGroupCostReportsFilter {
     static func write(value: BillingconductorClientTypes.ListBillingGroupCostReportsFilter?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["BillingGroupArns"].writeList(value.billingGroupArns, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BillingconductorClientTypes.ListBillingGroupCostReportsFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BillingconductorClientTypes.ListBillingGroupCostReportsFilter()
-        value.billingGroupArns = try reader["BillingGroupArns"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -3114,16 +2924,6 @@ extension BillingconductorClientTypes.ListBillingGroupsFilter {
         try writer["AutoAssociate"].write(value.autoAssociate)
         try writer["PricingPlan"].write(value.pricingPlan)
         try writer["Statuses"].writeList(value.statuses, memberWritingClosure: BillingconductorClientTypes.BillingGroupStatus.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BillingconductorClientTypes.ListBillingGroupsFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BillingconductorClientTypes.ListBillingGroupsFilter()
-        value.arns = try reader["Arns"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.pricingPlan = try reader["PricingPlan"].readIfPresent()
-        value.statuses = try reader["Statuses"].readListIfPresent(memberReadingClosure: BillingconductorClientTypes.BillingGroupStatus.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.autoAssociate = try reader["AutoAssociate"].readIfPresent()
-        return value
     }
 }
 
@@ -3246,14 +3046,6 @@ enum ListBillingGroupsOutputError {
 
 extension BillingconductorClientTypes.ListCustomLineItemChargeDetails {
 
-    static func write(value: BillingconductorClientTypes.ListCustomLineItemChargeDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Flat"].write(value.flat, with: BillingconductorClientTypes.ListCustomLineItemFlatChargeDetails.write(value:to:))
-        try writer["LineItemFilters"].writeList(value.lineItemFilters, memberWritingClosure: BillingconductorClientTypes.LineItemFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Percentage"].write(value.percentage, with: BillingconductorClientTypes.ListCustomLineItemPercentageChargeDetails.write(value:to:))
-        try writer["Type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> BillingconductorClientTypes.ListCustomLineItemChargeDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BillingconductorClientTypes.ListCustomLineItemChargeDetails()
@@ -3296,11 +3088,6 @@ extension BillingconductorClientTypes {
 
 extension BillingconductorClientTypes.ListCustomLineItemFlatChargeDetails {
 
-    static func write(value: BillingconductorClientTypes.ListCustomLineItemFlatChargeDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ChargeValue"].write(value.chargeValue)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> BillingconductorClientTypes.ListCustomLineItemFlatChargeDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BillingconductorClientTypes.ListCustomLineItemFlatChargeDetails()
@@ -3327,11 +3114,6 @@ extension BillingconductorClientTypes {
 }
 
 extension BillingconductorClientTypes.ListCustomLineItemPercentageChargeDetails {
-
-    static func write(value: BillingconductorClientTypes.ListCustomLineItemPercentageChargeDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["PercentageValue"].write(value.percentageValue)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> BillingconductorClientTypes.ListCustomLineItemPercentageChargeDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3365,14 +3147,6 @@ extension BillingconductorClientTypes.ListCustomLineItemVersionsBillingPeriodRan
         try writer["EndBillingPeriod"].write(value.endBillingPeriod)
         try writer["StartBillingPeriod"].write(value.startBillingPeriod)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BillingconductorClientTypes.ListCustomLineItemVersionsBillingPeriodRangeFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BillingconductorClientTypes.ListCustomLineItemVersionsBillingPeriodRangeFilter()
-        value.startBillingPeriod = try reader["StartBillingPeriod"].readIfPresent()
-        value.endBillingPeriod = try reader["EndBillingPeriod"].readIfPresent()
-        return value
-    }
 }
 
 extension BillingconductorClientTypes {
@@ -3400,13 +3174,6 @@ extension BillingconductorClientTypes.ListCustomLineItemVersionsFilter {
     static func write(value: BillingconductorClientTypes.ListCustomLineItemVersionsFilter?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["BillingPeriodRange"].write(value.billingPeriodRange, with: BillingconductorClientTypes.ListCustomLineItemVersionsBillingPeriodRangeFilter.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BillingconductorClientTypes.ListCustomLineItemVersionsFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BillingconductorClientTypes.ListCustomLineItemVersionsFilter()
-        value.billingPeriodRange = try reader["BillingPeriodRange"].readIfPresent(with: BillingconductorClientTypes.ListCustomLineItemVersionsBillingPeriodRangeFilter.read(from:))
-        return value
     }
 }
 
@@ -3523,16 +3290,6 @@ extension BillingconductorClientTypes.ListCustomLineItemsFilter {
         try writer["Arns"].writeList(value.arns, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["BillingGroups"].writeList(value.billingGroups, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Names"].writeList(value.names, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BillingconductorClientTypes.ListCustomLineItemsFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BillingconductorClientTypes.ListCustomLineItemsFilter()
-        value.names = try reader["Names"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.billingGroups = try reader["BillingGroups"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.arns = try reader["Arns"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.accountIds = try reader["AccountIds"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -3759,13 +3516,6 @@ extension BillingconductorClientTypes.ListPricingPlansFilter {
         guard let value else { return }
         try writer["Arns"].writeList(value.arns, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BillingconductorClientTypes.ListPricingPlansFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BillingconductorClientTypes.ListPricingPlansFilter()
-        value.arns = try reader["Arns"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
 }
 
 extension BillingconductorClientTypes {
@@ -3983,13 +3733,6 @@ extension BillingconductorClientTypes.ListPricingRulesFilter {
         guard let value else { return }
         try writer["Arns"].writeList(value.arns, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BillingconductorClientTypes.ListPricingRulesFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BillingconductorClientTypes.ListPricingRulesFilter()
-        value.arns = try reader["Arns"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
 }
 
 extension BillingconductorClientTypes {
@@ -4106,13 +3849,6 @@ extension BillingconductorClientTypes.ListResourcesAssociatedToCustomLineItemFil
     static func write(value: BillingconductorClientTypes.ListResourcesAssociatedToCustomLineItemFilter?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Relationship"].write(value.relationship)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BillingconductorClientTypes.ListResourcesAssociatedToCustomLineItemFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BillingconductorClientTypes.ListResourcesAssociatedToCustomLineItemFilter()
-        value.relationship = try reader["Relationship"].readIfPresent()
-        return value
     }
 }
 
@@ -4233,13 +3969,6 @@ enum ListResourcesAssociatedToCustomLineItemOutputError {
 }
 
 extension BillingconductorClientTypes.ListResourcesAssociatedToCustomLineItemResponseElement {
-
-    static func write(value: BillingconductorClientTypes.ListResourcesAssociatedToCustomLineItemResponseElement?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["EndBillingPeriod"].write(value.endBillingPeriod)
-        try writer["Relationship"].write(value.relationship)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> BillingconductorClientTypes.ListResourcesAssociatedToCustomLineItemResponseElement {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4374,16 +4103,6 @@ extension BillingconductorClientTypes.PricingPlanListElement: Swift.CustomDebugS
 
 extension BillingconductorClientTypes.PricingPlanListElement {
 
-    static func write(value: BillingconductorClientTypes.PricingPlanListElement?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["CreationTime"].write(value.creationTime)
-        try writer["Description"].write(value.description)
-        try writer["LastModifiedTime"].write(value.lastModifiedTime)
-        try writer["Name"].write(value.name)
-        try writer["Size"].write(value.size)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> BillingconductorClientTypes.PricingPlanListElement {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BillingconductorClientTypes.PricingPlanListElement()
@@ -4439,24 +4158,6 @@ extension BillingconductorClientTypes.PricingRuleListElement: Swift.CustomDebugS
 }
 
 extension BillingconductorClientTypes.PricingRuleListElement {
-
-    static func write(value: BillingconductorClientTypes.PricingRuleListElement?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["AssociatedPricingPlanCount"].write(value.associatedPricingPlanCount)
-        try writer["BillingEntity"].write(value.billingEntity)
-        try writer["CreationTime"].write(value.creationTime)
-        try writer["Description"].write(value.description)
-        try writer["LastModifiedTime"].write(value.lastModifiedTime)
-        try writer["ModifierPercentage"].write(value.modifierPercentage)
-        try writer["Name"].write(value.name)
-        try writer["Operation"].write(value.operation)
-        try writer["Scope"].write(value.scope)
-        try writer["Service"].write(value.service)
-        try writer["Tiering"].write(value.tiering, with: BillingconductorClientTypes.Tiering.write(value:to:))
-        try writer["Type"].write(value.type)
-        try writer["UsageType"].write(value.usageType)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> BillingconductorClientTypes.PricingRuleListElement {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4840,11 +4541,6 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
 extension BillingconductorClientTypes.Tiering {
 
-    static func write(value: BillingconductorClientTypes.Tiering?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["FreeTier"].write(value.freeTier, with: BillingconductorClientTypes.FreeTierConfig.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> BillingconductorClientTypes.Tiering {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BillingconductorClientTypes.Tiering()
@@ -5134,15 +4830,6 @@ extension BillingconductorClientTypes.UpdateCustomLineItemChargeDetails {
         try writer["LineItemFilters"].writeList(value.lineItemFilters, memberWritingClosure: BillingconductorClientTypes.LineItemFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Percentage"].write(value.percentage, with: BillingconductorClientTypes.UpdateCustomLineItemPercentageChargeDetails.write(value:to:))
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BillingconductorClientTypes.UpdateCustomLineItemChargeDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BillingconductorClientTypes.UpdateCustomLineItemChargeDetails()
-        value.flat = try reader["Flat"].readIfPresent(with: BillingconductorClientTypes.UpdateCustomLineItemFlatChargeDetails.read(from:))
-        value.percentage = try reader["Percentage"].readIfPresent(with: BillingconductorClientTypes.UpdateCustomLineItemPercentageChargeDetails.read(from:))
-        value.lineItemFilters = try reader["LineItemFilters"].readListIfPresent(memberReadingClosure: BillingconductorClientTypes.LineItemFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
 }
 
 extension BillingconductorClientTypes {
@@ -5174,13 +4861,6 @@ extension BillingconductorClientTypes.UpdateCustomLineItemFlatChargeDetails {
     static func write(value: BillingconductorClientTypes.UpdateCustomLineItemFlatChargeDetails?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["ChargeValue"].write(value.chargeValue)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BillingconductorClientTypes.UpdateCustomLineItemFlatChargeDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BillingconductorClientTypes.UpdateCustomLineItemFlatChargeDetails()
-        value.chargeValue = try reader["ChargeValue"].readIfPresent()
-        return value
     }
 }
 
@@ -5336,13 +5016,6 @@ extension BillingconductorClientTypes.UpdateCustomLineItemPercentageChargeDetail
     static func write(value: BillingconductorClientTypes.UpdateCustomLineItemPercentageChargeDetails?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["PercentageValue"].write(value.percentageValue)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BillingconductorClientTypes.UpdateCustomLineItemPercentageChargeDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BillingconductorClientTypes.UpdateCustomLineItemPercentageChargeDetails()
-        value.percentageValue = try reader["PercentageValue"].readIfPresent()
-        return value
     }
 }
 
@@ -5753,12 +5426,6 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 extension BillingconductorClientTypes.ValidationExceptionField {
-
-    static func write(value: BillingconductorClientTypes.ValidationExceptionField?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.message)
-        try writer["Name"].write(value.name)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> BillingconductorClientTypes.ValidationExceptionField {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

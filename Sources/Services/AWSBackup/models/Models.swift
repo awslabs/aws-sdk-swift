@@ -139,35 +139,6 @@ public enum BackupClientTypes {}
 
 extension BackupClientTypes.BackupJob {
 
-    static func write(value: BackupClientTypes.BackupJob?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccountId"].write(value.accountId)
-        try writer["BackupJobId"].write(value.backupJobId)
-        try writer["BackupOptions"].writeMap(value.backupOptions, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["BackupSizeInBytes"].write(value.backupSizeInBytes)
-        try writer["BackupType"].write(value.backupType)
-        try writer["BackupVaultArn"].write(value.backupVaultArn)
-        try writer["BackupVaultName"].write(value.backupVaultName)
-        try writer["BytesTransferred"].write(value.bytesTransferred)
-        try writer["CompletionDate"].writeTimestamp(value.completionDate, format: .epochSeconds)
-        try writer["CreatedBy"].write(value.createdBy, with: BackupClientTypes.RecoveryPointCreator.write(value:to:))
-        try writer["CreationDate"].writeTimestamp(value.creationDate, format: .epochSeconds)
-        try writer["ExpectedCompletionDate"].writeTimestamp(value.expectedCompletionDate, format: .epochSeconds)
-        try writer["IamRoleArn"].write(value.iamRoleArn)
-        try writer["InitiationDate"].writeTimestamp(value.initiationDate, format: .epochSeconds)
-        try writer["IsParent"].write(value.isParent)
-        try writer["MessageCategory"].write(value.messageCategory)
-        try writer["ParentJobId"].write(value.parentJobId)
-        try writer["PercentDone"].write(value.percentDone)
-        try writer["RecoveryPointArn"].write(value.recoveryPointArn)
-        try writer["ResourceArn"].write(value.resourceArn)
-        try writer["ResourceName"].write(value.resourceName)
-        try writer["ResourceType"].write(value.resourceType)
-        try writer["StartBy"].writeTimestamp(value.startBy, format: .epochSeconds)
-        try writer["State"].write(value.state)
-        try writer["StatusMessage"].write(value.statusMessage)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.BackupJob {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BackupClientTypes.BackupJob()
@@ -422,18 +393,6 @@ extension BackupClientTypes {
 
 extension BackupClientTypes.BackupJobSummary {
 
-    static func write(value: BackupClientTypes.BackupJobSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccountId"].write(value.accountId)
-        try writer["Count"].write(value.count)
-        try writer["EndTime"].writeTimestamp(value.endTime, format: .epochSeconds)
-        try writer["MessageCategory"].write(value.messageCategory)
-        try writer["Region"].write(value.region)
-        try writer["ResourceType"].write(value.resourceType)
-        try writer["StartTime"].writeTimestamp(value.startTime, format: .epochSeconds)
-        try writer["State"].write(value.state)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.BackupJobSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BackupClientTypes.BackupJobSummary()
@@ -495,13 +454,6 @@ extension BackupClientTypes {
 
 extension BackupClientTypes.BackupPlan {
 
-    static func write(value: BackupClientTypes.BackupPlan?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AdvancedBackupSettings"].writeList(value.advancedBackupSettings, memberWritingClosure: BackupClientTypes.AdvancedBackupSetting.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["BackupPlanName"].write(value.backupPlanName)
-        try writer["Rules"].writeList(value.rules, memberWritingClosure: BackupClientTypes.BackupRule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.BackupPlan {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BackupClientTypes.BackupPlan()
@@ -546,15 +498,6 @@ extension BackupClientTypes.BackupPlanInput {
         try writer["BackupPlanName"].write(value.backupPlanName)
         try writer["Rules"].writeList(value.rules, memberWritingClosure: BackupClientTypes.BackupRuleInput.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.BackupPlanInput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BackupClientTypes.BackupPlanInput()
-        value.backupPlanName = try reader["BackupPlanName"].readIfPresent()
-        value.rules = try reader["Rules"].readListIfPresent(memberReadingClosure: BackupClientTypes.BackupRuleInput.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.advancedBackupSettings = try reader["AdvancedBackupSettings"].readListIfPresent(memberReadingClosure: BackupClientTypes.AdvancedBackupSetting.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
 }
 
 extension BackupClientTypes {
@@ -584,12 +527,6 @@ extension BackupClientTypes {
 }
 
 extension BackupClientTypes.BackupPlanTemplatesListMember {
-
-    static func write(value: BackupClientTypes.BackupPlanTemplatesListMember?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BackupPlanTemplateId"].write(value.backupPlanTemplateId)
-        try writer["BackupPlanTemplateName"].write(value.backupPlanTemplateName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.BackupPlanTemplatesListMember {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -621,19 +558,6 @@ extension BackupClientTypes {
 }
 
 extension BackupClientTypes.BackupPlansListMember {
-
-    static func write(value: BackupClientTypes.BackupPlansListMember?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AdvancedBackupSettings"].writeList(value.advancedBackupSettings, memberWritingClosure: BackupClientTypes.AdvancedBackupSetting.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["BackupPlanArn"].write(value.backupPlanArn)
-        try writer["BackupPlanId"].write(value.backupPlanId)
-        try writer["BackupPlanName"].write(value.backupPlanName)
-        try writer["CreationDate"].writeTimestamp(value.creationDate, format: .epochSeconds)
-        try writer["CreatorRequestId"].write(value.creatorRequestId)
-        try writer["DeletionDate"].writeTimestamp(value.deletionDate, format: .epochSeconds)
-        try writer["LastExecutionDate"].writeTimestamp(value.lastExecutionDate, format: .epochSeconds)
-        try writer["VersionId"].write(value.versionId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.BackupPlansListMember {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -705,21 +629,6 @@ extension BackupClientTypes.BackupRule: Swift.CustomDebugStringConvertible {
 }
 
 extension BackupClientTypes.BackupRule {
-
-    static func write(value: BackupClientTypes.BackupRule?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CompletionWindowMinutes"].write(value.completionWindowMinutes)
-        try writer["CopyActions"].writeList(value.copyActions, memberWritingClosure: BackupClientTypes.CopyAction.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["EnableContinuousBackup"].write(value.enableContinuousBackup)
-        try writer["Lifecycle"].write(value.lifecycle, with: BackupClientTypes.Lifecycle.write(value:to:))
-        try writer["RecoveryPointTags"].writeMap(value.recoveryPointTags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["RuleId"].write(value.ruleId)
-        try writer["RuleName"].write(value.ruleName)
-        try writer["ScheduleExpression"].write(value.scheduleExpression)
-        try writer["ScheduleExpressionTimezone"].write(value.scheduleExpressionTimezone)
-        try writer["StartWindowMinutes"].write(value.startWindowMinutes)
-        try writer["TargetBackupVaultName"].write(value.targetBackupVaultName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.BackupRule {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -816,22 +725,6 @@ extension BackupClientTypes.BackupRuleInput {
         try writer["ScheduleExpressionTimezone"].write(value.scheduleExpressionTimezone)
         try writer["StartWindowMinutes"].write(value.startWindowMinutes)
         try writer["TargetBackupVaultName"].write(value.targetBackupVaultName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.BackupRuleInput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BackupClientTypes.BackupRuleInput()
-        value.ruleName = try reader["RuleName"].readIfPresent()
-        value.targetBackupVaultName = try reader["TargetBackupVaultName"].readIfPresent()
-        value.scheduleExpression = try reader["ScheduleExpression"].readIfPresent()
-        value.startWindowMinutes = try reader["StartWindowMinutes"].readIfPresent()
-        value.completionWindowMinutes = try reader["CompletionWindowMinutes"].readIfPresent()
-        value.lifecycle = try reader["Lifecycle"].readIfPresent(with: BackupClientTypes.Lifecycle.read(from:))
-        value.recoveryPointTags = try reader["RecoveryPointTags"].readMapIfPresent(valueReadingClosure: Swift.String.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.copyActions = try reader["CopyActions"].readListIfPresent(memberReadingClosure: BackupClientTypes.CopyAction.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.enableContinuousBackup = try reader["EnableContinuousBackup"].readIfPresent()
-        value.scheduleExpressionTimezone = try reader["ScheduleExpressionTimezone"].readIfPresent()
-        return value
     }
 }
 
@@ -962,16 +855,6 @@ extension BackupClientTypes {
 
 extension BackupClientTypes.BackupSelectionsListMember {
 
-    static func write(value: BackupClientTypes.BackupSelectionsListMember?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BackupPlanId"].write(value.backupPlanId)
-        try writer["CreationDate"].writeTimestamp(value.creationDate, format: .epochSeconds)
-        try writer["CreatorRequestId"].write(value.creatorRequestId)
-        try writer["IamRoleArn"].write(value.iamRoleArn)
-        try writer["SelectionId"].write(value.selectionId)
-        try writer["SelectionName"].write(value.selectionName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.BackupSelectionsListMember {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BackupClientTypes.BackupSelectionsListMember()
@@ -1098,20 +981,6 @@ extension BackupClientTypes {
 
 extension BackupClientTypes.BackupVaultListMember {
 
-    static func write(value: BackupClientTypes.BackupVaultListMember?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BackupVaultArn"].write(value.backupVaultArn)
-        try writer["BackupVaultName"].write(value.backupVaultName)
-        try writer["CreationDate"].writeTimestamp(value.creationDate, format: .epochSeconds)
-        try writer["CreatorRequestId"].write(value.creatorRequestId)
-        try writer["EncryptionKeyArn"].write(value.encryptionKeyArn)
-        try writer["LockDate"].writeTimestamp(value.lockDate, format: .epochSeconds)
-        try writer["Locked"].write(value.locked)
-        try writer["MaxRetentionDays"].write(value.maxRetentionDays)
-        try writer["MinRetentionDays"].write(value.minRetentionDays)
-        try writer["NumberOfRecoveryPoints"].write(value.numberOfRecoveryPoints)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.BackupVaultListMember {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BackupClientTypes.BackupVaultListMember()
@@ -1182,12 +1051,6 @@ extension BackupClientTypes {
 }
 
 extension BackupClientTypes.CalculatedLifecycle {
-
-    static func write(value: BackupClientTypes.CalculatedLifecycle?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DeleteAt"].writeTimestamp(value.deleteAt, format: .epochSeconds)
-        try writer["MoveToColdStorageAt"].writeTimestamp(value.moveToColdStorageAt, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.CalculatedLifecycle {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1628,32 +1491,6 @@ extension BackupClientTypes {
 
 extension BackupClientTypes.CopyJob {
 
-    static func write(value: BackupClientTypes.CopyJob?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccountId"].write(value.accountId)
-        try writer["BackupSizeInBytes"].write(value.backupSizeInBytes)
-        try writer["ChildJobsInState"].writeMap(value.childJobsInState, valueWritingClosure: Swift.Int.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["CompletionDate"].writeTimestamp(value.completionDate, format: .epochSeconds)
-        try writer["CompositeMemberIdentifier"].write(value.compositeMemberIdentifier)
-        try writer["CopyJobId"].write(value.copyJobId)
-        try writer["CreatedBy"].write(value.createdBy, with: BackupClientTypes.RecoveryPointCreator.write(value:to:))
-        try writer["CreationDate"].writeTimestamp(value.creationDate, format: .epochSeconds)
-        try writer["DestinationBackupVaultArn"].write(value.destinationBackupVaultArn)
-        try writer["DestinationRecoveryPointArn"].write(value.destinationRecoveryPointArn)
-        try writer["IamRoleArn"].write(value.iamRoleArn)
-        try writer["IsParent"].write(value.isParent)
-        try writer["MessageCategory"].write(value.messageCategory)
-        try writer["NumberOfChildJobs"].write(value.numberOfChildJobs)
-        try writer["ParentJobId"].write(value.parentJobId)
-        try writer["ResourceArn"].write(value.resourceArn)
-        try writer["ResourceName"].write(value.resourceName)
-        try writer["ResourceType"].write(value.resourceType)
-        try writer["SourceBackupVaultArn"].write(value.sourceBackupVaultArn)
-        try writer["SourceRecoveryPointArn"].write(value.sourceRecoveryPointArn)
-        try writer["State"].write(value.state)
-        try writer["StatusMessage"].write(value.statusMessage)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.CopyJob {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BackupClientTypes.CopyJob()
@@ -1880,18 +1717,6 @@ extension BackupClientTypes {
 }
 
 extension BackupClientTypes.CopyJobSummary {
-
-    static func write(value: BackupClientTypes.CopyJobSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccountId"].write(value.accountId)
-        try writer["Count"].write(value.count)
-        try writer["EndTime"].writeTimestamp(value.endTime, format: .epochSeconds)
-        try writer["MessageCategory"].write(value.messageCategory)
-        try writer["Region"].write(value.region)
-        try writer["ResourceType"].write(value.resourceType)
-        try writer["StartTime"].writeTimestamp(value.startTime, format: .epochSeconds)
-        try writer["State"].write(value.state)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.CopyJobSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5005,16 +4830,6 @@ enum ExportBackupPlanTemplateOutputError {
 
 extension BackupClientTypes.Framework {
 
-    static func write(value: BackupClientTypes.Framework?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["DeploymentStatus"].write(value.deploymentStatus)
-        try writer["FrameworkArn"].write(value.frameworkArn)
-        try writer["FrameworkDescription"].write(value.frameworkDescription)
-        try writer["FrameworkName"].write(value.frameworkName)
-        try writer["NumberOfControls"].write(value.numberOfControls)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.Framework {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BackupClientTypes.Framework()
@@ -6390,17 +6205,6 @@ extension BackupClientTypes {
 }
 
 extension BackupClientTypes.LegalHold {
-
-    static func write(value: BackupClientTypes.LegalHold?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CancellationDate"].writeTimestamp(value.cancellationDate, format: .epochSeconds)
-        try writer["CreationDate"].writeTimestamp(value.creationDate, format: .epochSeconds)
-        try writer["Description"].write(value.description)
-        try writer["LegalHoldArn"].write(value.legalHoldArn)
-        try writer["LegalHoldId"].write(value.legalHoldId)
-        try writer["Status"].write(value.status)
-        try writer["Title"].write(value.title)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.LegalHold {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -9417,16 +9221,6 @@ public struct MissingParameterValueException: ClientRuntime.ModeledError, AWSCli
 
 extension BackupClientTypes.ProtectedResource {
 
-    static func write(value: BackupClientTypes.ProtectedResource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["LastBackupTime"].writeTimestamp(value.lastBackupTime, format: .epochSeconds)
-        try writer["LastBackupVaultArn"].write(value.lastBackupVaultArn)
-        try writer["LastRecoveryPointArn"].write(value.lastRecoveryPointArn)
-        try writer["ResourceArn"].write(value.resourceArn)
-        try writer["ResourceName"].write(value.resourceName)
-        try writer["ResourceType"].write(value.resourceType)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.ProtectedResource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BackupClientTypes.ProtectedResource()
@@ -9807,33 +9601,6 @@ enum PutRestoreValidationResultOutputError {
 
 extension BackupClientTypes.RecoveryPointByBackupVault {
 
-    static func write(value: BackupClientTypes.RecoveryPointByBackupVault?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BackupSizeInBytes"].write(value.backupSizeInBytes)
-        try writer["BackupVaultArn"].write(value.backupVaultArn)
-        try writer["BackupVaultName"].write(value.backupVaultName)
-        try writer["CalculatedLifecycle"].write(value.calculatedLifecycle, with: BackupClientTypes.CalculatedLifecycle.write(value:to:))
-        try writer["CompletionDate"].writeTimestamp(value.completionDate, format: .epochSeconds)
-        try writer["CompositeMemberIdentifier"].write(value.compositeMemberIdentifier)
-        try writer["CreatedBy"].write(value.createdBy, with: BackupClientTypes.RecoveryPointCreator.write(value:to:))
-        try writer["CreationDate"].writeTimestamp(value.creationDate, format: .epochSeconds)
-        try writer["EncryptionKeyArn"].write(value.encryptionKeyArn)
-        try writer["IamRoleArn"].write(value.iamRoleArn)
-        try writer["IsEncrypted"].write(value.isEncrypted)
-        try writer["IsParent"].write(value.isParent)
-        try writer["LastRestoreTime"].writeTimestamp(value.lastRestoreTime, format: .epochSeconds)
-        try writer["Lifecycle"].write(value.lifecycle, with: BackupClientTypes.Lifecycle.write(value:to:))
-        try writer["ParentRecoveryPointArn"].write(value.parentRecoveryPointArn)
-        try writer["RecoveryPointArn"].write(value.recoveryPointArn)
-        try writer["ResourceArn"].write(value.resourceArn)
-        try writer["ResourceName"].write(value.resourceName)
-        try writer["ResourceType"].write(value.resourceType)
-        try writer["SourceBackupVaultArn"].write(value.sourceBackupVaultArn)
-        try writer["Status"].write(value.status)
-        try writer["StatusMessage"].write(value.statusMessage)
-        try writer["VaultType"].write(value.vaultType)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.RecoveryPointByBackupVault {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BackupClientTypes.RecoveryPointByBackupVault()
@@ -9970,21 +9737,6 @@ extension BackupClientTypes {
 
 extension BackupClientTypes.RecoveryPointByResource {
 
-    static func write(value: BackupClientTypes.RecoveryPointByResource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BackupSizeBytes"].write(value.backupSizeBytes)
-        try writer["BackupVaultName"].write(value.backupVaultName)
-        try writer["CreationDate"].writeTimestamp(value.creationDate, format: .epochSeconds)
-        try writer["EncryptionKeyArn"].write(value.encryptionKeyArn)
-        try writer["IsParent"].write(value.isParent)
-        try writer["ParentRecoveryPointArn"].write(value.parentRecoveryPointArn)
-        try writer["RecoveryPointArn"].write(value.recoveryPointArn)
-        try writer["ResourceName"].write(value.resourceName)
-        try writer["Status"].write(value.status)
-        try writer["StatusMessage"].write(value.statusMessage)
-        try writer["VaultType"].write(value.vaultType)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.RecoveryPointByResource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BackupClientTypes.RecoveryPointByResource()
@@ -10061,14 +9813,6 @@ extension BackupClientTypes {
 
 extension BackupClientTypes.RecoveryPointCreator {
 
-    static func write(value: BackupClientTypes.RecoveryPointCreator?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BackupPlanArn"].write(value.backupPlanArn)
-        try writer["BackupPlanId"].write(value.backupPlanId)
-        try writer["BackupPlanVersion"].write(value.backupPlanVersion)
-        try writer["BackupRuleId"].write(value.backupRuleId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.RecoveryPointCreator {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BackupClientTypes.RecoveryPointCreator()
@@ -10109,14 +9853,6 @@ extension BackupClientTypes {
 }
 
 extension BackupClientTypes.RecoveryPointMember {
-
-    static func write(value: BackupClientTypes.RecoveryPointMember?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BackupVaultName"].write(value.backupVaultName)
-        try writer["RecoveryPointArn"].write(value.recoveryPointArn)
-        try writer["ResourceArn"].write(value.resourceArn)
-        try writer["ResourceType"].write(value.resourceType)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.RecoveryPointMember {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -10282,12 +10018,6 @@ extension BackupClientTypes {
 
 extension BackupClientTypes.ReportDestination {
 
-    static func write(value: BackupClientTypes.ReportDestination?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["S3BucketName"].write(value.s3BucketName)
-        try writer["S3Keys"].writeList(value.s3Keys, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.ReportDestination {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BackupClientTypes.ReportDestination()
@@ -10318,18 +10048,6 @@ extension BackupClientTypes {
 }
 
 extension BackupClientTypes.ReportJob {
-
-    static func write(value: BackupClientTypes.ReportJob?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CompletionTime"].writeTimestamp(value.completionTime, format: .epochSeconds)
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["ReportDestination"].write(value.reportDestination, with: BackupClientTypes.ReportDestination.write(value:to:))
-        try writer["ReportJobId"].write(value.reportJobId)
-        try writer["ReportPlanArn"].write(value.reportPlanArn)
-        try writer["ReportTemplate"].write(value.reportTemplate)
-        try writer["Status"].write(value.status)
-        try writer["StatusMessage"].write(value.statusMessage)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.ReportJob {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -10391,19 +10109,6 @@ extension BackupClientTypes {
 }
 
 extension BackupClientTypes.ReportPlan {
-
-    static func write(value: BackupClientTypes.ReportPlan?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["DeploymentStatus"].write(value.deploymentStatus)
-        try writer["LastAttemptedExecutionTime"].writeTimestamp(value.lastAttemptedExecutionTime, format: .epochSeconds)
-        try writer["LastSuccessfulExecutionTime"].writeTimestamp(value.lastSuccessfulExecutionTime, format: .epochSeconds)
-        try writer["ReportDeliveryChannel"].write(value.reportDeliveryChannel, with: BackupClientTypes.ReportDeliveryChannel.write(value:to:))
-        try writer["ReportPlanArn"].write(value.reportPlanArn)
-        try writer["ReportPlanDescription"].write(value.reportPlanDescription)
-        try writer["ReportPlanName"].write(value.reportPlanName)
-        try writer["ReportSetting"].write(value.reportSetting, with: BackupClientTypes.ReportSetting.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.ReportPlan {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -10617,11 +10322,6 @@ extension BackupClientTypes {
 
 extension BackupClientTypes.RestoreJobCreator {
 
-    static func write(value: BackupClientTypes.RestoreJobCreator?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["RestoreTestingPlanArn"].write(value.restoreTestingPlanArn)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.RestoreJobCreator {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BackupClientTypes.RestoreJobCreator()
@@ -10735,17 +10435,6 @@ extension BackupClientTypes {
 
 extension BackupClientTypes.RestoreJobSummary {
 
-    static func write(value: BackupClientTypes.RestoreJobSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccountId"].write(value.accountId)
-        try writer["Count"].write(value.count)
-        try writer["EndTime"].writeTimestamp(value.endTime, format: .epochSeconds)
-        try writer["Region"].write(value.region)
-        try writer["ResourceType"].write(value.resourceType)
-        try writer["StartTime"].writeTimestamp(value.startTime, format: .epochSeconds)
-        try writer["State"].write(value.state)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.RestoreJobSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BackupClientTypes.RestoreJobSummary()
@@ -10801,29 +10490,6 @@ extension BackupClientTypes {
 }
 
 extension BackupClientTypes.RestoreJobsListMember {
-
-    static func write(value: BackupClientTypes.RestoreJobsListMember?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccountId"].write(value.accountId)
-        try writer["BackupSizeInBytes"].write(value.backupSizeInBytes)
-        try writer["CompletionDate"].writeTimestamp(value.completionDate, format: .epochSeconds)
-        try writer["CreatedBy"].write(value.createdBy, with: BackupClientTypes.RestoreJobCreator.write(value:to:))
-        try writer["CreatedResourceArn"].write(value.createdResourceArn)
-        try writer["CreationDate"].writeTimestamp(value.creationDate, format: .epochSeconds)
-        try writer["DeletionStatus"].write(value.deletionStatus)
-        try writer["DeletionStatusMessage"].write(value.deletionStatusMessage)
-        try writer["ExpectedCompletionTimeMinutes"].write(value.expectedCompletionTimeMinutes)
-        try writer["IamRoleArn"].write(value.iamRoleArn)
-        try writer["PercentDone"].write(value.percentDone)
-        try writer["RecoveryPointArn"].write(value.recoveryPointArn)
-        try writer["RecoveryPointCreationDate"].writeTimestamp(value.recoveryPointCreationDate, format: .epochSeconds)
-        try writer["ResourceType"].write(value.resourceType)
-        try writer["RestoreJobId"].write(value.restoreJobId)
-        try writer["Status"].write(value.status)
-        try writer["StatusMessage"].write(value.statusMessage)
-        try writer["ValidationStatus"].write(value.validationStatus)
-        try writer["ValidationStatusMessage"].write(value.validationStatusMessage)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.RestoreJobsListMember {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -10949,17 +10615,6 @@ extension BackupClientTypes.RestoreTestingPlanForCreate {
         try writer["ScheduleExpressionTimezone"].write(value.scheduleExpressionTimezone)
         try writer["StartWindowHours"].write(value.startWindowHours)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.RestoreTestingPlanForCreate {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BackupClientTypes.RestoreTestingPlanForCreate()
-        value.recoveryPointSelection = try reader["RecoveryPointSelection"].readIfPresent(with: BackupClientTypes.RestoreTestingRecoveryPointSelection.read(from:))
-        value.restoreTestingPlanName = try reader["RestoreTestingPlanName"].readIfPresent()
-        value.scheduleExpression = try reader["ScheduleExpression"].readIfPresent()
-        value.scheduleExpressionTimezone = try reader["ScheduleExpressionTimezone"].readIfPresent()
-        value.startWindowHours = try reader["StartWindowHours"].readIfPresent() ?? 0
-        return value
-    }
 }
 
 extension BackupClientTypes {
@@ -10998,20 +10653,6 @@ extension BackupClientTypes {
 }
 
 extension BackupClientTypes.RestoreTestingPlanForGet {
-
-    static func write(value: BackupClientTypes.RestoreTestingPlanForGet?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["CreatorRequestId"].write(value.creatorRequestId)
-        try writer["LastExecutionTime"].writeTimestamp(value.lastExecutionTime, format: .epochSeconds)
-        try writer["LastUpdateTime"].writeTimestamp(value.lastUpdateTime, format: .epochSeconds)
-        try writer["RecoveryPointSelection"].write(value.recoveryPointSelection, with: BackupClientTypes.RestoreTestingRecoveryPointSelection.write(value:to:))
-        try writer["RestoreTestingPlanArn"].write(value.restoreTestingPlanArn)
-        try writer["RestoreTestingPlanName"].write(value.restoreTestingPlanName)
-        try writer["ScheduleExpression"].write(value.scheduleExpression)
-        try writer["ScheduleExpressionTimezone"].write(value.scheduleExpressionTimezone)
-        try writer["StartWindowHours"].write(value.startWindowHours)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.RestoreTestingPlanForGet {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -11089,18 +10730,6 @@ extension BackupClientTypes {
 
 extension BackupClientTypes.RestoreTestingPlanForList {
 
-    static func write(value: BackupClientTypes.RestoreTestingPlanForList?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["LastExecutionTime"].writeTimestamp(value.lastExecutionTime, format: .epochSeconds)
-        try writer["LastUpdateTime"].writeTimestamp(value.lastUpdateTime, format: .epochSeconds)
-        try writer["RestoreTestingPlanArn"].write(value.restoreTestingPlanArn)
-        try writer["RestoreTestingPlanName"].write(value.restoreTestingPlanName)
-        try writer["ScheduleExpression"].write(value.scheduleExpression)
-        try writer["ScheduleExpressionTimezone"].write(value.scheduleExpressionTimezone)
-        try writer["StartWindowHours"].write(value.startWindowHours)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.RestoreTestingPlanForList {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BackupClientTypes.RestoreTestingPlanForList()
@@ -11172,16 +10801,6 @@ extension BackupClientTypes.RestoreTestingPlanForUpdate {
         try writer["ScheduleExpression"].write(value.scheduleExpression)
         try writer["ScheduleExpressionTimezone"].write(value.scheduleExpressionTimezone)
         try writer["StartWindowHours"].write(value.startWindowHours)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.RestoreTestingPlanForUpdate {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BackupClientTypes.RestoreTestingPlanForUpdate()
-        value.recoveryPointSelection = try reader["RecoveryPointSelection"].readIfPresent(with: BackupClientTypes.RestoreTestingRecoveryPointSelection.read(from:))
-        value.scheduleExpression = try reader["ScheduleExpression"].readIfPresent()
-        value.scheduleExpressionTimezone = try reader["ScheduleExpressionTimezone"].readIfPresent()
-        value.startWindowHours = try reader["StartWindowHours"].readIfPresent() ?? 0
-        return value
     }
 }
 
@@ -11345,19 +10964,6 @@ extension BackupClientTypes.RestoreTestingSelectionForCreate {
         try writer["RestoreTestingSelectionName"].write(value.restoreTestingSelectionName)
         try writer["ValidationWindowHours"].write(value.validationWindowHours)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.RestoreTestingSelectionForCreate {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BackupClientTypes.RestoreTestingSelectionForCreate()
-        value.iamRoleArn = try reader["IamRoleArn"].readIfPresent()
-        value.protectedResourceArns = try reader["ProtectedResourceArns"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.protectedResourceConditions = try reader["ProtectedResourceConditions"].readIfPresent(with: BackupClientTypes.ProtectedResourceConditions.read(from:))
-        value.protectedResourceType = try reader["ProtectedResourceType"].readIfPresent()
-        value.restoreMetadataOverrides = try reader["RestoreMetadataOverrides"].readMapIfPresent(valueReadingClosure: Swift.String.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.restoreTestingSelectionName = try reader["RestoreTestingSelectionName"].readIfPresent()
-        value.validationWindowHours = try reader["ValidationWindowHours"].readIfPresent() ?? 0
-        return value
-    }
 }
 
 extension BackupClientTypes {
@@ -11437,20 +11043,6 @@ extension BackupClientTypes.RestoreTestingSelectionForGet: Swift.CustomDebugStri
 
 extension BackupClientTypes.RestoreTestingSelectionForGet {
 
-    static func write(value: BackupClientTypes.RestoreTestingSelectionForGet?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["CreatorRequestId"].write(value.creatorRequestId)
-        try writer["IamRoleArn"].write(value.iamRoleArn)
-        try writer["ProtectedResourceArns"].writeList(value.protectedResourceArns, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ProtectedResourceConditions"].write(value.protectedResourceConditions, with: BackupClientTypes.ProtectedResourceConditions.write(value:to:))
-        try writer["ProtectedResourceType"].write(value.protectedResourceType)
-        try writer["RestoreMetadataOverrides"].writeMap(value.restoreMetadataOverrides, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["RestoreTestingPlanName"].write(value.restoreTestingPlanName)
-        try writer["RestoreTestingSelectionName"].write(value.restoreTestingSelectionName)
-        try writer["ValidationWindowHours"].write(value.validationWindowHours)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.RestoreTestingSelectionForGet {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BackupClientTypes.RestoreTestingSelectionForGet()
@@ -11527,16 +11119,6 @@ extension BackupClientTypes {
 
 extension BackupClientTypes.RestoreTestingSelectionForList {
 
-    static func write(value: BackupClientTypes.RestoreTestingSelectionForList?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["IamRoleArn"].write(value.iamRoleArn)
-        try writer["ProtectedResourceType"].write(value.protectedResourceType)
-        try writer["RestoreTestingPlanName"].write(value.restoreTestingPlanName)
-        try writer["RestoreTestingSelectionName"].write(value.restoreTestingSelectionName)
-        try writer["ValidationWindowHours"].write(value.validationWindowHours)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.RestoreTestingSelectionForList {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BackupClientTypes.RestoreTestingSelectionForList()
@@ -11605,17 +11187,6 @@ extension BackupClientTypes.RestoreTestingSelectionForUpdate {
         try writer["ProtectedResourceConditions"].write(value.protectedResourceConditions, with: BackupClientTypes.ProtectedResourceConditions.write(value:to:))
         try writer["RestoreMetadataOverrides"].writeMap(value.restoreMetadataOverrides, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["ValidationWindowHours"].write(value.validationWindowHours)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.RestoreTestingSelectionForUpdate {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BackupClientTypes.RestoreTestingSelectionForUpdate()
-        value.iamRoleArn = try reader["IamRoleArn"].readIfPresent()
-        value.protectedResourceArns = try reader["ProtectedResourceArns"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.protectedResourceConditions = try reader["ProtectedResourceConditions"].readIfPresent(with: BackupClientTypes.ProtectedResourceConditions.read(from:))
-        value.restoreMetadataOverrides = try reader["RestoreMetadataOverrides"].readMapIfPresent(valueReadingClosure: Swift.String.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.validationWindowHours = try reader["ValidationWindowHours"].readIfPresent() ?? 0
-        return value
     }
 }
 

@@ -80,18 +80,6 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
 
 extension LexModelBuildingClientTypes.BotAliasMetadata {
 
-    static func write(value: LexModelBuildingClientTypes.BotAliasMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["botName"].write(value.botName)
-        try writer["botVersion"].write(value.botVersion)
-        try writer["checksum"].write(value.checksum)
-        try writer["conversationLogs"].write(value.conversationLogs, with: LexModelBuildingClientTypes.ConversationLogsResponse.write(value:to:))
-        try writer["createdDate"].writeTimestamp(value.createdDate, format: .epochSeconds)
-        try writer["description"].write(value.description)
-        try writer["lastUpdatedDate"].writeTimestamp(value.lastUpdatedDate, format: .epochSeconds)
-        try writer["name"].write(value.name)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelBuildingClientTypes.BotAliasMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelBuildingClientTypes.BotAliasMetadata()
@@ -157,19 +145,6 @@ extension LexModelBuildingClientTypes.BotChannelAssociation: Swift.CustomDebugSt
 }
 
 extension LexModelBuildingClientTypes.BotChannelAssociation {
-
-    static func write(value: LexModelBuildingClientTypes.BotChannelAssociation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["botAlias"].write(value.botAlias)
-        try writer["botConfiguration"].writeMap(value.botConfiguration, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["botName"].write(value.botName)
-        try writer["createdDate"].writeTimestamp(value.createdDate, format: .epochSeconds)
-        try writer["description"].write(value.description)
-        try writer["failureReason"].write(value.failureReason)
-        try writer["name"].write(value.name)
-        try writer["status"].write(value.status)
-        try writer["type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelBuildingClientTypes.BotChannelAssociation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -243,16 +218,6 @@ extension LexModelBuildingClientTypes {
 
 extension LexModelBuildingClientTypes.BotMetadata {
 
-    static func write(value: LexModelBuildingClientTypes.BotMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["createdDate"].writeTimestamp(value.createdDate, format: .epochSeconds)
-        try writer["description"].write(value.description)
-        try writer["lastUpdatedDate"].writeTimestamp(value.lastUpdatedDate, format: .epochSeconds)
-        try writer["name"].write(value.name)
-        try writer["status"].write(value.status)
-        try writer["version"].write(value.version)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelBuildingClientTypes.BotMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelBuildingClientTypes.BotMetadata()
@@ -304,12 +269,6 @@ extension LexModelBuildingClientTypes {
 
 extension LexModelBuildingClientTypes.BuiltinIntentMetadata {
 
-    static func write(value: LexModelBuildingClientTypes.BuiltinIntentMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["signature"].write(value.signature)
-        try writer["supportedLocales"].writeList(value.supportedLocales, memberWritingClosure: LexModelBuildingClientTypes.Locale.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelBuildingClientTypes.BuiltinIntentMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelBuildingClientTypes.BuiltinIntentMetadata()
@@ -341,11 +300,6 @@ extension LexModelBuildingClientTypes {
 
 extension LexModelBuildingClientTypes.BuiltinIntentSlot {
 
-    static func write(value: LexModelBuildingClientTypes.BuiltinIntentSlot?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelBuildingClientTypes.BuiltinIntentSlot {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelBuildingClientTypes.BuiltinIntentSlot()
@@ -371,12 +325,6 @@ extension LexModelBuildingClientTypes {
 }
 
 extension LexModelBuildingClientTypes.BuiltinSlotTypeMetadata {
-
-    static func write(value: LexModelBuildingClientTypes.BuiltinSlotTypeMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["signature"].write(value.signature)
-        try writer["supportedLocales"].writeList(value.supportedLocales, memberWritingClosure: LexModelBuildingClientTypes.Locale.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelBuildingClientTypes.BuiltinSlotTypeMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -592,14 +540,6 @@ extension LexModelBuildingClientTypes.ConversationLogsRequest {
         try writer["iamRoleArn"].write(value.iamRoleArn)
         try writer["logSettings"].writeList(value.logSettings, memberWritingClosure: LexModelBuildingClientTypes.LogSettingsRequest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LexModelBuildingClientTypes.ConversationLogsRequest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LexModelBuildingClientTypes.ConversationLogsRequest()
-        value.logSettings = try reader["logSettings"].readListIfPresent(memberReadingClosure: LexModelBuildingClientTypes.LogSettingsRequest.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.iamRoleArn = try reader["iamRoleArn"].readIfPresent()
-        return value
-    }
 }
 
 extension LexModelBuildingClientTypes {
@@ -625,12 +565,6 @@ extension LexModelBuildingClientTypes {
 }
 
 extension LexModelBuildingClientTypes.ConversationLogsResponse {
-
-    static func write(value: LexModelBuildingClientTypes.ConversationLogsResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["iamRoleArn"].write(value.iamRoleArn)
-        try writer["logSettings"].writeList(value.logSettings, memberWritingClosure: LexModelBuildingClientTypes.LogSettingsResponse.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelBuildingClientTypes.ConversationLogsResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4275,15 +4209,6 @@ extension LexModelBuildingClientTypes {
 
 extension LexModelBuildingClientTypes.IntentMetadata {
 
-    static func write(value: LexModelBuildingClientTypes.IntentMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["createdDate"].writeTimestamp(value.createdDate, format: .epochSeconds)
-        try writer["description"].write(value.description)
-        try writer["lastUpdatedDate"].writeTimestamp(value.lastUpdatedDate, format: .epochSeconds)
-        try writer["name"].write(value.name)
-        try writer["version"].write(value.version)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelBuildingClientTypes.IntentMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelBuildingClientTypes.IntentMetadata()
@@ -4592,16 +4517,6 @@ extension LexModelBuildingClientTypes.LogSettingsRequest {
         try writer["logType"].write(value.logType)
         try writer["resourceArn"].write(value.resourceArn)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LexModelBuildingClientTypes.LogSettingsRequest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LexModelBuildingClientTypes.LogSettingsRequest()
-        value.logType = try reader["logType"].readIfPresent()
-        value.destination = try reader["destination"].readIfPresent()
-        value.kmsKeyArn = try reader["kmsKeyArn"].readIfPresent()
-        value.resourceArn = try reader["resourceArn"].readIfPresent()
-        return value
-    }
 }
 
 extension LexModelBuildingClientTypes {
@@ -4636,15 +4551,6 @@ extension LexModelBuildingClientTypes {
 }
 
 extension LexModelBuildingClientTypes.LogSettingsResponse {
-
-    static func write(value: LexModelBuildingClientTypes.LogSettingsResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["destination"].write(value.destination)
-        try writer["kmsKeyArn"].write(value.kmsKeyArn)
-        try writer["logType"].write(value.logType)
-        try writer["resourceArn"].write(value.resourceArn)
-        try writer["resourcePrefix"].write(value.resourcePrefix)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelBuildingClientTypes.LogSettingsResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4796,14 +4702,6 @@ extension LexModelBuildingClientTypes {
 }
 
 extension LexModelBuildingClientTypes.MigrationAlert {
-
-    static func write(value: LexModelBuildingClientTypes.MigrationAlert?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["details"].writeList(value.details, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["message"].write(value.message)
-        try writer["referenceURLs"].writeList(value.referenceURLs, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelBuildingClientTypes.MigrationAlert {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4972,19 +4870,6 @@ extension LexModelBuildingClientTypes {
 }
 
 extension LexModelBuildingClientTypes.MigrationSummary {
-
-    static func write(value: LexModelBuildingClientTypes.MigrationSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["migrationId"].write(value.migrationId)
-        try writer["migrationStatus"].write(value.migrationStatus)
-        try writer["migrationStrategy"].write(value.migrationStrategy)
-        try writer["migrationTimestamp"].writeTimestamp(value.migrationTimestamp, format: .epochSeconds)
-        try writer["v1BotLocale"].write(value.v1BotLocale)
-        try writer["v1BotName"].write(value.v1BotName)
-        try writer["v1BotVersion"].write(value.v1BotVersion)
-        try writer["v2BotId"].write(value.v2BotId)
-        try writer["v2BotRole"].write(value.v2BotRole)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelBuildingClientTypes.MigrationSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6197,12 +6082,6 @@ public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRunti
 
 extension LexModelBuildingClientTypes.ResourceReference {
 
-    static func write(value: LexModelBuildingClientTypes.ResourceReference?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-        try writer["version"].write(value.version)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelBuildingClientTypes.ResourceReference {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelBuildingClientTypes.ResourceReference()
@@ -6490,15 +6369,6 @@ extension LexModelBuildingClientTypes {
 }
 
 extension LexModelBuildingClientTypes.SlotTypeMetadata {
-
-    static func write(value: LexModelBuildingClientTypes.SlotTypeMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["createdDate"].writeTimestamp(value.createdDate, format: .epochSeconds)
-        try writer["description"].write(value.description)
-        try writer["lastUpdatedDate"].writeTimestamp(value.lastUpdatedDate, format: .epochSeconds)
-        try writer["name"].write(value.name)
-        try writer["version"].write(value.version)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelBuildingClientTypes.SlotTypeMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7195,15 +7065,6 @@ enum UntagResourceOutputError {
 
 extension LexModelBuildingClientTypes.UtteranceData {
 
-    static func write(value: LexModelBuildingClientTypes.UtteranceData?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["count"].write(value.count)
-        try writer["distinctUsers"].write(value.distinctUsers)
-        try writer["firstUtteredDate"].writeTimestamp(value.firstUtteredDate, format: .epochSeconds)
-        try writer["lastUtteredDate"].writeTimestamp(value.lastUtteredDate, format: .epochSeconds)
-        try writer["utteranceString"].write(value.utteranceString)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelBuildingClientTypes.UtteranceData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelBuildingClientTypes.UtteranceData()
@@ -7249,12 +7110,6 @@ extension LexModelBuildingClientTypes {
 }
 
 extension LexModelBuildingClientTypes.UtteranceList {
-
-    static func write(value: LexModelBuildingClientTypes.UtteranceList?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["botVersion"].write(value.botVersion)
-        try writer["utterances"].writeList(value.utterances, memberWritingClosure: LexModelBuildingClientTypes.UtteranceData.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelBuildingClientTypes.UtteranceList {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

@@ -622,12 +622,6 @@ extension TnbClientTypes {
 
 extension TnbClientTypes.ErrorInfo {
 
-    static func write(value: TnbClientTypes.ErrorInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["cause"].write(value.cause)
-        try writer["details"].write(value.details)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.ErrorInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TnbClientTypes.ErrorInfo()
@@ -658,11 +652,6 @@ extension TnbClientTypes {
 }
 
 extension TnbClientTypes.FunctionArtifactMeta {
-
-    static func write(value: TnbClientTypes.FunctionArtifactMeta?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["overrides"].writeList(value.overrides, memberWritingClosure: TnbClientTypes.ToscaOverride.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.FunctionArtifactMeta {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -712,12 +701,6 @@ public struct GetSolFunctionInstanceInput {
 }
 
 extension TnbClientTypes.GetSolFunctionInstanceMetadata {
-
-    static func write(value: TnbClientTypes.GetSolFunctionInstanceMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .dateTime)
-        try writer["lastModified"].writeTimestamp(value.lastModified, format: .dateTime)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.GetSolFunctionInstanceMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1074,13 +1057,6 @@ public struct GetSolFunctionPackageInput {
 
 extension TnbClientTypes.GetSolFunctionPackageMetadata {
 
-    static func write(value: TnbClientTypes.GetSolFunctionPackageMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .dateTime)
-        try writer["lastModified"].writeTimestamp(value.lastModified, format: .dateTime)
-        try writer["vnfd"].write(value.vnfd, with: TnbClientTypes.FunctionArtifactMeta.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.GetSolFunctionPackageMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TnbClientTypes.GetSolFunctionPackageMetadata()
@@ -1221,11 +1197,6 @@ enum GetSolFunctionPackageOutputError {
 
 extension TnbClientTypes.GetSolInstantiatedVnfInfo {
 
-    static func write(value: TnbClientTypes.GetSolInstantiatedVnfInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["vnfState"].write(value.vnfState)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.GetSolInstantiatedVnfInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TnbClientTypes.GetSolInstantiatedVnfInfo()
@@ -1274,12 +1245,6 @@ public struct GetSolNetworkInstanceInput {
 }
 
 extension TnbClientTypes.GetSolNetworkInstanceMetadata {
-
-    static func write(value: TnbClientTypes.GetSolNetworkInstanceMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .dateTime)
-        try writer["lastModified"].writeTimestamp(value.lastModified, format: .dateTime)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.GetSolNetworkInstanceMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1436,12 +1401,6 @@ public struct GetSolNetworkOperationInput {
 
 extension TnbClientTypes.GetSolNetworkOperationMetadata {
 
-    static func write(value: TnbClientTypes.GetSolNetworkOperationMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .dateTime)
-        try writer["lastModified"].writeTimestamp(value.lastModified, format: .dateTime)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.GetSolNetworkOperationMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TnbClientTypes.GetSolNetworkOperationMetadata()
@@ -1562,16 +1521,6 @@ enum GetSolNetworkOperationOutputError {
 }
 
 extension TnbClientTypes.GetSolNetworkOperationTaskDetails {
-
-    static func write(value: TnbClientTypes.GetSolNetworkOperationTaskDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["taskContext"].writeMap(value.taskContext, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["taskEndTime"].writeTimestamp(value.taskEndTime, format: .dateTime)
-        try writer["taskErrorDetails"].write(value.taskErrorDetails, with: TnbClientTypes.ErrorInfo.write(value:to:))
-        try writer["taskName"].write(value.taskName)
-        try writer["taskStartTime"].writeTimestamp(value.taskStartTime, format: .dateTime)
-        try writer["taskStatus"].write(value.taskStatus)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.GetSolNetworkOperationTaskDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1821,13 +1770,6 @@ public struct GetSolNetworkPackageInput {
 
 extension TnbClientTypes.GetSolNetworkPackageMetadata {
 
-    static func write(value: TnbClientTypes.GetSolNetworkPackageMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .dateTime)
-        try writer["lastModified"].writeTimestamp(value.lastModified, format: .dateTime)
-        try writer["nsd"].write(value.nsd, with: TnbClientTypes.NetworkArtifactMeta.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.GetSolNetworkPackageMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TnbClientTypes.GetSolNetworkPackageMetadata()
@@ -1973,12 +1915,6 @@ enum GetSolNetworkPackageOutputError {
 
 extension TnbClientTypes.GetSolVnfInfo {
 
-    static func write(value: TnbClientTypes.GetSolVnfInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["vnfState"].write(value.vnfState)
-        try writer["vnfcResourceInfo"].writeList(value.vnfcResourceInfo, memberWritingClosure: TnbClientTypes.GetSolVnfcResourceInfo.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.GetSolVnfInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TnbClientTypes.GetSolVnfInfo()
@@ -2010,11 +1946,6 @@ extension TnbClientTypes {
 
 extension TnbClientTypes.GetSolVnfcResourceInfo {
 
-    static func write(value: TnbClientTypes.GetSolVnfcResourceInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["metadata"].write(value.metadata, with: TnbClientTypes.GetSolVnfcResourceInfoMetadata.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.GetSolVnfcResourceInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TnbClientTypes.GetSolVnfcResourceInfo()
@@ -2040,13 +1971,6 @@ extension TnbClientTypes {
 }
 
 extension TnbClientTypes.GetSolVnfcResourceInfoMetadata {
-
-    static func write(value: TnbClientTypes.GetSolVnfcResourceInfoMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["cluster"].write(value.cluster)
-        try writer["helmChart"].write(value.helmChart)
-        try writer["nodeGroup"].write(value.nodeGroup)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.GetSolVnfcResourceInfoMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2237,11 +2161,6 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
 extension TnbClientTypes.LcmOperationInfo {
 
-    static func write(value: TnbClientTypes.LcmOperationInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["nsLcmOpOccId"].write(value.nsLcmOpOccId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.LcmOperationInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TnbClientTypes.LcmOperationInfo()
@@ -2301,18 +2220,6 @@ extension TnbClientTypes {
 }
 
 extension TnbClientTypes.ListSolFunctionInstanceInfo {
-
-    static func write(value: TnbClientTypes.ListSolFunctionInstanceInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["id"].write(value.id)
-        try writer["instantiatedVnfInfo"].write(value.instantiatedVnfInfo, with: TnbClientTypes.GetSolInstantiatedVnfInfo.write(value:to:))
-        try writer["instantiationState"].write(value.instantiationState)
-        try writer["metadata"].write(value.metadata, with: TnbClientTypes.ListSolFunctionInstanceMetadata.write(value:to:))
-        try writer["nsInstanceId"].write(value.nsInstanceId)
-        try writer["vnfPkgId"].write(value.vnfPkgId)
-        try writer["vnfPkgName"].write(value.vnfPkgName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.ListSolFunctionInstanceInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2380,12 +2287,6 @@ extension TnbClientTypes {
 }
 
 extension TnbClientTypes.ListSolFunctionInstanceMetadata {
-
-    static func write(value: TnbClientTypes.ListSolFunctionInstanceMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .dateTime)
-        try writer["lastModified"].writeTimestamp(value.lastModified, format: .dateTime)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.ListSolFunctionInstanceMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2505,20 +2406,6 @@ enum ListSolFunctionInstancesOutputError {
 
 extension TnbClientTypes.ListSolFunctionPackageInfo {
 
-    static func write(value: TnbClientTypes.ListSolFunctionPackageInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["id"].write(value.id)
-        try writer["metadata"].write(value.metadata, with: TnbClientTypes.ListSolFunctionPackageMetadata.write(value:to:))
-        try writer["onboardingState"].write(value.onboardingState)
-        try writer["operationalState"].write(value.operationalState)
-        try writer["usageState"].write(value.usageState)
-        try writer["vnfProductName"].write(value.vnfProductName)
-        try writer["vnfProvider"].write(value.vnfProvider)
-        try writer["vnfdId"].write(value.vnfdId)
-        try writer["vnfdVersion"].write(value.vnfdVersion)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.ListSolFunctionPackageInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TnbClientTypes.ListSolFunctionPackageInfo()
@@ -2594,12 +2481,6 @@ extension TnbClientTypes {
 }
 
 extension TnbClientTypes.ListSolFunctionPackageMetadata {
-
-    static func write(value: TnbClientTypes.ListSolFunctionPackageMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .dateTime)
-        try writer["lastModified"].writeTimestamp(value.lastModified, format: .dateTime)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.ListSolFunctionPackageMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2720,18 +2601,6 @@ enum ListSolFunctionPackagesOutputError {
 
 extension TnbClientTypes.ListSolNetworkInstanceInfo {
 
-    static func write(value: TnbClientTypes.ListSolNetworkInstanceInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["id"].write(value.id)
-        try writer["metadata"].write(value.metadata, with: TnbClientTypes.ListSolNetworkInstanceMetadata.write(value:to:))
-        try writer["nsInstanceDescription"].write(value.nsInstanceDescription)
-        try writer["nsInstanceName"].write(value.nsInstanceName)
-        try writer["nsState"].write(value.nsState)
-        try writer["nsdId"].write(value.nsdId)
-        try writer["nsdInfoId"].write(value.nsdInfoId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.ListSolNetworkInstanceInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TnbClientTypes.ListSolNetworkInstanceInfo()
@@ -2800,12 +2669,6 @@ extension TnbClientTypes {
 }
 
 extension TnbClientTypes.ListSolNetworkInstanceMetadata {
-
-    static func write(value: TnbClientTypes.ListSolNetworkInstanceMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .dateTime)
-        try writer["lastModified"].writeTimestamp(value.lastModified, format: .dateTime)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.ListSolNetworkInstanceMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2925,17 +2788,6 @@ enum ListSolNetworkInstancesOutputError {
 
 extension TnbClientTypes.ListSolNetworkOperationsInfo {
 
-    static func write(value: TnbClientTypes.ListSolNetworkOperationsInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["error"].write(value.error, with: TnbClientTypes.ProblemDetails.write(value:to:))
-        try writer["id"].write(value.id)
-        try writer["lcmOperationType"].write(value.lcmOperationType)
-        try writer["metadata"].write(value.metadata, with: TnbClientTypes.ListSolNetworkOperationsMetadata.write(value:to:))
-        try writer["nsInstanceId"].write(value.nsInstanceId)
-        try writer["operationState"].write(value.operationState)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.ListSolNetworkOperationsInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TnbClientTypes.ListSolNetworkOperationsInfo()
@@ -3036,12 +2888,6 @@ public struct ListSolNetworkOperationsInput {
 
 extension TnbClientTypes.ListSolNetworkOperationsMetadata {
 
-    static func write(value: TnbClientTypes.ListSolNetworkOperationsMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .dateTime)
-        try writer["lastModified"].writeTimestamp(value.lastModified, format: .dateTime)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.ListSolNetworkOperationsMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TnbClientTypes.ListSolNetworkOperationsMetadata()
@@ -3120,22 +2966,6 @@ enum ListSolNetworkOperationsOutputError {
 }
 
 extension TnbClientTypes.ListSolNetworkPackageInfo {
-
-    static func write(value: TnbClientTypes.ListSolNetworkPackageInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["id"].write(value.id)
-        try writer["metadata"].write(value.metadata, with: TnbClientTypes.ListSolNetworkPackageMetadata.write(value:to:))
-        try writer["nsdDesigner"].write(value.nsdDesigner)
-        try writer["nsdId"].write(value.nsdId)
-        try writer["nsdInvariantId"].write(value.nsdInvariantId)
-        try writer["nsdName"].write(value.nsdName)
-        try writer["nsdOnboardingState"].write(value.nsdOnboardingState)
-        try writer["nsdOperationalState"].write(value.nsdOperationalState)
-        try writer["nsdUsageState"].write(value.nsdUsageState)
-        try writer["nsdVersion"].write(value.nsdVersion)
-        try writer["vnfPkgIds"].writeList(value.vnfPkgIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.ListSolNetworkPackageInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3223,12 +3053,6 @@ extension TnbClientTypes {
 }
 
 extension TnbClientTypes.ListSolNetworkPackageMetadata {
-
-    static func write(value: TnbClientTypes.ListSolNetworkPackageMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .dateTime)
-        try writer["lastModified"].writeTimestamp(value.lastModified, format: .dateTime)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.ListSolNetworkPackageMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3419,11 +3243,6 @@ enum ListTagsForResourceOutputError {
 }
 
 extension TnbClientTypes.NetworkArtifactMeta {
-
-    static func write(value: TnbClientTypes.NetworkArtifactMeta?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["overrides"].writeList(value.overrides, memberWritingClosure: TnbClientTypes.ToscaOverride.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.NetworkArtifactMeta {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3721,12 +3540,6 @@ extension TnbClientTypes {
 
 extension TnbClientTypes.ProblemDetails {
 
-    static func write(value: TnbClientTypes.ProblemDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["detail"].write(value.detail)
-        try writer["title"].write(value.title)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.ProblemDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TnbClientTypes.ProblemDetails()
@@ -3809,11 +3622,6 @@ public struct PutSolFunctionPackageContentInput {
 }
 
 extension TnbClientTypes.PutSolFunctionPackageContentMetadata {
-
-    static func write(value: TnbClientTypes.PutSolFunctionPackageContentMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["vnfd"].write(value.vnfd, with: TnbClientTypes.FunctionArtifactMeta.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.PutSolFunctionPackageContentMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3964,11 +3772,6 @@ public struct PutSolNetworkPackageContentInput {
 }
 
 extension TnbClientTypes.PutSolNetworkPackageContentMetadata {
-
-    static func write(value: TnbClientTypes.PutSolNetworkPackageContentMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["nsd"].write(value.nsd, with: TnbClientTypes.NetworkArtifactMeta.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.PutSolNetworkPackageContentMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4400,12 +4203,6 @@ public enum TnbClientTypes {}
 
 extension TnbClientTypes.ToscaOverride {
 
-    static func write(value: TnbClientTypes.ToscaOverride?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["defaultValue"].write(value.defaultValue)
-        try writer["name"].write(value.name)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.ToscaOverride {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TnbClientTypes.ToscaOverride()
@@ -4699,14 +4496,6 @@ extension TnbClientTypes.UpdateSolNetworkModify {
         try writer["vnfConfigurableProperties"].write(value.vnfConfigurableProperties)
         try writer["vnfInstanceId"].write(value.vnfInstanceId)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.UpdateSolNetworkModify {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TnbClientTypes.UpdateSolNetworkModify()
-        value.vnfInstanceId = try reader["vnfInstanceId"].readIfPresent()
-        value.vnfConfigurableProperties = try reader["vnfConfigurableProperties"].readIfPresent()
-        return value
-    }
 }
 
 extension TnbClientTypes {
@@ -4920,11 +4709,6 @@ public struct ValidateSolFunctionPackageContentInput {
 
 extension TnbClientTypes.ValidateSolFunctionPackageContentMetadata {
 
-    static func write(value: TnbClientTypes.ValidateSolFunctionPackageContentMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["vnfd"].write(value.vnfd, with: TnbClientTypes.FunctionArtifactMeta.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.ValidateSolFunctionPackageContentMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TnbClientTypes.ValidateSolFunctionPackageContentMetadata()
@@ -5074,11 +4858,6 @@ public struct ValidateSolNetworkPackageContentInput {
 }
 
 extension TnbClientTypes.ValidateSolNetworkPackageContentMetadata {
-
-    static func write(value: TnbClientTypes.ValidateSolNetworkPackageContentMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["nsd"].write(value.nsd, with: TnbClientTypes.NetworkArtifactMeta.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.ValidateSolNetworkPackageContentMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

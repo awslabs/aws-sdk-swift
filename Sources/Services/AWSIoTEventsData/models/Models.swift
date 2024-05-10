@@ -6,11 +6,6 @@ import SmithyReadWrite
 
 extension IoTEventsDataClientTypes.AcknowledgeActionConfiguration {
 
-    static func write(value: IoTEventsDataClientTypes.AcknowledgeActionConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["note"].write(value.note)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTEventsDataClientTypes.AcknowledgeActionConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTEventsDataClientTypes.AcknowledgeActionConfiguration()
@@ -43,16 +38,6 @@ extension IoTEventsDataClientTypes.AcknowledgeAlarmActionRequest {
         try writer["keyValue"].write(value.keyValue)
         try writer["note"].write(value.note)
         try writer["requestId"].write(value.requestId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTEventsDataClientTypes.AcknowledgeAlarmActionRequest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTEventsDataClientTypes.AcknowledgeAlarmActionRequest()
-        value.requestId = try reader["requestId"].readIfPresent()
-        value.alarmModelName = try reader["alarmModelName"].readIfPresent()
-        value.keyValue = try reader["keyValue"].readIfPresent()
-        value.note = try reader["note"].readIfPresent()
-        return value
     }
 }
 
@@ -87,17 +72,6 @@ extension IoTEventsDataClientTypes {
 }
 
 extension IoTEventsDataClientTypes.Alarm {
-
-    static func write(value: IoTEventsDataClientTypes.Alarm?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["alarmModelName"].write(value.alarmModelName)
-        try writer["alarmModelVersion"].write(value.alarmModelVersion)
-        try writer["alarmState"].write(value.alarmState, with: IoTEventsDataClientTypes.AlarmState.write(value:to:))
-        try writer["creationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["keyValue"].write(value.keyValue)
-        try writer["lastUpdateTime"].writeTimestamp(value.lastUpdateTime, format: .epochSeconds)
-        try writer["severity"].write(value.severity)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTEventsDataClientTypes.Alarm {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -154,14 +128,6 @@ extension IoTEventsDataClientTypes {
 }
 
 extension IoTEventsDataClientTypes.AlarmState {
-
-    static func write(value: IoTEventsDataClientTypes.AlarmState?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["customerAction"].write(value.customerAction, with: IoTEventsDataClientTypes.CustomerAction.write(value:to:))
-        try writer["ruleEvaluation"].write(value.ruleEvaluation, with: IoTEventsDataClientTypes.RuleEvaluation.write(value:to:))
-        try writer["stateName"].write(value.stateName)
-        try writer["systemEvent"].write(value.systemEvent, with: IoTEventsDataClientTypes.SystemEvent.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTEventsDataClientTypes.AlarmState {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -257,16 +223,6 @@ extension IoTEventsDataClientTypes {
 }
 
 extension IoTEventsDataClientTypes.AlarmSummary {
-
-    static func write(value: IoTEventsDataClientTypes.AlarmSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["alarmModelName"].write(value.alarmModelName)
-        try writer["alarmModelVersion"].write(value.alarmModelVersion)
-        try writer["creationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["keyValue"].write(value.keyValue)
-        try writer["lastUpdateTime"].writeTimestamp(value.lastUpdateTime, format: .epochSeconds)
-        try writer["stateName"].write(value.stateName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTEventsDataClientTypes.AlarmSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -400,13 +356,6 @@ enum BatchAcknowledgeAlarmOutputError {
 
 extension IoTEventsDataClientTypes.BatchAlarmActionErrorEntry {
 
-    static func write(value: IoTEventsDataClientTypes.BatchAlarmActionErrorEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["errorCode"].write(value.errorCode)
-        try writer["errorMessage"].write(value.errorMessage)
-        try writer["requestId"].write(value.requestId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTEventsDataClientTypes.BatchAlarmActionErrorEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTEventsDataClientTypes.BatchAlarmActionErrorEntry()
@@ -452,13 +401,6 @@ extension IoTEventsDataClientTypes {
 }
 
 extension IoTEventsDataClientTypes.BatchDeleteDetectorErrorEntry {
-
-    static func write(value: IoTEventsDataClientTypes.BatchDeleteDetectorErrorEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["errorCode"].write(value.errorCode)
-        try writer["errorMessage"].write(value.errorMessage)
-        try writer["messageId"].write(value.messageId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTEventsDataClientTypes.BatchDeleteDetectorErrorEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -703,13 +645,6 @@ enum BatchEnableAlarmOutputError {
 
 extension IoTEventsDataClientTypes.BatchPutMessageErrorEntry {
 
-    static func write(value: IoTEventsDataClientTypes.BatchPutMessageErrorEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["errorCode"].write(value.errorCode)
-        try writer["errorMessage"].write(value.errorMessage)
-        try writer["messageId"].write(value.messageId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTEventsDataClientTypes.BatchPutMessageErrorEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTEventsDataClientTypes.BatchPutMessageErrorEntry()
@@ -953,13 +888,6 @@ enum BatchSnoozeAlarmOutputError {
 
 extension IoTEventsDataClientTypes.BatchUpdateDetectorErrorEntry {
 
-    static func write(value: IoTEventsDataClientTypes.BatchUpdateDetectorErrorEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["errorCode"].write(value.errorCode)
-        try writer["errorMessage"].write(value.errorMessage)
-        try writer["messageId"].write(value.messageId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTEventsDataClientTypes.BatchUpdateDetectorErrorEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTEventsDataClientTypes.BatchUpdateDetectorErrorEntry()
@@ -1107,16 +1035,6 @@ extension IoTEventsDataClientTypes {
 
 extension IoTEventsDataClientTypes.CustomerAction {
 
-    static func write(value: IoTEventsDataClientTypes.CustomerAction?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["acknowledgeActionConfiguration"].write(value.acknowledgeActionConfiguration, with: IoTEventsDataClientTypes.AcknowledgeActionConfiguration.write(value:to:))
-        try writer["actionName"].write(value.actionName)
-        try writer["disableActionConfiguration"].write(value.disableActionConfiguration, with: IoTEventsDataClientTypes.DisableActionConfiguration.write(value:to:))
-        try writer["enableActionConfiguration"].write(value.enableActionConfiguration, with: IoTEventsDataClientTypes.EnableActionConfiguration.write(value:to:))
-        try writer["resetActionConfiguration"].write(value.resetActionConfiguration, with: IoTEventsDataClientTypes.ResetActionConfiguration.write(value:to:))
-        try writer["snoozeActionConfiguration"].write(value.snoozeActionConfiguration, with: IoTEventsDataClientTypes.SnoozeActionConfiguration.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTEventsDataClientTypes.CustomerAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTEventsDataClientTypes.CustomerAction()
@@ -1225,15 +1143,6 @@ extension IoTEventsDataClientTypes.DeleteDetectorRequest {
         try writer["detectorModelName"].write(value.detectorModelName)
         try writer["keyValue"].write(value.keyValue)
         try writer["messageId"].write(value.messageId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTEventsDataClientTypes.DeleteDetectorRequest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTEventsDataClientTypes.DeleteDetectorRequest()
-        value.messageId = try reader["messageId"].readIfPresent()
-        value.detectorModelName = try reader["detectorModelName"].readIfPresent()
-        value.keyValue = try reader["keyValue"].readIfPresent()
-        return value
     }
 }
 
@@ -1427,16 +1336,6 @@ enum DescribeDetectorOutputError {
 
 extension IoTEventsDataClientTypes.Detector {
 
-    static func write(value: IoTEventsDataClientTypes.Detector?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["creationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["detectorModelName"].write(value.detectorModelName)
-        try writer["detectorModelVersion"].write(value.detectorModelVersion)
-        try writer["keyValue"].write(value.keyValue)
-        try writer["lastUpdateTime"].writeTimestamp(value.lastUpdateTime, format: .epochSeconds)
-        try writer["state"].write(value.state, with: IoTEventsDataClientTypes.DetectorState.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTEventsDataClientTypes.Detector {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTEventsDataClientTypes.Detector()
@@ -1488,13 +1387,6 @@ extension IoTEventsDataClientTypes {
 
 extension IoTEventsDataClientTypes.DetectorState {
 
-    static func write(value: IoTEventsDataClientTypes.DetectorState?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["stateName"].write(value.stateName)
-        try writer["timers"].writeList(value.timers, memberWritingClosure: IoTEventsDataClientTypes.Timer.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["variables"].writeList(value.variables, memberWritingClosure: IoTEventsDataClientTypes.Variable.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTEventsDataClientTypes.DetectorState {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTEventsDataClientTypes.DetectorState()
@@ -1540,15 +1432,6 @@ extension IoTEventsDataClientTypes.DetectorStateDefinition {
         try writer["timers"].writeList(value.timers, memberWritingClosure: IoTEventsDataClientTypes.TimerDefinition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["variables"].writeList(value.variables, memberWritingClosure: IoTEventsDataClientTypes.VariableDefinition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTEventsDataClientTypes.DetectorStateDefinition {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTEventsDataClientTypes.DetectorStateDefinition()
-        value.stateName = try reader["stateName"].readIfPresent()
-        value.variables = try reader["variables"].readListIfPresent(memberReadingClosure: IoTEventsDataClientTypes.VariableDefinition.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.timers = try reader["timers"].readListIfPresent(memberReadingClosure: IoTEventsDataClientTypes.TimerDefinition.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
 }
 
 extension IoTEventsDataClientTypes {
@@ -1580,11 +1463,6 @@ extension IoTEventsDataClientTypes {
 
 extension IoTEventsDataClientTypes.DetectorStateSummary {
 
-    static func write(value: IoTEventsDataClientTypes.DetectorStateSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["stateName"].write(value.stateName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTEventsDataClientTypes.DetectorStateSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTEventsDataClientTypes.DetectorStateSummary()
@@ -1610,16 +1488,6 @@ extension IoTEventsDataClientTypes {
 }
 
 extension IoTEventsDataClientTypes.DetectorSummary {
-
-    static func write(value: IoTEventsDataClientTypes.DetectorSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["creationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["detectorModelName"].write(value.detectorModelName)
-        try writer["detectorModelVersion"].write(value.detectorModelVersion)
-        try writer["keyValue"].write(value.keyValue)
-        try writer["lastUpdateTime"].writeTimestamp(value.lastUpdateTime, format: .epochSeconds)
-        try writer["state"].write(value.state, with: IoTEventsDataClientTypes.DetectorStateSummary.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTEventsDataClientTypes.DetectorSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1672,11 +1540,6 @@ extension IoTEventsDataClientTypes {
 
 extension IoTEventsDataClientTypes.DisableActionConfiguration {
 
-    static func write(value: IoTEventsDataClientTypes.DisableActionConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["note"].write(value.note)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTEventsDataClientTypes.DisableActionConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTEventsDataClientTypes.DisableActionConfiguration()
@@ -1709,16 +1572,6 @@ extension IoTEventsDataClientTypes.DisableAlarmActionRequest {
         try writer["keyValue"].write(value.keyValue)
         try writer["note"].write(value.note)
         try writer["requestId"].write(value.requestId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTEventsDataClientTypes.DisableAlarmActionRequest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTEventsDataClientTypes.DisableAlarmActionRequest()
-        value.requestId = try reader["requestId"].readIfPresent()
-        value.alarmModelName = try reader["alarmModelName"].readIfPresent()
-        value.keyValue = try reader["keyValue"].readIfPresent()
-        value.note = try reader["note"].readIfPresent()
-        return value
     }
 }
 
@@ -1754,11 +1607,6 @@ extension IoTEventsDataClientTypes {
 
 extension IoTEventsDataClientTypes.EnableActionConfiguration {
 
-    static func write(value: IoTEventsDataClientTypes.EnableActionConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["note"].write(value.note)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTEventsDataClientTypes.EnableActionConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTEventsDataClientTypes.EnableActionConfiguration()
@@ -1791,16 +1639,6 @@ extension IoTEventsDataClientTypes.EnableAlarmActionRequest {
         try writer["keyValue"].write(value.keyValue)
         try writer["note"].write(value.note)
         try writer["requestId"].write(value.requestId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTEventsDataClientTypes.EnableAlarmActionRequest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTEventsDataClientTypes.EnableAlarmActionRequest()
-        value.requestId = try reader["requestId"].readIfPresent()
-        value.alarmModelName = try reader["alarmModelName"].readIfPresent()
-        value.keyValue = try reader["keyValue"].readIfPresent()
-        value.note = try reader["note"].readIfPresent()
-        return value
     }
 }
 
@@ -2183,16 +2021,6 @@ extension IoTEventsDataClientTypes.Message {
         try writer["payload"].write(value.payload)
         try writer["timestamp"].write(value.timestamp, with: IoTEventsDataClientTypes.TimestampValue.write(value:to:))
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTEventsDataClientTypes.Message {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTEventsDataClientTypes.Message()
-        value.messageId = try reader["messageId"].readIfPresent()
-        value.inputName = try reader["inputName"].readIfPresent()
-        value.payload = try reader["payload"].readIfPresent()
-        value.timestamp = try reader["timestamp"].readIfPresent(with: IoTEventsDataClientTypes.TimestampValue.read(from:))
-        return value
-    }
 }
 
 extension IoTEventsDataClientTypes {
@@ -2228,11 +2056,6 @@ extension IoTEventsDataClientTypes {
 
 extension IoTEventsDataClientTypes.ResetActionConfiguration {
 
-    static func write(value: IoTEventsDataClientTypes.ResetActionConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["note"].write(value.note)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTEventsDataClientTypes.ResetActionConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTEventsDataClientTypes.ResetActionConfiguration()
@@ -2265,16 +2088,6 @@ extension IoTEventsDataClientTypes.ResetAlarmActionRequest {
         try writer["keyValue"].write(value.keyValue)
         try writer["note"].write(value.note)
         try writer["requestId"].write(value.requestId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTEventsDataClientTypes.ResetAlarmActionRequest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTEventsDataClientTypes.ResetAlarmActionRequest()
-        value.requestId = try reader["requestId"].readIfPresent()
-        value.alarmModelName = try reader["alarmModelName"].readIfPresent()
-        value.keyValue = try reader["keyValue"].readIfPresent()
-        value.note = try reader["note"].readIfPresent()
-        return value
     }
 }
 
@@ -2348,11 +2161,6 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
 extension IoTEventsDataClientTypes.RuleEvaluation {
 
-    static func write(value: IoTEventsDataClientTypes.RuleEvaluation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["simpleRuleEvaluation"].write(value.simpleRuleEvaluation, with: IoTEventsDataClientTypes.SimpleRuleEvaluation.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTEventsDataClientTypes.RuleEvaluation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTEventsDataClientTypes.RuleEvaluation()
@@ -2417,13 +2225,6 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
 
 extension IoTEventsDataClientTypes.SimpleRuleEvaluation {
 
-    static func write(value: IoTEventsDataClientTypes.SimpleRuleEvaluation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["inputPropertyValue"].write(value.inputPropertyValue)
-        try writer["operator"].write(value.`operator`)
-        try writer["thresholdValue"].write(value.thresholdValue)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTEventsDataClientTypes.SimpleRuleEvaluation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTEventsDataClientTypes.SimpleRuleEvaluation()
@@ -2459,12 +2260,6 @@ extension IoTEventsDataClientTypes {
 }
 
 extension IoTEventsDataClientTypes.SnoozeActionConfiguration {
-
-    static func write(value: IoTEventsDataClientTypes.SnoozeActionConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["note"].write(value.note)
-        try writer["snoozeDuration"].write(value.snoozeDuration)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTEventsDataClientTypes.SnoozeActionConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2505,17 +2300,6 @@ extension IoTEventsDataClientTypes.SnoozeAlarmActionRequest {
         try writer["requestId"].write(value.requestId)
         try writer["snoozeDuration"].write(value.snoozeDuration)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTEventsDataClientTypes.SnoozeAlarmActionRequest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTEventsDataClientTypes.SnoozeAlarmActionRequest()
-        value.requestId = try reader["requestId"].readIfPresent()
-        value.alarmModelName = try reader["alarmModelName"].readIfPresent()
-        value.keyValue = try reader["keyValue"].readIfPresent()
-        value.note = try reader["note"].readIfPresent()
-        value.snoozeDuration = try reader["snoozeDuration"].readIfPresent()
-        return value
-    }
 }
 
 extension IoTEventsDataClientTypes {
@@ -2555,11 +2339,6 @@ extension IoTEventsDataClientTypes {
 
 extension IoTEventsDataClientTypes.StateChangeConfiguration {
 
-    static func write(value: IoTEventsDataClientTypes.StateChangeConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["triggerType"].write(value.triggerType)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTEventsDataClientTypes.StateChangeConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTEventsDataClientTypes.StateChangeConfiguration()
@@ -2585,12 +2364,6 @@ extension IoTEventsDataClientTypes {
 }
 
 extension IoTEventsDataClientTypes.SystemEvent {
-
-    static func write(value: IoTEventsDataClientTypes.SystemEvent?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["eventType"].write(value.eventType)
-        try writer["stateChangeConfiguration"].write(value.stateChangeConfiguration, with: IoTEventsDataClientTypes.StateChangeConfiguration.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTEventsDataClientTypes.SystemEvent {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2661,12 +2434,6 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
 extension IoTEventsDataClientTypes.Timer {
 
-    static func write(value: IoTEventsDataClientTypes.Timer?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-        try writer["timestamp"].writeTimestamp(value.timestamp, format: .epochSeconds)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTEventsDataClientTypes.Timer {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTEventsDataClientTypes.Timer()
@@ -2705,14 +2472,6 @@ extension IoTEventsDataClientTypes.TimerDefinition {
         try writer["name"].write(value.name)
         try writer["seconds"].write(value.seconds)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTEventsDataClientTypes.TimerDefinition {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTEventsDataClientTypes.TimerDefinition()
-        value.name = try reader["name"].readIfPresent()
-        value.seconds = try reader["seconds"].readIfPresent()
-        return value
-    }
 }
 
 extension IoTEventsDataClientTypes {
@@ -2742,13 +2501,6 @@ extension IoTEventsDataClientTypes.TimestampValue {
     static func write(value: IoTEventsDataClientTypes.TimestampValue?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["timeInMillis"].write(value.timeInMillis)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTEventsDataClientTypes.TimestampValue {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTEventsDataClientTypes.TimestampValue()
-        value.timeInMillis = try reader["timeInMillis"].readIfPresent()
-        return value
     }
 }
 
@@ -2804,16 +2556,6 @@ extension IoTEventsDataClientTypes.UpdateDetectorRequest {
         try writer["messageId"].write(value.messageId)
         try writer["state"].write(value.state, with: IoTEventsDataClientTypes.DetectorStateDefinition.write(value:to:))
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTEventsDataClientTypes.UpdateDetectorRequest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTEventsDataClientTypes.UpdateDetectorRequest()
-        value.messageId = try reader["messageId"].readIfPresent()
-        value.detectorModelName = try reader["detectorModelName"].readIfPresent()
-        value.keyValue = try reader["keyValue"].readIfPresent()
-        value.state = try reader["state"].readIfPresent(with: IoTEventsDataClientTypes.DetectorStateDefinition.read(from:))
-        return value
-    }
 }
 
 extension IoTEventsDataClientTypes {
@@ -2848,12 +2590,6 @@ extension IoTEventsDataClientTypes {
 }
 
 extension IoTEventsDataClientTypes.Variable {
-
-    static func write(value: IoTEventsDataClientTypes.Variable?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-        try writer["value"].write(value.value)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTEventsDataClientTypes.Variable {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2892,14 +2628,6 @@ extension IoTEventsDataClientTypes.VariableDefinition {
         guard let value else { return }
         try writer["name"].write(value.name)
         try writer["value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTEventsDataClientTypes.VariableDefinition {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTEventsDataClientTypes.VariableDefinition()
-        value.name = try reader["name"].readIfPresent()
-        value.value = try reader["value"].readIfPresent()
-        return value
     }
 }
 

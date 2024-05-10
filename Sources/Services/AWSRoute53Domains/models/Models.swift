@@ -165,15 +165,6 @@ enum AssociateDelegationSignerToDomainOutputError {
 
 extension Route53DomainsClientTypes.BillingRecord {
 
-    static func write(value: Route53DomainsClientTypes.BillingRecord?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BillDate"].writeTimestamp(value.billDate, format: .epochSeconds)
-        try writer["DomainName"].write(value.domainName)
-        try writer["InvoiceId"].write(value.invoiceId)
-        try writer["Operation"].write(value.operation)
-        try writer["Price"].write(value.price)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> Route53DomainsClientTypes.BillingRecord {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Route53DomainsClientTypes.BillingRecord()
@@ -471,14 +462,6 @@ extension Route53DomainsClientTypes.Consent {
         guard let value else { return }
         try writer["Currency"].write(value.currency)
         try writer["MaxPrice"].write(value.maxPrice)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> Route53DomainsClientTypes.Consent {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Route53DomainsClientTypes.Consent()
-        value.maxPrice = try reader["MaxPrice"].readIfPresent() ?? 0
-        value.currency = try reader["Currency"].readIfPresent()
-        return value
     }
 }
 
@@ -1778,17 +1761,6 @@ enum DisassociateDelegationSignerFromDomainOutputError {
 
 extension Route53DomainsClientTypes.DnssecKey {
 
-    static func write(value: Route53DomainsClientTypes.DnssecKey?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Algorithm"].write(value.algorithm)
-        try writer["Digest"].write(value.digest)
-        try writer["DigestType"].write(value.digestType)
-        try writer["Flags"].write(value.flags)
-        try writer["Id"].write(value.id)
-        try writer["KeyTag"].write(value.keyTag)
-        try writer["PublicKey"].write(value.publicKey)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> Route53DomainsClientTypes.DnssecKey {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Route53DomainsClientTypes.DnssecKey()
@@ -1887,15 +1859,6 @@ extension Route53DomainsClientTypes.DnssecSigningAttributes {
         try writer["Algorithm"].write(value.algorithm)
         try writer["Flags"].write(value.flags)
         try writer["PublicKey"].write(value.publicKey)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> Route53DomainsClientTypes.DnssecSigningAttributes {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Route53DomainsClientTypes.DnssecSigningAttributes()
-        value.algorithm = try reader["Algorithm"].readIfPresent()
-        value.flags = try reader["Flags"].readIfPresent()
-        value.publicKey = try reader["PublicKey"].readIfPresent()
-        return value
     }
 }
 
@@ -2017,16 +1980,6 @@ public struct DomainLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.
 
 extension Route53DomainsClientTypes.DomainPrice {
 
-    static func write(value: Route53DomainsClientTypes.DomainPrice?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ChangeOwnershipPrice"].write(value.changeOwnershipPrice, with: Route53DomainsClientTypes.PriceWithCurrency.write(value:to:))
-        try writer["Name"].write(value.name)
-        try writer["RegistrationPrice"].write(value.registrationPrice, with: Route53DomainsClientTypes.PriceWithCurrency.write(value:to:))
-        try writer["RenewalPrice"].write(value.renewalPrice, with: Route53DomainsClientTypes.PriceWithCurrency.write(value:to:))
-        try writer["RestorationPrice"].write(value.restorationPrice, with: Route53DomainsClientTypes.PriceWithCurrency.write(value:to:))
-        try writer["TransferPrice"].write(value.transferPrice, with: Route53DomainsClientTypes.PriceWithCurrency.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> Route53DomainsClientTypes.DomainPrice {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Route53DomainsClientTypes.DomainPrice()
@@ -2078,12 +2031,6 @@ extension Route53DomainsClientTypes {
 
 extension Route53DomainsClientTypes.DomainSuggestion {
 
-    static func write(value: Route53DomainsClientTypes.DomainSuggestion?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Availability"].write(value.availability)
-        try writer["DomainName"].write(value.domainName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> Route53DomainsClientTypes.DomainSuggestion {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Route53DomainsClientTypes.DomainSuggestion()
@@ -2114,14 +2061,6 @@ extension Route53DomainsClientTypes {
 }
 
 extension Route53DomainsClientTypes.DomainSummary {
-
-    static func write(value: Route53DomainsClientTypes.DomainSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AutoRenew"].write(value.autoRenew)
-        try writer["DomainName"].write(value.domainName)
-        try writer["Expiry"].writeTimestamp(value.expiry, format: .epochSeconds)
-        try writer["TransferLock"].write(value.transferLock)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Route53DomainsClientTypes.DomainSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2163,11 +2102,6 @@ extension Route53DomainsClientTypes {
 }
 
 extension Route53DomainsClientTypes.DomainTransferability {
-
-    static func write(value: Route53DomainsClientTypes.DomainTransferability?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Transferable"].write(value.transferable)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Route53DomainsClientTypes.DomainTransferability {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2916,15 +2850,6 @@ extension Route53DomainsClientTypes.FilterCondition {
         try writer["Name"].write(value.name)
         try writer["Operator"].write(value.`operator`)
         try writer["Values"].writeList(value.values, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> Route53DomainsClientTypes.FilterCondition {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Route53DomainsClientTypes.FilterCondition()
-        value.name = try reader["Name"].readIfPresent()
-        value.`operator` = try reader["Operator"].readIfPresent()
-        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -3977,18 +3902,6 @@ extension Route53DomainsClientTypes {
 
 extension Route53DomainsClientTypes.OperationSummary {
 
-    static func write(value: Route53DomainsClientTypes.OperationSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DomainName"].write(value.domainName)
-        try writer["LastUpdatedDate"].writeTimestamp(value.lastUpdatedDate, format: .epochSeconds)
-        try writer["Message"].write(value.message)
-        try writer["OperationId"].write(value.operationId)
-        try writer["Status"].write(value.status)
-        try writer["StatusFlag"].write(value.statusFlag)
-        try writer["SubmittedDate"].writeTimestamp(value.submittedDate, format: .epochSeconds)
-        try writer["Type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> Route53DomainsClientTypes.OperationSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Route53DomainsClientTypes.OperationSummary()
@@ -4176,12 +4089,6 @@ extension Route53DomainsClientTypes {
 }
 
 extension Route53DomainsClientTypes.PriceWithCurrency {
-
-    static func write(value: Route53DomainsClientTypes.PriceWithCurrency?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Currency"].write(value.currency)
-        try writer["Price"].write(value.price)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Route53DomainsClientTypes.PriceWithCurrency {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4827,14 +4734,6 @@ extension Route53DomainsClientTypes.SortCondition {
         guard let value else { return }
         try writer["Name"].write(value.name)
         try writer["SortOrder"].write(value.sortOrder)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> Route53DomainsClientTypes.SortCondition {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Route53DomainsClientTypes.SortCondition()
-        value.name = try reader["Name"].readIfPresent()
-        value.sortOrder = try reader["SortOrder"].readIfPresent()
-        return value
     }
 }
 

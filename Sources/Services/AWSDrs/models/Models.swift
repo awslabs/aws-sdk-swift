@@ -47,11 +47,6 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
 extension DrsClientTypes.Account {
 
-    static func write(value: DrsClientTypes.Account?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["accountID"].write(value.accountID)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.Account {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DrsClientTypes.Account()
@@ -161,12 +156,6 @@ enum AssociateSourceNetworkStackOutputError {
 
 extension DrsClientTypes.CPU {
 
-    static func write(value: DrsClientTypes.CPU?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["cores"].write(value.cores)
-        try writer["modelName"].write(value.modelName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.CPU {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DrsClientTypes.CPU()
@@ -248,16 +237,6 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 }
 
 extension DrsClientTypes.ConversionProperties {
-
-    static func write(value: DrsClientTypes.ConversionProperties?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["dataTimestamp"].write(value.dataTimestamp)
-        try writer["forceUefi"].write(value.forceUefi)
-        try writer["rootVolumeName"].write(value.rootVolumeName)
-        try writer["volumeToConversionMap"].writeMap(value.volumeToConversionMap, valueWritingClosure: mapWritingClosure(valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["volumeToProductCodes"].writeMap(value.volumeToProductCodes, valueWritingClosure: listWritingClosure(memberWritingClosure: DrsClientTypes.ProductCode.write(value:to:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["volumeToVolumeSize"].writeMap(value.volumeToVolumeSize, valueWritingClosure: Swift.Int.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.ConversionProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -844,12 +823,6 @@ enum CreateSourceNetworkOutputError {
 
 extension DrsClientTypes.DataReplicationError {
 
-    static func write(value: DrsClientTypes.DataReplicationError?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["error"].write(value.error)
-        try writer["rawError"].write(value.rawError)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.DataReplicationError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DrsClientTypes.DataReplicationError()
@@ -947,18 +920,6 @@ extension DrsClientTypes {
 
 extension DrsClientTypes.DataReplicationInfo {
 
-    static func write(value: DrsClientTypes.DataReplicationInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["dataReplicationError"].write(value.dataReplicationError, with: DrsClientTypes.DataReplicationError.write(value:to:))
-        try writer["dataReplicationInitiation"].write(value.dataReplicationInitiation, with: DrsClientTypes.DataReplicationInitiation.write(value:to:))
-        try writer["dataReplicationState"].write(value.dataReplicationState)
-        try writer["etaDateTime"].write(value.etaDateTime)
-        try writer["lagDuration"].write(value.lagDuration)
-        try writer["replicatedDisks"].writeList(value.replicatedDisks, memberWritingClosure: DrsClientTypes.DataReplicationInfoReplicatedDisk.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["stagingAvailabilityZone"].write(value.stagingAvailabilityZone)
-        try writer["stagingOutpostArn"].write(value.stagingOutpostArn)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.DataReplicationInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DrsClientTypes.DataReplicationInfo()
@@ -1020,16 +981,6 @@ extension DrsClientTypes {
 
 extension DrsClientTypes.DataReplicationInfoReplicatedDisk {
 
-    static func write(value: DrsClientTypes.DataReplicationInfoReplicatedDisk?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["backloggedStorageBytes"].write(value.backloggedStorageBytes)
-        try writer["deviceName"].write(value.deviceName)
-        try writer["replicatedStorageBytes"].write(value.replicatedStorageBytes)
-        try writer["rescannedStorageBytes"].write(value.rescannedStorageBytes)
-        try writer["totalStorageBytes"].write(value.totalStorageBytes)
-        try writer["volumeStatus"].write(value.volumeStatus)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.DataReplicationInfoReplicatedDisk {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DrsClientTypes.DataReplicationInfoReplicatedDisk()
@@ -1081,13 +1032,6 @@ extension DrsClientTypes {
 
 extension DrsClientTypes.DataReplicationInitiation {
 
-    static func write(value: DrsClientTypes.DataReplicationInitiation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["nextAttemptDateTime"].write(value.nextAttemptDateTime)
-        try writer["startDateTime"].write(value.startDateTime)
-        try writer["steps"].writeList(value.steps, memberWritingClosure: DrsClientTypes.DataReplicationInitiationStep.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.DataReplicationInitiation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DrsClientTypes.DataReplicationInitiation()
@@ -1123,12 +1067,6 @@ extension DrsClientTypes {
 }
 
 extension DrsClientTypes.DataReplicationInitiationStep {
-
-    static func write(value: DrsClientTypes.DataReplicationInitiationStep?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-        try writer["status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.DataReplicationInitiationStep {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1896,15 +1834,6 @@ extension DrsClientTypes.DescribeJobsRequestFilters {
         try writer["jobIDs"].writeList(value.jobIDs, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["toDate"].write(value.toDate)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.DescribeJobsRequestFilters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DrsClientTypes.DescribeJobsRequestFilters()
-        value.jobIDs = try reader["jobIDs"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.fromDate = try reader["fromDate"].readIfPresent()
-        value.toDate = try reader["toDate"].readIfPresent()
-        return value
-    }
 }
 
 extension DrsClientTypes {
@@ -2105,14 +2034,6 @@ extension DrsClientTypes.DescribeRecoveryInstancesRequestFilters {
         try writer["recoveryInstanceIDs"].writeList(value.recoveryInstanceIDs, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["sourceServerIDs"].writeList(value.sourceServerIDs, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.DescribeRecoveryInstancesRequestFilters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DrsClientTypes.DescribeRecoveryInstancesRequestFilters()
-        value.recoveryInstanceIDs = try reader["recoveryInstanceIDs"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.sourceServerIDs = try reader["sourceServerIDs"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
 }
 
 extension DrsClientTypes {
@@ -2236,14 +2157,6 @@ extension DrsClientTypes.DescribeRecoverySnapshotsRequestFilters {
         guard let value else { return }
         try writer["fromDateTime"].write(value.fromDateTime)
         try writer["toDateTime"].write(value.toDateTime)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.DescribeRecoverySnapshotsRequestFilters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DrsClientTypes.DescribeRecoverySnapshotsRequestFilters()
-        value.fromDateTime = try reader["fromDateTime"].readIfPresent()
-        value.toDateTime = try reader["toDateTime"].readIfPresent()
-        return value
     }
 }
 
@@ -2442,15 +2355,6 @@ extension DrsClientTypes.DescribeSourceNetworksRequestFilters {
         try writer["originRegion"].write(value.originRegion)
         try writer["sourceNetworkIDs"].writeList(value.sourceNetworkIDs, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.DescribeSourceNetworksRequestFilters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DrsClientTypes.DescribeSourceNetworksRequestFilters()
-        value.sourceNetworkIDs = try reader["sourceNetworkIDs"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.originAccountID = try reader["originAccountID"].readIfPresent()
-        value.originRegion = try reader["originRegion"].readIfPresent()
-        return value
-    }
 }
 
 extension DrsClientTypes {
@@ -2567,15 +2471,6 @@ extension DrsClientTypes.DescribeSourceServersRequestFilters {
         try writer["hardwareId"].write(value.hardwareId)
         try writer["sourceServerIDs"].writeList(value.sourceServerIDs, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["stagingAccountIDs"].writeList(value.stagingAccountIDs, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.DescribeSourceServersRequestFilters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DrsClientTypes.DescribeSourceServersRequestFilters()
-        value.sourceServerIDs = try reader["sourceServerIDs"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.hardwareId = try reader["hardwareId"].readIfPresent()
-        value.stagingAccountIDs = try reader["stagingAccountIDs"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -2804,12 +2699,6 @@ enum DisconnectSourceServerOutputError {
 
 extension DrsClientTypes.Disk {
 
-    static func write(value: DrsClientTypes.Disk?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["bytes"].write(value.bytes)
-        try writer["deviceName"].write(value.deviceName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.Disk {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DrsClientTypes.Disk()
@@ -2887,16 +2776,6 @@ extension DrsClientTypes {
 }
 
 extension DrsClientTypes.EventResourceData {
-
-    static func write(value: DrsClientTypes.EventResourceData?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .sourcenetworkdata(sourcenetworkdata):
-                try writer["sourceNetworkData"].write(sourcenetworkdata, with: DrsClientTypes.SourceNetworkData.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.EventResourceData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3542,14 +3421,6 @@ enum GetReplicationConfigurationOutputError {
 
 extension DrsClientTypes.IdentificationHints {
 
-    static func write(value: DrsClientTypes.IdentificationHints?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["awsInstanceID"].write(value.awsInstanceID)
-        try writer["fqdn"].write(value.fqdn)
-        try writer["hostname"].write(value.hostname)
-        try writer["vmWareUuid"].write(value.vmWareUuid)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.IdentificationHints {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DrsClientTypes.IdentificationHints()
@@ -3734,20 +3605,6 @@ extension DrsClientTypes.Job: Swift.CustomDebugStringConvertible {
 
 extension DrsClientTypes.Job {
 
-    static func write(value: DrsClientTypes.Job?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["creationDateTime"].write(value.creationDateTime)
-        try writer["endDateTime"].write(value.endDateTime)
-        try writer["initiatedBy"].write(value.initiatedBy)
-        try writer["jobID"].write(value.jobID)
-        try writer["participatingResources"].writeList(value.participatingResources, memberWritingClosure: DrsClientTypes.ParticipatingResource.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["participatingServers"].writeList(value.participatingServers, memberWritingClosure: DrsClientTypes.ParticipatingServer.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["status"].write(value.status)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.Job {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DrsClientTypes.Job()
@@ -3819,13 +3676,6 @@ extension DrsClientTypes {
 }
 
 extension DrsClientTypes.JobLog {
-
-    static func write(value: DrsClientTypes.JobLog?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["event"].write(value.event)
-        try writer["eventData"].write(value.eventData, with: DrsClientTypes.JobLogEventData.write(value:to:))
-        try writer["logDateTime"].write(value.logDateTime)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.JobLog {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3967,16 +3817,6 @@ extension DrsClientTypes {
 }
 
 extension DrsClientTypes.JobLogEventData {
-
-    static func write(value: DrsClientTypes.JobLogEventData?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["conversionProperties"].write(value.conversionProperties, with: DrsClientTypes.ConversionProperties.write(value:to:))
-        try writer["conversionServerID"].write(value.conversionServerID)
-        try writer["eventResourceData"].write(value.eventResourceData, with: DrsClientTypes.EventResourceData.write(value:to:))
-        try writer["rawError"].write(value.rawError)
-        try writer["sourceServerID"].write(value.sourceServerID)
-        try writer["targetInstanceID"].write(value.targetInstanceID)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.JobLogEventData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4161,21 +4001,6 @@ extension DrsClientTypes {
 
 extension DrsClientTypes.LaunchAction {
 
-    static func write(value: DrsClientTypes.LaunchAction?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["actionCode"].write(value.actionCode)
-        try writer["actionId"].write(value.actionId)
-        try writer["actionVersion"].write(value.actionVersion)
-        try writer["active"].write(value.active)
-        try writer["category"].write(value.category)
-        try writer["description"].write(value.description)
-        try writer["name"].write(value.name)
-        try writer["optional"].write(value.`optional`)
-        try writer["order"].write(value.order)
-        try writer["parameters"].writeMap(value.parameters, valueWritingClosure: DrsClientTypes.LaunchActionParameter.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.LaunchAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DrsClientTypes.LaunchAction()
@@ -4359,14 +4184,6 @@ extension DrsClientTypes {
 
 extension DrsClientTypes.LaunchActionRun {
 
-    static func write(value: DrsClientTypes.LaunchActionRun?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["action"].write(value.action, with: DrsClientTypes.LaunchAction.write(value:to:))
-        try writer["failureReason"].write(value.failureReason)
-        try writer["runId"].write(value.runId)
-        try writer["status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.LaunchActionRun {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DrsClientTypes.LaunchActionRun()
@@ -4475,13 +4292,6 @@ extension DrsClientTypes.LaunchActionsRequestFilters {
         guard let value else { return }
         try writer["actionIds"].writeList(value.actionIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.LaunchActionsRequestFilters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DrsClientTypes.LaunchActionsRequestFilters()
-        value.actionIds = try reader["actionIds"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
 }
 
 extension DrsClientTypes {
@@ -4501,12 +4311,6 @@ extension DrsClientTypes {
 }
 
 extension DrsClientTypes.LaunchActionsStatus {
-
-    static func write(value: DrsClientTypes.LaunchActionsStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["runs"].writeList(value.runs, memberWritingClosure: DrsClientTypes.LaunchActionRun.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ssmAgentDiscoveryDatetime"].write(value.ssmAgentDiscoveryDatetime)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.LaunchActionsStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4543,21 +4347,6 @@ extension DrsClientTypes.LaunchConfigurationTemplate: Swift.CustomDebugStringCon
 }
 
 extension DrsClientTypes.LaunchConfigurationTemplate {
-
-    static func write(value: DrsClientTypes.LaunchConfigurationTemplate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["copyPrivateIp"].write(value.copyPrivateIp)
-        try writer["copyTags"].write(value.copyTags)
-        try writer["exportBucketArn"].write(value.exportBucketArn)
-        try writer["launchConfigurationTemplateID"].write(value.launchConfigurationTemplateID)
-        try writer["launchDisposition"].write(value.launchDisposition)
-        try writer["launchIntoSourceInstance"].write(value.launchIntoSourceInstance)
-        try writer["licensing"].write(value.licensing, with: DrsClientTypes.Licensing.write(value:to:))
-        try writer["postLaunchEnabled"].write(value.postLaunchEnabled)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["targetInstanceTypeRightSizingMethod"].write(value.targetInstanceTypeRightSizingMethod)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.LaunchConfigurationTemplate {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4766,15 +4555,6 @@ extension DrsClientTypes {
 
 extension DrsClientTypes.LifeCycle {
 
-    static func write(value: DrsClientTypes.LifeCycle?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["addedToServiceDateTime"].write(value.addedToServiceDateTime)
-        try writer["elapsedReplicationDuration"].write(value.elapsedReplicationDuration)
-        try writer["firstByteDateTime"].write(value.firstByteDateTime)
-        try writer["lastLaunch"].write(value.lastLaunch, with: DrsClientTypes.LifeCycleLastLaunch.write(value:to:))
-        try writer["lastSeenByServiceDateTime"].write(value.lastSeenByServiceDateTime)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.LifeCycle {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DrsClientTypes.LifeCycle()
@@ -4821,12 +4601,6 @@ extension DrsClientTypes {
 
 extension DrsClientTypes.LifeCycleLastLaunch {
 
-    static func write(value: DrsClientTypes.LifeCycleLastLaunch?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["initiated"].write(value.initiated, with: DrsClientTypes.LifeCycleLastLaunchInitiated.write(value:to:))
-        try writer["status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.LifeCycleLastLaunch {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DrsClientTypes.LifeCycleLastLaunch()
@@ -4857,13 +4631,6 @@ extension DrsClientTypes {
 }
 
 extension DrsClientTypes.LifeCycleLastLaunchInitiated {
-
-    static func write(value: DrsClientTypes.LifeCycleLastLaunchInitiated?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["apiCallDateTime"].write(value.apiCallDateTime)
-        try writer["jobID"].write(value.jobID)
-        try writer["type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.LifeCycleLastLaunchInitiated {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5232,13 +4999,6 @@ enum ListTagsForResourceOutputError {
 
 extension DrsClientTypes.NetworkInterface {
 
-    static func write(value: DrsClientTypes.NetworkInterface?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ips"].writeList(value.ips, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["isPrimary"].write(value.isPrimary)
-        try writer["macAddress"].write(value.macAddress)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.NetworkInterface {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DrsClientTypes.NetworkInterface()
@@ -5274,11 +5034,6 @@ extension DrsClientTypes {
 }
 
 extension DrsClientTypes.OS {
-
-    static func write(value: DrsClientTypes.OS?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["fullString"].write(value.fullString)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.OS {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5427,12 +5182,6 @@ extension DrsClientTypes {
 
 extension DrsClientTypes.ParticipatingResource {
 
-    static func write(value: DrsClientTypes.ParticipatingResource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["launchStatus"].write(value.launchStatus)
-        try writer["participatingResourceID"].write(value.participatingResourceID, with: DrsClientTypes.ParticipatingResourceID.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.ParticipatingResource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DrsClientTypes.ParticipatingResource()
@@ -5464,16 +5213,6 @@ extension DrsClientTypes {
 
 extension DrsClientTypes.ParticipatingResourceID {
 
-    static func write(value: DrsClientTypes.ParticipatingResourceID?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .sourcenetworkid(sourcenetworkid):
-                try writer["sourceNetworkID"].write(sourcenetworkid)
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.ParticipatingResourceID {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
@@ -5497,14 +5236,6 @@ extension DrsClientTypes {
 }
 
 extension DrsClientTypes.ParticipatingServer {
-
-    static func write(value: DrsClientTypes.ParticipatingServer?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["launchActionsStatus"].write(value.launchActionsStatus, with: DrsClientTypes.LaunchActionsStatus.write(value:to:))
-        try writer["launchStatus"].write(value.launchStatus)
-        try writer["recoveryInstanceID"].write(value.recoveryInstanceID)
-        try writer["sourceServerID"].write(value.sourceServerID)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.ParticipatingServer {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5546,12 +5277,6 @@ extension DrsClientTypes {
 }
 
 extension DrsClientTypes.ProductCode {
-
-    static func write(value: DrsClientTypes.ProductCode?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["productCodeId"].write(value.productCodeId)
-        try writer["productCodeMode"].write(value.productCodeMode)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.ProductCode {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5804,26 +5529,6 @@ extension DrsClientTypes.RecoveryInstance: Swift.CustomDebugStringConvertible {
 
 extension DrsClientTypes.RecoveryInstance {
 
-    static func write(value: DrsClientTypes.RecoveryInstance?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["agentVersion"].write(value.agentVersion)
-        try writer["arn"].write(value.arn)
-        try writer["dataReplicationInfo"].write(value.dataReplicationInfo, with: DrsClientTypes.RecoveryInstanceDataReplicationInfo.write(value:to:))
-        try writer["ec2InstanceID"].write(value.ec2InstanceID)
-        try writer["ec2InstanceState"].write(value.ec2InstanceState)
-        try writer["failback"].write(value.failback, with: DrsClientTypes.RecoveryInstanceFailback.write(value:to:))
-        try writer["isDrill"].write(value.isDrill)
-        try writer["jobID"].write(value.jobID)
-        try writer["originAvailabilityZone"].write(value.originAvailabilityZone)
-        try writer["originEnvironment"].write(value.originEnvironment)
-        try writer["pointInTimeSnapshotDateTime"].write(value.pointInTimeSnapshotDateTime)
-        try writer["recoveryInstanceID"].write(value.recoveryInstanceID)
-        try writer["recoveryInstanceProperties"].write(value.recoveryInstanceProperties, with: DrsClientTypes.RecoveryInstanceProperties.write(value:to:))
-        try writer["sourceOutpostArn"].write(value.sourceOutpostArn)
-        try writer["sourceServerID"].write(value.sourceServerID)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.RecoveryInstance {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DrsClientTypes.RecoveryInstance()
@@ -5925,12 +5630,6 @@ extension DrsClientTypes {
 
 extension DrsClientTypes.RecoveryInstanceDataReplicationError {
 
-    static func write(value: DrsClientTypes.RecoveryInstanceDataReplicationError?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["error"].write(value.error)
-        try writer["rawError"].write(value.rawError)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.RecoveryInstanceDataReplicationError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DrsClientTypes.RecoveryInstanceDataReplicationError()
@@ -5961,18 +5660,6 @@ extension DrsClientTypes {
 }
 
 extension DrsClientTypes.RecoveryInstanceDataReplicationInfo {
-
-    static func write(value: DrsClientTypes.RecoveryInstanceDataReplicationInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["dataReplicationError"].write(value.dataReplicationError, with: DrsClientTypes.RecoveryInstanceDataReplicationError.write(value:to:))
-        try writer["dataReplicationInitiation"].write(value.dataReplicationInitiation, with: DrsClientTypes.RecoveryInstanceDataReplicationInitiation.write(value:to:))
-        try writer["dataReplicationState"].write(value.dataReplicationState)
-        try writer["etaDateTime"].write(value.etaDateTime)
-        try writer["lagDuration"].write(value.lagDuration)
-        try writer["replicatedDisks"].writeList(value.replicatedDisks, memberWritingClosure: DrsClientTypes.RecoveryInstanceDataReplicationInfoReplicatedDisk.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["stagingAvailabilityZone"].write(value.stagingAvailabilityZone)
-        try writer["stagingOutpostArn"].write(value.stagingOutpostArn)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.RecoveryInstanceDataReplicationInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6035,15 +5722,6 @@ extension DrsClientTypes {
 
 extension DrsClientTypes.RecoveryInstanceDataReplicationInfoReplicatedDisk {
 
-    static func write(value: DrsClientTypes.RecoveryInstanceDataReplicationInfoReplicatedDisk?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["backloggedStorageBytes"].write(value.backloggedStorageBytes)
-        try writer["deviceName"].write(value.deviceName)
-        try writer["replicatedStorageBytes"].write(value.replicatedStorageBytes)
-        try writer["rescannedStorageBytes"].write(value.rescannedStorageBytes)
-        try writer["totalStorageBytes"].write(value.totalStorageBytes)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.RecoveryInstanceDataReplicationInfoReplicatedDisk {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DrsClientTypes.RecoveryInstanceDataReplicationInfoReplicatedDisk()
@@ -6090,12 +5768,6 @@ extension DrsClientTypes {
 
 extension DrsClientTypes.RecoveryInstanceDataReplicationInitiation {
 
-    static func write(value: DrsClientTypes.RecoveryInstanceDataReplicationInitiation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["startDateTime"].write(value.startDateTime)
-        try writer["steps"].writeList(value.steps, memberWritingClosure: DrsClientTypes.RecoveryInstanceDataReplicationInitiationStep.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.RecoveryInstanceDataReplicationInitiation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DrsClientTypes.RecoveryInstanceDataReplicationInitiation()
@@ -6126,12 +5798,6 @@ extension DrsClientTypes {
 }
 
 extension DrsClientTypes.RecoveryInstanceDataReplicationInitiationStep {
-
-    static func write(value: DrsClientTypes.RecoveryInstanceDataReplicationInitiationStep?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-        try writer["status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.RecoveryInstanceDataReplicationInitiationStep {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6341,13 +6007,6 @@ extension DrsClientTypes {
 
 extension DrsClientTypes.RecoveryInstanceDisk {
 
-    static func write(value: DrsClientTypes.RecoveryInstanceDisk?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["bytes"].write(value.bytes)
-        try writer["ebsVolumeID"].write(value.ebsVolumeID)
-        try writer["internalDeviceName"].write(value.internalDeviceName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.RecoveryInstanceDisk {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DrsClientTypes.RecoveryInstanceDisk()
@@ -6383,20 +6042,6 @@ extension DrsClientTypes {
 }
 
 extension DrsClientTypes.RecoveryInstanceFailback {
-
-    static func write(value: DrsClientTypes.RecoveryInstanceFailback?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["agentLastSeenByServiceDateTime"].write(value.agentLastSeenByServiceDateTime)
-        try writer["elapsedReplicationDuration"].write(value.elapsedReplicationDuration)
-        try writer["failbackClientID"].write(value.failbackClientID)
-        try writer["failbackClientLastSeenByServiceDateTime"].write(value.failbackClientLastSeenByServiceDateTime)
-        try writer["failbackInitiationTime"].write(value.failbackInitiationTime)
-        try writer["failbackJobID"].write(value.failbackJobID)
-        try writer["failbackLaunchType"].write(value.failbackLaunchType)
-        try writer["failbackToOriginalServer"].write(value.failbackToOriginalServer)
-        try writer["firstByteDateTime"].write(value.firstByteDateTime)
-        try writer["state"].write(value.state)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.RecoveryInstanceFailback {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6469,17 +6114,6 @@ extension DrsClientTypes {
 
 extension DrsClientTypes.RecoveryInstanceProperties {
 
-    static func write(value: DrsClientTypes.RecoveryInstanceProperties?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["cpus"].writeList(value.cpus, memberWritingClosure: DrsClientTypes.CPU.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["disks"].writeList(value.disks, memberWritingClosure: DrsClientTypes.RecoveryInstanceDisk.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["identificationHints"].write(value.identificationHints, with: DrsClientTypes.IdentificationHints.write(value:to:))
-        try writer["lastUpdatedDateTime"].write(value.lastUpdatedDateTime)
-        try writer["networkInterfaces"].writeList(value.networkInterfaces, memberWritingClosure: DrsClientTypes.NetworkInterface.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["os"].write(value.os, with: DrsClientTypes.OS.write(value:to:))
-        try writer["ramBytes"].write(value.ramBytes)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.RecoveryInstanceProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DrsClientTypes.RecoveryInstanceProperties()
@@ -6535,13 +6169,6 @@ extension DrsClientTypes {
 }
 
 extension DrsClientTypes.RecoveryLifeCycle {
-
-    static func write(value: DrsClientTypes.RecoveryLifeCycle?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["apiCallDateTime"].writeTimestamp(value.apiCallDateTime, format: .dateTime)
-        try writer["jobID"].write(value.jobID)
-        try writer["lastRecoveryResult"].write(value.lastRecoveryResult)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.RecoveryLifeCycle {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6623,15 +6250,6 @@ extension DrsClientTypes {
 }
 
 extension DrsClientTypes.RecoverySnapshot {
-
-    static func write(value: DrsClientTypes.RecoverySnapshot?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ebsSnapshots"].writeList(value.ebsSnapshots, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["expectedTimestamp"].write(value.expectedTimestamp)
-        try writer["snapshotID"].write(value.snapshotID)
-        try writer["sourceServerID"].write(value.sourceServerID)
-        try writer["timestamp"].write(value.timestamp)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.RecoverySnapshot {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6921,27 +6539,6 @@ extension DrsClientTypes.ReplicationConfigurationTemplate: Swift.CustomDebugStri
 }
 
 extension DrsClientTypes.ReplicationConfigurationTemplate {
-
-    static func write(value: DrsClientTypes.ReplicationConfigurationTemplate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["associateDefaultSecurityGroup"].write(value.associateDefaultSecurityGroup)
-        try writer["autoReplicateNewDisks"].write(value.autoReplicateNewDisks)
-        try writer["bandwidthThrottling"].write(value.bandwidthThrottling)
-        try writer["createPublicIP"].write(value.createPublicIP)
-        try writer["dataPlaneRouting"].write(value.dataPlaneRouting)
-        try writer["defaultLargeStagingDiskType"].write(value.defaultLargeStagingDiskType)
-        try writer["ebsEncryption"].write(value.ebsEncryption)
-        try writer["ebsEncryptionKeyArn"].write(value.ebsEncryptionKeyArn)
-        try writer["pitPolicy"].writeList(value.pitPolicy, memberWritingClosure: DrsClientTypes.PITPolicyRule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["replicationConfigurationTemplateID"].write(value.replicationConfigurationTemplateID)
-        try writer["replicationServerInstanceType"].write(value.replicationServerInstanceType)
-        try writer["replicationServersSecurityGroupsIDs"].writeList(value.replicationServersSecurityGroupsIDs, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["stagingAreaSubnetId"].write(value.stagingAreaSubnetId)
-        try writer["stagingAreaTags"].writeMap(value.stagingAreaTags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["useDedicatedReplicationServer"].write(value.useDedicatedReplicationServer)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.ReplicationConfigurationTemplate {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7441,14 +7038,6 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
 extension DrsClientTypes.SourceCloudProperties {
 
-    static func write(value: DrsClientTypes.SourceCloudProperties?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["originAccountID"].write(value.originAccountID)
-        try writer["originAvailabilityZone"].write(value.originAvailabilityZone)
-        try writer["originRegion"].write(value.originRegion)
-        try writer["sourceOutpostArn"].write(value.sourceOutpostArn)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.SourceCloudProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DrsClientTypes.SourceCloudProperties()
@@ -7494,21 +7083,6 @@ extension DrsClientTypes.SourceNetwork: Swift.CustomDebugStringConvertible {
 }
 
 extension DrsClientTypes.SourceNetwork {
-
-    static func write(value: DrsClientTypes.SourceNetwork?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["cfnStackName"].write(value.cfnStackName)
-        try writer["lastRecovery"].write(value.lastRecovery, with: DrsClientTypes.RecoveryLifeCycle.write(value:to:))
-        try writer["launchedVpcID"].write(value.launchedVpcID)
-        try writer["replicationStatus"].write(value.replicationStatus)
-        try writer["replicationStatusDetails"].write(value.replicationStatusDetails)
-        try writer["sourceAccountID"].write(value.sourceAccountID)
-        try writer["sourceNetworkID"].write(value.sourceNetworkID)
-        try writer["sourceRegion"].write(value.sourceRegion)
-        try writer["sourceVpcID"].write(value.sourceVpcID)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.SourceNetwork {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7586,14 +7160,6 @@ extension DrsClientTypes {
 
 extension DrsClientTypes.SourceNetworkData {
 
-    static func write(value: DrsClientTypes.SourceNetworkData?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["sourceNetworkID"].write(value.sourceNetworkID)
-        try writer["sourceVpc"].write(value.sourceVpc)
-        try writer["stackName"].write(value.stackName)
-        try writer["targetVpc"].write(value.targetVpc)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.SourceNetworkData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DrsClientTypes.SourceNetworkData()
@@ -7634,19 +7200,6 @@ extension DrsClientTypes {
 }
 
 extension DrsClientTypes.SourceProperties {
-
-    static func write(value: DrsClientTypes.SourceProperties?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["cpus"].writeList(value.cpus, memberWritingClosure: DrsClientTypes.CPU.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["disks"].writeList(value.disks, memberWritingClosure: DrsClientTypes.Disk.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["identificationHints"].write(value.identificationHints, with: DrsClientTypes.IdentificationHints.write(value:to:))
-        try writer["lastUpdatedDateTime"].write(value.lastUpdatedDateTime)
-        try writer["networkInterfaces"].writeList(value.networkInterfaces, memberWritingClosure: DrsClientTypes.NetworkInterface.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["os"].write(value.os, with: DrsClientTypes.OS.write(value:to:))
-        try writer["ramBytes"].write(value.ramBytes)
-        try writer["recommendedInstanceType"].write(value.recommendedInstanceType)
-        try writer["supportsNitroInstances"].write(value.supportsNitroInstances)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.SourceProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7718,24 +7271,6 @@ extension DrsClientTypes.SourceServer: Swift.CustomDebugStringConvertible {
 }
 
 extension DrsClientTypes.SourceServer {
-
-    static func write(value: DrsClientTypes.SourceServer?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["agentVersion"].write(value.agentVersion)
-        try writer["arn"].write(value.arn)
-        try writer["dataReplicationInfo"].write(value.dataReplicationInfo, with: DrsClientTypes.DataReplicationInfo.write(value:to:))
-        try writer["lastLaunchResult"].write(value.lastLaunchResult)
-        try writer["lifeCycle"].write(value.lifeCycle, with: DrsClientTypes.LifeCycle.write(value:to:))
-        try writer["recoveryInstanceId"].write(value.recoveryInstanceId)
-        try writer["replicationDirection"].write(value.replicationDirection)
-        try writer["reversedDirectionSourceServerArn"].write(value.reversedDirectionSourceServerArn)
-        try writer["sourceCloudProperties"].write(value.sourceCloudProperties, with: DrsClientTypes.SourceCloudProperties.write(value:to:))
-        try writer["sourceNetworkID"].write(value.sourceNetworkID)
-        try writer["sourceProperties"].write(value.sourceProperties, with: DrsClientTypes.SourceProperties.write(value:to:))
-        try writer["sourceServerID"].write(value.sourceServerID)
-        try writer["stagingArea"].write(value.stagingArea, with: DrsClientTypes.StagingArea.write(value:to:))
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.SourceServer {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7827,14 +7362,6 @@ extension DrsClientTypes {
 
 extension DrsClientTypes.StagingArea {
 
-    static func write(value: DrsClientTypes.StagingArea?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["errorMessage"].write(value.errorMessage)
-        try writer["stagingAccountID"].write(value.stagingAccountID)
-        try writer["stagingSourceServerArn"].write(value.stagingSourceServerArn)
-        try writer["status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.StagingArea {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DrsClientTypes.StagingArea()
@@ -7880,13 +7407,6 @@ extension DrsClientTypes.StagingSourceServer: Swift.CustomDebugStringConvertible
 }
 
 extension DrsClientTypes.StagingSourceServer {
-
-    static func write(value: DrsClientTypes.StagingSourceServer?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["hostname"].write(value.hostname)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.StagingSourceServer {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8095,14 +7615,6 @@ extension DrsClientTypes.StartRecoveryRequestSourceServer {
         try writer["recoverySnapshotID"].write(value.recoverySnapshotID)
         try writer["sourceServerID"].write(value.sourceServerID)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.StartRecoveryRequestSourceServer {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DrsClientTypes.StartRecoveryRequestSourceServer()
-        value.sourceServerID = try reader["sourceServerID"].readIfPresent()
-        value.recoverySnapshotID = try reader["recoverySnapshotID"].readIfPresent()
-        return value
-    }
 }
 
 extension DrsClientTypes {
@@ -8293,14 +7805,6 @@ extension DrsClientTypes.StartSourceNetworkRecoveryRequestNetworkEntry {
         guard let value else { return }
         try writer["cfnStackName"].write(value.cfnStackName)
         try writer["sourceNetworkID"].write(value.sourceNetworkID)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.StartSourceNetworkRecoveryRequestNetworkEntry {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DrsClientTypes.StartSourceNetworkRecoveryRequestNetworkEntry()
-        value.sourceNetworkID = try reader["sourceNetworkID"].readIfPresent()
-        value.cfnStackName = try reader["cfnStackName"].readIfPresent()
-        return value
     }
 }
 
@@ -9814,12 +9318,6 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 extension DrsClientTypes.ValidationExceptionField {
-
-    static func write(value: DrsClientTypes.ValidationExceptionField?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.message)
-        try writer["name"].write(value.name)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.ValidationExceptionField {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

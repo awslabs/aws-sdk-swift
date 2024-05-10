@@ -270,14 +270,6 @@ extension ACMPCAClientTypes.ApiPassthrough {
         try writer["Extensions"].write(value.extensions, with: ACMPCAClientTypes.Extensions.write(value:to:))
         try writer["Subject"].write(value.subject, with: ACMPCAClientTypes.ASN1Subject.write(value:to:))
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ACMPCAClientTypes.ApiPassthrough {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ACMPCAClientTypes.ApiPassthrough()
-        value.extensions = try reader["Extensions"].readIfPresent(with: ACMPCAClientTypes.Extensions.read(from:))
-        value.subject = try reader["Subject"].readIfPresent(with: ACMPCAClientTypes.ASN1Subject.read(from:))
-        return value
-    }
 }
 
 extension ACMPCAClientTypes {
@@ -364,25 +356,6 @@ extension ACMPCAClientTypes {
 }
 
 extension ACMPCAClientTypes.CertificateAuthority {
-
-    static func write(value: ACMPCAClientTypes.CertificateAuthority?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["CertificateAuthorityConfiguration"].write(value.certificateAuthorityConfiguration, with: ACMPCAClientTypes.CertificateAuthorityConfiguration.write(value:to:))
-        try writer["CreatedAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["FailureReason"].write(value.failureReason)
-        try writer["KeyStorageSecurityStandard"].write(value.keyStorageSecurityStandard)
-        try writer["LastStateChangeAt"].writeTimestamp(value.lastStateChangeAt, format: .epochSeconds)
-        try writer["NotAfter"].writeTimestamp(value.notAfter, format: .epochSeconds)
-        try writer["NotBefore"].writeTimestamp(value.notBefore, format: .epochSeconds)
-        try writer["OwnerAccount"].write(value.ownerAccount)
-        try writer["RestorableUntil"].writeTimestamp(value.restorableUntil, format: .epochSeconds)
-        try writer["RevocationConfiguration"].write(value.revocationConfiguration, with: ACMPCAClientTypes.RevocationConfiguration.write(value:to:))
-        try writer["Serial"].write(value.serial)
-        try writer["Status"].write(value.status)
-        try writer["Type"].write(value.type)
-        try writer["UsageMode"].write(value.usageMode)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ACMPCAClientTypes.CertificateAuthority {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1204,15 +1177,6 @@ extension ACMPCAClientTypes.CustomExtension {
         try writer["ObjectIdentifier"].write(value.objectIdentifier)
         try writer["Value"].write(value.value)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ACMPCAClientTypes.CustomExtension {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ACMPCAClientTypes.CustomExtension()
-        value.objectIdentifier = try reader["ObjectIdentifier"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
-        value.critical = try reader["Critical"].readIfPresent()
-        return value
-    }
 }
 
 extension ACMPCAClientTypes {
@@ -1631,14 +1595,6 @@ extension ACMPCAClientTypes.ExtendedKeyUsage {
         try writer["ExtendedKeyUsageObjectIdentifier"].write(value.extendedKeyUsageObjectIdentifier)
         try writer["ExtendedKeyUsageType"].write(value.extendedKeyUsageType)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ACMPCAClientTypes.ExtendedKeyUsage {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ACMPCAClientTypes.ExtendedKeyUsage()
-        value.extendedKeyUsageType = try reader["ExtendedKeyUsageType"].readIfPresent()
-        value.extendedKeyUsageObjectIdentifier = try reader["ExtendedKeyUsageObjectIdentifier"].readIfPresent()
-        return value
-    }
 }
 
 extension ACMPCAClientTypes {
@@ -1721,17 +1677,6 @@ extension ACMPCAClientTypes.Extensions {
         try writer["ExtendedKeyUsage"].writeList(value.extendedKeyUsage, memberWritingClosure: ACMPCAClientTypes.ExtendedKeyUsage.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["KeyUsage"].write(value.keyUsage, with: ACMPCAClientTypes.KeyUsage.write(value:to:))
         try writer["SubjectAlternativeNames"].writeList(value.subjectAlternativeNames, memberWritingClosure: ACMPCAClientTypes.GeneralName.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ACMPCAClientTypes.Extensions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ACMPCAClientTypes.Extensions()
-        value.certificatePolicies = try reader["CertificatePolicies"].readListIfPresent(memberReadingClosure: ACMPCAClientTypes.PolicyInformation.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.extendedKeyUsage = try reader["ExtendedKeyUsage"].readListIfPresent(memberReadingClosure: ACMPCAClientTypes.ExtendedKeyUsage.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.keyUsage = try reader["KeyUsage"].readIfPresent(with: ACMPCAClientTypes.KeyUsage.read(from:))
-        value.subjectAlternativeNames = try reader["SubjectAlternativeNames"].readListIfPresent(memberReadingClosure: ACMPCAClientTypes.GeneralName.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.customExtensions = try reader["CustomExtensions"].readListIfPresent(memberReadingClosure: ACMPCAClientTypes.CustomExtension.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -3227,16 +3172,6 @@ extension ACMPCAClientTypes {
 
 extension ACMPCAClientTypes.Permission {
 
-    static func write(value: ACMPCAClientTypes.Permission?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Actions"].writeList(value.actions, memberWritingClosure: ACMPCAClientTypes.ActionType.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["CertificateAuthorityArn"].write(value.certificateAuthorityArn)
-        try writer["CreatedAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["Policy"].write(value.policy)
-        try writer["Principal"].write(value.principal)
-        try writer["SourceAccount"].write(value.sourceAccount)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ACMPCAClientTypes.Permission {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ACMPCAClientTypes.Permission()
@@ -3330,14 +3265,6 @@ extension ACMPCAClientTypes.PolicyInformation {
         try writer["CertPolicyId"].write(value.certPolicyId)
         try writer["PolicyQualifiers"].writeList(value.policyQualifiers, memberWritingClosure: ACMPCAClientTypes.PolicyQualifierInfo.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ACMPCAClientTypes.PolicyInformation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ACMPCAClientTypes.PolicyInformation()
-        value.certPolicyId = try reader["CertPolicyId"].readIfPresent()
-        value.policyQualifiers = try reader["PolicyQualifiers"].readListIfPresent(memberReadingClosure: ACMPCAClientTypes.PolicyQualifierInfo.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
 }
 
 extension ACMPCAClientTypes {
@@ -3394,14 +3321,6 @@ extension ACMPCAClientTypes.PolicyQualifierInfo {
         guard let value else { return }
         try writer["PolicyQualifierId"].write(value.policyQualifierId)
         try writer["Qualifier"].write(value.qualifier, with: ACMPCAClientTypes.Qualifier.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ACMPCAClientTypes.PolicyQualifierInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ACMPCAClientTypes.PolicyQualifierInfo()
-        value.policyQualifierId = try reader["PolicyQualifierId"].readIfPresent()
-        value.qualifier = try reader["Qualifier"].readIfPresent(with: ACMPCAClientTypes.Qualifier.read(from:))
-        return value
     }
 }
 
@@ -3498,13 +3417,6 @@ extension ACMPCAClientTypes.Qualifier {
     static func write(value: ACMPCAClientTypes.Qualifier?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["CpsUri"].write(value.cpsUri)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ACMPCAClientTypes.Qualifier {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ACMPCAClientTypes.Qualifier()
-        value.cpsUri = try reader["CpsUri"].readIfPresent()
-        return value
     }
 }
 
@@ -4275,14 +4187,6 @@ extension ACMPCAClientTypes.Validity {
         guard let value else { return }
         try writer["Type"].write(value.type)
         try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ACMPCAClientTypes.Validity {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ACMPCAClientTypes.Validity()
-        value.value = try reader["Value"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
-        return value
     }
 }
 

@@ -13,34 +13,6 @@ extension AmplifyClientTypes.App: Swift.CustomDebugStringConvertible {
 
 extension AmplifyClientTypes.App {
 
-    static func write(value: AmplifyClientTypes.App?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["appArn"].write(value.appArn)
-        try writer["appId"].write(value.appId)
-        try writer["autoBranchCreationConfig"].write(value.autoBranchCreationConfig, with: AmplifyClientTypes.AutoBranchCreationConfig.write(value:to:))
-        try writer["autoBranchCreationPatterns"].writeList(value.autoBranchCreationPatterns, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["basicAuthCredentials"].write(value.basicAuthCredentials)
-        try writer["buildSpec"].write(value.buildSpec)
-        try writer["createTime"].writeTimestamp(value.createTime, format: .epochSeconds)
-        try writer["customHeaders"].write(value.customHeaders)
-        try writer["customRules"].writeList(value.customRules, memberWritingClosure: AmplifyClientTypes.CustomRule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["defaultDomain"].write(value.defaultDomain)
-        try writer["description"].write(value.description)
-        try writer["enableAutoBranchCreation"].write(value.enableAutoBranchCreation)
-        try writer["enableBasicAuth"].write(value.enableBasicAuth)
-        try writer["enableBranchAutoBuild"].write(value.enableBranchAutoBuild)
-        try writer["enableBranchAutoDeletion"].write(value.enableBranchAutoDeletion)
-        try writer["environmentVariables"].writeMap(value.environmentVariables, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["iamServiceRoleArn"].write(value.iamServiceRoleArn)
-        try writer["name"].write(value.name)
-        try writer["platform"].write(value.platform)
-        try writer["productionBranch"].write(value.productionBranch, with: AmplifyClientTypes.ProductionBranch.write(value:to:))
-        try writer["repository"].write(value.repository)
-        try writer["repositoryCloneMethod"].write(value.repositoryCloneMethod)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["updateTime"].writeTimestamp(value.updateTime, format: .epochSeconds)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AmplifyClientTypes.App {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AmplifyClientTypes.App()
@@ -193,12 +165,6 @@ extension AmplifyClientTypes {
 }
 
 extension AmplifyClientTypes.Artifact {
-
-    static func write(value: AmplifyClientTypes.Artifact?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["artifactFileName"].write(value.artifactFileName)
-        try writer["artifactId"].write(value.artifactId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AmplifyClientTypes.Artifact {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -354,16 +320,6 @@ extension AmplifyClientTypes {
 
 extension AmplifyClientTypes.BackendEnvironment {
 
-    static func write(value: AmplifyClientTypes.BackendEnvironment?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["backendEnvironmentArn"].write(value.backendEnvironmentArn)
-        try writer["createTime"].writeTimestamp(value.createTime, format: .epochSeconds)
-        try writer["deploymentArtifacts"].write(value.deploymentArtifacts)
-        try writer["environmentName"].write(value.environmentName)
-        try writer["stackName"].write(value.stackName)
-        try writer["updateTime"].writeTimestamp(value.updateTime, format: .epochSeconds)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AmplifyClientTypes.BackendEnvironment {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AmplifyClientTypes.BackendEnvironment()
@@ -460,38 +416,6 @@ extension AmplifyClientTypes.Branch: Swift.CustomDebugStringConvertible {
 }
 
 extension AmplifyClientTypes.Branch {
-
-    static func write(value: AmplifyClientTypes.Branch?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["activeJobId"].write(value.activeJobId)
-        try writer["associatedResources"].writeList(value.associatedResources, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["backend"].write(value.backend, with: AmplifyClientTypes.Backend.write(value:to:))
-        try writer["backendEnvironmentArn"].write(value.backendEnvironmentArn)
-        try writer["basicAuthCredentials"].write(value.basicAuthCredentials)
-        try writer["branchArn"].write(value.branchArn)
-        try writer["branchName"].write(value.branchName)
-        try writer["buildSpec"].write(value.buildSpec)
-        try writer["createTime"].writeTimestamp(value.createTime, format: .epochSeconds)
-        try writer["customDomains"].writeList(value.customDomains, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["description"].write(value.description)
-        try writer["destinationBranch"].write(value.destinationBranch)
-        try writer["displayName"].write(value.displayName)
-        try writer["enableAutoBuild"].write(value.enableAutoBuild)
-        try writer["enableBasicAuth"].write(value.enableBasicAuth)
-        try writer["enableNotification"].write(value.enableNotification)
-        try writer["enablePerformanceMode"].write(value.enablePerformanceMode)
-        try writer["enablePullRequestPreview"].write(value.enablePullRequestPreview)
-        try writer["environmentVariables"].writeMap(value.environmentVariables, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["framework"].write(value.framework)
-        try writer["pullRequestEnvironmentName"].write(value.pullRequestEnvironmentName)
-        try writer["sourceBranch"].write(value.sourceBranch)
-        try writer["stage"].write(value.stage)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["thumbnailUrl"].write(value.thumbnailUrl)
-        try writer["totalNumberOfJobs"].write(value.totalNumberOfJobs)
-        try writer["ttl"].write(value.ttl)
-        try writer["updateTime"].writeTimestamp(value.updateTime, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AmplifyClientTypes.Branch {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -671,13 +595,6 @@ extension AmplifyClientTypes {
 
 extension AmplifyClientTypes.Certificate {
 
-    static func write(value: AmplifyClientTypes.Certificate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["certificateVerificationDNSRecord"].write(value.certificateVerificationDNSRecord)
-        try writer["customCertificateArn"].write(value.customCertificateArn)
-        try writer["type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AmplifyClientTypes.Certificate {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AmplifyClientTypes.Certificate()
@@ -719,14 +636,6 @@ extension AmplifyClientTypes.CertificateSettings {
         guard let value else { return }
         try writer["customCertificateArn"].write(value.customCertificateArn)
         try writer["type"].write(value.type)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AmplifyClientTypes.CertificateSettings {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AmplifyClientTypes.CertificateSettings()
-        value.type = try reader["type"].readIfPresent()
-        value.customCertificateArn = try reader["customCertificateArn"].readIfPresent()
-        return value
     }
 }
 
@@ -2041,21 +1950,6 @@ public struct DependentServiceFailureException: ClientRuntime.ModeledError, AWSC
 
 extension AmplifyClientTypes.DomainAssociation {
 
-    static func write(value: AmplifyClientTypes.DomainAssociation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["autoSubDomainCreationPatterns"].writeList(value.autoSubDomainCreationPatterns, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["autoSubDomainIAMRole"].write(value.autoSubDomainIAMRole)
-        try writer["certificate"].write(value.certificate, with: AmplifyClientTypes.Certificate.write(value:to:))
-        try writer["certificateVerificationDNSRecord"].write(value.certificateVerificationDNSRecord)
-        try writer["domainAssociationArn"].write(value.domainAssociationArn)
-        try writer["domainName"].write(value.domainName)
-        try writer["domainStatus"].write(value.domainStatus)
-        try writer["enableAutoSubDomain"].write(value.enableAutoSubDomain)
-        try writer["statusReason"].write(value.statusReason)
-        try writer["subDomains"].writeList(value.subDomains, memberWritingClosure: AmplifyClientTypes.SubDomain.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["updateStatus"].write(value.updateStatus)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AmplifyClientTypes.DomainAssociation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AmplifyClientTypes.DomainAssociation()
@@ -2833,12 +2727,6 @@ public struct InternalFailureException: ClientRuntime.ModeledError, AWSClientRun
 
 extension AmplifyClientTypes.Job {
 
-    static func write(value: AmplifyClientTypes.Job?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["steps"].writeList(value.steps, memberWritingClosure: AmplifyClientTypes.Step.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["summary"].write(value.summary, with: AmplifyClientTypes.JobSummary.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AmplifyClientTypes.Job {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AmplifyClientTypes.Job()
@@ -2916,19 +2804,6 @@ extension AmplifyClientTypes {
 }
 
 extension AmplifyClientTypes.JobSummary {
-
-    static func write(value: AmplifyClientTypes.JobSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["commitId"].write(value.commitId)
-        try writer["commitMessage"].write(value.commitMessage)
-        try writer["commitTime"].writeTimestamp(value.commitTime, format: .epochSeconds)
-        try writer["endTime"].writeTimestamp(value.endTime, format: .epochSeconds)
-        try writer["jobArn"].write(value.jobArn)
-        try writer["jobId"].write(value.jobId)
-        try writer["jobType"].write(value.jobType)
-        try writer["startTime"].writeTimestamp(value.startTime, format: .epochSeconds)
-        try writer["status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AmplifyClientTypes.JobSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3904,14 +3779,6 @@ extension AmplifyClientTypes {
 
 extension AmplifyClientTypes.ProductionBranch {
 
-    static func write(value: AmplifyClientTypes.ProductionBranch?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["branchName"].write(value.branchName)
-        try writer["lastDeployTime"].writeTimestamp(value.lastDeployTime, format: .epochSeconds)
-        try writer["status"].write(value.status)
-        try writer["thumbnailUrl"].write(value.thumbnailUrl)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AmplifyClientTypes.ProductionBranch {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AmplifyClientTypes.ProductionBranch()
@@ -4275,21 +4142,6 @@ enum StartJobOutputError {
 
 extension AmplifyClientTypes.Step {
 
-    static func write(value: AmplifyClientTypes.Step?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["artifactsUrl"].write(value.artifactsUrl)
-        try writer["context"].write(value.context)
-        try writer["endTime"].writeTimestamp(value.endTime, format: .epochSeconds)
-        try writer["logUrl"].write(value.logUrl)
-        try writer["screenshots"].writeMap(value.screenshots, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["startTime"].writeTimestamp(value.startTime, format: .epochSeconds)
-        try writer["status"].write(value.status)
-        try writer["statusReason"].write(value.statusReason)
-        try writer["stepName"].write(value.stepName)
-        try writer["testArtifactsUrl"].write(value.testArtifactsUrl)
-        try writer["testConfigUrl"].write(value.testConfigUrl)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AmplifyClientTypes.Step {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AmplifyClientTypes.Step()
@@ -4453,13 +4305,6 @@ enum StopJobOutputError {
 }
 
 extension AmplifyClientTypes.SubDomain {
-
-    static func write(value: AmplifyClientTypes.SubDomain?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["dnsRecord"].write(value.dnsRecord)
-        try writer["subDomainSetting"].write(value.subDomainSetting, with: AmplifyClientTypes.SubDomainSetting.write(value:to:))
-        try writer["verified"].write(value.verified)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AmplifyClientTypes.SubDomain {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5290,17 +5135,6 @@ enum UpdateWebhookOutputError {
 }
 
 extension AmplifyClientTypes.Webhook {
-
-    static func write(value: AmplifyClientTypes.Webhook?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["branchName"].write(value.branchName)
-        try writer["createTime"].writeTimestamp(value.createTime, format: .epochSeconds)
-        try writer["description"].write(value.description)
-        try writer["updateTime"].writeTimestamp(value.updateTime, format: .epochSeconds)
-        try writer["webhookArn"].write(value.webhookArn)
-        try writer["webhookId"].write(value.webhookId)
-        try writer["webhookUrl"].write(value.webhookUrl)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AmplifyClientTypes.Webhook {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

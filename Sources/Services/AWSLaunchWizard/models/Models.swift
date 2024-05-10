@@ -181,19 +181,6 @@ extension LaunchWizardClientTypes.DeploymentData: Swift.CustomDebugStringConvert
 
 extension LaunchWizardClientTypes.DeploymentData {
 
-    static func write(value: LaunchWizardClientTypes.DeploymentData?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["deletedAt"].writeTimestamp(value.deletedAt, format: .epochSeconds)
-        try writer["id"].write(value.id)
-        try writer["name"].write(value.name)
-        try writer["patternName"].write(value.patternName)
-        try writer["resourceGroup"].write(value.resourceGroup)
-        try writer["specifications"].writeMap(value.specifications, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["status"].write(value.status)
-        try writer["workloadName"].write(value.workloadName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LaunchWizardClientTypes.DeploymentData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LaunchWizardClientTypes.DeploymentData()
@@ -260,16 +247,6 @@ extension LaunchWizardClientTypes {
 
 extension LaunchWizardClientTypes.DeploymentDataSummary {
 
-    static func write(value: LaunchWizardClientTypes.DeploymentDataSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["id"].write(value.id)
-        try writer["name"].write(value.name)
-        try writer["patternName"].write(value.patternName)
-        try writer["status"].write(value.status)
-        try writer["workloadName"].write(value.workloadName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LaunchWizardClientTypes.DeploymentDataSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LaunchWizardClientTypes.DeploymentDataSummary()
@@ -321,15 +298,6 @@ extension LaunchWizardClientTypes {
 
 extension LaunchWizardClientTypes.DeploymentEventDataSummary {
 
-    static func write(value: LaunchWizardClientTypes.DeploymentEventDataSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["description"].write(value.description)
-        try writer["name"].write(value.name)
-        try writer["status"].write(value.status)
-        try writer["statusReason"].write(value.statusReason)
-        try writer["timestamp"].writeTimestamp(value.timestamp, format: .epochSeconds)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LaunchWizardClientTypes.DeploymentEventDataSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LaunchWizardClientTypes.DeploymentEventDataSummary()
@@ -380,14 +348,6 @@ extension LaunchWizardClientTypes.DeploymentFilter {
         guard let value else { return }
         try writer["name"].write(value.name)
         try writer["values"].writeList(value.values, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LaunchWizardClientTypes.DeploymentFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LaunchWizardClientTypes.DeploymentFilter()
-        value.name = try reader["name"].readIfPresent()
-        value.values = try reader["values"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -1155,17 +1115,6 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
 extension LaunchWizardClientTypes.WorkloadData {
 
-    static func write(value: LaunchWizardClientTypes.WorkloadData?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["description"].write(value.description)
-        try writer["displayName"].write(value.displayName)
-        try writer["documentationUrl"].write(value.documentationUrl)
-        try writer["iconUrl"].write(value.iconUrl)
-        try writer["status"].write(value.status)
-        try writer["statusMessage"].write(value.statusMessage)
-        try writer["workloadName"].write(value.workloadName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LaunchWizardClientTypes.WorkloadData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LaunchWizardClientTypes.WorkloadData()
@@ -1222,12 +1171,6 @@ extension LaunchWizardClientTypes {
 
 extension LaunchWizardClientTypes.WorkloadDataSummary {
 
-    static func write(value: LaunchWizardClientTypes.WorkloadDataSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["displayName"].write(value.displayName)
-        try writer["workloadName"].write(value.workloadName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LaunchWizardClientTypes.WorkloadDataSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LaunchWizardClientTypes.WorkloadDataSummary()
@@ -1258,17 +1201,6 @@ extension LaunchWizardClientTypes {
 }
 
 extension LaunchWizardClientTypes.WorkloadDeploymentPatternDataSummary {
-
-    static func write(value: LaunchWizardClientTypes.WorkloadDeploymentPatternDataSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["deploymentPatternName"].write(value.deploymentPatternName)
-        try writer["description"].write(value.description)
-        try writer["displayName"].write(value.displayName)
-        try writer["status"].write(value.status)
-        try writer["statusMessage"].write(value.statusMessage)
-        try writer["workloadName"].write(value.workloadName)
-        try writer["workloadVersionName"].write(value.workloadVersionName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LaunchWizardClientTypes.WorkloadDeploymentPatternDataSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

@@ -233,17 +233,6 @@ public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSCl
 
 extension CognitoSyncClientTypes.Dataset {
 
-    static func write(value: CognitoSyncClientTypes.Dataset?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationDate"].writeTimestamp(value.creationDate, format: .epochSeconds)
-        try writer["DataStorage"].write(value.dataStorage)
-        try writer["DatasetName"].write(value.datasetName)
-        try writer["IdentityId"].write(value.identityId)
-        try writer["LastModifiedBy"].write(value.lastModifiedBy)
-        try writer["LastModifiedDate"].writeTimestamp(value.lastModifiedDate, format: .epochSeconds)
-        try writer["NumRecords"].write(value.numRecords)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CognitoSyncClientTypes.Dataset {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CognitoSyncClientTypes.Dataset()
@@ -878,14 +867,6 @@ enum GetIdentityPoolConfigurationOutputError {
 
 extension CognitoSyncClientTypes.IdentityPoolUsage {
 
-    static func write(value: CognitoSyncClientTypes.IdentityPoolUsage?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DataStorage"].write(value.dataStorage)
-        try writer["IdentityPoolId"].write(value.identityPoolId)
-        try writer["LastModifiedDate"].writeTimestamp(value.lastModifiedDate, format: .epochSeconds)
-        try writer["SyncSessionsCount"].write(value.syncSessionsCount)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CognitoSyncClientTypes.IdentityPoolUsage {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CognitoSyncClientTypes.IdentityPoolUsage()
@@ -926,15 +907,6 @@ extension CognitoSyncClientTypes {
 }
 
 extension CognitoSyncClientTypes.IdentityUsage {
-
-    static func write(value: CognitoSyncClientTypes.IdentityUsage?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DataStorage"].write(value.dataStorage)
-        try writer["DatasetCount"].write(value.datasetCount)
-        try writer["IdentityId"].write(value.identityId)
-        try writer["IdentityPoolId"].write(value.identityPoolId)
-        try writer["LastModifiedDate"].writeTimestamp(value.lastModifiedDate, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CognitoSyncClientTypes.IdentityUsage {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1724,16 +1696,6 @@ extension CognitoSyncClientTypes {
 
 extension CognitoSyncClientTypes.Record {
 
-    static func write(value: CognitoSyncClientTypes.Record?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DeviceLastModifiedDate"].writeTimestamp(value.deviceLastModifiedDate, format: .epochSeconds)
-        try writer["Key"].write(value.key)
-        try writer["LastModifiedBy"].write(value.lastModifiedBy)
-        try writer["LastModifiedDate"].writeTimestamp(value.lastModifiedDate, format: .epochSeconds)
-        try writer["SyncCount"].write(value.syncCount)
-        try writer["Value"].write(value.value)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CognitoSyncClientTypes.Record {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CognitoSyncClientTypes.Record()
@@ -1792,17 +1754,6 @@ extension CognitoSyncClientTypes.RecordPatch {
         try writer["Op"].write(value.op)
         try writer["SyncCount"].write(value.syncCount)
         try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CognitoSyncClientTypes.RecordPatch {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CognitoSyncClientTypes.RecordPatch()
-        value.op = try reader["Op"].readIfPresent()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
-        value.syncCount = try reader["SyncCount"].readIfPresent()
-        value.deviceLastModifiedDate = try reader["DeviceLastModifiedDate"].readTimestampIfPresent(format: .epochSeconds)
-        return value
     }
 }
 

@@ -75,14 +75,6 @@ extension OSISClientTypes {
 
 extension OSISClientTypes.ChangeProgressStage {
 
-    static func write(value: OSISClientTypes.ChangeProgressStage?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Description"].write(value.description)
-        try writer["LastUpdatedAt"].writeTimestamp(value.lastUpdatedAt, format: .epochSeconds)
-        try writer["Name"].write(value.name)
-        try writer["Status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> OSISClientTypes.ChangeProgressStage {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OSISClientTypes.ChangeProgressStage()
@@ -159,14 +151,6 @@ extension OSISClientTypes {
 }
 
 extension OSISClientTypes.ChangeProgressStatus {
-
-    static func write(value: OSISClientTypes.ChangeProgressStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ChangeProgressStages"].writeList(value.changeProgressStages, memberWritingClosure: OSISClientTypes.ChangeProgressStage.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["StartTime"].writeTimestamp(value.startTime, format: .epochSeconds)
-        try writer["Status"].write(value.status)
-        try writer["TotalNumberOfStages"].write(value.totalNumberOfStages)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> OSISClientTypes.ChangeProgressStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1068,26 +1052,6 @@ public enum OSISClientTypes {}
 
 extension OSISClientTypes.Pipeline {
 
-    static func write(value: OSISClientTypes.Pipeline?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BufferOptions"].write(value.bufferOptions, with: OSISClientTypes.BufferOptions.write(value:to:))
-        try writer["CreatedAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["EncryptionAtRestOptions"].write(value.encryptionAtRestOptions, with: OSISClientTypes.EncryptionAtRestOptions.write(value:to:))
-        try writer["IngestEndpointUrls"].writeList(value.ingestEndpointUrls, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["LastUpdatedAt"].writeTimestamp(value.lastUpdatedAt, format: .epochSeconds)
-        try writer["LogPublishingOptions"].write(value.logPublishingOptions, with: OSISClientTypes.LogPublishingOptions.write(value:to:))
-        try writer["MaxUnits"].write(value.maxUnits)
-        try writer["MinUnits"].write(value.minUnits)
-        try writer["PipelineArn"].write(value.pipelineArn)
-        try writer["PipelineConfigurationBody"].write(value.pipelineConfigurationBody)
-        try writer["PipelineName"].write(value.pipelineName)
-        try writer["ServiceVpcEndpoints"].writeList(value.serviceVpcEndpoints, memberWritingClosure: OSISClientTypes.ServiceVpcEndpoint.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Status"].write(value.status)
-        try writer["StatusReason"].write(value.statusReason, with: OSISClientTypes.PipelineStatusReason.write(value:to:))
-        try writer["Tags"].writeList(value.tags, memberWritingClosure: OSISClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["VpcEndpoints"].writeList(value.vpcEndpoints, memberWritingClosure: OSISClientTypes.VpcEndpoint.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> OSISClientTypes.Pipeline {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OSISClientTypes.Pipeline()
@@ -1189,12 +1153,6 @@ extension OSISClientTypes {
 
 extension OSISClientTypes.PipelineBlueprint {
 
-    static func write(value: OSISClientTypes.PipelineBlueprint?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BlueprintName"].write(value.blueprintName)
-        try writer["PipelineConfigurationBody"].write(value.pipelineConfigurationBody)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> OSISClientTypes.PipelineBlueprint {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OSISClientTypes.PipelineBlueprint()
@@ -1225,11 +1183,6 @@ extension OSISClientTypes {
 }
 
 extension OSISClientTypes.PipelineBlueprintSummary {
-
-    static func write(value: OSISClientTypes.PipelineBlueprintSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BlueprintName"].write(value.blueprintName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> OSISClientTypes.PipelineBlueprintSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1311,11 +1264,6 @@ extension OSISClientTypes {
 
 extension OSISClientTypes.PipelineStatusReason {
 
-    static func write(value: OSISClientTypes.PipelineStatusReason?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Description"].write(value.description)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> OSISClientTypes.PipelineStatusReason {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OSISClientTypes.PipelineStatusReason()
@@ -1341,19 +1289,6 @@ extension OSISClientTypes {
 }
 
 extension OSISClientTypes.PipelineSummary {
-
-    static func write(value: OSISClientTypes.PipelineSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["LastUpdatedAt"].writeTimestamp(value.lastUpdatedAt, format: .epochSeconds)
-        try writer["MaxUnits"].write(value.maxUnits)
-        try writer["MinUnits"].write(value.minUnits)
-        try writer["PipelineArn"].write(value.pipelineArn)
-        try writer["PipelineName"].write(value.pipelineName)
-        try writer["Status"].write(value.status)
-        try writer["StatusReason"].write(value.statusReason, with: OSISClientTypes.PipelineStatusReason.write(value:to:))
-        try writer["Tags"].writeList(value.tags, memberWritingClosure: OSISClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> OSISClientTypes.PipelineSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1494,12 +1429,6 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 extension OSISClientTypes.ServiceVpcEndpoint {
-
-    static func write(value: OSISClientTypes.ServiceVpcEndpoint?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ServiceName"].write(value.serviceName)
-        try writer["VpcEndpointId"].write(value.vpcEndpointId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> OSISClientTypes.ServiceVpcEndpoint {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2066,11 +1995,6 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
 extension OSISClientTypes.ValidationMessage {
 
-    static func write(value: OSISClientTypes.ValidationMessage?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.message)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> OSISClientTypes.ValidationMessage {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OSISClientTypes.ValidationMessage()
@@ -2096,13 +2020,6 @@ extension OSISClientTypes {
 }
 
 extension OSISClientTypes.VpcEndpoint {
-
-    static func write(value: OSISClientTypes.VpcEndpoint?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["VpcEndpointId"].write(value.vpcEndpointId)
-        try writer["VpcId"].write(value.vpcId)
-        try writer["VpcOptions"].write(value.vpcOptions, with: OSISClientTypes.VpcOptions.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> OSISClientTypes.VpcEndpoint {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

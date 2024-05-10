@@ -87,14 +87,6 @@ extension MedicalImagingClientTypes.CopyDestinationImageSet {
         try writer["imageSetId"].write(value.imageSetId)
         try writer["latestVersionId"].write(value.latestVersionId)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MedicalImagingClientTypes.CopyDestinationImageSet {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MedicalImagingClientTypes.CopyDestinationImageSet()
-        value.imageSetId = try reader["imageSetId"].readIfPresent()
-        value.latestVersionId = try reader["latestVersionId"].readIfPresent()
-        return value
-    }
 }
 
 extension MedicalImagingClientTypes {
@@ -120,17 +112,6 @@ extension MedicalImagingClientTypes {
 }
 
 extension MedicalImagingClientTypes.CopyDestinationImageSetProperties {
-
-    static func write(value: MedicalImagingClientTypes.CopyDestinationImageSetProperties?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["imageSetArn"].write(value.imageSetArn)
-        try writer["imageSetId"].write(value.imageSetId)
-        try writer["imageSetState"].write(value.imageSetState)
-        try writer["imageSetWorkflowStatus"].write(value.imageSetWorkflowStatus)
-        try writer["latestVersionId"].write(value.latestVersionId)
-        try writer["updatedAt"].writeTimestamp(value.updatedAt, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MedicalImagingClientTypes.CopyDestinationImageSetProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -194,14 +175,6 @@ extension MedicalImagingClientTypes.CopyImageSetInformation {
         guard let value else { return }
         try writer["destinationImageSet"].write(value.destinationImageSet, with: MedicalImagingClientTypes.CopyDestinationImageSet.write(value:to:))
         try writer["sourceImageSet"].write(value.sourceImageSet, with: MedicalImagingClientTypes.CopySourceImageSetInformation.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MedicalImagingClientTypes.CopyImageSetInformation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MedicalImagingClientTypes.CopyImageSetInformation()
-        value.sourceImageSet = try reader["sourceImageSet"].readIfPresent(with: MedicalImagingClientTypes.CopySourceImageSetInformation.read(from:))
-        value.destinationImageSet = try reader["destinationImageSet"].readIfPresent(with: MedicalImagingClientTypes.CopyDestinationImageSet.read(from:))
-        return value
     }
 }
 
@@ -333,13 +306,6 @@ extension MedicalImagingClientTypes.CopySourceImageSetInformation {
         guard let value else { return }
         try writer["latestVersionId"].write(value.latestVersionId)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MedicalImagingClientTypes.CopySourceImageSetInformation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MedicalImagingClientTypes.CopySourceImageSetInformation()
-        value.latestVersionId = try reader["latestVersionId"].readIfPresent()
-        return value
-    }
 }
 
 extension MedicalImagingClientTypes {
@@ -360,17 +326,6 @@ extension MedicalImagingClientTypes {
 }
 
 extension MedicalImagingClientTypes.CopySourceImageSetProperties {
-
-    static func write(value: MedicalImagingClientTypes.CopySourceImageSetProperties?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["imageSetArn"].write(value.imageSetArn)
-        try writer["imageSetId"].write(value.imageSetId)
-        try writer["imageSetState"].write(value.imageSetState)
-        try writer["imageSetWorkflowStatus"].write(value.imageSetWorkflowStatus)
-        try writer["latestVersionId"].write(value.latestVersionId)
-        try writer["updatedAt"].writeTimestamp(value.updatedAt, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MedicalImagingClientTypes.CopySourceImageSetProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -523,20 +478,6 @@ enum CreateDatastoreOutputError {
 
 extension MedicalImagingClientTypes.DICOMImportJobProperties {
 
-    static func write(value: MedicalImagingClientTypes.DICOMImportJobProperties?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["dataAccessRoleArn"].write(value.dataAccessRoleArn)
-        try writer["datastoreId"].write(value.datastoreId)
-        try writer["endedAt"].writeTimestamp(value.endedAt, format: .epochSeconds)
-        try writer["inputS3Uri"].write(value.inputS3Uri)
-        try writer["jobId"].write(value.jobId)
-        try writer["jobName"].write(value.jobName)
-        try writer["jobStatus"].write(value.jobStatus)
-        try writer["message"].write(value.message)
-        try writer["outputS3Uri"].write(value.outputS3Uri)
-        try writer["submittedAt"].writeTimestamp(value.submittedAt, format: .epochSeconds)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MedicalImagingClientTypes.DICOMImportJobProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MedicalImagingClientTypes.DICOMImportJobProperties()
@@ -615,18 +556,6 @@ extension MedicalImagingClientTypes {
 
 extension MedicalImagingClientTypes.DICOMImportJobSummary {
 
-    static func write(value: MedicalImagingClientTypes.DICOMImportJobSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["dataAccessRoleArn"].write(value.dataAccessRoleArn)
-        try writer["datastoreId"].write(value.datastoreId)
-        try writer["endedAt"].writeTimestamp(value.endedAt, format: .epochSeconds)
-        try writer["jobId"].write(value.jobId)
-        try writer["jobName"].write(value.jobName)
-        try writer["jobStatus"].write(value.jobStatus)
-        try writer["message"].write(value.message)
-        try writer["submittedAt"].writeTimestamp(value.submittedAt, format: .epochSeconds)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MedicalImagingClientTypes.DICOMImportJobSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MedicalImagingClientTypes.DICOMImportJobSummary()
@@ -702,14 +631,6 @@ extension MedicalImagingClientTypes.DICOMStudyDateAndTime {
         try writer["DICOMStudyDate"].write(value.dicomStudyDate)
         try writer["DICOMStudyTime"].write(value.dicomStudyTime)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MedicalImagingClientTypes.DICOMStudyDateAndTime {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MedicalImagingClientTypes.DICOMStudyDateAndTime()
-        value.dicomStudyDate = try reader["DICOMStudyDate"].readIfPresent()
-        value.dicomStudyTime = try reader["DICOMStudyTime"].readIfPresent()
-        return value
-    }
 }
 
 extension MedicalImagingClientTypes {
@@ -739,26 +660,6 @@ extension MedicalImagingClientTypes.DICOMTags: Swift.CustomDebugStringConvertibl
 }
 
 extension MedicalImagingClientTypes.DICOMTags {
-
-    static func write(value: MedicalImagingClientTypes.DICOMTags?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DICOMAccessionNumber"].write(value.dicomAccessionNumber)
-        try writer["DICOMNumberOfStudyRelatedInstances"].write(value.dicomNumberOfStudyRelatedInstances)
-        try writer["DICOMNumberOfStudyRelatedSeries"].write(value.dicomNumberOfStudyRelatedSeries)
-        try writer["DICOMPatientBirthDate"].write(value.dicomPatientBirthDate)
-        try writer["DICOMPatientId"].write(value.dicomPatientId)
-        try writer["DICOMPatientName"].write(value.dicomPatientName)
-        try writer["DICOMPatientSex"].write(value.dicomPatientSex)
-        try writer["DICOMSeriesBodyPart"].write(value.dicomSeriesBodyPart)
-        try writer["DICOMSeriesInstanceUID"].write(value.dicomSeriesInstanceUID)
-        try writer["DICOMSeriesModality"].write(value.dicomSeriesModality)
-        try writer["DICOMSeriesNumber"].write(value.dicomSeriesNumber)
-        try writer["DICOMStudyDate"].write(value.dicomStudyDate)
-        try writer["DICOMStudyDescription"].write(value.dicomStudyDescription)
-        try writer["DICOMStudyId"].write(value.dicomStudyId)
-        try writer["DICOMStudyInstanceUID"].write(value.dicomStudyInstanceUID)
-        try writer["DICOMStudyTime"].write(value.dicomStudyTime)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MedicalImagingClientTypes.DICOMTags {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -871,14 +772,6 @@ extension MedicalImagingClientTypes.DICOMUpdates {
         try writer["removableAttributes"].write(value.removableAttributes)
         try writer["updatableAttributes"].write(value.updatableAttributes)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MedicalImagingClientTypes.DICOMUpdates {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MedicalImagingClientTypes.DICOMUpdates()
-        value.removableAttributes = try reader["removableAttributes"].readIfPresent()
-        value.updatableAttributes = try reader["updatableAttributes"].readIfPresent()
-        return value
-    }
 }
 
 extension MedicalImagingClientTypes {
@@ -902,17 +795,6 @@ extension MedicalImagingClientTypes {
 }
 
 extension MedicalImagingClientTypes.DatastoreProperties {
-
-    static func write(value: MedicalImagingClientTypes.DatastoreProperties?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["datastoreArn"].write(value.datastoreArn)
-        try writer["datastoreId"].write(value.datastoreId)
-        try writer["datastoreName"].write(value.datastoreName)
-        try writer["datastoreStatus"].write(value.datastoreStatus)
-        try writer["kmsKeyArn"].write(value.kmsKeyArn)
-        try writer["updatedAt"].writeTimestamp(value.updatedAt, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MedicalImagingClientTypes.DatastoreProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1011,16 +893,6 @@ extension MedicalImagingClientTypes {
 }
 
 extension MedicalImagingClientTypes.DatastoreSummary {
-
-    static func write(value: MedicalImagingClientTypes.DatastoreSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["datastoreArn"].write(value.datastoreArn)
-        try writer["datastoreId"].write(value.datastoreId)
-        try writer["datastoreName"].write(value.datastoreName)
-        try writer["datastoreStatus"].write(value.datastoreStatus)
-        try writer["updatedAt"].writeTimestamp(value.updatedAt, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MedicalImagingClientTypes.DatastoreSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1734,13 +1606,6 @@ extension MedicalImagingClientTypes.ImageFrameInformation {
         guard let value else { return }
         try writer["imageFrameId"].write(value.imageFrameId)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MedicalImagingClientTypes.ImageFrameInformation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MedicalImagingClientTypes.ImageFrameInformation()
-        value.imageFrameId = try reader["imageFrameId"].readIfPresent()
-        return value
-    }
 }
 
 extension MedicalImagingClientTypes {
@@ -1761,18 +1626,6 @@ extension MedicalImagingClientTypes {
 }
 
 extension MedicalImagingClientTypes.ImageSetProperties {
-
-    static func write(value: MedicalImagingClientTypes.ImageSetProperties?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ImageSetWorkflowStatus"].write(value.imageSetWorkflowStatus)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["deletedAt"].writeTimestamp(value.deletedAt, format: .epochSeconds)
-        try writer["imageSetId"].write(value.imageSetId)
-        try writer["imageSetState"].write(value.imageSetState)
-        try writer["message"].write(value.message)
-        try writer["updatedAt"].writeTimestamp(value.updatedAt, format: .epochSeconds)
-        try writer["versionId"].write(value.versionId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MedicalImagingClientTypes.ImageSetProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1924,15 +1777,6 @@ extension MedicalImagingClientTypes {
 }
 
 extension MedicalImagingClientTypes.ImageSetsMetadataSummary {
-
-    static func write(value: MedicalImagingClientTypes.ImageSetsMetadataSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DICOMTags"].write(value.dicomTags, with: MedicalImagingClientTypes.DICOMTags.write(value:to:))
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["imageSetId"].write(value.imageSetId)
-        try writer["updatedAt"].writeTimestamp(value.updatedAt, format: .epochSeconds)
-        try writer["version"].write(value.version)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MedicalImagingClientTypes.ImageSetsMetadataSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2433,17 +2277,6 @@ extension MedicalImagingClientTypes.MetadataUpdates {
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MedicalImagingClientTypes.MetadataUpdates {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "DICOMUpdates":
-                return .dicomupdates(try reader["DICOMUpdates"].read(with: MedicalImagingClientTypes.DICOMUpdates.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
 }
 
 extension MedicalImagingClientTypes {
@@ -2549,31 +2382,6 @@ extension MedicalImagingClientTypes.SearchByAttributeValue {
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MedicalImagingClientTypes.SearchByAttributeValue {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "DICOMPatientId":
-                return .dicompatientid(try reader["DICOMPatientId"].read())
-            case "DICOMAccessionNumber":
-                return .dicomaccessionnumber(try reader["DICOMAccessionNumber"].read())
-            case "DICOMStudyId":
-                return .dicomstudyid(try reader["DICOMStudyId"].read())
-            case "DICOMStudyInstanceUID":
-                return .dicomstudyinstanceuid(try reader["DICOMStudyInstanceUID"].read())
-            case "DICOMSeriesInstanceUID":
-                return .dicomseriesinstanceuid(try reader["DICOMSeriesInstanceUID"].read())
-            case "createdAt":
-                return .createdat(try reader["createdAt"].readTimestamp(format: .epochSeconds))
-            case "updatedAt":
-                return .updatedat(try reader["updatedAt"].readTimestamp(format: .epochSeconds))
-            case "DICOMStudyDateAndTime":
-                return .dicomstudydateandtime(try reader["DICOMStudyDateAndTime"].read(with: MedicalImagingClientTypes.DICOMStudyDateAndTime.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
 }
 
 extension MedicalImagingClientTypes {
@@ -2613,14 +2421,6 @@ extension MedicalImagingClientTypes.SearchCriteria {
         try writer["filters"].writeList(value.filters, memberWritingClosure: MedicalImagingClientTypes.SearchFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["sort"].write(value.sort, with: MedicalImagingClientTypes.Sort.write(value:to:))
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MedicalImagingClientTypes.SearchCriteria {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MedicalImagingClientTypes.SearchCriteria()
-        value.filters = try reader["filters"].readListIfPresent(memberReadingClosure: MedicalImagingClientTypes.SearchFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.sort = try reader["sort"].readIfPresent(with: MedicalImagingClientTypes.Sort.read(from:))
-        return value
-    }
 }
 
 extension MedicalImagingClientTypes {
@@ -2649,14 +2449,6 @@ extension MedicalImagingClientTypes.SearchFilter {
         guard let value else { return }
         try writer["operator"].write(value.`operator`)
         try writer["values"].writeList(value.values, memberWritingClosure: MedicalImagingClientTypes.SearchByAttributeValue.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MedicalImagingClientTypes.SearchFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MedicalImagingClientTypes.SearchFilter()
-        value.values = try reader["values"].readListIfPresent(memberReadingClosure: MedicalImagingClientTypes.SearchByAttributeValue.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.`operator` = try reader["operator"].readIfPresent()
-        return value
     }
 }
 

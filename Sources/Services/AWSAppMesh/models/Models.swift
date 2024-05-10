@@ -2800,16 +2800,6 @@ public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.A
 
 extension AppMeshClientTypes.GatewayRouteData {
 
-    static func write(value: AppMeshClientTypes.GatewayRouteData?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["gatewayRouteName"].write(value.gatewayRouteName)
-        try writer["meshName"].write(value.meshName)
-        try writer["metadata"].write(value.metadata, with: AppMeshClientTypes.ResourceMetadata.write(value:to:))
-        try writer["spec"].write(value.spec, with: AppMeshClientTypes.GatewayRouteSpec.write(value:to:))
-        try writer["status"].write(value.status, with: AppMeshClientTypes.GatewayRouteStatus.write(value:to:))
-        try writer["virtualGatewayName"].write(value.virtualGatewayName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.GatewayRouteData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppMeshClientTypes.GatewayRouteData()
@@ -2935,19 +2925,6 @@ extension AppMeshClientTypes {
 
 extension AppMeshClientTypes.GatewayRouteRef {
 
-    static func write(value: AppMeshClientTypes.GatewayRouteRef?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["gatewayRouteName"].write(value.gatewayRouteName)
-        try writer["lastUpdatedAt"].writeTimestamp(value.lastUpdatedAt, format: .epochSeconds)
-        try writer["meshName"].write(value.meshName)
-        try writer["meshOwner"].write(value.meshOwner)
-        try writer["resourceOwner"].write(value.resourceOwner)
-        try writer["version"].write(value.version)
-        try writer["virtualGatewayName"].write(value.virtualGatewayName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.GatewayRouteRef {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppMeshClientTypes.GatewayRouteRef()
@@ -3071,11 +3048,6 @@ extension AppMeshClientTypes {
 }
 
 extension AppMeshClientTypes.GatewayRouteStatus {
-
-    static func write(value: AppMeshClientTypes.GatewayRouteStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.GatewayRouteStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6239,14 +6211,6 @@ extension AppMeshClientTypes {
 
 extension AppMeshClientTypes.MeshData {
 
-    static func write(value: AppMeshClientTypes.MeshData?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["meshName"].write(value.meshName)
-        try writer["metadata"].write(value.metadata, with: AppMeshClientTypes.ResourceMetadata.write(value:to:))
-        try writer["spec"].write(value.spec, with: AppMeshClientTypes.MeshSpec.write(value:to:))
-        try writer["status"].write(value.status, with: AppMeshClientTypes.MeshStatus.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.MeshData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppMeshClientTypes.MeshData()
@@ -6291,17 +6255,6 @@ extension AppMeshClientTypes {
 }
 
 extension AppMeshClientTypes.MeshRef {
-
-    static func write(value: AppMeshClientTypes.MeshRef?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["lastUpdatedAt"].writeTimestamp(value.lastUpdatedAt, format: .epochSeconds)
-        try writer["meshName"].write(value.meshName)
-        try writer["meshOwner"].write(value.meshOwner)
-        try writer["resourceOwner"].write(value.resourceOwner)
-        try writer["version"].write(value.version)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.MeshRef {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6433,11 +6386,6 @@ extension AppMeshClientTypes {
 }
 
 extension AppMeshClientTypes.MeshStatus {
-
-    static func write(value: AppMeshClientTypes.MeshStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.MeshStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6731,17 +6679,6 @@ public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRunti
 
 extension AppMeshClientTypes.ResourceMetadata {
 
-    static func write(value: AppMeshClientTypes.ResourceMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["lastUpdatedAt"].writeTimestamp(value.lastUpdatedAt, format: .epochSeconds)
-        try writer["meshOwner"].write(value.meshOwner)
-        try writer["resourceOwner"].write(value.resourceOwner)
-        try writer["uid"].write(value.uid)
-        try writer["version"].write(value.version)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.ResourceMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppMeshClientTypes.ResourceMetadata()
@@ -6805,16 +6742,6 @@ extension AppMeshClientTypes {
 
 extension AppMeshClientTypes.RouteData {
 
-    static func write(value: AppMeshClientTypes.RouteData?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["meshName"].write(value.meshName)
-        try writer["metadata"].write(value.metadata, with: AppMeshClientTypes.ResourceMetadata.write(value:to:))
-        try writer["routeName"].write(value.routeName)
-        try writer["spec"].write(value.spec, with: AppMeshClientTypes.RouteSpec.write(value:to:))
-        try writer["status"].write(value.status, with: AppMeshClientTypes.RouteStatus.write(value:to:))
-        try writer["virtualRouterName"].write(value.virtualRouterName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.RouteData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppMeshClientTypes.RouteData()
@@ -6871,19 +6798,6 @@ extension AppMeshClientTypes {
 }
 
 extension AppMeshClientTypes.RouteRef {
-
-    static func write(value: AppMeshClientTypes.RouteRef?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["lastUpdatedAt"].writeTimestamp(value.lastUpdatedAt, format: .epochSeconds)
-        try writer["meshName"].write(value.meshName)
-        try writer["meshOwner"].write(value.meshOwner)
-        try writer["resourceOwner"].write(value.resourceOwner)
-        try writer["routeName"].write(value.routeName)
-        try writer["version"].write(value.version)
-        try writer["virtualRouterName"].write(value.virtualRouterName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.RouteRef {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7014,11 +6928,6 @@ extension AppMeshClientTypes {
 }
 
 extension AppMeshClientTypes.RouteStatus {
-
-    static func write(value: AppMeshClientTypes.RouteStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.RouteStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8849,15 +8758,6 @@ extension AppMeshClientTypes {
 
 extension AppMeshClientTypes.VirtualGatewayData {
 
-    static func write(value: AppMeshClientTypes.VirtualGatewayData?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["meshName"].write(value.meshName)
-        try writer["metadata"].write(value.metadata, with: AppMeshClientTypes.ResourceMetadata.write(value:to:))
-        try writer["spec"].write(value.spec, with: AppMeshClientTypes.VirtualGatewaySpec.write(value:to:))
-        try writer["status"].write(value.status, with: AppMeshClientTypes.VirtualGatewayStatus.write(value:to:))
-        try writer["virtualGatewayName"].write(value.virtualGatewayName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.VirtualGatewayData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppMeshClientTypes.VirtualGatewayData()
@@ -9585,18 +9485,6 @@ extension AppMeshClientTypes {
 
 extension AppMeshClientTypes.VirtualGatewayRef {
 
-    static func write(value: AppMeshClientTypes.VirtualGatewayRef?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["lastUpdatedAt"].writeTimestamp(value.lastUpdatedAt, format: .epochSeconds)
-        try writer["meshName"].write(value.meshName)
-        try writer["meshOwner"].write(value.meshOwner)
-        try writer["resourceOwner"].write(value.resourceOwner)
-        try writer["version"].write(value.version)
-        try writer["virtualGatewayName"].write(value.virtualGatewayName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.VirtualGatewayRef {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppMeshClientTypes.VirtualGatewayRef()
@@ -9709,11 +9597,6 @@ extension AppMeshClientTypes {
 }
 
 extension AppMeshClientTypes.VirtualGatewayStatus {
-
-    static func write(value: AppMeshClientTypes.VirtualGatewayStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.VirtualGatewayStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -10007,15 +9890,6 @@ extension AppMeshClientTypes {
 
 extension AppMeshClientTypes.VirtualNodeData {
 
-    static func write(value: AppMeshClientTypes.VirtualNodeData?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["meshName"].write(value.meshName)
-        try writer["metadata"].write(value.metadata, with: AppMeshClientTypes.ResourceMetadata.write(value:to:))
-        try writer["spec"].write(value.spec, with: AppMeshClientTypes.VirtualNodeSpec.write(value:to:))
-        try writer["status"].write(value.status, with: AppMeshClientTypes.VirtualNodeStatus.write(value:to:))
-        try writer["virtualNodeName"].write(value.virtualNodeName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.VirtualNodeData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppMeshClientTypes.VirtualNodeData()
@@ -10168,18 +10042,6 @@ extension AppMeshClientTypes {
 }
 
 extension AppMeshClientTypes.VirtualNodeRef {
-
-    static func write(value: AppMeshClientTypes.VirtualNodeRef?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["lastUpdatedAt"].writeTimestamp(value.lastUpdatedAt, format: .epochSeconds)
-        try writer["meshName"].write(value.meshName)
-        try writer["meshOwner"].write(value.meshOwner)
-        try writer["resourceOwner"].write(value.resourceOwner)
-        try writer["version"].write(value.version)
-        try writer["virtualNodeName"].write(value.virtualNodeName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.VirtualNodeRef {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -10337,11 +10199,6 @@ extension AppMeshClientTypes {
 
 extension AppMeshClientTypes.VirtualNodeStatus {
 
-    static func write(value: AppMeshClientTypes.VirtualNodeStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.VirtualNodeStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppMeshClientTypes.VirtualNodeStatus()
@@ -10434,15 +10291,6 @@ extension AppMeshClientTypes {
 
 extension AppMeshClientTypes.VirtualRouterData {
 
-    static func write(value: AppMeshClientTypes.VirtualRouterData?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["meshName"].write(value.meshName)
-        try writer["metadata"].write(value.metadata, with: AppMeshClientTypes.ResourceMetadata.write(value:to:))
-        try writer["spec"].write(value.spec, with: AppMeshClientTypes.VirtualRouterSpec.write(value:to:))
-        try writer["status"].write(value.status, with: AppMeshClientTypes.VirtualRouterStatus.write(value:to:))
-        try writer["virtualRouterName"].write(value.virtualRouterName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.VirtualRouterData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppMeshClientTypes.VirtualRouterData()
@@ -10525,18 +10373,6 @@ extension AppMeshClientTypes {
 }
 
 extension AppMeshClientTypes.VirtualRouterRef {
-
-    static func write(value: AppMeshClientTypes.VirtualRouterRef?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["lastUpdatedAt"].writeTimestamp(value.lastUpdatedAt, format: .epochSeconds)
-        try writer["meshName"].write(value.meshName)
-        try writer["meshOwner"].write(value.meshOwner)
-        try writer["resourceOwner"].write(value.resourceOwner)
-        try writer["version"].write(value.version)
-        try writer["virtualRouterName"].write(value.virtualRouterName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.VirtualRouterRef {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -10670,11 +10506,6 @@ extension AppMeshClientTypes {
 
 extension AppMeshClientTypes.VirtualRouterStatus {
 
-    static func write(value: AppMeshClientTypes.VirtualRouterStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.VirtualRouterStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppMeshClientTypes.VirtualRouterStatus()
@@ -10773,15 +10604,6 @@ extension AppMeshClientTypes {
 
 extension AppMeshClientTypes.VirtualServiceData {
 
-    static func write(value: AppMeshClientTypes.VirtualServiceData?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["meshName"].write(value.meshName)
-        try writer["metadata"].write(value.metadata, with: AppMeshClientTypes.ResourceMetadata.write(value:to:))
-        try writer["spec"].write(value.spec, with: AppMeshClientTypes.VirtualServiceSpec.write(value:to:))
-        try writer["status"].write(value.status, with: AppMeshClientTypes.VirtualServiceStatus.write(value:to:))
-        try writer["virtualServiceName"].write(value.virtualServiceName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.VirtualServiceData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppMeshClientTypes.VirtualServiceData()
@@ -10872,18 +10694,6 @@ extension AppMeshClientTypes {
 }
 
 extension AppMeshClientTypes.VirtualServiceRef {
-
-    static func write(value: AppMeshClientTypes.VirtualServiceRef?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["lastUpdatedAt"].writeTimestamp(value.lastUpdatedAt, format: .epochSeconds)
-        try writer["meshName"].write(value.meshName)
-        try writer["meshOwner"].write(value.meshOwner)
-        try writer["resourceOwner"].write(value.resourceOwner)
-        try writer["version"].write(value.version)
-        try writer["virtualServiceName"].write(value.virtualServiceName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.VirtualServiceRef {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -10984,11 +10794,6 @@ extension AppMeshClientTypes {
 }
 
 extension AppMeshClientTypes.VirtualServiceStatus {
-
-    static func write(value: AppMeshClientTypes.VirtualServiceStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.VirtualServiceStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

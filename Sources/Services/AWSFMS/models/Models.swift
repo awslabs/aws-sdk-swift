@@ -88,12 +88,6 @@ extension FMSClientTypes {
 
 extension FMSClientTypes.ActionTarget {
 
-    static func write(value: FMSClientTypes.ActionTarget?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Description"].write(value.description)
-        try writer["ResourceId"].write(value.resourceId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> FMSClientTypes.ActionTarget {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FMSClientTypes.ActionTarget()
@@ -124,13 +118,6 @@ extension FMSClientTypes {
 }
 
 extension FMSClientTypes.AdminAccountSummary {
-
-    static func write(value: FMSClientTypes.AdminAccountSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AdminAccount"].write(value.adminAccount)
-        try writer["DefaultAdmin"].write(value.defaultAdmin)
-        try writer["Status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> FMSClientTypes.AdminAccountSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -340,14 +327,6 @@ extension FMSClientTypes {
 
 extension FMSClientTypes.AppsListDataSummary {
 
-    static func write(value: FMSClientTypes.AppsListDataSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AppsList"].writeList(value.appsList, memberWritingClosure: FMSClientTypes.App.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ListArn"].write(value.listArn)
-        try writer["ListId"].write(value.listId)
-        try writer["ListName"].write(value.listName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> FMSClientTypes.AppsListDataSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FMSClientTypes.AppsListDataSummary()
@@ -526,12 +505,6 @@ enum AssociateThirdPartyFirewallOutputError {
 
 extension FMSClientTypes.AwsEc2InstanceViolation {
 
-    static func write(value: FMSClientTypes.AwsEc2InstanceViolation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AwsEc2NetworkInterfaceViolations"].writeList(value.awsEc2NetworkInterfaceViolations, memberWritingClosure: FMSClientTypes.AwsEc2NetworkInterfaceViolation.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ViolationTarget"].write(value.violationTarget)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> FMSClientTypes.AwsEc2InstanceViolation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FMSClientTypes.AwsEc2InstanceViolation()
@@ -563,12 +536,6 @@ extension FMSClientTypes {
 
 extension FMSClientTypes.AwsEc2NetworkInterfaceViolation {
 
-    static func write(value: FMSClientTypes.AwsEc2NetworkInterfaceViolation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ViolatingSecurityGroups"].writeList(value.violatingSecurityGroups, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ViolationTarget"].write(value.violationTarget)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> FMSClientTypes.AwsEc2NetworkInterfaceViolation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FMSClientTypes.AwsEc2NetworkInterfaceViolation()
@@ -599,14 +566,6 @@ extension FMSClientTypes {
 }
 
 extension FMSClientTypes.AwsVPCSecurityGroupViolation {
-
-    static func write(value: FMSClientTypes.AwsVPCSecurityGroupViolation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["PartialMatches"].writeList(value.partialMatches, memberWritingClosure: FMSClientTypes.PartialMatch.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["PossibleSecurityGroupRemediationActions"].writeList(value.possibleSecurityGroupRemediationActions, memberWritingClosure: FMSClientTypes.SecurityGroupRemediationAction.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ViolationTarget"].write(value.violationTarget)
-        try writer["ViolationTargetDescription"].write(value.violationTargetDescription)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> FMSClientTypes.AwsVPCSecurityGroupViolation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -814,14 +773,6 @@ enum BatchDisassociateResourceOutputError {
 
 extension FMSClientTypes.ComplianceViolator {
 
-    static func write(value: FMSClientTypes.ComplianceViolator?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Metadata"].writeMap(value.metadata, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["ResourceId"].write(value.resourceId)
-        try writer["ResourceType"].write(value.resourceType)
-        try writer["ViolationReason"].write(value.violationReason)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> FMSClientTypes.ComplianceViolator {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FMSClientTypes.ComplianceViolator()
@@ -863,13 +814,6 @@ extension FMSClientTypes {
 
 extension FMSClientTypes.CreateNetworkAclAction {
 
-    static func write(value: FMSClientTypes.CreateNetworkAclAction?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Description"].write(value.description)
-        try writer["FMSCanRemediate"].write(value.fmsCanRemediate)
-        try writer["Vpc"].write(value.vpc, with: FMSClientTypes.ActionTarget.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> FMSClientTypes.CreateNetworkAclAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FMSClientTypes.CreateNetworkAclAction()
@@ -905,14 +849,6 @@ extension FMSClientTypes {
 }
 
 extension FMSClientTypes.CreateNetworkAclEntriesAction {
-
-    static func write(value: FMSClientTypes.CreateNetworkAclEntriesAction?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Description"].write(value.description)
-        try writer["FMSCanRemediate"].write(value.fmsCanRemediate)
-        try writer["NetworkAclEntriesToBeCreated"].writeList(value.networkAclEntriesToBeCreated, memberWritingClosure: FMSClientTypes.EntryDescription.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["NetworkAclId"].write(value.networkAclId, with: FMSClientTypes.ActionTarget.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> FMSClientTypes.CreateNetworkAclEntriesAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1070,14 +1006,6 @@ enum DeleteAppsListOutputError {
 }
 
 extension FMSClientTypes.DeleteNetworkAclEntriesAction {
-
-    static func write(value: FMSClientTypes.DeleteNetworkAclEntriesAction?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Description"].write(value.description)
-        try writer["FMSCanRemediate"].write(value.fmsCanRemediate)
-        try writer["NetworkAclEntriesToBeDeleted"].writeList(value.networkAclEntriesToBeDeleted, memberWritingClosure: FMSClientTypes.EntryDescription.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["NetworkAclId"].write(value.networkAclId, with: FMSClientTypes.ActionTarget.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> FMSClientTypes.DeleteNetworkAclEntriesAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1546,14 +1474,6 @@ enum DisassociateThirdPartyFirewallOutputError {
 
 extension FMSClientTypes.DiscoveredResource {
 
-    static func write(value: FMSClientTypes.DiscoveredResource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccountId"].write(value.accountId)
-        try writer["Name"].write(value.name)
-        try writer["Type"].write(value.type)
-        try writer["URI"].write(value.uri)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> FMSClientTypes.DiscoveredResource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FMSClientTypes.DiscoveredResource()
@@ -1595,12 +1515,6 @@ extension FMSClientTypes {
 
 extension FMSClientTypes.DnsDuplicateRuleGroupViolation {
 
-    static func write(value: FMSClientTypes.DnsDuplicateRuleGroupViolation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ViolationTarget"].write(value.violationTarget)
-        try writer["ViolationTargetDescription"].write(value.violationTargetDescription)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> FMSClientTypes.DnsDuplicateRuleGroupViolation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FMSClientTypes.DnsDuplicateRuleGroupViolation()
@@ -1631,13 +1545,6 @@ extension FMSClientTypes {
 }
 
 extension FMSClientTypes.DnsRuleGroupLimitExceededViolation {
-
-    static func write(value: FMSClientTypes.DnsRuleGroupLimitExceededViolation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["NumberOfRuleGroupsAlreadyAssociated"].write(value.numberOfRuleGroupsAlreadyAssociated)
-        try writer["ViolationTarget"].write(value.violationTarget)
-        try writer["ViolationTargetDescription"].write(value.violationTargetDescription)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> FMSClientTypes.DnsRuleGroupLimitExceededViolation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1674,15 +1581,6 @@ extension FMSClientTypes {
 }
 
 extension FMSClientTypes.DnsRuleGroupPriorityConflictViolation {
-
-    static func write(value: FMSClientTypes.DnsRuleGroupPriorityConflictViolation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ConflictingPolicyId"].write(value.conflictingPolicyId)
-        try writer["ConflictingPriority"].write(value.conflictingPriority)
-        try writer["UnavailablePriorities"].writeList(value.unavailablePriorities, memberWritingClosure: Swift.Int.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ViolationTarget"].write(value.violationTarget)
-        try writer["ViolationTargetDescription"].write(value.violationTargetDescription)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> FMSClientTypes.DnsRuleGroupPriorityConflictViolation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1730,14 +1628,6 @@ extension FMSClientTypes {
 
 extension FMSClientTypes.EC2AssociateRouteTableAction {
 
-    static func write(value: FMSClientTypes.EC2AssociateRouteTableAction?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Description"].write(value.description)
-        try writer["GatewayId"].write(value.gatewayId, with: FMSClientTypes.ActionTarget.write(value:to:))
-        try writer["RouteTableId"].write(value.routeTableId, with: FMSClientTypes.ActionTarget.write(value:to:))
-        try writer["SubnetId"].write(value.subnetId, with: FMSClientTypes.ActionTarget.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> FMSClientTypes.EC2AssociateRouteTableAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FMSClientTypes.EC2AssociateRouteTableAction()
@@ -1780,13 +1670,6 @@ extension FMSClientTypes {
 
 extension FMSClientTypes.EC2CopyRouteTableAction {
 
-    static func write(value: FMSClientTypes.EC2CopyRouteTableAction?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Description"].write(value.description)
-        try writer["RouteTableId"].write(value.routeTableId, with: FMSClientTypes.ActionTarget.write(value:to:))
-        try writer["VpcId"].write(value.vpcId, with: FMSClientTypes.ActionTarget.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> FMSClientTypes.EC2CopyRouteTableAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FMSClientTypes.EC2CopyRouteTableAction()
@@ -1824,17 +1707,6 @@ extension FMSClientTypes {
 }
 
 extension FMSClientTypes.EC2CreateRouteAction {
-
-    static func write(value: FMSClientTypes.EC2CreateRouteAction?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Description"].write(value.description)
-        try writer["DestinationCidrBlock"].write(value.destinationCidrBlock)
-        try writer["DestinationIpv6CidrBlock"].write(value.destinationIpv6CidrBlock)
-        try writer["DestinationPrefixListId"].write(value.destinationPrefixListId)
-        try writer["GatewayId"].write(value.gatewayId, with: FMSClientTypes.ActionTarget.write(value:to:))
-        try writer["RouteTableId"].write(value.routeTableId, with: FMSClientTypes.ActionTarget.write(value:to:))
-        try writer["VpcEndpointId"].write(value.vpcEndpointId, with: FMSClientTypes.ActionTarget.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> FMSClientTypes.EC2CreateRouteAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1893,12 +1765,6 @@ extension FMSClientTypes {
 
 extension FMSClientTypes.EC2CreateRouteTableAction {
 
-    static func write(value: FMSClientTypes.EC2CreateRouteTableAction?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Description"].write(value.description)
-        try writer["VpcId"].write(value.vpcId, with: FMSClientTypes.ActionTarget.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> FMSClientTypes.EC2CreateRouteTableAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FMSClientTypes.EC2CreateRouteTableAction()
@@ -1930,15 +1796,6 @@ extension FMSClientTypes {
 }
 
 extension FMSClientTypes.EC2DeleteRouteAction {
-
-    static func write(value: FMSClientTypes.EC2DeleteRouteAction?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Description"].write(value.description)
-        try writer["DestinationCidrBlock"].write(value.destinationCidrBlock)
-        try writer["DestinationIpv6CidrBlock"].write(value.destinationIpv6CidrBlock)
-        try writer["DestinationPrefixListId"].write(value.destinationPrefixListId)
-        try writer["RouteTableId"].write(value.routeTableId, with: FMSClientTypes.ActionTarget.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> FMSClientTypes.EC2DeleteRouteAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1986,16 +1843,6 @@ extension FMSClientTypes {
 }
 
 extension FMSClientTypes.EC2ReplaceRouteAction {
-
-    static func write(value: FMSClientTypes.EC2ReplaceRouteAction?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Description"].write(value.description)
-        try writer["DestinationCidrBlock"].write(value.destinationCidrBlock)
-        try writer["DestinationIpv6CidrBlock"].write(value.destinationIpv6CidrBlock)
-        try writer["DestinationPrefixListId"].write(value.destinationPrefixListId)
-        try writer["GatewayId"].write(value.gatewayId, with: FMSClientTypes.ActionTarget.write(value:to:))
-        try writer["RouteTableId"].write(value.routeTableId, with: FMSClientTypes.ActionTarget.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> FMSClientTypes.EC2ReplaceRouteAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2049,13 +1896,6 @@ extension FMSClientTypes {
 
 extension FMSClientTypes.EC2ReplaceRouteTableAssociationAction {
 
-    static func write(value: FMSClientTypes.EC2ReplaceRouteTableAssociationAction?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AssociationId"].write(value.associationId, with: FMSClientTypes.ActionTarget.write(value:to:))
-        try writer["Description"].write(value.description)
-        try writer["RouteTableId"].write(value.routeTableId, with: FMSClientTypes.ActionTarget.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> FMSClientTypes.EC2ReplaceRouteTableAssociationAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FMSClientTypes.EC2ReplaceRouteTableAssociationAction()
@@ -2093,13 +1933,6 @@ extension FMSClientTypes {
 }
 
 extension FMSClientTypes.EntryDescription {
-
-    static func write(value: FMSClientTypes.EntryDescription?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EntryDetail"].write(value.entryDetail, with: FMSClientTypes.NetworkAclEntry.write(value:to:))
-        try writer["EntryRuleNumber"].write(value.entryRuleNumber)
-        try writer["EntryType"].write(value.entryType)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> FMSClientTypes.EntryDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2169,16 +2002,6 @@ extension FMSClientTypes {
 }
 
 extension FMSClientTypes.EntryViolation {
-
-    static func write(value: FMSClientTypes.EntryViolation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ActualEvaluationOrder"].write(value.actualEvaluationOrder)
-        try writer["EntriesWithConflicts"].writeList(value.entriesWithConflicts, memberWritingClosure: FMSClientTypes.EntryDescription.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["EntryAtExpectedEvaluationOrder"].write(value.entryAtExpectedEvaluationOrder, with: FMSClientTypes.EntryDescription.write(value:to:))
-        try writer["EntryViolationReasons"].writeList(value.entryViolationReasons, memberWritingClosure: FMSClientTypes.EntryViolationReason.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ExpectedEntry"].write(value.expectedEntry, with: FMSClientTypes.EntryDescription.write(value:to:))
-        try writer["ExpectedEvaluationOrder"].write(value.expectedEvaluationOrder)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> FMSClientTypes.EntryViolation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2264,13 +2087,6 @@ extension FMSClientTypes {
 
 extension FMSClientTypes.EvaluationResult {
 
-    static func write(value: FMSClientTypes.EvaluationResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ComplianceStatus"].write(value.complianceStatus)
-        try writer["EvaluationLimitExceeded"].write(value.evaluationLimitExceeded)
-        try writer["ViolatorCount"].write(value.violatorCount)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> FMSClientTypes.EvaluationResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FMSClientTypes.EvaluationResult()
@@ -2306,16 +2122,6 @@ extension FMSClientTypes {
 }
 
 extension FMSClientTypes.ExpectedRoute {
-
-    static func write(value: FMSClientTypes.ExpectedRoute?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AllowedTargets"].writeList(value.allowedTargets, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ContributingSubnets"].writeList(value.contributingSubnets, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["IpV4Cidr"].write(value.ipV4Cidr)
-        try writer["IpV6Cidr"].write(value.ipV6Cidr)
-        try writer["PrefixListId"].write(value.prefixListId)
-        try writer["RouteTableId"].write(value.routeTableId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> FMSClientTypes.ExpectedRoute {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2370,12 +2176,6 @@ public enum FMSClientTypes {}
 
 extension FMSClientTypes.FMSPolicyUpdateFirewallCreationConfigAction {
 
-    static func write(value: FMSClientTypes.FMSPolicyUpdateFirewallCreationConfigAction?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Description"].write(value.description)
-        try writer["FirewallCreationConfig"].write(value.firewallCreationConfig)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> FMSClientTypes.FMSPolicyUpdateFirewallCreationConfigAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FMSClientTypes.FMSPolicyUpdateFirewallCreationConfigAction()
@@ -2406,12 +2206,6 @@ extension FMSClientTypes {
 }
 
 extension FMSClientTypes.FailedItem {
-
-    static func write(value: FMSClientTypes.FailedItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Reason"].write(value.reason)
-        try writer["URI"].write(value.uri)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> FMSClientTypes.FailedItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2516,15 +2310,6 @@ extension FMSClientTypes {
 
 extension FMSClientTypes.FirewallSubnetIsOutOfScopeViolation {
 
-    static func write(value: FMSClientTypes.FirewallSubnetIsOutOfScopeViolation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["FirewallSubnetId"].write(value.firewallSubnetId)
-        try writer["SubnetAvailabilityZone"].write(value.subnetAvailabilityZone)
-        try writer["SubnetAvailabilityZoneId"].write(value.subnetAvailabilityZoneId)
-        try writer["VpcEndpointId"].write(value.vpcEndpointId)
-        try writer["VpcId"].write(value.vpcId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> FMSClientTypes.FirewallSubnetIsOutOfScopeViolation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FMSClientTypes.FirewallSubnetIsOutOfScopeViolation()
@@ -2570,14 +2355,6 @@ extension FMSClientTypes {
 }
 
 extension FMSClientTypes.FirewallSubnetMissingVPCEndpointViolation {
-
-    static func write(value: FMSClientTypes.FirewallSubnetMissingVPCEndpointViolation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["FirewallSubnetId"].write(value.firewallSubnetId)
-        try writer["SubnetAvailabilityZone"].write(value.subnetAvailabilityZone)
-        try writer["SubnetAvailabilityZoneId"].write(value.subnetAvailabilityZoneId)
-        try writer["VpcId"].write(value.vpcId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> FMSClientTypes.FirewallSubnetMissingVPCEndpointViolation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3596,15 +3373,6 @@ public struct InvalidInputException: ClientRuntime.ModeledError, AWSClientRuntim
 }
 
 extension FMSClientTypes.InvalidNetworkAclEntriesViolation {
-
-    static func write(value: FMSClientTypes.InvalidNetworkAclEntriesViolation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CurrentAssociatedNetworkAcl"].write(value.currentAssociatedNetworkAcl)
-        try writer["EntryViolations"].writeList(value.entryViolations, memberWritingClosure: FMSClientTypes.EntryViolation.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Subnet"].write(value.subnet)
-        try writer["SubnetAvailabilityZone"].write(value.subnetAvailabilityZone)
-        try writer["Vpc"].write(value.vpc)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> FMSClientTypes.InvalidNetworkAclEntriesViolation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5016,14 +4784,6 @@ extension FMSClientTypes {
 
 extension FMSClientTypes.NetworkFirewallBlackHoleRouteDetectedViolation {
 
-    static func write(value: FMSClientTypes.NetworkFirewallBlackHoleRouteDetectedViolation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["RouteTableId"].write(value.routeTableId)
-        try writer["ViolatingRoutes"].writeList(value.violatingRoutes, memberWritingClosure: FMSClientTypes.Route.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ViolationTarget"].write(value.violationTarget)
-        try writer["VpcId"].write(value.vpcId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> FMSClientTypes.NetworkFirewallBlackHoleRouteDetectedViolation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FMSClientTypes.NetworkFirewallBlackHoleRouteDetectedViolation()
@@ -5064,25 +4824,6 @@ extension FMSClientTypes {
 }
 
 extension FMSClientTypes.NetworkFirewallInternetTrafficNotInspectedViolation {
-
-    static func write(value: FMSClientTypes.NetworkFirewallInternetTrafficNotInspectedViolation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ActualFirewallSubnetRoutes"].writeList(value.actualFirewallSubnetRoutes, memberWritingClosure: FMSClientTypes.Route.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ActualInternetGatewayRoutes"].writeList(value.actualInternetGatewayRoutes, memberWritingClosure: FMSClientTypes.Route.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["CurrentFirewallSubnetRouteTable"].write(value.currentFirewallSubnetRouteTable)
-        try writer["CurrentInternetGatewayRouteTable"].write(value.currentInternetGatewayRouteTable)
-        try writer["ExpectedFirewallEndpoint"].write(value.expectedFirewallEndpoint)
-        try writer["ExpectedFirewallSubnetRoutes"].writeList(value.expectedFirewallSubnetRoutes, memberWritingClosure: FMSClientTypes.ExpectedRoute.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ExpectedInternetGatewayRoutes"].writeList(value.expectedInternetGatewayRoutes, memberWritingClosure: FMSClientTypes.ExpectedRoute.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["FirewallSubnetId"].write(value.firewallSubnetId)
-        try writer["InternetGatewayId"].write(value.internetGatewayId)
-        try writer["IsRouteTableUsedInDifferentAZ"].write(value.isRouteTableUsedInDifferentAZ)
-        try writer["RouteTableId"].write(value.routeTableId)
-        try writer["SubnetAvailabilityZone"].write(value.subnetAvailabilityZone)
-        try writer["SubnetId"].write(value.subnetId)
-        try writer["ViolatingRoutes"].writeList(value.violatingRoutes, memberWritingClosure: FMSClientTypes.Route.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["VpcId"].write(value.vpcId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> FMSClientTypes.NetworkFirewallInternetTrafficNotInspectedViolation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5179,26 +4920,6 @@ extension FMSClientTypes {
 }
 
 extension FMSClientTypes.NetworkFirewallInvalidRouteConfigurationViolation {
-
-    static func write(value: FMSClientTypes.NetworkFirewallInvalidRouteConfigurationViolation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ActualFirewallEndpoint"].write(value.actualFirewallEndpoint)
-        try writer["ActualFirewallSubnetId"].write(value.actualFirewallSubnetId)
-        try writer["ActualFirewallSubnetRoutes"].writeList(value.actualFirewallSubnetRoutes, memberWritingClosure: FMSClientTypes.Route.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ActualInternetGatewayRoutes"].writeList(value.actualInternetGatewayRoutes, memberWritingClosure: FMSClientTypes.Route.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["AffectedSubnets"].writeList(value.affectedSubnets, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["CurrentFirewallSubnetRouteTable"].write(value.currentFirewallSubnetRouteTable)
-        try writer["CurrentInternetGatewayRouteTable"].write(value.currentInternetGatewayRouteTable)
-        try writer["ExpectedFirewallEndpoint"].write(value.expectedFirewallEndpoint)
-        try writer["ExpectedFirewallSubnetId"].write(value.expectedFirewallSubnetId)
-        try writer["ExpectedFirewallSubnetRoutes"].writeList(value.expectedFirewallSubnetRoutes, memberWritingClosure: FMSClientTypes.ExpectedRoute.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ExpectedInternetGatewayRoutes"].writeList(value.expectedInternetGatewayRoutes, memberWritingClosure: FMSClientTypes.ExpectedRoute.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["InternetGatewayId"].write(value.internetGatewayId)
-        try writer["IsRouteTableUsedInDifferentAZ"].write(value.isRouteTableUsedInDifferentAZ)
-        try writer["RouteTableId"].write(value.routeTableId)
-        try writer["ViolatingRoute"].write(value.violatingRoute, with: FMSClientTypes.Route.write(value:to:))
-        try writer["VpcId"].write(value.vpcId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> FMSClientTypes.NetworkFirewallInvalidRouteConfigurationViolation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5301,15 +5022,6 @@ extension FMSClientTypes {
 
 extension FMSClientTypes.NetworkFirewallMissingExpectedRTViolation {
 
-    static func write(value: FMSClientTypes.NetworkFirewallMissingExpectedRTViolation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AvailabilityZone"].write(value.availabilityZone)
-        try writer["CurrentRouteTable"].write(value.currentRouteTable)
-        try writer["ExpectedRouteTable"].write(value.expectedRouteTable)
-        try writer["VPC"].write(value.vpc)
-        try writer["ViolationTarget"].write(value.violationTarget)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> FMSClientTypes.NetworkFirewallMissingExpectedRTViolation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FMSClientTypes.NetworkFirewallMissingExpectedRTViolation()
@@ -5356,13 +5068,6 @@ extension FMSClientTypes {
 
 extension FMSClientTypes.NetworkFirewallMissingExpectedRoutesViolation {
 
-    static func write(value: FMSClientTypes.NetworkFirewallMissingExpectedRoutesViolation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ExpectedRoutes"].writeList(value.expectedRoutes, memberWritingClosure: FMSClientTypes.ExpectedRoute.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ViolationTarget"].write(value.violationTarget)
-        try writer["VpcId"].write(value.vpcId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> FMSClientTypes.NetworkFirewallMissingExpectedRoutesViolation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FMSClientTypes.NetworkFirewallMissingExpectedRoutesViolation()
@@ -5398,14 +5103,6 @@ extension FMSClientTypes {
 }
 
 extension FMSClientTypes.NetworkFirewallMissingFirewallViolation {
-
-    static func write(value: FMSClientTypes.NetworkFirewallMissingFirewallViolation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AvailabilityZone"].write(value.availabilityZone)
-        try writer["TargetViolationReason"].write(value.targetViolationReason)
-        try writer["VPC"].write(value.vpc)
-        try writer["ViolationTarget"].write(value.violationTarget)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> FMSClientTypes.NetworkFirewallMissingFirewallViolation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5447,14 +5144,6 @@ extension FMSClientTypes {
 }
 
 extension FMSClientTypes.NetworkFirewallMissingSubnetViolation {
-
-    static func write(value: FMSClientTypes.NetworkFirewallMissingSubnetViolation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AvailabilityZone"].write(value.availabilityZone)
-        try writer["TargetViolationReason"].write(value.targetViolationReason)
-        try writer["VPC"].write(value.vpc)
-        try writer["ViolationTarget"].write(value.violationTarget)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> FMSClientTypes.NetworkFirewallMissingSubnetViolation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5555,17 +5244,6 @@ extension FMSClientTypes {
 
 extension FMSClientTypes.NetworkFirewallPolicyDescription {
 
-    static func write(value: FMSClientTypes.NetworkFirewallPolicyDescription?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["StatefulDefaultActions"].writeList(value.statefulDefaultActions, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["StatefulEngineOptions"].write(value.statefulEngineOptions, with: FMSClientTypes.StatefulEngineOptions.write(value:to:))
-        try writer["StatefulRuleGroups"].writeList(value.statefulRuleGroups, memberWritingClosure: FMSClientTypes.StatefulRuleGroup.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["StatelessCustomActions"].writeList(value.statelessCustomActions, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["StatelessDefaultActions"].writeList(value.statelessDefaultActions, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["StatelessFragmentDefaultActions"].writeList(value.statelessFragmentDefaultActions, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["StatelessRuleGroups"].writeList(value.statelessRuleGroups, memberWritingClosure: FMSClientTypes.StatelessRuleGroup.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> FMSClientTypes.NetworkFirewallPolicyDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FMSClientTypes.NetworkFirewallPolicyDescription()
@@ -5630,13 +5308,6 @@ extension FMSClientTypes {
 
 extension FMSClientTypes.NetworkFirewallPolicyModifiedViolation {
 
-    static func write(value: FMSClientTypes.NetworkFirewallPolicyModifiedViolation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CurrentPolicyDescription"].write(value.currentPolicyDescription, with: FMSClientTypes.NetworkFirewallPolicyDescription.write(value:to:))
-        try writer["ExpectedPolicyDescription"].write(value.expectedPolicyDescription, with: FMSClientTypes.NetworkFirewallPolicyDescription.write(value:to:))
-        try writer["ViolationTarget"].write(value.violationTarget)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> FMSClientTypes.NetworkFirewallPolicyModifiedViolation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FMSClientTypes.NetworkFirewallPolicyModifiedViolation()
@@ -5673,11 +5344,6 @@ extension FMSClientTypes {
 
 extension FMSClientTypes.NetworkFirewallStatefulRuleGroupOverride {
 
-    static func write(value: FMSClientTypes.NetworkFirewallStatefulRuleGroupOverride?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Action"].write(value.action)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> FMSClientTypes.NetworkFirewallStatefulRuleGroupOverride {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FMSClientTypes.NetworkFirewallStatefulRuleGroupOverride()
@@ -5703,15 +5369,6 @@ extension FMSClientTypes {
 }
 
 extension FMSClientTypes.NetworkFirewallUnexpectedFirewallRoutesViolation {
-
-    static func write(value: FMSClientTypes.NetworkFirewallUnexpectedFirewallRoutesViolation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["FirewallEndpoint"].write(value.firewallEndpoint)
-        try writer["FirewallSubnetId"].write(value.firewallSubnetId)
-        try writer["RouteTableId"].write(value.routeTableId)
-        try writer["ViolatingRoutes"].writeList(value.violatingRoutes, memberWritingClosure: FMSClientTypes.Route.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["VpcId"].write(value.vpcId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> FMSClientTypes.NetworkFirewallUnexpectedFirewallRoutesViolation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5758,14 +5415,6 @@ extension FMSClientTypes {
 }
 
 extension FMSClientTypes.NetworkFirewallUnexpectedGatewayRoutesViolation {
-
-    static func write(value: FMSClientTypes.NetworkFirewallUnexpectedGatewayRoutesViolation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["GatewayId"].write(value.gatewayId)
-        try writer["RouteTableId"].write(value.routeTableId)
-        try writer["ViolatingRoutes"].writeList(value.violatingRoutes, memberWritingClosure: FMSClientTypes.Route.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["VpcId"].write(value.vpcId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> FMSClientTypes.NetworkFirewallUnexpectedGatewayRoutesViolation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5886,12 +5535,6 @@ extension FMSClientTypes {
 }
 
 extension FMSClientTypes.PartialMatch {
-
-    static func write(value: FMSClientTypes.PartialMatch?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Reference"].write(value.reference)
-        try writer["TargetViolationReasons"].writeList(value.targetViolationReasons, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> FMSClientTypes.PartialMatch {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6074,17 +5717,6 @@ extension FMSClientTypes {
 
 extension FMSClientTypes.PolicyComplianceDetail {
 
-    static func write(value: FMSClientTypes.PolicyComplianceDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EvaluationLimitExceeded"].write(value.evaluationLimitExceeded)
-        try writer["ExpiredAt"].writeTimestamp(value.expiredAt, format: .epochSeconds)
-        try writer["IssueInfoMap"].writeMap(value.issueInfoMap, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["MemberAccount"].write(value.memberAccount)
-        try writer["PolicyId"].write(value.policyId)
-        try writer["PolicyOwner"].write(value.policyOwner)
-        try writer["Violators"].writeList(value.violators, memberWritingClosure: FMSClientTypes.ComplianceViolator.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> FMSClientTypes.PolicyComplianceDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FMSClientTypes.PolicyComplianceDetail()
@@ -6140,17 +5772,6 @@ extension FMSClientTypes {
 }
 
 extension FMSClientTypes.PolicyComplianceStatus {
-
-    static func write(value: FMSClientTypes.PolicyComplianceStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EvaluationResults"].writeList(value.evaluationResults, memberWritingClosure: FMSClientTypes.EvaluationResult.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["IssueInfoMap"].writeMap(value.issueInfoMap, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["LastUpdated"].writeTimestamp(value.lastUpdated, format: .epochSeconds)
-        try writer["MemberAccount"].write(value.memberAccount)
-        try writer["PolicyId"].write(value.policyId)
-        try writer["PolicyName"].write(value.policyName)
-        try writer["PolicyOwner"].write(value.policyOwner)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> FMSClientTypes.PolicyComplianceStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6281,18 +5902,6 @@ extension FMSClientTypes {
 
 extension FMSClientTypes.PolicySummary {
 
-    static func write(value: FMSClientTypes.PolicySummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DeleteUnusedFMManagedResources"].write(value.deleteUnusedFMManagedResources)
-        try writer["PolicyArn"].write(value.policyArn)
-        try writer["PolicyId"].write(value.policyId)
-        try writer["PolicyName"].write(value.policyName)
-        try writer["PolicyStatus"].write(value.policyStatus)
-        try writer["RemediationEnabled"].write(value.remediationEnabled)
-        try writer["ResourceType"].write(value.resourceType)
-        try writer["SecurityServiceType"].write(value.securityServiceType)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> FMSClientTypes.PolicySummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FMSClientTypes.PolicySummary()
@@ -6395,13 +6004,6 @@ extension FMSClientTypes {
 
 extension FMSClientTypes.PossibleRemediationAction {
 
-    static func write(value: FMSClientTypes.PossibleRemediationAction?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Description"].write(value.description)
-        try writer["IsDefaultAction"].write(value.isDefaultAction)
-        try writer["OrderedRemediationActions"].writeList(value.orderedRemediationActions, memberWritingClosure: FMSClientTypes.RemediationActionWithOrder.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> FMSClientTypes.PossibleRemediationAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FMSClientTypes.PossibleRemediationAction()
@@ -6438,12 +6040,6 @@ extension FMSClientTypes {
 }
 
 extension FMSClientTypes.PossibleRemediationActions {
-
-    static func write(value: FMSClientTypes.PossibleRemediationActions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Actions"].writeList(value.actions, memberWritingClosure: FMSClientTypes.PossibleRemediationAction.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Description"].write(value.description)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> FMSClientTypes.PossibleRemediationActions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6544,14 +6140,6 @@ extension FMSClientTypes {
 }
 
 extension FMSClientTypes.ProtocolsListDataSummary {
-
-    static func write(value: FMSClientTypes.ProtocolsListDataSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ListArn"].write(value.listArn)
-        try writer["ListId"].write(value.listId)
-        try writer["ListName"].write(value.listName)
-        try writer["ProtocolsList"].writeList(value.protocolsList, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> FMSClientTypes.ProtocolsListDataSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7077,23 +6665,6 @@ extension FMSClientTypes {
 
 extension FMSClientTypes.RemediationAction {
 
-    static func write(value: FMSClientTypes.RemediationAction?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreateNetworkAclAction"].write(value.createNetworkAclAction, with: FMSClientTypes.CreateNetworkAclAction.write(value:to:))
-        try writer["CreateNetworkAclEntriesAction"].write(value.createNetworkAclEntriesAction, with: FMSClientTypes.CreateNetworkAclEntriesAction.write(value:to:))
-        try writer["DeleteNetworkAclEntriesAction"].write(value.deleteNetworkAclEntriesAction, with: FMSClientTypes.DeleteNetworkAclEntriesAction.write(value:to:))
-        try writer["Description"].write(value.description)
-        try writer["EC2AssociateRouteTableAction"].write(value.ec2AssociateRouteTableAction, with: FMSClientTypes.EC2AssociateRouteTableAction.write(value:to:))
-        try writer["EC2CopyRouteTableAction"].write(value.ec2CopyRouteTableAction, with: FMSClientTypes.EC2CopyRouteTableAction.write(value:to:))
-        try writer["EC2CreateRouteAction"].write(value.ec2CreateRouteAction, with: FMSClientTypes.EC2CreateRouteAction.write(value:to:))
-        try writer["EC2CreateRouteTableAction"].write(value.ec2CreateRouteTableAction, with: FMSClientTypes.EC2CreateRouteTableAction.write(value:to:))
-        try writer["EC2DeleteRouteAction"].write(value.ec2DeleteRouteAction, with: FMSClientTypes.EC2DeleteRouteAction.write(value:to:))
-        try writer["EC2ReplaceRouteAction"].write(value.ec2ReplaceRouteAction, with: FMSClientTypes.EC2ReplaceRouteAction.write(value:to:))
-        try writer["EC2ReplaceRouteTableAssociationAction"].write(value.ec2ReplaceRouteTableAssociationAction, with: FMSClientTypes.EC2ReplaceRouteTableAssociationAction.write(value:to:))
-        try writer["FMSPolicyUpdateFirewallCreationConfigAction"].write(value.fmsPolicyUpdateFirewallCreationConfigAction, with: FMSClientTypes.FMSPolicyUpdateFirewallCreationConfigAction.write(value:to:))
-        try writer["ReplaceNetworkAclAssociationAction"].write(value.replaceNetworkAclAssociationAction, with: FMSClientTypes.ReplaceNetworkAclAssociationAction.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> FMSClientTypes.RemediationAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FMSClientTypes.RemediationAction()
@@ -7210,12 +6781,6 @@ extension FMSClientTypes {
 
 extension FMSClientTypes.RemediationActionWithOrder {
 
-    static func write(value: FMSClientTypes.RemediationActionWithOrder?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Order"].write(value.order)
-        try writer["RemediationAction"].write(value.remediationAction, with: FMSClientTypes.RemediationAction.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> FMSClientTypes.RemediationActionWithOrder {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FMSClientTypes.RemediationActionWithOrder()
@@ -7246,14 +6811,6 @@ extension FMSClientTypes {
 }
 
 extension FMSClientTypes.ReplaceNetworkAclAssociationAction {
-
-    static func write(value: FMSClientTypes.ReplaceNetworkAclAssociationAction?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AssociationId"].write(value.associationId, with: FMSClientTypes.ActionTarget.write(value:to:))
-        try writer["Description"].write(value.description)
-        try writer["FMSCanRemediate"].write(value.fmsCanRemediate)
-        try writer["NetworkAclId"].write(value.networkAclId, with: FMSClientTypes.ActionTarget.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> FMSClientTypes.ReplaceNetworkAclAssociationAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7295,12 +6852,6 @@ extension FMSClientTypes {
 }
 
 extension FMSClientTypes.Resource {
-
-    static func write(value: FMSClientTypes.Resource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccountId"].write(value.accountId)
-        try writer["URI"].write(value.uri)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> FMSClientTypes.Resource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7474,15 +7025,6 @@ extension FMSClientTypes {
 
 extension FMSClientTypes.ResourceSetSummary {
 
-    static func write(value: FMSClientTypes.ResourceSetSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Description"].write(value.description)
-        try writer["Id"].write(value.id)
-        try writer["LastUpdateTime"].writeTimestamp(value.lastUpdateTime, format: .epochSeconds)
-        try writer["Name"].write(value.name)
-        try writer["ResourceSetStatus"].write(value.resourceSetStatus)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> FMSClientTypes.ResourceSetSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FMSClientTypes.ResourceSetSummary()
@@ -7570,34 +7112,6 @@ extension FMSClientTypes {
 }
 
 extension FMSClientTypes.ResourceViolation {
-
-    static func write(value: FMSClientTypes.ResourceViolation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AwsEc2InstanceViolation"].write(value.awsEc2InstanceViolation, with: FMSClientTypes.AwsEc2InstanceViolation.write(value:to:))
-        try writer["AwsEc2NetworkInterfaceViolation"].write(value.awsEc2NetworkInterfaceViolation, with: FMSClientTypes.AwsEc2NetworkInterfaceViolation.write(value:to:))
-        try writer["AwsVPCSecurityGroupViolation"].write(value.awsVPCSecurityGroupViolation, with: FMSClientTypes.AwsVPCSecurityGroupViolation.write(value:to:))
-        try writer["DnsDuplicateRuleGroupViolation"].write(value.dnsDuplicateRuleGroupViolation, with: FMSClientTypes.DnsDuplicateRuleGroupViolation.write(value:to:))
-        try writer["DnsRuleGroupLimitExceededViolation"].write(value.dnsRuleGroupLimitExceededViolation, with: FMSClientTypes.DnsRuleGroupLimitExceededViolation.write(value:to:))
-        try writer["DnsRuleGroupPriorityConflictViolation"].write(value.dnsRuleGroupPriorityConflictViolation, with: FMSClientTypes.DnsRuleGroupPriorityConflictViolation.write(value:to:))
-        try writer["FirewallSubnetIsOutOfScopeViolation"].write(value.firewallSubnetIsOutOfScopeViolation, with: FMSClientTypes.FirewallSubnetIsOutOfScopeViolation.write(value:to:))
-        try writer["FirewallSubnetMissingVPCEndpointViolation"].write(value.firewallSubnetMissingVPCEndpointViolation, with: FMSClientTypes.FirewallSubnetMissingVPCEndpointViolation.write(value:to:))
-        try writer["InvalidNetworkAclEntriesViolation"].write(value.invalidNetworkAclEntriesViolation, with: FMSClientTypes.InvalidNetworkAclEntriesViolation.write(value:to:))
-        try writer["NetworkFirewallBlackHoleRouteDetectedViolation"].write(value.networkFirewallBlackHoleRouteDetectedViolation, with: FMSClientTypes.NetworkFirewallBlackHoleRouteDetectedViolation.write(value:to:))
-        try writer["NetworkFirewallInternetTrafficNotInspectedViolation"].write(value.networkFirewallInternetTrafficNotInspectedViolation, with: FMSClientTypes.NetworkFirewallInternetTrafficNotInspectedViolation.write(value:to:))
-        try writer["NetworkFirewallInvalidRouteConfigurationViolation"].write(value.networkFirewallInvalidRouteConfigurationViolation, with: FMSClientTypes.NetworkFirewallInvalidRouteConfigurationViolation.write(value:to:))
-        try writer["NetworkFirewallMissingExpectedRTViolation"].write(value.networkFirewallMissingExpectedRTViolation, with: FMSClientTypes.NetworkFirewallMissingExpectedRTViolation.write(value:to:))
-        try writer["NetworkFirewallMissingExpectedRoutesViolation"].write(value.networkFirewallMissingExpectedRoutesViolation, with: FMSClientTypes.NetworkFirewallMissingExpectedRoutesViolation.write(value:to:))
-        try writer["NetworkFirewallMissingFirewallViolation"].write(value.networkFirewallMissingFirewallViolation, with: FMSClientTypes.NetworkFirewallMissingFirewallViolation.write(value:to:))
-        try writer["NetworkFirewallMissingSubnetViolation"].write(value.networkFirewallMissingSubnetViolation, with: FMSClientTypes.NetworkFirewallMissingSubnetViolation.write(value:to:))
-        try writer["NetworkFirewallPolicyModifiedViolation"].write(value.networkFirewallPolicyModifiedViolation, with: FMSClientTypes.NetworkFirewallPolicyModifiedViolation.write(value:to:))
-        try writer["NetworkFirewallUnexpectedFirewallRoutesViolation"].write(value.networkFirewallUnexpectedFirewallRoutesViolation, with: FMSClientTypes.NetworkFirewallUnexpectedFirewallRoutesViolation.write(value:to:))
-        try writer["NetworkFirewallUnexpectedGatewayRoutesViolation"].write(value.networkFirewallUnexpectedGatewayRoutesViolation, with: FMSClientTypes.NetworkFirewallUnexpectedGatewayRoutesViolation.write(value:to:))
-        try writer["PossibleRemediationActions"].write(value.possibleRemediationActions, with: FMSClientTypes.PossibleRemediationActions.write(value:to:))
-        try writer["RouteHasOutOfScopeEndpointViolation"].write(value.routeHasOutOfScopeEndpointViolation, with: FMSClientTypes.RouteHasOutOfScopeEndpointViolation.write(value:to:))
-        try writer["ThirdPartyFirewallMissingExpectedRouteTableViolation"].write(value.thirdPartyFirewallMissingExpectedRouteTableViolation, with: FMSClientTypes.ThirdPartyFirewallMissingExpectedRouteTableViolation.write(value:to:))
-        try writer["ThirdPartyFirewallMissingFirewallViolation"].write(value.thirdPartyFirewallMissingFirewallViolation, with: FMSClientTypes.ThirdPartyFirewallMissingFirewallViolation.write(value:to:))
-        try writer["ThirdPartyFirewallMissingSubnetViolation"].write(value.thirdPartyFirewallMissingSubnetViolation, with: FMSClientTypes.ThirdPartyFirewallMissingSubnetViolation.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> FMSClientTypes.ResourceViolation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7740,14 +7254,6 @@ extension FMSClientTypes {
 
 extension FMSClientTypes.Route {
 
-    static func write(value: FMSClientTypes.Route?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Destination"].write(value.destination)
-        try writer["DestinationType"].write(value.destinationType)
-        try writer["Target"].write(value.target)
-        try writer["TargetType"].write(value.targetType)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> FMSClientTypes.Route {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FMSClientTypes.Route()
@@ -7788,22 +7294,6 @@ extension FMSClientTypes {
 }
 
 extension FMSClientTypes.RouteHasOutOfScopeEndpointViolation {
-
-    static func write(value: FMSClientTypes.RouteHasOutOfScopeEndpointViolation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CurrentFirewallSubnetRouteTable"].write(value.currentFirewallSubnetRouteTable)
-        try writer["CurrentInternetGatewayRouteTable"].write(value.currentInternetGatewayRouteTable)
-        try writer["FirewallSubnetId"].write(value.firewallSubnetId)
-        try writer["FirewallSubnetRoutes"].writeList(value.firewallSubnetRoutes, memberWritingClosure: FMSClientTypes.Route.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["InternetGatewayId"].write(value.internetGatewayId)
-        try writer["InternetGatewayRoutes"].writeList(value.internetGatewayRoutes, memberWritingClosure: FMSClientTypes.Route.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["RouteTableId"].write(value.routeTableId)
-        try writer["SubnetAvailabilityZone"].write(value.subnetAvailabilityZone)
-        try writer["SubnetAvailabilityZoneId"].write(value.subnetAvailabilityZoneId)
-        try writer["SubnetId"].write(value.subnetId)
-        try writer["ViolatingRoutes"].writeList(value.violatingRoutes, memberWritingClosure: FMSClientTypes.Route.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["VpcId"].write(value.vpcId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> FMSClientTypes.RouteHasOutOfScopeEndpointViolation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7916,14 +7406,6 @@ extension FMSClientTypes {
 
 extension FMSClientTypes.SecurityGroupRemediationAction {
 
-    static func write(value: FMSClientTypes.SecurityGroupRemediationAction?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Description"].write(value.description)
-        try writer["IsDefaultAction"].write(value.isDefaultAction)
-        try writer["RemediationActionType"].write(value.remediationActionType)
-        try writer["RemediationResult"].write(value.remediationResult, with: FMSClientTypes.SecurityGroupRuleDescription.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> FMSClientTypes.SecurityGroupRemediationAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FMSClientTypes.SecurityGroupRemediationAction()
@@ -7964,16 +7446,6 @@ extension FMSClientTypes {
 }
 
 extension FMSClientTypes.SecurityGroupRuleDescription {
-
-    static func write(value: FMSClientTypes.SecurityGroupRuleDescription?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["FromPort"].write(value.fromPort)
-        try writer["IPV4Range"].write(value.ipv4Range)
-        try writer["IPV6Range"].write(value.ipv6Range)
-        try writer["PrefixListId"].write(value.prefixListId)
-        try writer["Protocol"].write(value.`protocol`)
-        try writer["ToPort"].write(value.toPort)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> FMSClientTypes.SecurityGroupRuleDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8185,12 +7657,6 @@ extension FMSClientTypes {
 
 extension FMSClientTypes.StatefulEngineOptions {
 
-    static func write(value: FMSClientTypes.StatefulEngineOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["RuleOrder"].write(value.ruleOrder)
-        try writer["StreamExceptionPolicy"].write(value.streamExceptionPolicy)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> FMSClientTypes.StatefulEngineOptions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FMSClientTypes.StatefulEngineOptions()
@@ -8233,14 +7699,6 @@ extension FMSClientTypes {
 
 extension FMSClientTypes.StatefulRuleGroup {
 
-    static func write(value: FMSClientTypes.StatefulRuleGroup?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Override"].write(value.`override`, with: FMSClientTypes.NetworkFirewallStatefulRuleGroupOverride.write(value:to:))
-        try writer["Priority"].write(value.priority)
-        try writer["ResourceId"].write(value.resourceId)
-        try writer["RuleGroupName"].write(value.ruleGroupName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> FMSClientTypes.StatefulRuleGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FMSClientTypes.StatefulRuleGroup()
@@ -8281,13 +7739,6 @@ extension FMSClientTypes {
 }
 
 extension FMSClientTypes.StatelessRuleGroup {
-
-    static func write(value: FMSClientTypes.StatelessRuleGroup?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Priority"].write(value.priority)
-        try writer["ResourceId"].write(value.resourceId)
-        try writer["RuleGroupName"].write(value.ruleGroupName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> FMSClientTypes.StatelessRuleGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8587,12 +8038,6 @@ extension FMSClientTypes {
 
 extension FMSClientTypes.ThirdPartyFirewallFirewallPolicy {
 
-    static func write(value: FMSClientTypes.ThirdPartyFirewallFirewallPolicy?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["FirewallPolicyId"].write(value.firewallPolicyId)
-        try writer["FirewallPolicyName"].write(value.firewallPolicyName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> FMSClientTypes.ThirdPartyFirewallFirewallPolicy {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FMSClientTypes.ThirdPartyFirewallFirewallPolicy()
@@ -8623,15 +8068,6 @@ extension FMSClientTypes {
 }
 
 extension FMSClientTypes.ThirdPartyFirewallMissingExpectedRouteTableViolation {
-
-    static func write(value: FMSClientTypes.ThirdPartyFirewallMissingExpectedRouteTableViolation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AvailabilityZone"].write(value.availabilityZone)
-        try writer["CurrentRouteTable"].write(value.currentRouteTable)
-        try writer["ExpectedRouteTable"].write(value.expectedRouteTable)
-        try writer["VPC"].write(value.vpc)
-        try writer["ViolationTarget"].write(value.violationTarget)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> FMSClientTypes.ThirdPartyFirewallMissingExpectedRouteTableViolation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8679,14 +8115,6 @@ extension FMSClientTypes {
 
 extension FMSClientTypes.ThirdPartyFirewallMissingFirewallViolation {
 
-    static func write(value: FMSClientTypes.ThirdPartyFirewallMissingFirewallViolation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AvailabilityZone"].write(value.availabilityZone)
-        try writer["TargetViolationReason"].write(value.targetViolationReason)
-        try writer["VPC"].write(value.vpc)
-        try writer["ViolationTarget"].write(value.violationTarget)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> FMSClientTypes.ThirdPartyFirewallMissingFirewallViolation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FMSClientTypes.ThirdPartyFirewallMissingFirewallViolation()
@@ -8727,14 +8155,6 @@ extension FMSClientTypes {
 }
 
 extension FMSClientTypes.ThirdPartyFirewallMissingSubnetViolation {
-
-    static func write(value: FMSClientTypes.ThirdPartyFirewallMissingSubnetViolation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AvailabilityZone"].write(value.availabilityZone)
-        try writer["TargetViolationReason"].write(value.targetViolationReason)
-        try writer["VPC"].write(value.vpc)
-        try writer["ViolationTarget"].write(value.violationTarget)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> FMSClientTypes.ThirdPartyFirewallMissingSubnetViolation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8870,17 +8290,6 @@ enum UntagResourceOutputError {
 }
 
 extension FMSClientTypes.ViolationDetail {
-
-    static func write(value: FMSClientTypes.ViolationDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MemberAccount"].write(value.memberAccount)
-        try writer["PolicyId"].write(value.policyId)
-        try writer["ResourceDescription"].write(value.resourceDescription)
-        try writer["ResourceId"].write(value.resourceId)
-        try writer["ResourceTags"].writeList(value.resourceTags, memberWritingClosure: FMSClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ResourceType"].write(value.resourceType)
-        try writer["ResourceViolations"].writeList(value.resourceViolations, memberWritingClosure: FMSClientTypes.ResourceViolation.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> FMSClientTypes.ViolationDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

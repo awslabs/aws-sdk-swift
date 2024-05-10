@@ -6,12 +6,6 @@ import SmithyReadWrite
 
 extension ChatbotClientTypes.AccountPreferences {
 
-    static func write(value: ChatbotClientTypes.AccountPreferences?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["TrainingDataCollectionEnabled"].write(value.trainingDataCollectionEnabled)
-        try writer["UserAuthorizationRequired"].write(value.userAuthorizationRequired)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ChatbotClientTypes.AccountPreferences {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ChatbotClientTypes.AccountPreferences()
@@ -44,16 +38,6 @@ extension ChatbotClientTypes {
 public enum ChatbotClientTypes {}
 
 extension ChatbotClientTypes.ChimeWebhookConfiguration {
-
-    static func write(value: ChatbotClientTypes.ChimeWebhookConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ChatConfigurationArn"].write(value.chatConfigurationArn)
-        try writer["ConfigurationName"].write(value.configurationName)
-        try writer["IamRoleArn"].write(value.iamRoleArn)
-        try writer["LoggingLevel"].write(value.loggingLevel)
-        try writer["SnsTopicArns"].writeList(value.snsTopicArns, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["WebhookDescription"].write(value.webhookDescription)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ChatbotClientTypes.ChimeWebhookConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -109,13 +93,6 @@ extension ChatbotClientTypes {
 }
 
 extension ChatbotClientTypes.ConfiguredTeam {
-
-    static func write(value: ChatbotClientTypes.ConfiguredTeam?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["TeamId"].write(value.teamId)
-        try writer["TeamName"].write(value.teamName)
-        try writer["TenantId"].write(value.tenantId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ChatbotClientTypes.ConfiguredTeam {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2473,21 +2450,6 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
 extension ChatbotClientTypes.SlackChannelConfiguration {
 
-    static func write(value: ChatbotClientTypes.SlackChannelConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ChatConfigurationArn"].write(value.chatConfigurationArn)
-        try writer["ConfigurationName"].write(value.configurationName)
-        try writer["GuardrailPolicyArns"].writeList(value.guardrailPolicyArns, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["IamRoleArn"].write(value.iamRoleArn)
-        try writer["LoggingLevel"].write(value.loggingLevel)
-        try writer["SlackChannelId"].write(value.slackChannelId)
-        try writer["SlackChannelName"].write(value.slackChannelName)
-        try writer["SlackTeamId"].write(value.slackTeamId)
-        try writer["SlackTeamName"].write(value.slackTeamName)
-        try writer["SnsTopicArns"].writeList(value.snsTopicArns, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["UserAuthorizationRequired"].write(value.userAuthorizationRequired)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ChatbotClientTypes.SlackChannelConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ChatbotClientTypes.SlackChannelConfiguration()
@@ -2571,15 +2533,6 @@ extension ChatbotClientTypes {
 
 extension ChatbotClientTypes.SlackUserIdentity {
 
-    static func write(value: ChatbotClientTypes.SlackUserIdentity?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AwsUserIdentity"].write(value.awsUserIdentity)
-        try writer["ChatConfigurationArn"].write(value.chatConfigurationArn)
-        try writer["IamRoleArn"].write(value.iamRoleArn)
-        try writer["SlackTeamId"].write(value.slackTeamId)
-        try writer["SlackUserId"].write(value.slackUserId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ChatbotClientTypes.SlackUserIdentity {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ChatbotClientTypes.SlackUserIdentity()
@@ -2630,12 +2583,6 @@ extension ChatbotClientTypes {
 
 extension ChatbotClientTypes.SlackWorkspace {
 
-    static func write(value: ChatbotClientTypes.SlackWorkspace?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["SlackTeamId"].write(value.slackTeamId)
-        try writer["SlackTeamName"].write(value.slackTeamName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ChatbotClientTypes.SlackWorkspace {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ChatbotClientTypes.SlackWorkspace()
@@ -2668,22 +2615,6 @@ extension ChatbotClientTypes {
 }
 
 extension ChatbotClientTypes.TeamsChannelConfiguration {
-
-    static func write(value: ChatbotClientTypes.TeamsChannelConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ChannelId"].write(value.channelId)
-        try writer["ChannelName"].write(value.channelName)
-        try writer["ChatConfigurationArn"].write(value.chatConfigurationArn)
-        try writer["ConfigurationName"].write(value.configurationName)
-        try writer["GuardrailPolicyArns"].writeList(value.guardrailPolicyArns, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["IamRoleArn"].write(value.iamRoleArn)
-        try writer["LoggingLevel"].write(value.loggingLevel)
-        try writer["SnsTopicArns"].writeList(value.snsTopicArns, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["TeamId"].write(value.teamId)
-        try writer["TeamName"].write(value.teamName)
-        try writer["TenantId"].write(value.tenantId)
-        try writer["UserAuthorizationRequired"].write(value.userAuthorizationRequired)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ChatbotClientTypes.TeamsChannelConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2771,17 +2702,6 @@ extension ChatbotClientTypes {
 }
 
 extension ChatbotClientTypes.TeamsUserIdentity {
-
-    static func write(value: ChatbotClientTypes.TeamsUserIdentity?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AwsUserIdentity"].write(value.awsUserIdentity)
-        try writer["ChatConfigurationArn"].write(value.chatConfigurationArn)
-        try writer["IamRoleArn"].write(value.iamRoleArn)
-        try writer["TeamId"].write(value.teamId)
-        try writer["TeamsChannelId"].write(value.teamsChannelId)
-        try writer["TeamsTenantId"].write(value.teamsTenantId)
-        try writer["UserId"].write(value.userId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ChatbotClientTypes.TeamsUserIdentity {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

@@ -147,12 +147,6 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
 extension NetworkManagerClientTypes.AccountStatus {
 
-    static func write(value: NetworkManagerClientTypes.AccountStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccountId"].write(value.accountId)
-        try writer["SLRDeploymentStatus"].write(value.slrDeploymentStatus)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.AccountStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = NetworkManagerClientTypes.AccountStatus()
@@ -543,24 +537,6 @@ enum AssociateTransitGatewayConnectPeerOutputError {
 
 extension NetworkManagerClientTypes.Attachment {
 
-    static func write(value: NetworkManagerClientTypes.Attachment?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AttachmentId"].write(value.attachmentId)
-        try writer["AttachmentPolicyRuleNumber"].write(value.attachmentPolicyRuleNumber)
-        try writer["AttachmentType"].write(value.attachmentType)
-        try writer["CoreNetworkArn"].write(value.coreNetworkArn)
-        try writer["CoreNetworkId"].write(value.coreNetworkId)
-        try writer["CreatedAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["EdgeLocation"].write(value.edgeLocation)
-        try writer["OwnerAccountId"].write(value.ownerAccountId)
-        try writer["ProposedSegmentChange"].write(value.proposedSegmentChange, with: NetworkManagerClientTypes.ProposedSegmentChange.write(value:to:))
-        try writer["ResourceArn"].write(value.resourceArn)
-        try writer["SegmentName"].write(value.segmentName)
-        try writer["State"].write(value.state)
-        try writer["Tags"].writeList(value.tags, memberWritingClosure: NetworkManagerClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["UpdatedAt"].writeTimestamp(value.updatedAt, format: .epochSeconds)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.Attachment {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = NetworkManagerClientTypes.Attachment()
@@ -779,13 +755,6 @@ extension NetworkManagerClientTypes.BgpOptions {
     static func write(value: NetworkManagerClientTypes.BgpOptions?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["PeerAsn"].write(value.peerAsn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.BgpOptions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkManagerClientTypes.BgpOptions()
-        value.peerAsn = try reader["PeerAsn"].readIfPresent()
-        return value
     }
 }
 
@@ -1019,13 +988,6 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
 extension NetworkManagerClientTypes.ConnectAttachment {
 
-    static func write(value: NetworkManagerClientTypes.ConnectAttachment?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Attachment"].write(value.attachment, with: NetworkManagerClientTypes.Attachment.write(value:to:))
-        try writer["Options"].write(value.options, with: NetworkManagerClientTypes.ConnectAttachmentOptions.write(value:to:))
-        try writer["TransportAttachmentId"].write(value.transportAttachmentId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.ConnectAttachment {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = NetworkManagerClientTypes.ConnectAttachment()
@@ -1093,19 +1055,6 @@ extension NetworkManagerClientTypes {
 
 extension NetworkManagerClientTypes.ConnectPeer {
 
-    static func write(value: NetworkManagerClientTypes.ConnectPeer?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Configuration"].write(value.configuration, with: NetworkManagerClientTypes.ConnectPeerConfiguration.write(value:to:))
-        try writer["ConnectAttachmentId"].write(value.connectAttachmentId)
-        try writer["ConnectPeerId"].write(value.connectPeerId)
-        try writer["CoreNetworkId"].write(value.coreNetworkId)
-        try writer["CreatedAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["EdgeLocation"].write(value.edgeLocation)
-        try writer["State"].write(value.state)
-        try writer["SubnetArn"].write(value.subnetArn)
-        try writer["Tags"].writeList(value.tags, memberWritingClosure: NetworkManagerClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.ConnectPeer {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = NetworkManagerClientTypes.ConnectPeer()
@@ -1171,15 +1120,6 @@ extension NetworkManagerClientTypes {
 }
 
 extension NetworkManagerClientTypes.ConnectPeerAssociation {
-
-    static func write(value: NetworkManagerClientTypes.ConnectPeerAssociation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ConnectPeerId"].write(value.connectPeerId)
-        try writer["DeviceId"].write(value.deviceId)
-        try writer["GlobalNetworkId"].write(value.globalNetworkId)
-        try writer["LinkId"].write(value.linkId)
-        try writer["State"].write(value.state)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.ConnectPeerAssociation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1263,14 +1203,6 @@ extension NetworkManagerClientTypes {
 
 extension NetworkManagerClientTypes.ConnectPeerBgpConfiguration {
 
-    static func write(value: NetworkManagerClientTypes.ConnectPeerBgpConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CoreNetworkAddress"].write(value.coreNetworkAddress)
-        try writer["CoreNetworkAsn"].write(value.coreNetworkAsn)
-        try writer["PeerAddress"].write(value.peerAddress)
-        try writer["PeerAsn"].write(value.peerAsn)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.ConnectPeerBgpConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = NetworkManagerClientTypes.ConnectPeerBgpConfiguration()
@@ -1311,15 +1243,6 @@ extension NetworkManagerClientTypes {
 }
 
 extension NetworkManagerClientTypes.ConnectPeerConfiguration {
-
-    static func write(value: NetworkManagerClientTypes.ConnectPeerConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BgpConfigurations"].writeList(value.bgpConfigurations, memberWritingClosure: NetworkManagerClientTypes.ConnectPeerBgpConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["CoreNetworkAddress"].write(value.coreNetworkAddress)
-        try writer["InsideCidrBlocks"].writeList(value.insideCidrBlocks, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["PeerAddress"].write(value.peerAddress)
-        try writer["Protocol"].write(value.`protocol`)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.ConnectPeerConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1403,18 +1326,6 @@ extension NetworkManagerClientTypes {
 
 extension NetworkManagerClientTypes.ConnectPeerSummary {
 
-    static func write(value: NetworkManagerClientTypes.ConnectPeerSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ConnectAttachmentId"].write(value.connectAttachmentId)
-        try writer["ConnectPeerId"].write(value.connectPeerId)
-        try writer["ConnectPeerState"].write(value.connectPeerState)
-        try writer["CoreNetworkId"].write(value.coreNetworkId)
-        try writer["CreatedAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["EdgeLocation"].write(value.edgeLocation)
-        try writer["SubnetArn"].write(value.subnetArn)
-        try writer["Tags"].writeList(value.tags, memberWritingClosure: NetworkManagerClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.ConnectPeerSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = NetworkManagerClientTypes.ConnectPeerSummary()
@@ -1475,21 +1386,6 @@ extension NetworkManagerClientTypes {
 }
 
 extension NetworkManagerClientTypes.Connection {
-
-    static func write(value: NetworkManagerClientTypes.Connection?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ConnectedDeviceId"].write(value.connectedDeviceId)
-        try writer["ConnectedLinkId"].write(value.connectedLinkId)
-        try writer["ConnectionArn"].write(value.connectionArn)
-        try writer["ConnectionId"].write(value.connectionId)
-        try writer["CreatedAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["Description"].write(value.description)
-        try writer["DeviceId"].write(value.deviceId)
-        try writer["GlobalNetworkId"].write(value.globalNetworkId)
-        try writer["LinkId"].write(value.linkId)
-        try writer["State"].write(value.state)
-        try writer["Tags"].writeList(value.tags, memberWritingClosure: NetworkManagerClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.Connection {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1566,13 +1462,6 @@ extension NetworkManagerClientTypes {
 }
 
 extension NetworkManagerClientTypes.ConnectionHealth {
-
-    static func write(value: NetworkManagerClientTypes.ConnectionHealth?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Status"].write(value.status)
-        try writer["Timestamp"].writeTimestamp(value.timestamp, format: .epochSeconds)
-        try writer["Type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.ConnectionHealth {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1706,19 +1595,6 @@ extension NetworkManagerClientTypes {
 
 extension NetworkManagerClientTypes.CoreNetwork {
 
-    static func write(value: NetworkManagerClientTypes.CoreNetwork?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CoreNetworkArn"].write(value.coreNetworkArn)
-        try writer["CoreNetworkId"].write(value.coreNetworkId)
-        try writer["CreatedAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["Description"].write(value.description)
-        try writer["Edges"].writeList(value.edges, memberWritingClosure: NetworkManagerClientTypes.CoreNetworkEdge.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["GlobalNetworkId"].write(value.globalNetworkId)
-        try writer["Segments"].writeList(value.segments, memberWritingClosure: NetworkManagerClientTypes.CoreNetworkSegment.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["State"].write(value.state)
-        try writer["Tags"].writeList(value.tags, memberWritingClosure: NetworkManagerClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.CoreNetwork {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = NetworkManagerClientTypes.CoreNetwork()
@@ -1785,16 +1661,6 @@ extension NetworkManagerClientTypes {
 
 extension NetworkManagerClientTypes.CoreNetworkChange {
 
-    static func write(value: NetworkManagerClientTypes.CoreNetworkChange?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Action"].write(value.action)
-        try writer["Identifier"].write(value.identifier)
-        try writer["IdentifierPath"].write(value.identifierPath)
-        try writer["NewValues"].write(value.newValues, with: NetworkManagerClientTypes.CoreNetworkChangeValues.write(value:to:))
-        try writer["PreviousValues"].write(value.previousValues, with: NetworkManagerClientTypes.CoreNetworkChangeValues.write(value:to:))
-        try writer["Type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.CoreNetworkChange {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = NetworkManagerClientTypes.CoreNetworkChange()
@@ -1845,16 +1711,6 @@ extension NetworkManagerClientTypes {
 }
 
 extension NetworkManagerClientTypes.CoreNetworkChangeEvent {
-
-    static func write(value: NetworkManagerClientTypes.CoreNetworkChangeEvent?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Action"].write(value.action)
-        try writer["EventTime"].writeTimestamp(value.eventTime, format: .epochSeconds)
-        try writer["IdentifierPath"].write(value.identifierPath)
-        try writer["Status"].write(value.status)
-        try writer["Type"].write(value.type)
-        try writer["Values"].write(value.values, with: NetworkManagerClientTypes.CoreNetworkChangeEventValues.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.CoreNetworkChangeEvent {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1907,14 +1763,6 @@ extension NetworkManagerClientTypes {
 
 extension NetworkManagerClientTypes.CoreNetworkChangeEventValues {
 
-    static func write(value: NetworkManagerClientTypes.CoreNetworkChangeEventValues?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AttachmentId"].write(value.attachmentId)
-        try writer["Cidr"].write(value.cidr)
-        try writer["EdgeLocation"].write(value.edgeLocation)
-        try writer["SegmentName"].write(value.segmentName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.CoreNetworkChangeEventValues {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = NetworkManagerClientTypes.CoreNetworkChangeEventValues()
@@ -1955,17 +1803,6 @@ extension NetworkManagerClientTypes {
 }
 
 extension NetworkManagerClientTypes.CoreNetworkChangeValues {
-
-    static func write(value: NetworkManagerClientTypes.CoreNetworkChangeValues?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Asn"].write(value.asn)
-        try writer["Cidr"].write(value.cidr)
-        try writer["DestinationIdentifier"].write(value.destinationIdentifier)
-        try writer["EdgeLocations"].writeList(value.edgeLocations, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["InsideCidrBlocks"].writeList(value.insideCidrBlocks, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["SegmentName"].write(value.segmentName)
-        try writer["SharedSegments"].writeList(value.sharedSegments, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.CoreNetworkChangeValues {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2023,13 +1860,6 @@ extension NetworkManagerClientTypes {
 
 extension NetworkManagerClientTypes.CoreNetworkEdge {
 
-    static func write(value: NetworkManagerClientTypes.CoreNetworkEdge?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Asn"].write(value.asn)
-        try writer["EdgeLocation"].write(value.edgeLocation)
-        try writer["InsideCidrBlocks"].writeList(value.insideCidrBlocks, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.CoreNetworkEdge {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = NetworkManagerClientTypes.CoreNetworkEdge()
@@ -2065,18 +1895,6 @@ extension NetworkManagerClientTypes {
 }
 
 extension NetworkManagerClientTypes.CoreNetworkPolicy {
-
-    static func write(value: NetworkManagerClientTypes.CoreNetworkPolicy?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Alias"].write(value.alias)
-        try writer["ChangeSetState"].write(value.changeSetState)
-        try writer["CoreNetworkId"].write(value.coreNetworkId)
-        try writer["CreatedAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["Description"].write(value.description)
-        try writer["PolicyDocument"].write(value.policyDocument)
-        try writer["PolicyErrors"].writeList(value.policyErrors, memberWritingClosure: NetworkManagerClientTypes.CoreNetworkPolicyError.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["PolicyVersionId"].write(value.policyVersionId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.CoreNetworkPolicy {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2169,13 +1987,6 @@ extension NetworkManagerClientTypes {
 
 extension NetworkManagerClientTypes.CoreNetworkPolicyError {
 
-    static func write(value: NetworkManagerClientTypes.CoreNetworkPolicyError?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ErrorCode"].write(value.errorCode)
-        try writer["Message"].write(value.message)
-        try writer["Path"].write(value.path)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.CoreNetworkPolicyError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = NetworkManagerClientTypes.CoreNetworkPolicyError()
@@ -2257,16 +2068,6 @@ public struct CoreNetworkPolicyException: ClientRuntime.ModeledError, AWSClientR
 
 extension NetworkManagerClientTypes.CoreNetworkPolicyVersion {
 
-    static func write(value: NetworkManagerClientTypes.CoreNetworkPolicyVersion?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Alias"].write(value.alias)
-        try writer["ChangeSetState"].write(value.changeSetState)
-        try writer["CoreNetworkId"].write(value.coreNetworkId)
-        try writer["CreatedAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["Description"].write(value.description)
-        try writer["PolicyVersionId"].write(value.policyVersionId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.CoreNetworkPolicyVersion {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = NetworkManagerClientTypes.CoreNetworkPolicyVersion()
@@ -2317,13 +2118,6 @@ extension NetworkManagerClientTypes {
 }
 
 extension NetworkManagerClientTypes.CoreNetworkSegment {
-
-    static func write(value: NetworkManagerClientTypes.CoreNetworkSegment?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EdgeLocations"].writeList(value.edgeLocations, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Name"].write(value.name)
-        try writer["SharedSegments"].writeList(value.sharedSegments, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.CoreNetworkSegment {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2439,17 +2233,6 @@ extension NetworkManagerClientTypes {
 }
 
 extension NetworkManagerClientTypes.CoreNetworkSummary {
-
-    static func write(value: NetworkManagerClientTypes.CoreNetworkSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CoreNetworkArn"].write(value.coreNetworkArn)
-        try writer["CoreNetworkId"].write(value.coreNetworkId)
-        try writer["Description"].write(value.description)
-        try writer["GlobalNetworkId"].write(value.globalNetworkId)
-        try writer["OwnerAccountId"].write(value.ownerAccountId)
-        try writer["State"].write(value.state)
-        try writer["Tags"].writeList(value.tags, memberWritingClosure: NetworkManagerClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.CoreNetworkSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3674,15 +3457,6 @@ enum CreateVpcAttachmentOutputError {
 
 extension NetworkManagerClientTypes.CustomerGatewayAssociation {
 
-    static func write(value: NetworkManagerClientTypes.CustomerGatewayAssociation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CustomerGatewayArn"].write(value.customerGatewayArn)
-        try writer["DeviceId"].write(value.deviceId)
-        try writer["GlobalNetworkId"].write(value.globalNetworkId)
-        try writer["LinkId"].write(value.linkId)
-        try writer["State"].write(value.state)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.CustomerGatewayAssociation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = NetworkManagerClientTypes.CustomerGatewayAssociation()
@@ -4692,24 +4466,6 @@ extension NetworkManagerClientTypes.Device: Swift.CustomDebugStringConvertible {
 }
 
 extension NetworkManagerClientTypes.Device {
-
-    static func write(value: NetworkManagerClientTypes.Device?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AWSLocation"].write(value.awsLocation, with: NetworkManagerClientTypes.AWSLocation.write(value:to:))
-        try writer["CreatedAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["Description"].write(value.description)
-        try writer["DeviceArn"].write(value.deviceArn)
-        try writer["DeviceId"].write(value.deviceId)
-        try writer["GlobalNetworkId"].write(value.globalNetworkId)
-        try writer["Location"].write(value.location, with: NetworkManagerClientTypes.Location.write(value:to:))
-        try writer["Model"].write(value.model)
-        try writer["SerialNumber"].write(value.serialNumber)
-        try writer["SiteId"].write(value.siteId)
-        try writer["State"].write(value.state)
-        try writer["Tags"].writeList(value.tags, memberWritingClosure: NetworkManagerClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Type"].write(value.type)
-        try writer["Vendor"].write(value.vendor)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.Device {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7881,16 +7637,6 @@ enum GetVpcAttachmentOutputError {
 
 extension NetworkManagerClientTypes.GlobalNetwork {
 
-    static func write(value: NetworkManagerClientTypes.GlobalNetwork?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["Description"].write(value.description)
-        try writer["GlobalNetworkArn"].write(value.globalNetworkArn)
-        try writer["GlobalNetworkId"].write(value.globalNetworkId)
-        try writer["State"].write(value.state)
-        try writer["Tags"].writeList(value.tags, memberWritingClosure: NetworkManagerClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.GlobalNetwork {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = NetworkManagerClientTypes.GlobalNetwork()
@@ -8024,21 +7770,6 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
 extension NetworkManagerClientTypes.Link {
 
-    static func write(value: NetworkManagerClientTypes.Link?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Bandwidth"].write(value.bandwidth, with: NetworkManagerClientTypes.Bandwidth.write(value:to:))
-        try writer["CreatedAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["Description"].write(value.description)
-        try writer["GlobalNetworkId"].write(value.globalNetworkId)
-        try writer["LinkArn"].write(value.linkArn)
-        try writer["LinkId"].write(value.linkId)
-        try writer["Provider"].write(value.provider)
-        try writer["SiteId"].write(value.siteId)
-        try writer["State"].write(value.state)
-        try writer["Tags"].writeList(value.tags, memberWritingClosure: NetworkManagerClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.Link {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = NetworkManagerClientTypes.Link()
@@ -8114,14 +7845,6 @@ extension NetworkManagerClientTypes {
 }
 
 extension NetworkManagerClientTypes.LinkAssociation {
-
-    static func write(value: NetworkManagerClientTypes.LinkAssociation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DeviceId"].write(value.deviceId)
-        try writer["GlobalNetworkId"].write(value.globalNetworkId)
-        try writer["LinkAssociationState"].write(value.linkAssociationState)
-        try writer["LinkId"].write(value.linkId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.LinkAssociation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8947,21 +8670,6 @@ public enum NetworkManagerClientTypes {}
 
 extension NetworkManagerClientTypes.NetworkResource {
 
-    static func write(value: NetworkManagerClientTypes.NetworkResource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccountId"].write(value.accountId)
-        try writer["AwsRegion"].write(value.awsRegion)
-        try writer["CoreNetworkId"].write(value.coreNetworkId)
-        try writer["Definition"].write(value.definition)
-        try writer["DefinitionTimestamp"].writeTimestamp(value.definitionTimestamp, format: .epochSeconds)
-        try writer["Metadata"].writeMap(value.metadata, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["RegisteredGatewayArn"].write(value.registeredGatewayArn)
-        try writer["ResourceArn"].write(value.resourceArn)
-        try writer["ResourceId"].write(value.resourceId)
-        try writer["ResourceType"].write(value.resourceType)
-        try writer["Tags"].writeList(value.tags, memberWritingClosure: NetworkManagerClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.NetworkResource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = NetworkManagerClientTypes.NetworkResource()
@@ -9070,12 +8778,6 @@ extension NetworkManagerClientTypes {
 
 extension NetworkManagerClientTypes.NetworkResourceCount {
 
-    static func write(value: NetworkManagerClientTypes.NetworkResourceCount?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Count"].write(value.count)
-        try writer["ResourceType"].write(value.resourceType)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.NetworkResourceCount {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = NetworkManagerClientTypes.NetworkResourceCount()
@@ -9106,16 +8808,6 @@ extension NetworkManagerClientTypes {
 }
 
 extension NetworkManagerClientTypes.NetworkResourceSummary {
-
-    static func write(value: NetworkManagerClientTypes.NetworkResourceSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Definition"].write(value.definition)
-        try writer["IsMiddlebox"].write(value.isMiddlebox)
-        try writer["NameTag"].write(value.nameTag)
-        try writer["RegisteredGatewayArn"].write(value.registeredGatewayArn)
-        try writer["ResourceArn"].write(value.resourceArn)
-        try writer["ResourceType"].write(value.resourceType)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.NetworkResourceSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -9168,15 +8860,6 @@ extension NetworkManagerClientTypes {
 
 extension NetworkManagerClientTypes.NetworkRoute {
 
-    static func write(value: NetworkManagerClientTypes.NetworkRoute?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DestinationCidrBlock"].write(value.destinationCidrBlock)
-        try writer["Destinations"].writeList(value.destinations, memberWritingClosure: NetworkManagerClientTypes.NetworkRouteDestination.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["PrefixListId"].write(value.prefixListId)
-        try writer["State"].write(value.state)
-        try writer["Type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.NetworkRoute {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = NetworkManagerClientTypes.NetworkRoute()
@@ -9222,16 +8905,6 @@ extension NetworkManagerClientTypes {
 }
 
 extension NetworkManagerClientTypes.NetworkRouteDestination {
-
-    static func write(value: NetworkManagerClientTypes.NetworkRouteDestination?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CoreNetworkAttachmentId"].write(value.coreNetworkAttachmentId)
-        try writer["EdgeLocation"].write(value.edgeLocation)
-        try writer["ResourceId"].write(value.resourceId)
-        try writer["ResourceType"].write(value.resourceType)
-        try writer["SegmentName"].write(value.segmentName)
-        try writer["TransitGatewayAttachmentId"].write(value.transitGatewayAttachmentId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.NetworkRouteDestination {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -9283,19 +8956,6 @@ extension NetworkManagerClientTypes {
 }
 
 extension NetworkManagerClientTypes.NetworkTelemetry {
-
-    static func write(value: NetworkManagerClientTypes.NetworkTelemetry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccountId"].write(value.accountId)
-        try writer["Address"].write(value.address)
-        try writer["AwsRegion"].write(value.awsRegion)
-        try writer["CoreNetworkId"].write(value.coreNetworkId)
-        try writer["Health"].write(value.health, with: NetworkManagerClientTypes.ConnectionHealth.write(value:to:))
-        try writer["RegisteredGatewayArn"].write(value.registeredGatewayArn)
-        try writer["ResourceArn"].write(value.resourceArn)
-        try writer["ResourceId"].write(value.resourceId)
-        try writer["ResourceType"].write(value.resourceType)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.NetworkTelemetry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -9363,14 +9023,6 @@ extension NetworkManagerClientTypes {
 
 extension NetworkManagerClientTypes.OrganizationStatus {
 
-    static func write(value: NetworkManagerClientTypes.OrganizationStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccountStatusList"].writeList(value.accountStatusList, memberWritingClosure: NetworkManagerClientTypes.AccountStatus.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["OrganizationAwsServiceAccessStatus"].write(value.organizationAwsServiceAccessStatus)
-        try writer["OrganizationId"].write(value.organizationId)
-        try writer["SLRDeploymentStatus"].write(value.slrDeploymentStatus)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.OrganizationStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = NetworkManagerClientTypes.OrganizationStatus()
@@ -9412,13 +9064,6 @@ extension NetworkManagerClientTypes {
 
 extension NetworkManagerClientTypes.PathComponent {
 
-    static func write(value: NetworkManagerClientTypes.PathComponent?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DestinationCidrBlock"].write(value.destinationCidrBlock)
-        try writer["Resource"].write(value.resource, with: NetworkManagerClientTypes.NetworkResourceSummary.write(value:to:))
-        try writer["Sequence"].write(value.sequence)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.PathComponent {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = NetworkManagerClientTypes.PathComponent()
@@ -9454,20 +9099,6 @@ extension NetworkManagerClientTypes {
 }
 
 extension NetworkManagerClientTypes.Peering {
-
-    static func write(value: NetworkManagerClientTypes.Peering?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CoreNetworkArn"].write(value.coreNetworkArn)
-        try writer["CoreNetworkId"].write(value.coreNetworkId)
-        try writer["CreatedAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["EdgeLocation"].write(value.edgeLocation)
-        try writer["OwnerAccountId"].write(value.ownerAccountId)
-        try writer["PeeringId"].write(value.peeringId)
-        try writer["PeeringType"].write(value.peeringType)
-        try writer["ResourceArn"].write(value.resourceArn)
-        try writer["State"].write(value.state)
-        try writer["Tags"].writeList(value.tags, memberWritingClosure: NetworkManagerClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.Peering {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -9602,13 +9233,6 @@ extension NetworkManagerClientTypes {
 }
 
 extension NetworkManagerClientTypes.ProposedSegmentChange {
-
-    static func write(value: NetworkManagerClientTypes.ProposedSegmentChange?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AttachmentPolicyRuleNumber"].write(value.attachmentPolicyRuleNumber)
-        try writer["SegmentName"].write(value.segmentName)
-        try writer["Tags"].writeList(value.tags, memberWritingClosure: NetworkManagerClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.ProposedSegmentChange {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -9953,12 +9577,6 @@ enum RejectAttachmentOutputError {
 
 extension NetworkManagerClientTypes.Relationship {
 
-    static func write(value: NetworkManagerClientTypes.Relationship?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["From"].write(value.from)
-        try writer["To"].write(value.to)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.Relationship {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = NetworkManagerClientTypes.Relationship()
@@ -10119,21 +9737,6 @@ enum RestoreCoreNetworkPolicyVersionOutputError {
 
 extension NetworkManagerClientTypes.RouteAnalysis {
 
-    static func write(value: NetworkManagerClientTypes.RouteAnalysis?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Destination"].write(value.destination, with: NetworkManagerClientTypes.RouteAnalysisEndpointOptions.write(value:to:))
-        try writer["ForwardPath"].write(value.forwardPath, with: NetworkManagerClientTypes.RouteAnalysisPath.write(value:to:))
-        try writer["GlobalNetworkId"].write(value.globalNetworkId)
-        try writer["IncludeReturnPath"].write(value.includeReturnPath)
-        try writer["OwnerAccountId"].write(value.ownerAccountId)
-        try writer["ReturnPath"].write(value.returnPath, with: NetworkManagerClientTypes.RouteAnalysisPath.write(value:to:))
-        try writer["RouteAnalysisId"].write(value.routeAnalysisId)
-        try writer["Source"].write(value.source, with: NetworkManagerClientTypes.RouteAnalysisEndpointOptions.write(value:to:))
-        try writer["StartTimestamp"].writeTimestamp(value.startTimestamp, format: .epochSeconds)
-        try writer["Status"].write(value.status)
-        try writer["UseMiddleboxes"].write(value.useMiddleboxes)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.RouteAnalysis {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = NetworkManagerClientTypes.RouteAnalysis()
@@ -10209,13 +9812,6 @@ extension NetworkManagerClientTypes {
 }
 
 extension NetworkManagerClientTypes.RouteAnalysisCompletion {
-
-    static func write(value: NetworkManagerClientTypes.RouteAnalysisCompletion?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ReasonCode"].write(value.reasonCode)
-        try writer["ReasonContext"].writeMap(value.reasonContext, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["ResultCode"].write(value.resultCode)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.RouteAnalysisCompletion {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -10358,13 +9954,6 @@ extension NetworkManagerClientTypes {
 
 extension NetworkManagerClientTypes.RouteAnalysisEndpointOptions {
 
-    static func write(value: NetworkManagerClientTypes.RouteAnalysisEndpointOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["IpAddress"].write(value.ipAddress)
-        try writer["TransitGatewayArn"].write(value.transitGatewayArn)
-        try writer["TransitGatewayAttachmentArn"].write(value.transitGatewayAttachmentArn)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.RouteAnalysisEndpointOptions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = NetworkManagerClientTypes.RouteAnalysisEndpointOptions()
@@ -10406,14 +9995,6 @@ extension NetworkManagerClientTypes.RouteAnalysisEndpointOptionsSpecification {
         try writer["IpAddress"].write(value.ipAddress)
         try writer["TransitGatewayAttachmentArn"].write(value.transitGatewayAttachmentArn)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.RouteAnalysisEndpointOptionsSpecification {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkManagerClientTypes.RouteAnalysisEndpointOptionsSpecification()
-        value.transitGatewayAttachmentArn = try reader["TransitGatewayAttachmentArn"].readIfPresent()
-        value.ipAddress = try reader["IpAddress"].readIfPresent()
-        return value
-    }
 }
 
 extension NetworkManagerClientTypes {
@@ -10437,12 +10018,6 @@ extension NetworkManagerClientTypes {
 }
 
 extension NetworkManagerClientTypes.RouteAnalysisPath {
-
-    static func write(value: NetworkManagerClientTypes.RouteAnalysisPath?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CompletionStatus"].write(value.completionStatus, with: NetworkManagerClientTypes.RouteAnalysisCompletion.write(value:to:))
-        try writer["Path"].writeList(value.path, memberWritingClosure: NetworkManagerClientTypes.PathComponent.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.RouteAnalysisPath {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -10542,14 +10117,6 @@ extension NetworkManagerClientTypes.RouteTableIdentifier {
         guard let value else { return }
         try writer["CoreNetworkSegmentEdge"].write(value.coreNetworkSegmentEdge, with: NetworkManagerClientTypes.CoreNetworkSegmentEdgeIdentifier.write(value:to:))
         try writer["TransitGatewayRouteTableArn"].write(value.transitGatewayRouteTableArn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.RouteTableIdentifier {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkManagerClientTypes.RouteTableIdentifier()
-        value.transitGatewayRouteTableArn = try reader["TransitGatewayRouteTableArn"].readIfPresent()
-        value.coreNetworkSegmentEdge = try reader["CoreNetworkSegmentEdge"].readIfPresent(with: NetworkManagerClientTypes.CoreNetworkSegmentEdgeIdentifier.read(from:))
-        return value
     }
 }
 
@@ -10701,18 +10268,6 @@ extension NetworkManagerClientTypes.Site: Swift.CustomDebugStringConvertible {
 
 extension NetworkManagerClientTypes.Site {
 
-    static func write(value: NetworkManagerClientTypes.Site?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["Description"].write(value.description)
-        try writer["GlobalNetworkId"].write(value.globalNetworkId)
-        try writer["Location"].write(value.location, with: NetworkManagerClientTypes.Location.write(value:to:))
-        try writer["SiteArn"].write(value.siteArn)
-        try writer["SiteId"].write(value.siteId)
-        try writer["State"].write(value.state)
-        try writer["Tags"].writeList(value.tags, memberWritingClosure: NetworkManagerClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.Site {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = NetworkManagerClientTypes.Site()
@@ -10809,12 +10364,6 @@ extension NetworkManagerClientTypes {
 }
 
 extension NetworkManagerClientTypes.SiteToSiteVpnAttachment {
-
-    static func write(value: NetworkManagerClientTypes.SiteToSiteVpnAttachment?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Attachment"].write(value.attachment, with: NetworkManagerClientTypes.Attachment.write(value:to:))
-        try writer["VpnConnectionArn"].write(value.vpnConnectionArn)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.SiteToSiteVpnAttachment {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -11164,15 +10713,6 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
 extension NetworkManagerClientTypes.TransitGatewayConnectPeerAssociation {
 
-    static func write(value: NetworkManagerClientTypes.TransitGatewayConnectPeerAssociation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DeviceId"].write(value.deviceId)
-        try writer["GlobalNetworkId"].write(value.globalNetworkId)
-        try writer["LinkId"].write(value.linkId)
-        try writer["State"].write(value.state)
-        try writer["TransitGatewayConnectPeerArn"].write(value.transitGatewayConnectPeerArn)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.TransitGatewayConnectPeerAssociation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = NetworkManagerClientTypes.TransitGatewayConnectPeerAssociation()
@@ -11255,13 +10795,6 @@ extension NetworkManagerClientTypes {
 
 extension NetworkManagerClientTypes.TransitGatewayPeering {
 
-    static func write(value: NetworkManagerClientTypes.TransitGatewayPeering?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Peering"].write(value.peering, with: NetworkManagerClientTypes.Peering.write(value:to:))
-        try writer["TransitGatewayArn"].write(value.transitGatewayArn)
-        try writer["TransitGatewayPeeringAttachmentId"].write(value.transitGatewayPeeringAttachmentId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.TransitGatewayPeering {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = NetworkManagerClientTypes.TransitGatewayPeering()
@@ -11297,13 +10830,6 @@ extension NetworkManagerClientTypes {
 }
 
 extension NetworkManagerClientTypes.TransitGatewayRegistration {
-
-    static func write(value: NetworkManagerClientTypes.TransitGatewayRegistration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["GlobalNetworkId"].write(value.globalNetworkId)
-        try writer["State"].write(value.state, with: NetworkManagerClientTypes.TransitGatewayRegistrationStateReason.write(value:to:))
-        try writer["TransitGatewayArn"].write(value.transitGatewayArn)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.TransitGatewayRegistration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -11380,12 +10906,6 @@ extension NetworkManagerClientTypes {
 
 extension NetworkManagerClientTypes.TransitGatewayRegistrationStateReason {
 
-    static func write(value: NetworkManagerClientTypes.TransitGatewayRegistrationStateReason?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Code"].write(value.code)
-        try writer["Message"].write(value.message)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.TransitGatewayRegistrationStateReason {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = NetworkManagerClientTypes.TransitGatewayRegistrationStateReason()
@@ -11416,13 +10936,6 @@ extension NetworkManagerClientTypes {
 }
 
 extension NetworkManagerClientTypes.TransitGatewayRouteTableAttachment {
-
-    static func write(value: NetworkManagerClientTypes.TransitGatewayRouteTableAttachment?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Attachment"].write(value.attachment, with: NetworkManagerClientTypes.Attachment.write(value:to:))
-        try writer["PeeringId"].write(value.peeringId)
-        try writer["TransitGatewayRouteTableArn"].write(value.transitGatewayRouteTableArn)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.TransitGatewayRouteTableAttachment {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -12375,12 +11888,6 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
 extension NetworkManagerClientTypes.ValidationExceptionField {
 
-    static func write(value: NetworkManagerClientTypes.ValidationExceptionField?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.message)
-        try writer["Name"].write(value.name)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.ValidationExceptionField {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = NetworkManagerClientTypes.ValidationExceptionField()
@@ -12449,13 +11956,6 @@ extension NetworkManagerClientTypes {
 }
 
 extension NetworkManagerClientTypes.VpcAttachment {
-
-    static func write(value: NetworkManagerClientTypes.VpcAttachment?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Attachment"].write(value.attachment, with: NetworkManagerClientTypes.Attachment.write(value:to:))
-        try writer["Options"].write(value.options, with: NetworkManagerClientTypes.VpcOptions.write(value:to:))
-        try writer["SubnetArns"].writeList(value.subnetArns, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.VpcAttachment {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

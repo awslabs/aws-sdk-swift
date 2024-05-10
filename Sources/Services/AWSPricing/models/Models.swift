@@ -43,11 +43,6 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
 extension PricingClientTypes.AttributeValue {
 
-    static func write(value: PricingClientTypes.AttributeValue?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Value"].write(value.value)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> PricingClientTypes.AttributeValue {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PricingClientTypes.AttributeValue()
@@ -211,15 +206,6 @@ extension PricingClientTypes.Filter {
         try writer["Field"].write(value.field)
         try writer["Type"].write(value.type)
         try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PricingClientTypes.Filter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PricingClientTypes.Filter()
-        value.type = try reader["Type"].readIfPresent()
-        value.field = try reader["Field"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
-        return value
     }
 }
 
@@ -802,14 +788,6 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
 extension PricingClientTypes.PriceList {
 
-    static func write(value: PricingClientTypes.PriceList?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CurrencyCode"].write(value.currencyCode)
-        try writer["FileFormats"].writeList(value.fileFormats, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["PriceListArn"].write(value.priceListArn)
-        try writer["RegionCode"].write(value.regionCode)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> PricingClientTypes.PriceList {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PricingClientTypes.PriceList()
@@ -889,12 +867,6 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 extension PricingClientTypes.Service {
-
-    static func write(value: PricingClientTypes.Service?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AttributeNames"].writeList(value.attributeNames, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ServiceCode"].write(value.serviceCode)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PricingClientTypes.Service {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

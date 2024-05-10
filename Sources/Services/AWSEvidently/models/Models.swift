@@ -150,11 +150,6 @@ extension EvidentlyClientTypes {
 
 extension EvidentlyClientTypes.CloudWatchLogsDestination {
 
-    static func write(value: EvidentlyClientTypes.CloudWatchLogsDestination?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["logGroup"].write(value.logGroup)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> EvidentlyClientTypes.CloudWatchLogsDestination {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EvidentlyClientTypes.CloudWatchLogsDestination()
@@ -184,13 +179,6 @@ extension EvidentlyClientTypes.CloudWatchLogsDestinationConfig {
     static func write(value: EvidentlyClientTypes.CloudWatchLogsDestinationConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["logGroup"].write(value.logGroup)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EvidentlyClientTypes.CloudWatchLogsDestinationConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EvidentlyClientTypes.CloudWatchLogsDestinationConfig()
-        value.logGroup = try reader["logGroup"].readIfPresent()
-        return value
     }
 }
 
@@ -1176,15 +1164,6 @@ extension EvidentlyClientTypes.EvaluationRequest {
         try writer["evaluationContext"].write(value.evaluationContext)
         try writer["feature"].write(value.feature)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EvidentlyClientTypes.EvaluationRequest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EvidentlyClientTypes.EvaluationRequest()
-        value.feature = try reader["feature"].readIfPresent()
-        value.entityId = try reader["entityId"].readIfPresent()
-        value.evaluationContext = try reader["evaluationContext"].readIfPresent()
-        return value
-    }
 }
 
 extension EvidentlyClientTypes {
@@ -1214,17 +1193,6 @@ extension EvidentlyClientTypes {
 }
 
 extension EvidentlyClientTypes.EvaluationResult {
-
-    static func write(value: EvidentlyClientTypes.EvaluationResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["details"].write(value.details)
-        try writer["entityId"].write(value.entityId)
-        try writer["feature"].write(value.feature)
-        try writer["project"].write(value.project)
-        try writer["reason"].write(value.reason)
-        try writer["value"].write(value.value, with: EvidentlyClientTypes.VariableValue.write(value:to:))
-        try writer["variation"].write(value.variation)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> EvidentlyClientTypes.EvaluationResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1284,12 +1252,6 @@ extension EvidentlyClientTypes {
 
 extension EvidentlyClientTypes.EvaluationRule {
 
-    static func write(value: EvidentlyClientTypes.EvaluationRule?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-        try writer["type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> EvidentlyClientTypes.EvaluationRule {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EvidentlyClientTypes.EvaluationRule()
@@ -1327,15 +1289,6 @@ extension EvidentlyClientTypes.Event {
         try writer["data"].write(value.data)
         try writer["timestamp"].writeTimestamp(value.timestamp, format: .epochSeconds)
         try writer["type"].write(value.type)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EvidentlyClientTypes.Event {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EvidentlyClientTypes.Event()
-        value.timestamp = try reader["timestamp"].readTimestampIfPresent(format: .epochSeconds)
-        value.type = try reader["type"].readIfPresent()
-        value.data = try reader["data"].readIfPresent()
-        return value
     }
 }
 
@@ -1399,28 +1352,6 @@ extension EvidentlyClientTypes {
 public enum EvidentlyClientTypes {}
 
 extension EvidentlyClientTypes.Experiment {
-
-    static func write(value: EvidentlyClientTypes.Experiment?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["createdTime"].writeTimestamp(value.createdTime, format: .epochSeconds)
-        try writer["description"].write(value.description)
-        try writer["execution"].write(value.execution, with: EvidentlyClientTypes.ExperimentExecution.write(value:to:))
-        try writer["lastUpdatedTime"].writeTimestamp(value.lastUpdatedTime, format: .epochSeconds)
-        try writer["metricGoals"].writeList(value.metricGoals, memberWritingClosure: EvidentlyClientTypes.MetricGoal.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["name"].write(value.name)
-        try writer["onlineAbDefinition"].write(value.onlineAbDefinition, with: EvidentlyClientTypes.OnlineAbDefinition.write(value:to:))
-        try writer["project"].write(value.project)
-        try writer["randomizationSalt"].write(value.randomizationSalt)
-        try writer["samplingRate"].write(value.samplingRate)
-        try writer["schedule"].write(value.schedule, with: EvidentlyClientTypes.ExperimentSchedule.write(value:to:))
-        try writer["segment"].write(value.segment)
-        try writer["status"].write(value.status)
-        try writer["statusReason"].write(value.statusReason)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["treatments"].writeList(value.treatments, memberWritingClosure: EvidentlyClientTypes.Treatment.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> EvidentlyClientTypes.Experiment {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1566,12 +1497,6 @@ extension EvidentlyClientTypes {
 
 extension EvidentlyClientTypes.ExperimentExecution {
 
-    static func write(value: EvidentlyClientTypes.ExperimentExecution?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["endedTime"].writeTimestamp(value.endedTime, format: .epochSeconds)
-        try writer["startedTime"].writeTimestamp(value.startedTime, format: .epochSeconds)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> EvidentlyClientTypes.ExperimentExecution {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EvidentlyClientTypes.ExperimentExecution()
@@ -1602,14 +1527,6 @@ extension EvidentlyClientTypes {
 }
 
 extension EvidentlyClientTypes.ExperimentReport {
-
-    static func write(value: EvidentlyClientTypes.ExperimentReport?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["content"].write(value.content)
-        try writer["metricName"].write(value.metricName)
-        try writer["reportName"].write(value.reportName)
-        try writer["treatmentName"].write(value.treatmentName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> EvidentlyClientTypes.ExperimentReport {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1754,14 +1671,6 @@ extension EvidentlyClientTypes {
 
 extension EvidentlyClientTypes.ExperimentResultsData {
 
-    static func write(value: EvidentlyClientTypes.ExperimentResultsData?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["metricName"].write(value.metricName)
-        try writer["resultStat"].write(value.resultStat)
-        try writer["treatmentName"].write(value.treatmentName)
-        try writer["values"].writeList(value.values, memberWritingClosure: Swift.Double.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> EvidentlyClientTypes.ExperimentResultsData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EvidentlyClientTypes.ExperimentResultsData()
@@ -1802,11 +1711,6 @@ extension EvidentlyClientTypes {
 }
 
 extension EvidentlyClientTypes.ExperimentSchedule {
-
-    static func write(value: EvidentlyClientTypes.ExperimentSchedule?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["analysisCompleteTime"].writeTimestamp(value.analysisCompleteTime, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> EvidentlyClientTypes.ExperimentSchedule {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1929,24 +1833,6 @@ extension EvidentlyClientTypes {
 }
 
 extension EvidentlyClientTypes.Feature {
-
-    static func write(value: EvidentlyClientTypes.Feature?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["createdTime"].writeTimestamp(value.createdTime, format: .epochSeconds)
-        try writer["defaultVariation"].write(value.defaultVariation)
-        try writer["description"].write(value.description)
-        try writer["entityOverrides"].writeMap(value.entityOverrides, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["evaluationRules"].writeList(value.evaluationRules, memberWritingClosure: EvidentlyClientTypes.EvaluationRule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["evaluationStrategy"].write(value.evaluationStrategy)
-        try writer["lastUpdatedTime"].writeTimestamp(value.lastUpdatedTime, format: .epochSeconds)
-        try writer["name"].write(value.name)
-        try writer["project"].write(value.project)
-        try writer["status"].write(value.status)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["valueType"].write(value.valueType)
-        try writer["variations"].writeList(value.variations, memberWritingClosure: EvidentlyClientTypes.Variation.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> EvidentlyClientTypes.Feature {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2106,20 +1992,6 @@ extension EvidentlyClientTypes {
 }
 
 extension EvidentlyClientTypes.FeatureSummary {
-
-    static func write(value: EvidentlyClientTypes.FeatureSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["createdTime"].writeTimestamp(value.createdTime, format: .epochSeconds)
-        try writer["defaultVariation"].write(value.defaultVariation)
-        try writer["evaluationRules"].writeList(value.evaluationRules, memberWritingClosure: EvidentlyClientTypes.EvaluationRule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["evaluationStrategy"].write(value.evaluationStrategy)
-        try writer["lastUpdatedTime"].writeTimestamp(value.lastUpdatedTime, format: .epochSeconds)
-        try writer["name"].write(value.name)
-        try writer["project"].write(value.project)
-        try writer["status"].write(value.status)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> EvidentlyClientTypes.FeatureSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2727,25 +2599,6 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
 extension EvidentlyClientTypes.Launch {
 
-    static func write(value: EvidentlyClientTypes.Launch?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["createdTime"].writeTimestamp(value.createdTime, format: .epochSeconds)
-        try writer["description"].write(value.description)
-        try writer["execution"].write(value.execution, with: EvidentlyClientTypes.LaunchExecution.write(value:to:))
-        try writer["groups"].writeList(value.groups, memberWritingClosure: EvidentlyClientTypes.LaunchGroup.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["lastUpdatedTime"].writeTimestamp(value.lastUpdatedTime, format: .epochSeconds)
-        try writer["metricMonitors"].writeList(value.metricMonitors, memberWritingClosure: EvidentlyClientTypes.MetricMonitor.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["name"].write(value.name)
-        try writer["project"].write(value.project)
-        try writer["randomizationSalt"].write(value.randomizationSalt)
-        try writer["scheduledSplitsDefinition"].write(value.scheduledSplitsDefinition, with: EvidentlyClientTypes.ScheduledSplitsLaunchDefinition.write(value:to:))
-        try writer["status"].write(value.status)
-        try writer["statusReason"].write(value.statusReason)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> EvidentlyClientTypes.Launch {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EvidentlyClientTypes.Launch()
@@ -2848,12 +2701,6 @@ extension EvidentlyClientTypes {
 
 extension EvidentlyClientTypes.LaunchExecution {
 
-    static func write(value: EvidentlyClientTypes.LaunchExecution?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["endedTime"].writeTimestamp(value.endedTime, format: .epochSeconds)
-        try writer["startedTime"].writeTimestamp(value.startedTime, format: .epochSeconds)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> EvidentlyClientTypes.LaunchExecution {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EvidentlyClientTypes.LaunchExecution()
@@ -2884,13 +2731,6 @@ extension EvidentlyClientTypes {
 }
 
 extension EvidentlyClientTypes.LaunchGroup {
-
-    static func write(value: EvidentlyClientTypes.LaunchGroup?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["description"].write(value.description)
-        try writer["featureVariations"].writeMap(value.featureVariations, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["name"].write(value.name)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> EvidentlyClientTypes.LaunchGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2936,16 +2776,6 @@ extension EvidentlyClientTypes.LaunchGroupConfig {
         try writer["feature"].write(value.feature)
         try writer["name"].write(value.name)
         try writer["variation"].write(value.variation)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EvidentlyClientTypes.LaunchGroupConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EvidentlyClientTypes.LaunchGroupConfig()
-        value.name = try reader["name"].readIfPresent()
-        value.description = try reader["description"].readIfPresent()
-        value.feature = try reader["feature"].readIfPresent()
-        value.variation = try reader["variation"].readIfPresent()
-        return value
     }
 }
 
@@ -3706,15 +3536,6 @@ enum ListTagsForResourceOutputError {
 
 extension EvidentlyClientTypes.MetricDefinition {
 
-    static func write(value: EvidentlyClientTypes.MetricDefinition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["entityIdKey"].write(value.entityIdKey)
-        try writer["eventPattern"].write(value.eventPattern)
-        try writer["name"].write(value.name)
-        try writer["unitLabel"].write(value.unitLabel)
-        try writer["valueKey"].write(value.valueKey)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> EvidentlyClientTypes.MetricDefinition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EvidentlyClientTypes.MetricDefinition()
@@ -3769,17 +3590,6 @@ extension EvidentlyClientTypes.MetricDefinitionConfig {
         try writer["unitLabel"].write(value.unitLabel)
         try writer["valueKey"].write(value.valueKey)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EvidentlyClientTypes.MetricDefinitionConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EvidentlyClientTypes.MetricDefinitionConfig()
-        value.name = try reader["name"].readIfPresent()
-        value.entityIdKey = try reader["entityIdKey"].readIfPresent()
-        value.valueKey = try reader["valueKey"].readIfPresent()
-        value.eventPattern = try reader["eventPattern"].readIfPresent()
-        value.unitLabel = try reader["unitLabel"].readIfPresent()
-        return value
-    }
 }
 
 extension EvidentlyClientTypes {
@@ -3819,12 +3629,6 @@ extension EvidentlyClientTypes {
 
 extension EvidentlyClientTypes.MetricGoal {
 
-    static func write(value: EvidentlyClientTypes.MetricGoal?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["desiredChange"].write(value.desiredChange)
-        try writer["metricDefinition"].write(value.metricDefinition, with: EvidentlyClientTypes.MetricDefinition.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> EvidentlyClientTypes.MetricGoal {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EvidentlyClientTypes.MetricGoal()
@@ -3862,14 +3666,6 @@ extension EvidentlyClientTypes.MetricGoalConfig {
         try writer["desiredChange"].write(value.desiredChange)
         try writer["metricDefinition"].write(value.metricDefinition, with: EvidentlyClientTypes.MetricDefinitionConfig.write(value:to:))
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EvidentlyClientTypes.MetricGoalConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EvidentlyClientTypes.MetricGoalConfig()
-        value.metricDefinition = try reader["metricDefinition"].readIfPresent(with: EvidentlyClientTypes.MetricDefinitionConfig.read(from:))
-        value.desiredChange = try reader["desiredChange"].readIfPresent()
-        return value
-    }
 }
 
 extension EvidentlyClientTypes {
@@ -3894,11 +3690,6 @@ extension EvidentlyClientTypes {
 }
 
 extension EvidentlyClientTypes.MetricMonitor {
-
-    static func write(value: EvidentlyClientTypes.MetricMonitor?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["metricDefinition"].write(value.metricDefinition, with: EvidentlyClientTypes.MetricDefinition.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> EvidentlyClientTypes.MetricMonitor {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3931,13 +3722,6 @@ extension EvidentlyClientTypes.MetricMonitorConfig {
         guard let value else { return }
         try writer["metricDefinition"].write(value.metricDefinition, with: EvidentlyClientTypes.MetricDefinitionConfig.write(value:to:))
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EvidentlyClientTypes.MetricMonitorConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EvidentlyClientTypes.MetricMonitorConfig()
-        value.metricDefinition = try reader["metricDefinition"].readIfPresent(with: EvidentlyClientTypes.MetricDefinitionConfig.read(from:))
-        return value
-    }
 }
 
 extension EvidentlyClientTypes {
@@ -3964,14 +3748,6 @@ extension EvidentlyClientTypes.OnlineAbConfig {
         try writer["controlTreatmentName"].write(value.controlTreatmentName)
         try writer["treatmentWeights"].writeMap(value.treatmentWeights, valueWritingClosure: Swift.Int.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EvidentlyClientTypes.OnlineAbConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EvidentlyClientTypes.OnlineAbConfig()
-        value.controlTreatmentName = try reader["controlTreatmentName"].readIfPresent()
-        value.treatmentWeights = try reader["treatmentWeights"].readMapIfPresent(valueReadingClosure: Swift.Int.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
 }
 
 extension EvidentlyClientTypes {
@@ -3995,12 +3771,6 @@ extension EvidentlyClientTypes {
 }
 
 extension EvidentlyClientTypes.OnlineAbDefinition {
-
-    static func write(value: EvidentlyClientTypes.OnlineAbDefinition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["controlTreatmentName"].write(value.controlTreatmentName)
-        try writer["treatmentWeights"].writeMap(value.treatmentWeights, valueWritingClosure: Swift.Int.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> EvidentlyClientTypes.OnlineAbDefinition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4032,24 +3802,6 @@ extension EvidentlyClientTypes {
 }
 
 extension EvidentlyClientTypes.Project {
-
-    static func write(value: EvidentlyClientTypes.Project?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["activeExperimentCount"].write(value.activeExperimentCount)
-        try writer["activeLaunchCount"].write(value.activeLaunchCount)
-        try writer["appConfigResource"].write(value.appConfigResource, with: EvidentlyClientTypes.ProjectAppConfigResource.write(value:to:))
-        try writer["arn"].write(value.arn)
-        try writer["createdTime"].writeTimestamp(value.createdTime, format: .epochSeconds)
-        try writer["dataDelivery"].write(value.dataDelivery, with: EvidentlyClientTypes.ProjectDataDelivery.write(value:to:))
-        try writer["description"].write(value.description)
-        try writer["experimentCount"].write(value.experimentCount)
-        try writer["featureCount"].write(value.featureCount)
-        try writer["lastUpdatedTime"].writeTimestamp(value.lastUpdatedTime, format: .epochSeconds)
-        try writer["launchCount"].write(value.launchCount)
-        try writer["name"].write(value.name)
-        try writer["status"].write(value.status)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> EvidentlyClientTypes.Project {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4147,13 +3899,6 @@ extension EvidentlyClientTypes {
 
 extension EvidentlyClientTypes.ProjectAppConfigResource {
 
-    static func write(value: EvidentlyClientTypes.ProjectAppConfigResource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["applicationId"].write(value.applicationId)
-        try writer["configurationProfileId"].write(value.configurationProfileId)
-        try writer["environmentId"].write(value.environmentId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> EvidentlyClientTypes.ProjectAppConfigResource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EvidentlyClientTypes.ProjectAppConfigResource()
@@ -4198,14 +3943,6 @@ extension EvidentlyClientTypes.ProjectAppConfigResourceConfig {
         try writer["applicationId"].write(value.applicationId)
         try writer["environmentId"].write(value.environmentId)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EvidentlyClientTypes.ProjectAppConfigResourceConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EvidentlyClientTypes.ProjectAppConfigResourceConfig()
-        value.applicationId = try reader["applicationId"].readIfPresent()
-        value.environmentId = try reader["environmentId"].readIfPresent()
-        return value
-    }
 }
 
 extension EvidentlyClientTypes {
@@ -4229,12 +3966,6 @@ extension EvidentlyClientTypes {
 }
 
 extension EvidentlyClientTypes.ProjectDataDelivery {
-
-    static func write(value: EvidentlyClientTypes.ProjectDataDelivery?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["cloudWatchLogs"].write(value.cloudWatchLogs, with: EvidentlyClientTypes.CloudWatchLogsDestination.write(value:to:))
-        try writer["s3Destination"].write(value.s3Destination, with: EvidentlyClientTypes.S3Destination.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> EvidentlyClientTypes.ProjectDataDelivery {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4271,14 +4002,6 @@ extension EvidentlyClientTypes.ProjectDataDeliveryConfig {
         guard let value else { return }
         try writer["cloudWatchLogs"].write(value.cloudWatchLogs, with: EvidentlyClientTypes.CloudWatchLogsDestinationConfig.write(value:to:))
         try writer["s3Destination"].write(value.s3Destination, with: EvidentlyClientTypes.S3DestinationConfig.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EvidentlyClientTypes.ProjectDataDeliveryConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EvidentlyClientTypes.ProjectDataDeliveryConfig()
-        value.s3Destination = try reader["s3Destination"].readIfPresent(with: EvidentlyClientTypes.S3DestinationConfig.read(from:))
-        value.cloudWatchLogs = try reader["cloudWatchLogs"].readIfPresent(with: EvidentlyClientTypes.CloudWatchLogsDestinationConfig.read(from:))
-        return value
     }
 }
 
@@ -4333,22 +4056,6 @@ extension EvidentlyClientTypes {
 }
 
 extension EvidentlyClientTypes.ProjectSummary {
-
-    static func write(value: EvidentlyClientTypes.ProjectSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["activeExperimentCount"].write(value.activeExperimentCount)
-        try writer["activeLaunchCount"].write(value.activeLaunchCount)
-        try writer["arn"].write(value.arn)
-        try writer["createdTime"].writeTimestamp(value.createdTime, format: .epochSeconds)
-        try writer["description"].write(value.description)
-        try writer["experimentCount"].write(value.experimentCount)
-        try writer["featureCount"].write(value.featureCount)
-        try writer["lastUpdatedTime"].writeTimestamp(value.lastUpdatedTime, format: .epochSeconds)
-        try writer["launchCount"].write(value.launchCount)
-        try writer["name"].write(value.name)
-        try writer["status"].write(value.status)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> EvidentlyClientTypes.ProjectSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4518,13 +4225,6 @@ enum PutProjectEventsOutputError {
 
 extension EvidentlyClientTypes.PutProjectEventsResultEntry {
 
-    static func write(value: EvidentlyClientTypes.PutProjectEventsResultEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["errorCode"].write(value.errorCode)
-        try writer["errorMessage"].write(value.errorMessage)
-        try writer["eventId"].write(value.eventId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> EvidentlyClientTypes.PutProjectEventsResultEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EvidentlyClientTypes.PutProjectEventsResultEntry()
@@ -4560,17 +4260,6 @@ extension EvidentlyClientTypes {
 }
 
 extension EvidentlyClientTypes.RefResource {
-
-    static func write(value: EvidentlyClientTypes.RefResource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["endTime"].write(value.endTime)
-        try writer["lastUpdatedOn"].write(value.lastUpdatedOn)
-        try writer["name"].write(value.name)
-        try writer["startTime"].write(value.startTime)
-        try writer["status"].write(value.status)
-        try writer["type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> EvidentlyClientTypes.RefResource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4677,12 +4366,6 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
 extension EvidentlyClientTypes.S3Destination {
 
-    static func write(value: EvidentlyClientTypes.S3Destination?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["bucket"].write(value.bucket)
-        try writer["prefix"].write(value.`prefix`)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> EvidentlyClientTypes.S3Destination {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EvidentlyClientTypes.S3Destination()
@@ -4719,14 +4402,6 @@ extension EvidentlyClientTypes.S3DestinationConfig {
         try writer["bucket"].write(value.bucket)
         try writer["prefix"].write(value.`prefix`)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EvidentlyClientTypes.S3DestinationConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EvidentlyClientTypes.S3DestinationConfig()
-        value.bucket = try reader["bucket"].readIfPresent()
-        value.`prefix` = try reader["prefix"].readIfPresent()
-        return value
-    }
 }
 
 extension EvidentlyClientTypes {
@@ -4750,13 +4425,6 @@ extension EvidentlyClientTypes {
 }
 
 extension EvidentlyClientTypes.ScheduledSplit {
-
-    static func write(value: EvidentlyClientTypes.ScheduledSplit?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["groupWeights"].writeMap(value.groupWeights, valueWritingClosure: Swift.Int.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["segmentOverrides"].writeList(value.segmentOverrides, memberWritingClosure: EvidentlyClientTypes.SegmentOverride.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["startTime"].writeTimestamp(value.startTime, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> EvidentlyClientTypes.ScheduledSplit {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4801,15 +4469,6 @@ extension EvidentlyClientTypes.ScheduledSplitConfig {
         try writer["segmentOverrides"].writeList(value.segmentOverrides, memberWritingClosure: EvidentlyClientTypes.SegmentOverride.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["startTime"].writeTimestamp(value.startTime, format: .epochSeconds)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EvidentlyClientTypes.ScheduledSplitConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EvidentlyClientTypes.ScheduledSplitConfig()
-        value.startTime = try reader["startTime"].readTimestampIfPresent(format: .epochSeconds)
-        value.groupWeights = try reader["groupWeights"].readMapIfPresent(valueReadingClosure: Swift.Int.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.segmentOverrides = try reader["segmentOverrides"].readListIfPresent(memberReadingClosure: EvidentlyClientTypes.SegmentOverride.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
 }
 
 extension EvidentlyClientTypes {
@@ -4844,13 +4503,6 @@ extension EvidentlyClientTypes.ScheduledSplitsLaunchConfig {
         guard let value else { return }
         try writer["steps"].writeList(value.steps, memberWritingClosure: EvidentlyClientTypes.ScheduledSplitConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EvidentlyClientTypes.ScheduledSplitsLaunchConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EvidentlyClientTypes.ScheduledSplitsLaunchConfig()
-        value.steps = try reader["steps"].readListIfPresent(memberReadingClosure: EvidentlyClientTypes.ScheduledSplitConfig.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
 }
 
 extension EvidentlyClientTypes {
@@ -4871,11 +4523,6 @@ extension EvidentlyClientTypes {
 }
 
 extension EvidentlyClientTypes.ScheduledSplitsLaunchDefinition {
-
-    static func write(value: EvidentlyClientTypes.ScheduledSplitsLaunchDefinition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["steps"].writeList(value.steps, memberWritingClosure: EvidentlyClientTypes.ScheduledSplit.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> EvidentlyClientTypes.ScheduledSplitsLaunchDefinition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4902,19 +4549,6 @@ extension EvidentlyClientTypes {
 }
 
 extension EvidentlyClientTypes.Segment {
-
-    static func write(value: EvidentlyClientTypes.Segment?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["createdTime"].writeTimestamp(value.createdTime, format: .epochSeconds)
-        try writer["description"].write(value.description)
-        try writer["experimentCount"].write(value.experimentCount)
-        try writer["lastUpdatedTime"].writeTimestamp(value.lastUpdatedTime, format: .epochSeconds)
-        try writer["launchCount"].write(value.launchCount)
-        try writer["name"].write(value.name)
-        try writer["pattern"].write(value.pattern)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> EvidentlyClientTypes.Segment {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5685,13 +5319,6 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
 extension EvidentlyClientTypes.Treatment {
 
-    static func write(value: EvidentlyClientTypes.Treatment?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["description"].write(value.description)
-        try writer["featureVariations"].writeMap(value.featureVariations, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["name"].write(value.name)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> EvidentlyClientTypes.Treatment {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EvidentlyClientTypes.Treatment()
@@ -5735,16 +5362,6 @@ extension EvidentlyClientTypes.TreatmentConfig {
         try writer["feature"].write(value.feature)
         try writer["name"].write(value.name)
         try writer["variation"].write(value.variation)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EvidentlyClientTypes.TreatmentConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EvidentlyClientTypes.TreatmentConfig()
-        value.name = try reader["name"].readIfPresent()
-        value.description = try reader["description"].readIfPresent()
-        value.feature = try reader["feature"].readIfPresent()
-        value.variation = try reader["variation"].readIfPresent()
-        return value
     }
 }
 
@@ -6402,12 +6019,6 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
 extension EvidentlyClientTypes.ValidationExceptionField {
 
-    static func write(value: EvidentlyClientTypes.ValidationExceptionField?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.message)
-        try writer["name"].write(value.name)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> EvidentlyClientTypes.ValidationExceptionField {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EvidentlyClientTypes.ValidationExceptionField()
@@ -6529,12 +6140,6 @@ extension EvidentlyClientTypes {
 
 extension EvidentlyClientTypes.Variation {
 
-    static func write(value: EvidentlyClientTypes.Variation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-        try writer["value"].write(value.value, with: EvidentlyClientTypes.VariableValue.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> EvidentlyClientTypes.Variation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EvidentlyClientTypes.Variation()
@@ -6570,14 +6175,6 @@ extension EvidentlyClientTypes.VariationConfig {
         guard let value else { return }
         try writer["name"].write(value.name)
         try writer["value"].write(value.value, with: EvidentlyClientTypes.VariableValue.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EvidentlyClientTypes.VariationConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EvidentlyClientTypes.VariationConfig()
-        value.name = try reader["name"].readIfPresent()
-        value.value = try reader["value"].readIfPresent(with: EvidentlyClientTypes.VariableValue.read(from:))
-        return value
     }
 }
 

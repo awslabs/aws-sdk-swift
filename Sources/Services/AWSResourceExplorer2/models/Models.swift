@@ -143,12 +143,6 @@ enum AssociateDefaultViewOutputError {
 
 extension ResourceExplorer2ClientTypes.BatchGetViewError {
 
-    static func write(value: ResourceExplorer2ClientTypes.BatchGetViewError?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ErrorMessage"].write(value.errorMessage)
-        try writer["ViewArn"].write(value.viewArn)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ResourceExplorer2ClientTypes.BatchGetViewError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ResourceExplorer2ClientTypes.BatchGetViewError()
@@ -994,13 +988,6 @@ extension ResourceExplorer2ClientTypes {
 
 extension ResourceExplorer2ClientTypes.Index {
 
-    static func write(value: ResourceExplorer2ClientTypes.Index?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["Region"].write(value.region)
-        try writer["Type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ResourceExplorer2ClientTypes.Index {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ResourceExplorer2ClientTypes.Index()
@@ -1553,14 +1540,6 @@ enum ListViewsOutputError {
 
 extension ResourceExplorer2ClientTypes.MemberIndex {
 
-    static func write(value: ResourceExplorer2ClientTypes.MemberIndex?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccountId"].write(value.accountId)
-        try writer["Arn"].write(value.arn)
-        try writer["Region"].write(value.region)
-        try writer["Type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ResourceExplorer2ClientTypes.MemberIndex {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ResourceExplorer2ClientTypes.MemberIndex()
@@ -1606,12 +1585,6 @@ extension ResourceExplorer2ClientTypes {
 
 extension ResourceExplorer2ClientTypes.OrgConfiguration {
 
-    static func write(value: ResourceExplorer2ClientTypes.OrgConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AWSServiceAccessStatus"].write(value.awsServiceAccessStatus)
-        try writer["ServiceLinkedRole"].write(value.serviceLinkedRole)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ResourceExplorer2ClientTypes.OrgConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ResourceExplorer2ClientTypes.OrgConfiguration()
@@ -1643,17 +1616,6 @@ extension ResourceExplorer2ClientTypes {
 }
 
 extension ResourceExplorer2ClientTypes.Resource {
-
-    static func write(value: ResourceExplorer2ClientTypes.Resource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["LastReportedAt"].writeTimestamp(value.lastReportedAt, format: .dateTime)
-        try writer["OwningAccountId"].write(value.owningAccountId)
-        try writer["Properties"].writeList(value.properties, memberWritingClosure: ResourceExplorer2ClientTypes.ResourceProperty.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Region"].write(value.region)
-        try writer["ResourceType"].write(value.resourceType)
-        try writer["Service"].write(value.service)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ResourceExplorer2ClientTypes.Resource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1710,12 +1672,6 @@ extension ResourceExplorer2ClientTypes {
 }
 
 extension ResourceExplorer2ClientTypes.ResourceCount {
-
-    static func write(value: ResourceExplorer2ClientTypes.ResourceCount?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Complete"].write(value.complete)
-        try writer["TotalResources"].write(value.totalResources)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ResourceExplorer2ClientTypes.ResourceCount {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1790,13 +1746,6 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 extension ResourceExplorer2ClientTypes.ResourceProperty {
-
-    static func write(value: ResourceExplorer2ClientTypes.ResourceProperty?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Data"].write(value.data)
-        try writer["LastReportedAt"].writeTimestamp(value.lastReportedAt, format: .dateTime)
-        try writer["Name"].write(value.name)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ResourceExplorer2ClientTypes.ResourceProperty {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2027,12 +1976,6 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 }
 
 extension ResourceExplorer2ClientTypes.SupportedResourceType {
-
-    static func write(value: ResourceExplorer2ClientTypes.SupportedResourceType?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ResourceType"].write(value.resourceType)
-        try writer["Service"].write(value.service)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ResourceExplorer2ClientTypes.SupportedResourceType {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2512,12 +2455,6 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
 extension ResourceExplorer2ClientTypes.ValidationExceptionField {
 
-    static func write(value: ResourceExplorer2ClientTypes.ValidationExceptionField?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["ValidationIssue"].write(value.validationIssue)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ResourceExplorer2ClientTypes.ValidationExceptionField {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ResourceExplorer2ClientTypes.ValidationExceptionField()
@@ -2555,16 +2492,6 @@ extension ResourceExplorer2ClientTypes.View: Swift.CustomDebugStringConvertible 
 }
 
 extension ResourceExplorer2ClientTypes.View {
-
-    static func write(value: ResourceExplorer2ClientTypes.View?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Filters"].write(value.filters, with: ResourceExplorer2ClientTypes.SearchFilter.write(value:to:))
-        try writer["IncludedProperties"].writeList(value.includedProperties, memberWritingClosure: ResourceExplorer2ClientTypes.IncludedProperty.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["LastUpdatedAt"].writeTimestamp(value.lastUpdatedAt, format: .dateTime)
-        try writer["Owner"].write(value.owner)
-        try writer["Scope"].write(value.scope)
-        try writer["ViewArn"].write(value.viewArn)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ResourceExplorer2ClientTypes.View {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

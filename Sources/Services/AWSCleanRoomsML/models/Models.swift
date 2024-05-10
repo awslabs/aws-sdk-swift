@@ -112,19 +112,6 @@ extension CleanRoomsMLClientTypes {
 
 extension CleanRoomsMLClientTypes.AudienceExportJobSummary {
 
-    static func write(value: CleanRoomsMLClientTypes.AudienceExportJobSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["audienceGenerationJobArn"].write(value.audienceGenerationJobArn)
-        try writer["audienceSize"].write(value.audienceSize, with: CleanRoomsMLClientTypes.AudienceSize.write(value:to:))
-        try writer["createTime"].writeTimestamp(value.createTime, format: .dateTime)
-        try writer["description"].write(value.description)
-        try writer["name"].write(value.name)
-        try writer["outputLocation"].write(value.outputLocation)
-        try writer["status"].write(value.status)
-        try writer["statusDetails"].write(value.statusDetails, with: CleanRoomsMLClientTypes.StatusDetails.write(value:to:))
-        try writer["updateTime"].writeTimestamp(value.updateTime, format: .dateTime)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsMLClientTypes.AudienceExportJobSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CleanRoomsMLClientTypes.AudienceExportJobSummary()
@@ -285,19 +272,6 @@ extension CleanRoomsMLClientTypes {
 
 extension CleanRoomsMLClientTypes.AudienceGenerationJobSummary {
 
-    static func write(value: CleanRoomsMLClientTypes.AudienceGenerationJobSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["audienceGenerationJobArn"].write(value.audienceGenerationJobArn)
-        try writer["collaborationId"].write(value.collaborationId)
-        try writer["configuredAudienceModelArn"].write(value.configuredAudienceModelArn)
-        try writer["createTime"].writeTimestamp(value.createTime, format: .dateTime)
-        try writer["description"].write(value.description)
-        try writer["name"].write(value.name)
-        try writer["startedBy"].write(value.startedBy)
-        try writer["status"].write(value.status)
-        try writer["updateTime"].writeTimestamp(value.updateTime, format: .dateTime)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsMLClientTypes.AudienceGenerationJobSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CleanRoomsMLClientTypes.AudienceGenerationJobSummary()
@@ -415,17 +389,6 @@ extension CleanRoomsMLClientTypes {
 
 extension CleanRoomsMLClientTypes.AudienceModelSummary {
 
-    static func write(value: CleanRoomsMLClientTypes.AudienceModelSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["audienceModelArn"].write(value.audienceModelArn)
-        try writer["createTime"].writeTimestamp(value.createTime, format: .dateTime)
-        try writer["description"].write(value.description)
-        try writer["name"].write(value.name)
-        try writer["status"].write(value.status)
-        try writer["trainingDatasetArn"].write(value.trainingDatasetArn)
-        try writer["updateTime"].writeTimestamp(value.updateTime, format: .dateTime)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsMLClientTypes.AudienceModelSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CleanRoomsMLClientTypes.AudienceModelSummary()
@@ -487,12 +450,6 @@ extension CleanRoomsMLClientTypes {
 }
 
 extension CleanRoomsMLClientTypes.AudienceQualityMetrics {
-
-    static func write(value: CleanRoomsMLClientTypes.AudienceQualityMetrics?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["recallMetric"].write(value.recallMetric)
-        try writer["relevanceMetrics"].writeList(value.relevanceMetrics, memberWritingClosure: CleanRoomsMLClientTypes.RelevanceMetric.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsMLClientTypes.AudienceQualityMetrics {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -779,18 +736,6 @@ extension CleanRoomsMLClientTypes {
 }
 
 extension CleanRoomsMLClientTypes.ConfiguredAudienceModelSummary {
-
-    static func write(value: CleanRoomsMLClientTypes.ConfiguredAudienceModelSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["audienceModelArn"].write(value.audienceModelArn)
-        try writer["configuredAudienceModelArn"].write(value.configuredAudienceModelArn)
-        try writer["createTime"].writeTimestamp(value.createTime, format: .dateTime)
-        try writer["description"].write(value.description)
-        try writer["name"].write(value.name)
-        try writer["outputConfig"].write(value.outputConfig, with: CleanRoomsMLClientTypes.ConfiguredAudienceModelOutputConfig.write(value:to:))
-        try writer["status"].write(value.status)
-        try writer["updateTime"].writeTimestamp(value.updateTime, format: .dateTime)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsMLClientTypes.ConfiguredAudienceModelSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2894,12 +2839,6 @@ enum PutConfiguredAudienceModelPolicyOutputError {
 
 extension CleanRoomsMLClientTypes.RelevanceMetric {
 
-    static func write(value: CleanRoomsMLClientTypes.RelevanceMetric?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["audienceSize"].write(value.audienceSize, with: CleanRoomsMLClientTypes.AudienceSize.write(value:to:))
-        try writer["score"].write(value.score)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsMLClientTypes.RelevanceMetric {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CleanRoomsMLClientTypes.RelevanceMetric()
@@ -3262,12 +3201,6 @@ enum StartAudienceGenerationJobOutputError {
 
 extension CleanRoomsMLClientTypes.StatusDetails {
 
-    static func write(value: CleanRoomsMLClientTypes.StatusDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.message)
-        try writer["statusCode"].write(value.statusCode)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsMLClientTypes.StatusDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CleanRoomsMLClientTypes.StatusDetails()
@@ -3433,16 +3366,6 @@ extension CleanRoomsMLClientTypes {
 }
 
 extension CleanRoomsMLClientTypes.TrainingDatasetSummary {
-
-    static func write(value: CleanRoomsMLClientTypes.TrainingDatasetSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["createTime"].writeTimestamp(value.createTime, format: .dateTime)
-        try writer["description"].write(value.description)
-        try writer["name"].write(value.name)
-        try writer["status"].write(value.status)
-        try writer["trainingDatasetArn"].write(value.trainingDatasetArn)
-        try writer["updateTime"].writeTimestamp(value.updateTime, format: .dateTime)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsMLClientTypes.TrainingDatasetSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

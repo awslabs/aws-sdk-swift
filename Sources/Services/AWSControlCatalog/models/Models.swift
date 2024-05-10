@@ -43,12 +43,6 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
 extension ControlCatalogClientTypes.AssociatedDomainSummary {
 
-    static func write(value: ControlCatalogClientTypes.AssociatedDomainSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["Name"].write(value.name)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ControlCatalogClientTypes.AssociatedDomainSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ControlCatalogClientTypes.AssociatedDomainSummary()
@@ -79,12 +73,6 @@ extension ControlCatalogClientTypes {
 }
 
 extension ControlCatalogClientTypes.AssociatedObjectiveSummary {
-
-    static func write(value: ControlCatalogClientTypes.AssociatedObjectiveSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["Name"].write(value.name)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ControlCatalogClientTypes.AssociatedObjectiveSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -121,13 +109,6 @@ extension ControlCatalogClientTypes.CommonControlFilter {
         guard let value else { return }
         try writer["Objectives"].writeList(value.objectives, memberWritingClosure: ControlCatalogClientTypes.ObjectiveResourceFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ControlCatalogClientTypes.CommonControlFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ControlCatalogClientTypes.CommonControlFilter()
-        value.objectives = try reader["Objectives"].readListIfPresent(memberReadingClosure: ControlCatalogClientTypes.ObjectiveResourceFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
 }
 
 extension ControlCatalogClientTypes {
@@ -147,17 +128,6 @@ extension ControlCatalogClientTypes {
 }
 
 extension ControlCatalogClientTypes.CommonControlSummary {
-
-    static func write(value: ControlCatalogClientTypes.CommonControlSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["CreateTime"].writeTimestamp(value.createTime, format: .epochSeconds)
-        try writer["Description"].write(value.description)
-        try writer["Domain"].write(value.domain, with: ControlCatalogClientTypes.AssociatedDomainSummary.write(value:to:))
-        try writer["LastUpdateTime"].writeTimestamp(value.lastUpdateTime, format: .epochSeconds)
-        try writer["Name"].write(value.name)
-        try writer["Objective"].write(value.objective, with: ControlCatalogClientTypes.AssociatedObjectiveSummary.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ControlCatalogClientTypes.CommonControlSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -228,13 +198,6 @@ extension ControlCatalogClientTypes.DomainResourceFilter {
         guard let value else { return }
         try writer["Arn"].write(value.arn)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ControlCatalogClientTypes.DomainResourceFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ControlCatalogClientTypes.DomainResourceFilter()
-        value.arn = try reader["Arn"].readIfPresent()
-        return value
-    }
 }
 
 extension ControlCatalogClientTypes {
@@ -254,15 +217,6 @@ extension ControlCatalogClientTypes {
 }
 
 extension ControlCatalogClientTypes.DomainSummary {
-
-    static func write(value: ControlCatalogClientTypes.DomainSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["CreateTime"].writeTimestamp(value.createTime, format: .epochSeconds)
-        try writer["Description"].write(value.description)
-        try writer["LastUpdateTime"].writeTimestamp(value.lastUpdateTime, format: .epochSeconds)
-        try writer["Name"].write(value.name)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ControlCatalogClientTypes.DomainSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -638,13 +592,6 @@ extension ControlCatalogClientTypes.ObjectiveFilter {
         guard let value else { return }
         try writer["Domains"].writeList(value.domains, memberWritingClosure: ControlCatalogClientTypes.DomainResourceFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ControlCatalogClientTypes.ObjectiveFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ControlCatalogClientTypes.ObjectiveFilter()
-        value.domains = try reader["Domains"].readListIfPresent(memberReadingClosure: ControlCatalogClientTypes.DomainResourceFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
 }
 
 extension ControlCatalogClientTypes {
@@ -669,13 +616,6 @@ extension ControlCatalogClientTypes.ObjectiveResourceFilter {
         guard let value else { return }
         try writer["Arn"].write(value.arn)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ControlCatalogClientTypes.ObjectiveResourceFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ControlCatalogClientTypes.ObjectiveResourceFilter()
-        value.arn = try reader["Arn"].readIfPresent()
-        return value
-    }
 }
 
 extension ControlCatalogClientTypes {
@@ -695,16 +635,6 @@ extension ControlCatalogClientTypes {
 }
 
 extension ControlCatalogClientTypes.ObjectiveSummary {
-
-    static func write(value: ControlCatalogClientTypes.ObjectiveSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["CreateTime"].writeTimestamp(value.createTime, format: .epochSeconds)
-        try writer["Description"].write(value.description)
-        try writer["Domain"].write(value.domain, with: ControlCatalogClientTypes.AssociatedDomainSummary.write(value:to:))
-        try writer["LastUpdateTime"].writeTimestamp(value.lastUpdateTime, format: .epochSeconds)
-        try writer["Name"].write(value.name)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ControlCatalogClientTypes.ObjectiveSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

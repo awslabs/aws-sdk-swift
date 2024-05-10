@@ -105,14 +105,6 @@ extension CodeStarClientTypes.Code {
         try writer["destination"].write(value.destination, with: CodeStarClientTypes.CodeDestination.write(value:to:))
         try writer["source"].write(value.source, with: CodeStarClientTypes.CodeSource.write(value:to:))
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeStarClientTypes.Code {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeStarClientTypes.Code()
-        value.source = try reader["source"].readIfPresent(with: CodeStarClientTypes.CodeSource.read(from:))
-        value.destination = try reader["destination"].readIfPresent(with: CodeStarClientTypes.CodeDestination.read(from:))
-        return value
-    }
 }
 
 extension CodeStarClientTypes {
@@ -143,13 +135,6 @@ extension CodeStarClientTypes.CodeCommitCodeDestination {
         guard let value else { return }
         try writer["name"].write(value.name)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeStarClientTypes.CodeCommitCodeDestination {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeStarClientTypes.CodeCommitCodeDestination()
-        value.name = try reader["name"].readIfPresent()
-        return value
-    }
 }
 
 extension CodeStarClientTypes {
@@ -175,14 +160,6 @@ extension CodeStarClientTypes.CodeDestination {
         guard let value else { return }
         try writer["codeCommit"].write(value.codeCommit, with: CodeStarClientTypes.CodeCommitCodeDestination.write(value:to:))
         try writer["gitHub"].write(value.gitHub, with: CodeStarClientTypes.GitHubCodeDestination.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeStarClientTypes.CodeDestination {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeStarClientTypes.CodeDestination()
-        value.codeCommit = try reader["codeCommit"].readIfPresent(with: CodeStarClientTypes.CodeCommitCodeDestination.read(from:))
-        value.gitHub = try reader["gitHub"].readIfPresent(with: CodeStarClientTypes.GitHubCodeDestination.read(from:))
-        return value
     }
 }
 
@@ -211,13 +188,6 @@ extension CodeStarClientTypes.CodeSource {
     static func write(value: CodeStarClientTypes.CodeSource?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["s3"].write(value.s3, with: CodeStarClientTypes.S3Location.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeStarClientTypes.CodeSource {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeStarClientTypes.CodeSource()
-        value.s3 = try reader["s3"].readIfPresent(with: CodeStarClientTypes.S3Location.read(from:))
-        return value
     }
 }
 
@@ -967,19 +937,6 @@ extension CodeStarClientTypes.GitHubCodeDestination {
         try writer["token"].write(value.token)
         try writer["type"].write(value.type)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeStarClientTypes.GitHubCodeDestination {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeStarClientTypes.GitHubCodeDestination()
-        value.name = try reader["name"].readIfPresent()
-        value.description = try reader["description"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
-        value.owner = try reader["owner"].readIfPresent()
-        value.privateRepository = try reader["privateRepository"].readIfPresent() ?? false
-        value.issuesEnabled = try reader["issuesEnabled"].readIfPresent() ?? false
-        value.token = try reader["token"].readIfPresent()
-        return value
-    }
 }
 
 extension CodeStarClientTypes {
@@ -1693,12 +1650,6 @@ public struct ProjectNotFoundException: ClientRuntime.ModeledError, AWSClientRun
 
 extension CodeStarClientTypes.ProjectStatus {
 
-    static func write(value: CodeStarClientTypes.ProjectStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["reason"].write(value.reason)
-        try writer["state"].write(value.state)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodeStarClientTypes.ProjectStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeStarClientTypes.ProjectStatus()
@@ -1731,12 +1682,6 @@ extension CodeStarClientTypes {
 
 extension CodeStarClientTypes.ProjectSummary {
 
-    static func write(value: CodeStarClientTypes.ProjectSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["projectArn"].write(value.projectArn)
-        try writer["projectId"].write(value.projectId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodeStarClientTypes.ProjectSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeStarClientTypes.ProjectSummary()
@@ -1767,11 +1712,6 @@ extension CodeStarClientTypes {
 }
 
 extension CodeStarClientTypes.Resource {
-
-    static func write(value: CodeStarClientTypes.Resource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["id"].write(value.id)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeStarClientTypes.Resource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1804,14 +1744,6 @@ extension CodeStarClientTypes.S3Location {
         guard let value else { return }
         try writer["bucketKey"].write(value.bucketKey)
         try writer["bucketName"].write(value.bucketName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeStarClientTypes.S3Location {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeStarClientTypes.S3Location()
-        value.bucketName = try reader["bucketName"].readIfPresent()
-        value.bucketKey = try reader["bucketKey"].readIfPresent()
-        return value
     }
 }
 
@@ -1911,13 +1843,6 @@ enum TagProjectOutputError {
 }
 
 extension CodeStarClientTypes.TeamMember {
-
-    static func write(value: CodeStarClientTypes.TeamMember?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["projectRole"].write(value.projectRole)
-        try writer["remoteAccessAllowed"].write(value.remoteAccessAllowed)
-        try writer["userArn"].write(value.userArn)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeStarClientTypes.TeamMember {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2037,15 +1962,6 @@ extension CodeStarClientTypes.Toolchain {
         try writer["source"].write(value.source, with: CodeStarClientTypes.ToolchainSource.write(value:to:))
         try writer["stackParameters"].writeMap(value.stackParameters, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeStarClientTypes.Toolchain {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeStarClientTypes.Toolchain()
-        value.source = try reader["source"].readIfPresent(with: CodeStarClientTypes.ToolchainSource.read(from:))
-        value.roleArn = try reader["roleArn"].readIfPresent()
-        value.stackParameters = try reader["stackParameters"].readMapIfPresent(valueReadingClosure: Swift.String.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
 }
 
 extension CodeStarClientTypes {
@@ -2078,13 +1994,6 @@ extension CodeStarClientTypes.ToolchainSource {
     static func write(value: CodeStarClientTypes.ToolchainSource?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["s3"].write(value.s3, with: CodeStarClientTypes.S3Location.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeStarClientTypes.ToolchainSource {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeStarClientTypes.ToolchainSource()
-        value.s3 = try reader["s3"].readIfPresent(with: CodeStarClientTypes.S3Location.read(from:))
-        return value
     }
 }
 
@@ -2534,14 +2443,6 @@ extension CodeStarClientTypes.UserProfileSummary: Swift.CustomDebugStringConvert
 }
 
 extension CodeStarClientTypes.UserProfileSummary {
-
-    static func write(value: CodeStarClientTypes.UserProfileSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["displayName"].write(value.displayName)
-        try writer["emailAddress"].write(value.emailAddress)
-        try writer["sshPublicKey"].write(value.sshPublicKey)
-        try writer["userArn"].write(value.userArn)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeStarClientTypes.UserProfileSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

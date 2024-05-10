@@ -6,12 +6,6 @@ import SmithyReadWrite
 
 extension TranslateClientTypes.AppliedTerminology {
 
-    static func write(value: TranslateClientTypes.AppliedTerminology?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["Terms"].writeList(value.terms, memberWritingClosure: TranslateClientTypes.Term.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> TranslateClientTypes.AppliedTerminology {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TranslateClientTypes.AppliedTerminology()
@@ -583,14 +577,6 @@ extension TranslateClientTypes.Document {
         guard let value else { return }
         try writer["Content"].write(value.content)
         try writer["ContentType"].write(value.contentType)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TranslateClientTypes.Document {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TranslateClientTypes.Document()
-        value.content = try reader["Content"].readIfPresent()
-        value.contentType = try reader["ContentType"].readIfPresent()
-        return value
     }
 }
 
@@ -1193,13 +1179,6 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
 
 extension TranslateClientTypes.JobDetails {
 
-    static func write(value: TranslateClientTypes.JobDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DocumentsWithErrorsCount"].write(value.documentsWithErrorsCount)
-        try writer["InputDocumentsCount"].write(value.inputDocumentsCount)
-        try writer["TranslatedDocumentsCount"].write(value.translatedDocumentsCount)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> TranslateClientTypes.JobDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TranslateClientTypes.JobDetails()
@@ -1280,12 +1259,6 @@ extension TranslateClientTypes {
 }
 
 extension TranslateClientTypes.Language {
-
-    static func write(value: TranslateClientTypes.Language?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["LanguageCode"].write(value.languageCode)
-        try writer["LanguageName"].write(value.languageName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> TranslateClientTypes.Language {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1852,12 +1825,6 @@ extension TranslateClientTypes {
 
 extension TranslateClientTypes.ParallelDataDataLocation {
 
-    static func write(value: TranslateClientTypes.ParallelDataDataLocation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Location"].write(value.location)
-        try writer["RepositoryType"].write(value.repositoryType)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> TranslateClientTypes.ParallelDataDataLocation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TranslateClientTypes.ParallelDataDataLocation()
@@ -1923,27 +1890,6 @@ extension TranslateClientTypes {
 }
 
 extension TranslateClientTypes.ParallelDataProperties {
-
-    static func write(value: TranslateClientTypes.ParallelDataProperties?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["CreatedAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["Description"].write(value.description)
-        try writer["EncryptionKey"].write(value.encryptionKey, with: TranslateClientTypes.EncryptionKey.write(value:to:))
-        try writer["FailedRecordCount"].write(value.failedRecordCount)
-        try writer["ImportedDataSize"].write(value.importedDataSize)
-        try writer["ImportedRecordCount"].write(value.importedRecordCount)
-        try writer["LastUpdatedAt"].writeTimestamp(value.lastUpdatedAt, format: .epochSeconds)
-        try writer["LatestUpdateAttemptAt"].writeTimestamp(value.latestUpdateAttemptAt, format: .epochSeconds)
-        try writer["LatestUpdateAttemptStatus"].write(value.latestUpdateAttemptStatus)
-        try writer["Message"].write(value.message)
-        try writer["Name"].write(value.name)
-        try writer["ParallelDataConfig"].write(value.parallelDataConfig, with: TranslateClientTypes.ParallelDataConfig.write(value:to:))
-        try writer["SkippedRecordCount"].write(value.skippedRecordCount)
-        try writer["SourceLanguageCode"].write(value.sourceLanguageCode)
-        try writer["Status"].write(value.status)
-        try writer["TargetLanguageCodes"].writeList(value.targetLanguageCodes, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> TranslateClientTypes.ParallelDataProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2513,12 +2459,6 @@ enum TagResourceOutputError {
 
 extension TranslateClientTypes.Term {
 
-    static func write(value: TranslateClientTypes.Term?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["SourceText"].write(value.sourceText)
-        try writer["TargetText"].write(value.targetText)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> TranslateClientTypes.Term {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TranslateClientTypes.Term()
@@ -2560,15 +2500,6 @@ extension TranslateClientTypes.TerminologyData {
         try writer["Directionality"].write(value.directionality)
         try writer["File"].write(value.file)
         try writer["Format"].write(value.format)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TranslateClientTypes.TerminologyData {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TranslateClientTypes.TerminologyData()
-        value.file = try reader["File"].readIfPresent()
-        value.format = try reader["Format"].readIfPresent()
-        value.directionality = try reader["Directionality"].readIfPresent()
-        return value
     }
 }
 
@@ -2633,12 +2564,6 @@ extension TranslateClientTypes {
 
 extension TranslateClientTypes.TerminologyDataLocation {
 
-    static func write(value: TranslateClientTypes.TerminologyDataLocation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Location"].write(value.location)
-        try writer["RepositoryType"].write(value.repositoryType)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> TranslateClientTypes.TerminologyDataLocation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TranslateClientTypes.TerminologyDataLocation()
@@ -2671,24 +2596,6 @@ extension TranslateClientTypes {
 }
 
 extension TranslateClientTypes.TerminologyProperties {
-
-    static func write(value: TranslateClientTypes.TerminologyProperties?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["CreatedAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["Description"].write(value.description)
-        try writer["Directionality"].write(value.directionality)
-        try writer["EncryptionKey"].write(value.encryptionKey, with: TranslateClientTypes.EncryptionKey.write(value:to:))
-        try writer["Format"].write(value.format)
-        try writer["LastUpdatedAt"].writeTimestamp(value.lastUpdatedAt, format: .epochSeconds)
-        try writer["Message"].write(value.message)
-        try writer["Name"].write(value.name)
-        try writer["SizeBytes"].write(value.sizeBytes)
-        try writer["SkippedTermCount"].write(value.skippedTermCount)
-        try writer["SourceLanguageCode"].write(value.sourceLanguageCode)
-        try writer["TargetLanguageCodes"].writeList(value.targetLanguageCodes, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["TermCount"].write(value.termCount)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> TranslateClientTypes.TerminologyProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2825,16 +2732,6 @@ extension TranslateClientTypes.TextTranslationJobFilter {
         try writer["SubmittedAfterTime"].writeTimestamp(value.submittedAfterTime, format: .epochSeconds)
         try writer["SubmittedBeforeTime"].writeTimestamp(value.submittedBeforeTime, format: .epochSeconds)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TranslateClientTypes.TextTranslationJobFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TranslateClientTypes.TextTranslationJobFilter()
-        value.jobName = try reader["JobName"].readIfPresent()
-        value.jobStatus = try reader["JobStatus"].readIfPresent()
-        value.submittedBeforeTime = try reader["SubmittedBeforeTime"].readTimestampIfPresent(format: .epochSeconds)
-        value.submittedAfterTime = try reader["SubmittedAfterTime"].readTimestampIfPresent(format: .epochSeconds)
-        return value
-    }
 }
 
 extension TranslateClientTypes {
@@ -2866,25 +2763,6 @@ extension TranslateClientTypes {
 }
 
 extension TranslateClientTypes.TextTranslationJobProperties {
-
-    static func write(value: TranslateClientTypes.TextTranslationJobProperties?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DataAccessRoleArn"].write(value.dataAccessRoleArn)
-        try writer["EndTime"].writeTimestamp(value.endTime, format: .epochSeconds)
-        try writer["InputDataConfig"].write(value.inputDataConfig, with: TranslateClientTypes.InputDataConfig.write(value:to:))
-        try writer["JobDetails"].write(value.jobDetails, with: TranslateClientTypes.JobDetails.write(value:to:))
-        try writer["JobId"].write(value.jobId)
-        try writer["JobName"].write(value.jobName)
-        try writer["JobStatus"].write(value.jobStatus)
-        try writer["Message"].write(value.message)
-        try writer["OutputDataConfig"].write(value.outputDataConfig, with: TranslateClientTypes.OutputDataConfig.write(value:to:))
-        try writer["ParallelDataNames"].writeList(value.parallelDataNames, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Settings"].write(value.settings, with: TranslateClientTypes.TranslationSettings.write(value:to:))
-        try writer["SourceLanguageCode"].write(value.sourceLanguageCode)
-        try writer["SubmittedTime"].writeTimestamp(value.submittedTime, format: .epochSeconds)
-        try writer["TargetLanguageCodes"].writeList(value.targetLanguageCodes, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["TerminologyNames"].writeList(value.terminologyNames, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> TranslateClientTypes.TextTranslationJobProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3319,11 +3197,6 @@ extension TranslateClientTypes.TranslatedDocument: Swift.CustomDebugStringConver
 }
 
 extension TranslateClientTypes.TranslatedDocument {
-
-    static func write(value: TranslateClientTypes.TranslatedDocument?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Content"].write(value.content)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> TranslateClientTypes.TranslatedDocument {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

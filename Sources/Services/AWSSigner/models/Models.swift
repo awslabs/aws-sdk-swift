@@ -476,13 +476,6 @@ extension SignerClientTypes.Destination {
         guard let value else { return }
         try writer["s3"].write(value.s3, with: SignerClientTypes.S3Destination.write(value:to:))
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SignerClientTypes.Destination {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SignerClientTypes.Destination()
-        value.s3 = try reader["s3"].readIfPresent(with: SignerClientTypes.S3Destination.read(from:))
-        return value
-    }
 }
 
 extension SignerClientTypes {
@@ -532,12 +525,6 @@ extension SignerClientTypes {
 }
 
 extension SignerClientTypes.EncryptionAlgorithmOptions {
-
-    static func write(value: SignerClientTypes.EncryptionAlgorithmOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["allowedValues"].writeList(value.allowedValues, memberWritingClosure: SignerClientTypes.EncryptionAlgorithm.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["defaultValue"].write(value.defaultValue)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SignerClientTypes.EncryptionAlgorithmOptions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -981,12 +968,6 @@ extension SignerClientTypes {
 }
 
 extension SignerClientTypes.HashAlgorithmOptions {
-
-    static func write(value: SignerClientTypes.HashAlgorithmOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["allowedValues"].writeList(value.allowedValues, memberWritingClosure: SignerClientTypes.HashAlgorithm.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["defaultValue"].write(value.defaultValue)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SignerClientTypes.HashAlgorithmOptions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1656,14 +1637,6 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
 extension SignerClientTypes.Permission {
 
-    static func write(value: SignerClientTypes.Permission?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["action"].write(value.action)
-        try writer["principal"].write(value.principal)
-        try writer["profileVersion"].write(value.profileVersion)
-        try writer["statementId"].write(value.statementId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SignerClientTypes.Permission {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SignerClientTypes.Permission()
@@ -2106,14 +2079,6 @@ extension SignerClientTypes.S3Destination {
         try writer["bucketName"].write(value.bucketName)
         try writer["prefix"].write(value.`prefix`)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SignerClientTypes.S3Destination {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SignerClientTypes.S3Destination()
-        value.bucketName = try reader["bucketName"].readIfPresent()
-        value.`prefix` = try reader["prefix"].readIfPresent()
-        return value
-    }
 }
 
 extension SignerClientTypes {
@@ -2137,12 +2102,6 @@ extension SignerClientTypes {
 }
 
 extension SignerClientTypes.S3SignedObject {
-
-    static func write(value: SignerClientTypes.S3SignedObject?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["bucketName"].write(value.bucketName)
-        try writer["key"].write(value.key)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SignerClientTypes.S3SignedObject {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2401,11 +2360,6 @@ extension SignerClientTypes {
 
 extension SignerClientTypes.SignedObject {
 
-    static func write(value: SignerClientTypes.SignedObject?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["s3"].write(value.s3, with: SignerClientTypes.S3SignedObject.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SignerClientTypes.SignedObject {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SignerClientTypes.SignedObject()
@@ -2433,12 +2387,6 @@ extension SignerClientTypes {
 public enum SignerClientTypes {}
 
 extension SignerClientTypes.SigningConfiguration {
-
-    static func write(value: SignerClientTypes.SigningConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["encryptionAlgorithmOptions"].write(value.encryptionAlgorithmOptions, with: SignerClientTypes.EncryptionAlgorithmOptions.write(value:to:))
-        try writer["hashAlgorithmOptions"].write(value.hashAlgorithmOptions, with: SignerClientTypes.HashAlgorithmOptions.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SignerClientTypes.SigningConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2510,12 +2458,6 @@ extension SignerClientTypes {
 
 extension SignerClientTypes.SigningImageFormat {
 
-    static func write(value: SignerClientTypes.SigningImageFormat?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["defaultFormat"].write(value.defaultFormat)
-        try writer["supportedFormats"].writeList(value.supportedFormats, memberWritingClosure: SignerClientTypes.ImageFormat.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SignerClientTypes.SigningImageFormat {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SignerClientTypes.SigningImageFormat()
@@ -2548,24 +2490,6 @@ extension SignerClientTypes {
 }
 
 extension SignerClientTypes.SigningJob {
-
-    static func write(value: SignerClientTypes.SigningJob?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["isRevoked"].write(value.isRevoked)
-        try writer["jobId"].write(value.jobId)
-        try writer["jobInvoker"].write(value.jobInvoker)
-        try writer["jobOwner"].write(value.jobOwner)
-        try writer["platformDisplayName"].write(value.platformDisplayName)
-        try writer["platformId"].write(value.platformId)
-        try writer["profileName"].write(value.profileName)
-        try writer["profileVersion"].write(value.profileVersion)
-        try writer["signatureExpiresAt"].writeTimestamp(value.signatureExpiresAt, format: .epochSeconds)
-        try writer["signedObject"].write(value.signedObject, with: SignerClientTypes.SignedObject.write(value:to:))
-        try writer["signingMaterial"].write(value.signingMaterial, with: SignerClientTypes.SigningMaterial.write(value:to:))
-        try writer["source"].write(value.source, with: SignerClientTypes.Source.write(value:to:))
-        try writer["status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SignerClientTypes.SigningJob {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2658,13 +2582,6 @@ extension SignerClientTypes {
 
 extension SignerClientTypes.SigningJobRevocationRecord {
 
-    static func write(value: SignerClientTypes.SigningJobRevocationRecord?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["reason"].write(value.reason)
-        try writer["revokedAt"].writeTimestamp(value.revokedAt, format: .epochSeconds)
-        try writer["revokedBy"].write(value.revokedBy)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SignerClientTypes.SigningJobRevocationRecord {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SignerClientTypes.SigningJobRevocationRecord()
@@ -2732,19 +2649,6 @@ extension SignerClientTypes {
 }
 
 extension SignerClientTypes.SigningPlatform {
-
-    static func write(value: SignerClientTypes.SigningPlatform?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["category"].write(value.category)
-        try writer["displayName"].write(value.displayName)
-        try writer["maxSizeInMB"].write(value.maxSizeInMB)
-        try writer["partner"].write(value.partner)
-        try writer["platformId"].write(value.platformId)
-        try writer["revocationSupported"].write(value.revocationSupported)
-        try writer["signingConfiguration"].write(value.signingConfiguration, with: SignerClientTypes.SigningConfiguration.write(value:to:))
-        try writer["signingImageFormat"].write(value.signingImageFormat, with: SignerClientTypes.SigningImageFormat.write(value:to:))
-        try writer["target"].write(value.target)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SignerClientTypes.SigningPlatform {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2849,21 +2753,6 @@ extension SignerClientTypes {
 
 extension SignerClientTypes.SigningProfile {
 
-    static func write(value: SignerClientTypes.SigningProfile?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["platformDisplayName"].write(value.platformDisplayName)
-        try writer["platformId"].write(value.platformId)
-        try writer["profileName"].write(value.profileName)
-        try writer["profileVersion"].write(value.profileVersion)
-        try writer["profileVersionArn"].write(value.profileVersionArn)
-        try writer["signatureValidityPeriod"].write(value.signatureValidityPeriod, with: SignerClientTypes.SignatureValidityPeriod.write(value:to:))
-        try writer["signingMaterial"].write(value.signingMaterial, with: SignerClientTypes.SigningMaterial.write(value:to:))
-        try writer["signingParameters"].writeMap(value.signingParameters, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["status"].write(value.status)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SignerClientTypes.SigningProfile {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SignerClientTypes.SigningProfile()
@@ -2939,13 +2828,6 @@ extension SignerClientTypes {
 }
 
 extension SignerClientTypes.SigningProfileRevocationRecord {
-
-    static func write(value: SignerClientTypes.SigningProfileRevocationRecord?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["revocationEffectiveFrom"].writeTimestamp(value.revocationEffectiveFrom, format: .epochSeconds)
-        try writer["revokedAt"].writeTimestamp(value.revokedAt, format: .epochSeconds)
-        try writer["revokedBy"].write(value.revokedBy)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SignerClientTypes.SigningProfileRevocationRecord {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

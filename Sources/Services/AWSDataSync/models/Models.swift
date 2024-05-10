@@ -113,14 +113,6 @@ enum AddStorageSystemOutputError {
 
 extension DataSyncClientTypes.AgentListEntry {
 
-    static func write(value: DataSyncClientTypes.AgentListEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AgentArn"].write(value.agentArn)
-        try writer["Name"].write(value.name)
-        try writer["Platform"].write(value.platform, with: DataSyncClientTypes.Platform.write(value:to:))
-        try writer["Status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DataSyncClientTypes.AgentListEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataSyncClientTypes.AgentListEntry()
@@ -295,13 +287,6 @@ extension DataSyncClientTypes.AzureBlobSasConfiguration {
         guard let value else { return }
         try writer["Token"].write(value.token)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataSyncClientTypes.AzureBlobSasConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataSyncClientTypes.AzureBlobSasConfiguration()
-        value.token = try reader["Token"].readIfPresent()
-        return value
-    }
 }
 
 extension DataSyncClientTypes {
@@ -405,14 +390,6 @@ enum CancelTaskExecutionOutputError {
 }
 
 extension DataSyncClientTypes.Capacity {
-
-    static func write(value: DataSyncClientTypes.Capacity?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ClusterCloudStorageUsed"].write(value.clusterCloudStorageUsed)
-        try writer["LogicalUsed"].write(value.logicalUsed)
-        try writer["Provisioned"].write(value.provisioned)
-        try writer["Used"].write(value.used)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DataSyncClientTypes.Capacity {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1825,14 +1802,6 @@ extension DataSyncClientTypes.Credentials {
         guard let value else { return }
         try writer["Password"].write(value.password)
         try writer["Username"].write(value.username)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataSyncClientTypes.Credentials {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataSyncClientTypes.Credentials()
-        value.username = try reader["Username"].readIfPresent()
-        value.password = try reader["Password"].readIfPresent()
-        return value
     }
 }
 
@@ -3929,12 +3898,6 @@ enum DescribeTaskOutputError {
 
 extension DataSyncClientTypes.DiscoveryJobListEntry {
 
-    static func write(value: DataSyncClientTypes.DiscoveryJobListEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DiscoveryJobArn"].write(value.discoveryJobArn)
-        try writer["Status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DataSyncClientTypes.DiscoveryJobListEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataSyncClientTypes.DiscoveryJobListEntry()
@@ -4677,14 +4640,6 @@ extension DataSyncClientTypes {
 
 extension DataSyncClientTypes.IOPS {
 
-    static func write(value: DataSyncClientTypes.IOPS?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Other"].write(value.other)
-        try writer["Read"].write(value.read)
-        try writer["Total"].write(value.total)
-        try writer["Write"].write(value.write)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DataSyncClientTypes.IOPS {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataSyncClientTypes.IOPS()
@@ -4811,13 +4766,6 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
 }
 
 extension DataSyncClientTypes.Latency {
-
-    static func write(value: DataSyncClientTypes.Latency?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Other"].write(value.other)
-        try writer["Read"].write(value.read)
-        try writer["Write"].write(value.write)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DataSyncClientTypes.Latency {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5429,15 +5377,6 @@ extension DataSyncClientTypes.LocationFilter {
         try writer["Operator"].write(value.`operator`)
         try writer["Values"].writeList(value.values, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataSyncClientTypes.LocationFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataSyncClientTypes.LocationFilter()
-        value.name = try reader["Name"].readIfPresent()
-        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.`operator` = try reader["Operator"].readIfPresent()
-        return value
-    }
 }
 
 extension DataSyncClientTypes {
@@ -5501,12 +5440,6 @@ extension DataSyncClientTypes {
 }
 
 extension DataSyncClientTypes.LocationListEntry {
-
-    static func write(value: DataSyncClientTypes.LocationListEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["LocationArn"].write(value.locationArn)
-        try writer["LocationUri"].write(value.locationUri)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DataSyncClientTypes.LocationListEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5669,21 +5602,6 @@ extension DataSyncClientTypes {
 
 extension DataSyncClientTypes.MaxP95Performance {
 
-    static func write(value: DataSyncClientTypes.MaxP95Performance?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["IopsOther"].write(value.iopsOther)
-        try writer["IopsRead"].write(value.iopsRead)
-        try writer["IopsTotal"].write(value.iopsTotal)
-        try writer["IopsWrite"].write(value.iopsWrite)
-        try writer["LatencyOther"].write(value.latencyOther)
-        try writer["LatencyRead"].write(value.latencyRead)
-        try writer["LatencyWrite"].write(value.latencyWrite)
-        try writer["ThroughputOther"].write(value.throughputOther)
-        try writer["ThroughputRead"].write(value.throughputRead)
-        try writer["ThroughputTotal"].write(value.throughputTotal)
-        try writer["ThroughputWrite"].write(value.throughputWrite)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DataSyncClientTypes.MaxP95Performance {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataSyncClientTypes.MaxP95Performance()
@@ -5790,22 +5708,6 @@ extension DataSyncClientTypes {
 
 extension DataSyncClientTypes.NetAppONTAPCluster {
 
-    static func write(value: DataSyncClientTypes.NetAppONTAPCluster?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CifsShareCount"].write(value.cifsShareCount)
-        try writer["ClusterBlockStorageLogicalUsed"].write(value.clusterBlockStorageLogicalUsed)
-        try writer["ClusterBlockStorageSize"].write(value.clusterBlockStorageSize)
-        try writer["ClusterBlockStorageUsed"].write(value.clusterBlockStorageUsed)
-        try writer["ClusterCloudStorageUsed"].write(value.clusterCloudStorageUsed)
-        try writer["ClusterName"].write(value.clusterName)
-        try writer["LunCount"].write(value.lunCount)
-        try writer["MaxP95Performance"].write(value.maxP95Performance, with: DataSyncClientTypes.MaxP95Performance.write(value:to:))
-        try writer["NfsExportedVolumes"].write(value.nfsExportedVolumes)
-        try writer["RecommendationStatus"].write(value.recommendationStatus)
-        try writer["Recommendations"].writeList(value.recommendations, memberWritingClosure: DataSyncClientTypes.Recommendation.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ResourceId"].write(value.resourceId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DataSyncClientTypes.NetAppONTAPCluster {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataSyncClientTypes.NetAppONTAPCluster()
@@ -5886,24 +5788,6 @@ extension DataSyncClientTypes {
 }
 
 extension DataSyncClientTypes.NetAppONTAPSVM {
-
-    static func write(value: DataSyncClientTypes.NetAppONTAPSVM?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CifsShareCount"].write(value.cifsShareCount)
-        try writer["ClusterUuid"].write(value.clusterUuid)
-        try writer["EnabledProtocols"].writeList(value.enabledProtocols, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["LunCount"].write(value.lunCount)
-        try writer["MaxP95Performance"].write(value.maxP95Performance, with: DataSyncClientTypes.MaxP95Performance.write(value:to:))
-        try writer["NfsExportedVolumes"].write(value.nfsExportedVolumes)
-        try writer["RecommendationStatus"].write(value.recommendationStatus)
-        try writer["Recommendations"].writeList(value.recommendations, memberWritingClosure: DataSyncClientTypes.Recommendation.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ResourceId"].write(value.resourceId)
-        try writer["SvmName"].write(value.svmName)
-        try writer["TotalCapacityProvisioned"].write(value.totalCapacityProvisioned)
-        try writer["TotalCapacityUsed"].write(value.totalCapacityUsed)
-        try writer["TotalLogicalCapacityUsed"].write(value.totalLogicalCapacityUsed)
-        try writer["TotalSnapshotCapacityUsed"].write(value.totalSnapshotCapacityUsed)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DataSyncClientTypes.NetAppONTAPSVM {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5995,25 +5879,6 @@ extension DataSyncClientTypes {
 }
 
 extension DataSyncClientTypes.NetAppONTAPVolume {
-
-    static func write(value: DataSyncClientTypes.NetAppONTAPVolume?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CapacityProvisioned"].write(value.capacityProvisioned)
-        try writer["CapacityUsed"].write(value.capacityUsed)
-        try writer["CifsShareCount"].write(value.cifsShareCount)
-        try writer["LogicalCapacityUsed"].write(value.logicalCapacityUsed)
-        try writer["LunCount"].write(value.lunCount)
-        try writer["MaxP95Performance"].write(value.maxP95Performance, with: DataSyncClientTypes.MaxP95Performance.write(value:to:))
-        try writer["NfsExported"].write(value.nfsExported)
-        try writer["RecommendationStatus"].write(value.recommendationStatus)
-        try writer["Recommendations"].writeList(value.recommendations, memberWritingClosure: DataSyncClientTypes.Recommendation.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ResourceId"].write(value.resourceId)
-        try writer["SecurityStyle"].write(value.securityStyle)
-        try writer["SnapshotCapacityUsed"].write(value.snapshotCapacityUsed)
-        try writer["SvmName"].write(value.svmName)
-        try writer["SvmUuid"].write(value.svmUuid)
-        try writer["VolumeName"].write(value.volumeName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DataSyncClientTypes.NetAppONTAPVolume {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6598,13 +6463,6 @@ extension DataSyncClientTypes {
 
 extension DataSyncClientTypes.P95Metrics {
 
-    static func write(value: DataSyncClientTypes.P95Metrics?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["IOPS"].write(value.iops, with: DataSyncClientTypes.IOPS.write(value:to:))
-        try writer["Latency"].write(value.latency, with: DataSyncClientTypes.Latency.write(value:to:))
-        try writer["Throughput"].write(value.throughput, with: DataSyncClientTypes.Throughput.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DataSyncClientTypes.P95Metrics {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataSyncClientTypes.P95Metrics()
@@ -6673,11 +6531,6 @@ extension DataSyncClientTypes {
 }
 
 extension DataSyncClientTypes.Platform {
-
-    static func write(value: DataSyncClientTypes.Platform?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Version"].write(value.version)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DataSyncClientTypes.Platform {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6795,14 +6648,6 @@ extension DataSyncClientTypes {
 
 extension DataSyncClientTypes.PrivateLinkConfig {
 
-    static func write(value: DataSyncClientTypes.PrivateLinkConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["PrivateLinkEndpoint"].write(value.privateLinkEndpoint)
-        try writer["SecurityGroupArns"].writeList(value.securityGroupArns, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["SubnetArns"].writeList(value.subnetArns, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["VpcEndpointId"].write(value.vpcEndpointId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DataSyncClientTypes.PrivateLinkConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataSyncClientTypes.PrivateLinkConfig()
@@ -6880,13 +6725,6 @@ extension DataSyncClientTypes {
 }
 
 extension DataSyncClientTypes.Recommendation {
-
-    static func write(value: DataSyncClientTypes.Recommendation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EstimatedMonthlyStorageCost"].write(value.estimatedMonthlyStorageCost)
-        try writer["StorageConfiguration"].writeMap(value.storageConfiguration, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["StorageType"].write(value.storageType)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DataSyncClientTypes.Recommendation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7231,13 +7069,6 @@ extension DataSyncClientTypes {
 
 extension DataSyncClientTypes.ReportResult {
 
-    static func write(value: DataSyncClientTypes.ReportResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ErrorCode"].write(value.errorCode)
-        try writer["ErrorDetail"].write(value.errorDetail)
-        try writer["Status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DataSyncClientTypes.ReportResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataSyncClientTypes.ReportResult()
@@ -7274,13 +7105,6 @@ extension DataSyncClientTypes {
 
 extension DataSyncClientTypes.ResourceDetails {
 
-    static func write(value: DataSyncClientTypes.ResourceDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["NetAppONTAPClusters"].writeList(value.netAppONTAPClusters, memberWritingClosure: DataSyncClientTypes.NetAppONTAPCluster.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["NetAppONTAPSVMs"].writeList(value.netAppONTAPSVMs, memberWritingClosure: DataSyncClientTypes.NetAppONTAPSVM.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["NetAppONTAPVolumes"].writeList(value.netAppONTAPVolumes, memberWritingClosure: DataSyncClientTypes.NetAppONTAPVolume.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DataSyncClientTypes.ResourceDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataSyncClientTypes.ResourceDetails()
@@ -7316,15 +7140,6 @@ extension DataSyncClientTypes {
 }
 
 extension DataSyncClientTypes.ResourceMetrics {
-
-    static func write(value: DataSyncClientTypes.ResourceMetrics?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Capacity"].write(value.capacity, with: DataSyncClientTypes.Capacity.write(value:to:))
-        try writer["P95Metrics"].write(value.p95Metrics, with: DataSyncClientTypes.P95Metrics.write(value:to:))
-        try writer["ResourceId"].write(value.resourceId)
-        try writer["ResourceType"].write(value.resourceType)
-        try writer["Timestamp"].writeTimestamp(value.timestamp, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DataSyncClientTypes.ResourceMetrics {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7980,12 +7795,6 @@ extension DataSyncClientTypes {
 
 extension DataSyncClientTypes.StorageSystemListEntry {
 
-    static func write(value: DataSyncClientTypes.StorageSystemListEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["StorageSystemArn"].write(value.storageSystemArn)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DataSyncClientTypes.StorageSystemListEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataSyncClientTypes.StorageSystemListEntry()
@@ -8117,12 +7926,6 @@ enum TagResourceOutputError {
 
 extension DataSyncClientTypes.TaskExecutionListEntry {
 
-    static func write(value: DataSyncClientTypes.TaskExecutionListEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Status"].write(value.status)
-        try writer["TaskExecutionArn"].write(value.taskExecutionArn)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DataSyncClientTypes.TaskExecutionListEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataSyncClientTypes.TaskExecutionListEntry()
@@ -8153,19 +7956,6 @@ extension DataSyncClientTypes {
 }
 
 extension DataSyncClientTypes.TaskExecutionResultDetail {
-
-    static func write(value: DataSyncClientTypes.TaskExecutionResultDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ErrorCode"].write(value.errorCode)
-        try writer["ErrorDetail"].write(value.errorDetail)
-        try writer["PrepareDuration"].write(value.prepareDuration)
-        try writer["PrepareStatus"].write(value.prepareStatus)
-        try writer["TotalDuration"].write(value.totalDuration)
-        try writer["TransferDuration"].write(value.transferDuration)
-        try writer["TransferStatus"].write(value.transferStatus)
-        try writer["VerifyDuration"].write(value.verifyDuration)
-        try writer["VerifyStatus"].write(value.verifyStatus)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DataSyncClientTypes.TaskExecutionResultDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8284,15 +8074,6 @@ extension DataSyncClientTypes.TaskFilter {
         try writer["Operator"].write(value.`operator`)
         try writer["Values"].writeList(value.values, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataSyncClientTypes.TaskFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataSyncClientTypes.TaskFilter()
-        value.name = try reader["Name"].readIfPresent()
-        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.`operator` = try reader["Operator"].readIfPresent()
-        return value
-    }
 }
 
 extension DataSyncClientTypes {
@@ -8353,13 +8134,6 @@ extension DataSyncClientTypes {
 }
 
 extension DataSyncClientTypes.TaskListEntry {
-
-    static func write(value: DataSyncClientTypes.TaskListEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["Status"].write(value.status)
-        try writer["TaskArn"].write(value.taskArn)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DataSyncClientTypes.TaskListEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8528,13 +8302,6 @@ extension DataSyncClientTypes {
 
 extension DataSyncClientTypes.TaskScheduleDetails {
 
-    static func write(value: DataSyncClientTypes.TaskScheduleDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DisabledBy"].write(value.disabledBy)
-        try writer["DisabledReason"].write(value.disabledReason)
-        try writer["StatusUpdateTime"].writeTimestamp(value.statusUpdateTime, format: .epochSeconds)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DataSyncClientTypes.TaskScheduleDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataSyncClientTypes.TaskScheduleDetails()
@@ -8613,14 +8380,6 @@ extension DataSyncClientTypes {
 }
 
 extension DataSyncClientTypes.Throughput {
-
-    static func write(value: DataSyncClientTypes.Throughput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Other"].write(value.other)
-        try writer["Read"].write(value.read)
-        try writer["Total"].write(value.total)
-        try writer["Write"].write(value.write)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DataSyncClientTypes.Throughput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

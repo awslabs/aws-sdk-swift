@@ -6,13 +6,6 @@ import SmithyReadWrite
 
 extension SecretsManagerClientTypes.APIErrorType {
 
-    static func write(value: SecretsManagerClientTypes.APIErrorType?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ErrorCode"].write(value.errorCode)
-        try writer["Message"].write(value.message)
-        try writer["SecretId"].write(value.secretId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SecretsManagerClientTypes.APIErrorType {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SecretsManagerClientTypes.APIErrorType()
@@ -782,14 +775,6 @@ extension SecretsManagerClientTypes.Filter {
         guard let value else { return }
         try writer["Key"].write(value.key)
         try writer["Values"].writeList(value.values, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SecretsManagerClientTypes.Filter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SecretsManagerClientTypes.Filter()
-        value.key = try reader["Key"].readIfPresent()
-        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -1970,14 +1955,6 @@ extension SecretsManagerClientTypes.ReplicaRegionType {
         try writer["KmsKeyId"].write(value.kmsKeyId)
         try writer["Region"].write(value.region)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SecretsManagerClientTypes.ReplicaRegionType {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SecretsManagerClientTypes.ReplicaRegionType()
-        value.region = try reader["Region"].readIfPresent()
-        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
-        return value
-    }
 }
 
 extension SecretsManagerClientTypes {
@@ -2086,15 +2063,6 @@ enum ReplicateSecretToRegionsOutputError {
 }
 
 extension SecretsManagerClientTypes.ReplicationStatusType {
-
-    static func write(value: SecretsManagerClientTypes.ReplicationStatusType?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["KmsKeyId"].write(value.kmsKeyId)
-        try writer["LastAccessedDate"].writeTimestamp(value.lastAccessedDate, format: .epochSeconds)
-        try writer["Region"].write(value.region)
-        try writer["Status"].write(value.status)
-        try writer["StatusMessage"].write(value.statusMessage)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SecretsManagerClientTypes.ReplicationStatusType {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2432,27 +2400,6 @@ extension SecretsManagerClientTypes {
 
 extension SecretsManagerClientTypes.SecretListEntry {
 
-    static func write(value: SecretsManagerClientTypes.SecretListEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ARN"].write(value.arn)
-        try writer["CreatedDate"].writeTimestamp(value.createdDate, format: .epochSeconds)
-        try writer["DeletedDate"].writeTimestamp(value.deletedDate, format: .epochSeconds)
-        try writer["Description"].write(value.description)
-        try writer["KmsKeyId"].write(value.kmsKeyId)
-        try writer["LastAccessedDate"].writeTimestamp(value.lastAccessedDate, format: .epochSeconds)
-        try writer["LastChangedDate"].writeTimestamp(value.lastChangedDate, format: .epochSeconds)
-        try writer["LastRotatedDate"].writeTimestamp(value.lastRotatedDate, format: .epochSeconds)
-        try writer["Name"].write(value.name)
-        try writer["NextRotationDate"].writeTimestamp(value.nextRotationDate, format: .epochSeconds)
-        try writer["OwningService"].write(value.owningService)
-        try writer["PrimaryRegion"].write(value.primaryRegion)
-        try writer["RotationEnabled"].write(value.rotationEnabled)
-        try writer["RotationLambdaARN"].write(value.rotationLambdaARN)
-        try writer["RotationRules"].write(value.rotationRules, with: SecretsManagerClientTypes.RotationRulesType.write(value:to:))
-        try writer["SecretVersionsToStages"].writeMap(value.secretVersionsToStages, valueWritingClosure: listWritingClosure(memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["Tags"].writeList(value.tags, memberWritingClosure: SecretsManagerClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SecretsManagerClientTypes.SecretListEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SecretsManagerClientTypes.SecretListEntry()
@@ -2564,17 +2511,6 @@ extension SecretsManagerClientTypes.SecretValueEntry: Swift.CustomDebugStringCon
 
 extension SecretsManagerClientTypes.SecretValueEntry {
 
-    static func write(value: SecretsManagerClientTypes.SecretValueEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ARN"].write(value.arn)
-        try writer["CreatedDate"].writeTimestamp(value.createdDate, format: .epochSeconds)
-        try writer["Name"].write(value.name)
-        try writer["SecretBinary"].write(value.secretBinary)
-        try writer["SecretString"].write(value.secretString)
-        try writer["VersionId"].write(value.versionId)
-        try writer["VersionStages"].writeList(value.versionStages, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SecretsManagerClientTypes.SecretValueEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SecretsManagerClientTypes.SecretValueEntry()
@@ -2630,15 +2566,6 @@ extension SecretsManagerClientTypes {
 }
 
 extension SecretsManagerClientTypes.SecretVersionsListEntry {
-
-    static func write(value: SecretsManagerClientTypes.SecretVersionsListEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedDate"].writeTimestamp(value.createdDate, format: .epochSeconds)
-        try writer["KmsKeyIds"].writeList(value.kmsKeyIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["LastAccessedDate"].writeTimestamp(value.lastAccessedDate, format: .epochSeconds)
-        try writer["VersionId"].write(value.versionId)
-        try writer["VersionStages"].writeList(value.versionStages, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SecretsManagerClientTypes.SecretVersionsListEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3268,12 +3195,6 @@ enum ValidateResourcePolicyOutputError {
 }
 
 extension SecretsManagerClientTypes.ValidationErrorsEntry {
-
-    static func write(value: SecretsManagerClientTypes.ValidationErrorsEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CheckName"].write(value.checkName)
-        try writer["ErrorMessage"].write(value.errorMessage)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SecretsManagerClientTypes.ValidationErrorsEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

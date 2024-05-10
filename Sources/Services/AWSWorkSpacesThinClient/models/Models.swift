@@ -536,31 +536,6 @@ extension WorkSpacesThinClientClientTypes.Device: Swift.CustomDebugStringConvert
 
 extension WorkSpacesThinClientClientTypes.Device {
 
-    static func write(value: WorkSpacesThinClientClientTypes.Device?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["currentSoftwareSetId"].write(value.currentSoftwareSetId)
-        try writer["currentSoftwareSetVersion"].write(value.currentSoftwareSetVersion)
-        try writer["desiredSoftwareSetId"].write(value.desiredSoftwareSetId)
-        try writer["environmentId"].write(value.environmentId)
-        try writer["id"].write(value.id)
-        try writer["kmsKeyArn"].write(value.kmsKeyArn)
-        try writer["lastConnectedAt"].writeTimestamp(value.lastConnectedAt, format: .epochSeconds)
-        try writer["lastPostureAt"].writeTimestamp(value.lastPostureAt, format: .epochSeconds)
-        try writer["model"].write(value.model)
-        try writer["name"].write(value.name)
-        try writer["pendingSoftwareSetId"].write(value.pendingSoftwareSetId)
-        try writer["pendingSoftwareSetVersion"].write(value.pendingSoftwareSetVersion)
-        try writer["serialNumber"].write(value.serialNumber)
-        try writer["softwareSetComplianceStatus"].write(value.softwareSetComplianceStatus)
-        try writer["softwareSetUpdateSchedule"].write(value.softwareSetUpdateSchedule)
-        try writer["softwareSetUpdateStatus"].write(value.softwareSetUpdateStatus)
-        try writer["status"].write(value.status)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["updatedAt"].writeTimestamp(value.updatedAt, format: .epochSeconds)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesThinClientClientTypes.Device {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WorkSpacesThinClientClientTypes.Device()
@@ -761,25 +736,6 @@ extension WorkSpacesThinClientClientTypes.DeviceSummary: Swift.CustomDebugString
 
 extension WorkSpacesThinClientClientTypes.DeviceSummary {
 
-    static func write(value: WorkSpacesThinClientClientTypes.DeviceSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["currentSoftwareSetId"].write(value.currentSoftwareSetId)
-        try writer["desiredSoftwareSetId"].write(value.desiredSoftwareSetId)
-        try writer["environmentId"].write(value.environmentId)
-        try writer["id"].write(value.id)
-        try writer["lastConnectedAt"].writeTimestamp(value.lastConnectedAt, format: .epochSeconds)
-        try writer["lastPostureAt"].writeTimestamp(value.lastPostureAt, format: .epochSeconds)
-        try writer["model"].write(value.model)
-        try writer["name"].write(value.name)
-        try writer["pendingSoftwareSetId"].write(value.pendingSoftwareSetId)
-        try writer["serialNumber"].write(value.serialNumber)
-        try writer["softwareSetUpdateSchedule"].write(value.softwareSetUpdateSchedule)
-        try writer["status"].write(value.status)
-        try writer["updatedAt"].writeTimestamp(value.updatedAt, format: .epochSeconds)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesThinClientClientTypes.DeviceSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WorkSpacesThinClientClientTypes.DeviceSummary()
@@ -880,29 +836,6 @@ extension WorkSpacesThinClientClientTypes.Environment: Swift.CustomDebugStringCo
 }
 
 extension WorkSpacesThinClientClientTypes.Environment {
-
-    static func write(value: WorkSpacesThinClientClientTypes.Environment?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["activationCode"].write(value.activationCode)
-        try writer["arn"].write(value.arn)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["desiredSoftwareSetId"].write(value.desiredSoftwareSetId)
-        try writer["desktopArn"].write(value.desktopArn)
-        try writer["desktopEndpoint"].write(value.desktopEndpoint)
-        try writer["desktopType"].write(value.desktopType)
-        try writer["id"].write(value.id)
-        try writer["kmsKeyArn"].write(value.kmsKeyArn)
-        try writer["maintenanceWindow"].write(value.maintenanceWindow, with: WorkSpacesThinClientClientTypes.MaintenanceWindow.write(value:to:))
-        try writer["name"].write(value.name)
-        try writer["pendingSoftwareSetId"].write(value.pendingSoftwareSetId)
-        try writer["pendingSoftwareSetVersion"].write(value.pendingSoftwareSetVersion)
-        try writer["registeredDevicesCount"].write(value.registeredDevicesCount)
-        try writer["softwareSetComplianceStatus"].write(value.softwareSetComplianceStatus)
-        try writer["softwareSetUpdateMode"].write(value.softwareSetUpdateMode)
-        try writer["softwareSetUpdateSchedule"].write(value.softwareSetUpdateSchedule)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["updatedAt"].writeTimestamp(value.updatedAt, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesThinClientClientTypes.Environment {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1057,24 +990,6 @@ extension WorkSpacesThinClientClientTypes.EnvironmentSummary: Swift.CustomDebugS
 }
 
 extension WorkSpacesThinClientClientTypes.EnvironmentSummary {
-
-    static func write(value: WorkSpacesThinClientClientTypes.EnvironmentSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["activationCode"].write(value.activationCode)
-        try writer["arn"].write(value.arn)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["desiredSoftwareSetId"].write(value.desiredSoftwareSetId)
-        try writer["desktopArn"].write(value.desktopArn)
-        try writer["desktopEndpoint"].write(value.desktopEndpoint)
-        try writer["desktopType"].write(value.desktopType)
-        try writer["id"].write(value.id)
-        try writer["maintenanceWindow"].write(value.maintenanceWindow, with: WorkSpacesThinClientClientTypes.MaintenanceWindow.write(value:to:))
-        try writer["name"].write(value.name)
-        try writer["pendingSoftwareSetId"].write(value.pendingSoftwareSetId)
-        try writer["softwareSetUpdateMode"].write(value.softwareSetUpdateMode)
-        try writer["softwareSetUpdateSchedule"].write(value.softwareSetUpdateSchedule)
-        try writer["updatedAt"].writeTimestamp(value.updatedAt, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesThinClientClientTypes.EnvironmentSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1933,12 +1848,6 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
 extension WorkSpacesThinClientClientTypes.Software {
 
-    static func write(value: WorkSpacesThinClientClientTypes.Software?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-        try writer["version"].write(value.version)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesThinClientClientTypes.Software {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WorkSpacesThinClientClientTypes.Software()
@@ -1974,18 +1883,6 @@ extension WorkSpacesThinClientClientTypes.SoftwareSet: Swift.CustomDebugStringCo
 }
 
 extension WorkSpacesThinClientClientTypes.SoftwareSet {
-
-    static func write(value: WorkSpacesThinClientClientTypes.SoftwareSet?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["id"].write(value.id)
-        try writer["releasedAt"].writeTimestamp(value.releasedAt, format: .epochSeconds)
-        try writer["software"].writeList(value.software, memberWritingClosure: WorkSpacesThinClientClientTypes.Software.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["supportedUntil"].writeTimestamp(value.supportedUntil, format: .epochSeconds)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["validationStatus"].write(value.validationStatus)
-        try writer["version"].write(value.version)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesThinClientClientTypes.SoftwareSet {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2047,16 +1944,6 @@ extension WorkSpacesThinClientClientTypes {
 }
 
 extension WorkSpacesThinClientClientTypes.SoftwareSetSummary {
-
-    static func write(value: WorkSpacesThinClientClientTypes.SoftwareSetSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["id"].write(value.id)
-        try writer["releasedAt"].writeTimestamp(value.releasedAt, format: .epochSeconds)
-        try writer["supportedUntil"].writeTimestamp(value.supportedUntil, format: .epochSeconds)
-        try writer["validationStatus"].write(value.validationStatus)
-        try writer["version"].write(value.version)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesThinClientClientTypes.SoftwareSetSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2785,12 +2672,6 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 extension WorkSpacesThinClientClientTypes.ValidationExceptionField {
-
-    static func write(value: WorkSpacesThinClientClientTypes.ValidationExceptionField?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.message)
-        try writer["name"].write(value.name)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesThinClientClientTypes.ValidationExceptionField {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

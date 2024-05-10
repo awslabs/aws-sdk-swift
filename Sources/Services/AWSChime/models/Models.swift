@@ -47,19 +47,6 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
 extension ChimeClientTypes.Account {
 
-    static func write(value: ChimeClientTypes.Account?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccountId"].write(value.accountId)
-        try writer["AccountStatus"].write(value.accountStatus)
-        try writer["AccountType"].write(value.accountType)
-        try writer["AwsAccountId"].write(value.awsAccountId)
-        try writer["CreatedTimestamp"].writeTimestamp(value.createdTimestamp, format: .dateTime)
-        try writer["DefaultLicense"].write(value.defaultLicense)
-        try writer["Name"].write(value.name)
-        try writer["SigninDelegateGroups"].writeList(value.signinDelegateGroups, memberWritingClosure: ChimeClientTypes.SigninDelegateGroup.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["SupportedLicenses"].writeList(value.supportedLicenses, memberWritingClosure: ChimeClientTypes.License.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeClientTypes.Account {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ChimeClientTypes.Account()
@@ -237,20 +224,6 @@ extension ChimeClientTypes.Address: Swift.CustomDebugStringConvertible {
 
 extension ChimeClientTypes.Address {
 
-    static func write(value: ChimeClientTypes.Address?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["city"].write(value.city)
-        try writer["country"].write(value.country)
-        try writer["postDirectional"].write(value.postDirectional)
-        try writer["postalCode"].write(value.postalCode)
-        try writer["postalCodePlus4"].write(value.postalCodePlus4)
-        try writer["preDirectional"].write(value.preDirectional)
-        try writer["state"].write(value.state)
-        try writer["streetName"].write(value.streetName)
-        try writer["streetNumber"].write(value.streetNumber)
-        try writer["streetSuffix"].write(value.streetSuffix)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeClientTypes.Address {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ChimeClientTypes.Address()
@@ -369,15 +342,6 @@ extension ChimeClientTypes.AppInstance: Swift.CustomDebugStringConvertible {
 
 extension ChimeClientTypes.AppInstance {
 
-    static func write(value: ChimeClientTypes.AppInstance?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AppInstanceArn"].write(value.appInstanceArn)
-        try writer["CreatedTimestamp"].writeTimestamp(value.createdTimestamp, format: .epochSeconds)
-        try writer["LastUpdatedTimestamp"].writeTimestamp(value.lastUpdatedTimestamp, format: .epochSeconds)
-        try writer["Metadata"].write(value.metadata)
-        try writer["Name"].write(value.name)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeClientTypes.AppInstance {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ChimeClientTypes.AppInstance()
@@ -424,13 +388,6 @@ extension ChimeClientTypes {
 
 extension ChimeClientTypes.AppInstanceAdmin {
 
-    static func write(value: ChimeClientTypes.AppInstanceAdmin?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Admin"].write(value.admin, with: ChimeClientTypes.Identity.write(value:to:))
-        try writer["AppInstanceArn"].write(value.appInstanceArn)
-        try writer["CreatedTimestamp"].writeTimestamp(value.createdTimestamp, format: .epochSeconds)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeClientTypes.AppInstanceAdmin {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ChimeClientTypes.AppInstanceAdmin()
@@ -466,11 +423,6 @@ extension ChimeClientTypes {
 }
 
 extension ChimeClientTypes.AppInstanceAdminSummary {
-
-    static func write(value: ChimeClientTypes.AppInstanceAdminSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Admin"].write(value.admin, with: ChimeClientTypes.Identity.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeClientTypes.AppInstanceAdminSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -608,13 +560,6 @@ extension ChimeClientTypes.AppInstanceSummary: Swift.CustomDebugStringConvertibl
 
 extension ChimeClientTypes.AppInstanceSummary {
 
-    static func write(value: ChimeClientTypes.AppInstanceSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AppInstanceArn"].write(value.appInstanceArn)
-        try writer["Metadata"].write(value.metadata)
-        try writer["Name"].write(value.name)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeClientTypes.AppInstanceSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ChimeClientTypes.AppInstanceSummary()
@@ -655,15 +600,6 @@ extension ChimeClientTypes.AppInstanceUser: Swift.CustomDebugStringConvertible {
 }
 
 extension ChimeClientTypes.AppInstanceUser {
-
-    static func write(value: ChimeClientTypes.AppInstanceUser?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AppInstanceUserArn"].write(value.appInstanceUserArn)
-        try writer["CreatedTimestamp"].writeTimestamp(value.createdTimestamp, format: .epochSeconds)
-        try writer["LastUpdatedTimestamp"].writeTimestamp(value.lastUpdatedTimestamp, format: .epochSeconds)
-        try writer["Metadata"].write(value.metadata)
-        try writer["Name"].write(value.name)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeClientTypes.AppInstanceUser {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -711,12 +647,6 @@ extension ChimeClientTypes {
 
 extension ChimeClientTypes.AppInstanceUserMembershipSummary {
 
-    static func write(value: ChimeClientTypes.AppInstanceUserMembershipSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ReadMarkerTimestamp"].writeTimestamp(value.readMarkerTimestamp, format: .epochSeconds)
-        try writer["Type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeClientTypes.AppInstanceUserMembershipSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ChimeClientTypes.AppInstanceUserMembershipSummary()
@@ -752,13 +682,6 @@ extension ChimeClientTypes.AppInstanceUserSummary: Swift.CustomDebugStringConver
 }
 
 extension ChimeClientTypes.AppInstanceUserSummary {
-
-    static func write(value: ChimeClientTypes.AppInstanceUserSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AppInstanceUserArn"].write(value.appInstanceUserArn)
-        try writer["Metadata"].write(value.metadata)
-        try writer["Name"].write(value.name)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeClientTypes.AppInstanceUserSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1235,13 +1158,6 @@ extension ChimeClientTypes.Attendee: Swift.CustomDebugStringConvertible {
 
 extension ChimeClientTypes.Attendee {
 
-    static func write(value: ChimeClientTypes.Attendee?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AttendeeId"].write(value.attendeeId)
-        try writer["ExternalUserId"].write(value.externalUserId)
-        try writer["JoinToken"].write(value.joinToken)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeClientTypes.Attendee {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ChimeClientTypes.Attendee()
@@ -1381,14 +1297,6 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
 
 extension ChimeClientTypes.BatchChannelMemberships {
 
-    static func write(value: ChimeClientTypes.BatchChannelMemberships?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ChannelArn"].write(value.channelArn)
-        try writer["InvitedBy"].write(value.invitedBy, with: ChimeClientTypes.Identity.write(value:to:))
-        try writer["Members"].writeList(value.members, memberWritingClosure: ChimeClientTypes.Identity.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeClientTypes.BatchChannelMemberships {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ChimeClientTypes.BatchChannelMemberships()
@@ -1524,13 +1432,6 @@ enum BatchCreateAttendeeOutputError {
 }
 
 extension ChimeClientTypes.BatchCreateChannelMembershipError {
-
-    static func write(value: ChimeClientTypes.BatchCreateChannelMembershipError?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ErrorCode"].write(value.errorCode)
-        try writer["ErrorMessage"].write(value.errorMessage)
-        try writer["MemberArn"].write(value.memberArn)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeClientTypes.BatchCreateChannelMembershipError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2203,19 +2104,6 @@ extension ChimeClientTypes.Bot: Swift.CustomDebugStringConvertible {
 
 extension ChimeClientTypes.Bot {
 
-    static func write(value: ChimeClientTypes.Bot?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BotEmail"].write(value.botEmail)
-        try writer["BotId"].write(value.botId)
-        try writer["BotType"].write(value.botType)
-        try writer["CreatedTimestamp"].writeTimestamp(value.createdTimestamp, format: .dateTime)
-        try writer["Disabled"].write(value.disabled)
-        try writer["DisplayName"].write(value.displayName)
-        try writer["SecurityToken"].write(value.securityToken)
-        try writer["UpdatedTimestamp"].writeTimestamp(value.updatedTimestamp, format: .dateTime)
-        try writer["UserId"].write(value.userId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeClientTypes.Bot {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ChimeClientTypes.Bot()
@@ -2381,17 +2269,6 @@ extension ChimeClientTypes.CandidateAddress: Swift.CustomDebugStringConvertible 
 
 extension ChimeClientTypes.CandidateAddress {
 
-    static func write(value: ChimeClientTypes.CandidateAddress?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["city"].write(value.city)
-        try writer["country"].write(value.country)
-        try writer["postalCode"].write(value.postalCode)
-        try writer["postalCodePlus4"].write(value.postalCodePlus4)
-        try writer["state"].write(value.state)
-        try writer["streetInfo"].write(value.streetInfo)
-        try writer["streetNumber"].write(value.streetNumber)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeClientTypes.CandidateAddress {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ChimeClientTypes.CandidateAddress()
@@ -2483,19 +2360,6 @@ extension ChimeClientTypes.Channel: Swift.CustomDebugStringConvertible {
 
 extension ChimeClientTypes.Channel {
 
-    static func write(value: ChimeClientTypes.Channel?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ChannelArn"].write(value.channelArn)
-        try writer["CreatedBy"].write(value.createdBy, with: ChimeClientTypes.Identity.write(value:to:))
-        try writer["CreatedTimestamp"].writeTimestamp(value.createdTimestamp, format: .epochSeconds)
-        try writer["LastMessageTimestamp"].writeTimestamp(value.lastMessageTimestamp, format: .epochSeconds)
-        try writer["LastUpdatedTimestamp"].writeTimestamp(value.lastUpdatedTimestamp, format: .epochSeconds)
-        try writer["Metadata"].write(value.metadata)
-        try writer["Mode"].write(value.mode)
-        try writer["Name"].write(value.name)
-        try writer["Privacy"].write(value.privacy)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeClientTypes.Channel {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ChimeClientTypes.Channel()
@@ -2562,14 +2426,6 @@ extension ChimeClientTypes {
 
 extension ChimeClientTypes.ChannelBan {
 
-    static func write(value: ChimeClientTypes.ChannelBan?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ChannelArn"].write(value.channelArn)
-        try writer["CreatedBy"].write(value.createdBy, with: ChimeClientTypes.Identity.write(value:to:))
-        try writer["CreatedTimestamp"].writeTimestamp(value.createdTimestamp, format: .epochSeconds)
-        try writer["Member"].write(value.member, with: ChimeClientTypes.Identity.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeClientTypes.ChannelBan {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ChimeClientTypes.ChannelBan()
@@ -2611,11 +2467,6 @@ extension ChimeClientTypes {
 
 extension ChimeClientTypes.ChannelBanSummary {
 
-    static func write(value: ChimeClientTypes.ChannelBanSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Member"].write(value.member, with: ChimeClientTypes.Identity.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeClientTypes.ChannelBanSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ChimeClientTypes.ChannelBanSummary()
@@ -2641,16 +2492,6 @@ extension ChimeClientTypes {
 }
 
 extension ChimeClientTypes.ChannelMembership {
-
-    static func write(value: ChimeClientTypes.ChannelMembership?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ChannelArn"].write(value.channelArn)
-        try writer["CreatedTimestamp"].writeTimestamp(value.createdTimestamp, format: .epochSeconds)
-        try writer["InvitedBy"].write(value.invitedBy, with: ChimeClientTypes.Identity.write(value:to:))
-        try writer["LastUpdatedTimestamp"].writeTimestamp(value.lastUpdatedTimestamp, format: .epochSeconds)
-        try writer["Member"].write(value.member, with: ChimeClientTypes.Identity.write(value:to:))
-        try writer["Type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeClientTypes.ChannelMembership {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2703,12 +2544,6 @@ extension ChimeClientTypes {
 
 extension ChimeClientTypes.ChannelMembershipForAppInstanceUserSummary {
 
-    static func write(value: ChimeClientTypes.ChannelMembershipForAppInstanceUserSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AppInstanceUserMembershipSummary"].write(value.appInstanceUserMembershipSummary, with: ChimeClientTypes.AppInstanceUserMembershipSummary.write(value:to:))
-        try writer["ChannelSummary"].write(value.channelSummary, with: ChimeClientTypes.ChannelSummary.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeClientTypes.ChannelMembershipForAppInstanceUserSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ChimeClientTypes.ChannelMembershipForAppInstanceUserSummary()
@@ -2739,11 +2574,6 @@ extension ChimeClientTypes {
 }
 
 extension ChimeClientTypes.ChannelMembershipSummary {
-
-    static func write(value: ChimeClientTypes.ChannelMembershipSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Member"].write(value.member, with: ChimeClientTypes.Identity.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeClientTypes.ChannelMembershipSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2805,21 +2635,6 @@ extension ChimeClientTypes.ChannelMessage: Swift.CustomDebugStringConvertible {
 }
 
 extension ChimeClientTypes.ChannelMessage {
-
-    static func write(value: ChimeClientTypes.ChannelMessage?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ChannelArn"].write(value.channelArn)
-        try writer["Content"].write(value.content)
-        try writer["CreatedTimestamp"].writeTimestamp(value.createdTimestamp, format: .epochSeconds)
-        try writer["LastEditedTimestamp"].writeTimestamp(value.lastEditedTimestamp, format: .epochSeconds)
-        try writer["LastUpdatedTimestamp"].writeTimestamp(value.lastUpdatedTimestamp, format: .epochSeconds)
-        try writer["MessageId"].write(value.messageId)
-        try writer["Metadata"].write(value.metadata)
-        try writer["Persistence"].write(value.persistence)
-        try writer["Redacted"].write(value.redacted)
-        try writer["Sender"].write(value.sender, with: ChimeClientTypes.Identity.write(value:to:))
-        try writer["Type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeClientTypes.ChannelMessage {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2931,19 +2746,6 @@ extension ChimeClientTypes.ChannelMessageSummary: Swift.CustomDebugStringConvert
 }
 
 extension ChimeClientTypes.ChannelMessageSummary {
-
-    static func write(value: ChimeClientTypes.ChannelMessageSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Content"].write(value.content)
-        try writer["CreatedTimestamp"].writeTimestamp(value.createdTimestamp, format: .epochSeconds)
-        try writer["LastEditedTimestamp"].writeTimestamp(value.lastEditedTimestamp, format: .epochSeconds)
-        try writer["LastUpdatedTimestamp"].writeTimestamp(value.lastUpdatedTimestamp, format: .epochSeconds)
-        try writer["MessageId"].write(value.messageId)
-        try writer["Metadata"].write(value.metadata)
-        try writer["Redacted"].write(value.redacted)
-        try writer["Sender"].write(value.sender, with: ChimeClientTypes.Identity.write(value:to:))
-        try writer["Type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeClientTypes.ChannelMessageSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3071,11 +2873,6 @@ extension ChimeClientTypes {
 
 extension ChimeClientTypes.ChannelModeratedByAppInstanceUserSummary {
 
-    static func write(value: ChimeClientTypes.ChannelModeratedByAppInstanceUserSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ChannelSummary"].write(value.channelSummary, with: ChimeClientTypes.ChannelSummary.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeClientTypes.ChannelModeratedByAppInstanceUserSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ChimeClientTypes.ChannelModeratedByAppInstanceUserSummary()
@@ -3101,14 +2898,6 @@ extension ChimeClientTypes {
 }
 
 extension ChimeClientTypes.ChannelModerator {
-
-    static func write(value: ChimeClientTypes.ChannelModerator?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ChannelArn"].write(value.channelArn)
-        try writer["CreatedBy"].write(value.createdBy, with: ChimeClientTypes.Identity.write(value:to:))
-        try writer["CreatedTimestamp"].writeTimestamp(value.createdTimestamp, format: .epochSeconds)
-        try writer["Moderator"].write(value.moderator, with: ChimeClientTypes.Identity.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeClientTypes.ChannelModerator {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3150,11 +2939,6 @@ extension ChimeClientTypes {
 }
 
 extension ChimeClientTypes.ChannelModeratorSummary {
-
-    static func write(value: ChimeClientTypes.ChannelModeratorSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Moderator"].write(value.moderator, with: ChimeClientTypes.Identity.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeClientTypes.ChannelModeratorSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3247,16 +3031,6 @@ extension ChimeClientTypes.ChannelSummary: Swift.CustomDebugStringConvertible {
 }
 
 extension ChimeClientTypes.ChannelSummary {
-
-    static func write(value: ChimeClientTypes.ChannelSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ChannelArn"].write(value.channelArn)
-        try writer["LastMessageTimestamp"].writeTimestamp(value.lastMessageTimestamp, format: .epochSeconds)
-        try writer["Metadata"].write(value.metadata)
-        try writer["Mode"].write(value.mode)
-        try writer["Name"].write(value.name)
-        try writer["Privacy"].write(value.privacy)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeClientTypes.ChannelSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3848,13 +3622,6 @@ extension ChimeClientTypes.CreateAttendeeError: Swift.CustomDebugStringConvertib
 
 extension ChimeClientTypes.CreateAttendeeError {
 
-    static func write(value: ChimeClientTypes.CreateAttendeeError?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ErrorCode"].write(value.errorCode)
-        try writer["ErrorMessage"].write(value.errorMessage)
-        try writer["ExternalUserId"].write(value.externalUserId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeClientTypes.CreateAttendeeError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ChimeClientTypes.CreateAttendeeError()
@@ -3991,14 +3758,6 @@ extension ChimeClientTypes.CreateAttendeeRequestItem {
         guard let value else { return }
         try writer["ExternalUserId"].write(value.externalUserId)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: ChimeClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ChimeClientTypes.CreateAttendeeRequestItem {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ChimeClientTypes.CreateAttendeeRequestItem()
-        value.externalUserId = try reader["ExternalUserId"].readIfPresent()
-        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: ChimeClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -5917,14 +5676,6 @@ extension ChimeClientTypes.Credential {
         guard let value else { return }
         try writer["Password"].write(value.password)
         try writer["Username"].write(value.username)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ChimeClientTypes.Credential {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ChimeClientTypes.Credential()
-        value.username = try reader["Username"].readIfPresent()
-        value.password = try reader["Password"].readIfPresent()
-        return value
     }
 }
 
@@ -8882,18 +8633,6 @@ extension ChimeClientTypes.EngineTranscribeMedicalSettings {
         try writer["Type"].write(value.type)
         try writer["VocabularyName"].write(value.vocabularyName)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ChimeClientTypes.EngineTranscribeMedicalSettings {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ChimeClientTypes.EngineTranscribeMedicalSettings()
-        value.languageCode = try reader["LanguageCode"].readIfPresent()
-        value.specialty = try reader["Specialty"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
-        value.vocabularyName = try reader["VocabularyName"].readIfPresent()
-        value.region = try reader["Region"].readIfPresent()
-        value.contentIdentificationType = try reader["ContentIdentificationType"].readIfPresent()
-        return value
-    }
 }
 
 extension ChimeClientTypes {
@@ -8955,28 +8694,6 @@ extension ChimeClientTypes.EngineTranscribeSettings {
         try writer["VocabularyFilterNames"].write(value.vocabularyFilterNames)
         try writer["VocabularyName"].write(value.vocabularyName)
         try writer["VocabularyNames"].write(value.vocabularyNames)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ChimeClientTypes.EngineTranscribeSettings {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ChimeClientTypes.EngineTranscribeSettings()
-        value.languageCode = try reader["LanguageCode"].readIfPresent()
-        value.vocabularyFilterMethod = try reader["VocabularyFilterMethod"].readIfPresent()
-        value.vocabularyFilterName = try reader["VocabularyFilterName"].readIfPresent()
-        value.vocabularyName = try reader["VocabularyName"].readIfPresent()
-        value.region = try reader["Region"].readIfPresent()
-        value.enablePartialResultsStabilization = try reader["EnablePartialResultsStabilization"].readIfPresent()
-        value.partialResultsStability = try reader["PartialResultsStability"].readIfPresent()
-        value.contentIdentificationType = try reader["ContentIdentificationType"].readIfPresent()
-        value.contentRedactionType = try reader["ContentRedactionType"].readIfPresent()
-        value.piiEntityTypes = try reader["PiiEntityTypes"].readIfPresent()
-        value.languageModelName = try reader["LanguageModelName"].readIfPresent()
-        value.identifyLanguage = try reader["IdentifyLanguage"].readIfPresent()
-        value.languageOptions = try reader["LanguageOptions"].readIfPresent()
-        value.preferredLanguage = try reader["PreferredLanguage"].readIfPresent()
-        value.vocabularyNames = try reader["VocabularyNames"].readIfPresent()
-        value.vocabularyFilterNames = try reader["VocabularyFilterNames"].readIfPresent()
-        return value
     }
 }
 
@@ -9131,13 +8848,6 @@ extension ChimeClientTypes.EventsConfiguration: Swift.CustomDebugStringConvertib
 }
 
 extension ChimeClientTypes.EventsConfiguration {
-
-    static func write(value: ChimeClientTypes.EventsConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BotId"].write(value.botId)
-        try writer["LambdaFunctionArn"].write(value.lambdaFunctionArn)
-        try writer["OutboundEventsHTTPSEndpoint"].write(value.outboundEventsHTTPSEndpoint)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeClientTypes.EventsConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -11501,12 +11211,6 @@ extension ChimeClientTypes.Identity: Swift.CustomDebugStringConvertible {
 
 extension ChimeClientTypes.Identity {
 
-    static func write(value: ChimeClientTypes.Identity?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["Name"].write(value.name)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeClientTypes.Identity {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ChimeClientTypes.Identity()
@@ -11542,14 +11246,6 @@ extension ChimeClientTypes.Invite: Swift.CustomDebugStringConvertible {
 }
 
 extension ChimeClientTypes.Invite {
-
-    static func write(value: ChimeClientTypes.Invite?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EmailAddress"].write(value.emailAddress)
-        try writer["EmailStatus"].write(value.emailStatus)
-        try writer["InviteId"].write(value.inviteId)
-        try writer["Status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeClientTypes.Invite {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -14930,19 +14626,6 @@ extension ChimeClientTypes.MediaCapturePipeline: Swift.CustomDebugStringConverti
 
 extension ChimeClientTypes.MediaCapturePipeline {
 
-    static func write(value: ChimeClientTypes.MediaCapturePipeline?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ChimeSdkMeetingConfiguration"].write(value.chimeSdkMeetingConfiguration, with: ChimeClientTypes.ChimeSdkMeetingConfiguration.write(value:to:))
-        try writer["CreatedTimestamp"].writeTimestamp(value.createdTimestamp, format: .dateTime)
-        try writer["MediaPipelineId"].write(value.mediaPipelineId)
-        try writer["SinkArn"].write(value.sinkArn)
-        try writer["SinkType"].write(value.sinkType)
-        try writer["SourceArn"].write(value.sourceArn)
-        try writer["SourceType"].write(value.sourceType)
-        try writer["Status"].write(value.status)
-        try writer["UpdatedTimestamp"].writeTimestamp(value.updatedTimestamp, format: .dateTime)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeClientTypes.MediaCapturePipeline {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ChimeClientTypes.MediaCapturePipeline()
@@ -15102,18 +14785,6 @@ extension ChimeClientTypes {
 
 extension ChimeClientTypes.MediaPlacement {
 
-    static func write(value: ChimeClientTypes.MediaPlacement?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AudioFallbackUrl"].write(value.audioFallbackUrl)
-        try writer["AudioHostUrl"].write(value.audioHostUrl)
-        try writer["EventIngestionUrl"].write(value.eventIngestionUrl)
-        try writer["ScreenDataUrl"].write(value.screenDataUrl)
-        try writer["ScreenSharingUrl"].write(value.screenSharingUrl)
-        try writer["ScreenViewingUrl"].write(value.screenViewingUrl)
-        try writer["SignalingUrl"].write(value.signalingUrl)
-        try writer["TurnControlUrl"].write(value.turnControlUrl)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeClientTypes.MediaPlacement {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ChimeClientTypes.MediaPlacement()
@@ -15180,14 +14851,6 @@ extension ChimeClientTypes.Meeting: Swift.CustomDebugStringConvertible {
 
 extension ChimeClientTypes.Meeting {
 
-    static func write(value: ChimeClientTypes.Meeting?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ExternalMeetingId"].write(value.externalMeetingId)
-        try writer["MediaPlacement"].write(value.mediaPlacement, with: ChimeClientTypes.MediaPlacement.write(value:to:))
-        try writer["MediaRegion"].write(value.mediaRegion)
-        try writer["MeetingId"].write(value.meetingId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeClientTypes.Meeting {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ChimeClientTypes.Meeting()
@@ -15239,14 +14902,6 @@ extension ChimeClientTypes.MeetingNotificationConfiguration {
         try writer["SnsTopicArn"].write(value.snsTopicArn)
         try writer["SqsQueueArn"].write(value.sqsQueueArn)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ChimeClientTypes.MeetingNotificationConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ChimeClientTypes.MeetingNotificationConfiguration()
-        value.snsTopicArn = try reader["SnsTopicArn"].readIfPresent()
-        value.sqsQueueArn = try reader["SqsQueueArn"].readIfPresent()
-        return value
-    }
 }
 
 extension ChimeClientTypes {
@@ -15275,15 +14930,6 @@ extension ChimeClientTypes.Member: Swift.CustomDebugStringConvertible {
 }
 
 extension ChimeClientTypes.Member {
-
-    static func write(value: ChimeClientTypes.Member?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccountId"].write(value.accountId)
-        try writer["Email"].write(value.email)
-        try writer["FullName"].write(value.fullName)
-        try writer["MemberId"].write(value.memberId)
-        try writer["MemberType"].write(value.memberType)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeClientTypes.Member {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -15330,13 +14976,6 @@ extension ChimeClientTypes {
 }
 
 extension ChimeClientTypes.MemberError {
-
-    static func write(value: ChimeClientTypes.MemberError?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ErrorCode"].write(value.errorCode)
-        try writer["ErrorMessage"].write(value.errorMessage)
-        try writer["MemberId"].write(value.memberId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeClientTypes.MemberError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -15412,14 +15051,6 @@ extension ChimeClientTypes.MembershipItem {
         try writer["MemberId"].write(value.memberId)
         try writer["Role"].write(value.role)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ChimeClientTypes.MembershipItem {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ChimeClientTypes.MembershipItem()
-        value.memberId = try reader["MemberId"].readIfPresent()
-        value.role = try reader["Role"].readIfPresent()
-        return value
-    }
 }
 
 extension ChimeClientTypes {
@@ -15443,11 +15074,6 @@ extension ChimeClientTypes {
 }
 
 extension ChimeClientTypes.MessagingSessionEndpoint {
-
-    static func write(value: ChimeClientTypes.MessagingSessionEndpoint?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Url"].write(value.url)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeClientTypes.MessagingSessionEndpoint {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -15583,12 +15209,6 @@ extension ChimeClientTypes.OrderedPhoneNumber: Swift.CustomDebugStringConvertibl
 }
 
 extension ChimeClientTypes.OrderedPhoneNumber {
-
-    static func write(value: ChimeClientTypes.OrderedPhoneNumber?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["E164PhoneNumber"].write(value.e164PhoneNumber)
-        try writer["Status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeClientTypes.OrderedPhoneNumber {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -15781,12 +15401,6 @@ extension ChimeClientTypes.Participant: Swift.CustomDebugStringConvertible {
 
 extension ChimeClientTypes.Participant {
 
-    static func write(value: ChimeClientTypes.Participant?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["PhoneNumber"].write(value.phoneNumber)
-        try writer["ProxyPhoneNumber"].write(value.proxyPhoneNumber)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeClientTypes.Participant {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ChimeClientTypes.Participant()
@@ -15822,23 +15436,6 @@ extension ChimeClientTypes.PhoneNumber: Swift.CustomDebugStringConvertible {
 }
 
 extension ChimeClientTypes.PhoneNumber {
-
-    static func write(value: ChimeClientTypes.PhoneNumber?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Associations"].writeList(value.associations, memberWritingClosure: ChimeClientTypes.PhoneNumberAssociation.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["CallingName"].write(value.callingName)
-        try writer["CallingNameStatus"].write(value.callingNameStatus)
-        try writer["Capabilities"].write(value.capabilities, with: ChimeClientTypes.PhoneNumberCapabilities.write(value:to:))
-        try writer["Country"].write(value.country)
-        try writer["CreatedTimestamp"].writeTimestamp(value.createdTimestamp, format: .dateTime)
-        try writer["DeletionTimestamp"].writeTimestamp(value.deletionTimestamp, format: .dateTime)
-        try writer["E164PhoneNumber"].write(value.e164PhoneNumber)
-        try writer["PhoneNumberId"].write(value.phoneNumberId)
-        try writer["ProductType"].write(value.productType)
-        try writer["Status"].write(value.status)
-        try writer["Type"].write(value.type)
-        try writer["UpdatedTimestamp"].writeTimestamp(value.updatedTimestamp, format: .dateTime)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeClientTypes.PhoneNumber {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -15926,13 +15523,6 @@ extension ChimeClientTypes {
 
 extension ChimeClientTypes.PhoneNumberAssociation {
 
-    static func write(value: ChimeClientTypes.PhoneNumberAssociation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AssociatedTimestamp"].writeTimestamp(value.associatedTimestamp, format: .dateTime)
-        try writer["Name"].write(value.name)
-        try writer["Value"].write(value.value)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeClientTypes.PhoneNumberAssociation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ChimeClientTypes.PhoneNumberAssociation()
@@ -16008,16 +15598,6 @@ extension ChimeClientTypes {
 
 extension ChimeClientTypes.PhoneNumberCapabilities {
 
-    static func write(value: ChimeClientTypes.PhoneNumberCapabilities?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["InboundCall"].write(value.inboundCall)
-        try writer["InboundMMS"].write(value.inboundMMS)
-        try writer["InboundSMS"].write(value.inboundSMS)
-        try writer["OutboundCall"].write(value.outboundCall)
-        try writer["OutboundMMS"].write(value.outboundMMS)
-        try writer["OutboundSMS"].write(value.outboundSMS)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeClientTypes.PhoneNumberCapabilities {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ChimeClientTypes.PhoneNumberCapabilities()
@@ -16069,12 +15649,6 @@ extension ChimeClientTypes {
 
 extension ChimeClientTypes.PhoneNumberCountry {
 
-    static func write(value: ChimeClientTypes.PhoneNumberCountry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CountryCode"].write(value.countryCode)
-        try writer["SupportedPhoneNumberTypes"].writeList(value.supportedPhoneNumberTypes, memberWritingClosure: ChimeClientTypes.PhoneNumberType.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeClientTypes.PhoneNumberCountry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ChimeClientTypes.PhoneNumberCountry()
@@ -16105,13 +15679,6 @@ extension ChimeClientTypes {
 }
 
 extension ChimeClientTypes.PhoneNumberError {
-
-    static func write(value: ChimeClientTypes.PhoneNumberError?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ErrorCode"].write(value.errorCode)
-        try writer["ErrorMessage"].write(value.errorMessage)
-        try writer["PhoneNumberId"].write(value.phoneNumberId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeClientTypes.PhoneNumberError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -16148,16 +15715,6 @@ extension ChimeClientTypes {
 }
 
 extension ChimeClientTypes.PhoneNumberOrder {
-
-    static func write(value: ChimeClientTypes.PhoneNumberOrder?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedTimestamp"].writeTimestamp(value.createdTimestamp, format: .dateTime)
-        try writer["OrderedPhoneNumbers"].writeList(value.orderedPhoneNumbers, memberWritingClosure: ChimeClientTypes.OrderedPhoneNumber.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["PhoneNumberOrderId"].write(value.phoneNumberOrderId)
-        try writer["ProductType"].write(value.productType)
-        try writer["Status"].write(value.status)
-        try writer["UpdatedTimestamp"].writeTimestamp(value.updatedTimestamp, format: .dateTime)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeClientTypes.PhoneNumberOrder {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -16362,14 +15919,6 @@ extension ChimeClientTypes.Proxy: Swift.CustomDebugStringConvertible {
 
 extension ChimeClientTypes.Proxy {
 
-    static func write(value: ChimeClientTypes.Proxy?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DefaultSessionExpiryMinutes"].write(value.defaultSessionExpiryMinutes)
-        try writer["Disabled"].write(value.disabled)
-        try writer["FallBackPhoneNumber"].write(value.fallBackPhoneNumber)
-        try writer["PhoneNumberCountries"].writeList(value.phoneNumberCountries, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeClientTypes.Proxy {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ChimeClientTypes.Proxy()
@@ -16410,23 +15959,6 @@ extension ChimeClientTypes {
 }
 
 extension ChimeClientTypes.ProxySession {
-
-    static func write(value: ChimeClientTypes.ProxySession?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Capabilities"].writeList(value.capabilities, memberWritingClosure: ChimeClientTypes.Capability.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["CreatedTimestamp"].writeTimestamp(value.createdTimestamp, format: .dateTime)
-        try writer["EndedTimestamp"].writeTimestamp(value.endedTimestamp, format: .dateTime)
-        try writer["ExpiryMinutes"].write(value.expiryMinutes)
-        try writer["GeoMatchLevel"].write(value.geoMatchLevel)
-        try writer["GeoMatchParams"].write(value.geoMatchParams, with: ChimeClientTypes.GeoMatchParams.write(value:to:))
-        try writer["Name"].write(value.name)
-        try writer["NumberSelectionBehavior"].write(value.numberSelectionBehavior)
-        try writer["Participants"].writeList(value.participants, memberWritingClosure: ChimeClientTypes.Participant.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ProxySessionId"].write(value.proxySessionId)
-        try writer["Status"].write(value.status)
-        try writer["UpdatedTimestamp"].writeTimestamp(value.updatedTimestamp, format: .dateTime)
-        try writer["VoiceConnectorId"].write(value.voiceConnectorId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeClientTypes.ProxySession {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -18178,16 +17710,6 @@ extension ChimeClientTypes.Room: Swift.CustomDebugStringConvertible {
 
 extension ChimeClientTypes.Room {
 
-    static func write(value: ChimeClientTypes.Room?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccountId"].write(value.accountId)
-        try writer["CreatedBy"].write(value.createdBy)
-        try writer["CreatedTimestamp"].writeTimestamp(value.createdTimestamp, format: .dateTime)
-        try writer["Name"].write(value.name)
-        try writer["RoomId"].write(value.roomId)
-        try writer["UpdatedTimestamp"].writeTimestamp(value.updatedTimestamp, format: .dateTime)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeClientTypes.Room {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ChimeClientTypes.Room()
@@ -18238,15 +17760,6 @@ extension ChimeClientTypes {
 }
 
 extension ChimeClientTypes.RoomMembership {
-
-    static func write(value: ChimeClientTypes.RoomMembership?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["InvitedBy"].write(value.invitedBy)
-        try writer["Member"].write(value.member, with: ChimeClientTypes.Member.write(value:to:))
-        try writer["Role"].write(value.role)
-        try writer["RoomId"].write(value.roomId)
-        try writer["UpdatedTimestamp"].writeTimestamp(value.updatedTimestamp, format: .dateTime)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeClientTypes.RoomMembership {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -18770,16 +18283,6 @@ extension ChimeClientTypes {
 
 extension ChimeClientTypes.SipMediaApplication {
 
-    static func write(value: ChimeClientTypes.SipMediaApplication?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AwsRegion"].write(value.awsRegion)
-        try writer["CreatedTimestamp"].writeTimestamp(value.createdTimestamp, format: .dateTime)
-        try writer["Endpoints"].writeList(value.endpoints, memberWritingClosure: ChimeClientTypes.SipMediaApplicationEndpoint.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Name"].write(value.name)
-        try writer["SipMediaApplicationId"].write(value.sipMediaApplicationId)
-        try writer["UpdatedTimestamp"].writeTimestamp(value.updatedTimestamp, format: .dateTime)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeClientTypes.SipMediaApplication {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ChimeClientTypes.SipMediaApplication()
@@ -18830,11 +18333,6 @@ extension ChimeClientTypes {
 }
 
 extension ChimeClientTypes.SipMediaApplicationCall {
-
-    static func write(value: ChimeClientTypes.SipMediaApplicationCall?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["TransactionId"].write(value.transactionId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeClientTypes.SipMediaApplicationCall {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -18928,18 +18426,6 @@ extension ChimeClientTypes {
 }
 
 extension ChimeClientTypes.SipRule {
-
-    static func write(value: ChimeClientTypes.SipRule?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedTimestamp"].writeTimestamp(value.createdTimestamp, format: .dateTime)
-        try writer["Disabled"].write(value.disabled)
-        try writer["Name"].write(value.name)
-        try writer["SipRuleId"].write(value.sipRuleId)
-        try writer["TargetApplications"].writeList(value.targetApplications, memberWritingClosure: ChimeClientTypes.SipRuleTargetApplication.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["TriggerType"].write(value.triggerType)
-        try writer["TriggerValue"].write(value.triggerValue)
-        try writer["UpdatedTimestamp"].writeTimestamp(value.updatedTimestamp, format: .dateTime)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeClientTypes.SipRule {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -19749,12 +19235,6 @@ extension ChimeClientTypes {
 
 extension ChimeClientTypes.TerminationHealth {
 
-    static func write(value: ChimeClientTypes.TerminationHealth?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Source"].write(value.source)
-        try writer["Timestamp"].writeTimestamp(value.timestamp, format: .dateTime)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeClientTypes.TerminationHealth {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ChimeClientTypes.TerminationHealth()
@@ -20248,14 +19728,6 @@ extension ChimeClientTypes.TranscriptionConfiguration {
         guard let value else { return }
         try writer["EngineTranscribeMedicalSettings"].write(value.engineTranscribeMedicalSettings, with: ChimeClientTypes.EngineTranscribeMedicalSettings.write(value:to:))
         try writer["EngineTranscribeSettings"].write(value.engineTranscribeSettings, with: ChimeClientTypes.EngineTranscribeSettings.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ChimeClientTypes.TranscriptionConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ChimeClientTypes.TranscriptionConfiguration()
-        value.engineTranscribeSettings = try reader["EngineTranscribeSettings"].readIfPresent(with: ChimeClientTypes.EngineTranscribeSettings.read(from:))
-        value.engineTranscribeMedicalSettings = try reader["EngineTranscribeMedicalSettings"].readIfPresent(with: ChimeClientTypes.EngineTranscribeMedicalSettings.read(from:))
-        return value
     }
 }
 
@@ -21498,15 +20970,6 @@ extension ChimeClientTypes.UpdatePhoneNumberRequestItem {
         try writer["PhoneNumberId"].write(value.phoneNumberId)
         try writer["ProductType"].write(value.productType)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ChimeClientTypes.UpdatePhoneNumberRequestItem {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ChimeClientTypes.UpdatePhoneNumberRequestItem()
-        value.phoneNumberId = try reader["PhoneNumberId"].readIfPresent()
-        value.productType = try reader["ProductType"].readIfPresent()
-        value.callingName = try reader["CallingName"].readIfPresent()
-        return value
-    }
 }
 
 extension ChimeClientTypes {
@@ -22250,16 +21713,6 @@ extension ChimeClientTypes.UpdateUserRequestItem {
         try writer["UserId"].write(value.userId)
         try writer["UserType"].write(value.userType)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ChimeClientTypes.UpdateUserRequestItem {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ChimeClientTypes.UpdateUserRequestItem()
-        value.userId = try reader["UserId"].readIfPresent()
-        value.licenseType = try reader["LicenseType"].readIfPresent()
-        value.userType = try reader["UserType"].readIfPresent()
-        value.alexaForBusinessMetadata = try reader["AlexaForBusinessMetadata"].readIfPresent(with: ChimeClientTypes.AlexaForBusinessMetadata.read(from:))
-        return value
-    }
 }
 
 extension ChimeClientTypes {
@@ -22547,23 +22000,6 @@ extension ChimeClientTypes.User: Swift.CustomDebugStringConvertible {
 
 extension ChimeClientTypes.User {
 
-    static func write(value: ChimeClientTypes.User?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccountId"].write(value.accountId)
-        try writer["AlexaForBusinessMetadata"].write(value.alexaForBusinessMetadata, with: ChimeClientTypes.AlexaForBusinessMetadata.write(value:to:))
-        try writer["DisplayName"].write(value.displayName)
-        try writer["InvitedOn"].writeTimestamp(value.invitedOn, format: .dateTime)
-        try writer["LicenseType"].write(value.licenseType)
-        try writer["PersonalPIN"].write(value.personalPIN)
-        try writer["PrimaryEmail"].write(value.primaryEmail)
-        try writer["PrimaryProvisionedNumber"].write(value.primaryProvisionedNumber)
-        try writer["RegisteredOn"].writeTimestamp(value.registeredOn, format: .dateTime)
-        try writer["UserId"].write(value.userId)
-        try writer["UserInvitationStatus"].write(value.userInvitationStatus)
-        try writer["UserRegistrationStatus"].write(value.userRegistrationStatus)
-        try writer["UserType"].write(value.userType)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeClientTypes.User {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ChimeClientTypes.User()
@@ -22650,13 +22086,6 @@ extension ChimeClientTypes {
 }
 
 extension ChimeClientTypes.UserError {
-
-    static func write(value: ChimeClientTypes.UserError?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ErrorCode"].write(value.errorCode)
-        try writer["ErrorMessage"].write(value.errorMessage)
-        try writer["UserId"].write(value.userId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeClientTypes.UserError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -22949,18 +22378,6 @@ extension ChimeClientTypes {
 
 extension ChimeClientTypes.VoiceConnector {
 
-    static func write(value: ChimeClientTypes.VoiceConnector?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AwsRegion"].write(value.awsRegion)
-        try writer["CreatedTimestamp"].writeTimestamp(value.createdTimestamp, format: .dateTime)
-        try writer["Name"].write(value.name)
-        try writer["OutboundHostName"].write(value.outboundHostName)
-        try writer["RequireEncryption"].write(value.requireEncryption)
-        try writer["UpdatedTimestamp"].writeTimestamp(value.updatedTimestamp, format: .dateTime)
-        try writer["VoiceConnectorArn"].write(value.voiceConnectorArn)
-        try writer["VoiceConnectorId"].write(value.voiceConnectorId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeClientTypes.VoiceConnector {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ChimeClientTypes.VoiceConnector()
@@ -23051,16 +22468,6 @@ extension ChimeClientTypes {
 }
 
 extension ChimeClientTypes.VoiceConnectorGroup {
-
-    static func write(value: ChimeClientTypes.VoiceConnectorGroup?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedTimestamp"].writeTimestamp(value.createdTimestamp, format: .dateTime)
-        try writer["Name"].write(value.name)
-        try writer["UpdatedTimestamp"].writeTimestamp(value.updatedTimestamp, format: .dateTime)
-        try writer["VoiceConnectorGroupArn"].write(value.voiceConnectorGroupArn)
-        try writer["VoiceConnectorGroupId"].write(value.voiceConnectorGroupId)
-        try writer["VoiceConnectorItems"].writeList(value.voiceConnectorItems, memberWritingClosure: ChimeClientTypes.VoiceConnectorItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeClientTypes.VoiceConnectorGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

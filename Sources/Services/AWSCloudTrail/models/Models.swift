@@ -997,12 +997,6 @@ public struct CannotDelegateManagementAccountException: ClientRuntime.ModeledErr
 
 extension CloudTrailClientTypes.Channel {
 
-    static func write(value: CloudTrailClientTypes.Channel?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ChannelArn"].write(value.channelArn)
-        try writer["Name"].write(value.name)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CloudTrailClientTypes.Channel {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudTrailClientTypes.Channel()
@@ -2930,19 +2924,6 @@ enum EnableFederationOutputError {
 
 extension CloudTrailClientTypes.Event {
 
-    static func write(value: CloudTrailClientTypes.Event?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccessKeyId"].write(value.accessKeyId)
-        try writer["CloudTrailEvent"].write(value.cloudTrailEvent)
-        try writer["EventId"].write(value.eventId)
-        try writer["EventName"].write(value.eventName)
-        try writer["EventSource"].write(value.eventSource)
-        try writer["EventTime"].writeTimestamp(value.eventTime, format: .epochSeconds)
-        try writer["ReadOnly"].write(value.readOnly)
-        try writer["Resources"].writeList(value.resources, memberWritingClosure: CloudTrailClientTypes.Resource.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Username"].write(value.username)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CloudTrailClientTypes.Event {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudTrailClientTypes.Event()
@@ -3035,20 +3016,6 @@ extension CloudTrailClientTypes {
 }
 
 extension CloudTrailClientTypes.EventDataStore {
-
-    static func write(value: CloudTrailClientTypes.EventDataStore?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AdvancedEventSelectors"].writeList(value.advancedEventSelectors, memberWritingClosure: CloudTrailClientTypes.AdvancedEventSelector.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["CreatedTimestamp"].writeTimestamp(value.createdTimestamp, format: .epochSeconds)
-        try writer["EventDataStoreArn"].write(value.eventDataStoreArn)
-        try writer["MultiRegionEnabled"].write(value.multiRegionEnabled)
-        try writer["Name"].write(value.name)
-        try writer["OrganizationEnabled"].write(value.organizationEnabled)
-        try writer["RetentionPeriod"].write(value.retentionPeriod)
-        try writer["Status"].write(value.status)
-        try writer["TerminationProtectionEnabled"].write(value.terminationProtectionEnabled)
-        try writer["UpdatedTimestamp"].writeTimestamp(value.updatedTimestamp, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CloudTrailClientTypes.EventDataStore {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4472,15 +4439,6 @@ enum GetTrailStatusOutputError {
 
 extension CloudTrailClientTypes.ImportFailureListItem {
 
-    static func write(value: CloudTrailClientTypes.ImportFailureListItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ErrorMessage"].write(value.errorMessage)
-        try writer["ErrorType"].write(value.errorType)
-        try writer["LastUpdatedTime"].writeTimestamp(value.lastUpdatedTime, format: .epochSeconds)
-        try writer["Location"].write(value.location)
-        try writer["Status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CloudTrailClientTypes.ImportFailureListItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudTrailClientTypes.ImportFailureListItem()
@@ -4630,15 +4588,6 @@ extension CloudTrailClientTypes {
 
 extension CloudTrailClientTypes.ImportStatistics {
 
-    static func write(value: CloudTrailClientTypes.ImportStatistics?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EventsCompleted"].write(value.eventsCompleted)
-        try writer["FailedEntries"].write(value.failedEntries)
-        try writer["FilesCompleted"].write(value.filesCompleted)
-        try writer["PrefixesCompleted"].write(value.prefixesCompleted)
-        try writer["PrefixesFound"].write(value.prefixesFound)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CloudTrailClientTypes.ImportStatistics {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudTrailClientTypes.ImportStatistics()
@@ -4723,15 +4672,6 @@ extension CloudTrailClientTypes {
 }
 
 extension CloudTrailClientTypes.ImportsListItem {
-
-    static func write(value: CloudTrailClientTypes.ImportsListItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedTimestamp"].writeTimestamp(value.createdTimestamp, format: .epochSeconds)
-        try writer["Destinations"].writeList(value.destinations, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ImportId"].write(value.importId)
-        try writer["ImportStatus"].write(value.importStatus)
-        try writer["UpdatedTimestamp"].writeTimestamp(value.updatedTimestamp, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CloudTrailClientTypes.ImportsListItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4854,15 +4794,6 @@ public struct InactiveQueryException: ClientRuntime.ModeledError, AWSClientRunti
 }
 
 extension CloudTrailClientTypes.IngestionStatus {
-
-    static func write(value: CloudTrailClientTypes.IngestionStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["LatestIngestionAttemptEventID"].write(value.latestIngestionAttemptEventID)
-        try writer["LatestIngestionAttemptTime"].writeTimestamp(value.latestIngestionAttemptTime, format: .epochSeconds)
-        try writer["LatestIngestionErrorCode"].write(value.latestIngestionErrorCode)
-        try writer["LatestIngestionSuccessEventID"].write(value.latestIngestionSuccessEventID)
-        try writer["LatestIngestionSuccessTime"].writeTimestamp(value.latestIngestionSuccessTime, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CloudTrailClientTypes.IngestionStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7142,14 +7073,6 @@ extension CloudTrailClientTypes.LookupAttribute {
         try writer["AttributeKey"].write(value.attributeKey)
         try writer["AttributeValue"].write(value.attributeValue)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudTrailClientTypes.LookupAttribute {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudTrailClientTypes.LookupAttribute()
-        value.attributeKey = try reader["AttributeKey"].readIfPresent()
-        value.attributeValue = try reader["AttributeValue"].readIfPresent()
-        return value
-    }
 }
 
 extension CloudTrailClientTypes {
@@ -7631,14 +7554,6 @@ public struct OrganizationsNotInUseException: ClientRuntime.ModeledError, AWSCli
 
 extension CloudTrailClientTypes.PublicKey {
 
-    static func write(value: CloudTrailClientTypes.PublicKey?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Fingerprint"].write(value.fingerprint)
-        try writer["ValidityEndTime"].writeTimestamp(value.validityEndTime, format: .epochSeconds)
-        try writer["ValidityStartTime"].writeTimestamp(value.validityStartTime, format: .epochSeconds)
-        try writer["Value"].write(value.value)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CloudTrailClientTypes.PublicKey {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudTrailClientTypes.PublicKey()
@@ -7989,13 +7904,6 @@ enum PutResourcePolicyOutputError {
 
 extension CloudTrailClientTypes.Query {
 
-    static func write(value: CloudTrailClientTypes.Query?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["QueryId"].write(value.queryId)
-        try writer["QueryStatus"].write(value.queryStatus)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CloudTrailClientTypes.Query {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudTrailClientTypes.Query()
@@ -8070,13 +7978,6 @@ public struct QueryIdNotFoundException: ClientRuntime.ModeledError, AWSClientRun
 
 extension CloudTrailClientTypes.QueryStatistics {
 
-    static func write(value: CloudTrailClientTypes.QueryStatistics?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BytesScanned"].write(value.bytesScanned)
-        try writer["ResultsCount"].write(value.resultsCount)
-        try writer["TotalResultsCount"].write(value.totalResultsCount)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CloudTrailClientTypes.QueryStatistics {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudTrailClientTypes.QueryStatistics()
@@ -8112,15 +8013,6 @@ extension CloudTrailClientTypes {
 }
 
 extension CloudTrailClientTypes.QueryStatisticsForDescribeQuery {
-
-    static func write(value: CloudTrailClientTypes.QueryStatisticsForDescribeQuery?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BytesScanned"].write(value.bytesScanned)
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["EventsMatched"].write(value.eventsMatched)
-        try writer["EventsScanned"].write(value.eventsScanned)
-        try writer["ExecutionTimeInMillis"].write(value.executionTimeInMillis)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CloudTrailClientTypes.QueryStatisticsForDescribeQuery {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8386,12 +8278,6 @@ enum RemoveTagsOutputError {
 
 extension CloudTrailClientTypes.Resource {
 
-    static func write(value: CloudTrailClientTypes.Resource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ResourceName"].write(value.resourceName)
-        try writer["ResourceType"].write(value.resourceType)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CloudTrailClientTypes.Resource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudTrailClientTypes.Resource()
@@ -8580,12 +8466,6 @@ public struct ResourcePolicyNotValidException: ClientRuntime.ModeledError, AWSCl
 }
 
 extension CloudTrailClientTypes.ResourceTag {
-
-    static func write(value: CloudTrailClientTypes.ResourceTag?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ResourceId"].write(value.resourceId)
-        try writer["TagsList"].writeList(value.tagsList, memberWritingClosure: CloudTrailClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CloudTrailClientTypes.ResourceTag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8872,12 +8752,6 @@ extension CloudTrailClientTypes {
 }
 
 extension CloudTrailClientTypes.SourceConfig {
-
-    static func write(value: CloudTrailClientTypes.SourceConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AdvancedEventSelectors"].writeList(value.advancedEventSelectors, memberWritingClosure: CloudTrailClientTypes.AdvancedEventSelector.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ApplyToAllRegions"].write(value.applyToAllRegions)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CloudTrailClientTypes.SourceConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -9615,26 +9489,6 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
 extension CloudTrailClientTypes.Trail {
 
-    static func write(value: CloudTrailClientTypes.Trail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CloudWatchLogsLogGroupArn"].write(value.cloudWatchLogsLogGroupArn)
-        try writer["CloudWatchLogsRoleArn"].write(value.cloudWatchLogsRoleArn)
-        try writer["HasCustomEventSelectors"].write(value.hasCustomEventSelectors)
-        try writer["HasInsightSelectors"].write(value.hasInsightSelectors)
-        try writer["HomeRegion"].write(value.homeRegion)
-        try writer["IncludeGlobalServiceEvents"].write(value.includeGlobalServiceEvents)
-        try writer["IsMultiRegionTrail"].write(value.isMultiRegionTrail)
-        try writer["IsOrganizationTrail"].write(value.isOrganizationTrail)
-        try writer["KmsKeyId"].write(value.kmsKeyId)
-        try writer["LogFileValidationEnabled"].write(value.logFileValidationEnabled)
-        try writer["Name"].write(value.name)
-        try writer["S3BucketName"].write(value.s3BucketName)
-        try writer["S3KeyPrefix"].write(value.s3KeyPrefix)
-        try writer["SnsTopicARN"].write(value.snsTopicARN)
-        try writer["SnsTopicName"].write(value.snsTopicName)
-        try writer["TrailARN"].write(value.trailARN)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CloudTrailClientTypes.Trail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudTrailClientTypes.Trail()
@@ -9774,13 +9628,6 @@ public struct TrailAlreadyExistsException: ClientRuntime.ModeledError, AWSClient
 }
 
 extension CloudTrailClientTypes.TrailInfo {
-
-    static func write(value: CloudTrailClientTypes.TrailInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["HomeRegion"].write(value.homeRegion)
-        try writer["Name"].write(value.name)
-        try writer["TrailARN"].write(value.trailARN)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CloudTrailClientTypes.TrailInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

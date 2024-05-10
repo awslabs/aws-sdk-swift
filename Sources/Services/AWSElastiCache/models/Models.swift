@@ -228,12 +228,6 @@ extension ElastiCacheClientTypes {
 
 extension ElastiCacheClientTypes.Authentication {
 
-    static func write(value: ElastiCacheClientTypes.Authentication?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["PasswordCount"].write(value.passwordCount)
-        try writer["Type"].write(value.type)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.Authentication {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ElastiCacheClientTypes.Authentication()
@@ -269,14 +263,6 @@ extension ElastiCacheClientTypes.AuthenticationMode {
         guard let value else { return }
         try writer["Passwords"].writeList(value.passwords, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Type"].write(value.type)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.AuthenticationMode {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElastiCacheClientTypes.AuthenticationMode()
-        value.type = try reader["Type"].readIfPresent()
-        value.passwords = try reader["Passwords"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -536,11 +522,6 @@ extension ElastiCacheClientTypes {
 
 extension ElastiCacheClientTypes.AvailabilityZone {
 
-    static func write(value: ElastiCacheClientTypes.AvailabilityZone?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.AvailabilityZone {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ElastiCacheClientTypes.AvailabilityZone()
@@ -734,43 +715,6 @@ enum BatchStopUpdateActionOutputError {
 }
 
 extension ElastiCacheClientTypes.CacheCluster {
-
-    static func write(value: ElastiCacheClientTypes.CacheCluster?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["ARN"].write(value.arn)
-        try writer["AtRestEncryptionEnabled"].write(value.atRestEncryptionEnabled)
-        try writer["AuthTokenEnabled"].write(value.authTokenEnabled)
-        try writer["AuthTokenLastModifiedDate"].writeTimestamp(value.authTokenLastModifiedDate, format: .dateTime)
-        try writer["AutoMinorVersionUpgrade"].write(value.autoMinorVersionUpgrade)
-        try writer["CacheClusterCreateTime"].writeTimestamp(value.cacheClusterCreateTime, format: .dateTime)
-        try writer["CacheClusterId"].write(value.cacheClusterId)
-        try writer["CacheClusterStatus"].write(value.cacheClusterStatus)
-        try writer["CacheNodeType"].write(value.cacheNodeType)
-        try writer["CacheNodes"].writeList(value.cacheNodes, memberWritingClosure: ElastiCacheClientTypes.CacheNode.write(value:to:), memberNodeInfo: "CacheNode", isFlattened: false)
-        try writer["CacheParameterGroup"].write(value.cacheParameterGroup, with: ElastiCacheClientTypes.CacheParameterGroupStatus.write(value:to:))
-        try writer["CacheSecurityGroups"].writeList(value.cacheSecurityGroups, memberWritingClosure: ElastiCacheClientTypes.CacheSecurityGroupMembership.write(value:to:), memberNodeInfo: "CacheSecurityGroup", isFlattened: false)
-        try writer["CacheSubnetGroupName"].write(value.cacheSubnetGroupName)
-        try writer["ClientDownloadLandingPage"].write(value.clientDownloadLandingPage)
-        try writer["ConfigurationEndpoint"].write(value.configurationEndpoint, with: ElastiCacheClientTypes.Endpoint.write(value:to:))
-        try writer["Engine"].write(value.engine)
-        try writer["EngineVersion"].write(value.engineVersion)
-        try writer["IpDiscovery"].write(value.ipDiscovery)
-        try writer["LogDeliveryConfigurations"].writeList(value.logDeliveryConfigurations, memberWritingClosure: ElastiCacheClientTypes.LogDeliveryConfiguration.write(value:to:), memberNodeInfo: "LogDeliveryConfiguration", isFlattened: false)
-        try writer["NetworkType"].write(value.networkType)
-        try writer["NotificationConfiguration"].write(value.notificationConfiguration, with: ElastiCacheClientTypes.NotificationConfiguration.write(value:to:))
-        try writer["NumCacheNodes"].write(value.numCacheNodes)
-        try writer["PendingModifiedValues"].write(value.pendingModifiedValues, with: ElastiCacheClientTypes.PendingModifiedValues.write(value:to:))
-        try writer["PreferredAvailabilityZone"].write(value.preferredAvailabilityZone)
-        try writer["PreferredMaintenanceWindow"].write(value.preferredMaintenanceWindow)
-        try writer["PreferredOutpostArn"].write(value.preferredOutpostArn)
-        try writer["ReplicationGroupId"].write(value.replicationGroupId)
-        try writer["ReplicationGroupLogDeliveryEnabled"].write(value.replicationGroupLogDeliveryEnabled)
-        try writer["SecurityGroups"].writeList(value.securityGroups, memberWritingClosure: ElastiCacheClientTypes.SecurityGroupMembership.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["SnapshotRetentionLimit"].write(value.snapshotRetentionLimit)
-        try writer["SnapshotWindow"].write(value.snapshotWindow)
-        try writer["TransitEncryptionEnabled"].write(value.transitEncryptionEnabled)
-        try writer["TransitEncryptionMode"].write(value.transitEncryptionMode)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.CacheCluster {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1088,15 +1032,6 @@ public struct CacheClusterNotFoundFault: ClientRuntime.ModeledError, AWSClientRu
 
 extension ElastiCacheClientTypes.CacheEngineVersion {
 
-    static func write(value: ElastiCacheClientTypes.CacheEngineVersion?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["CacheEngineDescription"].write(value.cacheEngineDescription)
-        try writer["CacheEngineVersionDescription"].write(value.cacheEngineVersionDescription)
-        try writer["CacheParameterGroupFamily"].write(value.cacheParameterGroupFamily)
-        try writer["Engine"].write(value.engine)
-        try writer["EngineVersion"].write(value.engineVersion)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.CacheEngineVersion {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ElastiCacheClientTypes.CacheEngineVersion()
@@ -1142,18 +1077,6 @@ extension ElastiCacheClientTypes {
 }
 
 extension ElastiCacheClientTypes.CacheNode {
-
-    static func write(value: ElastiCacheClientTypes.CacheNode?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["CacheNodeCreateTime"].writeTimestamp(value.cacheNodeCreateTime, format: .dateTime)
-        try writer["CacheNodeId"].write(value.cacheNodeId)
-        try writer["CacheNodeStatus"].write(value.cacheNodeStatus)
-        try writer["CustomerAvailabilityZone"].write(value.customerAvailabilityZone)
-        try writer["CustomerOutpostArn"].write(value.customerOutpostArn)
-        try writer["Endpoint"].write(value.endpoint, with: ElastiCacheClientTypes.Endpoint.write(value:to:))
-        try writer["ParameterGroupStatus"].write(value.parameterGroupStatus)
-        try writer["SourceCacheNodeId"].write(value.sourceCacheNodeId)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.CacheNode {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1255,19 +1178,6 @@ extension ElastiCacheClientTypes {
 
 extension ElastiCacheClientTypes.CacheNodeTypeSpecificParameter {
 
-    static func write(value: ElastiCacheClientTypes.CacheNodeTypeSpecificParameter?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["AllowedValues"].write(value.allowedValues)
-        try writer["CacheNodeTypeSpecificValues"].writeList(value.cacheNodeTypeSpecificValues, memberWritingClosure: ElastiCacheClientTypes.CacheNodeTypeSpecificValue.write(value:to:), memberNodeInfo: "CacheNodeTypeSpecificValue", isFlattened: false)
-        try writer["ChangeType"].write(value.changeType)
-        try writer["DataType"].write(value.dataType)
-        try writer["Description"].write(value.description)
-        try writer["IsModifiable"].write(value.isModifiable)
-        try writer["MinimumEngineVersion"].write(value.minimumEngineVersion)
-        try writer["ParameterName"].write(value.parameterName)
-        try writer["Source"].write(value.source)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.CacheNodeTypeSpecificParameter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ElastiCacheClientTypes.CacheNodeTypeSpecificParameter()
@@ -1334,12 +1244,6 @@ extension ElastiCacheClientTypes {
 
 extension ElastiCacheClientTypes.CacheNodeTypeSpecificValue {
 
-    static func write(value: ElastiCacheClientTypes.CacheNodeTypeSpecificValue?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["CacheNodeType"].write(value.cacheNodeType)
-        try writer["Value"].write(value.value)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.CacheNodeTypeSpecificValue {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ElastiCacheClientTypes.CacheNodeTypeSpecificValue()
@@ -1370,18 +1274,6 @@ extension ElastiCacheClientTypes {
 }
 
 extension ElastiCacheClientTypes.CacheNodeUpdateStatus {
-
-    static func write(value: ElastiCacheClientTypes.CacheNodeUpdateStatus?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["CacheNodeId"].write(value.cacheNodeId)
-        try writer["NodeDeletionDate"].writeTimestamp(value.nodeDeletionDate, format: .dateTime)
-        try writer["NodeUpdateEndDate"].writeTimestamp(value.nodeUpdateEndDate, format: .dateTime)
-        try writer["NodeUpdateInitiatedBy"].write(value.nodeUpdateInitiatedBy)
-        try writer["NodeUpdateInitiatedDate"].writeTimestamp(value.nodeUpdateInitiatedDate, format: .dateTime)
-        try writer["NodeUpdateStartDate"].writeTimestamp(value.nodeUpdateStartDate, format: .dateTime)
-        try writer["NodeUpdateStatus"].write(value.nodeUpdateStatus)
-        try writer["NodeUpdateStatusModifiedDate"].writeTimestamp(value.nodeUpdateStatusModifiedDate, format: .dateTime)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.CacheNodeUpdateStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1443,15 +1335,6 @@ extension ElastiCacheClientTypes {
 }
 
 extension ElastiCacheClientTypes.CacheParameterGroup {
-
-    static func write(value: ElastiCacheClientTypes.CacheParameterGroup?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["ARN"].write(value.arn)
-        try writer["CacheParameterGroupFamily"].write(value.cacheParameterGroupFamily)
-        try writer["CacheParameterGroupName"].write(value.cacheParameterGroupName)
-        try writer["Description"].write(value.description)
-        try writer["IsGlobal"].write(value.isGlobal)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.CacheParameterGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1610,13 +1493,6 @@ public struct CacheParameterGroupQuotaExceededFault: ClientRuntime.ModeledError,
 
 extension ElastiCacheClientTypes.CacheParameterGroupStatus {
 
-    static func write(value: ElastiCacheClientTypes.CacheParameterGroupStatus?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["CacheNodeIdsToReboot"].writeList(value.cacheNodeIdsToReboot, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "CacheNodeId", isFlattened: false)
-        try writer["CacheParameterGroupName"].write(value.cacheParameterGroupName)
-        try writer["ParameterApplyStatus"].write(value.parameterApplyStatus)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.CacheParameterGroupStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ElastiCacheClientTypes.CacheParameterGroupStatus()
@@ -1652,15 +1528,6 @@ extension ElastiCacheClientTypes {
 }
 
 extension ElastiCacheClientTypes.CacheSecurityGroup {
-
-    static func write(value: ElastiCacheClientTypes.CacheSecurityGroup?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["ARN"].write(value.arn)
-        try writer["CacheSecurityGroupName"].write(value.cacheSecurityGroupName)
-        try writer["Description"].write(value.description)
-        try writer["EC2SecurityGroups"].writeList(value.ec2SecurityGroups, memberWritingClosure: ElastiCacheClientTypes.EC2SecurityGroup.write(value:to:), memberNodeInfo: "EC2SecurityGroup", isFlattened: false)
-        try writer["OwnerId"].write(value.ownerId)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.CacheSecurityGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1750,12 +1617,6 @@ public struct CacheSecurityGroupAlreadyExistsFault: ClientRuntime.ModeledError, 
 }
 
 extension ElastiCacheClientTypes.CacheSecurityGroupMembership {
-
-    static func write(value: ElastiCacheClientTypes.CacheSecurityGroupMembership?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["CacheSecurityGroupName"].write(value.cacheSecurityGroupName)
-        try writer["Status"].write(value.status)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.CacheSecurityGroupMembership {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1861,16 +1722,6 @@ public struct CacheSecurityGroupQuotaExceededFault: ClientRuntime.ModeledError, 
 }
 
 extension ElastiCacheClientTypes.CacheSubnetGroup {
-
-    static func write(value: ElastiCacheClientTypes.CacheSubnetGroup?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["ARN"].write(value.arn)
-        try writer["CacheSubnetGroupDescription"].write(value.cacheSubnetGroupDescription)
-        try writer["CacheSubnetGroupName"].write(value.cacheSubnetGroupName)
-        try writer["Subnets"].writeList(value.subnets, memberWritingClosure: ElastiCacheClientTypes.Subnet.write(value:to:), memberNodeInfo: "Subnet", isFlattened: false)
-        try writer["SupportedNetworkTypes"].writeList(value.supportedNetworkTypes, memberWritingClosure: ElastiCacheClientTypes.NetworkType.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["VpcId"].write(value.vpcId)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.CacheSubnetGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2361,16 +2212,6 @@ extension ElastiCacheClientTypes.ConfigureShard {
         try writer["NodeGroupId"].write(value.nodeGroupId)
         try writer["PreferredAvailabilityZones"].writeList(value.preferredAvailabilityZones, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "PreferredAvailabilityZone", isFlattened: false)
         try writer["PreferredOutpostArns"].writeList(value.preferredOutpostArns, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "PreferredOutpostArn", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.ConfigureShard {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElastiCacheClientTypes.ConfigureShard()
-        value.nodeGroupId = try reader["NodeGroupId"].readIfPresent()
-        value.newReplicaCount = try reader["NewReplicaCount"].readIfPresent()
-        value.preferredAvailabilityZones = try reader["PreferredAvailabilityZones"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "PreferredAvailabilityZone", isFlattened: false)
-        value.preferredOutpostArns = try reader["PreferredOutpostArns"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "PreferredOutpostArn", isFlattened: false)
-        return value
     }
 }
 
@@ -4214,14 +4055,6 @@ extension ElastiCacheClientTypes.CustomerNodeEndpoint {
         guard let value else { return }
         try writer["Address"].write(value.address)
         try writer["Port"].write(value.port)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.CustomerNodeEndpoint {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElastiCacheClientTypes.CustomerNodeEndpoint()
-        value.address = try reader["Address"].readIfPresent()
-        value.port = try reader["Port"].readIfPresent()
-        return value
     }
 }
 
@@ -7562,13 +7395,6 @@ public struct DuplicateUserNameFault: ClientRuntime.ModeledError, AWSClientRunti
 
 extension ElastiCacheClientTypes.EC2SecurityGroup {
 
-    static func write(value: ElastiCacheClientTypes.EC2SecurityGroup?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["EC2SecurityGroupName"].write(value.ec2SecurityGroupName)
-        try writer["EC2SecurityGroupOwnerId"].write(value.ec2SecurityGroupOwnerId)
-        try writer["Status"].write(value.status)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.EC2SecurityGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ElastiCacheClientTypes.EC2SecurityGroup()
@@ -7644,12 +7470,6 @@ public enum ElastiCacheClientTypes {}
 
 extension ElastiCacheClientTypes.Endpoint {
 
-    static func write(value: ElastiCacheClientTypes.Endpoint?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Address"].write(value.address)
-        try writer["Port"].write(value.port)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.Endpoint {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ElastiCacheClientTypes.Endpoint()
@@ -7680,14 +7500,6 @@ extension ElastiCacheClientTypes {
 }
 
 extension ElastiCacheClientTypes.EngineDefaults {
-
-    static func write(value: ElastiCacheClientTypes.EngineDefaults?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["CacheNodeTypeSpecificParameters"].writeList(value.cacheNodeTypeSpecificParameters, memberWritingClosure: ElastiCacheClientTypes.CacheNodeTypeSpecificParameter.write(value:to:), memberNodeInfo: "CacheNodeTypeSpecificParameter", isFlattened: false)
-        try writer["CacheParameterGroupFamily"].write(value.cacheParameterGroupFamily)
-        try writer["Marker"].write(value.marker)
-        try writer["Parameters"].writeList(value.parameters, memberWritingClosure: ElastiCacheClientTypes.Parameter.write(value:to:), memberNodeInfo: "Parameter", isFlattened: false)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.EngineDefaults {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7729,14 +7541,6 @@ extension ElastiCacheClientTypes {
 }
 
 extension ElastiCacheClientTypes.Event {
-
-    static func write(value: ElastiCacheClientTypes.Event?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Date"].writeTimestamp(value.date, format: .dateTime)
-        try writer["Message"].write(value.message)
-        try writer["SourceIdentifier"].write(value.sourceIdentifier)
-        try writer["SourceType"].write(value.sourceType)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.Event {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7946,14 +7750,6 @@ extension ElastiCacheClientTypes.Filter {
         try writer["Name"].write(value.name)
         try writer["Values"].writeList(value.values, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.Filter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElastiCacheClientTypes.Filter()
-        value.name = try reader["Name"].readIfPresent()
-        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
 }
 
 extension ElastiCacheClientTypes {
@@ -7979,12 +7775,6 @@ extension ElastiCacheClientTypes {
 }
 
 extension ElastiCacheClientTypes.GlobalNodeGroup {
-
-    static func write(value: ElastiCacheClientTypes.GlobalNodeGroup?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["GlobalNodeGroupId"].write(value.globalNodeGroupId)
-        try writer["Slots"].write(value.slots)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.GlobalNodeGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8016,23 +7806,6 @@ extension ElastiCacheClientTypes {
 }
 
 extension ElastiCacheClientTypes.GlobalReplicationGroup {
-
-    static func write(value: ElastiCacheClientTypes.GlobalReplicationGroup?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["ARN"].write(value.arn)
-        try writer["AtRestEncryptionEnabled"].write(value.atRestEncryptionEnabled)
-        try writer["AuthTokenEnabled"].write(value.authTokenEnabled)
-        try writer["CacheNodeType"].write(value.cacheNodeType)
-        try writer["ClusterEnabled"].write(value.clusterEnabled)
-        try writer["Engine"].write(value.engine)
-        try writer["EngineVersion"].write(value.engineVersion)
-        try writer["GlobalNodeGroups"].writeList(value.globalNodeGroups, memberWritingClosure: ElastiCacheClientTypes.GlobalNodeGroup.write(value:to:), memberNodeInfo: "GlobalNodeGroup", isFlattened: false)
-        try writer["GlobalReplicationGroupDescription"].write(value.globalReplicationGroupDescription)
-        try writer["GlobalReplicationGroupId"].write(value.globalReplicationGroupId)
-        try writer["Members"].writeList(value.members, memberWritingClosure: ElastiCacheClientTypes.GlobalReplicationGroupMember.write(value:to:), memberNodeInfo: "GlobalReplicationGroupMember", isFlattened: false)
-        try writer["Status"].write(value.status)
-        try writer["TransitEncryptionEnabled"].write(value.transitEncryptionEnabled)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.GlobalReplicationGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8159,12 +7932,6 @@ public struct GlobalReplicationGroupAlreadyExistsFault: ClientRuntime.ModeledErr
 
 extension ElastiCacheClientTypes.GlobalReplicationGroupInfo {
 
-    static func write(value: ElastiCacheClientTypes.GlobalReplicationGroupInfo?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["GlobalReplicationGroupId"].write(value.globalReplicationGroupId)
-        try writer["GlobalReplicationGroupMemberRole"].write(value.globalReplicationGroupMemberRole)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.GlobalReplicationGroupInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ElastiCacheClientTypes.GlobalReplicationGroupInfo()
@@ -8195,15 +7962,6 @@ extension ElastiCacheClientTypes {
 }
 
 extension ElastiCacheClientTypes.GlobalReplicationGroupMember {
-
-    static func write(value: ElastiCacheClientTypes.GlobalReplicationGroupMember?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["AutomaticFailover"].write(value.automaticFailover)
-        try writer["ReplicationGroupId"].write(value.replicationGroupId)
-        try writer["ReplicationGroupRegion"].write(value.replicationGroupRegion)
-        try writer["Role"].write(value.role)
-        try writer["Status"].write(value.status)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.GlobalReplicationGroupMember {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -9400,16 +9158,6 @@ enum ListTagsForResourceOutputError {
 
 extension ElastiCacheClientTypes.LogDeliveryConfiguration {
 
-    static func write(value: ElastiCacheClientTypes.LogDeliveryConfiguration?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["DestinationDetails"].write(value.destinationDetails, with: ElastiCacheClientTypes.DestinationDetails.write(value:to:))
-        try writer["DestinationType"].write(value.destinationType)
-        try writer["LogFormat"].write(value.logFormat)
-        try writer["LogType"].write(value.logType)
-        try writer["Message"].write(value.message)
-        try writer["Status"].write(value.status)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.LogDeliveryConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ElastiCacheClientTypes.LogDeliveryConfiguration()
@@ -9468,17 +9216,6 @@ extension ElastiCacheClientTypes.LogDeliveryConfigurationRequest {
         try writer["Enabled"].write(value.enabled)
         try writer["LogFormat"].write(value.logFormat)
         try writer["LogType"].write(value.logType)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.LogDeliveryConfigurationRequest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElastiCacheClientTypes.LogDeliveryConfigurationRequest()
-        value.logType = try reader["LogType"].readIfPresent()
-        value.destinationType = try reader["DestinationType"].readIfPresent()
-        value.destinationDetails = try reader["DestinationDetails"].readIfPresent(with: ElastiCacheClientTypes.DestinationDetails.read(from:))
-        value.logFormat = try reader["LogFormat"].readIfPresent()
-        value.enabled = try reader["Enabled"].readIfPresent()
-        return value
     }
 }
 
@@ -10986,16 +10723,6 @@ public struct NoOperationFault: ClientRuntime.ModeledError, AWSClientRuntime.AWS
 
 extension ElastiCacheClientTypes.NodeGroup {
 
-    static func write(value: ElastiCacheClientTypes.NodeGroup?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["NodeGroupId"].write(value.nodeGroupId)
-        try writer["NodeGroupMembers"].writeList(value.nodeGroupMembers, memberWritingClosure: ElastiCacheClientTypes.NodeGroupMember.write(value:to:), memberNodeInfo: "NodeGroupMember", isFlattened: false)
-        try writer["PrimaryEndpoint"].write(value.primaryEndpoint, with: ElastiCacheClientTypes.Endpoint.write(value:to:))
-        try writer["ReaderEndpoint"].write(value.readerEndpoint, with: ElastiCacheClientTypes.Endpoint.write(value:to:))
-        try writer["Slots"].write(value.slots)
-        try writer["Status"].write(value.status)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.NodeGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ElastiCacheClientTypes.NodeGroup()
@@ -11114,16 +10841,6 @@ extension ElastiCacheClientTypes {
 
 extension ElastiCacheClientTypes.NodeGroupMember {
 
-    static func write(value: ElastiCacheClientTypes.NodeGroupMember?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["CacheClusterId"].write(value.cacheClusterId)
-        try writer["CacheNodeId"].write(value.cacheNodeId)
-        try writer["CurrentRole"].write(value.currentRole)
-        try writer["PreferredAvailabilityZone"].write(value.preferredAvailabilityZone)
-        try writer["PreferredOutpostArn"].write(value.preferredOutpostArn)
-        try writer["ReadEndpoint"].write(value.readEndpoint, with: ElastiCacheClientTypes.Endpoint.write(value:to:))
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.NodeGroupMember {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ElastiCacheClientTypes.NodeGroupMember()
@@ -11174,19 +10891,6 @@ extension ElastiCacheClientTypes {
 }
 
 extension ElastiCacheClientTypes.NodeGroupMemberUpdateStatus {
-
-    static func write(value: ElastiCacheClientTypes.NodeGroupMemberUpdateStatus?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["CacheClusterId"].write(value.cacheClusterId)
-        try writer["CacheNodeId"].write(value.cacheNodeId)
-        try writer["NodeDeletionDate"].writeTimestamp(value.nodeDeletionDate, format: .dateTime)
-        try writer["NodeUpdateEndDate"].writeTimestamp(value.nodeUpdateEndDate, format: .dateTime)
-        try writer["NodeUpdateInitiatedBy"].write(value.nodeUpdateInitiatedBy)
-        try writer["NodeUpdateInitiatedDate"].writeTimestamp(value.nodeUpdateInitiatedDate, format: .dateTime)
-        try writer["NodeUpdateStartDate"].writeTimestamp(value.nodeUpdateStartDate, format: .dateTime)
-        try writer["NodeUpdateStatus"].write(value.nodeUpdateStatus)
-        try writer["NodeUpdateStatusModifiedDate"].writeTimestamp(value.nodeUpdateStatusModifiedDate, format: .dateTime)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.NodeGroupMemberUpdateStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -11290,12 +10994,6 @@ public struct NodeGroupNotFoundFault: ClientRuntime.ModeledError, AWSClientRunti
 }
 
 extension ElastiCacheClientTypes.NodeGroupUpdateStatus {
-
-    static func write(value: ElastiCacheClientTypes.NodeGroupUpdateStatus?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["NodeGroupId"].write(value.nodeGroupId)
-        try writer["NodeGroupMemberUpdateStatus"].writeList(value.nodeGroupMemberUpdateStatus, memberWritingClosure: ElastiCacheClientTypes.NodeGroupMemberUpdateStatus.write(value:to:), memberNodeInfo: "NodeGroupMemberUpdateStatus", isFlattened: false)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.NodeGroupUpdateStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -11439,17 +11137,6 @@ public struct NodeQuotaForCustomerExceededFault: ClientRuntime.ModeledError, AWS
 
 extension ElastiCacheClientTypes.NodeSnapshot {
 
-    static func write(value: ElastiCacheClientTypes.NodeSnapshot?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["CacheClusterId"].write(value.cacheClusterId)
-        try writer["CacheNodeCreateTime"].writeTimestamp(value.cacheNodeCreateTime, format: .dateTime)
-        try writer["CacheNodeId"].write(value.cacheNodeId)
-        try writer["CacheSize"].write(value.cacheSize)
-        try writer["NodeGroupConfiguration"].write(value.nodeGroupConfiguration, with: ElastiCacheClientTypes.NodeGroupConfiguration.write(value:to:))
-        try writer["NodeGroupId"].write(value.nodeGroupId)
-        try writer["SnapshotCreateTime"].writeTimestamp(value.snapshotCreateTime, format: .dateTime)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.NodeSnapshot {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ElastiCacheClientTypes.NodeSnapshot()
@@ -11578,12 +11265,6 @@ extension ElastiCacheClientTypes {
 
 extension ElastiCacheClientTypes.NotificationConfiguration {
 
-    static func write(value: ElastiCacheClientTypes.NotificationConfiguration?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["TopicArn"].write(value.topicArn)
-        try writer["TopicStatus"].write(value.topicStatus)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.NotificationConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ElastiCacheClientTypes.NotificationConfiguration()
@@ -11644,19 +11325,6 @@ extension ElastiCacheClientTypes {
 }
 
 extension ElastiCacheClientTypes.Parameter {
-
-    static func write(value: ElastiCacheClientTypes.Parameter?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["AllowedValues"].write(value.allowedValues)
-        try writer["ChangeType"].write(value.changeType)
-        try writer["DataType"].write(value.dataType)
-        try writer["Description"].write(value.description)
-        try writer["IsModifiable"].write(value.isModifiable)
-        try writer["MinimumEngineVersion"].write(value.minimumEngineVersion)
-        try writer["ParameterName"].write(value.parameterName)
-        try writer["ParameterValue"].write(value.parameterValue)
-        try writer["Source"].write(value.source)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.Parameter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -11729,14 +11397,6 @@ extension ElastiCacheClientTypes.ParameterNameValue {
         try writer["ParameterName"].write(value.parameterName)
         try writer["ParameterValue"].write(value.parameterValue)
     }
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.ParameterNameValue {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElastiCacheClientTypes.ParameterNameValue()
-        value.parameterName = try reader["ParameterName"].readIfPresent()
-        value.parameterValue = try reader["ParameterValue"].readIfPresent()
-        return value
-    }
 }
 
 extension ElastiCacheClientTypes {
@@ -11791,14 +11451,6 @@ extension ElastiCacheClientTypes {
 
 extension ElastiCacheClientTypes.PendingLogDeliveryConfiguration {
 
-    static func write(value: ElastiCacheClientTypes.PendingLogDeliveryConfiguration?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["DestinationDetails"].write(value.destinationDetails, with: ElastiCacheClientTypes.DestinationDetails.write(value:to:))
-        try writer["DestinationType"].write(value.destinationType)
-        try writer["LogFormat"].write(value.logFormat)
-        try writer["LogType"].write(value.logType)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.PendingLogDeliveryConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ElastiCacheClientTypes.PendingLogDeliveryConfiguration()
@@ -11839,18 +11491,6 @@ extension ElastiCacheClientTypes {
 }
 
 extension ElastiCacheClientTypes.PendingModifiedValues {
-
-    static func write(value: ElastiCacheClientTypes.PendingModifiedValues?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["AuthTokenStatus"].write(value.authTokenStatus)
-        try writer["CacheNodeIdsToRemove"].writeList(value.cacheNodeIdsToRemove, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "CacheNodeId", isFlattened: false)
-        try writer["CacheNodeType"].write(value.cacheNodeType)
-        try writer["EngineVersion"].write(value.engineVersion)
-        try writer["LogDeliveryConfigurations"].writeList(value.logDeliveryConfigurations, memberWritingClosure: ElastiCacheClientTypes.PendingLogDeliveryConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["NumCacheNodes"].write(value.numCacheNodes)
-        try writer["TransitEncryptionEnabled"].write(value.transitEncryptionEnabled)
-        try writer["TransitEncryptionMode"].write(value.transitEncryptionMode)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.PendingModifiedValues {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -11912,14 +11552,6 @@ extension ElastiCacheClientTypes {
 }
 
 extension ElastiCacheClientTypes.ProcessedUpdateAction {
-
-    static func write(value: ElastiCacheClientTypes.ProcessedUpdateAction?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["CacheClusterId"].write(value.cacheClusterId)
-        try writer["ReplicationGroupId"].write(value.replicationGroupId)
-        try writer["ServiceUpdateName"].write(value.serviceUpdateName)
-        try writer["UpdateActionStatus"].write(value.updateActionStatus)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.ProcessedUpdateAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -12205,12 +11837,6 @@ enum RebootCacheClusterOutputError {
 
 extension ElastiCacheClientTypes.RecurringCharge {
 
-    static func write(value: ElastiCacheClientTypes.RecurringCharge?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["RecurringChargeAmount"].write(value.recurringChargeAmount)
-        try writer["RecurringChargeFrequency"].write(value.recurringChargeFrequency)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.RecurringCharge {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ElastiCacheClientTypes.RecurringCharge()
@@ -12247,15 +11873,6 @@ extension ElastiCacheClientTypes.RegionalConfiguration {
         try writer["ReplicationGroupId"].write(value.replicationGroupId)
         try writer["ReplicationGroupRegion"].write(value.replicationGroupRegion)
         try writer["ReshardingConfiguration"].writeList(value.reshardingConfiguration, memberWritingClosure: ElastiCacheClientTypes.ReshardingConfiguration.write(value:to:), memberNodeInfo: "ReshardingConfiguration", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.RegionalConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElastiCacheClientTypes.RegionalConfiguration()
-        value.replicationGroupId = try reader["ReplicationGroupId"].readIfPresent()
-        value.replicationGroupRegion = try reader["ReplicationGroupRegion"].readIfPresent()
-        value.reshardingConfiguration = try reader["ReshardingConfiguration"].readListIfPresent(memberReadingClosure: ElastiCacheClientTypes.ReshardingConfiguration.read(from:), memberNodeInfo: "ReshardingConfiguration", isFlattened: false)
-        return value
     }
 }
 
@@ -12378,41 +11995,6 @@ enum RemoveTagsFromResourceOutputError {
 }
 
 extension ElastiCacheClientTypes.ReplicationGroup {
-
-    static func write(value: ElastiCacheClientTypes.ReplicationGroup?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["ARN"].write(value.arn)
-        try writer["AtRestEncryptionEnabled"].write(value.atRestEncryptionEnabled)
-        try writer["AuthTokenEnabled"].write(value.authTokenEnabled)
-        try writer["AuthTokenLastModifiedDate"].writeTimestamp(value.authTokenLastModifiedDate, format: .dateTime)
-        try writer["AutoMinorVersionUpgrade"].write(value.autoMinorVersionUpgrade)
-        try writer["AutomaticFailover"].write(value.automaticFailover)
-        try writer["CacheNodeType"].write(value.cacheNodeType)
-        try writer["ClusterEnabled"].write(value.clusterEnabled)
-        try writer["ClusterMode"].write(value.clusterMode)
-        try writer["ConfigurationEndpoint"].write(value.configurationEndpoint, with: ElastiCacheClientTypes.Endpoint.write(value:to:))
-        try writer["DataTiering"].write(value.dataTiering)
-        try writer["Description"].write(value.description)
-        try writer["GlobalReplicationGroupInfo"].write(value.globalReplicationGroupInfo, with: ElastiCacheClientTypes.GlobalReplicationGroupInfo.write(value:to:))
-        try writer["IpDiscovery"].write(value.ipDiscovery)
-        try writer["KmsKeyId"].write(value.kmsKeyId)
-        try writer["LogDeliveryConfigurations"].writeList(value.logDeliveryConfigurations, memberWritingClosure: ElastiCacheClientTypes.LogDeliveryConfiguration.write(value:to:), memberNodeInfo: "LogDeliveryConfiguration", isFlattened: false)
-        try writer["MemberClusters"].writeList(value.memberClusters, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "ClusterId", isFlattened: false)
-        try writer["MemberClustersOutpostArns"].writeList(value.memberClustersOutpostArns, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "ReplicationGroupOutpostArn", isFlattened: false)
-        try writer["MultiAZ"].write(value.multiAZ)
-        try writer["NetworkType"].write(value.networkType)
-        try writer["NodeGroups"].writeList(value.nodeGroups, memberWritingClosure: ElastiCacheClientTypes.NodeGroup.write(value:to:), memberNodeInfo: "NodeGroup", isFlattened: false)
-        try writer["PendingModifiedValues"].write(value.pendingModifiedValues, with: ElastiCacheClientTypes.ReplicationGroupPendingModifiedValues.write(value:to:))
-        try writer["ReplicationGroupCreateTime"].writeTimestamp(value.replicationGroupCreateTime, format: .dateTime)
-        try writer["ReplicationGroupId"].write(value.replicationGroupId)
-        try writer["SnapshotRetentionLimit"].write(value.snapshotRetentionLimit)
-        try writer["SnapshotWindow"].write(value.snapshotWindow)
-        try writer["SnapshottingClusterId"].write(value.snapshottingClusterId)
-        try writer["Status"].write(value.status)
-        try writer["TransitEncryptionEnabled"].write(value.transitEncryptionEnabled)
-        try writer["TransitEncryptionMode"].write(value.transitEncryptionMode)
-        try writer["UserGroupIds"].writeList(value.userGroupIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.ReplicationGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -12738,19 +12320,6 @@ public struct ReplicationGroupNotUnderMigrationFault: ClientRuntime.ModeledError
 
 extension ElastiCacheClientTypes.ReplicationGroupPendingModifiedValues {
 
-    static func write(value: ElastiCacheClientTypes.ReplicationGroupPendingModifiedValues?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["AuthTokenStatus"].write(value.authTokenStatus)
-        try writer["AutomaticFailoverStatus"].write(value.automaticFailoverStatus)
-        try writer["ClusterMode"].write(value.clusterMode)
-        try writer["LogDeliveryConfigurations"].writeList(value.logDeliveryConfigurations, memberWritingClosure: ElastiCacheClientTypes.PendingLogDeliveryConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["PrimaryClusterId"].write(value.primaryClusterId)
-        try writer["Resharding"].write(value.resharding, with: ElastiCacheClientTypes.ReshardingStatus.write(value:to:))
-        try writer["TransitEncryptionEnabled"].write(value.transitEncryptionEnabled)
-        try writer["TransitEncryptionMode"].write(value.transitEncryptionMode)
-        try writer["UserGroups"].write(value.userGroups, with: ElastiCacheClientTypes.UserGroupsUpdateStatus.write(value:to:))
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.ReplicationGroupPendingModifiedValues {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ElastiCacheClientTypes.ReplicationGroupPendingModifiedValues()
@@ -12816,23 +12385,6 @@ extension ElastiCacheClientTypes {
 }
 
 extension ElastiCacheClientTypes.ReservedCacheNode {
-
-    static func write(value: ElastiCacheClientTypes.ReservedCacheNode?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["CacheNodeCount"].write(value.cacheNodeCount)
-        try writer["CacheNodeType"].write(value.cacheNodeType)
-        try writer["Duration"].write(value.duration)
-        try writer["FixedPrice"].write(value.fixedPrice)
-        try writer["OfferingType"].write(value.offeringType)
-        try writer["ProductDescription"].write(value.productDescription)
-        try writer["RecurringCharges"].writeList(value.recurringCharges, memberWritingClosure: ElastiCacheClientTypes.RecurringCharge.write(value:to:), memberNodeInfo: "RecurringCharge", isFlattened: false)
-        try writer["ReservationARN"].write(value.reservationARN)
-        try writer["ReservedCacheNodeId"].write(value.reservedCacheNodeId)
-        try writer["ReservedCacheNodesOfferingId"].write(value.reservedCacheNodesOfferingId)
-        try writer["StartTime"].writeTimestamp(value.startTime, format: .dateTime)
-        try writer["State"].write(value.state)
-        try writer["UsagePrice"].write(value.usagePrice)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.ReservedCacheNode {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -13070,18 +12622,6 @@ public struct ReservedCacheNodeQuotaExceededFault: ClientRuntime.ModeledError, A
 
 extension ElastiCacheClientTypes.ReservedCacheNodesOffering {
 
-    static func write(value: ElastiCacheClientTypes.ReservedCacheNodesOffering?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["CacheNodeType"].write(value.cacheNodeType)
-        try writer["Duration"].write(value.duration)
-        try writer["FixedPrice"].write(value.fixedPrice)
-        try writer["OfferingType"].write(value.offeringType)
-        try writer["ProductDescription"].write(value.productDescription)
-        try writer["RecurringCharges"].writeList(value.recurringCharges, memberWritingClosure: ElastiCacheClientTypes.RecurringCharge.write(value:to:), memberNodeInfo: "RecurringCharge", isFlattened: false)
-        try writer["ReservedCacheNodesOfferingId"].write(value.reservedCacheNodesOfferingId)
-        try writer["UsagePrice"].write(value.usagePrice)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.ReservedCacheNodesOffering {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ElastiCacheClientTypes.ReservedCacheNodesOffering()
@@ -13312,14 +12852,6 @@ extension ElastiCacheClientTypes.ReshardingConfiguration {
         try writer["NodeGroupId"].write(value.nodeGroupId)
         try writer["PreferredAvailabilityZones"].writeList(value.preferredAvailabilityZones, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "AvailabilityZone", isFlattened: false)
     }
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.ReshardingConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElastiCacheClientTypes.ReshardingConfiguration()
-        value.nodeGroupId = try reader["NodeGroupId"].readIfPresent()
-        value.preferredAvailabilityZones = try reader["PreferredAvailabilityZones"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "AvailabilityZone", isFlattened: false)
-        return value
-    }
 }
 
 extension ElastiCacheClientTypes {
@@ -13343,11 +12875,6 @@ extension ElastiCacheClientTypes {
 }
 
 extension ElastiCacheClientTypes.ReshardingStatus {
-
-    static func write(value: ElastiCacheClientTypes.ReshardingStatus?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["SlotMigration"].write(value.slotMigration, with: ElastiCacheClientTypes.SlotMigration.write(value:to:))
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.ReshardingStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -13466,12 +12993,6 @@ enum RevokeCacheSecurityGroupIngressOutputError {
 
 extension ElastiCacheClientTypes.SecurityGroupMembership {
 
-    static func write(value: ElastiCacheClientTypes.SecurityGroupMembership?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["SecurityGroupId"].write(value.securityGroupId)
-        try writer["Status"].write(value.status)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.SecurityGroupMembership {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ElastiCacheClientTypes.SecurityGroupMembership()
@@ -13502,27 +13023,6 @@ extension ElastiCacheClientTypes {
 }
 
 extension ElastiCacheClientTypes.ServerlessCache {
-
-    static func write(value: ElastiCacheClientTypes.ServerlessCache?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["ARN"].write(value.arn)
-        try writer["CacheUsageLimits"].write(value.cacheUsageLimits, with: ElastiCacheClientTypes.CacheUsageLimits.write(value:to:))
-        try writer["CreateTime"].writeTimestamp(value.createTime, format: .dateTime)
-        try writer["DailySnapshotTime"].write(value.dailySnapshotTime)
-        try writer["Description"].write(value.description)
-        try writer["Endpoint"].write(value.endpoint, with: ElastiCacheClientTypes.Endpoint.write(value:to:))
-        try writer["Engine"].write(value.engine)
-        try writer["FullEngineVersion"].write(value.fullEngineVersion)
-        try writer["KmsKeyId"].write(value.kmsKeyId)
-        try writer["MajorEngineVersion"].write(value.majorEngineVersion)
-        try writer["ReaderEndpoint"].write(value.readerEndpoint, with: ElastiCacheClientTypes.Endpoint.write(value:to:))
-        try writer["SecurityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "SecurityGroupId", isFlattened: false)
-        try writer["ServerlessCacheName"].write(value.serverlessCacheName)
-        try writer["SnapshotRetentionLimit"].write(value.snapshotRetentionLimit)
-        try writer["Status"].write(value.status)
-        try writer["SubnetIds"].writeList(value.subnetIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "SubnetId", isFlattened: false)
-        try writer["UserGroupId"].write(value.userGroupId)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.ServerlessCache {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -13667,13 +13167,6 @@ public struct ServerlessCacheAlreadyExistsFault: ClientRuntime.ModeledError, AWS
 
 extension ElastiCacheClientTypes.ServerlessCacheConfiguration {
 
-    static func write(value: ElastiCacheClientTypes.ServerlessCacheConfiguration?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Engine"].write(value.engine)
-        try writer["MajorEngineVersion"].write(value.majorEngineVersion)
-        try writer["ServerlessCacheName"].write(value.serverlessCacheName)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.ServerlessCacheConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ElastiCacheClientTypes.ServerlessCacheConfiguration()
@@ -13783,19 +13276,6 @@ public struct ServerlessCacheQuotaForCustomerExceededFault: ClientRuntime.Modele
 }
 
 extension ElastiCacheClientTypes.ServerlessCacheSnapshot {
-
-    static func write(value: ElastiCacheClientTypes.ServerlessCacheSnapshot?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["ARN"].write(value.arn)
-        try writer["BytesUsedForCache"].write(value.bytesUsedForCache)
-        try writer["CreateTime"].writeTimestamp(value.createTime, format: .dateTime)
-        try writer["ExpiryTime"].writeTimestamp(value.expiryTime, format: .dateTime)
-        try writer["KmsKeyId"].write(value.kmsKeyId)
-        try writer["ServerlessCacheConfiguration"].write(value.serverlessCacheConfiguration, with: ElastiCacheClientTypes.ServerlessCacheConfiguration.write(value:to:))
-        try writer["ServerlessCacheSnapshotName"].write(value.serverlessCacheSnapshotName)
-        try writer["SnapshotType"].write(value.snapshotType)
-        try writer["Status"].write(value.status)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.ServerlessCacheSnapshot {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -14010,22 +13490,6 @@ public struct ServiceLinkedRoleNotFoundFault: ClientRuntime.ModeledError, AWSCli
 }
 
 extension ElastiCacheClientTypes.ServiceUpdate {
-
-    static func write(value: ElastiCacheClientTypes.ServiceUpdate?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["AutoUpdateAfterRecommendedApplyByDate"].write(value.autoUpdateAfterRecommendedApplyByDate)
-        try writer["Engine"].write(value.engine)
-        try writer["EngineVersion"].write(value.engineVersion)
-        try writer["EstimatedUpdateTime"].write(value.estimatedUpdateTime)
-        try writer["ServiceUpdateDescription"].write(value.serviceUpdateDescription)
-        try writer["ServiceUpdateEndDate"].writeTimestamp(value.serviceUpdateEndDate, format: .dateTime)
-        try writer["ServiceUpdateName"].write(value.serviceUpdateName)
-        try writer["ServiceUpdateRecommendedApplyByDate"].writeTimestamp(value.serviceUpdateRecommendedApplyByDate, format: .dateTime)
-        try writer["ServiceUpdateReleaseDate"].writeTimestamp(value.serviceUpdateReleaseDate, format: .dateTime)
-        try writer["ServiceUpdateSeverity"].write(value.serviceUpdateSeverity)
-        try writer["ServiceUpdateStatus"].write(value.serviceUpdateStatus)
-        try writer["ServiceUpdateType"].write(value.serviceUpdateType)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.ServiceUpdate {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -14274,11 +13738,6 @@ extension ElastiCacheClientTypes {
 
 extension ElastiCacheClientTypes.SlotMigration {
 
-    static func write(value: ElastiCacheClientTypes.SlotMigration?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["ProgressPercentage"].write(value.progressPercentage)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.SlotMigration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ElastiCacheClientTypes.SlotMigration()
@@ -14304,38 +13763,6 @@ extension ElastiCacheClientTypes {
 }
 
 extension ElastiCacheClientTypes.Snapshot {
-
-    static func write(value: ElastiCacheClientTypes.Snapshot?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["ARN"].write(value.arn)
-        try writer["AutoMinorVersionUpgrade"].write(value.autoMinorVersionUpgrade)
-        try writer["AutomaticFailover"].write(value.automaticFailover)
-        try writer["CacheClusterCreateTime"].writeTimestamp(value.cacheClusterCreateTime, format: .dateTime)
-        try writer["CacheClusterId"].write(value.cacheClusterId)
-        try writer["CacheNodeType"].write(value.cacheNodeType)
-        try writer["CacheParameterGroupName"].write(value.cacheParameterGroupName)
-        try writer["CacheSubnetGroupName"].write(value.cacheSubnetGroupName)
-        try writer["DataTiering"].write(value.dataTiering)
-        try writer["Engine"].write(value.engine)
-        try writer["EngineVersion"].write(value.engineVersion)
-        try writer["KmsKeyId"].write(value.kmsKeyId)
-        try writer["NodeSnapshots"].writeList(value.nodeSnapshots, memberWritingClosure: ElastiCacheClientTypes.NodeSnapshot.write(value:to:), memberNodeInfo: "NodeSnapshot", isFlattened: false)
-        try writer["NumCacheNodes"].write(value.numCacheNodes)
-        try writer["NumNodeGroups"].write(value.numNodeGroups)
-        try writer["Port"].write(value.port)
-        try writer["PreferredAvailabilityZone"].write(value.preferredAvailabilityZone)
-        try writer["PreferredMaintenanceWindow"].write(value.preferredMaintenanceWindow)
-        try writer["PreferredOutpostArn"].write(value.preferredOutpostArn)
-        try writer["ReplicationGroupDescription"].write(value.replicationGroupDescription)
-        try writer["ReplicationGroupId"].write(value.replicationGroupId)
-        try writer["SnapshotName"].write(value.snapshotName)
-        try writer["SnapshotRetentionLimit"].write(value.snapshotRetentionLimit)
-        try writer["SnapshotSource"].write(value.snapshotSource)
-        try writer["SnapshotStatus"].write(value.snapshotStatus)
-        try writer["SnapshotWindow"].write(value.snapshotWindow)
-        try writer["TopicArn"].write(value.topicArn)
-        try writer["VpcId"].write(value.vpcId)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.Snapshot {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -14837,14 +14264,6 @@ enum StartMigrationOutputError {
 
 extension ElastiCacheClientTypes.Subnet {
 
-    static func write(value: ElastiCacheClientTypes.Subnet?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["SubnetAvailabilityZone"].write(value.subnetAvailabilityZone, with: ElastiCacheClientTypes.AvailabilityZone.write(value:to:))
-        try writer["SubnetIdentifier"].write(value.subnetIdentifier)
-        try writer["SubnetOutpost"].write(value.subnetOutpost, with: ElastiCacheClientTypes.SubnetOutpost.write(value:to:))
-        try writer["SupportedNetworkTypes"].writeList(value.supportedNetworkTypes, memberWritingClosure: ElastiCacheClientTypes.NetworkType.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.Subnet {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ElastiCacheClientTypes.Subnet()
@@ -14959,11 +14378,6 @@ public struct SubnetNotAllowedFault: ClientRuntime.ModeledError, AWSClientRuntim
 }
 
 extension ElastiCacheClientTypes.SubnetOutpost {
-
-    static func write(value: ElastiCacheClientTypes.SubnetOutpost?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["SubnetOutpostArn"].write(value.subnetOutpostArn)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.SubnetOutpost {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -15303,14 +14717,6 @@ extension ElastiCacheClientTypes.TimeRangeFilter {
         try writer["EndTime"].writeTimestamp(value.endTime, format: .dateTime)
         try writer["StartTime"].writeTimestamp(value.startTime, format: .dateTime)
     }
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.TimeRangeFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElastiCacheClientTypes.TimeRangeFilter()
-        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: .dateTime)
-        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: .dateTime)
-        return value
-    }
 }
 
 extension ElastiCacheClientTypes {
@@ -15365,15 +14771,6 @@ extension ElastiCacheClientTypes {
 
 extension ElastiCacheClientTypes.UnprocessedUpdateAction {
 
-    static func write(value: ElastiCacheClientTypes.UnprocessedUpdateAction?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["CacheClusterId"].write(value.cacheClusterId)
-        try writer["ErrorMessage"].write(value.errorMessage)
-        try writer["ErrorType"].write(value.errorType)
-        try writer["ReplicationGroupId"].write(value.replicationGroupId)
-        try writer["ServiceUpdateName"].write(value.serviceUpdateName)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.UnprocessedUpdateAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ElastiCacheClientTypes.UnprocessedUpdateAction()
@@ -15419,27 +14816,6 @@ extension ElastiCacheClientTypes {
 }
 
 extension ElastiCacheClientTypes.UpdateAction {
-
-    static func write(value: ElastiCacheClientTypes.UpdateAction?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["CacheClusterId"].write(value.cacheClusterId)
-        try writer["CacheNodeUpdateStatus"].writeList(value.cacheNodeUpdateStatus, memberWritingClosure: ElastiCacheClientTypes.CacheNodeUpdateStatus.write(value:to:), memberNodeInfo: "CacheNodeUpdateStatus", isFlattened: false)
-        try writer["Engine"].write(value.engine)
-        try writer["EstimatedUpdateTime"].write(value.estimatedUpdateTime)
-        try writer["NodeGroupUpdateStatus"].writeList(value.nodeGroupUpdateStatus, memberWritingClosure: ElastiCacheClientTypes.NodeGroupUpdateStatus.write(value:to:), memberNodeInfo: "NodeGroupUpdateStatus", isFlattened: false)
-        try writer["NodesUpdated"].write(value.nodesUpdated)
-        try writer["ReplicationGroupId"].write(value.replicationGroupId)
-        try writer["ServiceUpdateName"].write(value.serviceUpdateName)
-        try writer["ServiceUpdateRecommendedApplyByDate"].writeTimestamp(value.serviceUpdateRecommendedApplyByDate, format: .dateTime)
-        try writer["ServiceUpdateReleaseDate"].writeTimestamp(value.serviceUpdateReleaseDate, format: .dateTime)
-        try writer["ServiceUpdateSeverity"].write(value.serviceUpdateSeverity)
-        try writer["ServiceUpdateStatus"].write(value.serviceUpdateStatus)
-        try writer["ServiceUpdateType"].write(value.serviceUpdateType)
-        try writer["SlaMet"].write(value.slaMet)
-        try writer["UpdateActionAvailableDate"].writeTimestamp(value.updateActionAvailableDate, format: .dateTime)
-        try writer["UpdateActionStatus"].write(value.updateActionStatus)
-        try writer["UpdateActionStatusModifiedDate"].writeTimestamp(value.updateActionStatusModifiedDate, format: .dateTime)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.UpdateAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -15598,19 +14974,6 @@ extension ElastiCacheClientTypes {
 
 extension ElastiCacheClientTypes.User {
 
-    static func write(value: ElastiCacheClientTypes.User?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["ARN"].write(value.arn)
-        try writer["AccessString"].write(value.accessString)
-        try writer["Authentication"].write(value.authentication, with: ElastiCacheClientTypes.Authentication.write(value:to:))
-        try writer["Engine"].write(value.engine)
-        try writer["MinimumEngineVersion"].write(value.minimumEngineVersion)
-        try writer["Status"].write(value.status)
-        try writer["UserGroupIds"].writeList(value.userGroupIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["UserId"].write(value.userId)
-        try writer["UserName"].write(value.userName)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.User {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ElastiCacheClientTypes.User()
@@ -15712,19 +15075,6 @@ public struct UserAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRunti
 }
 
 extension ElastiCacheClientTypes.UserGroup {
-
-    static func write(value: ElastiCacheClientTypes.UserGroup?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["ARN"].write(value.arn)
-        try writer["Engine"].write(value.engine)
-        try writer["MinimumEngineVersion"].write(value.minimumEngineVersion)
-        try writer["PendingChanges"].write(value.pendingChanges, with: ElastiCacheClientTypes.UserGroupPendingChanges.write(value:to:))
-        try writer["ReplicationGroups"].writeList(value.replicationGroups, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ServerlessCaches"].writeList(value.serverlessCaches, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Status"].write(value.status)
-        try writer["UserGroupId"].write(value.userGroupId)
-        try writer["UserIds"].writeList(value.userIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.UserGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -15865,12 +15215,6 @@ public struct UserGroupNotFoundFault: ClientRuntime.ModeledError, AWSClientRunti
 
 extension ElastiCacheClientTypes.UserGroupPendingChanges {
 
-    static func write(value: ElastiCacheClientTypes.UserGroupPendingChanges?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["UserIdsToAdd"].writeList(value.userIdsToAdd, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["UserIdsToRemove"].writeList(value.userIdsToRemove, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.UserGroupPendingChanges {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ElastiCacheClientTypes.UserGroupPendingChanges()
@@ -15938,12 +15282,6 @@ public struct UserGroupQuotaExceededFault: ClientRuntime.ModeledError, AWSClient
 }
 
 extension ElastiCacheClientTypes.UserGroupsUpdateStatus {
-
-    static func write(value: ElastiCacheClientTypes.UserGroupsUpdateStatus?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["UserGroupIdsToAdd"].writeList(value.userGroupIdsToAdd, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["UserGroupIdsToRemove"].writeList(value.userGroupIdsToRemove, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.UserGroupsUpdateStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

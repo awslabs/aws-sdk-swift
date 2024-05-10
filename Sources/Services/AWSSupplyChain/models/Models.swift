@@ -43,15 +43,6 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
 extension SupplyChainClientTypes.BillOfMaterialsImportJob {
 
-    static func write(value: SupplyChainClientTypes.BillOfMaterialsImportJob?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["instanceId"].write(value.instanceId)
-        try writer["jobId"].write(value.jobId)
-        try writer["message"].write(value.message)
-        try writer["s3uri"].write(value.s3uri)
-        try writer["status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SupplyChainClientTypes.BillOfMaterialsImportJob {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SupplyChainClientTypes.BillOfMaterialsImportJob()

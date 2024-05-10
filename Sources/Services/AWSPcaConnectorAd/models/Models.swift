@@ -6,16 +6,6 @@ import SmithyReadWrite
 
 extension PcaConnectorAdClientTypes.AccessControlEntry {
 
-    static func write(value: PcaConnectorAdClientTypes.AccessControlEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccessRights"].write(value.accessRights, with: PcaConnectorAdClientTypes.AccessRights.write(value:to:))
-        try writer["CreatedAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["GroupDisplayName"].write(value.groupDisplayName)
-        try writer["GroupSecurityIdentifier"].write(value.groupSecurityIdentifier)
-        try writer["TemplateArn"].write(value.templateArn)
-        try writer["UpdatedAt"].writeTimestamp(value.updatedAt, format: .epochSeconds)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> PcaConnectorAdClientTypes.AccessControlEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PcaConnectorAdClientTypes.AccessControlEntry()
@@ -66,16 +56,6 @@ extension PcaConnectorAdClientTypes {
 }
 
 extension PcaConnectorAdClientTypes.AccessControlEntrySummary {
-
-    static func write(value: PcaConnectorAdClientTypes.AccessControlEntrySummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccessRights"].write(value.accessRights, with: PcaConnectorAdClientTypes.AccessRights.write(value:to:))
-        try writer["CreatedAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["GroupDisplayName"].write(value.groupDisplayName)
-        try writer["GroupSecurityIdentifier"].write(value.groupSecurityIdentifier)
-        try writer["TemplateArn"].write(value.templateArn)
-        try writer["UpdatedAt"].writeTimestamp(value.updatedAt, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PcaConnectorAdClientTypes.AccessControlEntrySummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -739,19 +719,6 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
 extension PcaConnectorAdClientTypes.Connector {
 
-    static func write(value: PcaConnectorAdClientTypes.Connector?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["CertificateAuthorityArn"].write(value.certificateAuthorityArn)
-        try writer["CertificateEnrollmentPolicyServerEndpoint"].write(value.certificateEnrollmentPolicyServerEndpoint)
-        try writer["CreatedAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["DirectoryId"].write(value.directoryId)
-        try writer["Status"].write(value.status)
-        try writer["StatusReason"].write(value.statusReason)
-        try writer["UpdatedAt"].writeTimestamp(value.updatedAt, format: .epochSeconds)
-        try writer["VpcInformation"].write(value.vpcInformation, with: PcaConnectorAdClientTypes.VpcInformation.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> PcaConnectorAdClientTypes.Connector {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PcaConnectorAdClientTypes.Connector()
@@ -901,19 +868,6 @@ extension PcaConnectorAdClientTypes {
 }
 
 extension PcaConnectorAdClientTypes.ConnectorSummary {
-
-    static func write(value: PcaConnectorAdClientTypes.ConnectorSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["CertificateAuthorityArn"].write(value.certificateAuthorityArn)
-        try writer["CertificateEnrollmentPolicyServerEndpoint"].write(value.certificateEnrollmentPolicyServerEndpoint)
-        try writer["CreatedAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["DirectoryId"].write(value.directoryId)
-        try writer["Status"].write(value.status)
-        try writer["StatusReason"].write(value.statusReason)
-        try writer["UpdatedAt"].writeTimestamp(value.updatedAt, format: .epochSeconds)
-        try writer["VpcInformation"].write(value.vpcInformation, with: PcaConnectorAdClientTypes.VpcInformation.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PcaConnectorAdClientTypes.ConnectorSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1693,16 +1647,6 @@ enum DeleteTemplateOutputError {
 
 extension PcaConnectorAdClientTypes.DirectoryRegistration {
 
-    static func write(value: PcaConnectorAdClientTypes.DirectoryRegistration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["CreatedAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["DirectoryId"].write(value.directoryId)
-        try writer["Status"].write(value.status)
-        try writer["StatusReason"].write(value.statusReason)
-        try writer["UpdatedAt"].writeTimestamp(value.updatedAt, format: .epochSeconds)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> PcaConnectorAdClientTypes.DirectoryRegistration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PcaConnectorAdClientTypes.DirectoryRegistration()
@@ -1831,16 +1775,6 @@ extension PcaConnectorAdClientTypes {
 }
 
 extension PcaConnectorAdClientTypes.DirectoryRegistrationSummary {
-
-    static func write(value: PcaConnectorAdClientTypes.DirectoryRegistrationSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["CreatedAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["DirectoryId"].write(value.directoryId)
-        try writer["Status"].write(value.status)
-        try writer["StatusReason"].write(value.statusReason)
-        try writer["UpdatedAt"].writeTimestamp(value.updatedAt, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PcaConnectorAdClientTypes.DirectoryRegistrationSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3853,16 +3787,6 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
 extension PcaConnectorAdClientTypes.ServicePrincipalName {
 
-    static func write(value: PcaConnectorAdClientTypes.ServicePrincipalName?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ConnectorArn"].write(value.connectorArn)
-        try writer["CreatedAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["DirectoryRegistrationArn"].write(value.directoryRegistrationArn)
-        try writer["Status"].write(value.status)
-        try writer["StatusReason"].write(value.statusReason)
-        try writer["UpdatedAt"].writeTimestamp(value.updatedAt, format: .epochSeconds)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> PcaConnectorAdClientTypes.ServicePrincipalName {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PcaConnectorAdClientTypes.ServicePrincipalName()
@@ -3988,16 +3912,6 @@ extension PcaConnectorAdClientTypes {
 }
 
 extension PcaConnectorAdClientTypes.ServicePrincipalNameSummary {
-
-    static func write(value: PcaConnectorAdClientTypes.ServicePrincipalNameSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ConnectorArn"].write(value.connectorArn)
-        try writer["CreatedAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["DirectoryRegistrationArn"].write(value.directoryRegistrationArn)
-        try writer["Status"].write(value.status)
-        try writer["StatusReason"].write(value.statusReason)
-        try writer["UpdatedAt"].writeTimestamp(value.updatedAt, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PcaConnectorAdClientTypes.ServicePrincipalNameSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4433,20 +4347,6 @@ enum TagResourceOutputError {
 
 extension PcaConnectorAdClientTypes.Template {
 
-    static func write(value: PcaConnectorAdClientTypes.Template?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["ConnectorArn"].write(value.connectorArn)
-        try writer["CreatedAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["Definition"].write(value.definition, with: PcaConnectorAdClientTypes.TemplateDefinition.write(value:to:))
-        try writer["Name"].write(value.name)
-        try writer["ObjectIdentifier"].write(value.objectIdentifier)
-        try writer["PolicySchema"].write(value.policySchema)
-        try writer["Revision"].write(value.revision, with: PcaConnectorAdClientTypes.TemplateRevision.write(value:to:))
-        try writer["Status"].write(value.status)
-        try writer["UpdatedAt"].writeTimestamp(value.updatedAt, format: .epochSeconds)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> PcaConnectorAdClientTypes.Template {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PcaConnectorAdClientTypes.Template()
@@ -4564,12 +4464,6 @@ extension PcaConnectorAdClientTypes {
 
 extension PcaConnectorAdClientTypes.TemplateRevision {
 
-    static func write(value: PcaConnectorAdClientTypes.TemplateRevision?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MajorRevision"].write(value.majorRevision)
-        try writer["MinorRevision"].write(value.minorRevision)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> PcaConnectorAdClientTypes.TemplateRevision {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PcaConnectorAdClientTypes.TemplateRevision()
@@ -4632,20 +4526,6 @@ extension PcaConnectorAdClientTypes {
 }
 
 extension PcaConnectorAdClientTypes.TemplateSummary {
-
-    static func write(value: PcaConnectorAdClientTypes.TemplateSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["ConnectorArn"].write(value.connectorArn)
-        try writer["CreatedAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["Definition"].write(value.definition, with: PcaConnectorAdClientTypes.TemplateDefinition.write(value:to:))
-        try writer["Name"].write(value.name)
-        try writer["ObjectIdentifier"].write(value.objectIdentifier)
-        try writer["PolicySchema"].write(value.policySchema)
-        try writer["Revision"].write(value.revision, with: PcaConnectorAdClientTypes.TemplateRevision.write(value:to:))
-        try writer["Status"].write(value.status)
-        try writer["UpdatedAt"].writeTimestamp(value.updatedAt, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PcaConnectorAdClientTypes.TemplateSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

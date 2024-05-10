@@ -312,11 +312,6 @@ public struct AuthorizationNotFoundFault: ClientRuntime.ModeledError, AWSClientR
 
 extension DocDBClientTypes.AvailabilityZone {
 
-    static func write(value: DocDBClientTypes.AvailabilityZone?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> DocDBClientTypes.AvailabilityZone {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DocDBClientTypes.AvailabilityZone()
@@ -342,16 +337,6 @@ extension DocDBClientTypes {
 }
 
 extension DocDBClientTypes.Certificate {
-
-    static func write(value: DocDBClientTypes.Certificate?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["CertificateArn"].write(value.certificateArn)
-        try writer["CertificateIdentifier"].write(value.certificateIdentifier)
-        try writer["CertificateType"].write(value.certificateType)
-        try writer["Thumbprint"].write(value.thumbprint)
-        try writer["ValidFrom"].writeTimestamp(value.validFrom, format: .dateTime)
-        try writer["ValidTill"].writeTimestamp(value.validTill, format: .dateTime)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> DocDBClientTypes.Certificate {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -403,12 +388,6 @@ extension DocDBClientTypes {
 }
 
 extension DocDBClientTypes.CertificateDetails {
-
-    static func write(value: DocDBClientTypes.CertificateDetails?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["CAIdentifier"].write(value.caIdentifier)
-        try writer["ValidTill"].writeTimestamp(value.validTill, format: .dateTime)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> DocDBClientTypes.CertificateDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -482,14 +461,6 @@ extension DocDBClientTypes.CloudwatchLogsExportConfiguration {
         guard let value else { return }
         try writer["DisableLogTypes"].writeList(value.disableLogTypes, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["EnableLogTypes"].writeList(value.enableLogTypes, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> DocDBClientTypes.CloudwatchLogsExportConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DocDBClientTypes.CloudwatchLogsExportConfiguration()
-        value.enableLogTypes = try reader["EnableLogTypes"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.disableLogTypes = try reader["DisableLogTypes"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -1613,43 +1584,6 @@ enum CreateGlobalClusterOutputError {
 
 extension DocDBClientTypes.DBCluster {
 
-    static func write(value: DocDBClientTypes.DBCluster?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["AssociatedRoles"].writeList(value.associatedRoles, memberWritingClosure: DocDBClientTypes.DBClusterRole.write(value:to:), memberNodeInfo: "DBClusterRole", isFlattened: false)
-        try writer["AvailabilityZones"].writeList(value.availabilityZones, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "AvailabilityZone", isFlattened: false)
-        try writer["BackupRetentionPeriod"].write(value.backupRetentionPeriod)
-        try writer["CloneGroupId"].write(value.cloneGroupId)
-        try writer["ClusterCreateTime"].writeTimestamp(value.clusterCreateTime, format: .dateTime)
-        try writer["DBClusterArn"].write(value.dbClusterArn)
-        try writer["DBClusterIdentifier"].write(value.dbClusterIdentifier)
-        try writer["DBClusterMembers"].writeList(value.dbClusterMembers, memberWritingClosure: DocDBClientTypes.DBClusterMember.write(value:to:), memberNodeInfo: "DBClusterMember", isFlattened: false)
-        try writer["DBClusterParameterGroup"].write(value.dbClusterParameterGroup)
-        try writer["DBSubnetGroup"].write(value.dbSubnetGroup)
-        try writer["DbClusterResourceId"].write(value.dbClusterResourceId)
-        try writer["DeletionProtection"].write(value.deletionProtection)
-        try writer["EarliestRestorableTime"].writeTimestamp(value.earliestRestorableTime, format: .dateTime)
-        try writer["EnabledCloudwatchLogsExports"].writeList(value.enabledCloudwatchLogsExports, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Endpoint"].write(value.endpoint)
-        try writer["Engine"].write(value.engine)
-        try writer["EngineVersion"].write(value.engineVersion)
-        try writer["HostedZoneId"].write(value.hostedZoneId)
-        try writer["KmsKeyId"].write(value.kmsKeyId)
-        try writer["LatestRestorableTime"].writeTimestamp(value.latestRestorableTime, format: .dateTime)
-        try writer["MasterUsername"].write(value.masterUsername)
-        try writer["MultiAZ"].write(value.multiAZ)
-        try writer["PercentProgress"].write(value.percentProgress)
-        try writer["Port"].write(value.port)
-        try writer["PreferredBackupWindow"].write(value.preferredBackupWindow)
-        try writer["PreferredMaintenanceWindow"].write(value.preferredMaintenanceWindow)
-        try writer["ReadReplicaIdentifiers"].writeList(value.readReplicaIdentifiers, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "ReadReplicaIdentifier", isFlattened: false)
-        try writer["ReaderEndpoint"].write(value.readerEndpoint)
-        try writer["ReplicationSourceIdentifier"].write(value.replicationSourceIdentifier)
-        try writer["Status"].write(value.status)
-        try writer["StorageEncrypted"].write(value.storageEncrypted)
-        try writer["StorageType"].write(value.storageType)
-        try writer["VpcSecurityGroups"].writeList(value.vpcSecurityGroups, memberWritingClosure: DocDBClientTypes.VpcSecurityGroupMembership.write(value:to:), memberNodeInfo: "VpcSecurityGroupMembership", isFlattened: false)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> DocDBClientTypes.DBCluster {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DocDBClientTypes.DBCluster()
@@ -1873,14 +1807,6 @@ public struct DBClusterAlreadyExistsFault: ClientRuntime.ModeledError, AWSClient
 
 extension DocDBClientTypes.DBClusterMember {
 
-    static func write(value: DocDBClientTypes.DBClusterMember?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["DBClusterParameterGroupStatus"].write(value.dbClusterParameterGroupStatus)
-        try writer["DBInstanceIdentifier"].write(value.dbInstanceIdentifier)
-        try writer["IsClusterWriter"].write(value.isClusterWriter)
-        try writer["PromotionTier"].write(value.promotionTier)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> DocDBClientTypes.DBClusterMember {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DocDBClientTypes.DBClusterMember()
@@ -1958,14 +1884,6 @@ public struct DBClusterNotFoundFault: ClientRuntime.ModeledError, AWSClientRunti
 }
 
 extension DocDBClientTypes.DBClusterParameterGroup {
-
-    static func write(value: DocDBClientTypes.DBClusterParameterGroup?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["DBClusterParameterGroupArn"].write(value.dbClusterParameterGroupArn)
-        try writer["DBClusterParameterGroupName"].write(value.dbClusterParameterGroupName)
-        try writer["DBParameterGroupFamily"].write(value.dbParameterGroupFamily)
-        try writer["Description"].write(value.description)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> DocDBClientTypes.DBClusterParameterGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2082,12 +2000,6 @@ public struct DBClusterQuotaExceededFault: ClientRuntime.ModeledError, AWSClient
 
 extension DocDBClientTypes.DBClusterRole {
 
-    static func write(value: DocDBClientTypes.DBClusterRole?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["RoleArn"].write(value.roleArn)
-        try writer["Status"].write(value.status)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> DocDBClientTypes.DBClusterRole {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DocDBClientTypes.DBClusterRole()
@@ -2124,28 +2036,6 @@ extension DocDBClientTypes {
 }
 
 extension DocDBClientTypes.DBClusterSnapshot {
-
-    static func write(value: DocDBClientTypes.DBClusterSnapshot?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["AvailabilityZones"].writeList(value.availabilityZones, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "AvailabilityZone", isFlattened: false)
-        try writer["ClusterCreateTime"].writeTimestamp(value.clusterCreateTime, format: .dateTime)
-        try writer["DBClusterIdentifier"].write(value.dbClusterIdentifier)
-        try writer["DBClusterSnapshotArn"].write(value.dbClusterSnapshotArn)
-        try writer["DBClusterSnapshotIdentifier"].write(value.dbClusterSnapshotIdentifier)
-        try writer["Engine"].write(value.engine)
-        try writer["EngineVersion"].write(value.engineVersion)
-        try writer["KmsKeyId"].write(value.kmsKeyId)
-        try writer["MasterUsername"].write(value.masterUsername)
-        try writer["PercentProgress"].write(value.percentProgress)
-        try writer["Port"].write(value.port)
-        try writer["SnapshotCreateTime"].writeTimestamp(value.snapshotCreateTime, format: .dateTime)
-        try writer["SnapshotType"].write(value.snapshotType)
-        try writer["SourceDBClusterSnapshotArn"].write(value.sourceDBClusterSnapshotArn)
-        try writer["Status"].write(value.status)
-        try writer["StorageEncrypted"].write(value.storageEncrypted)
-        try writer["StorageType"].write(value.storageType)
-        try writer["VpcId"].write(value.vpcId)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> DocDBClientTypes.DBClusterSnapshot {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2295,12 +2185,6 @@ public struct DBClusterSnapshotAlreadyExistsFault: ClientRuntime.ModeledError, A
 
 extension DocDBClientTypes.DBClusterSnapshotAttribute {
 
-    static func write(value: DocDBClientTypes.DBClusterSnapshotAttribute?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["AttributeName"].write(value.attributeName)
-        try writer["AttributeValues"].writeList(value.attributeValues, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "AttributeValue", isFlattened: false)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> DocDBClientTypes.DBClusterSnapshotAttribute {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DocDBClientTypes.DBClusterSnapshotAttribute()
@@ -2331,12 +2215,6 @@ extension DocDBClientTypes {
 }
 
 extension DocDBClientTypes.DBClusterSnapshotAttributesResult {
-
-    static func write(value: DocDBClientTypes.DBClusterSnapshotAttributesResult?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["DBClusterSnapshotAttributes"].writeList(value.dbClusterSnapshotAttributes, memberWritingClosure: DocDBClientTypes.DBClusterSnapshotAttribute.write(value:to:), memberNodeInfo: "DBClusterSnapshotAttribute", isFlattened: false)
-        try writer["DBClusterSnapshotIdentifier"].write(value.dbClusterSnapshotIdentifier)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> DocDBClientTypes.DBClusterSnapshotAttributesResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2405,20 +2283,6 @@ public struct DBClusterSnapshotNotFoundFault: ClientRuntime.ModeledError, AWSCli
 }
 
 extension DocDBClientTypes.DBEngineVersion {
-
-    static func write(value: DocDBClientTypes.DBEngineVersion?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["DBEngineDescription"].write(value.dbEngineDescription)
-        try writer["DBEngineVersionDescription"].write(value.dbEngineVersionDescription)
-        try writer["DBParameterGroupFamily"].write(value.dbParameterGroupFamily)
-        try writer["Engine"].write(value.engine)
-        try writer["EngineVersion"].write(value.engineVersion)
-        try writer["ExportableLogTypes"].writeList(value.exportableLogTypes, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["SupportedCACertificateIdentifiers"].writeList(value.supportedCACertificateIdentifiers, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["SupportsCertificateRotationWithoutRestart"].write(value.supportsCertificateRotationWithoutRestart)
-        try writer["SupportsLogExportsToCloudwatchLogs"].write(value.supportsLogExportsToCloudwatchLogs)
-        try writer["ValidUpgradeTarget"].writeList(value.validUpgradeTarget, memberWritingClosure: DocDBClientTypes.UpgradeTarget.write(value:to:), memberNodeInfo: "UpgradeTarget", isFlattened: false)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> DocDBClientTypes.DBEngineVersion {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2490,40 +2354,6 @@ extension DocDBClientTypes {
 }
 
 extension DocDBClientTypes.DBInstance {
-
-    static func write(value: DocDBClientTypes.DBInstance?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["AutoMinorVersionUpgrade"].write(value.autoMinorVersionUpgrade)
-        try writer["AvailabilityZone"].write(value.availabilityZone)
-        try writer["BackupRetentionPeriod"].write(value.backupRetentionPeriod)
-        try writer["CACertificateIdentifier"].write(value.caCertificateIdentifier)
-        try writer["CertificateDetails"].write(value.certificateDetails, with: DocDBClientTypes.CertificateDetails.write(value:to:))
-        try writer["CopyTagsToSnapshot"].write(value.copyTagsToSnapshot)
-        try writer["DBClusterIdentifier"].write(value.dbClusterIdentifier)
-        try writer["DBInstanceArn"].write(value.dbInstanceArn)
-        try writer["DBInstanceClass"].write(value.dbInstanceClass)
-        try writer["DBInstanceIdentifier"].write(value.dbInstanceIdentifier)
-        try writer["DBInstanceStatus"].write(value.dbInstanceStatus)
-        try writer["DBSubnetGroup"].write(value.dbSubnetGroup, with: DocDBClientTypes.DBSubnetGroup.write(value:to:))
-        try writer["DbiResourceId"].write(value.dbiResourceId)
-        try writer["EnabledCloudwatchLogsExports"].writeList(value.enabledCloudwatchLogsExports, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Endpoint"].write(value.endpoint, with: DocDBClientTypes.Endpoint.write(value:to:))
-        try writer["Engine"].write(value.engine)
-        try writer["EngineVersion"].write(value.engineVersion)
-        try writer["InstanceCreateTime"].writeTimestamp(value.instanceCreateTime, format: .dateTime)
-        try writer["KmsKeyId"].write(value.kmsKeyId)
-        try writer["LatestRestorableTime"].writeTimestamp(value.latestRestorableTime, format: .dateTime)
-        try writer["PendingModifiedValues"].write(value.pendingModifiedValues, with: DocDBClientTypes.PendingModifiedValues.write(value:to:))
-        try writer["PerformanceInsightsEnabled"].write(value.performanceInsightsEnabled)
-        try writer["PerformanceInsightsKMSKeyId"].write(value.performanceInsightsKMSKeyId)
-        try writer["PreferredBackupWindow"].write(value.preferredBackupWindow)
-        try writer["PreferredMaintenanceWindow"].write(value.preferredMaintenanceWindow)
-        try writer["PromotionTier"].write(value.promotionTier)
-        try writer["PubliclyAccessible"].write(value.publiclyAccessible)
-        try writer["StatusInfos"].writeList(value.statusInfos, memberWritingClosure: DocDBClientTypes.DBInstanceStatusInfo.write(value:to:), memberNodeInfo: "DBInstanceStatusInfo", isFlattened: false)
-        try writer["StorageEncrypted"].write(value.storageEncrypted)
-        try writer["VpcSecurityGroups"].writeList(value.vpcSecurityGroups, memberWritingClosure: DocDBClientTypes.VpcSecurityGroupMembership.write(value:to:), memberNodeInfo: "VpcSecurityGroupMembership", isFlattened: false)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> DocDBClientTypes.DBInstance {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2769,14 +2599,6 @@ public struct DBInstanceNotFoundFault: ClientRuntime.ModeledError, AWSClientRunt
 }
 
 extension DocDBClientTypes.DBInstanceStatusInfo {
-
-    static func write(value: DocDBClientTypes.DBInstanceStatusInfo?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.message)
-        try writer["Normal"].write(value.normal)
-        try writer["Status"].write(value.status)
-        try writer["StatusType"].write(value.statusType)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> DocDBClientTypes.DBInstanceStatusInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3040,16 +2862,6 @@ public struct DBSnapshotNotFoundFault: ClientRuntime.ModeledError, AWSClientRunt
 }
 
 extension DocDBClientTypes.DBSubnetGroup {
-
-    static func write(value: DocDBClientTypes.DBSubnetGroup?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["DBSubnetGroupArn"].write(value.dbSubnetGroupArn)
-        try writer["DBSubnetGroupDescription"].write(value.dbSubnetGroupDescription)
-        try writer["DBSubnetGroupName"].write(value.dbSubnetGroupName)
-        try writer["SubnetGroupStatus"].write(value.subnetGroupStatus)
-        try writer["Subnets"].writeList(value.subnets, memberWritingClosure: DocDBClientTypes.Subnet.write(value:to:), memberNodeInfo: "Subnet", isFlattened: false)
-        try writer["VpcId"].write(value.vpcId)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> DocDBClientTypes.DBSubnetGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5352,13 +5164,6 @@ public enum DocDBClientTypes {}
 
 extension DocDBClientTypes.Endpoint {
 
-    static func write(value: DocDBClientTypes.Endpoint?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Address"].write(value.address)
-        try writer["HostedZoneId"].write(value.hostedZoneId)
-        try writer["Port"].write(value.port)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> DocDBClientTypes.Endpoint {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DocDBClientTypes.Endpoint()
@@ -5395,13 +5200,6 @@ extension DocDBClientTypes {
 
 extension DocDBClientTypes.EngineDefaults {
 
-    static func write(value: DocDBClientTypes.EngineDefaults?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["DBParameterGroupFamily"].write(value.dbParameterGroupFamily)
-        try writer["Marker"].write(value.marker)
-        try writer["Parameters"].writeList(value.parameters, memberWritingClosure: DocDBClientTypes.Parameter.write(value:to:), memberNodeInfo: "Parameter", isFlattened: false)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> DocDBClientTypes.EngineDefaults {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DocDBClientTypes.EngineDefaults()
@@ -5437,16 +5235,6 @@ extension DocDBClientTypes {
 }
 
 extension DocDBClientTypes.Event {
-
-    static func write(value: DocDBClientTypes.Event?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Date"].writeTimestamp(value.date, format: .dateTime)
-        try writer["EventCategories"].writeList(value.eventCategories, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "EventCategory", isFlattened: false)
-        try writer["Message"].write(value.message)
-        try writer["SourceArn"].write(value.sourceArn)
-        try writer["SourceIdentifier"].write(value.sourceIdentifier)
-        try writer["SourceType"].write(value.sourceType)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> DocDBClientTypes.Event {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5499,12 +5287,6 @@ extension DocDBClientTypes {
 
 extension DocDBClientTypes.EventCategoriesMap {
 
-    static func write(value: DocDBClientTypes.EventCategoriesMap?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["EventCategories"].writeList(value.eventCategories, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "EventCategory", isFlattened: false)
-        try writer["SourceType"].write(value.sourceType)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> DocDBClientTypes.EventCategoriesMap {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DocDBClientTypes.EventCategoriesMap()
@@ -5535,20 +5317,6 @@ extension DocDBClientTypes {
 }
 
 extension DocDBClientTypes.EventSubscription {
-
-    static func write(value: DocDBClientTypes.EventSubscription?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["CustSubscriptionId"].write(value.custSubscriptionId)
-        try writer["CustomerAwsId"].write(value.customerAwsId)
-        try writer["Enabled"].write(value.enabled)
-        try writer["EventCategoriesList"].writeList(value.eventCategoriesList, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "EventCategory", isFlattened: false)
-        try writer["EventSubscriptionArn"].write(value.eventSubscriptionArn)
-        try writer["SnsTopicArn"].write(value.snsTopicArn)
-        try writer["SourceIdsList"].writeList(value.sourceIdsList, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "SourceId", isFlattened: false)
-        try writer["SourceType"].write(value.sourceType)
-        try writer["Status"].write(value.status)
-        try writer["SubscriptionCreationTime"].write(value.subscriptionCreationTime)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> DocDBClientTypes.EventSubscription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5740,14 +5508,6 @@ extension DocDBClientTypes.Filter {
         try writer["Name"].write(value.name)
         try writer["Values"].writeList(value.values, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "Value", isFlattened: false)
     }
-
-    static func read(from reader: SmithyXML.Reader) throws -> DocDBClientTypes.Filter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DocDBClientTypes.Filter()
-        value.name = try reader["Name"].readIfPresent()
-        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "Value", isFlattened: false)
-        return value
-    }
 }
 
 extension DocDBClientTypes {
@@ -5773,20 +5533,6 @@ extension DocDBClientTypes {
 }
 
 extension DocDBClientTypes.GlobalCluster {
-
-    static func write(value: DocDBClientTypes.GlobalCluster?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["DatabaseName"].write(value.databaseName)
-        try writer["DeletionProtection"].write(value.deletionProtection)
-        try writer["Engine"].write(value.engine)
-        try writer["EngineVersion"].write(value.engineVersion)
-        try writer["GlobalClusterArn"].write(value.globalClusterArn)
-        try writer["GlobalClusterIdentifier"].write(value.globalClusterIdentifier)
-        try writer["GlobalClusterMembers"].writeList(value.globalClusterMembers, memberWritingClosure: DocDBClientTypes.GlobalClusterMember.write(value:to:), memberNodeInfo: "GlobalClusterMember", isFlattened: false)
-        try writer["GlobalClusterResourceId"].write(value.globalClusterResourceId)
-        try writer["Status"].write(value.status)
-        try writer["StorageEncrypted"].write(value.storageEncrypted)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> DocDBClientTypes.GlobalCluster {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5895,13 +5641,6 @@ public struct GlobalClusterAlreadyExistsFault: ClientRuntime.ModeledError, AWSCl
 }
 
 extension DocDBClientTypes.GlobalClusterMember {
-
-    static func write(value: DocDBClientTypes.GlobalClusterMember?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["DBClusterArn"].write(value.dbClusterArn)
-        try writer["IsWriter"].write(value.isWriter)
-        try writer["Readers"].writeList(value.readers, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> DocDBClientTypes.GlobalClusterMember {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7511,17 +7250,6 @@ enum ModifyGlobalClusterOutputError {
 
 extension DocDBClientTypes.OrderableDBInstanceOption {
 
-    static func write(value: DocDBClientTypes.OrderableDBInstanceOption?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["AvailabilityZones"].writeList(value.availabilityZones, memberWritingClosure: DocDBClientTypes.AvailabilityZone.write(value:to:), memberNodeInfo: "AvailabilityZone", isFlattened: false)
-        try writer["DBInstanceClass"].write(value.dbInstanceClass)
-        try writer["Engine"].write(value.engine)
-        try writer["EngineVersion"].write(value.engineVersion)
-        try writer["LicenseModel"].write(value.licenseModel)
-        try writer["StorageType"].write(value.storageType)
-        try writer["Vpc"].write(value.vpc)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> DocDBClientTypes.OrderableDBInstanceOption {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DocDBClientTypes.OrderableDBInstanceOption()
@@ -7663,12 +7391,6 @@ extension DocDBClientTypes {
 
 extension DocDBClientTypes.PendingCloudwatchLogsExports {
 
-    static func write(value: DocDBClientTypes.PendingCloudwatchLogsExports?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["LogTypesToDisable"].writeList(value.logTypesToDisable, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["LogTypesToEnable"].writeList(value.logTypesToEnable, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> DocDBClientTypes.PendingCloudwatchLogsExports {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DocDBClientTypes.PendingCloudwatchLogsExports()
@@ -7699,16 +7421,6 @@ extension DocDBClientTypes {
 }
 
 extension DocDBClientTypes.PendingMaintenanceAction {
-
-    static func write(value: DocDBClientTypes.PendingMaintenanceAction?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Action"].write(value.action)
-        try writer["AutoAppliedAfterDate"].writeTimestamp(value.autoAppliedAfterDate, format: .dateTime)
-        try writer["CurrentApplyDate"].writeTimestamp(value.currentApplyDate, format: .dateTime)
-        try writer["Description"].write(value.description)
-        try writer["ForcedApplyDate"].writeTimestamp(value.forcedApplyDate, format: .dateTime)
-        try writer["OptInStatus"].write(value.optInStatus)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> DocDBClientTypes.PendingMaintenanceAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7760,24 +7472,6 @@ extension DocDBClientTypes {
 }
 
 extension DocDBClientTypes.PendingModifiedValues {
-
-    static func write(value: DocDBClientTypes.PendingModifiedValues?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["AllocatedStorage"].write(value.allocatedStorage)
-        try writer["BackupRetentionPeriod"].write(value.backupRetentionPeriod)
-        try writer["CACertificateIdentifier"].write(value.caCertificateIdentifier)
-        try writer["DBInstanceClass"].write(value.dbInstanceClass)
-        try writer["DBInstanceIdentifier"].write(value.dbInstanceIdentifier)
-        try writer["DBSubnetGroupName"].write(value.dbSubnetGroupName)
-        try writer["EngineVersion"].write(value.engineVersion)
-        try writer["Iops"].write(value.iops)
-        try writer["LicenseModel"].write(value.licenseModel)
-        try writer["MasterUserPassword"].write(value.masterUserPassword)
-        try writer["MultiAZ"].write(value.multiAZ)
-        try writer["PendingCloudwatchLogsExports"].write(value.pendingCloudwatchLogsExports, with: DocDBClientTypes.PendingCloudwatchLogsExports.write(value:to:))
-        try writer["Port"].write(value.port)
-        try writer["StorageType"].write(value.storageType)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> DocDBClientTypes.PendingModifiedValues {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8291,12 +7985,6 @@ public struct ResourceNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntim
 }
 
 extension DocDBClientTypes.ResourcePendingMaintenanceActions {
-
-    static func write(value: DocDBClientTypes.ResourcePendingMaintenanceActions?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["PendingMaintenanceActionDetails"].writeList(value.pendingMaintenanceActionDetails, memberWritingClosure: DocDBClientTypes.PendingMaintenanceAction.write(value:to:), memberNodeInfo: "PendingMaintenanceAction", isFlattened: false)
-        try writer["ResourceIdentifier"].write(value.resourceIdentifier)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> DocDBClientTypes.ResourcePendingMaintenanceActions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -9148,13 +8836,6 @@ public struct StorageTypeNotSupportedFault: ClientRuntime.ModeledError, AWSClien
 
 extension DocDBClientTypes.Subnet {
 
-    static func write(value: DocDBClientTypes.Subnet?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["SubnetAvailabilityZone"].write(value.subnetAvailabilityZone, with: DocDBClientTypes.AvailabilityZone.write(value:to:))
-        try writer["SubnetIdentifier"].write(value.subnetIdentifier)
-        try writer["SubnetStatus"].write(value.subnetStatus)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> DocDBClientTypes.Subnet {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DocDBClientTypes.Subnet()
@@ -9467,15 +9148,6 @@ extension DocDBClientTypes {
 
 extension DocDBClientTypes.UpgradeTarget {
 
-    static func write(value: DocDBClientTypes.UpgradeTarget?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["AutoUpgrade"].write(value.autoUpgrade)
-        try writer["Description"].write(value.description)
-        try writer["Engine"].write(value.engine)
-        try writer["EngineVersion"].write(value.engineVersion)
-        try writer["IsMajorVersionUpgrade"].write(value.isMajorVersionUpgrade)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> DocDBClientTypes.UpgradeTarget {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DocDBClientTypes.UpgradeTarget()
@@ -9521,12 +9193,6 @@ extension DocDBClientTypes {
 }
 
 extension DocDBClientTypes.VpcSecurityGroupMembership {
-
-    static func write(value: DocDBClientTypes.VpcSecurityGroupMembership?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Status"].write(value.status)
-        try writer["VpcSecurityGroupId"].write(value.vpcSecurityGroupId)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> DocDBClientTypes.VpcSecurityGroupMembership {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

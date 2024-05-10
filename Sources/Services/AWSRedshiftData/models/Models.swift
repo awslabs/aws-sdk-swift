@@ -295,23 +295,6 @@ enum CancelStatementOutputError {
 
 extension RedshiftDataClientTypes.ColumnMetadata {
 
-    static func write(value: RedshiftDataClientTypes.ColumnMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["columnDefault"].write(value.columnDefault)
-        try writer["isCaseSensitive"].write(value.isCaseSensitive)
-        try writer["isCurrency"].write(value.isCurrency)
-        try writer["isSigned"].write(value.isSigned)
-        try writer["label"].write(value.label)
-        try writer["length"].write(value.length)
-        try writer["name"].write(value.name)
-        try writer["nullable"].write(value.nullable)
-        try writer["precision"].write(value.precision)
-        try writer["scale"].write(value.scale)
-        try writer["schemaName"].write(value.schemaName)
-        try writer["tableName"].write(value.tableName)
-        try writer["typeName"].write(value.typeName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> RedshiftDataClientTypes.ColumnMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RedshiftDataClientTypes.ColumnMetadata()
@@ -920,26 +903,6 @@ enum ExecuteStatementOutputError {
 }
 
 extension RedshiftDataClientTypes.Field {
-
-    static func write(value: RedshiftDataClientTypes.Field?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .blobvalue(blobvalue):
-                try writer["blobValue"].write(blobvalue)
-            case let .booleanvalue(booleanvalue):
-                try writer["booleanValue"].write(booleanvalue)
-            case let .doublevalue(doublevalue):
-                try writer["doubleValue"].write(doublevalue)
-            case let .isnull(isnull):
-                try writer["isNull"].write(isnull)
-            case let .longvalue(longvalue):
-                try writer["longValue"].write(longvalue)
-            case let .stringvalue(stringvalue):
-                try writer["stringValue"].write(stringvalue)
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> RedshiftDataClientTypes.Field {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1639,20 +1602,6 @@ extension RedshiftDataClientTypes {
 
 extension RedshiftDataClientTypes.StatementData {
 
-    static func write(value: RedshiftDataClientTypes.StatementData?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["Id"].write(value.id)
-        try writer["IsBatchStatement"].write(value.isBatchStatement)
-        try writer["QueryParameters"].writeList(value.queryParameters, memberWritingClosure: RedshiftDataClientTypes.SqlParameter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["QueryString"].write(value.queryString)
-        try writer["QueryStrings"].writeList(value.queryStrings, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["SecretArn"].write(value.secretArn)
-        try writer["StatementName"].write(value.statementName)
-        try writer["Status"].write(value.status)
-        try writer["UpdatedAt"].writeTimestamp(value.updatedAt, format: .epochSeconds)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> RedshiftDataClientTypes.StatementData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RedshiftDataClientTypes.StatementData()
@@ -1812,21 +1761,6 @@ extension RedshiftDataClientTypes {
 
 extension RedshiftDataClientTypes.SubStatementData {
 
-    static func write(value: RedshiftDataClientTypes.SubStatementData?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["Duration"].write(value.duration)
-        try writer["Error"].write(value.error)
-        try writer["HasResultSet"].write(value.hasResultSet)
-        try writer["Id"].write(value.id)
-        try writer["QueryString"].write(value.queryString)
-        try writer["RedshiftQueryId"].write(value.redshiftQueryId)
-        try writer["ResultRows"].write(value.resultRows)
-        try writer["ResultSize"].write(value.resultSize)
-        try writer["Status"].write(value.status)
-        try writer["UpdatedAt"].writeTimestamp(value.updatedAt, format: .epochSeconds)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> RedshiftDataClientTypes.SubStatementData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RedshiftDataClientTypes.SubStatementData()
@@ -1903,13 +1837,6 @@ extension RedshiftDataClientTypes {
 }
 
 extension RedshiftDataClientTypes.TableMember {
-
-    static func write(value: RedshiftDataClientTypes.TableMember?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-        try writer["schema"].write(value.schema)
-        try writer["type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> RedshiftDataClientTypes.TableMember {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

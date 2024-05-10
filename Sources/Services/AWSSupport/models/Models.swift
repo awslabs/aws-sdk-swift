@@ -209,12 +209,6 @@ extension SupportClientTypes {
 
 extension SupportClientTypes.AttachmentDetails {
 
-    static func write(value: SupportClientTypes.AttachmentDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["attachmentId"].write(value.attachmentId)
-        try writer["fileName"].write(value.fileName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SupportClientTypes.AttachmentDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SupportClientTypes.AttachmentDetails()
@@ -474,22 +468,6 @@ public struct CaseCreationLimitExceeded: ClientRuntime.ModeledError, AWSClientRu
 
 extension SupportClientTypes.CaseDetails {
 
-    static func write(value: SupportClientTypes.CaseDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["caseId"].write(value.caseId)
-        try writer["categoryCode"].write(value.categoryCode)
-        try writer["ccEmailAddresses"].writeList(value.ccEmailAddresses, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["displayId"].write(value.displayId)
-        try writer["language"].write(value.language)
-        try writer["recentCommunications"].write(value.recentCommunications, with: SupportClientTypes.RecentCaseCommunications.write(value:to:))
-        try writer["serviceCode"].write(value.serviceCode)
-        try writer["severityCode"].write(value.severityCode)
-        try writer["status"].write(value.status)
-        try writer["subject"].write(value.subject)
-        try writer["submittedBy"].write(value.submittedBy)
-        try writer["timeCreated"].write(value.timeCreated)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SupportClientTypes.CaseDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SupportClientTypes.CaseDetails()
@@ -660,12 +638,6 @@ public struct CaseIdNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSSe
 
 extension SupportClientTypes.Category {
 
-    static func write(value: SupportClientTypes.Category?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["code"].write(value.code)
-        try writer["name"].write(value.name)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SupportClientTypes.Category {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SupportClientTypes.Category()
@@ -696,15 +668,6 @@ extension SupportClientTypes {
 }
 
 extension SupportClientTypes.Communication {
-
-    static func write(value: SupportClientTypes.Communication?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["attachmentSet"].writeList(value.attachmentSet, memberWritingClosure: SupportClientTypes.AttachmentDetails.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["body"].write(value.body)
-        try writer["caseId"].write(value.caseId)
-        try writer["submittedBy"].write(value.submittedBy)
-        try writer["timeCreated"].write(value.timeCreated)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SupportClientTypes.Communication {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -751,13 +714,6 @@ extension SupportClientTypes {
 }
 
 extension SupportClientTypes.CommunicationTypeOptions {
-
-    static func write(value: SupportClientTypes.CommunicationTypeOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["datesWithoutSupport"].writeList(value.datesWithoutSupport, memberWritingClosure: SupportClientTypes.DateInterval.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["supportedHours"].writeList(value.supportedHours, memberWritingClosure: SupportClientTypes.SupportedHour.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SupportClientTypes.CommunicationTypeOptions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -911,12 +867,6 @@ enum CreateCaseOutputError {
 }
 
 extension SupportClientTypes.DateInterval {
-
-    static func write(value: SupportClientTypes.DateInterval?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["endDateTime"].write(value.endDateTime)
-        try writer["startDateTime"].write(value.startDateTime)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SupportClientTypes.DateInterval {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1936,12 +1886,6 @@ public struct InternalServerError: ClientRuntime.ModeledError, AWSClientRuntime.
 
 extension SupportClientTypes.RecentCaseCommunications {
 
-    static func write(value: SupportClientTypes.RecentCaseCommunications?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["communications"].writeList(value.communications, memberWritingClosure: SupportClientTypes.Communication.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["nextToken"].write(value.nextToken)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SupportClientTypes.RecentCaseCommunications {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SupportClientTypes.RecentCaseCommunications()
@@ -2114,13 +2058,6 @@ enum ResolveCaseOutputError {
 
 extension SupportClientTypes.Service {
 
-    static func write(value: SupportClientTypes.Service?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["categories"].writeList(value.categories, memberWritingClosure: SupportClientTypes.Category.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["code"].write(value.code)
-        try writer["name"].write(value.name)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SupportClientTypes.Service {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SupportClientTypes.Service()
@@ -2156,12 +2093,6 @@ extension SupportClientTypes {
 }
 
 extension SupportClientTypes.SeverityLevel {
-
-    static func write(value: SupportClientTypes.SeverityLevel?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["code"].write(value.code)
-        try writer["name"].write(value.name)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SupportClientTypes.SeverityLevel {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2209,12 +2140,6 @@ public enum SupportClientTypes {}
 
 extension SupportClientTypes.SupportedHour {
 
-    static func write(value: SupportClientTypes.SupportedHour?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["endTime"].write(value.endTime)
-        try writer["startTime"].write(value.startTime)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SupportClientTypes.SupportedHour {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SupportClientTypes.SupportedHour()
@@ -2245,13 +2170,6 @@ extension SupportClientTypes {
 }
 
 extension SupportClientTypes.SupportedLanguage {
-
-    static func write(value: SupportClientTypes.SupportedLanguage?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["code"].write(value.code)
-        try writer["display"].write(value.display)
-        try writer["language"].write(value.language)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SupportClientTypes.SupportedLanguage {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2326,11 +2244,6 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
 extension SupportClientTypes.TrustedAdvisorCategorySpecificSummary {
 
-    static func write(value: SupportClientTypes.TrustedAdvisorCategorySpecificSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["costOptimizing"].write(value.costOptimizing, with: SupportClientTypes.TrustedAdvisorCostOptimizingSummary.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SupportClientTypes.TrustedAdvisorCategorySpecificSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SupportClientTypes.TrustedAdvisorCategorySpecificSummary()
@@ -2356,15 +2269,6 @@ extension SupportClientTypes {
 }
 
 extension SupportClientTypes.TrustedAdvisorCheckDescription {
-
-    static func write(value: SupportClientTypes.TrustedAdvisorCheckDescription?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["category"].write(value.category)
-        try writer["description"].write(value.description)
-        try writer["id"].write(value.id)
-        try writer["metadata"].writeList(value.metadata, memberWritingClosure: sparseFormOf(writingClosure: Swift.String.write(value:to:)), memberNodeInfo: "member", isFlattened: false)
-        try writer["name"].write(value.name)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SupportClientTypes.TrustedAdvisorCheckDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2417,13 +2321,6 @@ extension SupportClientTypes {
 
 extension SupportClientTypes.TrustedAdvisorCheckRefreshStatus {
 
-    static func write(value: SupportClientTypes.TrustedAdvisorCheckRefreshStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["checkId"].write(value.checkId)
-        try writer["millisUntilNextRefreshable"].write(value.millisUntilNextRefreshable)
-        try writer["status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SupportClientTypes.TrustedAdvisorCheckRefreshStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SupportClientTypes.TrustedAdvisorCheckRefreshStatus()
@@ -2472,16 +2369,6 @@ extension SupportClientTypes {
 }
 
 extension SupportClientTypes.TrustedAdvisorCheckResult {
-
-    static func write(value: SupportClientTypes.TrustedAdvisorCheckResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["categorySpecificSummary"].write(value.categorySpecificSummary, with: SupportClientTypes.TrustedAdvisorCategorySpecificSummary.write(value:to:))
-        try writer["checkId"].write(value.checkId)
-        try writer["flaggedResources"].writeList(value.flaggedResources, memberWritingClosure: SupportClientTypes.TrustedAdvisorResourceDetail.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["resourcesSummary"].write(value.resourcesSummary, with: SupportClientTypes.TrustedAdvisorResourcesSummary.write(value:to:))
-        try writer["status"].write(value.status)
-        try writer["timestamp"].write(value.timestamp)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SupportClientTypes.TrustedAdvisorCheckResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2540,16 +2427,6 @@ extension SupportClientTypes {
 
 extension SupportClientTypes.TrustedAdvisorCheckSummary {
 
-    static func write(value: SupportClientTypes.TrustedAdvisorCheckSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["categorySpecificSummary"].write(value.categorySpecificSummary, with: SupportClientTypes.TrustedAdvisorCategorySpecificSummary.write(value:to:))
-        try writer["checkId"].write(value.checkId)
-        try writer["hasFlaggedResources"].write(value.hasFlaggedResources)
-        try writer["resourcesSummary"].write(value.resourcesSummary, with: SupportClientTypes.TrustedAdvisorResourcesSummary.write(value:to:))
-        try writer["status"].write(value.status)
-        try writer["timestamp"].write(value.timestamp)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SupportClientTypes.TrustedAdvisorCheckSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SupportClientTypes.TrustedAdvisorCheckSummary()
@@ -2606,12 +2483,6 @@ extension SupportClientTypes {
 
 extension SupportClientTypes.TrustedAdvisorCostOptimizingSummary {
 
-    static func write(value: SupportClientTypes.TrustedAdvisorCostOptimizingSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["estimatedMonthlySavings"].write(value.estimatedMonthlySavings)
-        try writer["estimatedPercentMonthlySavings"].write(value.estimatedPercentMonthlySavings)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SupportClientTypes.TrustedAdvisorCostOptimizingSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SupportClientTypes.TrustedAdvisorCostOptimizingSummary()
@@ -2644,15 +2515,6 @@ extension SupportClientTypes {
 }
 
 extension SupportClientTypes.TrustedAdvisorResourceDetail {
-
-    static func write(value: SupportClientTypes.TrustedAdvisorResourceDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["isSuppressed"].write(value.isSuppressed)
-        try writer["metadata"].writeList(value.metadata, memberWritingClosure: sparseFormOf(writingClosure: Swift.String.write(value:to:)), memberNodeInfo: "member", isFlattened: false)
-        try writer["region"].write(value.region)
-        try writer["resourceId"].write(value.resourceId)
-        try writer["status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SupportClientTypes.TrustedAdvisorResourceDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2702,14 +2564,6 @@ extension SupportClientTypes {
 }
 
 extension SupportClientTypes.TrustedAdvisorResourcesSummary {
-
-    static func write(value: SupportClientTypes.TrustedAdvisorResourcesSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["resourcesFlagged"].write(value.resourcesFlagged)
-        try writer["resourcesIgnored"].write(value.resourcesIgnored)
-        try writer["resourcesProcessed"].write(value.resourcesProcessed)
-        try writer["resourcesSuppressed"].write(value.resourcesSuppressed)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SupportClientTypes.TrustedAdvisorResourcesSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

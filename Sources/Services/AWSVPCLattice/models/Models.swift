@@ -44,17 +44,6 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
 extension VPCLatticeClientTypes.AccessLogSubscriptionSummary {
 
-    static func write(value: VPCLatticeClientTypes.AccessLogSubscriptionSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .dateTime)
-        try writer["destinationArn"].write(value.destinationArn)
-        try writer["id"].write(value.id)
-        try writer["lastUpdatedAt"].writeTimestamp(value.lastUpdatedAt, format: .dateTime)
-        try writer["resourceArn"].write(value.resourceArn)
-        try writer["resourceId"].write(value.resourceId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> VPCLatticeClientTypes.AccessLogSubscriptionSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = VPCLatticeClientTypes.AccessLogSubscriptionSummary()
@@ -2037,12 +2026,6 @@ enum DeregisterTargetsOutputError {
 }
 
 extension VPCLatticeClientTypes.DnsEntry {
-
-    static func write(value: VPCLatticeClientTypes.DnsEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["domainName"].write(value.domainName)
-        try writer["hostedZoneId"].write(value.hostedZoneId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> VPCLatticeClientTypes.DnsEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4555,17 +4538,6 @@ extension VPCLatticeClientTypes {
 
 extension VPCLatticeClientTypes.ListenerSummary {
 
-    static func write(value: VPCLatticeClientTypes.ListenerSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .dateTime)
-        try writer["id"].write(value.id)
-        try writer["lastUpdatedAt"].writeTimestamp(value.lastUpdatedAt, format: .dateTime)
-        try writer["name"].write(value.name)
-        try writer["port"].write(value.port)
-        try writer["protocol"].write(value.`protocol`)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> VPCLatticeClientTypes.ListenerSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = VPCLatticeClientTypes.ListenerSummary()
@@ -5092,17 +5064,6 @@ extension VPCLatticeClientTypes {
 
 extension VPCLatticeClientTypes.RuleSummary {
 
-    static func write(value: VPCLatticeClientTypes.RuleSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .dateTime)
-        try writer["id"].write(value.id)
-        try writer["isDefault"].write(value.isDefault)
-        try writer["lastUpdatedAt"].writeTimestamp(value.lastUpdatedAt, format: .dateTime)
-        try writer["name"].write(value.name)
-        try writer["priority"].write(value.priority)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> VPCLatticeClientTypes.RuleSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = VPCLatticeClientTypes.RuleSummary()
@@ -5166,16 +5127,6 @@ extension VPCLatticeClientTypes.RuleUpdate {
         try writer["priority"].write(value.priority)
         try writer["ruleIdentifier"].write(value.ruleIdentifier)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> VPCLatticeClientTypes.RuleUpdate {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = VPCLatticeClientTypes.RuleUpdate()
-        value.ruleIdentifier = try reader["ruleIdentifier"].readIfPresent()
-        value.match = try reader["match"].readIfPresent(with: VPCLatticeClientTypes.RuleMatch.read(from:))
-        value.priority = try reader["priority"].readIfPresent()
-        value.action = try reader["action"].readIfPresent(with: VPCLatticeClientTypes.RuleAction.read(from:))
-        return value
-    }
 }
 
 extension VPCLatticeClientTypes {
@@ -5208,13 +5159,6 @@ extension VPCLatticeClientTypes {
 }
 
 extension VPCLatticeClientTypes.RuleUpdateFailure {
-
-    static func write(value: VPCLatticeClientTypes.RuleUpdateFailure?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["failureCode"].write(value.failureCode)
-        try writer["failureMessage"].write(value.failureMessage)
-        try writer["ruleIdentifier"].write(value.ruleIdentifier)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> VPCLatticeClientTypes.RuleUpdateFailure {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5251,17 +5195,6 @@ extension VPCLatticeClientTypes {
 }
 
 extension VPCLatticeClientTypes.RuleUpdateSuccess {
-
-    static func write(value: VPCLatticeClientTypes.RuleUpdateSuccess?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["action"].write(value.action, with: VPCLatticeClientTypes.RuleAction.write(value:to:))
-        try writer["arn"].write(value.arn)
-        try writer["id"].write(value.id)
-        try writer["isDefault"].write(value.isDefault)
-        try writer["match"].write(value.match, with: VPCLatticeClientTypes.RuleMatch.write(value:to:))
-        try writer["name"].write(value.name)
-        try writer["priority"].write(value.priority)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> VPCLatticeClientTypes.RuleUpdateSuccess {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5363,23 +5296,6 @@ extension VPCLatticeClientTypes {
 
 extension VPCLatticeClientTypes.ServiceNetworkServiceAssociationSummary {
 
-    static func write(value: VPCLatticeClientTypes.ServiceNetworkServiceAssociationSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .dateTime)
-        try writer["createdBy"].write(value.createdBy)
-        try writer["customDomainName"].write(value.customDomainName)
-        try writer["dnsEntry"].write(value.dnsEntry, with: VPCLatticeClientTypes.DnsEntry.write(value:to:))
-        try writer["id"].write(value.id)
-        try writer["serviceArn"].write(value.serviceArn)
-        try writer["serviceId"].write(value.serviceId)
-        try writer["serviceName"].write(value.serviceName)
-        try writer["serviceNetworkArn"].write(value.serviceNetworkArn)
-        try writer["serviceNetworkId"].write(value.serviceNetworkId)
-        try writer["serviceNetworkName"].write(value.serviceNetworkName)
-        try writer["status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> VPCLatticeClientTypes.ServiceNetworkServiceAssociationSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = VPCLatticeClientTypes.ServiceNetworkServiceAssociationSummary()
@@ -5465,17 +5381,6 @@ extension VPCLatticeClientTypes {
 }
 
 extension VPCLatticeClientTypes.ServiceNetworkSummary {
-
-    static func write(value: VPCLatticeClientTypes.ServiceNetworkSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .dateTime)
-        try writer["id"].write(value.id)
-        try writer["lastUpdatedAt"].writeTimestamp(value.lastUpdatedAt, format: .dateTime)
-        try writer["name"].write(value.name)
-        try writer["numberOfAssociatedServices"].write(value.numberOfAssociatedServices)
-        try writer["numberOfAssociatedVPCs"].write(value.numberOfAssociatedVPCs)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> VPCLatticeClientTypes.ServiceNetworkSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5584,20 +5489,6 @@ extension VPCLatticeClientTypes {
 }
 
 extension VPCLatticeClientTypes.ServiceNetworkVpcAssociationSummary {
-
-    static func write(value: VPCLatticeClientTypes.ServiceNetworkVpcAssociationSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .dateTime)
-        try writer["createdBy"].write(value.createdBy)
-        try writer["id"].write(value.id)
-        try writer["lastUpdatedAt"].writeTimestamp(value.lastUpdatedAt, format: .dateTime)
-        try writer["serviceNetworkArn"].write(value.serviceNetworkArn)
-        try writer["serviceNetworkId"].write(value.serviceNetworkId)
-        try writer["serviceNetworkName"].write(value.serviceNetworkName)
-        try writer["status"].write(value.status)
-        try writer["vpcId"].write(value.vpcId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> VPCLatticeClientTypes.ServiceNetworkVpcAssociationSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5775,18 +5666,6 @@ extension VPCLatticeClientTypes {
 
 extension VPCLatticeClientTypes.ServiceSummary {
 
-    static func write(value: VPCLatticeClientTypes.ServiceSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .dateTime)
-        try writer["customDomainName"].write(value.customDomainName)
-        try writer["dnsEntry"].write(value.dnsEntry, with: VPCLatticeClientTypes.DnsEntry.write(value:to:))
-        try writer["id"].write(value.id)
-        try writer["lastUpdatedAt"].writeTimestamp(value.lastUpdatedAt, format: .dateTime)
-        try writer["name"].write(value.name)
-        try writer["status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> VPCLatticeClientTypes.ServiceSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = VPCLatticeClientTypes.ServiceSummary()
@@ -5951,14 +5830,6 @@ extension VPCLatticeClientTypes {
 }
 
 extension VPCLatticeClientTypes.TargetFailure {
-
-    static func write(value: VPCLatticeClientTypes.TargetFailure?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["failureCode"].write(value.failureCode)
-        try writer["failureMessage"].write(value.failureMessage)
-        try writer["id"].write(value.id)
-        try writer["port"].write(value.port)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> VPCLatticeClientTypes.TargetFailure {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6180,23 +6051,6 @@ extension VPCLatticeClientTypes {
 
 extension VPCLatticeClientTypes.TargetGroupSummary {
 
-    static func write(value: VPCLatticeClientTypes.TargetGroupSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .dateTime)
-        try writer["id"].write(value.id)
-        try writer["ipAddressType"].write(value.ipAddressType)
-        try writer["lambdaEventStructureVersion"].write(value.lambdaEventStructureVersion)
-        try writer["lastUpdatedAt"].writeTimestamp(value.lastUpdatedAt, format: .dateTime)
-        try writer["name"].write(value.name)
-        try writer["port"].write(value.port)
-        try writer["protocol"].write(value.`protocol`)
-        try writer["serviceArns"].writeList(value.serviceArns, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["status"].write(value.status)
-        try writer["type"].write(value.type)
-        try writer["vpcIdentifier"].write(value.vpcIdentifier)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> VPCLatticeClientTypes.TargetGroupSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = VPCLatticeClientTypes.TargetGroupSummary()
@@ -6370,14 +6224,6 @@ extension VPCLatticeClientTypes {
 }
 
 extension VPCLatticeClientTypes.TargetSummary {
-
-    static func write(value: VPCLatticeClientTypes.TargetSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["id"].write(value.id)
-        try writer["port"].write(value.port)
-        try writer["reasonCode"].write(value.reasonCode)
-        try writer["status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> VPCLatticeClientTypes.TargetSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7384,12 +7230,6 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 extension VPCLatticeClientTypes.ValidationExceptionField {
-
-    static func write(value: VPCLatticeClientTypes.ValidationExceptionField?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.message)
-        try writer["name"].write(value.name)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> VPCLatticeClientTypes.ValidationExceptionField {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

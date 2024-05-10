@@ -100,17 +100,6 @@ extension QConnectClientTypes {
 
 extension QConnectClientTypes.AssistantAssociationData {
 
-    static func write(value: QConnectClientTypes.AssistantAssociationData?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["assistantArn"].write(value.assistantArn)
-        try writer["assistantAssociationArn"].write(value.assistantAssociationArn)
-        try writer["assistantAssociationId"].write(value.assistantAssociationId)
-        try writer["assistantId"].write(value.assistantId)
-        try writer["associationData"].write(value.associationData, with: QConnectClientTypes.AssistantAssociationOutputData.write(value:to:))
-        try writer["associationType"].write(value.associationType)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.AssistantAssociationData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QConnectClientTypes.AssistantAssociationData()
@@ -182,17 +171,6 @@ extension QConnectClientTypes.AssistantAssociationInputData {
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.AssistantAssociationInputData {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "knowledgeBaseId":
-                return .knowledgebaseid(try reader["knowledgeBaseId"].read())
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
 }
 
 extension QConnectClientTypes {
@@ -206,16 +184,6 @@ extension QConnectClientTypes {
 }
 
 extension QConnectClientTypes.AssistantAssociationOutputData {
-
-    static func write(value: QConnectClientTypes.AssistantAssociationOutputData?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .knowledgebaseassociation(knowledgebaseassociation):
-                try writer["knowledgeBaseAssociation"].write(knowledgebaseassociation, with: QConnectClientTypes.KnowledgeBaseAssociationData.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.AssistantAssociationOutputData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -240,17 +208,6 @@ extension QConnectClientTypes {
 }
 
 extension QConnectClientTypes.AssistantAssociationSummary {
-
-    static func write(value: QConnectClientTypes.AssistantAssociationSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["assistantArn"].write(value.assistantArn)
-        try writer["assistantAssociationArn"].write(value.assistantAssociationArn)
-        try writer["assistantAssociationId"].write(value.assistantAssociationId)
-        try writer["assistantId"].write(value.assistantId)
-        try writer["associationData"].write(value.associationData, with: QConnectClientTypes.AssistantAssociationOutputData.write(value:to:))
-        try writer["associationType"].write(value.associationType)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.AssistantAssociationSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -314,11 +271,6 @@ extension QConnectClientTypes {
 
 extension QConnectClientTypes.AssistantCapabilityConfiguration {
 
-    static func write(value: QConnectClientTypes.AssistantCapabilityConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.AssistantCapabilityConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QConnectClientTypes.AssistantCapabilityConfiguration()
@@ -374,20 +326,6 @@ extension QConnectClientTypes {
 }
 
 extension QConnectClientTypes.AssistantData {
-
-    static func write(value: QConnectClientTypes.AssistantData?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["assistantArn"].write(value.assistantArn)
-        try writer["assistantId"].write(value.assistantId)
-        try writer["capabilityConfiguration"].write(value.capabilityConfiguration, with: QConnectClientTypes.AssistantCapabilityConfiguration.write(value:to:))
-        try writer["description"].write(value.description)
-        try writer["integrationConfiguration"].write(value.integrationConfiguration, with: QConnectClientTypes.AssistantIntegrationConfiguration.write(value:to:))
-        try writer["name"].write(value.name)
-        try writer["serverSideEncryptionConfiguration"].write(value.serverSideEncryptionConfiguration, with: QConnectClientTypes.ServerSideEncryptionConfiguration.write(value:to:))
-        try writer["status"].write(value.status)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.AssistantData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -465,11 +403,6 @@ extension QConnectClientTypes {
 
 extension QConnectClientTypes.AssistantIntegrationConfiguration {
 
-    static func write(value: QConnectClientTypes.AssistantIntegrationConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["topicIntegrationArn"].write(value.topicIntegrationArn)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.AssistantIntegrationConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QConnectClientTypes.AssistantIntegrationConfiguration()
@@ -537,20 +470,6 @@ extension QConnectClientTypes {
 }
 
 extension QConnectClientTypes.AssistantSummary {
-
-    static func write(value: QConnectClientTypes.AssistantSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["assistantArn"].write(value.assistantArn)
-        try writer["assistantId"].write(value.assistantId)
-        try writer["capabilityConfiguration"].write(value.capabilityConfiguration, with: QConnectClientTypes.AssistantCapabilityConfiguration.write(value:to:))
-        try writer["description"].write(value.description)
-        try writer["integrationConfiguration"].write(value.integrationConfiguration, with: QConnectClientTypes.AssistantIntegrationConfiguration.write(value:to:))
-        try writer["name"].write(value.name)
-        try writer["serverSideEncryptionConfiguration"].write(value.serverSideEncryptionConfiguration, with: QConnectClientTypes.ServerSideEncryptionConfiguration.write(value:to:))
-        try writer["status"].write(value.status)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.AssistantSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -789,24 +708,6 @@ extension QConnectClientTypes.ContentData: Swift.CustomDebugStringConvertible {
 
 extension QConnectClientTypes.ContentData {
 
-    static func write(value: QConnectClientTypes.ContentData?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["contentArn"].write(value.contentArn)
-        try writer["contentId"].write(value.contentId)
-        try writer["contentType"].write(value.contentType)
-        try writer["knowledgeBaseArn"].write(value.knowledgeBaseArn)
-        try writer["knowledgeBaseId"].write(value.knowledgeBaseId)
-        try writer["linkOutUri"].write(value.linkOutUri)
-        try writer["metadata"].writeMap(value.metadata, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["name"].write(value.name)
-        try writer["revisionId"].write(value.revisionId)
-        try writer["status"].write(value.status)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["title"].write(value.title)
-        try writer["url"].write(value.url)
-        try writer["urlExpiry"].writeTimestamp(value.urlExpiry, format: .epochSeconds)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.ContentData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QConnectClientTypes.ContentData()
@@ -910,12 +811,6 @@ extension QConnectClientTypes {
 
 extension QConnectClientTypes.ContentDataDetails {
 
-    static func write(value: QConnectClientTypes.ContentDataDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["rankingData"].write(value.rankingData, with: QConnectClientTypes.RankingData.write(value:to:))
-        try writer["textData"].write(value.textData, with: QConnectClientTypes.TextData.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.ContentDataDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QConnectClientTypes.ContentDataDetails()
@@ -982,14 +877,6 @@ extension QConnectClientTypes {
 }
 
 extension QConnectClientTypes.ContentReference {
-
-    static func write(value: QConnectClientTypes.ContentReference?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["contentArn"].write(value.contentArn)
-        try writer["contentId"].write(value.contentId)
-        try writer["knowledgeBaseArn"].write(value.knowledgeBaseArn)
-        try writer["knowledgeBaseId"].write(value.knowledgeBaseId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.ContentReference {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1076,21 +963,6 @@ extension QConnectClientTypes {
 }
 
 extension QConnectClientTypes.ContentSummary {
-
-    static func write(value: QConnectClientTypes.ContentSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["contentArn"].write(value.contentArn)
-        try writer["contentId"].write(value.contentId)
-        try writer["contentType"].write(value.contentType)
-        try writer["knowledgeBaseArn"].write(value.knowledgeBaseArn)
-        try writer["knowledgeBaseId"].write(value.knowledgeBaseId)
-        try writer["metadata"].writeMap(value.metadata, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["name"].write(value.name)
-        try writer["revisionId"].write(value.revisionId)
-        try writer["status"].write(value.status)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["title"].write(value.title)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.ContentSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1811,20 +1683,6 @@ enum CreateSessionOutputError {
 
 extension QConnectClientTypes.DataDetails {
 
-    static func write(value: QConnectClientTypes.DataDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .contentdata(contentdata):
-                try writer["contentData"].write(contentdata, with: QConnectClientTypes.ContentDataDetails.write(value:to:))
-            case let .generativedata(generativedata):
-                try writer["generativeData"].write(generativedata, with: QConnectClientTypes.GenerativeDataDetails.write(value:to:))
-            case let .sourcecontentdata(sourcecontentdata):
-                try writer["sourceContentData"].write(sourcecontentdata, with: QConnectClientTypes.SourceContentDataDetails.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.DataDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
@@ -1857,18 +1715,6 @@ extension QConnectClientTypes {
 
 extension QConnectClientTypes.DataReference {
 
-    static func write(value: QConnectClientTypes.DataReference?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .contentreference(contentreference):
-                try writer["contentReference"].write(contentreference, with: QConnectClientTypes.ContentReference.write(value:to:))
-            case let .generativereference(generativereference):
-                try writer["generativeReference"].write(generativereference, with: QConnectClientTypes.GenerativeReference.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.DataReference {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
@@ -1896,12 +1742,6 @@ extension QConnectClientTypes {
 }
 
 extension QConnectClientTypes.DataSummary {
-
-    static func write(value: QConnectClientTypes.DataSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["details"].write(value.details, with: QConnectClientTypes.DataDetails.write(value:to:))
-        try writer["reference"].write(value.reference, with: QConnectClientTypes.DataReference.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.DataSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2276,13 +2116,6 @@ enum DeleteQuickResponseOutputError {
 
 extension QConnectClientTypes.Document {
 
-    static func write(value: QConnectClientTypes.Document?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["contentReference"].write(value.contentReference, with: QConnectClientTypes.ContentReference.write(value:to:))
-        try writer["excerpt"].write(value.excerpt, with: QConnectClientTypes.DocumentText.write(value:to:))
-        try writer["title"].write(value.title, with: QConnectClientTypes.DocumentText.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.Document {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QConnectClientTypes.Document()
@@ -2324,12 +2157,6 @@ extension QConnectClientTypes.DocumentText: Swift.CustomDebugStringConvertible {
 }
 
 extension QConnectClientTypes.DocumentText {
-
-    static func write(value: QConnectClientTypes.DocumentText?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["highlights"].writeList(value.highlights, memberWritingClosure: QConnectClientTypes.Highlight.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["text"].write(value.text)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.DocumentText {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2433,15 +2260,6 @@ extension QConnectClientTypes.Filter {
         try writer["field"].write(value.field)
         try writer["operator"].write(value.`operator`)
         try writer["value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.Filter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.Filter()
-        value.field = try reader["field"].readIfPresent()
-        value.`operator` = try reader["operator"].readIfPresent()
-        value.value = try reader["value"].readIfPresent()
-        return value
     }
 }
 
@@ -2565,13 +2383,6 @@ extension QConnectClientTypes.GenerativeDataDetails: Swift.CustomDebugStringConv
 
 extension QConnectClientTypes.GenerativeDataDetails {
 
-    static func write(value: QConnectClientTypes.GenerativeDataDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["completion"].write(value.completion)
-        try writer["rankingData"].write(value.rankingData, with: QConnectClientTypes.RankingData.write(value:to:))
-        try writer["references"].writeList(value.references, memberWritingClosure: QConnectClientTypes.DataSummary.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.GenerativeDataDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QConnectClientTypes.GenerativeDataDetails()
@@ -2610,12 +2421,6 @@ extension QConnectClientTypes {
 }
 
 extension QConnectClientTypes.GenerativeReference {
-
-    static func write(value: QConnectClientTypes.GenerativeReference?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["generationId"].write(value.generationId)
-        try writer["modelId"].write(value.modelId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.GenerativeReference {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3347,12 +3152,6 @@ extension QConnectClientTypes {
 
 extension QConnectClientTypes.Highlight {
 
-    static func write(value: QConnectClientTypes.Highlight?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["beginOffsetInclusive"].write(value.beginOffsetInclusive)
-        try writer["endOffsetExclusive"].write(value.endOffsetExclusive)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.Highlight {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QConnectClientTypes.Highlight()
@@ -3388,23 +3187,6 @@ extension QConnectClientTypes.ImportJobData: Swift.CustomDebugStringConvertible 
 }
 
 extension QConnectClientTypes.ImportJobData {
-
-    static func write(value: QConnectClientTypes.ImportJobData?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["createdTime"].writeTimestamp(value.createdTime, format: .epochSeconds)
-        try writer["externalSourceConfiguration"].write(value.externalSourceConfiguration, with: QConnectClientTypes.ExternalSourceConfiguration.write(value:to:))
-        try writer["failedRecordReport"].write(value.failedRecordReport)
-        try writer["importJobId"].write(value.importJobId)
-        try writer["importJobType"].write(value.importJobType)
-        try writer["knowledgeBaseArn"].write(value.knowledgeBaseArn)
-        try writer["knowledgeBaseId"].write(value.knowledgeBaseId)
-        try writer["lastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .epochSeconds)
-        try writer["metadata"].writeMap(value.metadata, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["status"].write(value.status)
-        try writer["uploadId"].write(value.uploadId)
-        try writer["url"].write(value.url)
-        try writer["urlExpiry"].writeTimestamp(value.urlExpiry, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.ImportJobData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3544,20 +3326,6 @@ extension QConnectClientTypes {
 
 extension QConnectClientTypes.ImportJobSummary {
 
-    static func write(value: QConnectClientTypes.ImportJobSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["createdTime"].writeTimestamp(value.createdTime, format: .epochSeconds)
-        try writer["externalSourceConfiguration"].write(value.externalSourceConfiguration, with: QConnectClientTypes.ExternalSourceConfiguration.write(value:to:))
-        try writer["importJobId"].write(value.importJobId)
-        try writer["importJobType"].write(value.importJobType)
-        try writer["knowledgeBaseArn"].write(value.knowledgeBaseArn)
-        try writer["knowledgeBaseId"].write(value.knowledgeBaseId)
-        try writer["lastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .epochSeconds)
-        try writer["metadata"].writeMap(value.metadata, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["status"].write(value.status)
-        try writer["uploadId"].write(value.uploadId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.ImportJobSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QConnectClientTypes.ImportJobSummary()
@@ -3664,12 +3432,6 @@ extension QConnectClientTypes {
 
 extension QConnectClientTypes.KnowledgeBaseAssociationData {
 
-    static func write(value: QConnectClientTypes.KnowledgeBaseAssociationData?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["knowledgeBaseArn"].write(value.knowledgeBaseArn)
-        try writer["knowledgeBaseId"].write(value.knowledgeBaseId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.KnowledgeBaseAssociationData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QConnectClientTypes.KnowledgeBaseAssociationData()
@@ -3700,21 +3462,6 @@ extension QConnectClientTypes {
 }
 
 extension QConnectClientTypes.KnowledgeBaseData {
-
-    static func write(value: QConnectClientTypes.KnowledgeBaseData?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["description"].write(value.description)
-        try writer["knowledgeBaseArn"].write(value.knowledgeBaseArn)
-        try writer["knowledgeBaseId"].write(value.knowledgeBaseId)
-        try writer["knowledgeBaseType"].write(value.knowledgeBaseType)
-        try writer["lastContentModificationTime"].writeTimestamp(value.lastContentModificationTime, format: .epochSeconds)
-        try writer["name"].write(value.name)
-        try writer["renderingConfiguration"].write(value.renderingConfiguration, with: QConnectClientTypes.RenderingConfiguration.write(value:to:))
-        try writer["serverSideEncryptionConfiguration"].write(value.serverSideEncryptionConfiguration, with: QConnectClientTypes.ServerSideEncryptionConfiguration.write(value:to:))
-        try writer["sourceConfiguration"].write(value.sourceConfiguration, with: QConnectClientTypes.SourceConfiguration.write(value:to:))
-        try writer["status"].write(value.status)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.KnowledgeBaseData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3838,20 +3585,6 @@ extension QConnectClientTypes {
 }
 
 extension QConnectClientTypes.KnowledgeBaseSummary {
-
-    static func write(value: QConnectClientTypes.KnowledgeBaseSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["description"].write(value.description)
-        try writer["knowledgeBaseArn"].write(value.knowledgeBaseArn)
-        try writer["knowledgeBaseId"].write(value.knowledgeBaseId)
-        try writer["knowledgeBaseType"].write(value.knowledgeBaseType)
-        try writer["name"].write(value.name)
-        try writer["renderingConfiguration"].write(value.renderingConfiguration, with: QConnectClientTypes.RenderingConfiguration.write(value:to:))
-        try writer["serverSideEncryptionConfiguration"].write(value.serverSideEncryptionConfiguration, with: QConnectClientTypes.ServerSideEncryptionConfiguration.write(value:to:))
-        try writer["sourceConfiguration"].write(value.sourceConfiguration, with: QConnectClientTypes.SourceConfiguration.write(value:to:))
-        try writer["status"].write(value.status)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.KnowledgeBaseSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4562,12 +4295,6 @@ enum ListTagsForResourceOutputError {
 
 extension QConnectClientTypes.NotifyRecommendationsReceivedError {
 
-    static func write(value: QConnectClientTypes.NotifyRecommendationsReceivedError?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.message)
-        try writer["recommendationId"].write(value.recommendationId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.NotifyRecommendationsReceivedError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QConnectClientTypes.NotifyRecommendationsReceivedError()
@@ -5060,17 +4787,6 @@ extension QConnectClientTypes.QueryCondition {
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.QueryCondition {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "single":
-                return .single(try reader["single"].read(with: QConnectClientTypes.QueryConditionItem.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
 }
 
 extension QConnectClientTypes {
@@ -5145,15 +4861,6 @@ extension QConnectClientTypes.QueryConditionItem {
         try writer["field"].write(value.field)
         try writer["value"].write(value.value)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.QueryConditionItem {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.QueryConditionItem()
-        value.field = try reader["field"].readIfPresent()
-        value.comparator = try reader["comparator"].readIfPresent()
-        value.value = try reader["value"].readIfPresent()
-        return value
-    }
 }
 
 extension QConnectClientTypes {
@@ -5189,11 +4896,6 @@ extension QConnectClientTypes.QueryRecommendationTriggerData: Swift.CustomDebugS
 }
 
 extension QConnectClientTypes.QueryRecommendationTriggerData {
-
-    static func write(value: QConnectClientTypes.QueryRecommendationTriggerData?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["text"].write(value.text)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.QueryRecommendationTriggerData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5251,16 +4953,6 @@ extension QConnectClientTypes {
 
 extension QConnectClientTypes.QuickResponseContentProvider {
 
-    static func write(value: QConnectClientTypes.QuickResponseContentProvider?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .content(content):
-                try writer["content"].write(content)
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.QuickResponseContentProvider {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
@@ -5284,12 +4976,6 @@ extension QConnectClientTypes {
 }
 
 extension QConnectClientTypes.QuickResponseContents {
-
-    static func write(value: QConnectClientTypes.QuickResponseContents?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["markdown"].write(value.markdown, with: QConnectClientTypes.QuickResponseContentProvider.write(value:to:))
-        try writer["plainText"].write(value.plainText, with: QConnectClientTypes.QuickResponseContentProvider.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.QuickResponseContents {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5321,28 +5007,6 @@ extension QConnectClientTypes {
 }
 
 extension QConnectClientTypes.QuickResponseData {
-
-    static func write(value: QConnectClientTypes.QuickResponseData?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["channels"].writeList(value.channels, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["contentType"].write(value.contentType)
-        try writer["contents"].write(value.contents, with: QConnectClientTypes.QuickResponseContents.write(value:to:))
-        try writer["createdTime"].writeTimestamp(value.createdTime, format: .epochSeconds)
-        try writer["description"].write(value.description)
-        try writer["groupingConfiguration"].write(value.groupingConfiguration, with: QConnectClientTypes.GroupingConfiguration.write(value:to:))
-        try writer["isActive"].write(value.isActive)
-        try writer["knowledgeBaseArn"].write(value.knowledgeBaseArn)
-        try writer["knowledgeBaseId"].write(value.knowledgeBaseId)
-        try writer["language"].write(value.language)
-        try writer["lastModifiedBy"].write(value.lastModifiedBy)
-        try writer["lastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .epochSeconds)
-        try writer["name"].write(value.name)
-        try writer["quickResponseArn"].write(value.quickResponseArn)
-        try writer["quickResponseId"].write(value.quickResponseId)
-        try writer["shortcutKey"].write(value.shortcutKey)
-        try writer["status"].write(value.status)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.QuickResponseData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5477,17 +5141,6 @@ extension QConnectClientTypes.QuickResponseDataProvider {
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.QuickResponseDataProvider {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "content":
-                return .content(try reader["content"].read())
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
 }
 
 extension QConnectClientTypes {
@@ -5508,16 +5161,6 @@ extension QConnectClientTypes.QuickResponseFilterField {
         try writer["name"].write(value.name)
         try writer["operator"].write(value.`operator`)
         try writer["values"].writeList(value.values, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.QuickResponseFilterField {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.QuickResponseFilterField()
-        value.name = try reader["name"].readIfPresent()
-        value.values = try reader["values"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.`operator` = try reader["operator"].readIfPresent()
-        value.includeNoExistence = try reader["includeNoExistence"].readIfPresent()
-        return value
     }
 }
 
@@ -5612,14 +5255,6 @@ extension QConnectClientTypes.QuickResponseOrderField {
         try writer["name"].write(value.name)
         try writer["order"].write(value.order)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.QuickResponseOrderField {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.QuickResponseOrderField()
-        value.name = try reader["name"].readIfPresent()
-        value.order = try reader["order"].readIfPresent()
-        return value
-    }
 }
 
 extension QConnectClientTypes {
@@ -5676,17 +5311,6 @@ extension QConnectClientTypes.QuickResponseQueryField {
         try writer["operator"].write(value.`operator`)
         try writer["priority"].write(value.priority)
         try writer["values"].writeList(value.values, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.QuickResponseQueryField {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.QuickResponseQueryField()
-        value.name = try reader["name"].readIfPresent()
-        value.values = try reader["values"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.`operator` = try reader["operator"].readIfPresent()
-        value.allowFuzziness = try reader["allowFuzziness"].readIfPresent()
-        value.priority = try reader["priority"].readIfPresent()
-        return value
     }
 }
 
@@ -5771,15 +5395,6 @@ extension QConnectClientTypes.QuickResponseSearchExpression {
         try writer["orderOnField"].write(value.orderOnField, with: QConnectClientTypes.QuickResponseOrderField.write(value:to:))
         try writer["queries"].writeList(value.queries, memberWritingClosure: QConnectClientTypes.QuickResponseQueryField.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.QuickResponseSearchExpression {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.QuickResponseSearchExpression()
-        value.queries = try reader["queries"].readListIfPresent(memberReadingClosure: QConnectClientTypes.QuickResponseQueryField.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.filters = try reader["filters"].readListIfPresent(memberReadingClosure: QConnectClientTypes.QuickResponseFilterField.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.orderOnField = try reader["orderOnField"].readIfPresent(with: QConnectClientTypes.QuickResponseOrderField.read(from:))
-        return value
-    }
 }
 
 extension QConnectClientTypes {
@@ -5812,30 +5427,6 @@ extension QConnectClientTypes.QuickResponseSearchResultData: Swift.CustomDebugSt
 }
 
 extension QConnectClientTypes.QuickResponseSearchResultData {
-
-    static func write(value: QConnectClientTypes.QuickResponseSearchResultData?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["attributesInterpolated"].writeList(value.attributesInterpolated, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["attributesNotInterpolated"].writeList(value.attributesNotInterpolated, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["channels"].writeList(value.channels, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["contentType"].write(value.contentType)
-        try writer["contents"].write(value.contents, with: QConnectClientTypes.QuickResponseContents.write(value:to:))
-        try writer["createdTime"].writeTimestamp(value.createdTime, format: .epochSeconds)
-        try writer["description"].write(value.description)
-        try writer["groupingConfiguration"].write(value.groupingConfiguration, with: QConnectClientTypes.GroupingConfiguration.write(value:to:))
-        try writer["isActive"].write(value.isActive)
-        try writer["knowledgeBaseArn"].write(value.knowledgeBaseArn)
-        try writer["knowledgeBaseId"].write(value.knowledgeBaseId)
-        try writer["language"].write(value.language)
-        try writer["lastModifiedBy"].write(value.lastModifiedBy)
-        try writer["lastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .epochSeconds)
-        try writer["name"].write(value.name)
-        try writer["quickResponseArn"].write(value.quickResponseArn)
-        try writer["quickResponseId"].write(value.quickResponseId)
-        try writer["shortcutKey"].write(value.shortcutKey)
-        try writer["status"].write(value.status)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.QuickResponseSearchResultData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6021,24 +5612,6 @@ extension QConnectClientTypes {
 
 extension QConnectClientTypes.QuickResponseSummary {
 
-    static func write(value: QConnectClientTypes.QuickResponseSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["channels"].writeList(value.channels, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["contentType"].write(value.contentType)
-        try writer["createdTime"].writeTimestamp(value.createdTime, format: .epochSeconds)
-        try writer["description"].write(value.description)
-        try writer["isActive"].write(value.isActive)
-        try writer["knowledgeBaseArn"].write(value.knowledgeBaseArn)
-        try writer["knowledgeBaseId"].write(value.knowledgeBaseId)
-        try writer["lastModifiedBy"].write(value.lastModifiedBy)
-        try writer["lastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .epochSeconds)
-        try writer["name"].write(value.name)
-        try writer["quickResponseArn"].write(value.quickResponseArn)
-        try writer["quickResponseId"].write(value.quickResponseId)
-        try writer["status"].write(value.status)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.QuickResponseSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QConnectClientTypes.QuickResponseSummary()
@@ -6143,12 +5716,6 @@ extension QConnectClientTypes {
 
 extension QConnectClientTypes.RankingData {
 
-    static func write(value: QConnectClientTypes.RankingData?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["relevanceLevel"].write(value.relevanceLevel)
-        try writer["relevanceScore"].write(value.relevanceScore)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.RankingData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QConnectClientTypes.RankingData()
@@ -6179,16 +5746,6 @@ extension QConnectClientTypes {
 }
 
 extension QConnectClientTypes.RecommendationData {
-
-    static func write(value: QConnectClientTypes.RecommendationData?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["data"].write(value.data, with: QConnectClientTypes.DataSummary.write(value:to:))
-        try writer["document"].write(value.document, with: QConnectClientTypes.Document.write(value:to:))
-        try writer["recommendationId"].write(value.recommendationId)
-        try writer["relevanceLevel"].write(value.relevanceLevel)
-        try writer["relevanceScore"].write(value.relevanceScore)
-        try writer["type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.RecommendationData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6275,15 +5832,6 @@ extension QConnectClientTypes {
 
 extension QConnectClientTypes.RecommendationTrigger {
 
-    static func write(value: QConnectClientTypes.RecommendationTrigger?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["data"].write(value.data, with: QConnectClientTypes.RecommendationTriggerData.write(value:to:))
-        try writer["id"].write(value.id)
-        try writer["recommendationIds"].writeList(value.recommendationIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["source"].write(value.source)
-        try writer["type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.RecommendationTrigger {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QConnectClientTypes.RecommendationTrigger()
@@ -6338,16 +5886,6 @@ extension QConnectClientTypes {
 }
 
 extension QConnectClientTypes.RecommendationTriggerData {
-
-    static func write(value: QConnectClientTypes.RecommendationTriggerData?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .query(query):
-                try writer["query"].write(query, with: QConnectClientTypes.QueryRecommendationTriggerData.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.RecommendationTriggerData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6669,15 +6207,6 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
 extension QConnectClientTypes.ResultData {
 
-    static func write(value: QConnectClientTypes.ResultData?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["data"].write(value.data, with: QConnectClientTypes.DataSummary.write(value:to:))
-        try writer["document"].write(value.document, with: QConnectClientTypes.Document.write(value:to:))
-        try writer["relevanceScore"].write(value.relevanceScore)
-        try writer["resultId"].write(value.resultId)
-        try writer["type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.ResultData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QConnectClientTypes.ResultData()
@@ -6834,13 +6363,6 @@ extension QConnectClientTypes.SearchExpression {
     static func write(value: QConnectClientTypes.SearchExpression?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["filters"].writeList(value.filters, memberWritingClosure: QConnectClientTypes.Filter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.SearchExpression {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.SearchExpression()
-        value.filters = try reader["filters"].readListIfPresent(memberReadingClosure: QConnectClientTypes.Filter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -7154,17 +6676,6 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
 extension QConnectClientTypes.SessionData {
 
-    static func write(value: QConnectClientTypes.SessionData?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["description"].write(value.description)
-        try writer["integrationConfiguration"].write(value.integrationConfiguration, with: QConnectClientTypes.SessionIntegrationConfiguration.write(value:to:))
-        try writer["name"].write(value.name)
-        try writer["sessionArn"].write(value.sessionArn)
-        try writer["sessionId"].write(value.sessionId)
-        try writer["tagFilter"].write(value.tagFilter, with: QConnectClientTypes.TagFilter.write(value:to:))
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.SessionData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QConnectClientTypes.SessionData()
@@ -7224,11 +6735,6 @@ extension QConnectClientTypes {
 
 extension QConnectClientTypes.SessionIntegrationConfiguration {
 
-    static func write(value: QConnectClientTypes.SessionIntegrationConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["topicIntegrationArn"].write(value.topicIntegrationArn)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.SessionIntegrationConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QConnectClientTypes.SessionIntegrationConfiguration()
@@ -7254,14 +6760,6 @@ extension QConnectClientTypes {
 }
 
 extension QConnectClientTypes.SessionSummary {
-
-    static func write(value: QConnectClientTypes.SessionSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["assistantArn"].write(value.assistantArn)
-        try writer["assistantId"].write(value.assistantId)
-        try writer["sessionArn"].write(value.sessionArn)
-        try writer["sessionId"].write(value.sessionId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.SessionSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7341,14 +6839,6 @@ extension QConnectClientTypes {
 }
 
 extension QConnectClientTypes.SourceContentDataDetails {
-
-    static func write(value: QConnectClientTypes.SourceContentDataDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["id"].write(value.id)
-        try writer["rankingData"].write(value.rankingData, with: QConnectClientTypes.RankingData.write(value:to:))
-        try writer["textData"].write(value.textData, with: QConnectClientTypes.TextData.write(value:to:))
-        try writer["type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.SourceContentDataDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7806,12 +7296,6 @@ extension QConnectClientTypes {
 }
 
 extension QConnectClientTypes.TextData {
-
-    static func write(value: QConnectClientTypes.TextData?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["excerpt"].write(value.excerpt, with: QConnectClientTypes.DocumentText.write(value:to:))
-        try writer["title"].write(value.title, with: QConnectClientTypes.DocumentText.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.TextData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

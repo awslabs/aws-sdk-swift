@@ -83,12 +83,6 @@ extension LookoutEquipmentClientTypes {
 
 extension LookoutEquipmentClientTypes.CategoricalValues {
 
-    static func write(value: LookoutEquipmentClientTypes.CategoricalValues?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["NumberOfCategory"].write(value.numberOfCategory)
-        try writer["Status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.CategoricalValues {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LookoutEquipmentClientTypes.CategoricalValues()
@@ -158,12 +152,6 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 }
 
 extension LookoutEquipmentClientTypes.CountPercent {
-
-    static func write(value: LookoutEquipmentClientTypes.CountPercent?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Count"].write(value.count)
-        try writer["Percentage"].write(value.percentage)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.CountPercent {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -905,15 +893,6 @@ enum CreateRetrainingSchedulerOutputError {
 
 extension LookoutEquipmentClientTypes.DataIngestionJobSummary {
 
-    static func write(value: LookoutEquipmentClientTypes.DataIngestionJobSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DatasetArn"].write(value.datasetArn)
-        try writer["DatasetName"].write(value.datasetName)
-        try writer["IngestionInputConfiguration"].write(value.ingestionInputConfiguration, with: LookoutEquipmentClientTypes.IngestionInputConfiguration.write(value:to:))
-        try writer["JobId"].write(value.jobId)
-        try writer["Status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.DataIngestionJobSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LookoutEquipmentClientTypes.DataIngestionJobSummary()
@@ -990,15 +969,6 @@ extension LookoutEquipmentClientTypes {
 }
 
 extension LookoutEquipmentClientTypes.DataQualitySummary {
-
-    static func write(value: LookoutEquipmentClientTypes.DataQualitySummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DuplicateTimestamps"].write(value.duplicateTimestamps, with: LookoutEquipmentClientTypes.DuplicateTimestamps.write(value:to:))
-        try writer["InsufficientSensorData"].write(value.insufficientSensorData, with: LookoutEquipmentClientTypes.InsufficientSensorData.write(value:to:))
-        try writer["InvalidSensorData"].write(value.invalidSensorData, with: LookoutEquipmentClientTypes.InvalidSensorData.write(value:to:))
-        try writer["MissingSensorData"].write(value.missingSensorData, with: LookoutEquipmentClientTypes.MissingSensorData.write(value:to:))
-        try writer["UnsupportedTimestamps"].write(value.unsupportedTimestamps, with: LookoutEquipmentClientTypes.UnsupportedTimestamps.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.DataQualitySummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1094,13 +1064,6 @@ extension LookoutEquipmentClientTypes.DatasetSchema {
         guard let value else { return }
         try writer["InlineDataSchema"].write(value.inlineDataSchema)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.DatasetSchema {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LookoutEquipmentClientTypes.DatasetSchema()
-        value.inlineDataSchema = try reader["InlineDataSchema"].readIfPresent()
-        return value
-    }
 }
 
 extension LookoutEquipmentClientTypes {
@@ -1156,14 +1119,6 @@ extension LookoutEquipmentClientTypes {
 }
 
 extension LookoutEquipmentClientTypes.DatasetSummary {
-
-    static func write(value: LookoutEquipmentClientTypes.DatasetSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["DatasetArn"].write(value.datasetArn)
-        try writer["DatasetName"].write(value.datasetName)
-        try writer["Status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.DatasetSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2957,11 +2912,6 @@ enum DescribeRetrainingSchedulerOutputError {
 
 extension LookoutEquipmentClientTypes.DuplicateTimestamps {
 
-    static func write(value: LookoutEquipmentClientTypes.DuplicateTimestamps?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["TotalNumberOfDuplicateTimestamps"].write(value.totalNumberOfDuplicateTimestamps)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.DuplicateTimestamps {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LookoutEquipmentClientTypes.DuplicateTimestamps()
@@ -3270,16 +3220,6 @@ extension LookoutEquipmentClientTypes {
 
 extension LookoutEquipmentClientTypes.InferenceEventSummary {
 
-    static func write(value: LookoutEquipmentClientTypes.InferenceEventSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Diagnostics"].write(value.diagnostics)
-        try writer["EventDurationInSeconds"].write(value.eventDurationInSeconds)
-        try writer["EventEndTime"].writeTimestamp(value.eventEndTime, format: .epochSeconds)
-        try writer["EventStartTime"].writeTimestamp(value.eventStartTime, format: .epochSeconds)
-        try writer["InferenceSchedulerArn"].write(value.inferenceSchedulerArn)
-        try writer["InferenceSchedulerName"].write(value.inferenceSchedulerName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.InferenceEventSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LookoutEquipmentClientTypes.InferenceEventSummary()
@@ -3363,24 +3303,6 @@ extension LookoutEquipmentClientTypes {
 }
 
 extension LookoutEquipmentClientTypes.InferenceExecutionSummary {
-
-    static func write(value: LookoutEquipmentClientTypes.InferenceExecutionSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CustomerResultObject"].write(value.customerResultObject, with: LookoutEquipmentClientTypes.S3Object.write(value:to:))
-        try writer["DataEndTime"].writeTimestamp(value.dataEndTime, format: .epochSeconds)
-        try writer["DataInputConfiguration"].write(value.dataInputConfiguration, with: LookoutEquipmentClientTypes.InferenceInputConfiguration.write(value:to:))
-        try writer["DataOutputConfiguration"].write(value.dataOutputConfiguration, with: LookoutEquipmentClientTypes.InferenceOutputConfiguration.write(value:to:))
-        try writer["DataStartTime"].writeTimestamp(value.dataStartTime, format: .epochSeconds)
-        try writer["FailedReason"].write(value.failedReason)
-        try writer["InferenceSchedulerArn"].write(value.inferenceSchedulerArn)
-        try writer["InferenceSchedulerName"].write(value.inferenceSchedulerName)
-        try writer["ModelArn"].write(value.modelArn)
-        try writer["ModelName"].write(value.modelName)
-        try writer["ModelVersion"].write(value.modelVersion)
-        try writer["ModelVersionArn"].write(value.modelVersionArn)
-        try writer["ScheduledStartTime"].writeTimestamp(value.scheduledStartTime, format: .epochSeconds)
-        try writer["Status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.InferenceExecutionSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3703,18 +3625,6 @@ extension LookoutEquipmentClientTypes {
 
 extension LookoutEquipmentClientTypes.InferenceSchedulerSummary {
 
-    static func write(value: LookoutEquipmentClientTypes.InferenceSchedulerSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DataDelayOffsetInMinutes"].write(value.dataDelayOffsetInMinutes)
-        try writer["DataUploadFrequency"].write(value.dataUploadFrequency)
-        try writer["InferenceSchedulerArn"].write(value.inferenceSchedulerArn)
-        try writer["InferenceSchedulerName"].write(value.inferenceSchedulerName)
-        try writer["LatestInferenceResult"].write(value.latestInferenceResult)
-        try writer["ModelArn"].write(value.modelArn)
-        try writer["ModelName"].write(value.modelName)
-        try writer["Status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.InferenceSchedulerSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LookoutEquipmentClientTypes.InferenceSchedulerSummary()
@@ -3775,13 +3685,6 @@ extension LookoutEquipmentClientTypes {
 }
 
 extension LookoutEquipmentClientTypes.IngestedFilesSummary {
-
-    static func write(value: LookoutEquipmentClientTypes.IngestedFilesSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DiscardedFiles"].writeList(value.discardedFiles, memberWritingClosure: LookoutEquipmentClientTypes.S3Object.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["IngestedNumberOfFiles"].write(value.ingestedNumberOfFiles)
-        try writer["TotalNumberOfFiles"].write(value.totalNumberOfFiles)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.IngestedFilesSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3933,12 +3836,6 @@ extension LookoutEquipmentClientTypes {
 
 extension LookoutEquipmentClientTypes.InsufficientSensorData {
 
-    static func write(value: LookoutEquipmentClientTypes.InsufficientSensorData?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MissingCompleteSensorData"].write(value.missingCompleteSensorData, with: LookoutEquipmentClientTypes.MissingCompleteSensorData.write(value:to:))
-        try writer["SensorsWithShortDateRange"].write(value.sensorsWithShortDateRange, with: LookoutEquipmentClientTypes.SensorsWithShortDateRange.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.InsufficientSensorData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LookoutEquipmentClientTypes.InsufficientSensorData()
@@ -4010,12 +3907,6 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
 extension LookoutEquipmentClientTypes.InvalidSensorData {
 
-    static func write(value: LookoutEquipmentClientTypes.InvalidSensorData?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AffectedSensorCount"].write(value.affectedSensorCount)
-        try writer["TotalNumberOfInvalidValues"].write(value.totalNumberOfInvalidValues)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.InvalidSensorData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LookoutEquipmentClientTypes.InvalidSensorData()
@@ -4048,14 +3939,6 @@ extension LookoutEquipmentClientTypes {
 }
 
 extension LookoutEquipmentClientTypes.LabelGroupSummary {
-
-    static func write(value: LookoutEquipmentClientTypes.LabelGroupSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["LabelGroupArn"].write(value.labelGroupArn)
-        try writer["LabelGroupName"].write(value.labelGroupName)
-        try writer["UpdatedAt"].writeTimestamp(value.updatedAt, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.LabelGroupSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4130,19 +4013,6 @@ extension LookoutEquipmentClientTypes {
 }
 
 extension LookoutEquipmentClientTypes.LabelSummary {
-
-    static func write(value: LookoutEquipmentClientTypes.LabelSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["EndTime"].writeTimestamp(value.endTime, format: .epochSeconds)
-        try writer["Equipment"].write(value.equipment)
-        try writer["FaultCode"].write(value.faultCode)
-        try writer["LabelGroupArn"].write(value.labelGroupArn)
-        try writer["LabelGroupName"].write(value.labelGroupName)
-        try writer["LabelId"].write(value.labelId)
-        try writer["Rating"].write(value.rating)
-        try writer["StartTime"].writeTimestamp(value.startTime, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.LabelSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4284,13 +4154,6 @@ extension LookoutEquipmentClientTypes {
 }
 
 extension LookoutEquipmentClientTypes.LargeTimestampGaps {
-
-    static func write(value: LookoutEquipmentClientTypes.LargeTimestampGaps?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MaxTimestampGapInDays"].write(value.maxTimestampGapInDays)
-        try writer["NumberOfLargeTimestampGaps"].write(value.numberOfLargeTimestampGaps)
-        try writer["Status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.LargeTimestampGaps {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5465,11 +5328,6 @@ public enum LookoutEquipmentClientTypes {}
 
 extension LookoutEquipmentClientTypes.MissingCompleteSensorData {
 
-    static func write(value: LookoutEquipmentClientTypes.MissingCompleteSensorData?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AffectedSensorCount"].write(value.affectedSensorCount)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.MissingCompleteSensorData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LookoutEquipmentClientTypes.MissingCompleteSensorData()
@@ -5496,12 +5354,6 @@ extension LookoutEquipmentClientTypes {
 }
 
 extension LookoutEquipmentClientTypes.MissingSensorData {
-
-    static func write(value: LookoutEquipmentClientTypes.MissingSensorData?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AffectedSensorCount"].write(value.affectedSensorCount)
-        try writer["TotalNumberOfMissingValues"].write(value.totalNumberOfMissingValues)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.MissingSensorData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5711,25 +5563,6 @@ extension LookoutEquipmentClientTypes {
 
 extension LookoutEquipmentClientTypes.ModelSummary {
 
-    static func write(value: LookoutEquipmentClientTypes.ModelSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ActiveModelVersion"].write(value.activeModelVersion)
-        try writer["ActiveModelVersionArn"].write(value.activeModelVersionArn)
-        try writer["CreatedAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["DatasetArn"].write(value.datasetArn)
-        try writer["DatasetName"].write(value.datasetName)
-        try writer["LatestScheduledRetrainingModelVersion"].write(value.latestScheduledRetrainingModelVersion)
-        try writer["LatestScheduledRetrainingStartTime"].writeTimestamp(value.latestScheduledRetrainingStartTime, format: .epochSeconds)
-        try writer["LatestScheduledRetrainingStatus"].write(value.latestScheduledRetrainingStatus)
-        try writer["ModelArn"].write(value.modelArn)
-        try writer["ModelDiagnosticsOutputConfiguration"].write(value.modelDiagnosticsOutputConfiguration, with: LookoutEquipmentClientTypes.ModelDiagnosticsOutputConfiguration.write(value:to:))
-        try writer["ModelName"].write(value.modelName)
-        try writer["ModelQuality"].write(value.modelQuality)
-        try writer["NextScheduledRetrainingStartDate"].writeTimestamp(value.nextScheduledRetrainingStartDate, format: .epochSeconds)
-        try writer["RetrainingSchedulerStatus"].write(value.retrainingSchedulerStatus)
-        try writer["Status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.ModelSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LookoutEquipmentClientTypes.ModelSummary()
@@ -5898,18 +5731,6 @@ extension LookoutEquipmentClientTypes {
 
 extension LookoutEquipmentClientTypes.ModelVersionSummary {
 
-    static func write(value: LookoutEquipmentClientTypes.ModelVersionSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["ModelArn"].write(value.modelArn)
-        try writer["ModelName"].write(value.modelName)
-        try writer["ModelQuality"].write(value.modelQuality)
-        try writer["ModelVersion"].write(value.modelVersion)
-        try writer["ModelVersionArn"].write(value.modelVersionArn)
-        try writer["SourceType"].write(value.sourceType)
-        try writer["Status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.ModelVersionSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LookoutEquipmentClientTypes.ModelVersionSummary()
@@ -5970,12 +5791,6 @@ extension LookoutEquipmentClientTypes {
 }
 
 extension LookoutEquipmentClientTypes.MonotonicValues {
-
-    static func write(value: LookoutEquipmentClientTypes.MonotonicValues?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Monotonicity"].write(value.monotonicity)
-        try writer["Status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.MonotonicValues {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6041,11 +5856,6 @@ extension LookoutEquipmentClientTypes {
 }
 
 extension LookoutEquipmentClientTypes.MultipleOperatingModes {
-
-    static func write(value: LookoutEquipmentClientTypes.MultipleOperatingModes?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.MultipleOperatingModes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6242,16 +6052,6 @@ extension LookoutEquipmentClientTypes {
 
 extension LookoutEquipmentClientTypes.RetrainingSchedulerSummary {
 
-    static func write(value: LookoutEquipmentClientTypes.RetrainingSchedulerSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["LookbackWindow"].write(value.lookbackWindow)
-        try writer["ModelArn"].write(value.modelArn)
-        try writer["ModelName"].write(value.modelName)
-        try writer["RetrainingFrequency"].write(value.retrainingFrequency)
-        try writer["RetrainingStartDate"].writeTimestamp(value.retrainingStartDate, format: .epochSeconds)
-        try writer["Status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.RetrainingSchedulerSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LookoutEquipmentClientTypes.RetrainingSchedulerSummary()
@@ -6303,12 +6103,6 @@ extension LookoutEquipmentClientTypes {
 
 extension LookoutEquipmentClientTypes.S3Object {
 
-    static func write(value: LookoutEquipmentClientTypes.S3Object?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Bucket"].write(value.bucket)
-        try writer["Key"].write(value.key)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.S3Object {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LookoutEquipmentClientTypes.S3Object()
@@ -6341,23 +6135,6 @@ extension LookoutEquipmentClientTypes {
 }
 
 extension LookoutEquipmentClientTypes.SensorStatisticsSummary {
-
-    static func write(value: LookoutEquipmentClientTypes.SensorStatisticsSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CategoricalValues"].write(value.categoricalValues, with: LookoutEquipmentClientTypes.CategoricalValues.write(value:to:))
-        try writer["ComponentName"].write(value.componentName)
-        try writer["DataEndTime"].writeTimestamp(value.dataEndTime, format: .epochSeconds)
-        try writer["DataExists"].write(value.dataExists)
-        try writer["DataStartTime"].writeTimestamp(value.dataStartTime, format: .epochSeconds)
-        try writer["DuplicateTimestamps"].write(value.duplicateTimestamps, with: LookoutEquipmentClientTypes.CountPercent.write(value:to:))
-        try writer["InvalidDateEntries"].write(value.invalidDateEntries, with: LookoutEquipmentClientTypes.CountPercent.write(value:to:))
-        try writer["InvalidValues"].write(value.invalidValues, with: LookoutEquipmentClientTypes.CountPercent.write(value:to:))
-        try writer["LargeTimestampGaps"].write(value.largeTimestampGaps, with: LookoutEquipmentClientTypes.LargeTimestampGaps.write(value:to:))
-        try writer["MissingValues"].write(value.missingValues, with: LookoutEquipmentClientTypes.CountPercent.write(value:to:))
-        try writer["MonotonicValues"].write(value.monotonicValues, with: LookoutEquipmentClientTypes.MonotonicValues.write(value:to:))
-        try writer["MultipleOperatingModes"].write(value.multipleOperatingModes, with: LookoutEquipmentClientTypes.MultipleOperatingModes.write(value:to:))
-        try writer["SensorName"].write(value.sensorName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.SensorStatisticsSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6444,11 +6221,6 @@ extension LookoutEquipmentClientTypes {
 }
 
 extension LookoutEquipmentClientTypes.SensorsWithShortDateRange {
-
-    static func write(value: LookoutEquipmentClientTypes.SensorsWithShortDateRange?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AffectedSensorCount"].write(value.affectedSensorCount)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.SensorsWithShortDateRange {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7182,11 +6954,6 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 extension LookoutEquipmentClientTypes.UnsupportedTimestamps {
-
-    static func write(value: LookoutEquipmentClientTypes.UnsupportedTimestamps?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["TotalNumberOfUnsupportedTimestamps"].write(value.totalNumberOfUnsupportedTimestamps)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.UnsupportedTimestamps {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

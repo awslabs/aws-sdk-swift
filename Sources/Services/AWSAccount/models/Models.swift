@@ -51,15 +51,6 @@ extension AccountClientTypes.AlternateContact: Swift.CustomDebugStringConvertibl
 
 extension AccountClientTypes.AlternateContact {
 
-    static func write(value: AccountClientTypes.AlternateContact?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AlternateContactType"].write(value.alternateContactType)
-        try writer["EmailAddress"].write(value.emailAddress)
-        try writer["Name"].write(value.name)
-        try writer["PhoneNumber"].write(value.phoneNumber)
-        try writer["Title"].write(value.title)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AccountClientTypes.AlternateContact {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AccountClientTypes.AlternateContact()
@@ -976,12 +967,6 @@ enum PutContactInformationOutputError {
 
 extension AccountClientTypes.Region {
 
-    static func write(value: AccountClientTypes.Region?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["RegionName"].write(value.regionName)
-        try writer["RegionOptStatus"].write(value.regionOptStatus)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AccountClientTypes.Region {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AccountClientTypes.Region()
@@ -1186,12 +1171,6 @@ extension AccountClientTypes.ValidationExceptionField: Swift.CustomDebugStringCo
 }
 
 extension AccountClientTypes.ValidationExceptionField {
-
-    static func write(value: AccountClientTypes.ValidationExceptionField?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.message)
-        try writer["name"].write(value.name)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AccountClientTypes.ValidationExceptionField {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

@@ -118,12 +118,6 @@ enum CancelJobRunOutputError {
 
 extension EMRcontainersClientTypes.Certificate {
 
-    static func write(value: EMRcontainersClientTypes.Certificate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["certificateArn"].write(value.certificateArn)
-        try writer["certificateData"].write(value.certificateData)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> EMRcontainersClientTypes.Certificate {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EMRcontainersClientTypes.Certificate()
@@ -882,16 +876,6 @@ enum CreateVirtualClusterOutputError {
 
 extension EMRcontainersClientTypes.Credentials {
 
-    static func write(value: EMRcontainersClientTypes.Credentials?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .token(token):
-                try writer["token"].write(token)
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> EMRcontainersClientTypes.Credentials {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
@@ -1547,28 +1531,6 @@ extension EMRcontainersClientTypes {
 
 extension EMRcontainersClientTypes.Endpoint {
 
-    static func write(value: EMRcontainersClientTypes.Endpoint?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["certificateArn"].write(value.certificateArn)
-        try writer["certificateAuthority"].write(value.certificateAuthority, with: EMRcontainersClientTypes.Certificate.write(value:to:))
-        try writer["configurationOverrides"].write(value.configurationOverrides, with: EMRcontainersClientTypes.ConfigurationOverrides.write(value:to:))
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .dateTime)
-        try writer["executionRoleArn"].write(value.executionRoleArn)
-        try writer["failureReason"].write(value.failureReason)
-        try writer["id"].write(value.id)
-        try writer["name"].write(value.name)
-        try writer["releaseLabel"].write(value.releaseLabel)
-        try writer["securityGroup"].write(value.securityGroup)
-        try writer["serverUrl"].write(value.serverUrl)
-        try writer["state"].write(value.state)
-        try writer["stateDetails"].write(value.stateDetails)
-        try writer["subnetIds"].writeList(value.subnetIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["type"].write(value.type)
-        try writer["virtualClusterId"].write(value.virtualClusterId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> EMRcontainersClientTypes.Endpoint {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EMRcontainersClientTypes.Endpoint()
@@ -1977,28 +1939,6 @@ extension EMRcontainersClientTypes {
 
 extension EMRcontainersClientTypes.JobRun {
 
-    static func write(value: EMRcontainersClientTypes.JobRun?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["clientToken"].write(value.clientToken)
-        try writer["configurationOverrides"].write(value.configurationOverrides, with: EMRcontainersClientTypes.ConfigurationOverrides.write(value:to:))
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .dateTime)
-        try writer["createdBy"].write(value.createdBy)
-        try writer["executionRoleArn"].write(value.executionRoleArn)
-        try writer["failureReason"].write(value.failureReason)
-        try writer["finishedAt"].writeTimestamp(value.finishedAt, format: .dateTime)
-        try writer["id"].write(value.id)
-        try writer["jobDriver"].write(value.jobDriver, with: EMRcontainersClientTypes.JobDriver.write(value:to:))
-        try writer["name"].write(value.name)
-        try writer["releaseLabel"].write(value.releaseLabel)
-        try writer["retryPolicyConfiguration"].write(value.retryPolicyConfiguration, with: EMRcontainersClientTypes.RetryPolicyConfiguration.write(value:to:))
-        try writer["retryPolicyExecution"].write(value.retryPolicyExecution, with: EMRcontainersClientTypes.RetryPolicyExecution.write(value:to:))
-        try writer["state"].write(value.state)
-        try writer["stateDetails"].write(value.stateDetails)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["virtualClusterId"].write(value.virtualClusterId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> EMRcontainersClientTypes.JobRun {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EMRcontainersClientTypes.JobRun()
@@ -2154,19 +2094,6 @@ extension EMRcontainersClientTypes {
 }
 
 extension EMRcontainersClientTypes.JobTemplate {
-
-    static func write(value: EMRcontainersClientTypes.JobTemplate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .dateTime)
-        try writer["createdBy"].write(value.createdBy)
-        try writer["decryptionError"].write(value.decryptionError)
-        try writer["id"].write(value.id)
-        try writer["jobTemplateData"].write(value.jobTemplateData, with: EMRcontainersClientTypes.JobTemplateData.write(value:to:))
-        try writer["kmsKeyArn"].write(value.kmsKeyArn)
-        try writer["name"].write(value.name)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> EMRcontainersClientTypes.JobTemplate {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3321,11 +3248,6 @@ extension EMRcontainersClientTypes {
 
 extension EMRcontainersClientTypes.RetryPolicyExecution {
 
-    static func write(value: EMRcontainersClientTypes.RetryPolicyExecution?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["currentAttemptCount"].write(value.currentAttemptCount)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> EMRcontainersClientTypes.RetryPolicyExecution {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EMRcontainersClientTypes.RetryPolicyExecution()
@@ -3421,17 +3343,6 @@ extension EMRcontainersClientTypes {
 }
 
 extension EMRcontainersClientTypes.SecurityConfiguration {
-
-    static func write(value: EMRcontainersClientTypes.SecurityConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .dateTime)
-        try writer["createdBy"].write(value.createdBy)
-        try writer["id"].write(value.id)
-        try writer["name"].write(value.name)
-        try writer["securityConfigurationData"].write(value.securityConfigurationData, with: EMRcontainersClientTypes.SecurityConfigurationData.write(value:to:))
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> EMRcontainersClientTypes.SecurityConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4029,18 +3940,6 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 extension EMRcontainersClientTypes.VirtualCluster {
-
-    static func write(value: EMRcontainersClientTypes.VirtualCluster?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["containerProvider"].write(value.containerProvider, with: EMRcontainersClientTypes.ContainerProvider.write(value:to:))
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .dateTime)
-        try writer["id"].write(value.id)
-        try writer["name"].write(value.name)
-        try writer["securityConfigurationId"].write(value.securityConfigurationId)
-        try writer["state"].write(value.state)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> EMRcontainersClientTypes.VirtualCluster {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

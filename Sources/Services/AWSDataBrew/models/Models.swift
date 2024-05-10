@@ -1483,23 +1483,6 @@ extension DataBrewClientTypes {
 
 extension DataBrewClientTypes.Dataset {
 
-    static func write(value: DataBrewClientTypes.Dataset?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccountId"].write(value.accountId)
-        try writer["CreateDate"].writeTimestamp(value.createDate, format: .epochSeconds)
-        try writer["CreatedBy"].write(value.createdBy)
-        try writer["Format"].write(value.format)
-        try writer["FormatOptions"].write(value.formatOptions, with: DataBrewClientTypes.FormatOptions.write(value:to:))
-        try writer["Input"].write(value.input, with: DataBrewClientTypes.Input.write(value:to:))
-        try writer["LastModifiedBy"].write(value.lastModifiedBy)
-        try writer["LastModifiedDate"].writeTimestamp(value.lastModifiedDate, format: .epochSeconds)
-        try writer["Name"].write(value.name)
-        try writer["PathOptions"].write(value.pathOptions, with: DataBrewClientTypes.PathOptions.write(value:to:))
-        try writer["ResourceArn"].write(value.resourceArn)
-        try writer["Source"].write(value.source)
-        try writer["Tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DataBrewClientTypes.Dataset {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataBrewClientTypes.Dataset()
@@ -3439,34 +3422,6 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
 extension DataBrewClientTypes.Job {
 
-    static func write(value: DataBrewClientTypes.Job?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccountId"].write(value.accountId)
-        try writer["CreateDate"].writeTimestamp(value.createDate, format: .epochSeconds)
-        try writer["CreatedBy"].write(value.createdBy)
-        try writer["DataCatalogOutputs"].writeList(value.dataCatalogOutputs, memberWritingClosure: DataBrewClientTypes.DataCatalogOutput.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["DatabaseOutputs"].writeList(value.databaseOutputs, memberWritingClosure: DataBrewClientTypes.DatabaseOutput.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["DatasetName"].write(value.datasetName)
-        try writer["EncryptionKeyArn"].write(value.encryptionKeyArn)
-        try writer["EncryptionMode"].write(value.encryptionMode)
-        try writer["JobSample"].write(value.jobSample, with: DataBrewClientTypes.JobSample.write(value:to:))
-        try writer["LastModifiedBy"].write(value.lastModifiedBy)
-        try writer["LastModifiedDate"].writeTimestamp(value.lastModifiedDate, format: .epochSeconds)
-        try writer["LogSubscription"].write(value.logSubscription)
-        try writer["MaxCapacity"].write(value.maxCapacity)
-        try writer["MaxRetries"].write(value.maxRetries)
-        try writer["Name"].write(value.name)
-        try writer["Outputs"].writeList(value.outputs, memberWritingClosure: DataBrewClientTypes.Output.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ProjectName"].write(value.projectName)
-        try writer["RecipeReference"].write(value.recipeReference, with: DataBrewClientTypes.RecipeReference.write(value:to:))
-        try writer["ResourceArn"].write(value.resourceArn)
-        try writer["RoleArn"].write(value.roleArn)
-        try writer["Tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["Timeout"].write(value.timeout)
-        try writer["Type"].write(value.type)
-        try writer["ValidationConfigurations"].writeList(value.validationConfigurations, memberWritingClosure: DataBrewClientTypes.ValidationConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DataBrewClientTypes.Job {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataBrewClientTypes.Job()
@@ -3616,28 +3571,6 @@ extension DataBrewClientTypes {
 }
 
 extension DataBrewClientTypes.JobRun {
-
-    static func write(value: DataBrewClientTypes.JobRun?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Attempt"].write(value.attempt)
-        try writer["CompletedOn"].writeTimestamp(value.completedOn, format: .epochSeconds)
-        try writer["DataCatalogOutputs"].writeList(value.dataCatalogOutputs, memberWritingClosure: DataBrewClientTypes.DataCatalogOutput.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["DatabaseOutputs"].writeList(value.databaseOutputs, memberWritingClosure: DataBrewClientTypes.DatabaseOutput.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["DatasetName"].write(value.datasetName)
-        try writer["ErrorMessage"].write(value.errorMessage)
-        try writer["ExecutionTime"].write(value.executionTime)
-        try writer["JobName"].write(value.jobName)
-        try writer["JobSample"].write(value.jobSample, with: DataBrewClientTypes.JobSample.write(value:to:))
-        try writer["LogGroupName"].write(value.logGroupName)
-        try writer["LogSubscription"].write(value.logSubscription)
-        try writer["Outputs"].writeList(value.outputs, memberWritingClosure: DataBrewClientTypes.Output.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["RecipeReference"].write(value.recipeReference, with: DataBrewClientTypes.RecipeReference.write(value:to:))
-        try writer["RunId"].write(value.runId)
-        try writer["StartedBy"].write(value.startedBy)
-        try writer["StartedOn"].writeTimestamp(value.startedOn, format: .epochSeconds)
-        try writer["State"].write(value.state)
-        try writer["ValidationConfigurations"].writeList(value.validationConfigurations, memberWritingClosure: DataBrewClientTypes.ValidationConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DataBrewClientTypes.JobRun {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5075,24 +5008,6 @@ extension DataBrewClientTypes {
 
 extension DataBrewClientTypes.Project {
 
-    static func write(value: DataBrewClientTypes.Project?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccountId"].write(value.accountId)
-        try writer["CreateDate"].writeTimestamp(value.createDate, format: .epochSeconds)
-        try writer["CreatedBy"].write(value.createdBy)
-        try writer["DatasetName"].write(value.datasetName)
-        try writer["LastModifiedBy"].write(value.lastModifiedBy)
-        try writer["LastModifiedDate"].writeTimestamp(value.lastModifiedDate, format: .epochSeconds)
-        try writer["Name"].write(value.name)
-        try writer["OpenDate"].writeTimestamp(value.openDate, format: .epochSeconds)
-        try writer["OpenedBy"].write(value.openedBy)
-        try writer["RecipeName"].write(value.recipeName)
-        try writer["ResourceArn"].write(value.resourceArn)
-        try writer["RoleArn"].write(value.roleArn)
-        try writer["Sample"].write(value.sample, with: DataBrewClientTypes.Sample.write(value:to:))
-        try writer["Tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DataBrewClientTypes.Project {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataBrewClientTypes.Project()
@@ -5261,23 +5176,6 @@ enum PublishRecipeOutputError {
 }
 
 extension DataBrewClientTypes.Recipe {
-
-    static func write(value: DataBrewClientTypes.Recipe?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreateDate"].writeTimestamp(value.createDate, format: .epochSeconds)
-        try writer["CreatedBy"].write(value.createdBy)
-        try writer["Description"].write(value.description)
-        try writer["LastModifiedBy"].write(value.lastModifiedBy)
-        try writer["LastModifiedDate"].writeTimestamp(value.lastModifiedDate, format: .epochSeconds)
-        try writer["Name"].write(value.name)
-        try writer["ProjectName"].write(value.projectName)
-        try writer["PublishedBy"].write(value.publishedBy)
-        try writer["PublishedDate"].writeTimestamp(value.publishedDate, format: .epochSeconds)
-        try writer["RecipeVersion"].write(value.recipeVersion)
-        try writer["ResourceArn"].write(value.resourceArn)
-        try writer["Steps"].writeList(value.steps, memberWritingClosure: DataBrewClientTypes.RecipeStep.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DataBrewClientTypes.Recipe {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5486,13 +5384,6 @@ extension DataBrewClientTypes {
 
 extension DataBrewClientTypes.RecipeVersionErrorDetail {
 
-    static func write(value: DataBrewClientTypes.RecipeVersionErrorDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ErrorCode"].write(value.errorCode)
-        try writer["ErrorMessage"].write(value.errorMessage)
-        try writer["RecipeVersion"].write(value.recipeVersion)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DataBrewClientTypes.RecipeVersionErrorDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataBrewClientTypes.RecipeVersionErrorDetail()
@@ -5628,21 +5519,6 @@ extension DataBrewClientTypes {
 }
 
 extension DataBrewClientTypes.RulesetItem {
-
-    static func write(value: DataBrewClientTypes.RulesetItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccountId"].write(value.accountId)
-        try writer["CreateDate"].writeTimestamp(value.createDate, format: .epochSeconds)
-        try writer["CreatedBy"].write(value.createdBy)
-        try writer["Description"].write(value.description)
-        try writer["LastModifiedBy"].write(value.lastModifiedBy)
-        try writer["LastModifiedDate"].writeTimestamp(value.lastModifiedDate, format: .epochSeconds)
-        try writer["Name"].write(value.name)
-        try writer["ResourceArn"].write(value.resourceArn)
-        try writer["RuleCount"].write(value.ruleCount)
-        try writer["Tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["TargetArn"].write(value.targetArn)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DataBrewClientTypes.RulesetItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5898,20 +5774,6 @@ extension DataBrewClientTypes {
 }
 
 extension DataBrewClientTypes.Schedule {
-
-    static func write(value: DataBrewClientTypes.Schedule?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccountId"].write(value.accountId)
-        try writer["CreateDate"].writeTimestamp(value.createDate, format: .epochSeconds)
-        try writer["CreatedBy"].write(value.createdBy)
-        try writer["CronExpression"].write(value.cronExpression)
-        try writer["JobNames"].writeList(value.jobNames, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["LastModifiedBy"].write(value.lastModifiedBy)
-        try writer["LastModifiedDate"].writeTimestamp(value.lastModifiedDate, format: .epochSeconds)
-        try writer["Name"].write(value.name)
-        try writer["ResourceArn"].write(value.resourceArn)
-        try writer["Tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DataBrewClientTypes.Schedule {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7554,18 +7416,6 @@ extension DataBrewClientTypes.ViewFrame {
         try writer["RowRange"].write(value.rowRange)
         try writer["StartColumnIndex"].write(value.startColumnIndex)
         try writer["StartRowIndex"].write(value.startRowIndex)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataBrewClientTypes.ViewFrame {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataBrewClientTypes.ViewFrame()
-        value.startColumnIndex = try reader["StartColumnIndex"].readIfPresent()
-        value.columnRange = try reader["ColumnRange"].readIfPresent()
-        value.hiddenColumns = try reader["HiddenColumns"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.startRowIndex = try reader["StartRowIndex"].readIfPresent()
-        value.rowRange = try reader["RowRange"].readIfPresent()
-        value.analytics = try reader["Analytics"].readIfPresent()
-        return value
     }
 }
 

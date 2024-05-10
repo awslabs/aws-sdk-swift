@@ -199,12 +199,6 @@ extension ElasticLoadBalancingClientTypes {
 
 extension ElasticLoadBalancingClientTypes.AppCookieStickinessPolicy {
 
-    static func write(value: ElasticLoadBalancingClientTypes.AppCookieStickinessPolicy?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["CookieName"].write(value.cookieName)
-        try writer["PolicyName"].write(value.policyName)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingClientTypes.AppCookieStickinessPolicy {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ElasticLoadBalancingClientTypes.AppCookieStickinessPolicy()
@@ -392,12 +386,6 @@ enum AttachLoadBalancerToSubnetsOutputError {
 }
 
 extension ElasticLoadBalancingClientTypes.BackendServerDescription {
-
-    static func write(value: ElasticLoadBalancingClientTypes.BackendServerDescription?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["InstancePort"].write(value.instancePort)
-        try writer["PolicyNames"].writeList(value.policyNames, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingClientTypes.BackendServerDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2342,14 +2330,6 @@ extension ElasticLoadBalancingClientTypes {
 
 extension ElasticLoadBalancingClientTypes.InstanceState {
 
-    static func write(value: ElasticLoadBalancingClientTypes.InstanceState?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Description"].write(value.description)
-        try writer["InstanceId"].write(value.instanceId)
-        try writer["ReasonCode"].write(value.reasonCode)
-        try writer["State"].write(value.state)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingClientTypes.InstanceState {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ElasticLoadBalancingClientTypes.InstanceState()
@@ -2600,12 +2580,6 @@ public struct InvalidSubnetException: ClientRuntime.ModeledError, AWSClientRunti
 
 extension ElasticLoadBalancingClientTypes.LBCookieStickinessPolicy {
 
-    static func write(value: ElasticLoadBalancingClientTypes.LBCookieStickinessPolicy?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["CookieExpirationPeriod"].write(value.cookieExpirationPeriod)
-        try writer["PolicyName"].write(value.policyName)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingClientTypes.LBCookieStickinessPolicy {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ElasticLoadBalancingClientTypes.LBCookieStickinessPolicy()
@@ -2636,12 +2610,6 @@ extension ElasticLoadBalancingClientTypes {
 }
 
 extension ElasticLoadBalancingClientTypes.Limit {
-
-    static func write(value: ElasticLoadBalancingClientTypes.Limit?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Max"].write(value.max)
-        try writer["Name"].write(value.name)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingClientTypes.Limit {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2737,12 +2705,6 @@ extension ElasticLoadBalancingClientTypes {
 }
 
 extension ElasticLoadBalancingClientTypes.ListenerDescription {
-
-    static func write(value: ElasticLoadBalancingClientTypes.ListenerDescription?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Listener"].write(value.listener, with: ElasticLoadBalancingClientTypes.Listener.write(value:to:))
-        try writer["PolicyNames"].writeList(value.policyNames, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingClientTypes.ListenerDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2903,26 +2865,6 @@ extension ElasticLoadBalancingClientTypes {
 }
 
 extension ElasticLoadBalancingClientTypes.LoadBalancerDescription {
-
-    static func write(value: ElasticLoadBalancingClientTypes.LoadBalancerDescription?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["AvailabilityZones"].writeList(value.availabilityZones, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["BackendServerDescriptions"].writeList(value.backendServerDescriptions, memberWritingClosure: ElasticLoadBalancingClientTypes.BackendServerDescription.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["CanonicalHostedZoneName"].write(value.canonicalHostedZoneName)
-        try writer["CanonicalHostedZoneNameID"].write(value.canonicalHostedZoneNameID)
-        try writer["CreatedTime"].writeTimestamp(value.createdTime, format: .dateTime)
-        try writer["DNSName"].write(value.dnsName)
-        try writer["HealthCheck"].write(value.healthCheck, with: ElasticLoadBalancingClientTypes.HealthCheck.write(value:to:))
-        try writer["Instances"].writeList(value.instances, memberWritingClosure: ElasticLoadBalancingClientTypes.Instance.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ListenerDescriptions"].writeList(value.listenerDescriptions, memberWritingClosure: ElasticLoadBalancingClientTypes.ListenerDescription.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["LoadBalancerName"].write(value.loadBalancerName)
-        try writer["Policies"].write(value.policies, with: ElasticLoadBalancingClientTypes.Policies.write(value:to:))
-        try writer["Scheme"].write(value.scheme)
-        try writer["SecurityGroups"].writeList(value.securityGroups, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["SourceSecurityGroup"].write(value.sourceSecurityGroup, with: ElasticLoadBalancingClientTypes.SourceSecurityGroup.write(value:to:))
-        try writer["Subnets"].writeList(value.subnets, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["VPCId"].write(value.vpcId)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingClientTypes.LoadBalancerDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3145,13 +3087,6 @@ public struct OperationNotPermittedException: ClientRuntime.ModeledError, AWSCli
 
 extension ElasticLoadBalancingClientTypes.Policies {
 
-    static func write(value: ElasticLoadBalancingClientTypes.Policies?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["AppCookieStickinessPolicies"].writeList(value.appCookieStickinessPolicies, memberWritingClosure: ElasticLoadBalancingClientTypes.AppCookieStickinessPolicy.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["LBCookieStickinessPolicies"].writeList(value.lbCookieStickinessPolicies, memberWritingClosure: ElasticLoadBalancingClientTypes.LBCookieStickinessPolicy.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["OtherPolicies"].writeList(value.otherPolicies, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingClientTypes.Policies {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ElasticLoadBalancingClientTypes.Policies()
@@ -3193,14 +3128,6 @@ extension ElasticLoadBalancingClientTypes.PolicyAttribute {
         try writer["AttributeName"].write(value.attributeName)
         try writer["AttributeValue"].write(value.attributeValue)
     }
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingClientTypes.PolicyAttribute {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElasticLoadBalancingClientTypes.PolicyAttribute()
-        value.attributeName = try reader["AttributeName"].readIfPresent()
-        value.attributeValue = try reader["AttributeValue"].readIfPresent()
-        return value
-    }
 }
 
 extension ElasticLoadBalancingClientTypes {
@@ -3224,12 +3151,6 @@ extension ElasticLoadBalancingClientTypes {
 }
 
 extension ElasticLoadBalancingClientTypes.PolicyAttributeDescription {
-
-    static func write(value: ElasticLoadBalancingClientTypes.PolicyAttributeDescription?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["AttributeName"].write(value.attributeName)
-        try writer["AttributeValue"].write(value.attributeValue)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingClientTypes.PolicyAttributeDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3261,15 +3182,6 @@ extension ElasticLoadBalancingClientTypes {
 }
 
 extension ElasticLoadBalancingClientTypes.PolicyAttributeTypeDescription {
-
-    static func write(value: ElasticLoadBalancingClientTypes.PolicyAttributeTypeDescription?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["AttributeName"].write(value.attributeName)
-        try writer["AttributeType"].write(value.attributeType)
-        try writer["Cardinality"].write(value.cardinality)
-        try writer["DefaultValue"].write(value.defaultValue)
-        try writer["Description"].write(value.description)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingClientTypes.PolicyAttributeTypeDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3324,13 +3236,6 @@ extension ElasticLoadBalancingClientTypes {
 }
 
 extension ElasticLoadBalancingClientTypes.PolicyDescription {
-
-    static func write(value: ElasticLoadBalancingClientTypes.PolicyDescription?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["PolicyAttributeDescriptions"].writeList(value.policyAttributeDescriptions, memberWritingClosure: ElasticLoadBalancingClientTypes.PolicyAttributeDescription.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["PolicyName"].write(value.policyName)
-        try writer["PolicyTypeName"].write(value.policyTypeName)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingClientTypes.PolicyDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3404,13 +3309,6 @@ public struct PolicyNotFoundException: ClientRuntime.ModeledError, AWSClientRunt
 }
 
 extension ElasticLoadBalancingClientTypes.PolicyTypeDescription {
-
-    static func write(value: ElasticLoadBalancingClientTypes.PolicyTypeDescription?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Description"].write(value.description)
-        try writer["PolicyAttributeTypeDescriptions"].writeList(value.policyAttributeTypeDescriptions, memberWritingClosure: ElasticLoadBalancingClientTypes.PolicyAttributeTypeDescription.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["PolicyTypeName"].write(value.policyTypeName)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingClientTypes.PolicyTypeDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3845,12 +3743,6 @@ enum SetLoadBalancerPoliciesOfListenerOutputError {
 
 extension ElasticLoadBalancingClientTypes.SourceSecurityGroup {
 
-    static func write(value: ElasticLoadBalancingClientTypes.SourceSecurityGroup?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["GroupName"].write(value.groupName)
-        try writer["OwnerAlias"].write(value.ownerAlias)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingClientTypes.SourceSecurityGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ElasticLoadBalancingClientTypes.SourceSecurityGroup()
@@ -3957,12 +3849,6 @@ extension ElasticLoadBalancingClientTypes {
 
 extension ElasticLoadBalancingClientTypes.TagDescription {
 
-    static func write(value: ElasticLoadBalancingClientTypes.TagDescription?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["LoadBalancerName"].write(value.loadBalancerName)
-        try writer["Tags"].writeList(value.tags, memberWritingClosure: ElasticLoadBalancingClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingClientTypes.TagDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ElasticLoadBalancingClientTypes.TagDescription()
@@ -3997,13 +3883,6 @@ extension ElasticLoadBalancingClientTypes.TagKeyOnly {
     static func write(value: ElasticLoadBalancingClientTypes.TagKeyOnly?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
         try writer["Key"].write(value.key)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingClientTypes.TagKeyOnly {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElasticLoadBalancingClientTypes.TagKeyOnly()
-        value.key = try reader["Key"].readIfPresent()
-        return value
     }
 }
 

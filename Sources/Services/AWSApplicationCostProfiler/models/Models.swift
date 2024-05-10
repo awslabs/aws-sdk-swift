@@ -526,17 +526,6 @@ enum PutReportDefinitionOutputError {
 
 extension ApplicationCostProfilerClientTypes.ReportDefinition {
 
-    static func write(value: ApplicationCostProfilerClientTypes.ReportDefinition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["destinationS3Location"].write(value.destinationS3Location, with: ApplicationCostProfilerClientTypes.S3Location.write(value:to:))
-        try writer["format"].write(value.format)
-        try writer["lastUpdatedAt"].writeTimestamp(value.lastUpdatedAt, format: .epochSeconds)
-        try writer["reportDescription"].write(value.reportDescription)
-        try writer["reportFrequency"].write(value.reportFrequency)
-        try writer["reportId"].write(value.reportId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ApplicationCostProfilerClientTypes.ReportDefinition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ApplicationCostProfilerClientTypes.ReportDefinition()
@@ -743,15 +732,6 @@ extension ApplicationCostProfilerClientTypes.SourceS3Location {
         try writer["bucket"].write(value.bucket)
         try writer["key"].write(value.key)
         try writer["region"].write(value.region)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationCostProfilerClientTypes.SourceS3Location {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ApplicationCostProfilerClientTypes.SourceS3Location()
-        value.bucket = try reader["bucket"].readIfPresent()
-        value.key = try reader["key"].readIfPresent()
-        value.region = try reader["region"].readIfPresent()
-        return value
     }
 }
 

@@ -369,16 +369,6 @@ extension KinesisVideoMediaClientTypes.StartSelector {
         try writer["StartSelectorType"].write(value.startSelectorType)
         try writer["StartTimestamp"].writeTimestamp(value.startTimestamp, format: .epochSeconds)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KinesisVideoMediaClientTypes.StartSelector {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KinesisVideoMediaClientTypes.StartSelector()
-        value.startSelectorType = try reader["StartSelectorType"].readIfPresent()
-        value.afterFragmentNumber = try reader["AfterFragmentNumber"].readIfPresent()
-        value.startTimestamp = try reader["StartTimestamp"].readTimestampIfPresent(format: .epochSeconds)
-        value.continuationToken = try reader["ContinuationToken"].readIfPresent()
-        return value
-    }
 }
 
 extension KinesisVideoMediaClientTypes {

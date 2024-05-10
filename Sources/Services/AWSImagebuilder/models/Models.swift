@@ -6,12 +6,6 @@ import SmithyReadWrite
 
 extension ImagebuilderClientTypes.AccountAggregation {
 
-    static func write(value: ImagebuilderClientTypes.AccountAggregation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["accountId"].write(value.accountId)
-        try writer["severityCounts"].write(value.severityCounts, with: ImagebuilderClientTypes.SeverityCounts.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ImagebuilderClientTypes.AccountAggregation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ImagebuilderClientTypes.AccountAggregation()
@@ -79,16 +73,6 @@ extension ImagebuilderClientTypes {
 }
 
 extension ImagebuilderClientTypes.Ami {
-
-    static func write(value: ImagebuilderClientTypes.Ami?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["accountId"].write(value.accountId)
-        try writer["description"].write(value.description)
-        try writer["image"].write(value.image)
-        try writer["name"].write(value.name)
-        try writer["region"].write(value.region)
-        try writer["state"].write(value.state, with: ImagebuilderClientTypes.ImageState.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ImagebuilderClientTypes.Ami {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -477,28 +461,6 @@ public struct ClientException: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
 
 extension ImagebuilderClientTypes.Component {
 
-    static func write(value: ImagebuilderClientTypes.Component?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["changeDescription"].write(value.changeDescription)
-        try writer["data"].write(value.data)
-        try writer["dateCreated"].write(value.dateCreated)
-        try writer["description"].write(value.description)
-        try writer["encrypted"].write(value.encrypted)
-        try writer["kmsKeyId"].write(value.kmsKeyId)
-        try writer["name"].write(value.name)
-        try writer["obfuscate"].write(value.obfuscate)
-        try writer["owner"].write(value.owner)
-        try writer["parameters"].writeList(value.parameters, memberWritingClosure: ImagebuilderClientTypes.ComponentParameterDetail.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["platform"].write(value.platform)
-        try writer["publisher"].write(value.publisher)
-        try writer["state"].write(value.state, with: ImagebuilderClientTypes.ComponentState.write(value:to:))
-        try writer["supportedOsVersions"].writeList(value.supportedOsVersions, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["type"].write(value.type)
-        try writer["version"].write(value.version)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ImagebuilderClientTypes.Component {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ImagebuilderClientTypes.Component()
@@ -714,14 +676,6 @@ extension ImagebuilderClientTypes {
 
 extension ImagebuilderClientTypes.ComponentParameterDetail {
 
-    static func write(value: ImagebuilderClientTypes.ComponentParameterDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["defaultValue"].writeList(value.defaultValue, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["description"].write(value.description)
-        try writer["name"].write(value.name)
-        try writer["type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ImagebuilderClientTypes.ComponentParameterDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ImagebuilderClientTypes.ComponentParameterDetail()
@@ -764,12 +718,6 @@ extension ImagebuilderClientTypes {
 }
 
 extension ImagebuilderClientTypes.ComponentState {
-
-    static func write(value: ImagebuilderClientTypes.ComponentState?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["reason"].write(value.reason)
-        try writer["status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ImagebuilderClientTypes.ComponentState {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -828,24 +776,6 @@ extension ImagebuilderClientTypes {
 }
 
 extension ImagebuilderClientTypes.ComponentSummary {
-
-    static func write(value: ImagebuilderClientTypes.ComponentSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["changeDescription"].write(value.changeDescription)
-        try writer["dateCreated"].write(value.dateCreated)
-        try writer["description"].write(value.description)
-        try writer["name"].write(value.name)
-        try writer["obfuscate"].write(value.obfuscate)
-        try writer["owner"].write(value.owner)
-        try writer["platform"].write(value.platform)
-        try writer["publisher"].write(value.publisher)
-        try writer["state"].write(value.state, with: ImagebuilderClientTypes.ComponentState.write(value:to:))
-        try writer["supportedOsVersions"].writeList(value.supportedOsVersions, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["type"].write(value.type)
-        try writer["version"].write(value.version)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ImagebuilderClientTypes.ComponentSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -968,19 +898,6 @@ extension ImagebuilderClientTypes {
 
 extension ImagebuilderClientTypes.ComponentVersion {
 
-    static func write(value: ImagebuilderClientTypes.ComponentVersion?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["dateCreated"].write(value.dateCreated)
-        try writer["description"].write(value.description)
-        try writer["name"].write(value.name)
-        try writer["owner"].write(value.owner)
-        try writer["platform"].write(value.platform)
-        try writer["supportedOsVersions"].writeList(value.supportedOsVersions, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["type"].write(value.type)
-        try writer["version"].write(value.version)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ImagebuilderClientTypes.ComponentVersion {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ImagebuilderClientTypes.ComponentVersion()
@@ -1052,12 +969,6 @@ extension ImagebuilderClientTypes {
 }
 
 extension ImagebuilderClientTypes.Container {
-
-    static func write(value: ImagebuilderClientTypes.Container?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["imageUris"].writeList(value.imageUris, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["region"].write(value.region)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ImagebuilderClientTypes.Container {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1133,27 +1044,6 @@ extension ImagebuilderClientTypes {
 }
 
 extension ImagebuilderClientTypes.ContainerRecipe {
-
-    static func write(value: ImagebuilderClientTypes.ContainerRecipe?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["components"].writeList(value.components, memberWritingClosure: ImagebuilderClientTypes.ComponentConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["containerType"].write(value.containerType)
-        try writer["dateCreated"].write(value.dateCreated)
-        try writer["description"].write(value.description)
-        try writer["dockerfileTemplateData"].write(value.dockerfileTemplateData)
-        try writer["encrypted"].write(value.encrypted)
-        try writer["instanceConfiguration"].write(value.instanceConfiguration, with: ImagebuilderClientTypes.InstanceConfiguration.write(value:to:))
-        try writer["kmsKeyId"].write(value.kmsKeyId)
-        try writer["name"].write(value.name)
-        try writer["owner"].write(value.owner)
-        try writer["parentImage"].write(value.parentImage)
-        try writer["platform"].write(value.platform)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["targetRepository"].write(value.targetRepository, with: ImagebuilderClientTypes.TargetContainerRepository.write(value:to:))
-        try writer["version"].write(value.version)
-        try writer["workingDirectory"].write(value.workingDirectory)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ImagebuilderClientTypes.ContainerRecipe {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1266,18 +1156,6 @@ extension ImagebuilderClientTypes {
 }
 
 extension ImagebuilderClientTypes.ContainerRecipeSummary {
-
-    static func write(value: ImagebuilderClientTypes.ContainerRecipeSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["containerType"].write(value.containerType)
-        try writer["dateCreated"].write(value.dateCreated)
-        try writer["name"].write(value.name)
-        try writer["owner"].write(value.owner)
-        try writer["parentImage"].write(value.parentImage)
-        try writer["platform"].write(value.platform)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ImagebuilderClientTypes.ContainerRecipeSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2641,14 +2519,6 @@ enum CreateWorkflowOutputError {
 
 extension ImagebuilderClientTypes.CvssScore {
 
-    static func write(value: ImagebuilderClientTypes.CvssScore?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["baseScore"].write(value.baseScore)
-        try writer["scoringVector"].write(value.scoringVector)
-        try writer["source"].write(value.source)
-        try writer["version"].write(value.version)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ImagebuilderClientTypes.CvssScore {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ImagebuilderClientTypes.CvssScore()
@@ -2690,12 +2560,6 @@ extension ImagebuilderClientTypes {
 
 extension ImagebuilderClientTypes.CvssScoreAdjustment {
 
-    static func write(value: ImagebuilderClientTypes.CvssScoreAdjustment?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["metric"].write(value.metric)
-        try writer["reason"].write(value.reason)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ImagebuilderClientTypes.CvssScoreAdjustment {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ImagebuilderClientTypes.CvssScoreAdjustment()
@@ -2726,16 +2590,6 @@ extension ImagebuilderClientTypes {
 }
 
 extension ImagebuilderClientTypes.CvssScoreDetails {
-
-    static func write(value: ImagebuilderClientTypes.CvssScoreDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["adjustments"].writeList(value.adjustments, memberWritingClosure: ImagebuilderClientTypes.CvssScoreAdjustment.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["cvssSource"].write(value.cvssSource)
-        try writer["score"].write(value.score)
-        try writer["scoreSource"].write(value.scoreSource)
-        try writer["scoringVector"].write(value.scoringVector)
-        try writer["version"].write(value.version)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ImagebuilderClientTypes.CvssScoreDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3626,18 +3480,6 @@ extension ImagebuilderClientTypes {
 
 extension ImagebuilderClientTypes.DistributionConfiguration {
 
-    static func write(value: ImagebuilderClientTypes.DistributionConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["dateCreated"].write(value.dateCreated)
-        try writer["dateUpdated"].write(value.dateUpdated)
-        try writer["description"].write(value.description)
-        try writer["distributions"].writeList(value.distributions, memberWritingClosure: ImagebuilderClientTypes.Distribution.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["name"].write(value.name)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["timeoutMinutes"].write(value.timeoutMinutes)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ImagebuilderClientTypes.DistributionConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ImagebuilderClientTypes.DistributionConfiguration()
@@ -3699,17 +3541,6 @@ extension ImagebuilderClientTypes {
 }
 
 extension ImagebuilderClientTypes.DistributionConfigurationSummary {
-
-    static func write(value: ImagebuilderClientTypes.DistributionConfigurationSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["dateCreated"].write(value.dateCreated)
-        try writer["dateUpdated"].write(value.dateUpdated)
-        try writer["description"].write(value.description)
-        try writer["name"].write(value.name)
-        try writer["regions"].writeList(value.regions, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ImagebuilderClientTypes.DistributionConfigurationSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4056,14 +3887,6 @@ extension ImagebuilderClientTypes.Filter {
         guard let value else { return }
         try writer["name"].write(value.name)
         try writer["values"].writeList(value.values, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ImagebuilderClientTypes.Filter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ImagebuilderClientTypes.Filter()
-        value.name = try reader["name"].readIfPresent()
-        value.values = try reader["values"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -5597,36 +5420,6 @@ public struct IdempotentParameterMismatchException: ClientRuntime.ModeledError, 
 
 extension ImagebuilderClientTypes.Image {
 
-    static func write(value: ImagebuilderClientTypes.Image?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["buildType"].write(value.buildType)
-        try writer["containerRecipe"].write(value.containerRecipe, with: ImagebuilderClientTypes.ContainerRecipe.write(value:to:))
-        try writer["dateCreated"].write(value.dateCreated)
-        try writer["deprecationTime"].writeTimestamp(value.deprecationTime, format: .epochSeconds)
-        try writer["distributionConfiguration"].write(value.distributionConfiguration, with: ImagebuilderClientTypes.DistributionConfiguration.write(value:to:))
-        try writer["enhancedImageMetadataEnabled"].write(value.enhancedImageMetadataEnabled)
-        try writer["executionRole"].write(value.executionRole)
-        try writer["imageRecipe"].write(value.imageRecipe, with: ImagebuilderClientTypes.ImageRecipe.write(value:to:))
-        try writer["imageScanningConfiguration"].write(value.imageScanningConfiguration, with: ImagebuilderClientTypes.ImageScanningConfiguration.write(value:to:))
-        try writer["imageSource"].write(value.imageSource)
-        try writer["imageTestsConfiguration"].write(value.imageTestsConfiguration, with: ImagebuilderClientTypes.ImageTestsConfiguration.write(value:to:))
-        try writer["infrastructureConfiguration"].write(value.infrastructureConfiguration, with: ImagebuilderClientTypes.InfrastructureConfiguration.write(value:to:))
-        try writer["lifecycleExecutionId"].write(value.lifecycleExecutionId)
-        try writer["name"].write(value.name)
-        try writer["osVersion"].write(value.osVersion)
-        try writer["outputResources"].write(value.outputResources, with: ImagebuilderClientTypes.OutputResources.write(value:to:))
-        try writer["platform"].write(value.platform)
-        try writer["scanState"].write(value.scanState, with: ImagebuilderClientTypes.ImageScanState.write(value:to:))
-        try writer["sourcePipelineArn"].write(value.sourcePipelineArn)
-        try writer["sourcePipelineName"].write(value.sourcePipelineName)
-        try writer["state"].write(value.state, with: ImagebuilderClientTypes.ImageState.write(value:to:))
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["type"].write(value.type)
-        try writer["version"].write(value.version)
-        try writer["workflows"].writeList(value.workflows, memberWritingClosure: ImagebuilderClientTypes.WorkflowConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ImagebuilderClientTypes.Image {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ImagebuilderClientTypes.Image()
@@ -5790,12 +5583,6 @@ extension ImagebuilderClientTypes {
 
 extension ImagebuilderClientTypes.ImageAggregation {
 
-    static func write(value: ImagebuilderClientTypes.ImageAggregation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["imageBuildVersionArn"].write(value.imageBuildVersionArn)
-        try writer["severityCounts"].write(value.severityCounts, with: ImagebuilderClientTypes.SeverityCounts.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ImagebuilderClientTypes.ImageAggregation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ImagebuilderClientTypes.ImageAggregation()
@@ -5827,12 +5614,6 @@ extension ImagebuilderClientTypes {
 
 extension ImagebuilderClientTypes.ImagePackage {
 
-    static func write(value: ImagebuilderClientTypes.ImagePackage?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["packageName"].write(value.packageName)
-        try writer["packageVersion"].write(value.packageVersion)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ImagebuilderClientTypes.ImagePackage {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ImagebuilderClientTypes.ImagePackage()
@@ -5863,30 +5644,6 @@ extension ImagebuilderClientTypes {
 }
 
 extension ImagebuilderClientTypes.ImagePipeline {
-
-    static func write(value: ImagebuilderClientTypes.ImagePipeline?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["containerRecipeArn"].write(value.containerRecipeArn)
-        try writer["dateCreated"].write(value.dateCreated)
-        try writer["dateLastRun"].write(value.dateLastRun)
-        try writer["dateNextRun"].write(value.dateNextRun)
-        try writer["dateUpdated"].write(value.dateUpdated)
-        try writer["description"].write(value.description)
-        try writer["distributionConfigurationArn"].write(value.distributionConfigurationArn)
-        try writer["enhancedImageMetadataEnabled"].write(value.enhancedImageMetadataEnabled)
-        try writer["executionRole"].write(value.executionRole)
-        try writer["imageRecipeArn"].write(value.imageRecipeArn)
-        try writer["imageScanningConfiguration"].write(value.imageScanningConfiguration, with: ImagebuilderClientTypes.ImageScanningConfiguration.write(value:to:))
-        try writer["imageTestsConfiguration"].write(value.imageTestsConfiguration, with: ImagebuilderClientTypes.ImageTestsConfiguration.write(value:to:))
-        try writer["infrastructureConfigurationArn"].write(value.infrastructureConfigurationArn)
-        try writer["name"].write(value.name)
-        try writer["platform"].write(value.platform)
-        try writer["schedule"].write(value.schedule, with: ImagebuilderClientTypes.Schedule.write(value:to:))
-        try writer["status"].write(value.status)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["workflows"].writeList(value.workflows, memberWritingClosure: ImagebuilderClientTypes.WorkflowConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ImagebuilderClientTypes.ImagePipeline {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6009,12 +5766,6 @@ extension ImagebuilderClientTypes {
 
 extension ImagebuilderClientTypes.ImagePipelineAggregation {
 
-    static func write(value: ImagebuilderClientTypes.ImagePipelineAggregation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["imagePipelineArn"].write(value.imagePipelineArn)
-        try writer["severityCounts"].write(value.severityCounts, with: ImagebuilderClientTypes.SeverityCounts.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ImagebuilderClientTypes.ImagePipelineAggregation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ImagebuilderClientTypes.ImagePipelineAggregation()
@@ -6045,24 +5796,6 @@ extension ImagebuilderClientTypes {
 }
 
 extension ImagebuilderClientTypes.ImageRecipe {
-
-    static func write(value: ImagebuilderClientTypes.ImageRecipe?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["additionalInstanceConfiguration"].write(value.additionalInstanceConfiguration, with: ImagebuilderClientTypes.AdditionalInstanceConfiguration.write(value:to:))
-        try writer["arn"].write(value.arn)
-        try writer["blockDeviceMappings"].writeList(value.blockDeviceMappings, memberWritingClosure: ImagebuilderClientTypes.InstanceBlockDeviceMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["components"].writeList(value.components, memberWritingClosure: ImagebuilderClientTypes.ComponentConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["dateCreated"].write(value.dateCreated)
-        try writer["description"].write(value.description)
-        try writer["name"].write(value.name)
-        try writer["owner"].write(value.owner)
-        try writer["parentImage"].write(value.parentImage)
-        try writer["platform"].write(value.platform)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["type"].write(value.type)
-        try writer["version"].write(value.version)
-        try writer["workingDirectory"].write(value.workingDirectory)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ImagebuilderClientTypes.ImageRecipe {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6155,17 +5888,6 @@ extension ImagebuilderClientTypes {
 
 extension ImagebuilderClientTypes.ImageRecipeSummary {
 
-    static func write(value: ImagebuilderClientTypes.ImageRecipeSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["dateCreated"].write(value.dateCreated)
-        try writer["name"].write(value.name)
-        try writer["owner"].write(value.owner)
-        try writer["parentImage"].write(value.parentImage)
-        try writer["platform"].write(value.platform)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ImagebuilderClientTypes.ImageRecipeSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ImagebuilderClientTypes.ImageRecipeSummary()
@@ -6221,24 +5943,6 @@ extension ImagebuilderClientTypes {
 }
 
 extension ImagebuilderClientTypes.ImageScanFinding {
-
-    static func write(value: ImagebuilderClientTypes.ImageScanFinding?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["awsAccountId"].write(value.awsAccountId)
-        try writer["description"].write(value.description)
-        try writer["firstObservedAt"].writeTimestamp(value.firstObservedAt, format: .epochSeconds)
-        try writer["fixAvailable"].write(value.fixAvailable)
-        try writer["imageBuildVersionArn"].write(value.imageBuildVersionArn)
-        try writer["imagePipelineArn"].write(value.imagePipelineArn)
-        try writer["inspectorScore"].write(value.inspectorScore)
-        try writer["inspectorScoreDetails"].write(value.inspectorScoreDetails, with: ImagebuilderClientTypes.InspectorScoreDetails.write(value:to:))
-        try writer["packageVulnerabilityDetails"].write(value.packageVulnerabilityDetails, with: ImagebuilderClientTypes.PackageVulnerabilityDetails.write(value:to:))
-        try writer["remediation"].write(value.remediation, with: ImagebuilderClientTypes.Remediation.write(value:to:))
-        try writer["severity"].write(value.severity)
-        try writer["title"].write(value.title)
-        try writer["type"].write(value.type)
-        try writer["updatedAt"].writeTimestamp(value.updatedAt, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ImagebuilderClientTypes.ImageScanFinding {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6331,14 +6035,6 @@ extension ImagebuilderClientTypes {
 
 extension ImagebuilderClientTypes.ImageScanFindingAggregation {
 
-    static func write(value: ImagebuilderClientTypes.ImageScanFindingAggregation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["accountAggregation"].write(value.accountAggregation, with: ImagebuilderClientTypes.AccountAggregation.write(value:to:))
-        try writer["imageAggregation"].write(value.imageAggregation, with: ImagebuilderClientTypes.ImageAggregation.write(value:to:))
-        try writer["imagePipelineAggregation"].write(value.imagePipelineAggregation, with: ImagebuilderClientTypes.ImagePipelineAggregation.write(value:to:))
-        try writer["vulnerabilityIdAggregation"].write(value.vulnerabilityIdAggregation, with: ImagebuilderClientTypes.VulnerabilityIdAggregation.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ImagebuilderClientTypes.ImageScanFindingAggregation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ImagebuilderClientTypes.ImageScanFindingAggregation()
@@ -6385,14 +6081,6 @@ extension ImagebuilderClientTypes.ImageScanFindingsFilter {
         try writer["name"].write(value.name)
         try writer["values"].writeList(value.values, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ImagebuilderClientTypes.ImageScanFindingsFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ImagebuilderClientTypes.ImageScanFindingsFilter()
-        value.name = try reader["name"].readIfPresent()
-        value.values = try reader["values"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
 }
 
 extension ImagebuilderClientTypes {
@@ -6416,12 +6104,6 @@ extension ImagebuilderClientTypes {
 }
 
 extension ImagebuilderClientTypes.ImageScanState {
-
-    static func write(value: ImagebuilderClientTypes.ImageScanState?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["reason"].write(value.reason)
-        try writer["status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ImagebuilderClientTypes.ImageScanState {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6572,12 +6254,6 @@ extension ImagebuilderClientTypes {
 
 extension ImagebuilderClientTypes.ImageState {
 
-    static func write(value: ImagebuilderClientTypes.ImageState?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["reason"].write(value.reason)
-        try writer["status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ImagebuilderClientTypes.ImageState {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ImagebuilderClientTypes.ImageState()
@@ -6668,25 +6344,6 @@ extension ImagebuilderClientTypes {
 }
 
 extension ImagebuilderClientTypes.ImageSummary {
-
-    static func write(value: ImagebuilderClientTypes.ImageSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["buildType"].write(value.buildType)
-        try writer["dateCreated"].write(value.dateCreated)
-        try writer["deprecationTime"].writeTimestamp(value.deprecationTime, format: .epochSeconds)
-        try writer["imageSource"].write(value.imageSource)
-        try writer["lifecycleExecutionId"].write(value.lifecycleExecutionId)
-        try writer["name"].write(value.name)
-        try writer["osVersion"].write(value.osVersion)
-        try writer["outputResources"].write(value.outputResources, with: ImagebuilderClientTypes.OutputResources.write(value:to:))
-        try writer["owner"].write(value.owner)
-        try writer["platform"].write(value.platform)
-        try writer["state"].write(value.state, with: ImagebuilderClientTypes.ImageState.write(value:to:))
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["type"].write(value.type)
-        try writer["version"].write(value.version)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ImagebuilderClientTypes.ImageSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6856,20 +6513,6 @@ extension ImagebuilderClientTypes {
 }
 
 extension ImagebuilderClientTypes.ImageVersion {
-
-    static func write(value: ImagebuilderClientTypes.ImageVersion?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["buildType"].write(value.buildType)
-        try writer["dateCreated"].write(value.dateCreated)
-        try writer["imageSource"].write(value.imageSource)
-        try writer["name"].write(value.name)
-        try writer["osVersion"].write(value.osVersion)
-        try writer["owner"].write(value.owner)
-        try writer["platform"].write(value.platform)
-        try writer["type"].write(value.type)
-        try writer["version"].write(value.version)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ImagebuilderClientTypes.ImageVersion {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7218,26 +6861,6 @@ enum ImportVmImageOutputError {
 
 extension ImagebuilderClientTypes.InfrastructureConfiguration {
 
-    static func write(value: ImagebuilderClientTypes.InfrastructureConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["dateCreated"].write(value.dateCreated)
-        try writer["dateUpdated"].write(value.dateUpdated)
-        try writer["description"].write(value.description)
-        try writer["instanceMetadataOptions"].write(value.instanceMetadataOptions, with: ImagebuilderClientTypes.InstanceMetadataOptions.write(value:to:))
-        try writer["instanceProfileName"].write(value.instanceProfileName)
-        try writer["instanceTypes"].writeList(value.instanceTypes, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["keyPair"].write(value.keyPair)
-        try writer["logging"].write(value.logging, with: ImagebuilderClientTypes.Logging.write(value:to:))
-        try writer["name"].write(value.name)
-        try writer["resourceTags"].writeMap(value.resourceTags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["securityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["snsTopicArn"].write(value.snsTopicArn)
-        try writer["subnetId"].write(value.subnetId)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["terminateInstanceOnFailure"].write(value.terminateInstanceOnFailure)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ImagebuilderClientTypes.InfrastructureConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ImagebuilderClientTypes.InfrastructureConfiguration()
@@ -7339,19 +6962,6 @@ extension ImagebuilderClientTypes {
 
 extension ImagebuilderClientTypes.InfrastructureConfigurationSummary {
 
-    static func write(value: ImagebuilderClientTypes.InfrastructureConfigurationSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["dateCreated"].write(value.dateCreated)
-        try writer["dateUpdated"].write(value.dateUpdated)
-        try writer["description"].write(value.description)
-        try writer["instanceProfileName"].write(value.instanceProfileName)
-        try writer["instanceTypes"].writeList(value.instanceTypes, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["name"].write(value.name)
-        try writer["resourceTags"].writeMap(value.resourceTags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ImagebuilderClientTypes.InfrastructureConfigurationSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ImagebuilderClientTypes.InfrastructureConfigurationSummary()
@@ -7417,11 +7027,6 @@ extension ImagebuilderClientTypes {
 }
 
 extension ImagebuilderClientTypes.InspectorScoreDetails {
-
-    static func write(value: ImagebuilderClientTypes.InspectorScoreDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["adjustedCvss"].write(value.adjustedCvss, with: ImagebuilderClientTypes.CvssScoreDetails.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ImagebuilderClientTypes.InspectorScoreDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7894,16 +7499,6 @@ extension ImagebuilderClientTypes {
 
 extension ImagebuilderClientTypes.LifecycleExecution {
 
-    static func write(value: ImagebuilderClientTypes.LifecycleExecution?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["endTime"].writeTimestamp(value.endTime, format: .epochSeconds)
-        try writer["lifecycleExecutionId"].write(value.lifecycleExecutionId)
-        try writer["lifecyclePolicyArn"].write(value.lifecyclePolicyArn)
-        try writer["resourcesImpactedSummary"].write(value.resourcesImpactedSummary, with: ImagebuilderClientTypes.LifecycleExecutionResourcesImpactedSummary.write(value:to:))
-        try writer["startTime"].writeTimestamp(value.startTime, format: .epochSeconds)
-        try writer["state"].write(value.state, with: ImagebuilderClientTypes.LifecycleExecutionState.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ImagebuilderClientTypes.LifecycleExecution {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ImagebuilderClientTypes.LifecycleExecution()
@@ -7954,19 +7549,6 @@ extension ImagebuilderClientTypes {
 }
 
 extension ImagebuilderClientTypes.LifecycleExecutionResource {
-
-    static func write(value: ImagebuilderClientTypes.LifecycleExecutionResource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["accountId"].write(value.accountId)
-        try writer["action"].write(value.action, with: ImagebuilderClientTypes.LifecycleExecutionResourceAction.write(value:to:))
-        try writer["endTime"].writeTimestamp(value.endTime, format: .epochSeconds)
-        try writer["imageUris"].writeList(value.imageUris, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["region"].write(value.region)
-        try writer["resourceId"].write(value.resourceId)
-        try writer["snapshots"].writeList(value.snapshots, memberWritingClosure: ImagebuilderClientTypes.LifecycleExecutionSnapshotResource.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["startTime"].writeTimestamp(value.startTime, format: .epochSeconds)
-        try writer["state"].write(value.state, with: ImagebuilderClientTypes.LifecycleExecutionResourceState.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ImagebuilderClientTypes.LifecycleExecutionResource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8040,12 +7622,6 @@ extension ImagebuilderClientTypes {
 
 extension ImagebuilderClientTypes.LifecycleExecutionResourceAction {
 
-    static func write(value: ImagebuilderClientTypes.LifecycleExecutionResourceAction?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-        try writer["reason"].write(value.reason)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ImagebuilderClientTypes.LifecycleExecutionResourceAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ImagebuilderClientTypes.LifecycleExecutionResourceAction()
@@ -8112,12 +7688,6 @@ extension ImagebuilderClientTypes {
 }
 
 extension ImagebuilderClientTypes.LifecycleExecutionResourceState {
-
-    static func write(value: ImagebuilderClientTypes.LifecycleExecutionResourceState?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["reason"].write(value.reason)
-        try writer["status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ImagebuilderClientTypes.LifecycleExecutionResourceState {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8186,11 +7756,6 @@ extension ImagebuilderClientTypes {
 
 extension ImagebuilderClientTypes.LifecycleExecutionResourcesImpactedSummary {
 
-    static func write(value: ImagebuilderClientTypes.LifecycleExecutionResourcesImpactedSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["hasImpactedResources"].write(value.hasImpactedResources)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ImagebuilderClientTypes.LifecycleExecutionResourcesImpactedSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ImagebuilderClientTypes.LifecycleExecutionResourcesImpactedSummary()
@@ -8216,12 +7781,6 @@ extension ImagebuilderClientTypes {
 }
 
 extension ImagebuilderClientTypes.LifecycleExecutionSnapshotResource {
-
-    static func write(value: ImagebuilderClientTypes.LifecycleExecutionSnapshotResource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["snapshotId"].write(value.snapshotId)
-        try writer["state"].write(value.state, with: ImagebuilderClientTypes.LifecycleExecutionResourceState.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ImagebuilderClientTypes.LifecycleExecutionSnapshotResource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8253,12 +7812,6 @@ extension ImagebuilderClientTypes {
 }
 
 extension ImagebuilderClientTypes.LifecycleExecutionState {
-
-    static func write(value: ImagebuilderClientTypes.LifecycleExecutionState?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["reason"].write(value.reason)
-        try writer["status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ImagebuilderClientTypes.LifecycleExecutionState {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8332,22 +7885,6 @@ extension ImagebuilderClientTypes {
 }
 
 extension ImagebuilderClientTypes.LifecyclePolicy {
-
-    static func write(value: ImagebuilderClientTypes.LifecyclePolicy?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["dateCreated"].writeTimestamp(value.dateCreated, format: .epochSeconds)
-        try writer["dateLastRun"].writeTimestamp(value.dateLastRun, format: .epochSeconds)
-        try writer["dateUpdated"].writeTimestamp(value.dateUpdated, format: .epochSeconds)
-        try writer["description"].write(value.description)
-        try writer["executionRole"].write(value.executionRole)
-        try writer["name"].write(value.name)
-        try writer["policyDetails"].writeList(value.policyDetails, memberWritingClosure: ImagebuilderClientTypes.LifecyclePolicyDetail.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["resourceSelection"].write(value.resourceSelection, with: ImagebuilderClientTypes.LifecyclePolicyResourceSelection.write(value:to:))
-        try writer["resourceType"].write(value.resourceType)
-        try writer["status"].write(value.status)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ImagebuilderClientTypes.LifecyclePolicy {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8936,20 +8473,6 @@ extension ImagebuilderClientTypes {
 }
 
 extension ImagebuilderClientTypes.LifecyclePolicySummary {
-
-    static func write(value: ImagebuilderClientTypes.LifecyclePolicySummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["dateCreated"].writeTimestamp(value.dateCreated, format: .epochSeconds)
-        try writer["dateLastRun"].writeTimestamp(value.dateLastRun, format: .epochSeconds)
-        try writer["dateUpdated"].writeTimestamp(value.dateUpdated, format: .epochSeconds)
-        try writer["description"].write(value.description)
-        try writer["executionRole"].write(value.executionRole)
-        try writer["name"].write(value.name)
-        try writer["resourceType"].write(value.resourceType)
-        try writer["status"].write(value.status)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ImagebuilderClientTypes.LifecyclePolicySummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -11253,12 +10776,6 @@ extension ImagebuilderClientTypes {
 
 extension ImagebuilderClientTypes.OutputResources {
 
-    static func write(value: ImagebuilderClientTypes.OutputResources?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["amis"].writeList(value.amis, memberWritingClosure: ImagebuilderClientTypes.Ami.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["containers"].writeList(value.containers, memberWritingClosure: ImagebuilderClientTypes.Container.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ImagebuilderClientTypes.OutputResources {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ImagebuilderClientTypes.OutputResources()
@@ -11325,20 +10842,6 @@ extension ImagebuilderClientTypes {
 }
 
 extension ImagebuilderClientTypes.PackageVulnerabilityDetails {
-
-    static func write(value: ImagebuilderClientTypes.PackageVulnerabilityDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["cvss"].writeList(value.cvss, memberWritingClosure: ImagebuilderClientTypes.CvssScore.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["referenceUrls"].writeList(value.referenceUrls, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["relatedVulnerabilities"].writeList(value.relatedVulnerabilities, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["source"].write(value.source)
-        try writer["sourceUrl"].write(value.sourceUrl)
-        try writer["vendorCreatedAt"].writeTimestamp(value.vendorCreatedAt, format: .epochSeconds)
-        try writer["vendorSeverity"].write(value.vendorSeverity)
-        try writer["vendorUpdatedAt"].writeTimestamp(value.vendorUpdatedAt, format: .epochSeconds)
-        try writer["vulnerabilityId"].write(value.vulnerabilityId)
-        try writer["vulnerablePackages"].writeList(value.vulnerablePackages, memberWritingClosure: ImagebuilderClientTypes.VulnerablePackage.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ImagebuilderClientTypes.PackageVulnerabilityDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -11838,11 +11341,6 @@ enum PutImageRecipePolicyOutputError {
 
 extension ImagebuilderClientTypes.Remediation {
 
-    static func write(value: ImagebuilderClientTypes.Remediation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["recommendation"].write(value.recommendation, with: ImagebuilderClientTypes.RemediationRecommendation.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ImagebuilderClientTypes.Remediation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ImagebuilderClientTypes.Remediation()
@@ -11868,12 +11366,6 @@ extension ImagebuilderClientTypes {
 }
 
 extension ImagebuilderClientTypes.RemediationRecommendation {
-
-    static func write(value: ImagebuilderClientTypes.RemediationRecommendation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["text"].write(value.text)
-        try writer["url"].write(value.url)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ImagebuilderClientTypes.RemediationRecommendation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -12058,13 +11550,6 @@ extension ImagebuilderClientTypes.ResourceState {
         guard let value else { return }
         try writer["status"].write(value.status)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ImagebuilderClientTypes.ResourceState {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ImagebuilderClientTypes.ResourceState()
-        value.status = try reader["status"].readIfPresent()
-        return value
-    }
 }
 
 extension ImagebuilderClientTypes {
@@ -12088,13 +11573,6 @@ extension ImagebuilderClientTypes.ResourceStateUpdateExclusionRules {
     static func write(value: ImagebuilderClientTypes.ResourceStateUpdateExclusionRules?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["amis"].write(value.amis, with: ImagebuilderClientTypes.LifecyclePolicyDetailExclusionRulesAmis.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ImagebuilderClientTypes.ResourceStateUpdateExclusionRules {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ImagebuilderClientTypes.ResourceStateUpdateExclusionRules()
-        value.amis = try reader["amis"].readIfPresent(with: ImagebuilderClientTypes.LifecyclePolicyDetailExclusionRulesAmis.read(from:))
-        return value
     }
 }
 
@@ -12121,15 +11599,6 @@ extension ImagebuilderClientTypes.ResourceStateUpdateIncludeResources {
         try writer["amis"].write(value.amis)
         try writer["containers"].write(value.containers)
         try writer["snapshots"].write(value.snapshots)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ImagebuilderClientTypes.ResourceStateUpdateIncludeResources {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ImagebuilderClientTypes.ResourceStateUpdateIncludeResources()
-        value.amis = try reader["amis"].readIfPresent() ?? false
-        value.snapshots = try reader["snapshots"].readIfPresent() ?? false
-        value.containers = try reader["containers"].readIfPresent() ?? false
-        return value
     }
 }
 
@@ -12551,14 +12020,6 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
 }
 
 extension ImagebuilderClientTypes.SeverityCounts {
-
-    static func write(value: ImagebuilderClientTypes.SeverityCounts?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["all"].write(value.all)
-        try writer["critical"].write(value.critical)
-        try writer["high"].write(value.high)
-        try writer["medium"].write(value.medium)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ImagebuilderClientTypes.SeverityCounts {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -13522,12 +12983,6 @@ enum UpdateLifecyclePolicyOutputError {
 
 extension ImagebuilderClientTypes.VulnerabilityIdAggregation {
 
-    static func write(value: ImagebuilderClientTypes.VulnerabilityIdAggregation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["severityCounts"].write(value.severityCounts, with: ImagebuilderClientTypes.SeverityCounts.write(value:to:))
-        try writer["vulnerabilityId"].write(value.vulnerabilityId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ImagebuilderClientTypes.VulnerabilityIdAggregation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ImagebuilderClientTypes.VulnerabilityIdAggregation()
@@ -13558,20 +13013,6 @@ extension ImagebuilderClientTypes {
 }
 
 extension ImagebuilderClientTypes.VulnerablePackage {
-
-    static func write(value: ImagebuilderClientTypes.VulnerablePackage?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arch"].write(value.arch)
-        try writer["epoch"].write(value.epoch)
-        try writer["filePath"].write(value.filePath)
-        try writer["fixedInVersion"].write(value.fixedInVersion)
-        try writer["name"].write(value.name)
-        try writer["packageManager"].write(value.packageManager)
-        try writer["release"].write(value.release)
-        try writer["remediation"].write(value.remediation)
-        try writer["sourceLayerHash"].write(value.sourceLayerHash)
-        try writer["version"].write(value.version)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ImagebuilderClientTypes.VulnerablePackage {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -13643,23 +13084,6 @@ extension ImagebuilderClientTypes {
 }
 
 extension ImagebuilderClientTypes.Workflow {
-
-    static func write(value: ImagebuilderClientTypes.Workflow?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["changeDescription"].write(value.changeDescription)
-        try writer["data"].write(value.data)
-        try writer["dateCreated"].write(value.dateCreated)
-        try writer["description"].write(value.description)
-        try writer["kmsKeyId"].write(value.kmsKeyId)
-        try writer["name"].write(value.name)
-        try writer["owner"].write(value.owner)
-        try writer["parameters"].writeList(value.parameters, memberWritingClosure: ImagebuilderClientTypes.WorkflowParameterDetail.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["state"].write(value.state, with: ImagebuilderClientTypes.WorkflowState.write(value:to:))
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["type"].write(value.type)
-        try writer["version"].write(value.version)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ImagebuilderClientTypes.Workflow {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -13796,22 +13220,6 @@ extension ImagebuilderClientTypes {
 }
 
 extension ImagebuilderClientTypes.WorkflowExecutionMetadata {
-
-    static func write(value: ImagebuilderClientTypes.WorkflowExecutionMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["endTime"].write(value.endTime)
-        try writer["message"].write(value.message)
-        try writer["parallelGroup"].write(value.parallelGroup)
-        try writer["startTime"].write(value.startTime)
-        try writer["status"].write(value.status)
-        try writer["totalStepCount"].write(value.totalStepCount)
-        try writer["totalStepsFailed"].write(value.totalStepsFailed)
-        try writer["totalStepsSkipped"].write(value.totalStepsSkipped)
-        try writer["totalStepsSucceeded"].write(value.totalStepsSucceeded)
-        try writer["type"].write(value.type)
-        try writer["workflowBuildVersionArn"].write(value.workflowBuildVersionArn)
-        try writer["workflowExecutionId"].write(value.workflowExecutionId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ImagebuilderClientTypes.WorkflowExecutionMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -13981,14 +13389,6 @@ extension ImagebuilderClientTypes {
 
 extension ImagebuilderClientTypes.WorkflowParameterDetail {
 
-    static func write(value: ImagebuilderClientTypes.WorkflowParameterDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["defaultValue"].writeList(value.defaultValue, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["description"].write(value.description)
-        try writer["name"].write(value.name)
-        try writer["type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ImagebuilderClientTypes.WorkflowParameterDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ImagebuilderClientTypes.WorkflowParameterDetail()
@@ -14031,12 +13431,6 @@ extension ImagebuilderClientTypes {
 }
 
 extension ImagebuilderClientTypes.WorkflowState {
-
-    static func write(value: ImagebuilderClientTypes.WorkflowState?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["reason"].write(value.reason)
-        try writer["status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ImagebuilderClientTypes.WorkflowState {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -14125,17 +13519,6 @@ extension ImagebuilderClientTypes {
 }
 
 extension ImagebuilderClientTypes.WorkflowStepExecution {
-
-    static func write(value: ImagebuilderClientTypes.WorkflowStepExecution?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["action"].write(value.action)
-        try writer["imageBuildVersionArn"].write(value.imageBuildVersionArn)
-        try writer["name"].write(value.name)
-        try writer["startTime"].write(value.startTime)
-        try writer["stepExecutionId"].write(value.stepExecutionId)
-        try writer["workflowBuildVersionArn"].write(value.workflowBuildVersionArn)
-        try writer["workflowExecutionId"].write(value.workflowExecutionId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ImagebuilderClientTypes.WorkflowStepExecution {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -14271,21 +13654,6 @@ extension ImagebuilderClientTypes {
 
 extension ImagebuilderClientTypes.WorkflowStepMetadata {
 
-    static func write(value: ImagebuilderClientTypes.WorkflowStepMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["action"].write(value.action)
-        try writer["description"].write(value.description)
-        try writer["endTime"].write(value.endTime)
-        try writer["inputs"].write(value.inputs)
-        try writer["message"].write(value.message)
-        try writer["name"].write(value.name)
-        try writer["outputs"].write(value.outputs)
-        try writer["rollbackStatus"].write(value.rollbackStatus)
-        try writer["startTime"].write(value.startTime)
-        try writer["status"].write(value.status)
-        try writer["stepExecutionId"].write(value.stepExecutionId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ImagebuilderClientTypes.WorkflowStepMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ImagebuilderClientTypes.WorkflowStepMetadata()
@@ -14361,20 +13729,6 @@ extension ImagebuilderClientTypes {
 }
 
 extension ImagebuilderClientTypes.WorkflowSummary {
-
-    static func write(value: ImagebuilderClientTypes.WorkflowSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["changeDescription"].write(value.changeDescription)
-        try writer["dateCreated"].write(value.dateCreated)
-        try writer["description"].write(value.description)
-        try writer["name"].write(value.name)
-        try writer["owner"].write(value.owner)
-        try writer["state"].write(value.state, with: ImagebuilderClientTypes.WorkflowState.write(value:to:))
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["type"].write(value.type)
-        try writer["version"].write(value.version)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ImagebuilderClientTypes.WorkflowSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -14479,17 +13833,6 @@ extension ImagebuilderClientTypes {
 }
 
 extension ImagebuilderClientTypes.WorkflowVersion {
-
-    static func write(value: ImagebuilderClientTypes.WorkflowVersion?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["dateCreated"].write(value.dateCreated)
-        try writer["description"].write(value.description)
-        try writer["name"].write(value.name)
-        try writer["owner"].write(value.owner)
-        try writer["type"].write(value.type)
-        try writer["version"].write(value.version)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ImagebuilderClientTypes.WorkflowVersion {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

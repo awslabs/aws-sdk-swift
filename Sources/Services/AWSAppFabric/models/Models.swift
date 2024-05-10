@@ -53,13 +53,6 @@ extension AppFabricClientTypes.ApiKeyCredential {
         guard let value else { return }
         try writer["apiKey"].write(value.apiKey)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppFabricClientTypes.ApiKeyCredential {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppFabricClientTypes.ApiKeyCredential()
-        value.apiKey = try reader["apiKey"].readIfPresent()
-        return value
-    }
 }
 
 extension AppFabricClientTypes {
@@ -80,20 +73,6 @@ extension AppFabricClientTypes {
 }
 
 extension AppFabricClientTypes.AppAuthorization {
-
-    static func write(value: AppFabricClientTypes.AppAuthorization?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["app"].write(value.app)
-        try writer["appAuthorizationArn"].write(value.appAuthorizationArn)
-        try writer["appBundleArn"].write(value.appBundleArn)
-        try writer["authType"].write(value.authType)
-        try writer["authUrl"].write(value.authUrl)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .dateTime)
-        try writer["persona"].write(value.persona)
-        try writer["status"].write(value.status)
-        try writer["tenant"].write(value.tenant, with: AppFabricClientTypes.Tenant.write(value:to:))
-        try writer["updatedAt"].writeTimestamp(value.updatedAt, format: .dateTime)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppFabricClientTypes.AppAuthorization {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -218,16 +197,6 @@ extension AppFabricClientTypes {
 
 extension AppFabricClientTypes.AppAuthorizationSummary {
 
-    static func write(value: AppFabricClientTypes.AppAuthorizationSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["app"].write(value.app)
-        try writer["appAuthorizationArn"].write(value.appAuthorizationArn)
-        try writer["appBundleArn"].write(value.appBundleArn)
-        try writer["status"].write(value.status)
-        try writer["tenant"].write(value.tenant, with: AppFabricClientTypes.Tenant.write(value:to:))
-        try writer["updatedAt"].writeTimestamp(value.updatedAt, format: .dateTime)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AppFabricClientTypes.AppAuthorizationSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppFabricClientTypes.AppAuthorizationSummary()
@@ -293,12 +262,6 @@ extension AppFabricClientTypes {
 
 extension AppFabricClientTypes.AppBundle {
 
-    static func write(value: AppFabricClientTypes.AppBundle?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["customerManagedKeyArn"].write(value.customerManagedKeyArn)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AppFabricClientTypes.AppBundle {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppFabricClientTypes.AppBundle()
@@ -330,11 +293,6 @@ extension AppFabricClientTypes {
 }
 
 extension AppFabricClientTypes.AppBundleSummary {
-
-    static func write(value: AppFabricClientTypes.AppBundleSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppFabricClientTypes.AppBundleSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -445,14 +403,6 @@ extension AppFabricClientTypes.AuthRequest {
         guard let value else { return }
         try writer["code"].write(value.code)
         try writer["redirectUri"].write(value.redirectUri)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppFabricClientTypes.AuthRequest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppFabricClientTypes.AuthRequest()
-        value.redirectUri = try reader["redirectUri"].readIfPresent()
-        value.code = try reader["code"].readIfPresent()
-        return value
     }
 }
 
@@ -1177,19 +1127,6 @@ extension AppFabricClientTypes.Credential {
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppFabricClientTypes.Credential {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "oauth2Credential":
-                return .oauth2credential(try reader["oauth2Credential"].read(with: AppFabricClientTypes.Oauth2Credential.read(from:)))
-            case "apiKeyCredential":
-                return .apikeycredential(try reader["apiKeyCredential"].read(with: AppFabricClientTypes.ApiKeyCredential.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
 }
 
 extension AppFabricClientTypes {
@@ -1882,18 +1819,6 @@ enum GetIngestionOutputError {
 
 extension AppFabricClientTypes.Ingestion {
 
-    static func write(value: AppFabricClientTypes.Ingestion?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["app"].write(value.app)
-        try writer["appBundleArn"].write(value.appBundleArn)
-        try writer["arn"].write(value.arn)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .dateTime)
-        try writer["ingestionType"].write(value.ingestionType)
-        try writer["state"].write(value.state)
-        try writer["tenantId"].write(value.tenantId)
-        try writer["updatedAt"].writeTimestamp(value.updatedAt, format: .dateTime)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AppFabricClientTypes.Ingestion {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppFabricClientTypes.Ingestion()
@@ -1962,18 +1887,6 @@ extension AppFabricClientTypes {
 }
 
 extension AppFabricClientTypes.IngestionDestination {
-
-    static func write(value: AppFabricClientTypes.IngestionDestination?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .dateTime)
-        try writer["destinationConfiguration"].write(value.destinationConfiguration, with: AppFabricClientTypes.DestinationConfiguration.write(value:to:))
-        try writer["ingestionArn"].write(value.ingestionArn)
-        try writer["processingConfiguration"].write(value.processingConfiguration, with: AppFabricClientTypes.ProcessingConfiguration.write(value:to:))
-        try writer["status"].write(value.status)
-        try writer["statusReason"].write(value.statusReason)
-        try writer["updatedAt"].writeTimestamp(value.updatedAt, format: .dateTime)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppFabricClientTypes.IngestionDestination {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2074,11 +1987,6 @@ extension AppFabricClientTypes {
 
 extension AppFabricClientTypes.IngestionDestinationSummary {
 
-    static func write(value: AppFabricClientTypes.IngestionDestinationSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AppFabricClientTypes.IngestionDestinationSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppFabricClientTypes.IngestionDestinationSummary()
@@ -2135,14 +2043,6 @@ extension AppFabricClientTypes {
 }
 
 extension AppFabricClientTypes.IngestionSummary {
-
-    static func write(value: AppFabricClientTypes.IngestionSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["app"].write(value.app)
-        try writer["arn"].write(value.arn)
-        try writer["state"].write(value.state)
-        try writer["tenantId"].write(value.tenantId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppFabricClientTypes.IngestionSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2715,14 +2615,6 @@ extension AppFabricClientTypes.Oauth2Credential {
         guard let value else { return }
         try writer["clientId"].write(value.clientId)
         try writer["clientSecret"].write(value.clientSecret)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppFabricClientTypes.Oauth2Credential {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppFabricClientTypes.Oauth2Credential()
-        value.clientId = try reader["clientId"].readIfPresent()
-        value.clientSecret = try reader["clientSecret"].readIfPresent()
-        return value
     }
 }
 
@@ -3340,12 +3232,6 @@ enum TagResourceOutputError {
 
 extension AppFabricClientTypes.TaskError {
 
-    static func write(value: AppFabricClientTypes.TaskError?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["errorCode"].write(value.errorCode)
-        try writer["errorMessage"].write(value.errorMessage)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AppFabricClientTypes.TaskError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppFabricClientTypes.TaskError()
@@ -3739,22 +3625,6 @@ extension AppFabricClientTypes.UserAccessResultItem: Swift.CustomDebugStringConv
 
 extension AppFabricClientTypes.UserAccessResultItem {
 
-    static func write(value: AppFabricClientTypes.UserAccessResultItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["app"].write(value.app)
-        try writer["email"].write(value.email)
-        try writer["resultStatus"].write(value.resultStatus)
-        try writer["taskError"].write(value.taskError, with: AppFabricClientTypes.TaskError.write(value:to:))
-        try writer["taskId"].write(value.taskId)
-        try writer["tenantDisplayName"].write(value.tenantDisplayName)
-        try writer["tenantId"].write(value.tenantId)
-        try writer["userFirstName"].write(value.userFirstName)
-        try writer["userFullName"].write(value.userFullName)
-        try writer["userId"].write(value.userId)
-        try writer["userLastName"].write(value.userLastName)
-        try writer["userStatus"].write(value.userStatus)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AppFabricClientTypes.UserAccessResultItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppFabricClientTypes.UserAccessResultItem()
@@ -3843,14 +3713,6 @@ extension AppFabricClientTypes {
 }
 
 extension AppFabricClientTypes.UserAccessTaskItem {
-
-    static func write(value: AppFabricClientTypes.UserAccessTaskItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["app"].write(value.app)
-        try writer["error"].write(value.error, with: AppFabricClientTypes.TaskError.write(value:to:))
-        try writer["taskId"].write(value.taskId)
-        try writer["tenantId"].write(value.tenantId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppFabricClientTypes.UserAccessTaskItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3943,12 +3805,6 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 extension AppFabricClientTypes.ValidationExceptionField {
-
-    static func write(value: AppFabricClientTypes.ValidationExceptionField?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.message)
-        try writer["name"].write(value.name)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppFabricClientTypes.ValidationExceptionField {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

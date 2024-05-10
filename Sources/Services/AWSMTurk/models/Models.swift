@@ -131,22 +131,6 @@ enum ApproveAssignmentOutputError {
 
 extension MTurkClientTypes.Assignment {
 
-    static func write(value: MTurkClientTypes.Assignment?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AcceptTime"].writeTimestamp(value.acceptTime, format: .epochSeconds)
-        try writer["Answer"].write(value.answer)
-        try writer["ApprovalTime"].writeTimestamp(value.approvalTime, format: .epochSeconds)
-        try writer["AssignmentId"].write(value.assignmentId)
-        try writer["AssignmentStatus"].write(value.assignmentStatus)
-        try writer["AutoApprovalTime"].writeTimestamp(value.autoApprovalTime, format: .epochSeconds)
-        try writer["Deadline"].writeTimestamp(value.deadline, format: .epochSeconds)
-        try writer["HITId"].write(value.hitId)
-        try writer["RejectionTime"].writeTimestamp(value.rejectionTime, format: .epochSeconds)
-        try writer["RequesterFeedback"].write(value.requesterFeedback)
-        try writer["SubmitTime"].writeTimestamp(value.submitTime, format: .epochSeconds)
-        try writer["WorkerId"].write(value.workerId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MTurkClientTypes.Assignment {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MTurkClientTypes.Assignment()
@@ -331,15 +315,6 @@ enum AssociateQualificationWithWorkerOutputError {
 }
 
 extension MTurkClientTypes.BonusPayment {
-
-    static func write(value: MTurkClientTypes.BonusPayment?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AssignmentId"].write(value.assignmentId)
-        try writer["BonusAmount"].write(value.bonusAmount)
-        try writer["GrantTime"].writeTimestamp(value.grantTime, format: .epochSeconds)
-        try writer["Reason"].write(value.reason)
-        try writer["WorkerId"].write(value.workerId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MTurkClientTypes.BonusPayment {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1753,31 +1728,6 @@ enum GetQualificationTypeOutputError {
 
 extension MTurkClientTypes.HIT {
 
-    static func write(value: MTurkClientTypes.HIT?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AssignmentDurationInSeconds"].write(value.assignmentDurationInSeconds)
-        try writer["AutoApprovalDelayInSeconds"].write(value.autoApprovalDelayInSeconds)
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["Description"].write(value.description)
-        try writer["Expiration"].writeTimestamp(value.expiration, format: .epochSeconds)
-        try writer["HITGroupId"].write(value.hitGroupId)
-        try writer["HITId"].write(value.hitId)
-        try writer["HITLayoutId"].write(value.hitLayoutId)
-        try writer["HITReviewStatus"].write(value.hitReviewStatus)
-        try writer["HITStatus"].write(value.hitStatus)
-        try writer["HITTypeId"].write(value.hitTypeId)
-        try writer["Keywords"].write(value.keywords)
-        try writer["MaxAssignments"].write(value.maxAssignments)
-        try writer["NumberOfAssignmentsAvailable"].write(value.numberOfAssignmentsAvailable)
-        try writer["NumberOfAssignmentsCompleted"].write(value.numberOfAssignmentsCompleted)
-        try writer["NumberOfAssignmentsPending"].write(value.numberOfAssignmentsPending)
-        try writer["QualificationRequirements"].writeList(value.qualificationRequirements, memberWritingClosure: MTurkClientTypes.QualificationRequirement.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Question"].write(value.question)
-        try writer["RequesterAnnotation"].write(value.requesterAnnotation)
-        try writer["Reward"].write(value.reward)
-        try writer["Title"].write(value.title)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MTurkClientTypes.HIT {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MTurkClientTypes.HIT()
@@ -1941,14 +1891,6 @@ extension MTurkClientTypes.HITLayoutParameter {
         guard let value else { return }
         try writer["Name"].write(value.name)
         try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MTurkClientTypes.HITLayoutParameter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MTurkClientTypes.HITLayoutParameter()
-        value.name = try reader["Name"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
-        return value
     }
 }
 
@@ -3009,16 +2951,6 @@ extension MTurkClientTypes.NotificationSpecification {
         try writer["Transport"].write(value.transport)
         try writer["Version"].write(value.version)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MTurkClientTypes.NotificationSpecification {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MTurkClientTypes.NotificationSpecification()
-        value.destination = try reader["Destination"].readIfPresent()
-        value.transport = try reader["Transport"].readIfPresent()
-        value.version = try reader["Version"].readIfPresent()
-        value.eventTypes = try reader["EventTypes"].readListIfPresent(memberReadingClosure: MTurkClientTypes.EventType.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
 }
 
 extension MTurkClientTypes {
@@ -3123,13 +3055,6 @@ extension MTurkClientTypes {
 }
 
 extension MTurkClientTypes.NotifyWorkersFailureStatus {
-
-    static func write(value: MTurkClientTypes.NotifyWorkersFailureStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["NotifyWorkersFailureCode"].write(value.notifyWorkersFailureCode)
-        try writer["NotifyWorkersFailureMessage"].write(value.notifyWorkersFailureMessage)
-        try writer["WorkerId"].write(value.workerId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MTurkClientTypes.NotifyWorkersFailureStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3326,16 +3251,6 @@ extension MTurkClientTypes {
 
 extension MTurkClientTypes.Qualification {
 
-    static func write(value: MTurkClientTypes.Qualification?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["GrantTime"].writeTimestamp(value.grantTime, format: .epochSeconds)
-        try writer["IntegerValue"].write(value.integerValue)
-        try writer["LocaleValue"].write(value.localeValue, with: MTurkClientTypes.Locale.write(value:to:))
-        try writer["QualificationTypeId"].write(value.qualificationTypeId)
-        try writer["Status"].write(value.status)
-        try writer["WorkerId"].write(value.workerId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MTurkClientTypes.Qualification {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MTurkClientTypes.Qualification()
@@ -3386,16 +3301,6 @@ extension MTurkClientTypes {
 }
 
 extension MTurkClientTypes.QualificationRequest {
-
-    static func write(value: MTurkClientTypes.QualificationRequest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Answer"].write(value.answer)
-        try writer["QualificationRequestId"].write(value.qualificationRequestId)
-        try writer["QualificationTypeId"].write(value.qualificationTypeId)
-        try writer["SubmitTime"].writeTimestamp(value.submitTime, format: .epochSeconds)
-        try writer["Test"].write(value.test)
-        try writer["WorkerId"].write(value.workerId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MTurkClientTypes.QualificationRequest {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3541,23 +3446,6 @@ extension MTurkClientTypes {
 }
 
 extension MTurkClientTypes.QualificationType {
-
-    static func write(value: MTurkClientTypes.QualificationType?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AnswerKey"].write(value.answerKey)
-        try writer["AutoGranted"].write(value.autoGranted)
-        try writer["AutoGrantedValue"].write(value.autoGrantedValue)
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["Description"].write(value.description)
-        try writer["IsRequestable"].write(value.isRequestable)
-        try writer["Keywords"].write(value.keywords)
-        try writer["Name"].write(value.name)
-        try writer["QualificationTypeId"].write(value.qualificationTypeId)
-        try writer["QualificationTypeStatus"].write(value.qualificationTypeStatus)
-        try writer["RetryDelayInSeconds"].write(value.retryDelayInSeconds)
-        try writer["Test"].write(value.test)
-        try writer["TestDurationInSeconds"].write(value.testDurationInSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MTurkClientTypes.QualificationType {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3837,18 +3725,6 @@ public struct RequestError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServ
 
 extension MTurkClientTypes.ReviewActionDetail {
 
-    static func write(value: MTurkClientTypes.ReviewActionDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ActionId"].write(value.actionId)
-        try writer["ActionName"].write(value.actionName)
-        try writer["CompleteTime"].writeTimestamp(value.completeTime, format: .epochSeconds)
-        try writer["ErrorCode"].write(value.errorCode)
-        try writer["Result"].write(value.result)
-        try writer["Status"].write(value.status)
-        try writer["TargetId"].write(value.targetId)
-        try writer["TargetType"].write(value.targetType)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MTurkClientTypes.ReviewActionDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MTurkClientTypes.ReviewActionDetail()
@@ -4014,12 +3890,6 @@ extension MTurkClientTypes {
 
 extension MTurkClientTypes.ReviewReport {
 
-    static func write(value: MTurkClientTypes.ReviewReport?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ReviewActions"].writeList(value.reviewActions, memberWritingClosure: MTurkClientTypes.ReviewActionDetail.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ReviewResults"].writeList(value.reviewResults, memberWritingClosure: MTurkClientTypes.ReviewResultDetail.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MTurkClientTypes.ReviewReport {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MTurkClientTypes.ReviewReport()
@@ -4050,16 +3920,6 @@ extension MTurkClientTypes {
 }
 
 extension MTurkClientTypes.ReviewResultDetail {
-
-    static func write(value: MTurkClientTypes.ReviewResultDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ActionId"].write(value.actionId)
-        try writer["Key"].write(value.key)
-        try writer["QuestionId"].write(value.questionId)
-        try writer["SubjectId"].write(value.subjectId)
-        try writer["SubjectType"].write(value.subjectType)
-        try writer["Value"].write(value.value)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MTurkClientTypes.ReviewResultDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4679,12 +4539,6 @@ enum UpdateQualificationTypeOutputError {
 }
 
 extension MTurkClientTypes.WorkerBlock {
-
-    static func write(value: MTurkClientTypes.WorkerBlock?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Reason"].write(value.reason)
-        try writer["WorkerId"].write(value.workerId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MTurkClientTypes.WorkerBlock {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

@@ -124,16 +124,6 @@ extension SecurityLakeClientTypes.AwsLogSourceConfiguration {
         try writer["sourceName"].write(value.sourceName)
         try writer["sourceVersion"].write(value.sourceVersion)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SecurityLakeClientTypes.AwsLogSourceConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SecurityLakeClientTypes.AwsLogSourceConfiguration()
-        value.accounts = try reader["accounts"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.regions = try reader["regions"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.sourceName = try reader["sourceName"].readIfPresent()
-        value.sourceVersion = try reader["sourceVersion"].readIfPresent() ?? "latest"
-        return value
-    }
 }
 
 extension SecurityLakeClientTypes {
@@ -988,14 +978,6 @@ extension SecurityLakeClientTypes.CustomLogSourceConfiguration {
         try writer["crawlerConfiguration"].write(value.crawlerConfiguration, with: SecurityLakeClientTypes.CustomLogSourceCrawlerConfiguration.write(value:to:))
         try writer["providerIdentity"].write(value.providerIdentity, with: SecurityLakeClientTypes.AwsIdentity.write(value:to:))
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SecurityLakeClientTypes.CustomLogSourceConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SecurityLakeClientTypes.CustomLogSourceConfiguration()
-        value.crawlerConfiguration = try reader["crawlerConfiguration"].readIfPresent(with: SecurityLakeClientTypes.CustomLogSourceCrawlerConfiguration.read(from:))
-        value.providerIdentity = try reader["providerIdentity"].readIfPresent(with: SecurityLakeClientTypes.AwsIdentity.read(from:))
-        return value
-    }
 }
 
 extension SecurityLakeClientTypes {
@@ -1025,13 +1007,6 @@ extension SecurityLakeClientTypes.CustomLogSourceCrawlerConfiguration {
     static func write(value: SecurityLakeClientTypes.CustomLogSourceCrawlerConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["roleArn"].write(value.roleArn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SecurityLakeClientTypes.CustomLogSourceCrawlerConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SecurityLakeClientTypes.CustomLogSourceCrawlerConfiguration()
-        value.roleArn = try reader["roleArn"].readIfPresent()
-        return value
     }
 }
 
@@ -1190,16 +1165,6 @@ extension SecurityLakeClientTypes.DataLakeConfiguration {
         try writer["region"].write(value.region)
         try writer["replicationConfiguration"].write(value.replicationConfiguration, with: SecurityLakeClientTypes.DataLakeReplicationConfiguration.write(value:to:))
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SecurityLakeClientTypes.DataLakeConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SecurityLakeClientTypes.DataLakeConfiguration()
-        value.region = try reader["region"].readIfPresent()
-        value.encryptionConfiguration = try reader["encryptionConfiguration"].readIfPresent(with: SecurityLakeClientTypes.DataLakeEncryptionConfiguration.read(from:))
-        value.lifecycleConfiguration = try reader["lifecycleConfiguration"].readIfPresent(with: SecurityLakeClientTypes.DataLakeLifecycleConfiguration.read(from:))
-        value.replicationConfiguration = try reader["replicationConfiguration"].readIfPresent(with: SecurityLakeClientTypes.DataLakeReplicationConfiguration.read(from:))
-        return value
-    }
 }
 
 extension SecurityLakeClientTypes {
@@ -1263,14 +1228,6 @@ extension SecurityLakeClientTypes {
 }
 
 extension SecurityLakeClientTypes.DataLakeException {
-
-    static func write(value: SecurityLakeClientTypes.DataLakeException?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["exception"].write(value.exception)
-        try writer["region"].write(value.region)
-        try writer["remediation"].write(value.remediation)
-        try writer["timestamp"].writeTimestamp(value.timestamp, format: .dateTime)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityLakeClientTypes.DataLakeException {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1455,18 +1412,6 @@ extension SecurityLakeClientTypes {
 
 extension SecurityLakeClientTypes.DataLakeResource {
 
-    static func write(value: SecurityLakeClientTypes.DataLakeResource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["createStatus"].write(value.createStatus)
-        try writer["dataLakeArn"].write(value.dataLakeArn)
-        try writer["encryptionConfiguration"].write(value.encryptionConfiguration, with: SecurityLakeClientTypes.DataLakeEncryptionConfiguration.write(value:to:))
-        try writer["lifecycleConfiguration"].write(value.lifecycleConfiguration, with: SecurityLakeClientTypes.DataLakeLifecycleConfiguration.write(value:to:))
-        try writer["region"].write(value.region)
-        try writer["replicationConfiguration"].write(value.replicationConfiguration, with: SecurityLakeClientTypes.DataLakeReplicationConfiguration.write(value:to:))
-        try writer["s3BucketArn"].write(value.s3BucketArn)
-        try writer["updateStatus"].write(value.updateStatus, with: SecurityLakeClientTypes.DataLakeUpdateStatus.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityLakeClientTypes.DataLakeResource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SecurityLakeClientTypes.DataLakeResource()
@@ -1529,14 +1474,6 @@ extension SecurityLakeClientTypes {
 }
 
 extension SecurityLakeClientTypes.DataLakeSource {
-
-    static func write(value: SecurityLakeClientTypes.DataLakeSource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["account"].write(value.account)
-        try writer["eventClasses"].writeList(value.eventClasses, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["sourceName"].write(value.sourceName)
-        try writer["sourceStatuses"].writeList(value.sourceStatuses, memberWritingClosure: SecurityLakeClientTypes.DataLakeSourceStatus.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityLakeClientTypes.DataLakeSource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1637,12 +1574,6 @@ extension SecurityLakeClientTypes {
 
 extension SecurityLakeClientTypes.DataLakeSourceStatus {
 
-    static func write(value: SecurityLakeClientTypes.DataLakeSourceStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["resource"].write(value.resource)
-        try writer["status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityLakeClientTypes.DataLakeSourceStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SecurityLakeClientTypes.DataLakeSourceStatus()
@@ -1710,12 +1641,6 @@ extension SecurityLakeClientTypes {
 
 extension SecurityLakeClientTypes.DataLakeUpdateException {
 
-    static func write(value: SecurityLakeClientTypes.DataLakeUpdateException?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["code"].write(value.code)
-        try writer["reason"].write(value.reason)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityLakeClientTypes.DataLakeUpdateException {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SecurityLakeClientTypes.DataLakeUpdateException()
@@ -1746,13 +1671,6 @@ extension SecurityLakeClientTypes {
 }
 
 extension SecurityLakeClientTypes.DataLakeUpdateStatus {
-
-    static func write(value: SecurityLakeClientTypes.DataLakeUpdateStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["exception"].write(value.exception, with: SecurityLakeClientTypes.DataLakeUpdateException.write(value:to:))
-        try writer["requestId"].write(value.requestId)
-        try writer["status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityLakeClientTypes.DataLakeUpdateStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2556,17 +2474,6 @@ extension SecurityLakeClientTypes.HttpsNotificationConfiguration {
         try writer["httpMethod"].write(value.httpMethod)
         try writer["targetRoleArn"].write(value.targetRoleArn)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SecurityLakeClientTypes.HttpsNotificationConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SecurityLakeClientTypes.HttpsNotificationConfiguration()
-        value.endpoint = try reader["endpoint"].readIfPresent()
-        value.authorizationApiKeyName = try reader["authorizationApiKeyName"].readIfPresent()
-        value.authorizationApiKeyValue = try reader["authorizationApiKeyValue"].readIfPresent()
-        value.httpMethod = try reader["httpMethod"].readIfPresent()
-        value.targetRoleArn = try reader["targetRoleArn"].readIfPresent()
-        return value
-    }
 }
 
 extension SecurityLakeClientTypes {
@@ -3051,13 +2958,6 @@ enum ListTagsForResourceOutputError {
 
 extension SecurityLakeClientTypes.LogSource {
 
-    static func write(value: SecurityLakeClientTypes.LogSource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["account"].write(value.account)
-        try writer["region"].write(value.region)
-        try writer["sources"].writeList(value.sources, memberWritingClosure: SecurityLakeClientTypes.LogSourceResource.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityLakeClientTypes.LogSource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SecurityLakeClientTypes.LogSource()
@@ -3143,19 +3043,6 @@ extension SecurityLakeClientTypes.NotificationConfiguration {
                 try writer["sqsNotificationConfiguration"].write(sqsnotificationconfiguration, with: SecurityLakeClientTypes.SqsNotificationConfiguration.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SecurityLakeClientTypes.NotificationConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "sqsNotificationConfiguration":
-                return .sqsnotificationconfiguration(try reader["sqsNotificationConfiguration"].read(with: SecurityLakeClientTypes.SqsNotificationConfiguration.read(from:)))
-            case "httpsNotificationConfiguration":
-                return .httpsnotificationconfiguration(try reader["httpsNotificationConfiguration"].read(with: SecurityLakeClientTypes.HttpsNotificationConfiguration.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
         }
     }
 }
@@ -3319,11 +3206,6 @@ extension SecurityLakeClientTypes.SqsNotificationConfiguration {
         guard value != nil else { return }
         _ = writer[""]  // create an empty structure
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SecurityLakeClientTypes.SqsNotificationConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        return SecurityLakeClientTypes.SqsNotificationConfiguration()
-    }
 }
 
 extension SecurityLakeClientTypes {
@@ -3336,25 +3218,6 @@ extension SecurityLakeClientTypes {
 }
 
 extension SecurityLakeClientTypes.SubscriberResource {
-
-    static func write(value: SecurityLakeClientTypes.SubscriberResource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["accessTypes"].writeList(value.accessTypes, memberWritingClosure: SecurityLakeClientTypes.AccessType.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .dateTime)
-        try writer["resourceShareArn"].write(value.resourceShareArn)
-        try writer["resourceShareName"].write(value.resourceShareName)
-        try writer["roleArn"].write(value.roleArn)
-        try writer["s3BucketArn"].write(value.s3BucketArn)
-        try writer["sources"].writeList(value.sources, memberWritingClosure: SecurityLakeClientTypes.LogSourceResource.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["subscriberArn"].write(value.subscriberArn)
-        try writer["subscriberDescription"].write(value.subscriberDescription)
-        try writer["subscriberEndpoint"].write(value.subscriberEndpoint)
-        try writer["subscriberId"].write(value.subscriberId)
-        try writer["subscriberIdentity"].write(value.subscriberIdentity, with: SecurityLakeClientTypes.AwsIdentity.write(value:to:))
-        try writer["subscriberName"].write(value.subscriberName)
-        try writer["subscriberStatus"].write(value.subscriberStatus)
-        try writer["updatedAt"].writeTimestamp(value.updatedAt, format: .dateTime)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityLakeClientTypes.SubscriberResource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

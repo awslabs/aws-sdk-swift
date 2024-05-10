@@ -629,15 +629,6 @@ extension WorkSpacesWebClientTypes.BrowserSettings: Swift.CustomDebugStringConve
 
 extension WorkSpacesWebClientTypes.BrowserSettings {
 
-    static func write(value: WorkSpacesWebClientTypes.BrowserSettings?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["additionalEncryptionContext"].writeMap(value.additionalEncryptionContext, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["associatedPortalArns"].writeList(value.associatedPortalArns, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["browserPolicy"].write(value.browserPolicy)
-        try writer["browserSettingsArn"].write(value.browserSettingsArn)
-        try writer["customerManagedKey"].write(value.customerManagedKey)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesWebClientTypes.BrowserSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WorkSpacesWebClientTypes.BrowserSettings()
@@ -684,11 +675,6 @@ extension WorkSpacesWebClientTypes {
 }
 
 extension WorkSpacesWebClientTypes.BrowserSettingsSummary {
-
-    static func write(value: WorkSpacesWebClientTypes.BrowserSettingsSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["browserSettingsArn"].write(value.browserSettingsArn)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesWebClientTypes.BrowserSettingsSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -744,16 +730,6 @@ extension WorkSpacesWebClientTypes {
 
 extension WorkSpacesWebClientTypes.Certificate {
 
-    static func write(value: WorkSpacesWebClientTypes.Certificate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["body"].write(value.body)
-        try writer["issuer"].write(value.issuer)
-        try writer["notValidAfter"].writeTimestamp(value.notValidAfter, format: .epochSeconds)
-        try writer["notValidBefore"].writeTimestamp(value.notValidBefore, format: .epochSeconds)
-        try writer["subject"].write(value.subject)
-        try writer["thumbprint"].write(value.thumbprint)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesWebClientTypes.Certificate {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WorkSpacesWebClientTypes.Certificate()
@@ -804,15 +780,6 @@ extension WorkSpacesWebClientTypes {
 }
 
 extension WorkSpacesWebClientTypes.CertificateSummary {
-
-    static func write(value: WorkSpacesWebClientTypes.CertificateSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["issuer"].write(value.issuer)
-        try writer["notValidAfter"].writeTimestamp(value.notValidAfter, format: .epochSeconds)
-        try writer["notValidBefore"].writeTimestamp(value.notValidBefore, format: .epochSeconds)
-        try writer["subject"].write(value.subject)
-        try writer["thumbprint"].write(value.thumbprint)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesWebClientTypes.CertificateSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3350,14 +3317,6 @@ extension WorkSpacesWebClientTypes.IdentityProvider: Swift.CustomDebugStringConv
 
 extension WorkSpacesWebClientTypes.IdentityProvider {
 
-    static func write(value: WorkSpacesWebClientTypes.IdentityProvider?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["identityProviderArn"].write(value.identityProviderArn)
-        try writer["identityProviderDetails"].writeMap(value.identityProviderDetails, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["identityProviderName"].write(value.identityProviderName)
-        try writer["identityProviderType"].write(value.identityProviderType)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesWebClientTypes.IdentityProvider {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WorkSpacesWebClientTypes.IdentityProvider()
@@ -3478,13 +3437,6 @@ extension WorkSpacesWebClientTypes.IdentityProviderSummary: Swift.CustomDebugStr
 }
 
 extension WorkSpacesWebClientTypes.IdentityProviderSummary {
-
-    static func write(value: WorkSpacesWebClientTypes.IdentityProviderSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["identityProviderArn"].write(value.identityProviderArn)
-        try writer["identityProviderName"].write(value.identityProviderName)
-        try writer["identityProviderType"].write(value.identityProviderType)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesWebClientTypes.IdentityProviderSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3648,18 +3600,6 @@ extension WorkSpacesWebClientTypes.IpAccessSettings: Swift.CustomDebugStringConv
 
 extension WorkSpacesWebClientTypes.IpAccessSettings {
 
-    static func write(value: WorkSpacesWebClientTypes.IpAccessSettings?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["additionalEncryptionContext"].writeMap(value.additionalEncryptionContext, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["associatedPortalArns"].writeList(value.associatedPortalArns, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["creationDate"].writeTimestamp(value.creationDate, format: .epochSeconds)
-        try writer["customerManagedKey"].write(value.customerManagedKey)
-        try writer["description"].write(value.description)
-        try writer["displayName"].write(value.displayName)
-        try writer["ipAccessSettingsArn"].write(value.ipAccessSettingsArn)
-        try writer["ipRules"].writeList(value.ipRules, memberWritingClosure: WorkSpacesWebClientTypes.IpRule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesWebClientTypes.IpAccessSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WorkSpacesWebClientTypes.IpAccessSettings()
@@ -3726,14 +3666,6 @@ extension WorkSpacesWebClientTypes.IpAccessSettingsSummary: Swift.CustomDebugStr
 }
 
 extension WorkSpacesWebClientTypes.IpAccessSettingsSummary {
-
-    static func write(value: WorkSpacesWebClientTypes.IpAccessSettingsSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["creationDate"].writeTimestamp(value.creationDate, format: .epochSeconds)
-        try writer["description"].write(value.description)
-        try writer["displayName"].write(value.displayName)
-        try writer["ipAccessSettingsArn"].write(value.ipAccessSettingsArn)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesWebClientTypes.IpAccessSettingsSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4673,15 +4605,6 @@ enum ListUserSettingsOutputError {
 
 extension WorkSpacesWebClientTypes.NetworkSettings {
 
-    static func write(value: WorkSpacesWebClientTypes.NetworkSettings?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["associatedPortalArns"].writeList(value.associatedPortalArns, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["networkSettingsArn"].write(value.networkSettingsArn)
-        try writer["securityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["subnetIds"].writeList(value.subnetIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["vpcId"].write(value.vpcId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesWebClientTypes.NetworkSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WorkSpacesWebClientTypes.NetworkSettings()
@@ -4729,12 +4652,6 @@ extension WorkSpacesWebClientTypes {
 
 extension WorkSpacesWebClientTypes.NetworkSettingsSummary {
 
-    static func write(value: WorkSpacesWebClientTypes.NetworkSettingsSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["networkSettingsArn"].write(value.networkSettingsArn)
-        try writer["vpcId"].write(value.vpcId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesWebClientTypes.NetworkSettingsSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WorkSpacesWebClientTypes.NetworkSettingsSummary()
@@ -4771,29 +4688,6 @@ extension WorkSpacesWebClientTypes.Portal: Swift.CustomDebugStringConvertible {
 }
 
 extension WorkSpacesWebClientTypes.Portal {
-
-    static func write(value: WorkSpacesWebClientTypes.Portal?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["additionalEncryptionContext"].writeMap(value.additionalEncryptionContext, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["authenticationType"].write(value.authenticationType)
-        try writer["browserSettingsArn"].write(value.browserSettingsArn)
-        try writer["browserType"].write(value.browserType)
-        try writer["creationDate"].writeTimestamp(value.creationDate, format: .epochSeconds)
-        try writer["customerManagedKey"].write(value.customerManagedKey)
-        try writer["displayName"].write(value.displayName)
-        try writer["instanceType"].write(value.instanceType)
-        try writer["ipAccessSettingsArn"].write(value.ipAccessSettingsArn)
-        try writer["maxConcurrentSessions"].write(value.maxConcurrentSessions)
-        try writer["networkSettingsArn"].write(value.networkSettingsArn)
-        try writer["portalArn"].write(value.portalArn)
-        try writer["portalEndpoint"].write(value.portalEndpoint)
-        try writer["portalStatus"].write(value.portalStatus)
-        try writer["rendererType"].write(value.rendererType)
-        try writer["statusReason"].write(value.statusReason)
-        try writer["trustStoreArn"].write(value.trustStoreArn)
-        try writer["userAccessLoggingSettingsArn"].write(value.userAccessLoggingSettingsArn)
-        try writer["userSettingsArn"].write(value.userSettingsArn)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesWebClientTypes.Portal {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4949,26 +4843,6 @@ extension WorkSpacesWebClientTypes.PortalSummary: Swift.CustomDebugStringConvert
 }
 
 extension WorkSpacesWebClientTypes.PortalSummary {
-
-    static func write(value: WorkSpacesWebClientTypes.PortalSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["authenticationType"].write(value.authenticationType)
-        try writer["browserSettingsArn"].write(value.browserSettingsArn)
-        try writer["browserType"].write(value.browserType)
-        try writer["creationDate"].writeTimestamp(value.creationDate, format: .epochSeconds)
-        try writer["displayName"].write(value.displayName)
-        try writer["instanceType"].write(value.instanceType)
-        try writer["ipAccessSettingsArn"].write(value.ipAccessSettingsArn)
-        try writer["maxConcurrentSessions"].write(value.maxConcurrentSessions)
-        try writer["networkSettingsArn"].write(value.networkSettingsArn)
-        try writer["portalArn"].write(value.portalArn)
-        try writer["portalEndpoint"].write(value.portalEndpoint)
-        try writer["portalStatus"].write(value.portalStatus)
-        try writer["rendererType"].write(value.rendererType)
-        try writer["trustStoreArn"].write(value.trustStoreArn)
-        try writer["userAccessLoggingSettingsArn"].write(value.userAccessLoggingSettingsArn)
-        try writer["userSettingsArn"].write(value.userSettingsArn)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesWebClientTypes.PortalSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5417,12 +5291,6 @@ public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime
 
 extension WorkSpacesWebClientTypes.TrustStore {
 
-    static func write(value: WorkSpacesWebClientTypes.TrustStore?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["associatedPortalArns"].writeList(value.associatedPortalArns, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["trustStoreArn"].write(value.trustStoreArn)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesWebClientTypes.TrustStore {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WorkSpacesWebClientTypes.TrustStore()
@@ -5454,11 +5322,6 @@ extension WorkSpacesWebClientTypes {
 }
 
 extension WorkSpacesWebClientTypes.TrustStoreSummary {
-
-    static func write(value: WorkSpacesWebClientTypes.TrustStoreSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["trustStoreArn"].write(value.trustStoreArn)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesWebClientTypes.TrustStoreSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6405,13 +6268,6 @@ enum UpdateUserSettingsOutputError {
 
 extension WorkSpacesWebClientTypes.UserAccessLoggingSettings {
 
-    static func write(value: WorkSpacesWebClientTypes.UserAccessLoggingSettings?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["associatedPortalArns"].writeList(value.associatedPortalArns, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["kinesisStreamArn"].write(value.kinesisStreamArn)
-        try writer["userAccessLoggingSettingsArn"].write(value.userAccessLoggingSettingsArn)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesWebClientTypes.UserAccessLoggingSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WorkSpacesWebClientTypes.UserAccessLoggingSettings()
@@ -6449,12 +6305,6 @@ extension WorkSpacesWebClientTypes {
 
 extension WorkSpacesWebClientTypes.UserAccessLoggingSettingsSummary {
 
-    static func write(value: WorkSpacesWebClientTypes.UserAccessLoggingSettingsSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["kinesisStreamArn"].write(value.kinesisStreamArn)
-        try writer["userAccessLoggingSettingsArn"].write(value.userAccessLoggingSettingsArn)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesWebClientTypes.UserAccessLoggingSettingsSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WorkSpacesWebClientTypes.UserAccessLoggingSettingsSummary()
@@ -6491,22 +6341,6 @@ extension WorkSpacesWebClientTypes.UserSettings: Swift.CustomDebugStringConverti
 }
 
 extension WorkSpacesWebClientTypes.UserSettings {
-
-    static func write(value: WorkSpacesWebClientTypes.UserSettings?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["additionalEncryptionContext"].writeMap(value.additionalEncryptionContext, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["associatedPortalArns"].writeList(value.associatedPortalArns, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["cookieSynchronizationConfiguration"].write(value.cookieSynchronizationConfiguration, with: WorkSpacesWebClientTypes.CookieSynchronizationConfiguration.write(value:to:))
-        try writer["copyAllowed"].write(value.copyAllowed)
-        try writer["customerManagedKey"].write(value.customerManagedKey)
-        try writer["disconnectTimeoutInMinutes"].write(value.disconnectTimeoutInMinutes)
-        try writer["downloadAllowed"].write(value.downloadAllowed)
-        try writer["idleDisconnectTimeoutInMinutes"].write(value.idleDisconnectTimeoutInMinutes)
-        try writer["pasteAllowed"].write(value.pasteAllowed)
-        try writer["printAllowed"].write(value.printAllowed)
-        try writer["uploadAllowed"].write(value.uploadAllowed)
-        try writer["userSettingsArn"].write(value.userSettingsArn)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesWebClientTypes.UserSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6594,19 +6428,6 @@ extension WorkSpacesWebClientTypes.UserSettingsSummary: Swift.CustomDebugStringC
 }
 
 extension WorkSpacesWebClientTypes.UserSettingsSummary {
-
-    static func write(value: WorkSpacesWebClientTypes.UserSettingsSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["cookieSynchronizationConfiguration"].write(value.cookieSynchronizationConfiguration, with: WorkSpacesWebClientTypes.CookieSynchronizationConfiguration.write(value:to:))
-        try writer["copyAllowed"].write(value.copyAllowed)
-        try writer["disconnectTimeoutInMinutes"].write(value.disconnectTimeoutInMinutes)
-        try writer["downloadAllowed"].write(value.downloadAllowed)
-        try writer["idleDisconnectTimeoutInMinutes"].write(value.idleDisconnectTimeoutInMinutes)
-        try writer["pasteAllowed"].write(value.pasteAllowed)
-        try writer["printAllowed"].write(value.printAllowed)
-        try writer["uploadAllowed"].write(value.uploadAllowed)
-        try writer["userSettingsArn"].write(value.userSettingsArn)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesWebClientTypes.UserSettingsSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6721,12 +6542,6 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 extension WorkSpacesWebClientTypes.ValidationExceptionField {
-
-    static func write(value: WorkSpacesWebClientTypes.ValidationExceptionField?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.message)
-        try writer["name"].write(value.name)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesWebClientTypes.ValidationExceptionField {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

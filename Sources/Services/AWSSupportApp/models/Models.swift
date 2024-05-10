@@ -871,18 +871,6 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
 extension SupportAppClientTypes.SlackChannelConfiguration {
 
-    static func write(value: SupportAppClientTypes.SlackChannelConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["channelId"].write(value.channelId)
-        try writer["channelName"].write(value.channelName)
-        try writer["channelRoleArn"].write(value.channelRoleArn)
-        try writer["notifyOnAddCorrespondenceToCase"].write(value.notifyOnAddCorrespondenceToCase)
-        try writer["notifyOnCaseSeverity"].write(value.notifyOnCaseSeverity)
-        try writer["notifyOnCreateOrReopenCase"].write(value.notifyOnCreateOrReopenCase)
-        try writer["notifyOnResolveCase"].write(value.notifyOnResolveCase)
-        try writer["teamId"].write(value.teamId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SupportAppClientTypes.SlackChannelConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SupportAppClientTypes.SlackChannelConfiguration()
@@ -945,13 +933,6 @@ extension SupportAppClientTypes {
 }
 
 extension SupportAppClientTypes.SlackWorkspaceConfiguration {
-
-    static func write(value: SupportAppClientTypes.SlackWorkspaceConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["allowOrganizationMemberAccount"].write(value.allowOrganizationMemberAccount)
-        try writer["teamId"].write(value.teamId)
-        try writer["teamName"].write(value.teamName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SupportAppClientTypes.SlackWorkspaceConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

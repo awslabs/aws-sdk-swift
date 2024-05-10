@@ -163,12 +163,6 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
 
 extension LexRuntimeClientTypes.Button {
 
-    static func write(value: LexRuntimeClientTypes.Button?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["text"].write(value.text)
-        try writer["value"].write(value.value)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LexRuntimeClientTypes.Button {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexRuntimeClientTypes.Button()
@@ -647,15 +641,6 @@ extension LexRuntimeClientTypes {
 
 extension LexRuntimeClientTypes.GenericAttachment {
 
-    static func write(value: LexRuntimeClientTypes.GenericAttachment?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["attachmentLinkUrl"].write(value.attachmentLinkUrl)
-        try writer["buttons"].writeList(value.buttons, memberWritingClosure: LexRuntimeClientTypes.Button.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["imageUrl"].write(value.imageUrl)
-        try writer["subTitle"].write(value.subTitle)
-        try writer["title"].write(value.title)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LexRuntimeClientTypes.GenericAttachment {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexRuntimeClientTypes.GenericAttachment()
@@ -822,11 +807,6 @@ enum GetSessionOutputError {
 }
 
 extension LexRuntimeClientTypes.IntentConfidence {
-
-    static func write(value: LexRuntimeClientTypes.IntentConfidence?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["score"].write(value.score)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LexRuntimeClientTypes.IntentConfidence {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1756,13 +1736,6 @@ extension LexRuntimeClientTypes.PredictedIntent: Swift.CustomDebugStringConverti
 
 extension LexRuntimeClientTypes.PredictedIntent {
 
-    static func write(value: LexRuntimeClientTypes.PredictedIntent?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["intentName"].write(value.intentName)
-        try writer["nluIntentConfidence"].write(value.nluIntentConfidence, with: LexRuntimeClientTypes.IntentConfidence.write(value:to:))
-        try writer["slots"].writeMap(value.slots, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LexRuntimeClientTypes.PredictedIntent {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexRuntimeClientTypes.PredictedIntent()
@@ -2099,13 +2072,6 @@ public struct RequestTimeoutException: ClientRuntime.ModeledError, AWSClientRunt
 
 extension LexRuntimeClientTypes.ResponseCard {
 
-    static func write(value: LexRuntimeClientTypes.ResponseCard?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["contentType"].write(value.contentType)
-        try writer["genericAttachments"].writeList(value.genericAttachments, memberWritingClosure: LexRuntimeClientTypes.GenericAttachment.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["version"].write(value.version)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LexRuntimeClientTypes.ResponseCard {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexRuntimeClientTypes.ResponseCard()
@@ -2141,12 +2107,6 @@ extension LexRuntimeClientTypes {
 }
 
 extension LexRuntimeClientTypes.SentimentResponse {
-
-    static func write(value: LexRuntimeClientTypes.SentimentResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["sentimentLabel"].write(value.sentimentLabel)
-        try writer["sentimentScore"].write(value.sentimentScore)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LexRuntimeClientTypes.SentimentResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

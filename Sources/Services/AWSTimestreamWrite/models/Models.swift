@@ -71,16 +71,6 @@ extension TimestreamWriteClientTypes {
 
 extension TimestreamWriteClientTypes.BatchLoadProgressReport {
 
-    static func write(value: TimestreamWriteClientTypes.BatchLoadProgressReport?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BytesMetered"].write(value.bytesMetered)
-        try writer["FileFailures"].write(value.fileFailures)
-        try writer["ParseFailures"].write(value.parseFailures)
-        try writer["RecordIngestionFailures"].write(value.recordIngestionFailures)
-        try writer["RecordsIngested"].write(value.recordsIngested)
-        try writer["RecordsProcessed"].write(value.recordsProcessed)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> TimestreamWriteClientTypes.BatchLoadProgressReport {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TimestreamWriteClientTypes.BatchLoadProgressReport()
@@ -174,17 +164,6 @@ extension TimestreamWriteClientTypes {
 
 extension TimestreamWriteClientTypes.BatchLoadTask {
 
-    static func write(value: TimestreamWriteClientTypes.BatchLoadTask?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["DatabaseName"].write(value.databaseName)
-        try writer["LastUpdatedTime"].writeTimestamp(value.lastUpdatedTime, format: .epochSeconds)
-        try writer["ResumableUntil"].writeTimestamp(value.resumableUntil, format: .epochSeconds)
-        try writer["TableName"].write(value.tableName)
-        try writer["TaskId"].write(value.taskId)
-        try writer["TaskStatus"].write(value.taskStatus)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> TimestreamWriteClientTypes.BatchLoadTask {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TimestreamWriteClientTypes.BatchLoadTask()
@@ -240,23 +219,6 @@ extension TimestreamWriteClientTypes {
 }
 
 extension TimestreamWriteClientTypes.BatchLoadTaskDescription {
-
-    static func write(value: TimestreamWriteClientTypes.BatchLoadTaskDescription?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["DataModelConfiguration"].write(value.dataModelConfiguration, with: TimestreamWriteClientTypes.DataModelConfiguration.write(value:to:))
-        try writer["DataSourceConfiguration"].write(value.dataSourceConfiguration, with: TimestreamWriteClientTypes.DataSourceConfiguration.write(value:to:))
-        try writer["ErrorMessage"].write(value.errorMessage)
-        try writer["LastUpdatedTime"].writeTimestamp(value.lastUpdatedTime, format: .epochSeconds)
-        try writer["ProgressReport"].write(value.progressReport, with: TimestreamWriteClientTypes.BatchLoadProgressReport.write(value:to:))
-        try writer["RecordVersion"].write(value.recordVersion)
-        try writer["ReportConfiguration"].write(value.reportConfiguration, with: TimestreamWriteClientTypes.ReportConfiguration.write(value:to:))
-        try writer["ResumableUntil"].writeTimestamp(value.resumableUntil, format: .epochSeconds)
-        try writer["TargetDatabaseName"].write(value.targetDatabaseName)
-        try writer["TargetTableName"].write(value.targetTableName)
-        try writer["TaskId"].write(value.taskId)
-        try writer["TaskStatus"].write(value.taskStatus)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> TimestreamWriteClientTypes.BatchLoadTaskDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -949,16 +911,6 @@ extension TimestreamWriteClientTypes {
 
 extension TimestreamWriteClientTypes.Database {
 
-    static func write(value: TimestreamWriteClientTypes.Database?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["DatabaseName"].write(value.databaseName)
-        try writer["KmsKeyId"].write(value.kmsKeyId)
-        try writer["LastUpdatedTime"].writeTimestamp(value.lastUpdatedTime, format: .epochSeconds)
-        try writer["TableCount"].write(value.tableCount)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> TimestreamWriteClientTypes.Database {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TimestreamWriteClientTypes.Database()
@@ -1420,15 +1372,6 @@ extension TimestreamWriteClientTypes.Dimension {
         try writer["Name"].write(value.name)
         try writer["Value"].write(value.value)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TimestreamWriteClientTypes.Dimension {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TimestreamWriteClientTypes.Dimension()
-        value.name = try reader["Name"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
-        value.dimensionValueType = try reader["DimensionValueType"].readIfPresent()
-        return value
-    }
 }
 
 extension TimestreamWriteClientTypes {
@@ -1522,12 +1465,6 @@ extension TimestreamWriteClientTypes {
 }
 
 extension TimestreamWriteClientTypes.Endpoint {
-
-    static func write(value: TimestreamWriteClientTypes.Endpoint?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Address"].write(value.address)
-        try writer["CachePeriodInMinutes"].write(value.cachePeriodInMinutes)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> TimestreamWriteClientTypes.Endpoint {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2029,15 +1966,6 @@ extension TimestreamWriteClientTypes.MeasureValue {
         try writer["Type"].write(value.type)
         try writer["Value"].write(value.value)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TimestreamWriteClientTypes.MeasureValue {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TimestreamWriteClientTypes.MeasureValue()
-        value.name = try reader["Name"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
-        return value
-    }
 }
 
 extension TimestreamWriteClientTypes {
@@ -2364,20 +2292,6 @@ extension TimestreamWriteClientTypes.Record {
         try writer["TimeUnit"].write(value.timeUnit)
         try writer["Version"].write(value.version)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TimestreamWriteClientTypes.Record {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TimestreamWriteClientTypes.Record()
-        value.dimensions = try reader["Dimensions"].readListIfPresent(memberReadingClosure: TimestreamWriteClientTypes.Dimension.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.measureName = try reader["MeasureName"].readIfPresent()
-        value.measureValue = try reader["MeasureValue"].readIfPresent()
-        value.measureValueType = try reader["MeasureValueType"].readIfPresent()
-        value.time = try reader["Time"].readIfPresent()
-        value.timeUnit = try reader["TimeUnit"].readIfPresent()
-        value.version = try reader["Version"].readIfPresent()
-        value.measureValues = try reader["MeasureValues"].readListIfPresent(memberReadingClosure: TimestreamWriteClientTypes.MeasureValue.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
 }
 
 extension TimestreamWriteClientTypes {
@@ -2426,13 +2340,6 @@ extension TimestreamWriteClientTypes {
 
 extension TimestreamWriteClientTypes.RecordsIngested {
 
-    static func write(value: TimestreamWriteClientTypes.RecordsIngested?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MagneticStore"].write(value.magneticStore)
-        try writer["MemoryStore"].write(value.memoryStore)
-        try writer["Total"].write(value.total)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> TimestreamWriteClientTypes.RecordsIngested {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TimestreamWriteClientTypes.RecordsIngested()
@@ -2468,13 +2375,6 @@ extension TimestreamWriteClientTypes {
 }
 
 extension TimestreamWriteClientTypes.RejectedRecord {
-
-    static func write(value: TimestreamWriteClientTypes.RejectedRecord?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ExistingVersion"].write(value.existingVersion)
-        try writer["Reason"].write(value.reason)
-        try writer["RecordIndex"].write(value.recordIndex)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> TimestreamWriteClientTypes.RejectedRecord {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2987,19 +2887,6 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 }
 
 extension TimestreamWriteClientTypes.Table {
-
-    static func write(value: TimestreamWriteClientTypes.Table?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["DatabaseName"].write(value.databaseName)
-        try writer["LastUpdatedTime"].writeTimestamp(value.lastUpdatedTime, format: .epochSeconds)
-        try writer["MagneticStoreWriteProperties"].write(value.magneticStoreWriteProperties, with: TimestreamWriteClientTypes.MagneticStoreWriteProperties.write(value:to:))
-        try writer["RetentionProperties"].write(value.retentionProperties, with: TimestreamWriteClientTypes.RetentionProperties.write(value:to:))
-        try writer["Schema"].write(value.schema, with: TimestreamWriteClientTypes.Schema.write(value:to:))
-        try writer["TableName"].write(value.tableName)
-        try writer["TableStatus"].write(value.tableStatus)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> TimestreamWriteClientTypes.Table {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

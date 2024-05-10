@@ -233,18 +233,6 @@ extension NetworkMonitorClientTypes.CreateMonitorProbeInput {
         try writer["protocol"].write(value.`protocol`)
         try writer["sourceArn"].write(value.sourceArn)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkMonitorClientTypes.CreateMonitorProbeInput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkMonitorClientTypes.CreateMonitorProbeInput()
-        value.sourceArn = try reader["sourceArn"].readIfPresent()
-        value.destination = try reader["destination"].readIfPresent()
-        value.destinationPort = try reader["destinationPort"].readIfPresent()
-        value.`protocol` = try reader["protocol"].readIfPresent()
-        value.packetSize = try reader["packetSize"].readIfPresent()
-        value.probeTags = try reader["probeTags"].readMapIfPresent(valueReadingClosure: Swift.String.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
 }
 
 extension NetworkMonitorClientTypes {
@@ -1033,15 +1021,6 @@ extension NetworkMonitorClientTypes {
 
 extension NetworkMonitorClientTypes.MonitorSummary {
 
-    static func write(value: NetworkMonitorClientTypes.MonitorSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["aggregationPeriod"].write(value.aggregationPeriod)
-        try writer["monitorArn"].write(value.monitorArn)
-        try writer["monitorName"].write(value.monitorName)
-        try writer["state"].write(value.state)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> NetworkMonitorClientTypes.MonitorSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = NetworkMonitorClientTypes.MonitorSummary()
@@ -1092,23 +1071,6 @@ extension NetworkMonitorClientTypes {
 public enum NetworkMonitorClientTypes {}
 
 extension NetworkMonitorClientTypes.Probe {
-
-    static func write(value: NetworkMonitorClientTypes.Probe?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["addressFamily"].write(value.addressFamily)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["destination"].write(value.destination)
-        try writer["destinationPort"].write(value.destinationPort)
-        try writer["modifiedAt"].writeTimestamp(value.modifiedAt, format: .epochSeconds)
-        try writer["packetSize"].write(value.packetSize)
-        try writer["probeArn"].write(value.probeArn)
-        try writer["probeId"].write(value.probeId)
-        try writer["protocol"].write(value.`protocol`)
-        try writer["sourceArn"].write(value.sourceArn)
-        try writer["state"].write(value.state)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["vpcId"].write(value.vpcId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> NetworkMonitorClientTypes.Probe {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1207,18 +1169,6 @@ extension NetworkMonitorClientTypes.ProbeInput {
         try writer["protocol"].write(value.`protocol`)
         try writer["sourceArn"].write(value.sourceArn)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkMonitorClientTypes.ProbeInput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkMonitorClientTypes.ProbeInput()
-        value.sourceArn = try reader["sourceArn"].readIfPresent()
-        value.destination = try reader["destination"].readIfPresent()
-        value.destinationPort = try reader["destinationPort"].readIfPresent()
-        value.`protocol` = try reader["protocol"].readIfPresent()
-        value.packetSize = try reader["packetSize"].readIfPresent()
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: Swift.String.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
     }
 }
 

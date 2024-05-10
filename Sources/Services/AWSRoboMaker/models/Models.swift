@@ -548,13 +548,6 @@ extension RoboMakerClientTypes {
 
 extension RoboMakerClientTypes.ComputeResponse {
 
-    static func write(value: RoboMakerClientTypes.ComputeResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["computeType"].write(value.computeType)
-        try writer["gpuUnitLimit"].write(value.gpuUnitLimit)
-        try writer["simulationUnitLimit"].write(value.simulationUnitLimit)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> RoboMakerClientTypes.ComputeResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RoboMakerClientTypes.ComputeResponse()
@@ -2118,15 +2111,6 @@ enum CreateWorldTemplateOutputError {
 
 extension RoboMakerClientTypes.DataSource {
 
-    static func write(value: RoboMakerClientTypes.DataSource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["destination"].write(value.destination)
-        try writer["name"].write(value.name)
-        try writer["s3Bucket"].write(value.s3Bucket)
-        try writer["s3Keys"].writeList(value.s3Keys, memberWritingClosure: RoboMakerClientTypes.S3KeyOutput.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> RoboMakerClientTypes.DataSource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RoboMakerClientTypes.DataSource()
@@ -2653,18 +2637,6 @@ extension RoboMakerClientTypes {
 }
 
 extension RoboMakerClientTypes.DeploymentJob {
-
-    static func write(value: RoboMakerClientTypes.DeploymentJob?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["deploymentApplicationConfigs"].writeList(value.deploymentApplicationConfigs, memberWritingClosure: RoboMakerClientTypes.DeploymentApplicationConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["deploymentConfig"].write(value.deploymentConfig, with: RoboMakerClientTypes.DeploymentConfig.write(value:to:))
-        try writer["failureCode"].write(value.failureCode)
-        try writer["failureReason"].write(value.failureReason)
-        try writer["fleet"].write(value.fleet)
-        try writer["status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> RoboMakerClientTypes.DeploymentJob {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4369,14 +4341,6 @@ extension RoboMakerClientTypes {
 
 extension RoboMakerClientTypes.FailedCreateSimulationJobRequest {
 
-    static func write(value: RoboMakerClientTypes.FailedCreateSimulationJobRequest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["failedAt"].writeTimestamp(value.failedAt, format: .epochSeconds)
-        try writer["failureCode"].write(value.failureCode)
-        try writer["failureReason"].write(value.failureReason)
-        try writer["request"].write(value.request, with: RoboMakerClientTypes.SimulationJobRequest.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> RoboMakerClientTypes.FailedCreateSimulationJobRequest {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RoboMakerClientTypes.FailedCreateSimulationJobRequest()
@@ -4448,12 +4412,6 @@ extension RoboMakerClientTypes {
 
 extension RoboMakerClientTypes.FailureSummary {
 
-    static func write(value: RoboMakerClientTypes.FailureSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["failures"].writeList(value.failures, memberWritingClosure: RoboMakerClientTypes.WorldFailure.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["totalFailureCount"].write(value.totalFailureCount)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> RoboMakerClientTypes.FailureSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RoboMakerClientTypes.FailureSummary()
@@ -4490,14 +4448,6 @@ extension RoboMakerClientTypes.Filter {
         try writer["name"].write(value.name)
         try writer["values"].writeList(value.values, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RoboMakerClientTypes.Filter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RoboMakerClientTypes.Filter()
-        value.name = try reader["name"].readIfPresent()
-        value.values = try reader["values"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
 }
 
 extension RoboMakerClientTypes {
@@ -4521,13 +4471,6 @@ extension RoboMakerClientTypes {
 }
 
 extension RoboMakerClientTypes.FinishedWorldsSummary {
-
-    static func write(value: RoboMakerClientTypes.FinishedWorldsSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["failureSummary"].write(value.failureSummary, with: RoboMakerClientTypes.FailureSummary.write(value:to:))
-        try writer["finishedCount"].write(value.finishedCount)
-        try writer["succeededWorlds"].writeList(value.succeededWorlds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> RoboMakerClientTypes.FinishedWorldsSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4564,16 +4507,6 @@ extension RoboMakerClientTypes {
 }
 
 extension RoboMakerClientTypes.Fleet {
-
-    static func write(value: RoboMakerClientTypes.Fleet?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["lastDeploymentJob"].write(value.lastDeploymentJob)
-        try writer["lastDeploymentStatus"].write(value.lastDeploymentStatus)
-        try writer["lastDeploymentTime"].writeTimestamp(value.lastDeploymentTime, format: .epochSeconds)
-        try writer["name"].write(value.name)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> RoboMakerClientTypes.Fleet {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5922,13 +5855,6 @@ extension RoboMakerClientTypes {
 
 extension RoboMakerClientTypes.NetworkInterface {
 
-    static func write(value: RoboMakerClientTypes.NetworkInterface?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["networkInterfaceId"].write(value.networkInterfaceId)
-        try writer["privateIpAddress"].write(value.privateIpAddress)
-        try writer["publicIpAddress"].write(value.publicIpAddress)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> RoboMakerClientTypes.NetworkInterface {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RoboMakerClientTypes.NetworkInterface()
@@ -6077,14 +6003,6 @@ extension RoboMakerClientTypes {
 }
 
 extension RoboMakerClientTypes.ProgressDetail {
-
-    static func write(value: RoboMakerClientTypes.ProgressDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["currentProgress"].write(value.currentProgress)
-        try writer["estimatedTimeRemainingSeconds"].write(value.estimatedTimeRemainingSeconds)
-        try writer["percentDone"].write(value.percentDone)
-        try writer["targetResource"].write(value.targetResource)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> RoboMakerClientTypes.ProgressDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6408,19 +6326,6 @@ public enum RoboMakerClientTypes {}
 
 extension RoboMakerClientTypes.Robot {
 
-    static func write(value: RoboMakerClientTypes.Robot?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["architecture"].write(value.architecture)
-        try writer["arn"].write(value.arn)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["fleetArn"].write(value.fleetArn)
-        try writer["greenGrassGroupId"].write(value.greenGrassGroupId)
-        try writer["lastDeploymentJob"].write(value.lastDeploymentJob)
-        try writer["lastDeploymentTime"].writeTimestamp(value.lastDeploymentTime, format: .epochSeconds)
-        try writer["name"].write(value.name)
-        try writer["status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> RoboMakerClientTypes.Robot {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RoboMakerClientTypes.Robot()
@@ -6558,15 +6463,6 @@ extension RoboMakerClientTypes {
 
 extension RoboMakerClientTypes.RobotApplicationSummary {
 
-    static func write(value: RoboMakerClientTypes.RobotApplicationSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["lastUpdatedAt"].writeTimestamp(value.lastUpdatedAt, format: .epochSeconds)
-        try writer["name"].write(value.name)
-        try writer["robotSoftwareSuite"].write(value.robotSoftwareSuite, with: RoboMakerClientTypes.RobotSoftwareSuite.write(value:to:))
-        try writer["version"].write(value.version)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> RoboMakerClientTypes.RobotApplicationSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RoboMakerClientTypes.RobotApplicationSummary()
@@ -6612,17 +6508,6 @@ extension RoboMakerClientTypes {
 }
 
 extension RoboMakerClientTypes.RobotDeployment {
-
-    static func write(value: RoboMakerClientTypes.RobotDeployment?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["deploymentFinishTime"].writeTimestamp(value.deploymentFinishTime, format: .epochSeconds)
-        try writer["deploymentStartTime"].writeTimestamp(value.deploymentStartTime, format: .epochSeconds)
-        try writer["failureCode"].write(value.failureCode)
-        try writer["failureReason"].write(value.failureReason)
-        try writer["progressDetail"].write(value.progressDetail, with: RoboMakerClientTypes.ProgressDetail.write(value:to:))
-        try writer["status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> RoboMakerClientTypes.RobotDeployment {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6876,12 +6761,6 @@ extension RoboMakerClientTypes {
 
 extension RoboMakerClientTypes.S3KeyOutput {
 
-    static func write(value: RoboMakerClientTypes.S3KeyOutput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["etag"].write(value.etag)
-        try writer["s3Key"].write(value.s3Key)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> RoboMakerClientTypes.S3KeyOutput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RoboMakerClientTypes.S3KeyOutput()
@@ -7072,16 +6951,6 @@ extension RoboMakerClientTypes {
 
 extension RoboMakerClientTypes.SimulationApplicationSummary {
 
-    static func write(value: RoboMakerClientTypes.SimulationApplicationSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["lastUpdatedAt"].writeTimestamp(value.lastUpdatedAt, format: .epochSeconds)
-        try writer["name"].write(value.name)
-        try writer["robotSoftwareSuite"].write(value.robotSoftwareSuite, with: RoboMakerClientTypes.RobotSoftwareSuite.write(value:to:))
-        try writer["simulationSoftwareSuite"].write(value.simulationSoftwareSuite, with: RoboMakerClientTypes.SimulationSoftwareSuite.write(value:to:))
-        try writer["version"].write(value.version)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> RoboMakerClientTypes.SimulationApplicationSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RoboMakerClientTypes.SimulationApplicationSummary()
@@ -7132,31 +7001,6 @@ extension RoboMakerClientTypes {
 }
 
 extension RoboMakerClientTypes.SimulationJob {
-
-    static func write(value: RoboMakerClientTypes.SimulationJob?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["clientRequestToken"].write(value.clientRequestToken)
-        try writer["compute"].write(value.compute, with: RoboMakerClientTypes.ComputeResponse.write(value:to:))
-        try writer["dataSources"].writeList(value.dataSources, memberWritingClosure: RoboMakerClientTypes.DataSource.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["failureBehavior"].write(value.failureBehavior)
-        try writer["failureCode"].write(value.failureCode)
-        try writer["failureReason"].write(value.failureReason)
-        try writer["iamRole"].write(value.iamRole)
-        try writer["lastStartedAt"].writeTimestamp(value.lastStartedAt, format: .epochSeconds)
-        try writer["lastUpdatedAt"].writeTimestamp(value.lastUpdatedAt, format: .epochSeconds)
-        try writer["loggingConfig"].write(value.loggingConfig, with: RoboMakerClientTypes.LoggingConfig.write(value:to:))
-        try writer["maxJobDurationInSeconds"].write(value.maxJobDurationInSeconds)
-        try writer["name"].write(value.name)
-        try writer["networkInterface"].write(value.networkInterface, with: RoboMakerClientTypes.NetworkInterface.write(value:to:))
-        try writer["outputLocation"].write(value.outputLocation, with: RoboMakerClientTypes.OutputLocation.write(value:to:))
-        try writer["robotApplications"].writeList(value.robotApplications, memberWritingClosure: RoboMakerClientTypes.RobotApplicationConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["simulationApplications"].writeList(value.simulationApplications, memberWritingClosure: RoboMakerClientTypes.SimulationApplicationConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["simulationTimeMillis"].write(value.simulationTimeMillis)
-        try writer["status"].write(value.status)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["vpcConfig"].write(value.vpcConfig, with: RoboMakerClientTypes.VPCConfigResponse.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> RoboMakerClientTypes.SimulationJob {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7361,17 +7205,6 @@ extension RoboMakerClientTypes {
 }
 
 extension RoboMakerClientTypes.SimulationJobBatchSummary {
-
-    static func write(value: RoboMakerClientTypes.SimulationJobBatchSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["createdRequestCount"].write(value.createdRequestCount)
-        try writer["failedRequestCount"].write(value.failedRequestCount)
-        try writer["lastUpdatedAt"].writeTimestamp(value.lastUpdatedAt, format: .epochSeconds)
-        try writer["pendingRequestCount"].write(value.pendingRequestCount)
-        try writer["status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> RoboMakerClientTypes.SimulationJobBatchSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7698,18 +7531,6 @@ extension RoboMakerClientTypes {
 
 extension RoboMakerClientTypes.SimulationJobSummary {
 
-    static func write(value: RoboMakerClientTypes.SimulationJobSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["computeType"].write(value.computeType)
-        try writer["dataSourceNames"].writeList(value.dataSourceNames, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["lastUpdatedAt"].writeTimestamp(value.lastUpdatedAt, format: .epochSeconds)
-        try writer["name"].write(value.name)
-        try writer["robotApplicationNames"].writeList(value.robotApplicationNames, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["simulationApplicationNames"].writeList(value.simulationApplicationNames, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> RoboMakerClientTypes.SimulationJobSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RoboMakerClientTypes.SimulationJobSummary()
@@ -7841,14 +7662,6 @@ extension RoboMakerClientTypes {
 
 extension RoboMakerClientTypes.Source {
 
-    static func write(value: RoboMakerClientTypes.Source?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["architecture"].write(value.architecture)
-        try writer["etag"].write(value.etag)
-        try writer["s3Bucket"].write(value.s3Bucket)
-        try writer["s3Key"].write(value.s3Key)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> RoboMakerClientTypes.Source {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RoboMakerClientTypes.Source()
@@ -7895,15 +7708,6 @@ extension RoboMakerClientTypes.SourceConfig {
         try writer["architecture"].write(value.architecture)
         try writer["s3Bucket"].write(value.s3Bucket)
         try writer["s3Key"].write(value.s3Key)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RoboMakerClientTypes.SourceConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RoboMakerClientTypes.SourceConfig()
-        value.s3Bucket = try reader["s3Bucket"].readIfPresent()
-        value.s3Key = try reader["s3Key"].readIfPresent()
-        value.architecture = try reader["architecture"].readIfPresent()
-        return value
     }
 }
 
@@ -8253,14 +8057,6 @@ extension RoboMakerClientTypes.TemplateLocation {
         try writer["s3Bucket"].write(value.s3Bucket)
         try writer["s3Key"].write(value.s3Key)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RoboMakerClientTypes.TemplateLocation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RoboMakerClientTypes.TemplateLocation()
-        value.s3Bucket = try reader["s3Bucket"].readIfPresent()
-        value.s3Key = try reader["s3Key"].readIfPresent()
-        return value
-    }
 }
 
 extension RoboMakerClientTypes {
@@ -8286,15 +8082,6 @@ extension RoboMakerClientTypes {
 }
 
 extension RoboMakerClientTypes.TemplateSummary {
-
-    static func write(value: RoboMakerClientTypes.TemplateSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["lastUpdatedAt"].writeTimestamp(value.lastUpdatedAt, format: .epochSeconds)
-        try writer["name"].write(value.name)
-        try writer["version"].write(value.version)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> RoboMakerClientTypes.TemplateSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -9001,14 +8788,6 @@ extension RoboMakerClientTypes {
 
 extension RoboMakerClientTypes.VPCConfigResponse {
 
-    static func write(value: RoboMakerClientTypes.VPCConfigResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["assignPublicIp"].write(value.assignPublicIp)
-        try writer["securityGroups"].writeList(value.securityGroups, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["subnets"].writeList(value.subnets, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["vpcId"].write(value.vpcId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> RoboMakerClientTypes.VPCConfigResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RoboMakerClientTypes.VPCConfigResponse()
@@ -9202,15 +8981,6 @@ extension RoboMakerClientTypes {
 
 extension RoboMakerClientTypes.WorldExportJobSummary {
 
-    static func write(value: RoboMakerClientTypes.WorldExportJobSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["outputLocation"].write(value.outputLocation, with: RoboMakerClientTypes.OutputLocation.write(value:to:))
-        try writer["status"].write(value.status)
-        try writer["worlds"].writeList(value.worlds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> RoboMakerClientTypes.WorldExportJobSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RoboMakerClientTypes.WorldExportJobSummary()
@@ -9256,13 +9026,6 @@ extension RoboMakerClientTypes {
 }
 
 extension RoboMakerClientTypes.WorldFailure {
-
-    static func write(value: RoboMakerClientTypes.WorldFailure?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["failureCode"].write(value.failureCode)
-        try writer["failureCount"].write(value.failureCount)
-        try writer["sampleFailureReason"].write(value.sampleFailureReason)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> RoboMakerClientTypes.WorldFailure {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -9387,17 +9150,6 @@ extension RoboMakerClientTypes {
 
 extension RoboMakerClientTypes.WorldGenerationJobSummary {
 
-    static func write(value: RoboMakerClientTypes.WorldGenerationJobSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["failedWorldCount"].write(value.failedWorldCount)
-        try writer["status"].write(value.status)
-        try writer["succeededWorldCount"].write(value.succeededWorldCount)
-        try writer["template"].write(value.template)
-        try writer["worldCount"].write(value.worldCount, with: RoboMakerClientTypes.WorldCount.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> RoboMakerClientTypes.WorldGenerationJobSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RoboMakerClientTypes.WorldGenerationJobSummary()
@@ -9453,14 +9205,6 @@ extension RoboMakerClientTypes {
 }
 
 extension RoboMakerClientTypes.WorldSummary {
-
-    static func write(value: RoboMakerClientTypes.WorldSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["generationJob"].write(value.generationJob)
-        try writer["template"].write(value.template)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> RoboMakerClientTypes.WorldSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

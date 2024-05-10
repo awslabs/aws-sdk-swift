@@ -10,13 +10,6 @@ extension SyntheticsClientTypes.ArtifactConfigInput {
         guard let value else { return }
         try writer["S3Encryption"].write(value.s3Encryption, with: SyntheticsClientTypes.S3EncryptionConfig.write(value:to:))
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SyntheticsClientTypes.ArtifactConfigInput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SyntheticsClientTypes.ArtifactConfigInput()
-        value.s3Encryption = try reader["S3Encryption"].readIfPresent(with: SyntheticsClientTypes.S3EncryptionConfig.read(from:))
-        return value
-    }
 }
 
 extension SyntheticsClientTypes {
@@ -36,11 +29,6 @@ extension SyntheticsClientTypes {
 }
 
 extension SyntheticsClientTypes.ArtifactConfigOutput {
-
-    static func write(value: SyntheticsClientTypes.ArtifactConfigOutput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["S3Encryption"].write(value.s3Encryption, with: SyntheticsClientTypes.S3EncryptionConfig.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SyntheticsClientTypes.ArtifactConfigOutput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -209,27 +197,6 @@ extension SyntheticsClientTypes {
 
 extension SyntheticsClientTypes.Canary {
 
-    static func write(value: SyntheticsClientTypes.Canary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ArtifactConfig"].write(value.artifactConfig, with: SyntheticsClientTypes.ArtifactConfigOutput.write(value:to:))
-        try writer["ArtifactS3Location"].write(value.artifactS3Location)
-        try writer["Code"].write(value.code, with: SyntheticsClientTypes.CanaryCodeOutput.write(value:to:))
-        try writer["EngineArn"].write(value.engineArn)
-        try writer["ExecutionRoleArn"].write(value.executionRoleArn)
-        try writer["FailureRetentionPeriodInDays"].write(value.failureRetentionPeriodInDays)
-        try writer["Id"].write(value.id)
-        try writer["Name"].write(value.name)
-        try writer["RunConfig"].write(value.runConfig, with: SyntheticsClientTypes.CanaryRunConfigOutput.write(value:to:))
-        try writer["RuntimeVersion"].write(value.runtimeVersion)
-        try writer["Schedule"].write(value.schedule, with: SyntheticsClientTypes.CanaryScheduleOutput.write(value:to:))
-        try writer["Status"].write(value.status, with: SyntheticsClientTypes.CanaryStatus.write(value:to:))
-        try writer["SuccessRetentionPeriodInDays"].write(value.successRetentionPeriodInDays)
-        try writer["Tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["Timeline"].write(value.timeline, with: SyntheticsClientTypes.CanaryTimeline.write(value:to:))
-        try writer["VisualReference"].write(value.visualReference, with: SyntheticsClientTypes.VisualReferenceOutput.write(value:to:))
-        try writer["VpcConfig"].write(value.vpcConfig, with: SyntheticsClientTypes.VpcConfigOutput.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SyntheticsClientTypes.Canary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SyntheticsClientTypes.Canary()
@@ -344,17 +311,6 @@ extension SyntheticsClientTypes.CanaryCodeInput {
         try writer["S3Version"].write(value.s3Version)
         try writer["ZipFile"].write(value.zipFile)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SyntheticsClientTypes.CanaryCodeInput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SyntheticsClientTypes.CanaryCodeInput()
-        value.s3Bucket = try reader["S3Bucket"].readIfPresent()
-        value.s3Key = try reader["S3Key"].readIfPresent()
-        value.s3Version = try reader["S3Version"].readIfPresent()
-        value.zipFile = try reader["ZipFile"].readIfPresent()
-        value.handler = try reader["Handler"].readIfPresent()
-        return value
-    }
 }
 
 extension SyntheticsClientTypes {
@@ -392,12 +348,6 @@ extension SyntheticsClientTypes {
 
 extension SyntheticsClientTypes.CanaryCodeOutput {
 
-    static func write(value: SyntheticsClientTypes.CanaryCodeOutput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Handler"].write(value.handler)
-        try writer["SourceLocationArn"].write(value.sourceLocationArn)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SyntheticsClientTypes.CanaryCodeOutput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SyntheticsClientTypes.CanaryCodeOutput()
@@ -429,12 +379,6 @@ extension SyntheticsClientTypes {
 
 extension SyntheticsClientTypes.CanaryLastRun {
 
-    static func write(value: SyntheticsClientTypes.CanaryLastRun?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CanaryName"].write(value.canaryName)
-        try writer["LastRun"].write(value.lastRun, with: SyntheticsClientTypes.CanaryRun.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SyntheticsClientTypes.CanaryLastRun {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SyntheticsClientTypes.CanaryLastRun()
@@ -465,15 +409,6 @@ extension SyntheticsClientTypes {
 }
 
 extension SyntheticsClientTypes.CanaryRun {
-
-    static func write(value: SyntheticsClientTypes.CanaryRun?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ArtifactS3Location"].write(value.artifactS3Location)
-        try writer["Id"].write(value.id)
-        try writer["Name"].write(value.name)
-        try writer["Status"].write(value.status, with: SyntheticsClientTypes.CanaryRunStatus.write(value:to:))
-        try writer["Timeline"].write(value.timeline, with: SyntheticsClientTypes.CanaryRunTimeline.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SyntheticsClientTypes.CanaryRun {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -528,16 +463,6 @@ extension SyntheticsClientTypes.CanaryRunConfigInput {
         try writer["MemoryInMB"].write(value.memoryInMB)
         try writer["TimeoutInSeconds"].write(value.timeoutInSeconds)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SyntheticsClientTypes.CanaryRunConfigInput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SyntheticsClientTypes.CanaryRunConfigInput()
-        value.timeoutInSeconds = try reader["TimeoutInSeconds"].readIfPresent()
-        value.memoryInMB = try reader["MemoryInMB"].readIfPresent()
-        value.activeTracing = try reader["ActiveTracing"].readIfPresent()
-        value.environmentVariables = try reader["EnvironmentVariables"].readMapIfPresent(valueReadingClosure: Swift.String.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
 }
 
 extension SyntheticsClientTypes {
@@ -569,13 +494,6 @@ extension SyntheticsClientTypes {
 }
 
 extension SyntheticsClientTypes.CanaryRunConfigOutput {
-
-    static func write(value: SyntheticsClientTypes.CanaryRunConfigOutput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ActiveTracing"].write(value.activeTracing)
-        try writer["MemoryInMB"].write(value.memoryInMB)
-        try writer["TimeoutInSeconds"].write(value.timeoutInSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SyntheticsClientTypes.CanaryRunConfigOutput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -676,13 +594,6 @@ extension SyntheticsClientTypes {
 
 extension SyntheticsClientTypes.CanaryRunStatus {
 
-    static func write(value: SyntheticsClientTypes.CanaryRunStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["State"].write(value.state)
-        try writer["StateReason"].write(value.stateReason)
-        try writer["StateReasonCode"].write(value.stateReasonCode)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SyntheticsClientTypes.CanaryRunStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SyntheticsClientTypes.CanaryRunStatus()
@@ -718,12 +629,6 @@ extension SyntheticsClientTypes {
 }
 
 extension SyntheticsClientTypes.CanaryRunTimeline {
-
-    static func write(value: SyntheticsClientTypes.CanaryRunTimeline?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Completed"].writeTimestamp(value.completed, format: .epochSeconds)
-        try writer["Started"].writeTimestamp(value.started, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SyntheticsClientTypes.CanaryRunTimeline {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -761,14 +666,6 @@ extension SyntheticsClientTypes.CanaryScheduleInput {
         try writer["DurationInSeconds"].write(value.durationInSeconds)
         try writer["Expression"].write(value.expression)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SyntheticsClientTypes.CanaryScheduleInput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SyntheticsClientTypes.CanaryScheduleInput()
-        value.expression = try reader["Expression"].readIfPresent()
-        value.durationInSeconds = try reader["DurationInSeconds"].readIfPresent()
-        return value
-    }
 }
 
 extension SyntheticsClientTypes {
@@ -793,12 +690,6 @@ extension SyntheticsClientTypes {
 }
 
 extension SyntheticsClientTypes.CanaryScheduleOutput {
-
-    static func write(value: SyntheticsClientTypes.CanaryScheduleOutput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DurationInSeconds"].write(value.durationInSeconds)
-        try writer["Expression"].write(value.expression)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SyntheticsClientTypes.CanaryScheduleOutput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -942,13 +833,6 @@ extension SyntheticsClientTypes {
 
 extension SyntheticsClientTypes.CanaryStatus {
 
-    static func write(value: SyntheticsClientTypes.CanaryStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["State"].write(value.state)
-        try writer["StateReason"].write(value.stateReason)
-        try writer["StateReasonCode"].write(value.stateReasonCode)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SyntheticsClientTypes.CanaryStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SyntheticsClientTypes.CanaryStatus()
@@ -984,14 +868,6 @@ extension SyntheticsClientTypes {
 }
 
 extension SyntheticsClientTypes.CanaryTimeline {
-
-    static func write(value: SyntheticsClientTypes.CanaryTimeline?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Created"].writeTimestamp(value.created, format: .epochSeconds)
-        try writer["LastModified"].writeTimestamp(value.lastModified, format: .epochSeconds)
-        try writer["LastStarted"].writeTimestamp(value.lastStarted, format: .epochSeconds)
-        try writer["LastStopped"].writeTimestamp(value.lastStopped, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SyntheticsClientTypes.CanaryTimeline {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1951,16 +1827,6 @@ enum GetGroupOutputError {
 
 extension SyntheticsClientTypes.Group {
 
-    static func write(value: SyntheticsClientTypes.Group?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["CreatedTime"].writeTimestamp(value.createdTime, format: .epochSeconds)
-        try writer["Id"].write(value.id)
-        try writer["LastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .epochSeconds)
-        try writer["Name"].write(value.name)
-        try writer["Tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SyntheticsClientTypes.Group {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SyntheticsClientTypes.Group()
@@ -2011,13 +1877,6 @@ extension SyntheticsClientTypes {
 }
 
 extension SyntheticsClientTypes.GroupSummary {
-
-    static func write(value: SyntheticsClientTypes.GroupSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["Id"].write(value.id)
-        try writer["Name"].write(value.name)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SyntheticsClientTypes.GroupSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2551,14 +2410,6 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 extension SyntheticsClientTypes.RuntimeVersion {
-
-    static func write(value: SyntheticsClientTypes.RuntimeVersion?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DeprecationDate"].writeTimestamp(value.deprecationDate, format: .epochSeconds)
-        try writer["Description"].write(value.description)
-        try writer["ReleaseDate"].writeTimestamp(value.releaseDate, format: .epochSeconds)
-        try writer["VersionName"].write(value.versionName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SyntheticsClientTypes.RuntimeVersion {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3129,14 +2980,6 @@ extension SyntheticsClientTypes.VisualReferenceInput {
         try writer["BaseCanaryRunId"].write(value.baseCanaryRunId)
         try writer["BaseScreenshots"].writeList(value.baseScreenshots, memberWritingClosure: SyntheticsClientTypes.BaseScreenshot.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SyntheticsClientTypes.VisualReferenceInput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SyntheticsClientTypes.VisualReferenceInput()
-        value.baseScreenshots = try reader["BaseScreenshots"].readListIfPresent(memberReadingClosure: SyntheticsClientTypes.BaseScreenshot.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.baseCanaryRunId = try reader["BaseCanaryRunId"].readIfPresent()
-        return value
-    }
 }
 
 extension SyntheticsClientTypes {
@@ -3161,12 +3004,6 @@ extension SyntheticsClientTypes {
 }
 
 extension SyntheticsClientTypes.VisualReferenceOutput {
-
-    static func write(value: SyntheticsClientTypes.VisualReferenceOutput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BaseCanaryRunId"].write(value.baseCanaryRunId)
-        try writer["BaseScreenshots"].writeList(value.baseScreenshots, memberWritingClosure: SyntheticsClientTypes.BaseScreenshot.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SyntheticsClientTypes.VisualReferenceOutput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3204,14 +3041,6 @@ extension SyntheticsClientTypes.VpcConfigInput {
         try writer["SecurityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["SubnetIds"].writeList(value.subnetIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SyntheticsClientTypes.VpcConfigInput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SyntheticsClientTypes.VpcConfigInput()
-        value.subnetIds = try reader["SubnetIds"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.securityGroupIds = try reader["SecurityGroupIds"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
 }
 
 extension SyntheticsClientTypes {
@@ -3235,13 +3064,6 @@ extension SyntheticsClientTypes {
 }
 
 extension SyntheticsClientTypes.VpcConfigOutput {
-
-    static func write(value: SyntheticsClientTypes.VpcConfigOutput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["SecurityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["SubnetIds"].writeList(value.subnetIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["VpcId"].write(value.vpcId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SyntheticsClientTypes.VpcConfigOutput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

@@ -6,18 +6,6 @@ import SmithyReadWrite
 
 extension DeviceFarmClientTypes.AccountSettings {
 
-    static func write(value: DeviceFarmClientTypes.AccountSettings?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["awsAccountNumber"].write(value.awsAccountNumber)
-        try writer["defaultJobTimeoutMinutes"].write(value.defaultJobTimeoutMinutes)
-        try writer["maxJobTimeoutMinutes"].write(value.maxJobTimeoutMinutes)
-        try writer["maxSlots"].writeMap(value.maxSlots, valueWritingClosure: Swift.Int.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["skipAppResign"].write(value.skipAppResign)
-        try writer["trialMinutes"].write(value.trialMinutes, with: DeviceFarmClientTypes.TrialMinutes.write(value:to:))
-        try writer["unmeteredDevices"].writeMap(value.unmeteredDevices, valueWritingClosure: Swift.Int.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["unmeteredRemoteAccessDevices"].writeMap(value.unmeteredRemoteAccessDevices, valueWritingClosure: Swift.Int.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.AccountSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DeviceFarmClientTypes.AccountSettings()
@@ -116,15 +104,6 @@ public struct ArgumentException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 }
 
 extension DeviceFarmClientTypes.Artifact {
-
-    static func write(value: DeviceFarmClientTypes.Artifact?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["extension"].write(value.`extension`)
-        try writer["name"].write(value.name)
-        try writer["type"].write(value.type)
-        try writer["url"].write(value.url)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.Artifact {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -399,13 +378,6 @@ extension DeviceFarmClientTypes {
 
 extension DeviceFarmClientTypes.CPU {
 
-    static func write(value: DeviceFarmClientTypes.CPU?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["architecture"].write(value.architecture)
-        try writer["clock"].write(value.clock)
-        try writer["frequency"].write(value.frequency)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.CPU {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DeviceFarmClientTypes.CPU()
@@ -478,17 +450,6 @@ public struct CannotDeleteException: ClientRuntime.ModeledError, AWSClientRuntim
 }
 
 extension DeviceFarmClientTypes.Counters {
-
-    static func write(value: DeviceFarmClientTypes.Counters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["errored"].write(value.errored)
-        try writer["failed"].write(value.failed)
-        try writer["passed"].write(value.passed)
-        try writer["skipped"].write(value.skipped)
-        try writer["stopped"].write(value.stopped)
-        try writer["total"].write(value.total)
-        try writer["warned"].write(value.warned)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.Counters {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -939,14 +900,6 @@ extension DeviceFarmClientTypes.CreateRemoteAccessSessionConfiguration {
         guard let value else { return }
         try writer["billingMethod"].write(value.billingMethod)
         try writer["vpceConfigurationArns"].writeList(value.vpceConfigurationArns, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.CreateRemoteAccessSessionConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DeviceFarmClientTypes.CreateRemoteAccessSessionConfiguration()
-        value.billingMethod = try reader["billingMethod"].readIfPresent()
-        value.vpceConfigurationArns = try reader["vpceConfigurationArns"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -2100,31 +2053,6 @@ enum DeleteVPCEConfigurationOutputError {
 
 extension DeviceFarmClientTypes.Device {
 
-    static func write(value: DeviceFarmClientTypes.Device?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["availability"].write(value.availability)
-        try writer["carrier"].write(value.carrier)
-        try writer["cpu"].write(value.cpu, with: DeviceFarmClientTypes.CPU.write(value:to:))
-        try writer["fleetName"].write(value.fleetName)
-        try writer["fleetType"].write(value.fleetType)
-        try writer["formFactor"].write(value.formFactor)
-        try writer["heapSize"].write(value.heapSize)
-        try writer["image"].write(value.image)
-        try writer["instances"].writeList(value.instances, memberWritingClosure: DeviceFarmClientTypes.DeviceInstance.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["manufacturer"].write(value.manufacturer)
-        try writer["memory"].write(value.memory)
-        try writer["model"].write(value.model)
-        try writer["modelId"].write(value.modelId)
-        try writer["name"].write(value.name)
-        try writer["os"].write(value.os)
-        try writer["platform"].write(value.platform)
-        try writer["radio"].write(value.radio)
-        try writer["remoteAccessEnabled"].write(value.remoteAccessEnabled)
-        try writer["remoteDebugEnabled"].write(value.remoteDebugEnabled)
-        try writer["resolution"].write(value.resolution, with: DeviceFarmClientTypes.Resolution.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.Device {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DeviceFarmClientTypes.Device()
@@ -2511,16 +2439,6 @@ extension DeviceFarmClientTypes {
 
 extension DeviceFarmClientTypes.DeviceInstance {
 
-    static func write(value: DeviceFarmClientTypes.DeviceInstance?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["deviceArn"].write(value.deviceArn)
-        try writer["instanceProfile"].write(value.instanceProfile, with: DeviceFarmClientTypes.InstanceProfile.write(value:to:))
-        try writer["labels"].writeList(value.labels, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["status"].write(value.status)
-        try writer["udid"].write(value.udid)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.DeviceInstance {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DeviceFarmClientTypes.DeviceInstance()
@@ -2571,13 +2489,6 @@ extension DeviceFarmClientTypes {
 }
 
 extension DeviceFarmClientTypes.DeviceMinutes {
-
-    static func write(value: DeviceFarmClientTypes.DeviceMinutes?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["metered"].write(value.metered)
-        try writer["total"].write(value.total)
-        try writer["unmetered"].write(value.unmetered)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.DeviceMinutes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2645,16 +2556,6 @@ extension DeviceFarmClientTypes {
 
 extension DeviceFarmClientTypes.DevicePool {
 
-    static func write(value: DeviceFarmClientTypes.DevicePool?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["description"].write(value.description)
-        try writer["maxDevices"].write(value.maxDevices)
-        try writer["name"].write(value.name)
-        try writer["rules"].writeList(value.rules, memberWritingClosure: DeviceFarmClientTypes.Rule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.DevicePool {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DeviceFarmClientTypes.DevicePool()
@@ -2709,13 +2610,6 @@ extension DeviceFarmClientTypes {
 }
 
 extension DeviceFarmClientTypes.DevicePoolCompatibilityResult {
-
-    static func write(value: DeviceFarmClientTypes.DevicePoolCompatibilityResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["compatible"].write(value.compatible)
-        try writer["device"].write(value.device, with: DeviceFarmClientTypes.Device.write(value:to:))
-        try writer["incompatibilityMessages"].writeList(value.incompatibilityMessages, memberWritingClosure: DeviceFarmClientTypes.IncompatibilityMessage.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.DevicePoolCompatibilityResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2787,14 +2681,6 @@ extension DeviceFarmClientTypes.DeviceSelectionConfiguration {
         guard let value else { return }
         try writer["filters"].writeList(value.filters, memberWritingClosure: DeviceFarmClientTypes.DeviceFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["maxDevices"].write(value.maxDevices)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.DeviceSelectionConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DeviceFarmClientTypes.DeviceSelectionConfiguration()
-        value.filters = try reader["filters"].readListIfPresent(memberReadingClosure: DeviceFarmClientTypes.DeviceFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.maxDevices = try reader["maxDevices"].readIfPresent()
-        return value
     }
 }
 
@@ -2881,13 +2767,6 @@ extension DeviceFarmClientTypes {
 
 extension DeviceFarmClientTypes.DeviceSelectionResult {
 
-    static func write(value: DeviceFarmClientTypes.DeviceSelectionResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["filters"].writeList(value.filters, memberWritingClosure: DeviceFarmClientTypes.DeviceFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["matchedDevicesCount"].write(value.matchedDevicesCount)
-        try writer["maxDevices"].write(value.maxDevices)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.DeviceSelectionResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DeviceFarmClientTypes.DeviceSelectionResult()
@@ -2931,17 +2810,6 @@ extension DeviceFarmClientTypes.ExecutionConfiguration {
         try writer["jobTimeoutMinutes"].write(value.jobTimeoutMinutes)
         try writer["skipAppResign"].write(value.skipAppResign)
         try writer["videoCapture"].write(value.videoCapture)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.ExecutionConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DeviceFarmClientTypes.ExecutionConfiguration()
-        value.jobTimeoutMinutes = try reader["jobTimeoutMinutes"].readIfPresent()
-        value.accountsCleanup = try reader["accountsCleanup"].readIfPresent()
-        value.appPackagesCleanup = try reader["appPackagesCleanup"].readIfPresent()
-        value.videoCapture = try reader["videoCapture"].readIfPresent()
-        value.skipAppResign = try reader["skipAppResign"].readIfPresent()
-        return value
     }
 }
 
@@ -4478,12 +4346,6 @@ public struct IdempotencyException: ClientRuntime.ModeledError, AWSClientRuntime
 
 extension DeviceFarmClientTypes.IncompatibilityMessage {
 
-    static func write(value: DeviceFarmClientTypes.IncompatibilityMessage?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.message)
-        try writer["type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.IncompatibilityMessage {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DeviceFarmClientTypes.IncompatibilityMessage()
@@ -4603,16 +4465,6 @@ enum InstallToRemoteAccessSessionOutputError {
 }
 
 extension DeviceFarmClientTypes.InstanceProfile {
-
-    static func write(value: DeviceFarmClientTypes.InstanceProfile?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["description"].write(value.description)
-        try writer["excludeAppPackagesFromCleanup"].writeList(value.excludeAppPackagesFromCleanup, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["name"].write(value.name)
-        try writer["packageCleanup"].write(value.packageCleanup)
-        try writer["rebootAfterUse"].write(value.rebootAfterUse)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.InstanceProfile {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4807,25 +4659,6 @@ public struct InvalidOperationException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 extension DeviceFarmClientTypes.Job {
-
-    static func write(value: DeviceFarmClientTypes.Job?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["counters"].write(value.counters, with: DeviceFarmClientTypes.Counters.write(value:to:))
-        try writer["created"].writeTimestamp(value.created, format: .epochSeconds)
-        try writer["device"].write(value.device, with: DeviceFarmClientTypes.Device.write(value:to:))
-        try writer["deviceMinutes"].write(value.deviceMinutes, with: DeviceFarmClientTypes.DeviceMinutes.write(value:to:))
-        try writer["instanceArn"].write(value.instanceArn)
-        try writer["message"].write(value.message)
-        try writer["name"].write(value.name)
-        try writer["result"].write(value.result)
-        try writer["started"].writeTimestamp(value.started, format: .epochSeconds)
-        try writer["status"].write(value.status)
-        try writer["stopped"].writeTimestamp(value.stopped, format: .epochSeconds)
-        try writer["type"].write(value.type)
-        try writer["videoCapture"].write(value.videoCapture)
-        try writer["videoEndpoint"].write(value.videoEndpoint)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.Job {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7162,12 +6995,6 @@ extension DeviceFarmClientTypes {
 
 extension DeviceFarmClientTypes.MonetaryAmount {
 
-    static func write(value: DeviceFarmClientTypes.MonetaryAmount?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["amount"].write(value.amount)
-        try writer["currencyCode"].write(value.currencyCode)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.MonetaryAmount {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DeviceFarmClientTypes.MonetaryAmount()
@@ -7198,22 +7025,6 @@ extension DeviceFarmClientTypes {
 }
 
 extension DeviceFarmClientTypes.NetworkProfile {
-
-    static func write(value: DeviceFarmClientTypes.NetworkProfile?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["description"].write(value.description)
-        try writer["downlinkBandwidthBits"].write(value.downlinkBandwidthBits)
-        try writer["downlinkDelayMs"].write(value.downlinkDelayMs)
-        try writer["downlinkJitterMs"].write(value.downlinkJitterMs)
-        try writer["downlinkLossPercent"].write(value.downlinkLossPercent)
-        try writer["name"].write(value.name)
-        try writer["type"].write(value.type)
-        try writer["uplinkBandwidthBits"].write(value.uplinkBandwidthBits)
-        try writer["uplinkDelayMs"].write(value.uplinkDelayMs)
-        try writer["uplinkJitterMs"].write(value.uplinkJitterMs)
-        try writer["uplinkLossPercent"].write(value.uplinkLossPercent)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.NetworkProfile {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7402,15 +7213,6 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
 extension DeviceFarmClientTypes.Offering {
 
-    static func write(value: DeviceFarmClientTypes.Offering?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["description"].write(value.description)
-        try writer["id"].write(value.id)
-        try writer["platform"].write(value.platform)
-        try writer["recurringCharges"].writeList(value.recurringCharges, memberWritingClosure: DeviceFarmClientTypes.RecurringCharge.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.Offering {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DeviceFarmClientTypes.Offering()
@@ -7457,12 +7259,6 @@ extension DeviceFarmClientTypes {
 
 extension DeviceFarmClientTypes.OfferingPromotion {
 
-    static func write(value: DeviceFarmClientTypes.OfferingPromotion?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["description"].write(value.description)
-        try writer["id"].write(value.id)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.OfferingPromotion {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DeviceFarmClientTypes.OfferingPromotion()
@@ -7493,14 +7289,6 @@ extension DeviceFarmClientTypes {
 }
 
 extension DeviceFarmClientTypes.OfferingStatus {
-
-    static func write(value: DeviceFarmClientTypes.OfferingStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["effectiveOn"].writeTimestamp(value.effectiveOn, format: .epochSeconds)
-        try writer["offering"].write(value.offering, with: DeviceFarmClientTypes.Offering.write(value:to:))
-        try writer["quantity"].write(value.quantity)
-        try writer["type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.OfferingStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7542,15 +7330,6 @@ extension DeviceFarmClientTypes {
 }
 
 extension DeviceFarmClientTypes.OfferingTransaction {
-
-    static func write(value: DeviceFarmClientTypes.OfferingTransaction?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["cost"].write(value.cost, with: DeviceFarmClientTypes.MonetaryAmount.write(value:to:))
-        try writer["createdOn"].writeTimestamp(value.createdOn, format: .epochSeconds)
-        try writer["offeringPromotionId"].write(value.offeringPromotionId)
-        try writer["offeringStatus"].write(value.offeringStatus, with: DeviceFarmClientTypes.OfferingStatus.write(value:to:))
-        try writer["transactionId"].write(value.transactionId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.OfferingTransaction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7658,17 +7437,6 @@ extension DeviceFarmClientTypes {
 
 extension DeviceFarmClientTypes.Problem {
 
-    static func write(value: DeviceFarmClientTypes.Problem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["device"].write(value.device, with: DeviceFarmClientTypes.Device.write(value:to:))
-        try writer["job"].write(value.job, with: DeviceFarmClientTypes.ProblemDetail.write(value:to:))
-        try writer["message"].write(value.message)
-        try writer["result"].write(value.result)
-        try writer["run"].write(value.run, with: DeviceFarmClientTypes.ProblemDetail.write(value:to:))
-        try writer["suite"].write(value.suite, with: DeviceFarmClientTypes.ProblemDetail.write(value:to:))
-        try writer["test"].write(value.test, with: DeviceFarmClientTypes.ProblemDetail.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.Problem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DeviceFarmClientTypes.Problem()
@@ -7739,12 +7507,6 @@ extension DeviceFarmClientTypes {
 
 extension DeviceFarmClientTypes.ProblemDetail {
 
-    static func write(value: DeviceFarmClientTypes.ProblemDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["name"].write(value.name)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.ProblemDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DeviceFarmClientTypes.ProblemDetail()
@@ -7775,15 +7537,6 @@ extension DeviceFarmClientTypes {
 }
 
 extension DeviceFarmClientTypes.Project {
-
-    static func write(value: DeviceFarmClientTypes.Project?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["created"].writeTimestamp(value.created, format: .epochSeconds)
-        try writer["defaultJobTimeoutMinutes"].write(value.defaultJobTimeoutMinutes)
-        try writer["name"].write(value.name)
-        try writer["vpcConfig"].write(value.vpcConfig, with: DeviceFarmClientTypes.VpcConfig.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.Project {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7963,12 +7716,6 @@ extension DeviceFarmClientTypes {
 
 extension DeviceFarmClientTypes.RecurringCharge {
 
-    static func write(value: DeviceFarmClientTypes.RecurringCharge?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["cost"].write(value.cost, with: DeviceFarmClientTypes.MonetaryAmount.write(value:to:))
-        try writer["frequency"].write(value.frequency)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.RecurringCharge {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DeviceFarmClientTypes.RecurringCharge()
@@ -8026,32 +7773,6 @@ extension DeviceFarmClientTypes {
 }
 
 extension DeviceFarmClientTypes.RemoteAccessSession {
-
-    static func write(value: DeviceFarmClientTypes.RemoteAccessSession?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["billingMethod"].write(value.billingMethod)
-        try writer["clientId"].write(value.clientId)
-        try writer["created"].writeTimestamp(value.created, format: .epochSeconds)
-        try writer["device"].write(value.device, with: DeviceFarmClientTypes.Device.write(value:to:))
-        try writer["deviceMinutes"].write(value.deviceMinutes, with: DeviceFarmClientTypes.DeviceMinutes.write(value:to:))
-        try writer["deviceUdid"].write(value.deviceUdid)
-        try writer["endpoint"].write(value.endpoint)
-        try writer["hostAddress"].write(value.hostAddress)
-        try writer["instanceArn"].write(value.instanceArn)
-        try writer["interactionMode"].write(value.interactionMode)
-        try writer["message"].write(value.message)
-        try writer["name"].write(value.name)
-        try writer["remoteDebugEnabled"].write(value.remoteDebugEnabled)
-        try writer["remoteRecordAppArn"].write(value.remoteRecordAppArn)
-        try writer["remoteRecordEnabled"].write(value.remoteRecordEnabled)
-        try writer["result"].write(value.result)
-        try writer["skipAppResign"].write(value.skipAppResign)
-        try writer["started"].writeTimestamp(value.started, format: .epochSeconds)
-        try writer["status"].write(value.status)
-        try writer["stopped"].writeTimestamp(value.stopped, format: .epochSeconds)
-        try writer["vpcConfig"].write(value.vpcConfig, with: DeviceFarmClientTypes.VpcConfig.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.RemoteAccessSession {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8300,12 +8021,6 @@ enum RenewOfferingOutputError {
 
 extension DeviceFarmClientTypes.Resolution {
 
-    static func write(value: DeviceFarmClientTypes.Resolution?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["height"].write(value.height)
-        try writer["width"].write(value.width)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.Resolution {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DeviceFarmClientTypes.Resolution()
@@ -8427,42 +8142,6 @@ extension DeviceFarmClientTypes {
 }
 
 extension DeviceFarmClientTypes.Run {
-
-    static func write(value: DeviceFarmClientTypes.Run?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["appUpload"].write(value.appUpload)
-        try writer["arn"].write(value.arn)
-        try writer["billingMethod"].write(value.billingMethod)
-        try writer["completedJobs"].write(value.completedJobs)
-        try writer["counters"].write(value.counters, with: DeviceFarmClientTypes.Counters.write(value:to:))
-        try writer["created"].writeTimestamp(value.created, format: .epochSeconds)
-        try writer["customerArtifactPaths"].write(value.customerArtifactPaths, with: DeviceFarmClientTypes.CustomerArtifactPaths.write(value:to:))
-        try writer["deviceMinutes"].write(value.deviceMinutes, with: DeviceFarmClientTypes.DeviceMinutes.write(value:to:))
-        try writer["devicePoolArn"].write(value.devicePoolArn)
-        try writer["deviceSelectionResult"].write(value.deviceSelectionResult, with: DeviceFarmClientTypes.DeviceSelectionResult.write(value:to:))
-        try writer["eventCount"].write(value.eventCount)
-        try writer["jobTimeoutMinutes"].write(value.jobTimeoutMinutes)
-        try writer["locale"].write(value.locale)
-        try writer["location"].write(value.location, with: DeviceFarmClientTypes.Location.write(value:to:))
-        try writer["message"].write(value.message)
-        try writer["name"].write(value.name)
-        try writer["networkProfile"].write(value.networkProfile, with: DeviceFarmClientTypes.NetworkProfile.write(value:to:))
-        try writer["parsingResultUrl"].write(value.parsingResultUrl)
-        try writer["platform"].write(value.platform)
-        try writer["radios"].write(value.radios, with: DeviceFarmClientTypes.Radios.write(value:to:))
-        try writer["result"].write(value.result)
-        try writer["resultCode"].write(value.resultCode)
-        try writer["seed"].write(value.seed)
-        try writer["skipAppResign"].write(value.skipAppResign)
-        try writer["started"].writeTimestamp(value.started, format: .epochSeconds)
-        try writer["status"].write(value.status)
-        try writer["stopped"].writeTimestamp(value.stopped, format: .epochSeconds)
-        try writer["testSpecArn"].write(value.testSpecArn)
-        try writer["totalJobs"].write(value.totalJobs)
-        try writer["type"].write(value.type)
-        try writer["vpcConfig"].write(value.vpcConfig, with: DeviceFarmClientTypes.VpcConfig.write(value:to:))
-        try writer["webUrl"].write(value.webUrl)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.Run {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8717,13 +8396,6 @@ extension DeviceFarmClientTypes {
 
 extension DeviceFarmClientTypes.Sample {
 
-    static func write(value: DeviceFarmClientTypes.Sample?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["type"].write(value.type)
-        try writer["url"].write(value.url)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.Sample {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DeviceFarmClientTypes.Sample()
@@ -8880,21 +8552,6 @@ extension DeviceFarmClientTypes.ScheduleRunConfiguration {
         try writer["networkProfileArn"].write(value.networkProfileArn)
         try writer["radios"].write(value.radios, with: DeviceFarmClientTypes.Radios.write(value:to:))
         try writer["vpceConfigurationArns"].writeList(value.vpceConfigurationArns, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.ScheduleRunConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DeviceFarmClientTypes.ScheduleRunConfiguration()
-        value.extraDataPackageArn = try reader["extraDataPackageArn"].readIfPresent()
-        value.networkProfileArn = try reader["networkProfileArn"].readIfPresent()
-        value.locale = try reader["locale"].readIfPresent()
-        value.location = try reader["location"].readIfPresent(with: DeviceFarmClientTypes.Location.read(from:))
-        value.vpceConfigurationArns = try reader["vpceConfigurationArns"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.customerArtifactPaths = try reader["customerArtifactPaths"].readIfPresent(with: DeviceFarmClientTypes.CustomerArtifactPaths.read(from:))
-        value.radios = try reader["radios"].readIfPresent(with: DeviceFarmClientTypes.Radios.read(from:))
-        value.auxiliaryApps = try reader["auxiliaryApps"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.billingMethod = try reader["billingMethod"].readIfPresent()
-        return value
     }
 }
 
@@ -9063,17 +8720,6 @@ extension DeviceFarmClientTypes.ScheduleRunTest {
         try writer["testPackageArn"].write(value.testPackageArn)
         try writer["testSpecArn"].write(value.testSpecArn)
         try writer["type"].write(value.type)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.ScheduleRunTest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DeviceFarmClientTypes.ScheduleRunTest()
-        value.type = try reader["type"].readIfPresent()
-        value.testPackageArn = try reader["testPackageArn"].readIfPresent()
-        value.testSpecArn = try reader["testSpecArn"].readIfPresent()
-        value.filter = try reader["filter"].readIfPresent()
-        value.parameters = try reader["parameters"].readMapIfPresent(valueReadingClosure: Swift.String.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
     }
 }
 
@@ -9477,21 +9123,6 @@ enum StopRunOutputError {
 
 extension DeviceFarmClientTypes.Suite {
 
-    static func write(value: DeviceFarmClientTypes.Suite?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["counters"].write(value.counters, with: DeviceFarmClientTypes.Counters.write(value:to:))
-        try writer["created"].writeTimestamp(value.created, format: .epochSeconds)
-        try writer["deviceMinutes"].write(value.deviceMinutes, with: DeviceFarmClientTypes.DeviceMinutes.write(value:to:))
-        try writer["message"].write(value.message)
-        try writer["name"].write(value.name)
-        try writer["result"].write(value.result)
-        try writer["started"].writeTimestamp(value.started, format: .epochSeconds)
-        try writer["status"].write(value.status)
-        try writer["stopped"].writeTimestamp(value.stopped, format: .epochSeconds)
-        try writer["type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.Suite {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DeviceFarmClientTypes.Suite()
@@ -9821,21 +9452,6 @@ enum TagResourceOutputError {
 
 extension DeviceFarmClientTypes.Test {
 
-    static func write(value: DeviceFarmClientTypes.Test?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["counters"].write(value.counters, with: DeviceFarmClientTypes.Counters.write(value:to:))
-        try writer["created"].writeTimestamp(value.created, format: .epochSeconds)
-        try writer["deviceMinutes"].write(value.deviceMinutes, with: DeviceFarmClientTypes.DeviceMinutes.write(value:to:))
-        try writer["message"].write(value.message)
-        try writer["name"].write(value.name)
-        try writer["result"].write(value.result)
-        try writer["started"].writeTimestamp(value.started, format: .epochSeconds)
-        try writer["status"].write(value.status)
-        try writer["stopped"].writeTimestamp(value.stopped, format: .epochSeconds)
-        try writer["type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.Test {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DeviceFarmClientTypes.Test()
@@ -9980,15 +9596,6 @@ extension DeviceFarmClientTypes {
 
 extension DeviceFarmClientTypes.TestGridProject {
 
-    static func write(value: DeviceFarmClientTypes.TestGridProject?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["created"].writeTimestamp(value.created, format: .epochSeconds)
-        try writer["description"].write(value.description)
-        try writer["name"].write(value.name)
-        try writer["vpcConfig"].write(value.vpcConfig, with: DeviceFarmClientTypes.TestGridVpcConfig.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.TestGridProject {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DeviceFarmClientTypes.TestGridProject()
@@ -10034,16 +9641,6 @@ extension DeviceFarmClientTypes {
 }
 
 extension DeviceFarmClientTypes.TestGridSession {
-
-    static func write(value: DeviceFarmClientTypes.TestGridSession?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["billingMinutes"].write(value.billingMinutes)
-        try writer["created"].writeTimestamp(value.created, format: .epochSeconds)
-        try writer["ended"].writeTimestamp(value.ended, format: .epochSeconds)
-        try writer["seleniumProperties"].write(value.seleniumProperties)
-        try writer["status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.TestGridSession {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -10096,15 +9693,6 @@ extension DeviceFarmClientTypes {
 
 extension DeviceFarmClientTypes.TestGridSessionAction {
 
-    static func write(value: DeviceFarmClientTypes.TestGridSessionAction?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["action"].write(value.action)
-        try writer["duration"].write(value.duration)
-        try writer["requestMethod"].write(value.requestMethod)
-        try writer["started"].writeTimestamp(value.started, format: .epochSeconds)
-        try writer["statusCode"].write(value.statusCode)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.TestGridSessionAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DeviceFarmClientTypes.TestGridSessionAction()
@@ -10155,13 +9743,6 @@ extension DeviceFarmClientTypes.TestGridSessionArtifact: Swift.CustomDebugString
 }
 
 extension DeviceFarmClientTypes.TestGridSessionArtifact {
-
-    static func write(value: DeviceFarmClientTypes.TestGridSessionArtifact?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["filename"].write(value.filename)
-        try writer["type"].write(value.type)
-        try writer["url"].write(value.url)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.TestGridSessionArtifact {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -10469,12 +10050,6 @@ public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime
 
 extension DeviceFarmClientTypes.TrialMinutes {
 
-    static func write(value: DeviceFarmClientTypes.TrialMinutes?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["remaining"].write(value.remaining)
-        try writer["total"].write(value.total)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.TrialMinutes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DeviceFarmClientTypes.TrialMinutes()
@@ -10505,12 +10080,6 @@ extension DeviceFarmClientTypes {
 }
 
 extension DeviceFarmClientTypes.UniqueProblem {
-
-    static func write(value: DeviceFarmClientTypes.UniqueProblem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.message)
-        try writer["problems"].writeList(value.problems, memberWritingClosure: DeviceFarmClientTypes.Problem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.UniqueProblem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -11346,20 +10915,6 @@ extension DeviceFarmClientTypes.Upload: Swift.CustomDebugStringConvertible {
 
 extension DeviceFarmClientTypes.Upload {
 
-    static func write(value: DeviceFarmClientTypes.Upload?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["category"].write(value.category)
-        try writer["contentType"].write(value.contentType)
-        try writer["created"].writeTimestamp(value.created, format: .epochSeconds)
-        try writer["message"].write(value.message)
-        try writer["metadata"].write(value.metadata)
-        try writer["name"].write(value.name)
-        try writer["status"].write(value.status)
-        try writer["type"].write(value.type)
-        try writer["url"].write(value.url)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.Upload {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DeviceFarmClientTypes.Upload()
@@ -11692,15 +11247,6 @@ extension DeviceFarmClientTypes {
 }
 
 extension DeviceFarmClientTypes.VPCEConfiguration {
-
-    static func write(value: DeviceFarmClientTypes.VPCEConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["serviceDnsName"].write(value.serviceDnsName)
-        try writer["vpceConfigurationDescription"].write(value.vpceConfigurationDescription)
-        try writer["vpceConfigurationName"].write(value.vpceConfigurationName)
-        try writer["vpceServiceName"].write(value.vpceServiceName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.VPCEConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

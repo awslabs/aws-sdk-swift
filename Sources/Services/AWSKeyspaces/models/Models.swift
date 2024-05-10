@@ -192,15 +192,6 @@ extension KeyspacesClientTypes.CapacitySpecification {
         try writer["throughputMode"].write(value.throughputMode)
         try writer["writeCapacityUnits"].write(value.writeCapacityUnits)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KeyspacesClientTypes.CapacitySpecification {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KeyspacesClientTypes.CapacitySpecification()
-        value.throughputMode = try reader["throughputMode"].readIfPresent()
-        value.readCapacityUnits = try reader["readCapacityUnits"].readIfPresent()
-        value.writeCapacityUnits = try reader["writeCapacityUnits"].readIfPresent()
-        return value
-    }
 }
 
 extension KeyspacesClientTypes {
@@ -243,14 +234,6 @@ extension KeyspacesClientTypes {
 }
 
 extension KeyspacesClientTypes.CapacitySpecificationSummary {
-
-    static func write(value: KeyspacesClientTypes.CapacitySpecificationSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["lastUpdateToPayPerRequestTimestamp"].writeTimestamp(value.lastUpdateToPayPerRequestTimestamp, format: .epochSeconds)
-        try writer["readCapacityUnits"].write(value.readCapacityUnits)
-        try writer["throughputMode"].write(value.throughputMode)
-        try writer["writeCapacityUnits"].write(value.writeCapacityUnits)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> KeyspacesClientTypes.CapacitySpecificationSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1373,14 +1356,6 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
 extension KeyspacesClientTypes.KeyspaceSummary {
 
-    static func write(value: KeyspacesClientTypes.KeyspaceSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["keyspaceName"].write(value.keyspaceName)
-        try writer["replicationRegions"].writeList(value.replicationRegions, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["replicationStrategy"].write(value.replicationStrategy)
-        try writer["resourceArn"].write(value.resourceArn)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> KeyspacesClientTypes.KeyspaceSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = KeyspacesClientTypes.KeyspaceSummary()
@@ -1713,13 +1688,6 @@ extension KeyspacesClientTypes.PointInTimeRecovery {
         guard let value else { return }
         try writer["status"].write(value.status)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KeyspacesClientTypes.PointInTimeRecovery {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KeyspacesClientTypes.PointInTimeRecovery()
-        value.status = try reader["status"].readIfPresent()
-        return value
-    }
 }
 
 extension KeyspacesClientTypes {
@@ -1775,12 +1743,6 @@ extension KeyspacesClientTypes {
 
 extension KeyspacesClientTypes.PointInTimeRecoverySummary {
 
-    static func write(value: KeyspacesClientTypes.PointInTimeRecoverySummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["earliestRestorableTimestamp"].writeTimestamp(value.earliestRestorableTimestamp, format: .epochSeconds)
-        try writer["status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> KeyspacesClientTypes.PointInTimeRecoverySummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = KeyspacesClientTypes.PointInTimeRecoverySummary()
@@ -1812,12 +1774,6 @@ extension KeyspacesClientTypes {
 }
 
 extension KeyspacesClientTypes.ReplicaAutoScalingSpecification {
-
-    static func write(value: KeyspacesClientTypes.ReplicaAutoScalingSpecification?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["autoScalingSpecification"].write(value.autoScalingSpecification, with: KeyspacesClientTypes.AutoScalingSpecification.write(value:to:))
-        try writer["region"].write(value.region)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> KeyspacesClientTypes.ReplicaAutoScalingSpecification {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1856,15 +1812,6 @@ extension KeyspacesClientTypes.ReplicaSpecification {
         try writer["readCapacityUnits"].write(value.readCapacityUnits)
         try writer["region"].write(value.region)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KeyspacesClientTypes.ReplicaSpecification {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KeyspacesClientTypes.ReplicaSpecification()
-        value.region = try reader["region"].readIfPresent()
-        value.readCapacityUnits = try reader["readCapacityUnits"].readIfPresent()
-        value.readCapacityAutoScaling = try reader["readCapacityAutoScaling"].readIfPresent(with: KeyspacesClientTypes.AutoScalingSettings.read(from:))
-        return value
-    }
 }
 
 extension KeyspacesClientTypes {
@@ -1899,13 +1846,6 @@ extension KeyspacesClientTypes {
 }
 
 extension KeyspacesClientTypes.ReplicaSpecificationSummary {
-
-    static func write(value: KeyspacesClientTypes.ReplicaSpecificationSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["capacitySpecification"].write(value.capacitySpecification, with: KeyspacesClientTypes.CapacitySpecificationSummary.write(value:to:))
-        try writer["region"].write(value.region)
-        try writer["status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> KeyspacesClientTypes.ReplicaSpecificationSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1954,14 +1894,6 @@ extension KeyspacesClientTypes.ReplicationSpecification {
         guard let value else { return }
         try writer["regionList"].writeList(value.regionList, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["replicationStrategy"].write(value.replicationStrategy)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KeyspacesClientTypes.ReplicationSpecification {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KeyspacesClientTypes.ReplicationSpecification()
-        value.replicationStrategy = try reader["replicationStrategy"].readIfPresent()
-        value.regionList = try reader["regionList"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -2406,13 +2338,6 @@ extension KeyspacesClientTypes {
 }
 
 extension KeyspacesClientTypes.TableSummary {
-
-    static func write(value: KeyspacesClientTypes.TableSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["keyspaceName"].write(value.keyspaceName)
-        try writer["resourceArn"].write(value.resourceArn)
-        try writer["tableName"].write(value.tableName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> KeyspacesClientTypes.TableSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

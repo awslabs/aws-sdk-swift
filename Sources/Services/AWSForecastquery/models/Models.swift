@@ -6,12 +6,6 @@ import SmithyReadWrite
 
 extension ForecastqueryClientTypes.DataPoint {
 
-    static func write(value: ForecastqueryClientTypes.DataPoint?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Timestamp"].write(value.timestamp)
-        try writer["Value"].write(value.value)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ForecastqueryClientTypes.DataPoint {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ForecastqueryClientTypes.DataPoint()
@@ -42,11 +36,6 @@ extension ForecastqueryClientTypes {
 }
 
 extension ForecastqueryClientTypes.Forecast {
-
-    static func write(value: ForecastqueryClientTypes.Forecast?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Predictions"].writeMap(value.predictions, valueWritingClosure: listWritingClosure(memberWritingClosure: ForecastqueryClientTypes.DataPoint.write(value:to:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ForecastqueryClientTypes.Forecast {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

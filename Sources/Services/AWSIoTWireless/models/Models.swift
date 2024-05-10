@@ -129,12 +129,6 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
 extension IoTWirelessClientTypes.Accuracy {
 
-    static func write(value: IoTWirelessClientTypes.Accuracy?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["HorizontalAccuracy"].write(value.horizontalAccuracy)
-        try writer["VerticalAccuracy"].write(value.verticalAccuracy)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTWirelessClientTypes.Accuracy {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTWirelessClientTypes.Accuracy()
@@ -899,14 +893,6 @@ extension IoTWirelessClientTypes.CdmaLocalId {
         try writer["CdmaChannel"].write(value.cdmaChannel)
         try writer["PnOffset"].write(value.pnOffset)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTWirelessClientTypes.CdmaLocalId {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTWirelessClientTypes.CdmaLocalId()
-        value.pnOffset = try reader["PnOffset"].readIfPresent()
-        value.cdmaChannel = try reader["CdmaChannel"].readIfPresent()
-        return value
-    }
 }
 
 extension IoTWirelessClientTypes {
@@ -939,16 +925,6 @@ extension IoTWirelessClientTypes.CdmaNmrObj {
         try writer["CdmaChannel"].write(value.cdmaChannel)
         try writer["PilotPower"].write(value.pilotPower)
         try writer["PnOffset"].write(value.pnOffset)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTWirelessClientTypes.CdmaNmrObj {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTWirelessClientTypes.CdmaNmrObj()
-        value.pnOffset = try reader["PnOffset"].readIfPresent()
-        value.cdmaChannel = try reader["CdmaChannel"].readIfPresent()
-        value.pilotPower = try reader["PilotPower"].readIfPresent()
-        value.baseStationId = try reader["BaseStationId"].readIfPresent()
-        return value
     }
 }
 
@@ -995,21 +971,6 @@ extension IoTWirelessClientTypes.CdmaObj {
         try writer["PilotPower"].write(value.pilotPower)
         try writer["RegistrationZone"].write(value.registrationZone)
         try writer["SystemId"].write(value.systemId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTWirelessClientTypes.CdmaObj {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTWirelessClientTypes.CdmaObj()
-        value.systemId = try reader["SystemId"].readIfPresent()
-        value.networkId = try reader["NetworkId"].readIfPresent()
-        value.baseStationId = try reader["BaseStationId"].readIfPresent()
-        value.registrationZone = try reader["RegistrationZone"].readIfPresent()
-        value.cdmaLocalId = try reader["CdmaLocalId"].readIfPresent(with: IoTWirelessClientTypes.CdmaLocalId.read(from:))
-        value.pilotPower = try reader["PilotPower"].readIfPresent()
-        value.baseLat = try reader["BaseLat"].readIfPresent()
-        value.baseLng = try reader["BaseLng"].readIfPresent()
-        value.cdmaNmr = try reader["CdmaNmr"].readListIfPresent(memberReadingClosure: IoTWirelessClientTypes.CdmaNmrObj.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -1074,17 +1035,6 @@ extension IoTWirelessClientTypes.CellTowers {
         try writer["Tdscdma"].writeList(value.tdscdma, memberWritingClosure: IoTWirelessClientTypes.TdscdmaObj.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Wcdma"].writeList(value.wcdma, memberWritingClosure: IoTWirelessClientTypes.WcdmaObj.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTWirelessClientTypes.CellTowers {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTWirelessClientTypes.CellTowers()
-        value.gsm = try reader["Gsm"].readListIfPresent(memberReadingClosure: IoTWirelessClientTypes.GsmObj.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.wcdma = try reader["Wcdma"].readListIfPresent(memberReadingClosure: IoTWirelessClientTypes.WcdmaObj.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.tdscdma = try reader["Tdscdma"].readListIfPresent(memberReadingClosure: IoTWirelessClientTypes.TdscdmaObj.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.lte = try reader["Lte"].readListIfPresent(memberReadingClosure: IoTWirelessClientTypes.LteObj.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.cdma = try reader["Cdma"].readListIfPresent(memberReadingClosure: IoTWirelessClientTypes.CdmaObj.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
 }
 
 extension IoTWirelessClientTypes {
@@ -1120,12 +1070,6 @@ extension IoTWirelessClientTypes {
 }
 
 extension IoTWirelessClientTypes.CertificateList {
-
-    static func write(value: IoTWirelessClientTypes.CertificateList?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["SigningAlg"].write(value.signingAlg)
-        try writer["Value"].write(value.value)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTWirelessClientTypes.CertificateList {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2318,15 +2262,6 @@ enum CreateWirelessGatewayTaskOutputError {
 
 extension IoTWirelessClientTypes.DakCertificateMetadata {
 
-    static func write(value: IoTWirelessClientTypes.DakCertificateMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ApId"].write(value.apId)
-        try writer["CertificateId"].write(value.certificateId)
-        try writer["DeviceTypeId"].write(value.deviceTypeId)
-        try writer["FactorySupport"].write(value.factorySupport)
-        try writer["MaxAllowedSignature"].write(value.maxAllowedSignature)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTWirelessClientTypes.DakCertificateMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTWirelessClientTypes.DakCertificateMetadata()
@@ -3111,16 +3046,6 @@ enum DeregisterWirelessDeviceOutputError {
 
 extension IoTWirelessClientTypes.Destinations {
 
-    static func write(value: IoTWirelessClientTypes.Destinations?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["Description"].write(value.description)
-        try writer["Expression"].write(value.expression)
-        try writer["ExpressionType"].write(value.expressionType)
-        try writer["Name"].write(value.name)
-        try writer["RoleArn"].write(value.roleArn)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTWirelessClientTypes.Destinations {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTWirelessClientTypes.Destinations()
@@ -3171,13 +3096,6 @@ extension IoTWirelessClientTypes {
 }
 
 extension IoTWirelessClientTypes.DeviceProfile {
-
-    static func write(value: IoTWirelessClientTypes.DeviceProfile?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["Id"].write(value.id)
-        try writer["Name"].write(value.name)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTWirelessClientTypes.DeviceProfile {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3897,14 +3815,6 @@ extension IoTWirelessClientTypes {
 
 extension IoTWirelessClientTypes.DownlinkQueueMessage {
 
-    static func write(value: IoTWirelessClientTypes.DownlinkQueueMessage?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["LoRaWAN"].write(value.loRaWAN, with: IoTWirelessClientTypes.LoRaWANSendDataToDevice.write(value:to:))
-        try writer["MessageId"].write(value.messageId)
-        try writer["ReceivedAt"].write(value.receivedAt)
-        try writer["TransmitMode"].write(value.transmitMode)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTWirelessClientTypes.DownlinkQueueMessage {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTWirelessClientTypes.DownlinkQueueMessage()
@@ -3986,14 +3896,6 @@ extension IoTWirelessClientTypes {
 
 extension IoTWirelessClientTypes.EventConfigurationItem {
 
-    static func write(value: IoTWirelessClientTypes.EventConfigurationItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Events"].write(value.events, with: IoTWirelessClientTypes.EventNotificationItemConfigurations.write(value:to:))
-        try writer["Identifier"].write(value.identifier)
-        try writer["IdentifierType"].write(value.identifierType)
-        try writer["PartnerType"].write(value.partnerType)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTWirelessClientTypes.EventConfigurationItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTWirelessClientTypes.EventConfigurationItem()
@@ -4034,15 +3936,6 @@ extension IoTWirelessClientTypes {
 }
 
 extension IoTWirelessClientTypes.EventNotificationItemConfigurations {
-
-    static func write(value: IoTWirelessClientTypes.EventNotificationItemConfigurations?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ConnectionStatus"].write(value.connectionStatus, with: IoTWirelessClientTypes.ConnectionStatusEventConfiguration.write(value:to:))
-        try writer["DeviceRegistrationState"].write(value.deviceRegistrationState, with: IoTWirelessClientTypes.DeviceRegistrationStateEventConfiguration.write(value:to:))
-        try writer["Join"].write(value.join, with: IoTWirelessClientTypes.JoinEventConfiguration.write(value:to:))
-        try writer["MessageDeliveryStatus"].write(value.messageDeliveryStatus, with: IoTWirelessClientTypes.MessageDeliveryStatusEventConfiguration.write(value:to:))
-        try writer["Proximity"].write(value.proximity, with: IoTWirelessClientTypes.ProximityEventConfiguration.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTWirelessClientTypes.EventNotificationItemConfigurations {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4322,13 +4215,6 @@ extension IoTWirelessClientTypes {
 }
 
 extension IoTWirelessClientTypes.FuotaTask {
-
-    static func write(value: IoTWirelessClientTypes.FuotaTask?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["Id"].write(value.id)
-        try writer["Name"].write(value.name)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTWirelessClientTypes.FuotaTask {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6915,14 +6801,6 @@ extension IoTWirelessClientTypes.GlobalIdentity {
         try writer["GeranCid"].write(value.geranCid)
         try writer["Lac"].write(value.lac)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTWirelessClientTypes.GlobalIdentity {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTWirelessClientTypes.GlobalIdentity()
-        value.lac = try reader["Lac"].readIfPresent()
-        value.geranCid = try reader["GeranCid"].readIfPresent()
-        return value
-    }
 }
 
 extension IoTWirelessClientTypes {
@@ -6957,18 +6835,6 @@ extension IoTWirelessClientTypes.Gnss {
         try writer["CaptureTimeAccuracy"].write(value.captureTimeAccuracy)
         try writer["Payload"].write(value.payload)
         try writer["Use2DSolver"].write(value.use2DSolver)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTWirelessClientTypes.Gnss {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTWirelessClientTypes.Gnss()
-        value.payload = try reader["Payload"].readIfPresent()
-        value.captureTime = try reader["CaptureTime"].readIfPresent()
-        value.captureTimeAccuracy = try reader["CaptureTimeAccuracy"].readIfPresent()
-        value.assistPosition = try reader["AssistPosition"].readListIfPresent(memberReadingClosure: Swift.Float.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.assistAltitude = try reader["AssistAltitude"].readIfPresent()
-        value.use2DSolver = try reader["Use2DSolver"].readIfPresent() ?? false
-        return value
     }
 }
 
@@ -7016,14 +6882,6 @@ extension IoTWirelessClientTypes.GsmLocalId {
         try writer["Bcch"].write(value.bcch)
         try writer["Bsic"].write(value.bsic)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTWirelessClientTypes.GsmLocalId {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTWirelessClientTypes.GsmLocalId()
-        value.bsic = try reader["Bsic"].readIfPresent()
-        value.bcch = try reader["Bcch"].readIfPresent()
-        return value
-    }
 }
 
 extension IoTWirelessClientTypes {
@@ -7056,16 +6914,6 @@ extension IoTWirelessClientTypes.GsmNmrObj {
         try writer["Bsic"].write(value.bsic)
         try writer["GlobalIdentity"].write(value.globalIdentity, with: IoTWirelessClientTypes.GlobalIdentity.write(value:to:))
         try writer["RxLevel"].write(value.rxLevel)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTWirelessClientTypes.GsmNmrObj {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTWirelessClientTypes.GsmNmrObj()
-        value.bsic = try reader["Bsic"].readIfPresent()
-        value.bcch = try reader["Bcch"].readIfPresent()
-        value.rxLevel = try reader["RxLevel"].readIfPresent()
-        value.globalIdentity = try reader["GlobalIdentity"].readIfPresent(with: IoTWirelessClientTypes.GlobalIdentity.read(from:))
-        return value
     }
 }
 
@@ -7111,20 +6959,6 @@ extension IoTWirelessClientTypes.GsmObj {
         try writer["Mcc"].write(value.mcc)
         try writer["Mnc"].write(value.mnc)
         try writer["RxLevel"].write(value.rxLevel)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTWirelessClientTypes.GsmObj {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTWirelessClientTypes.GsmObj()
-        value.mcc = try reader["Mcc"].readIfPresent()
-        value.mnc = try reader["Mnc"].readIfPresent()
-        value.lac = try reader["Lac"].readIfPresent()
-        value.geranCid = try reader["GeranCid"].readIfPresent()
-        value.gsmLocalId = try reader["GsmLocalId"].readIfPresent(with: IoTWirelessClientTypes.GsmLocalId.read(from:))
-        value.gsmTimingAdvance = try reader["GsmTimingAdvance"].readIfPresent()
-        value.rxLevel = try reader["RxLevel"].readIfPresent()
-        value.gsmNmr = try reader["GsmNmr"].readListIfPresent(memberReadingClosure: IoTWirelessClientTypes.GsmNmrObj.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -7259,14 +7093,6 @@ extension IoTWirelessClientTypes {
 
 extension IoTWirelessClientTypes.ImportedSidewalkDevice {
 
-    static func write(value: IoTWirelessClientTypes.ImportedSidewalkDevice?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["LastUpdateTime"].writeTimestamp(value.lastUpdateTime, format: .dateTime)
-        try writer["OnboardingStatus"].write(value.onboardingStatus)
-        try writer["OnboardingStatusReason"].write(value.onboardingStatusReason)
-        try writer["SidewalkManufacturingSn"].write(value.sidewalkManufacturingSn)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTWirelessClientTypes.ImportedSidewalkDevice {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTWirelessClientTypes.ImportedSidewalkDevice()
@@ -7307,11 +7133,6 @@ extension IoTWirelessClientTypes {
 }
 
 extension IoTWirelessClientTypes.ImportedWirelessDevice {
-
-    static func write(value: IoTWirelessClientTypes.ImportedWirelessDevice?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Sidewalk"].write(value.sidewalk, with: IoTWirelessClientTypes.ImportedSidewalkDevice.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTWirelessClientTypes.ImportedWirelessDevice {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7381,13 +7202,6 @@ extension IoTWirelessClientTypes.Ip {
     static func write(value: IoTWirelessClientTypes.Ip?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["IpAddress"].write(value.ipAddress)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTWirelessClientTypes.Ip {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTWirelessClientTypes.Ip()
-        value.ipAddress = try reader["IpAddress"].readIfPresent()
-        return value
     }
 }
 
@@ -9188,17 +9002,6 @@ extension IoTWirelessClientTypes {
 
 extension IoTWirelessClientTypes.LoRaWANDeviceMetadata {
 
-    static func write(value: IoTWirelessClientTypes.LoRaWANDeviceMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DataRate"].write(value.dataRate)
-        try writer["DevEui"].write(value.devEui)
-        try writer["FPort"].write(value.fPort)
-        try writer["Frequency"].write(value.frequency)
-        try writer["Gateways"].writeList(value.gateways, memberWritingClosure: IoTWirelessClientTypes.LoRaWANGatewayMetadata.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["PublicGateways"].writeList(value.publicGateways, memberWritingClosure: IoTWirelessClientTypes.LoRaWANPublicGatewayMetadata.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Timestamp"].write(value.timestamp)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTWirelessClientTypes.LoRaWANDeviceMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTWirelessClientTypes.LoRaWANDeviceMetadata()
@@ -9398,13 +9201,6 @@ extension IoTWirelessClientTypes.LoRaWANFuotaTask {
         guard let value else { return }
         try writer["RfRegion"].write(value.rfRegion)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTWirelessClientTypes.LoRaWANFuotaTask {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTWirelessClientTypes.LoRaWANFuotaTask()
-        value.rfRegion = try reader["RfRegion"].readIfPresent()
-        return value
-    }
 }
 
 extension IoTWirelessClientTypes {
@@ -9424,12 +9220,6 @@ extension IoTWirelessClientTypes {
 }
 
 extension IoTWirelessClientTypes.LoRaWANFuotaTaskGetInfo {
-
-    static func write(value: IoTWirelessClientTypes.LoRaWANFuotaTaskGetInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["RfRegion"].write(value.rfRegion)
-        try writer["StartTime"].writeTimestamp(value.startTime, format: .dateTime)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTWirelessClientTypes.LoRaWANFuotaTaskGetInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -9529,11 +9319,6 @@ extension IoTWirelessClientTypes {
 
 extension IoTWirelessClientTypes.LoRaWANGatewayCurrentVersion {
 
-    static func write(value: IoTWirelessClientTypes.LoRaWANGatewayCurrentVersion?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CurrentVersion"].write(value.currentVersion, with: IoTWirelessClientTypes.LoRaWANGatewayVersion.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTWirelessClientTypes.LoRaWANGatewayCurrentVersion {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTWirelessClientTypes.LoRaWANGatewayCurrentVersion()
@@ -9559,13 +9344,6 @@ extension IoTWirelessClientTypes {
 }
 
 extension IoTWirelessClientTypes.LoRaWANGatewayMetadata {
-
-    static func write(value: IoTWirelessClientTypes.LoRaWANGatewayMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["GatewayEui"].write(value.gatewayEui)
-        try writer["Rssi"].write(value.rssi)
-        try writer["Snr"].write(value.snr)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTWirelessClientTypes.LoRaWANGatewayMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -9645,29 +9423,6 @@ extension IoTWirelessClientTypes {
 }
 
 extension IoTWirelessClientTypes.LoRaWANGetServiceProfileInfo {
-
-    static func write(value: IoTWirelessClientTypes.LoRaWANGetServiceProfileInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AddGwMetadata"].write(value.addGwMetadata)
-        try writer["ChannelMask"].write(value.channelMask)
-        try writer["DevStatusReqFreq"].write(value.devStatusReqFreq)
-        try writer["DlBucketSize"].write(value.dlBucketSize)
-        try writer["DlRate"].write(value.dlRate)
-        try writer["DlRatePolicy"].write(value.dlRatePolicy)
-        try writer["DrMax"].write(value.drMax)
-        try writer["DrMin"].write(value.drMin)
-        try writer["HrAllowed"].write(value.hrAllowed)
-        try writer["MinGwDiversity"].write(value.minGwDiversity)
-        try writer["NwkGeoLoc"].write(value.nwkGeoLoc)
-        try writer["PrAllowed"].write(value.prAllowed)
-        try writer["RaAllowed"].write(value.raAllowed)
-        try writer["ReportDevStatusBattery"].write(value.reportDevStatusBattery)
-        try writer["ReportDevStatusMargin"].write(value.reportDevStatusMargin)
-        try writer["TargetPer"].write(value.targetPer)
-        try writer["UlBucketSize"].write(value.ulBucketSize)
-        try writer["UlRate"].write(value.ulRate)
-        try writer["UlRatePolicy"].write(value.ulRatePolicy)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTWirelessClientTypes.LoRaWANGetServiceProfileInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -9847,11 +9602,6 @@ extension IoTWirelessClientTypes {
 
 extension IoTWirelessClientTypes.LoRaWANListDevice {
 
-    static func write(value: IoTWirelessClientTypes.LoRaWANListDevice?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DevEui"].write(value.devEui)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTWirelessClientTypes.LoRaWANListDevice {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTWirelessClientTypes.LoRaWANListDevice()
@@ -9883,14 +9633,6 @@ extension IoTWirelessClientTypes.LoRaWANMulticast {
         try writer["DlClass"].write(value.dlClass)
         try writer["RfRegion"].write(value.rfRegion)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTWirelessClientTypes.LoRaWANMulticast {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTWirelessClientTypes.LoRaWANMulticast()
-        value.rfRegion = try reader["RfRegion"].readIfPresent()
-        value.dlClass = try reader["DlClass"].readIfPresent()
-        return value
-    }
 }
 
 extension IoTWirelessClientTypes {
@@ -9914,14 +9656,6 @@ extension IoTWirelessClientTypes {
 }
 
 extension IoTWirelessClientTypes.LoRaWANMulticastGet {
-
-    static func write(value: IoTWirelessClientTypes.LoRaWANMulticastGet?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DlClass"].write(value.dlClass)
-        try writer["NumberOfDevicesInGroup"].write(value.numberOfDevicesInGroup)
-        try writer["NumberOfDevicesRequested"].write(value.numberOfDevicesRequested)
-        try writer["RfRegion"].write(value.rfRegion)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTWirelessClientTypes.LoRaWANMulticastGet {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -9967,13 +9701,6 @@ extension IoTWirelessClientTypes.LoRaWANMulticastMetadata {
     static func write(value: IoTWirelessClientTypes.LoRaWANMulticastMetadata?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["FPort"].write(value.fPort)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTWirelessClientTypes.LoRaWANMulticastMetadata {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTWirelessClientTypes.LoRaWANMulticastMetadata()
-        value.fPort = try reader["FPort"].readIfPresent()
-        return value
     }
 }
 
@@ -10049,16 +9776,6 @@ extension IoTWirelessClientTypes {
 }
 
 extension IoTWirelessClientTypes.LoRaWANPublicGatewayMetadata {
-
-    static func write(value: IoTWirelessClientTypes.LoRaWANPublicGatewayMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DlAllowed"].write(value.dlAllowed)
-        try writer["Id"].write(value.id)
-        try writer["ProviderNetId"].write(value.providerNetId)
-        try writer["RfRegion"].write(value.rfRegion)
-        try writer["Rssi"].write(value.rssi)
-        try writer["Snr"].write(value.snr)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTWirelessClientTypes.LoRaWANPublicGatewayMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -10156,17 +9873,6 @@ extension IoTWirelessClientTypes.LoRaWANServiceProfile {
         try writer["PrAllowed"].write(value.prAllowed)
         try writer["RaAllowed"].write(value.raAllowed)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTWirelessClientTypes.LoRaWANServiceProfile {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTWirelessClientTypes.LoRaWANServiceProfile()
-        value.addGwMetadata = try reader["AddGwMetadata"].readIfPresent() ?? false
-        value.drMin = try reader["DrMin"].readIfPresent()
-        value.drMax = try reader["DrMax"].readIfPresent()
-        value.prAllowed = try reader["PrAllowed"].readIfPresent() ?? false
-        value.raAllowed = try reader["RaAllowed"].readIfPresent() ?? false
-        return value
-    }
 }
 
 extension IoTWirelessClientTypes {
@@ -10207,13 +9913,6 @@ extension IoTWirelessClientTypes.LoRaWANStartFuotaTask {
         guard let value else { return }
         try writer["StartTime"].writeTimestamp(value.startTime, format: .dateTime)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTWirelessClientTypes.LoRaWANStartFuotaTask {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTWirelessClientTypes.LoRaWANStartFuotaTask()
-        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: .dateTime)
-        return value
-    }
 }
 
 extension IoTWirelessClientTypes {
@@ -10241,17 +9940,6 @@ extension IoTWirelessClientTypes.LoRaWANUpdateDevice {
         try writer["DeviceProfileId"].write(value.deviceProfileId)
         try writer["FPorts"].write(value.fPorts, with: IoTWirelessClientTypes.UpdateFPorts.write(value:to:))
         try writer["ServiceProfileId"].write(value.serviceProfileId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTWirelessClientTypes.LoRaWANUpdateDevice {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTWirelessClientTypes.LoRaWANUpdateDevice()
-        value.deviceProfileId = try reader["DeviceProfileId"].readIfPresent()
-        value.serviceProfileId = try reader["ServiceProfileId"].readIfPresent()
-        value.abpV1_1 = try reader["AbpV1_1"].readIfPresent(with: IoTWirelessClientTypes.UpdateAbpV1_1.read(from:))
-        value.abpV1_0_x = try reader["AbpV1_0_x"].readIfPresent(with: IoTWirelessClientTypes.UpdateAbpV1_0_x.read(from:))
-        value.fPorts = try reader["FPorts"].readIfPresent(with: IoTWirelessClientTypes.UpdateFPorts.read(from:))
-        return value
     }
 }
 
@@ -10338,12 +10026,6 @@ extension IoTWirelessClientTypes {
 
 extension IoTWirelessClientTypes.LoRaWANUpdateGatewayTaskEntry {
 
-    static func write(value: IoTWirelessClientTypes.LoRaWANUpdateGatewayTaskEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CurrentVersion"].write(value.currentVersion, with: IoTWirelessClientTypes.LoRaWANGatewayVersion.write(value:to:))
-        try writer["UpdateVersion"].write(value.updateVersion, with: IoTWirelessClientTypes.LoRaWANGatewayVersion.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTWirelessClientTypes.LoRaWANUpdateGatewayTaskEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTWirelessClientTypes.LoRaWANUpdateGatewayTaskEntry()
@@ -10414,14 +10096,6 @@ extension IoTWirelessClientTypes.LteLocalId {
         try writer["Earfcn"].write(value.earfcn)
         try writer["Pci"].write(value.pci)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTWirelessClientTypes.LteLocalId {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTWirelessClientTypes.LteLocalId()
-        value.pci = try reader["Pci"].readIfPresent()
-        value.earfcn = try reader["Earfcn"].readIfPresent()
-        return value
-    }
 }
 
 extension IoTWirelessClientTypes {
@@ -10455,17 +10129,6 @@ extension IoTWirelessClientTypes.LteNmrObj {
         try writer["Pci"].write(value.pci)
         try writer["Rsrp"].write(value.rsrp)
         try writer["Rsrq"].write(value.rsrq)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTWirelessClientTypes.LteNmrObj {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTWirelessClientTypes.LteNmrObj()
-        value.pci = try reader["Pci"].readIfPresent()
-        value.earfcn = try reader["Earfcn"].readIfPresent()
-        value.eutranCid = try reader["EutranCid"].readIfPresent()
-        value.rsrp = try reader["Rsrp"].readIfPresent()
-        value.rsrq = try reader["Rsrq"].readIfPresent()
-        return value
     }
 }
 
@@ -10518,22 +10181,6 @@ extension IoTWirelessClientTypes.LteObj {
         try writer["Rsrp"].write(value.rsrp)
         try writer["Rsrq"].write(value.rsrq)
         try writer["Tac"].write(value.tac)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTWirelessClientTypes.LteObj {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTWirelessClientTypes.LteObj()
-        value.mcc = try reader["Mcc"].readIfPresent()
-        value.mnc = try reader["Mnc"].readIfPresent()
-        value.eutranCid = try reader["EutranCid"].readIfPresent()
-        value.tac = try reader["Tac"].readIfPresent()
-        value.lteLocalId = try reader["LteLocalId"].readIfPresent(with: IoTWirelessClientTypes.LteLocalId.read(from:))
-        value.lteTimingAdvance = try reader["LteTimingAdvance"].readIfPresent()
-        value.rsrp = try reader["Rsrp"].readIfPresent()
-        value.rsrq = try reader["Rsrq"].readIfPresent()
-        value.nrCapable = try reader["NrCapable"].readIfPresent() ?? false
-        value.lteNmr = try reader["LteNmr"].readListIfPresent(memberReadingClosure: IoTWirelessClientTypes.LteNmrObj.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -10843,16 +10490,6 @@ extension IoTWirelessClientTypes {
 
 extension IoTWirelessClientTypes.MetricQueryValue {
 
-    static func write(value: IoTWirelessClientTypes.MetricQueryValue?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Avg"].write(value.avg)
-        try writer["Max"].write(value.max)
-        try writer["Min"].write(value.min)
-        try writer["P90"].write(value.p90)
-        try writer["Std"].write(value.std)
-        try writer["Sum"].write(value.sum)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTWirelessClientTypes.MetricQueryValue {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTWirelessClientTypes.MetricQueryValue()
@@ -10935,13 +10572,6 @@ extension IoTWirelessClientTypes {
 
 extension IoTWirelessClientTypes.MulticastGroup {
 
-    static func write(value: IoTWirelessClientTypes.MulticastGroup?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["Id"].write(value.id)
-        try writer["Name"].write(value.name)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTWirelessClientTypes.MulticastGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTWirelessClientTypes.MulticastGroup()
@@ -10978,11 +10608,6 @@ extension IoTWirelessClientTypes {
 
 extension IoTWirelessClientTypes.MulticastGroupByFuotaTask {
 
-    static func write(value: IoTWirelessClientTypes.MulticastGroupByFuotaTask?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Id"].write(value.id)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTWirelessClientTypes.MulticastGroupByFuotaTask {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTWirelessClientTypes.MulticastGroupByFuotaTask()
@@ -11013,13 +10638,6 @@ extension IoTWirelessClientTypes.MulticastWirelessMetadata {
         guard let value else { return }
         try writer["LoRaWAN"].write(value.loRaWAN, with: IoTWirelessClientTypes.LoRaWANMulticastMetadata.write(value:to:))
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTWirelessClientTypes.MulticastWirelessMetadata {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTWirelessClientTypes.MulticastWirelessMetadata()
-        value.loRaWAN = try reader["LoRaWAN"].readIfPresent(with: IoTWirelessClientTypes.LoRaWANMulticastMetadata.read(from:))
-        return value
-    }
 }
 
 extension IoTWirelessClientTypes {
@@ -11039,12 +10657,6 @@ extension IoTWirelessClientTypes {
 }
 
 extension IoTWirelessClientTypes.NetworkAnalyzerConfigurations {
-
-    static func write(value: IoTWirelessClientTypes.NetworkAnalyzerConfigurations?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["Name"].write(value.name)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTWirelessClientTypes.NetworkAnalyzerConfigurations {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -11308,14 +10920,6 @@ extension IoTWirelessClientTypes {
 
 extension IoTWirelessClientTypes.PositionConfigurationItem {
 
-    static func write(value: IoTWirelessClientTypes.PositionConfigurationItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Destination"].write(value.destination)
-        try writer["ResourceIdentifier"].write(value.resourceIdentifier)
-        try writer["ResourceType"].write(value.resourceType)
-        try writer["Solvers"].write(value.solvers, with: IoTWirelessClientTypes.PositionSolverDetails.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTWirelessClientTypes.PositionConfigurationItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTWirelessClientTypes.PositionConfigurationItem()
@@ -11421,13 +11025,6 @@ extension IoTWirelessClientTypes.PositionSolverConfigurations {
         guard let value else { return }
         try writer["SemtechGnss"].write(value.semtechGnss, with: IoTWirelessClientTypes.SemtechGnssConfiguration.write(value:to:))
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTWirelessClientTypes.PositionSolverConfigurations {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTWirelessClientTypes.PositionSolverConfigurations()
-        value.semtechGnss = try reader["SemtechGnss"].readIfPresent(with: IoTWirelessClientTypes.SemtechGnssConfiguration.read(from:))
-        return value
-    }
 }
 
 extension IoTWirelessClientTypes {
@@ -11447,11 +11044,6 @@ extension IoTWirelessClientTypes {
 }
 
 extension IoTWirelessClientTypes.PositionSolverDetails {
-
-    static func write(value: IoTWirelessClientTypes.PositionSolverDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["SemtechGnss"].write(value.semtechGnss, with: IoTWirelessClientTypes.SemtechGnssDetail.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTWirelessClientTypes.PositionSolverDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -12016,14 +11608,6 @@ extension IoTWirelessClientTypes.SemtechGnssConfiguration {
         try writer["Fec"].write(value.fec)
         try writer["Status"].write(value.status)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTWirelessClientTypes.SemtechGnssConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTWirelessClientTypes.SemtechGnssConfiguration()
-        value.status = try reader["Status"].readIfPresent()
-        value.fec = try reader["Fec"].readIfPresent()
-        return value
-    }
 }
 
 extension IoTWirelessClientTypes {
@@ -12049,14 +11633,6 @@ extension IoTWirelessClientTypes {
 }
 
 extension IoTWirelessClientTypes.SemtechGnssDetail {
-
-    static func write(value: IoTWirelessClientTypes.SemtechGnssDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Fec"].write(value.fec)
-        try writer["Provider"].write(value.provider)
-        try writer["Status"].write(value.status)
-        try writer["Type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTWirelessClientTypes.SemtechGnssDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -12272,13 +11848,6 @@ enum SendDataToWirelessDeviceOutputError {
 
 extension IoTWirelessClientTypes.ServiceProfile {
 
-    static func write(value: IoTWirelessClientTypes.ServiceProfile?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["Id"].write(value.id)
-        try writer["Name"].write(value.name)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTWirelessClientTypes.ServiceProfile {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTWirelessClientTypes.ServiceProfile()
@@ -12448,13 +12017,6 @@ extension IoTWirelessClientTypes.SidewalkAccountInfoWithFingerprint: Swift.Custo
 
 extension IoTWirelessClientTypes.SidewalkAccountInfoWithFingerprint {
 
-    static func write(value: IoTWirelessClientTypes.SidewalkAccountInfoWithFingerprint?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AmazonId"].write(value.amazonId)
-        try writer["Arn"].write(value.arn)
-        try writer["Fingerprint"].write(value.fingerprint)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTWirelessClientTypes.SidewalkAccountInfoWithFingerprint {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTWirelessClientTypes.SidewalkAccountInfoWithFingerprint()
@@ -12495,11 +12057,6 @@ extension IoTWirelessClientTypes.SidewalkCreateDeviceProfile {
         guard value != nil else { return }
         _ = writer[""]  // create an empty structure
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTWirelessClientTypes.SidewalkCreateDeviceProfile {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        return IoTWirelessClientTypes.SidewalkCreateDeviceProfile()
-    }
 }
 
 extension IoTWirelessClientTypes {
@@ -12516,13 +12073,6 @@ extension IoTWirelessClientTypes.SidewalkCreateWirelessDevice {
     static func write(value: IoTWirelessClientTypes.SidewalkCreateWirelessDevice?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["DeviceProfileId"].write(value.deviceProfileId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTWirelessClientTypes.SidewalkCreateWirelessDevice {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTWirelessClientTypes.SidewalkCreateWirelessDevice()
-        value.deviceProfileId = try reader["DeviceProfileId"].readIfPresent()
-        return value
     }
 }
 
@@ -12543,18 +12093,6 @@ extension IoTWirelessClientTypes {
 }
 
 extension IoTWirelessClientTypes.SidewalkDevice {
-
-    static func write(value: IoTWirelessClientTypes.SidewalkDevice?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AmazonId"].write(value.amazonId)
-        try writer["CertificateId"].write(value.certificateId)
-        try writer["DeviceCertificates"].writeList(value.deviceCertificates, memberWritingClosure: IoTWirelessClientTypes.CertificateList.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["DeviceProfileId"].write(value.deviceProfileId)
-        try writer["PrivateKeys"].writeList(value.privateKeys, memberWritingClosure: IoTWirelessClientTypes.CertificateList.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["SidewalkId"].write(value.sidewalkId)
-        try writer["SidewalkManufacturingSn"].write(value.sidewalkManufacturingSn)
-        try writer["Status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTWirelessClientTypes.SidewalkDevice {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -12616,14 +12154,6 @@ extension IoTWirelessClientTypes {
 }
 
 extension IoTWirelessClientTypes.SidewalkDeviceMetadata {
-
-    static func write(value: IoTWirelessClientTypes.SidewalkDeviceMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BatteryLevel"].write(value.batteryLevel)
-        try writer["DeviceState"].write(value.deviceState)
-        try writer["Event"].write(value.event)
-        try writer["Rssi"].write(value.rssi)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTWirelessClientTypes.SidewalkDeviceMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -12702,13 +12232,6 @@ extension IoTWirelessClientTypes.SidewalkGetDeviceProfile: Swift.CustomDebugStri
 
 extension IoTWirelessClientTypes.SidewalkGetDeviceProfile {
 
-    static func write(value: IoTWirelessClientTypes.SidewalkGetDeviceProfile?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ApplicationServerPublicKey"].write(value.applicationServerPublicKey)
-        try writer["DakCertificateMetadata"].writeList(value.dakCertificateMetadata, memberWritingClosure: IoTWirelessClientTypes.DakCertificateMetadata.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["QualificationStatus"].write(value.qualificationStatus)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTWirelessClientTypes.SidewalkGetDeviceProfile {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTWirelessClientTypes.SidewalkGetDeviceProfile()
@@ -12745,12 +12268,6 @@ extension IoTWirelessClientTypes {
 
 extension IoTWirelessClientTypes.SidewalkGetStartImportInfo {
 
-    static func write(value: IoTWirelessClientTypes.SidewalkGetStartImportInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DeviceCreationFileList"].writeList(value.deviceCreationFileList, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Role"].write(value.role)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTWirelessClientTypes.SidewalkGetStartImportInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTWirelessClientTypes.SidewalkGetStartImportInfo()
@@ -12781,16 +12298,6 @@ extension IoTWirelessClientTypes {
 }
 
 extension IoTWirelessClientTypes.SidewalkListDevice {
-
-    static func write(value: IoTWirelessClientTypes.SidewalkListDevice?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AmazonId"].write(value.amazonId)
-        try writer["DeviceCertificates"].writeList(value.deviceCertificates, memberWritingClosure: IoTWirelessClientTypes.CertificateList.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["DeviceProfileId"].write(value.deviceProfileId)
-        try writer["SidewalkId"].write(value.sidewalkId)
-        try writer["SidewalkManufacturingSn"].write(value.sidewalkManufacturingSn)
-        try writer["Status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTWirelessClientTypes.SidewalkListDevice {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -12880,15 +12387,6 @@ extension IoTWirelessClientTypes.SidewalkSendDataToDevice {
         try writer["MessageType"].write(value.messageType)
         try writer["Seq"].write(value.seq)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTWirelessClientTypes.SidewalkSendDataToDevice {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTWirelessClientTypes.SidewalkSendDataToDevice()
-        value.seq = try reader["Seq"].readIfPresent()
-        value.messageType = try reader["MessageType"].readIfPresent()
-        value.ackModeRetryDurationSecs = try reader["AckModeRetryDurationSecs"].readIfPresent()
-        return value
-    }
 }
 
 extension IoTWirelessClientTypes {
@@ -12921,13 +12419,6 @@ extension IoTWirelessClientTypes.SidewalkSingleStartImportInfo {
         guard let value else { return }
         try writer["SidewalkManufacturingSn"].write(value.sidewalkManufacturingSn)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTWirelessClientTypes.SidewalkSingleStartImportInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTWirelessClientTypes.SidewalkSingleStartImportInfo()
-        value.sidewalkManufacturingSn = try reader["SidewalkManufacturingSn"].readIfPresent()
-        return value
-    }
 }
 
 extension IoTWirelessClientTypes {
@@ -12952,14 +12443,6 @@ extension IoTWirelessClientTypes.SidewalkStartImportInfo {
         guard let value else { return }
         try writer["DeviceCreationFile"].write(value.deviceCreationFile)
         try writer["Role"].write(value.role)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTWirelessClientTypes.SidewalkStartImportInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTWirelessClientTypes.SidewalkStartImportInfo()
-        value.deviceCreationFile = try reader["DeviceCreationFile"].readIfPresent()
-        value.role = try reader["Role"].readIfPresent()
-        return value
     }
 }
 
@@ -12994,13 +12477,6 @@ extension IoTWirelessClientTypes.SidewalkUpdateAccount {
         guard let value else { return }
         try writer["AppServerPrivateKey"].write(value.appServerPrivateKey)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTWirelessClientTypes.SidewalkUpdateAccount {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTWirelessClientTypes.SidewalkUpdateAccount()
-        value.appServerPrivateKey = try reader["AppServerPrivateKey"].readIfPresent()
-        return value
-    }
 }
 
 extension IoTWirelessClientTypes {
@@ -13024,13 +12500,6 @@ extension IoTWirelessClientTypes.SidewalkUpdateImportInfo {
     static func write(value: IoTWirelessClientTypes.SidewalkUpdateImportInfo?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["DeviceCreationFile"].write(value.deviceCreationFile)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTWirelessClientTypes.SidewalkUpdateImportInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTWirelessClientTypes.SidewalkUpdateImportInfo()
-        value.deviceCreationFile = try reader["DeviceCreationFile"].readIfPresent()
-        return value
     }
 }
 
@@ -13615,18 +13084,6 @@ extension IoTWirelessClientTypes.SummaryMetricQuery {
         try writer["QueryId"].write(value.queryId)
         try writer["StartTimestamp"].writeTimestamp(value.startTimestamp, format: .epochSeconds)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTWirelessClientTypes.SummaryMetricQuery {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTWirelessClientTypes.SummaryMetricQuery()
-        value.queryId = try reader["QueryId"].readIfPresent()
-        value.metricName = try reader["MetricName"].readIfPresent()
-        value.dimensions = try reader["Dimensions"].readListIfPresent(memberReadingClosure: IoTWirelessClientTypes.Dimension.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.aggregationPeriod = try reader["AggregationPeriod"].readIfPresent()
-        value.startTimestamp = try reader["StartTimestamp"].readTimestampIfPresent(format: .epochSeconds)
-        value.endTimestamp = try reader["EndTimestamp"].readTimestampIfPresent(format: .epochSeconds)
-        return value
-    }
 }
 
 extension IoTWirelessClientTypes {
@@ -13666,21 +13123,6 @@ extension IoTWirelessClientTypes {
 }
 
 extension IoTWirelessClientTypes.SummaryMetricQueryResult {
-
-    static func write(value: IoTWirelessClientTypes.SummaryMetricQueryResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AggregationPeriod"].write(value.aggregationPeriod)
-        try writer["Dimensions"].writeList(value.dimensions, memberWritingClosure: IoTWirelessClientTypes.Dimension.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["EndTimestamp"].writeTimestamp(value.endTimestamp, format: .epochSeconds)
-        try writer["Error"].write(value.error)
-        try writer["MetricName"].write(value.metricName)
-        try writer["QueryId"].write(value.queryId)
-        try writer["QueryStatus"].write(value.queryStatus)
-        try writer["StartTimestamp"].writeTimestamp(value.startTimestamp, format: .epochSeconds)
-        try writer["Timestamps"].writeList(value.timestamps, memberWritingClosure: timestampWritingClosure(format: .epochSeconds), memberNodeInfo: "member", isFlattened: false)
-        try writer["Unit"].write(value.unit)
-        try writer["Values"].writeList(value.values, memberWritingClosure: IoTWirelessClientTypes.MetricQueryValue.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTWirelessClientTypes.SummaryMetricQueryResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -13944,14 +13386,6 @@ extension IoTWirelessClientTypes.TdscdmaLocalId {
         try writer["CellParams"].write(value.cellParams)
         try writer["Uarfcn"].write(value.uarfcn)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTWirelessClientTypes.TdscdmaLocalId {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTWirelessClientTypes.TdscdmaLocalId()
-        value.uarfcn = try reader["Uarfcn"].readIfPresent()
-        value.cellParams = try reader["CellParams"].readIfPresent()
-        return value
-    }
 }
 
 extension IoTWirelessClientTypes {
@@ -13985,17 +13419,6 @@ extension IoTWirelessClientTypes.TdscdmaNmrObj {
         try writer["Rscp"].write(value.rscp)
         try writer["Uarfcn"].write(value.uarfcn)
         try writer["UtranCid"].write(value.utranCid)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTWirelessClientTypes.TdscdmaNmrObj {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTWirelessClientTypes.TdscdmaNmrObj()
-        value.uarfcn = try reader["Uarfcn"].readIfPresent()
-        value.cellParams = try reader["CellParams"].readIfPresent()
-        value.utranCid = try reader["UtranCid"].readIfPresent()
-        value.rscp = try reader["Rscp"].readIfPresent()
-        value.pathLoss = try reader["PathLoss"].readIfPresent()
-        return value
     }
 }
 
@@ -14046,21 +13469,6 @@ extension IoTWirelessClientTypes.TdscdmaObj {
         try writer["TdscdmaNmr"].writeList(value.tdscdmaNmr, memberWritingClosure: IoTWirelessClientTypes.TdscdmaNmrObj.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["TdscdmaTimingAdvance"].write(value.tdscdmaTimingAdvance)
         try writer["UtranCid"].write(value.utranCid)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTWirelessClientTypes.TdscdmaObj {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTWirelessClientTypes.TdscdmaObj()
-        value.mcc = try reader["Mcc"].readIfPresent()
-        value.mnc = try reader["Mnc"].readIfPresent()
-        value.lac = try reader["Lac"].readIfPresent()
-        value.utranCid = try reader["UtranCid"].readIfPresent()
-        value.tdscdmaLocalId = try reader["TdscdmaLocalId"].readIfPresent(with: IoTWirelessClientTypes.TdscdmaLocalId.read(from:))
-        value.tdscdmaTimingAdvance = try reader["TdscdmaTimingAdvance"].readIfPresent()
-        value.rscp = try reader["Rscp"].readIfPresent()
-        value.pathLoss = try reader["PathLoss"].readIfPresent()
-        value.tdscdmaNmr = try reader["TdscdmaNmr"].readListIfPresent(memberReadingClosure: IoTWirelessClientTypes.TdscdmaNmrObj.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -14384,13 +13792,6 @@ extension IoTWirelessClientTypes.UpdateAbpV1_0_x {
         guard let value else { return }
         try writer["FCntStart"].write(value.fCntStart)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTWirelessClientTypes.UpdateAbpV1_0_x {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTWirelessClientTypes.UpdateAbpV1_0_x()
-        value.fCntStart = try reader["FCntStart"].readIfPresent()
-        return value
-    }
 }
 
 extension IoTWirelessClientTypes {
@@ -14414,13 +13815,6 @@ extension IoTWirelessClientTypes.UpdateAbpV1_1 {
     static func write(value: IoTWirelessClientTypes.UpdateAbpV1_1?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["FCntStart"].write(value.fCntStart)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTWirelessClientTypes.UpdateAbpV1_1 {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTWirelessClientTypes.UpdateAbpV1_1()
-        value.fCntStart = try reader["FCntStart"].readIfPresent()
-        return value
     }
 }
 
@@ -14602,14 +13996,6 @@ extension IoTWirelessClientTypes.UpdateFPorts {
         guard let value else { return }
         try writer["Applications"].writeList(value.applications, memberWritingClosure: IoTWirelessClientTypes.ApplicationConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Positioning"].write(value.positioning, with: IoTWirelessClientTypes.Positioning.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTWirelessClientTypes.UpdateFPorts {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTWirelessClientTypes.UpdateFPorts()
-        value.positioning = try reader["Positioning"].readIfPresent(with: IoTWirelessClientTypes.Positioning.read(from:))
-        value.applications = try reader["Applications"].readListIfPresent(memberReadingClosure: IoTWirelessClientTypes.ApplicationConfig.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -15686,13 +15072,6 @@ extension IoTWirelessClientTypes {
 
 extension IoTWirelessClientTypes.UpdateWirelessGatewayTaskEntry {
 
-    static func write(value: IoTWirelessClientTypes.UpdateWirelessGatewayTaskEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["Id"].write(value.id)
-        try writer["LoRaWAN"].write(value.loRaWAN, with: IoTWirelessClientTypes.LoRaWANUpdateGatewayTaskEntry.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTWirelessClientTypes.UpdateWirelessGatewayTaskEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTWirelessClientTypes.UpdateWirelessGatewayTaskEntry()
@@ -15771,14 +15150,6 @@ extension IoTWirelessClientTypes.WcdmaLocalId {
         try writer["Psc"].write(value.psc)
         try writer["Uarfcndl"].write(value.uarfcndl)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTWirelessClientTypes.WcdmaLocalId {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTWirelessClientTypes.WcdmaLocalId()
-        value.uarfcndl = try reader["Uarfcndl"].readIfPresent()
-        value.psc = try reader["Psc"].readIfPresent()
-        return value
-    }
 }
 
 extension IoTWirelessClientTypes {
@@ -15812,17 +15183,6 @@ extension IoTWirelessClientTypes.WcdmaNmrObj {
         try writer["Rscp"].write(value.rscp)
         try writer["Uarfcndl"].write(value.uarfcndl)
         try writer["UtranCid"].write(value.utranCid)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTWirelessClientTypes.WcdmaNmrObj {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTWirelessClientTypes.WcdmaNmrObj()
-        value.uarfcndl = try reader["Uarfcndl"].readIfPresent()
-        value.psc = try reader["Psc"].readIfPresent()
-        value.utranCid = try reader["UtranCid"].readIfPresent()
-        value.rscp = try reader["Rscp"].readIfPresent()
-        value.pathLoss = try reader["PathLoss"].readIfPresent()
-        return value
     }
 }
 
@@ -15873,20 +15233,6 @@ extension IoTWirelessClientTypes.WcdmaObj {
         try writer["UtranCid"].write(value.utranCid)
         try writer["WcdmaLocalId"].write(value.wcdmaLocalId, with: IoTWirelessClientTypes.WcdmaLocalId.write(value:to:))
         try writer["WcdmaNmr"].writeList(value.wcdmaNmr, memberWritingClosure: IoTWirelessClientTypes.WcdmaNmrObj.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTWirelessClientTypes.WcdmaObj {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTWirelessClientTypes.WcdmaObj()
-        value.mcc = try reader["Mcc"].readIfPresent()
-        value.mnc = try reader["Mnc"].readIfPresent()
-        value.lac = try reader["Lac"].readIfPresent()
-        value.utranCid = try reader["UtranCid"].readIfPresent()
-        value.wcdmaLocalId = try reader["WcdmaLocalId"].readIfPresent(with: IoTWirelessClientTypes.WcdmaLocalId.read(from:))
-        value.rscp = try reader["Rscp"].readIfPresent()
-        value.pathLoss = try reader["PathLoss"].readIfPresent()
-        value.wcdmaNmr = try reader["WcdmaNmr"].readListIfPresent(memberReadingClosure: IoTWirelessClientTypes.WcdmaNmrObj.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -15943,14 +15289,6 @@ extension IoTWirelessClientTypes.WiFiAccessPoint {
         guard let value else { return }
         try writer["MacAddress"].write(value.macAddress)
         try writer["Rss"].write(value.rss)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTWirelessClientTypes.WiFiAccessPoint {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTWirelessClientTypes.WiFiAccessPoint()
-        value.macAddress = try reader["MacAddress"].readIfPresent()
-        value.rss = try reader["Rss"].readIfPresent()
-        return value
     }
 }
 
@@ -16124,21 +15462,6 @@ extension IoTWirelessClientTypes {
 
 extension IoTWirelessClientTypes.WirelessDeviceImportTask {
 
-    static func write(value: IoTWirelessClientTypes.WirelessDeviceImportTask?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .dateTime)
-        try writer["DestinationName"].write(value.destinationName)
-        try writer["FailedImportedDeviceCount"].write(value.failedImportedDeviceCount)
-        try writer["Id"].write(value.id)
-        try writer["InitializedImportedDeviceCount"].write(value.initializedImportedDeviceCount)
-        try writer["OnboardedImportedDeviceCount"].write(value.onboardedImportedDeviceCount)
-        try writer["PendingImportedDeviceCount"].write(value.pendingImportedDeviceCount)
-        try writer["Sidewalk"].write(value.sidewalk, with: IoTWirelessClientTypes.SidewalkGetStartImportInfo.write(value:to:))
-        try writer["Status"].write(value.status)
-        try writer["StatusReason"].write(value.statusReason)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTWirelessClientTypes.WirelessDeviceImportTask {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTWirelessClientTypes.WirelessDeviceImportTask()
@@ -16295,21 +15618,6 @@ extension IoTWirelessClientTypes {
 }
 
 extension IoTWirelessClientTypes.WirelessDeviceStatistics {
-
-    static func write(value: IoTWirelessClientTypes.WirelessDeviceStatistics?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["DestinationName"].write(value.destinationName)
-        try writer["FuotaDeviceStatus"].write(value.fuotaDeviceStatus)
-        try writer["Id"].write(value.id)
-        try writer["LastUplinkReceivedAt"].write(value.lastUplinkReceivedAt)
-        try writer["LoRaWAN"].write(value.loRaWAN, with: IoTWirelessClientTypes.LoRaWANListDevice.write(value:to:))
-        try writer["McGroupId"].write(value.mcGroupId)
-        try writer["MulticastDeviceStatus"].write(value.multicastDeviceStatus)
-        try writer["Name"].write(value.name)
-        try writer["Sidewalk"].write(value.sidewalk, with: IoTWirelessClientTypes.SidewalkListDevice.write(value:to:))
-        try writer["Type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTWirelessClientTypes.WirelessDeviceStatistics {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -16595,16 +15903,6 @@ extension IoTWirelessClientTypes {
 
 extension IoTWirelessClientTypes.WirelessGatewayStatistics {
 
-    static func write(value: IoTWirelessClientTypes.WirelessGatewayStatistics?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["Description"].write(value.description)
-        try writer["Id"].write(value.id)
-        try writer["LastUplinkReceivedAt"].write(value.lastUplinkReceivedAt)
-        try writer["LoRaWAN"].write(value.loRaWAN, with: IoTWirelessClientTypes.LoRaWANGateway.write(value:to:))
-        try writer["Name"].write(value.name)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTWirelessClientTypes.WirelessGatewayStatistics {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTWirelessClientTypes.WirelessGatewayStatistics()
@@ -16757,14 +16055,6 @@ extension IoTWirelessClientTypes.WirelessMetadata {
         guard let value else { return }
         try writer["LoRaWAN"].write(value.loRaWAN, with: IoTWirelessClientTypes.LoRaWANSendDataToDevice.write(value:to:))
         try writer["Sidewalk"].write(value.sidewalk, with: IoTWirelessClientTypes.SidewalkSendDataToDevice.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTWirelessClientTypes.WirelessMetadata {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTWirelessClientTypes.WirelessMetadata()
-        value.loRaWAN = try reader["LoRaWAN"].readIfPresent(with: IoTWirelessClientTypes.LoRaWANSendDataToDevice.read(from:))
-        value.sidewalk = try reader["Sidewalk"].readIfPresent(with: IoTWirelessClientTypes.SidewalkSendDataToDevice.read(from:))
-        return value
     }
 }
 

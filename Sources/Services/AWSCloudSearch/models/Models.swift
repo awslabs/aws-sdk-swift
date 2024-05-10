@@ -7,12 +7,6 @@ import SmithyXML
 
 extension CloudSearchClientTypes.AccessPoliciesStatus {
 
-    static func write(value: CloudSearchClientTypes.AccessPoliciesStatus?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Options"].write(value.options)
-        try writer["Status"].write(value.status, with: CloudSearchClientTypes.OptionStatus.write(value:to:))
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> CloudSearchClientTypes.AccessPoliciesStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudSearchClientTypes.AccessPoliciesStatus()
@@ -312,12 +306,6 @@ extension CloudSearchClientTypes {
 
 extension CloudSearchClientTypes.AnalysisSchemeStatus {
 
-    static func write(value: CloudSearchClientTypes.AnalysisSchemeStatus?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Options"].write(value.options, with: CloudSearchClientTypes.AnalysisScheme.write(value:to:))
-        try writer["Status"].write(value.status, with: CloudSearchClientTypes.OptionStatus.write(value:to:))
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> CloudSearchClientTypes.AnalysisSchemeStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudSearchClientTypes.AnalysisSchemeStatus()
@@ -350,12 +338,6 @@ extension CloudSearchClientTypes {
 }
 
 extension CloudSearchClientTypes.AvailabilityOptionsStatus {
-
-    static func write(value: CloudSearchClientTypes.AvailabilityOptionsStatus?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Options"].write(value.options)
-        try writer["Status"].write(value.status, with: CloudSearchClientTypes.OptionStatus.write(value:to:))
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> CloudSearchClientTypes.AvailabilityOptionsStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2258,12 +2240,6 @@ extension CloudSearchClientTypes {
 
 extension CloudSearchClientTypes.DomainEndpointOptionsStatus {
 
-    static func write(value: CloudSearchClientTypes.DomainEndpointOptionsStatus?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Options"].write(value.options, with: CloudSearchClientTypes.DomainEndpointOptions.write(value:to:))
-        try writer["Status"].write(value.status, with: CloudSearchClientTypes.OptionStatus.write(value:to:))
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> CloudSearchClientTypes.DomainEndpointOptionsStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudSearchClientTypes.DomainEndpointOptionsStatus()
@@ -2296,23 +2272,6 @@ extension CloudSearchClientTypes {
 }
 
 extension CloudSearchClientTypes.DomainStatus {
-
-    static func write(value: CloudSearchClientTypes.DomainStatus?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["ARN"].write(value.arn)
-        try writer["Created"].write(value.created)
-        try writer["Deleted"].write(value.deleted)
-        try writer["DocService"].write(value.docService, with: CloudSearchClientTypes.ServiceEndpoint.write(value:to:))
-        try writer["DomainId"].write(value.domainId)
-        try writer["DomainName"].write(value.domainName)
-        try writer["Limits"].write(value.limits, with: CloudSearchClientTypes.Limits.write(value:to:))
-        try writer["Processing"].write(value.processing)
-        try writer["RequiresIndexDocuments"].write(value.requiresIndexDocuments)
-        try writer["SearchInstanceCount"].write(value.searchInstanceCount)
-        try writer["SearchInstanceType"].write(value.searchInstanceType)
-        try writer["SearchPartitionCount"].write(value.searchPartitionCount)
-        try writer["SearchService"].write(value.searchService, with: CloudSearchClientTypes.ServiceEndpoint.write(value:to:))
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> CloudSearchClientTypes.DomainStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2557,12 +2516,6 @@ extension CloudSearchClientTypes {
 
 extension CloudSearchClientTypes.ExpressionStatus {
 
-    static func write(value: CloudSearchClientTypes.ExpressionStatus?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Options"].write(value.options, with: CloudSearchClientTypes.Expression.write(value:to:))
-        try writer["Status"].write(value.status, with: CloudSearchClientTypes.OptionStatus.write(value:to:))
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> CloudSearchClientTypes.ExpressionStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudSearchClientTypes.ExpressionStatus()
@@ -2773,12 +2726,6 @@ extension CloudSearchClientTypes {
 }
 
 extension CloudSearchClientTypes.IndexFieldStatus {
-
-    static func write(value: CloudSearchClientTypes.IndexFieldStatus?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Options"].write(value.options, with: CloudSearchClientTypes.IndexField.write(value:to:))
-        try writer["Status"].write(value.status, with: CloudSearchClientTypes.OptionStatus.write(value:to:))
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> CloudSearchClientTypes.IndexFieldStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3177,12 +3124,6 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 
 extension CloudSearchClientTypes.Limits {
 
-    static func write(value: CloudSearchClientTypes.Limits?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["MaximumPartitionCount"].write(value.maximumPartitionCount)
-        try writer["MaximumReplicationCount"].write(value.maximumReplicationCount)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> CloudSearchClientTypes.Limits {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudSearchClientTypes.Limits()
@@ -3434,15 +3375,6 @@ extension CloudSearchClientTypes {
 }
 
 extension CloudSearchClientTypes.OptionStatus {
-
-    static func write(value: CloudSearchClientTypes.OptionStatus?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["CreationDate"].writeTimestamp(value.creationDate, format: .dateTime)
-        try writer["PendingDeletion"].write(value.pendingDeletion)
-        try writer["State"].write(value.state)
-        try writer["UpdateDate"].writeTimestamp(value.updateDate, format: .dateTime)
-        try writer["UpdateVersion"].write(value.updateVersion)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> CloudSearchClientTypes.OptionStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3706,12 +3638,6 @@ extension CloudSearchClientTypes {
 
 extension CloudSearchClientTypes.ScalingParametersStatus {
 
-    static func write(value: CloudSearchClientTypes.ScalingParametersStatus?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Options"].write(value.options, with: CloudSearchClientTypes.ScalingParameters.write(value:to:))
-        try writer["Status"].write(value.status, with: CloudSearchClientTypes.OptionStatus.write(value:to:))
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> CloudSearchClientTypes.ScalingParametersStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudSearchClientTypes.ScalingParametersStatus()
@@ -3744,11 +3670,6 @@ extension CloudSearchClientTypes {
 }
 
 extension CloudSearchClientTypes.ServiceEndpoint {
-
-    static func write(value: CloudSearchClientTypes.ServiceEndpoint?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Endpoint"].write(value.endpoint)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> CloudSearchClientTypes.ServiceEndpoint {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3847,12 +3768,6 @@ extension CloudSearchClientTypes {
 }
 
 extension CloudSearchClientTypes.SuggesterStatus {
-
-    static func write(value: CloudSearchClientTypes.SuggesterStatus?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Options"].write(value.options, with: CloudSearchClientTypes.Suggester.write(value:to:))
-        try writer["Status"].write(value.status, with: CloudSearchClientTypes.OptionStatus.write(value:to:))
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> CloudSearchClientTypes.SuggesterStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

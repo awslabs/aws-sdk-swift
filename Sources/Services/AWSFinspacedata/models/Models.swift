@@ -207,14 +207,6 @@ extension FinspacedataClientTypes.AwsCredentials: Swift.CustomDebugStringConvert
 
 extension FinspacedataClientTypes.AwsCredentials {
 
-    static func write(value: FinspacedataClientTypes.AwsCredentials?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["accessKeyId"].write(value.accessKeyId)
-        try writer["expiration"].write(value.expiration)
-        try writer["secretAccessKey"].write(value.secretAccessKey)
-        try writer["sessionToken"].write(value.sessionToken)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> FinspacedataClientTypes.AwsCredentials {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FinspacedataClientTypes.AwsCredentials()
@@ -290,12 +282,6 @@ extension FinspacedataClientTypes {
 
 extension FinspacedataClientTypes.ChangesetErrorInfo {
 
-    static func write(value: FinspacedataClientTypes.ChangesetErrorInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["errorCategory"].write(value.errorCategory)
-        try writer["errorMessage"].write(value.errorMessage)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> FinspacedataClientTypes.ChangesetErrorInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FinspacedataClientTypes.ChangesetErrorInfo()
@@ -342,23 +328,6 @@ extension FinspacedataClientTypes {
 }
 
 extension FinspacedataClientTypes.ChangesetSummary {
-
-    static func write(value: FinspacedataClientTypes.ChangesetSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["activeFromTimestamp"].write(value.activeFromTimestamp)
-        try writer["activeUntilTimestamp"].write(value.activeUntilTimestamp)
-        try writer["changeType"].write(value.changeType)
-        try writer["changesetArn"].write(value.changesetArn)
-        try writer["changesetId"].write(value.changesetId)
-        try writer["createTime"].write(value.createTime)
-        try writer["datasetId"].write(value.datasetId)
-        try writer["errorInfo"].write(value.errorInfo, with: FinspacedataClientTypes.ChangesetErrorInfo.write(value:to:))
-        try writer["formatParams"].writeMap(value.formatParams, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["sourceParams"].writeMap(value.sourceParams, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["status"].write(value.status)
-        try writer["updatedByChangesetId"].write(value.updatedByChangesetId)
-        try writer["updatesChangesetId"].write(value.updatesChangesetId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> FinspacedataClientTypes.ChangesetSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1183,13 +1152,6 @@ extension FinspacedataClientTypes.Credentials: Swift.CustomDebugStringConvertibl
 
 extension FinspacedataClientTypes.Credentials {
 
-    static func write(value: FinspacedataClientTypes.Credentials?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["accessKeyId"].write(value.accessKeyId)
-        try writer["secretAccessKey"].write(value.secretAccessKey)
-        try writer["sessionToken"].write(value.sessionToken)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> FinspacedataClientTypes.Credentials {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FinspacedataClientTypes.Credentials()
@@ -1278,12 +1240,6 @@ extension FinspacedataClientTypes {
 }
 
 extension FinspacedataClientTypes.DataViewErrorInfo {
-
-    static func write(value: FinspacedataClientTypes.DataViewErrorInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["errorCategory"].write(value.errorCategory)
-        try writer["errorMessage"].write(value.errorMessage)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> FinspacedataClientTypes.DataViewErrorInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1381,22 +1337,6 @@ extension FinspacedataClientTypes {
 
 extension FinspacedataClientTypes.DataViewSummary {
 
-    static func write(value: FinspacedataClientTypes.DataViewSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["asOfTimestamp"].write(value.asOfTimestamp)
-        try writer["autoUpdate"].write(value.autoUpdate)
-        try writer["createTime"].write(value.createTime)
-        try writer["dataViewArn"].write(value.dataViewArn)
-        try writer["dataViewId"].write(value.dataViewId)
-        try writer["datasetId"].write(value.datasetId)
-        try writer["destinationTypeProperties"].write(value.destinationTypeProperties, with: FinspacedataClientTypes.DataViewDestinationTypeParams.write(value:to:))
-        try writer["errorInfo"].write(value.errorInfo, with: FinspacedataClientTypes.DataViewErrorInfo.write(value:to:))
-        try writer["lastModifiedTime"].write(value.lastModifiedTime)
-        try writer["partitionColumns"].writeList(value.partitionColumns, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["sortColumns"].writeList(value.sortColumns, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> FinspacedataClientTypes.DataViewSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FinspacedataClientTypes.DataViewSummary()
@@ -1493,20 +1433,6 @@ extension FinspacedataClientTypes {
 }
 
 extension FinspacedataClientTypes.Dataset {
-
-    static func write(value: FinspacedataClientTypes.Dataset?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["alias"].write(value.alias)
-        try writer["createTime"].write(value.createTime)
-        try writer["datasetArn"].write(value.datasetArn)
-        try writer["datasetDescription"].write(value.datasetDescription)
-        try writer["datasetId"].write(value.datasetId)
-        try writer["datasetTitle"].write(value.datasetTitle)
-        try writer["kind"].write(value.kind)
-        try writer["lastModifiedTime"].write(value.lastModifiedTime)
-        try writer["ownerInfo"].write(value.ownerInfo, with: FinspacedataClientTypes.DatasetOwnerInfo.write(value:to:))
-        try writer["schemaDefinition"].write(value.schemaDefinition, with: FinspacedataClientTypes.SchemaUnion.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> FinspacedataClientTypes.Dataset {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3877,17 +3803,6 @@ extension FinspacedataClientTypes.PermissionGroup: Swift.CustomDebugStringConver
 
 extension FinspacedataClientTypes.PermissionGroup {
 
-    static func write(value: FinspacedataClientTypes.PermissionGroup?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["applicationPermissions"].writeList(value.applicationPermissions, memberWritingClosure: FinspacedataClientTypes.ApplicationPermission.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["createTime"].write(value.createTime)
-        try writer["description"].write(value.description)
-        try writer["lastModifiedTime"].write(value.lastModifiedTime)
-        try writer["membershipStatus"].write(value.membershipStatus)
-        try writer["name"].write(value.name)
-        try writer["permissionGroupId"].write(value.permissionGroupId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> FinspacedataClientTypes.PermissionGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FinspacedataClientTypes.PermissionGroup()
@@ -3969,13 +3884,6 @@ extension FinspacedataClientTypes.PermissionGroupByUser: Swift.CustomDebugString
 
 extension FinspacedataClientTypes.PermissionGroupByUser {
 
-    static func write(value: FinspacedataClientTypes.PermissionGroupByUser?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["membershipStatus"].write(value.membershipStatus)
-        try writer["name"].write(value.name)
-        try writer["permissionGroupId"].write(value.permissionGroupId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> FinspacedataClientTypes.PermissionGroupByUser {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FinspacedataClientTypes.PermissionGroupByUser()
@@ -4055,14 +3963,6 @@ extension FinspacedataClientTypes.PermissionGroupParams {
         guard let value else { return }
         try writer["datasetPermissions"].writeList(value.datasetPermissions, memberWritingClosure: FinspacedataClientTypes.ResourcePermission.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["permissionGroupId"].write(value.permissionGroupId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FinspacedataClientTypes.PermissionGroupParams {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FinspacedataClientTypes.PermissionGroupParams()
-        value.permissionGroupId = try reader["permissionGroupId"].readIfPresent()
-        value.datasetPermissions = try reader["datasetPermissions"].readListIfPresent(memberReadingClosure: FinspacedataClientTypes.ResourcePermission.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -4221,13 +4121,6 @@ extension FinspacedataClientTypes.ResourcePermission {
         guard let value else { return }
         try writer["permission"].write(value.permission)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FinspacedataClientTypes.ResourcePermission {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FinspacedataClientTypes.ResourcePermission()
-        value.permission = try reader["permission"].readIfPresent()
-        return value
-    }
 }
 
 extension FinspacedataClientTypes {
@@ -4262,12 +4155,6 @@ extension FinspacedataClientTypes {
 }
 
 extension FinspacedataClientTypes.S3Location {
-
-    static func write(value: FinspacedataClientTypes.S3Location?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["bucket"].write(value.bucket)
-        try writer["key"].write(value.key)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> FinspacedataClientTypes.S3Location {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4854,23 +4741,6 @@ extension FinspacedataClientTypes.User: Swift.CustomDebugStringConvertible {
 
 extension FinspacedataClientTypes.User {
 
-    static func write(value: FinspacedataClientTypes.User?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["apiAccess"].write(value.apiAccess)
-        try writer["apiAccessPrincipalArn"].write(value.apiAccessPrincipalArn)
-        try writer["createTime"].write(value.createTime)
-        try writer["emailAddress"].write(value.emailAddress)
-        try writer["firstName"].write(value.firstName)
-        try writer["lastDisabledTime"].write(value.lastDisabledTime)
-        try writer["lastEnabledTime"].write(value.lastEnabledTime)
-        try writer["lastLoginTime"].write(value.lastLoginTime)
-        try writer["lastModifiedTime"].write(value.lastModifiedTime)
-        try writer["lastName"].write(value.lastName)
-        try writer["status"].write(value.status)
-        try writer["type"].write(value.type)
-        try writer["userId"].write(value.userId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> FinspacedataClientTypes.User {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FinspacedataClientTypes.User()
@@ -4975,19 +4845,6 @@ extension FinspacedataClientTypes.UserByPermissionGroup: Swift.CustomDebugString
 }
 
 extension FinspacedataClientTypes.UserByPermissionGroup {
-
-    static func write(value: FinspacedataClientTypes.UserByPermissionGroup?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["apiAccess"].write(value.apiAccess)
-        try writer["apiAccessPrincipalArn"].write(value.apiAccessPrincipalArn)
-        try writer["emailAddress"].write(value.emailAddress)
-        try writer["firstName"].write(value.firstName)
-        try writer["lastName"].write(value.lastName)
-        try writer["membershipStatus"].write(value.membershipStatus)
-        try writer["status"].write(value.status)
-        try writer["type"].write(value.type)
-        try writer["userId"].write(value.userId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> FinspacedataClientTypes.UserByPermissionGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

@@ -44,13 +44,6 @@ public struct AccessDeniedFault: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
 extension DatabaseMigrationClientTypes.AccountQuota {
 
-    static func write(value: DatabaseMigrationClientTypes.AccountQuota?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccountQuotaName"].write(value.accountQuotaName)
-        try writer["Max"].write(value.max)
-        try writer["Used"].write(value.used)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.AccountQuota {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DatabaseMigrationClientTypes.AccountQuota()
@@ -328,11 +321,6 @@ extension DatabaseMigrationClientTypes {
 
 extension DatabaseMigrationClientTypes.AvailabilityZone {
 
-    static func write(value: DatabaseMigrationClientTypes.AvailabilityZone?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.AvailabilityZone {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DatabaseMigrationClientTypes.AvailabilityZone()
@@ -358,13 +346,6 @@ extension DatabaseMigrationClientTypes {
 }
 
 extension DatabaseMigrationClientTypes.BatchStartRecommendationsErrorEntry {
-
-    static func write(value: DatabaseMigrationClientTypes.BatchStartRecommendationsErrorEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Code"].write(value.code)
-        try writer["DatabaseId"].write(value.databaseId)
-        try writer["Message"].write(value.message)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.BatchStartRecommendationsErrorEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -587,20 +568,6 @@ extension DatabaseMigrationClientTypes {
 
 extension DatabaseMigrationClientTypes.Certificate {
 
-    static func write(value: DatabaseMigrationClientTypes.Certificate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CertificateArn"].write(value.certificateArn)
-        try writer["CertificateCreationDate"].writeTimestamp(value.certificateCreationDate, format: .epochSeconds)
-        try writer["CertificateIdentifier"].write(value.certificateIdentifier)
-        try writer["CertificateOwner"].write(value.certificateOwner)
-        try writer["CertificatePem"].write(value.certificatePem)
-        try writer["CertificateWallet"].write(value.certificateWallet)
-        try writer["KeyLength"].write(value.keyLength)
-        try writer["SigningAlgorithm"].write(value.signingAlgorithm)
-        try writer["ValidFromDate"].writeTimestamp(value.validFromDate, format: .epochSeconds)
-        try writer["ValidToDate"].writeTimestamp(value.validToDate, format: .epochSeconds)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.Certificate {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DatabaseMigrationClientTypes.Certificate()
@@ -705,14 +672,6 @@ extension DatabaseMigrationClientTypes {
 
 extension DatabaseMigrationClientTypes.CollectorHealthCheck {
 
-    static func write(value: DatabaseMigrationClientTypes.CollectorHealthCheck?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CollectorStatus"].write(value.collectorStatus)
-        try writer["LocalCollectorS3Access"].write(value.localCollectorS3Access)
-        try writer["WebCollectorGrantedRoleBasedAccess"].write(value.webCollectorGrantedRoleBasedAccess)
-        try writer["WebCollectorS3Access"].write(value.webCollectorS3Access)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.CollectorHealthCheck {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DatabaseMigrationClientTypes.CollectorHealthCheck()
@@ -790,23 +749,6 @@ public struct CollectorNotFoundFault: ClientRuntime.ModeledError, AWSClientRunti
 }
 
 extension DatabaseMigrationClientTypes.CollectorResponse {
-
-    static func write(value: DatabaseMigrationClientTypes.CollectorResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CollectorHealthCheck"].write(value.collectorHealthCheck, with: DatabaseMigrationClientTypes.CollectorHealthCheck.write(value:to:))
-        try writer["CollectorName"].write(value.collectorName)
-        try writer["CollectorReferencedId"].write(value.collectorReferencedId)
-        try writer["CollectorVersion"].write(value.collectorVersion)
-        try writer["CreatedDate"].write(value.createdDate)
-        try writer["Description"].write(value.description)
-        try writer["InventoryData"].write(value.inventoryData, with: DatabaseMigrationClientTypes.InventoryData.write(value:to:))
-        try writer["LastDataReceived"].write(value.lastDataReceived)
-        try writer["ModifiedDate"].write(value.modifiedDate)
-        try writer["RegisteredDate"].write(value.registeredDate)
-        try writer["S3BucketName"].write(value.s3BucketName)
-        try writer["ServiceAccessRoleArn"].write(value.serviceAccessRoleArn)
-        try writer["VersionStatus"].write(value.versionStatus)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.CollectorResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -893,12 +835,6 @@ extension DatabaseMigrationClientTypes {
 }
 
 extension DatabaseMigrationClientTypes.CollectorShortInfoResponse {
-
-    static func write(value: DatabaseMigrationClientTypes.CollectorShortInfoResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CollectorName"].write(value.collectorName)
-        try writer["CollectorReferencedId"].write(value.collectorReferencedId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.CollectorShortInfoResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1069,16 +1005,6 @@ extension DatabaseMigrationClientTypes {
 }
 
 extension DatabaseMigrationClientTypes.Connection {
-
-    static func write(value: DatabaseMigrationClientTypes.Connection?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EndpointArn"].write(value.endpointArn)
-        try writer["EndpointIdentifier"].write(value.endpointIdentifier)
-        try writer["LastFailureMessage"].write(value.lastFailureMessage)
-        try writer["ReplicationInstanceArn"].write(value.replicationInstanceArn)
-        try writer["ReplicationInstanceIdentifier"].write(value.replicationInstanceIdentifier)
-        try writer["Status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.Connection {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2478,16 +2404,6 @@ extension DatabaseMigrationClientTypes {
 
 extension DatabaseMigrationClientTypes.DataProvider {
 
-    static func write(value: DatabaseMigrationClientTypes.DataProvider?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DataProviderArn"].write(value.dataProviderArn)
-        try writer["DataProviderCreationTime"].writeTimestamp(value.dataProviderCreationTime, format: .dateTime)
-        try writer["DataProviderName"].write(value.dataProviderName)
-        try writer["Description"].write(value.description)
-        try writer["Engine"].write(value.engine)
-        try writer["Settings"].write(value.settings, with: DatabaseMigrationClientTypes.DataProviderSettings.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.DataProvider {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DatabaseMigrationClientTypes.DataProvider()
@@ -2539,14 +2455,6 @@ extension DatabaseMigrationClientTypes {
 
 extension DatabaseMigrationClientTypes.DataProviderDescriptor {
 
-    static func write(value: DatabaseMigrationClientTypes.DataProviderDescriptor?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DataProviderArn"].write(value.dataProviderArn)
-        try writer["DataProviderName"].write(value.dataProviderName)
-        try writer["SecretsManagerAccessRoleArn"].write(value.secretsManagerAccessRoleArn)
-        try writer["SecretsManagerSecretId"].write(value.secretsManagerSecretId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.DataProviderDescriptor {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DatabaseMigrationClientTypes.DataProviderDescriptor()
@@ -2593,15 +2501,6 @@ extension DatabaseMigrationClientTypes.DataProviderDescriptorDefinition {
         try writer["DataProviderIdentifier"].write(value.dataProviderIdentifier)
         try writer["SecretsManagerAccessRoleArn"].write(value.secretsManagerAccessRoleArn)
         try writer["SecretsManagerSecretId"].write(value.secretsManagerSecretId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.DataProviderDescriptorDefinition {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DatabaseMigrationClientTypes.DataProviderDescriptorDefinition()
-        value.dataProviderIdentifier = try reader["DataProviderIdentifier"].readIfPresent()
-        value.secretsManagerSecretId = try reader["SecretsManagerSecretId"].readIfPresent()
-        value.secretsManagerAccessRoleArn = try reader["SecretsManagerAccessRoleArn"].readIfPresent()
-        return value
     }
 }
 
@@ -2708,17 +2607,6 @@ extension DatabaseMigrationClientTypes {
 
 extension DatabaseMigrationClientTypes.DatabaseInstanceSoftwareDetailsResponse {
 
-    static func write(value: DatabaseMigrationClientTypes.DatabaseInstanceSoftwareDetailsResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Engine"].write(value.engine)
-        try writer["EngineEdition"].write(value.engineEdition)
-        try writer["EngineVersion"].write(value.engineVersion)
-        try writer["OsArchitecture"].write(value.osArchitecture)
-        try writer["ServicePack"].write(value.servicePack)
-        try writer["SupportLevel"].write(value.supportLevel)
-        try writer["Tooltip"].write(value.tooltip)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.DatabaseInstanceSoftwareDetailsResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DatabaseMigrationClientTypes.DatabaseInstanceSoftwareDetailsResponse()
@@ -2807,17 +2695,6 @@ extension DatabaseMigrationClientTypes {
 
 extension DatabaseMigrationClientTypes.DatabaseResponse {
 
-    static func write(value: DatabaseMigrationClientTypes.DatabaseResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Collectors"].writeList(value.collectors, memberWritingClosure: DatabaseMigrationClientTypes.CollectorShortInfoResponse.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["DatabaseId"].write(value.databaseId)
-        try writer["DatabaseName"].write(value.databaseName)
-        try writer["IpAddress"].write(value.ipAddress)
-        try writer["NumberOfSchemas"].write(value.numberOfSchemas)
-        try writer["Server"].write(value.server, with: DatabaseMigrationClientTypes.ServerShortInfoResponse.write(value:to:))
-        try writer["SoftwareDetails"].write(value.softwareDetails, with: DatabaseMigrationClientTypes.DatabaseInstanceSoftwareDetailsResponse.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.DatabaseResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DatabaseMigrationClientTypes.DatabaseResponse()
@@ -2873,14 +2750,6 @@ extension DatabaseMigrationClientTypes {
 }
 
 extension DatabaseMigrationClientTypes.DatabaseShortInfoResponse {
-
-    static func write(value: DatabaseMigrationClientTypes.DatabaseShortInfoResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DatabaseEngine"].write(value.databaseEngine)
-        try writer["DatabaseId"].write(value.databaseId)
-        try writer["DatabaseIpAddress"].write(value.databaseIpAddress)
-        try writer["DatabaseName"].write(value.databaseName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.DatabaseShortInfoResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2997,11 +2866,6 @@ extension DatabaseMigrationClientTypes {
 }
 
 extension DatabaseMigrationClientTypes.DefaultErrorDetails {
-
-    static func write(value: DatabaseMigrationClientTypes.DefaultErrorDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.message)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.DefaultErrorDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7970,46 +7834,6 @@ extension DatabaseMigrationClientTypes {
 
 extension DatabaseMigrationClientTypes.Endpoint {
 
-    static func write(value: DatabaseMigrationClientTypes.Endpoint?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CertificateArn"].write(value.certificateArn)
-        try writer["DatabaseName"].write(value.databaseName)
-        try writer["DmsTransferSettings"].write(value.dmsTransferSettings, with: DatabaseMigrationClientTypes.DmsTransferSettings.write(value:to:))
-        try writer["DocDbSettings"].write(value.docDbSettings, with: DatabaseMigrationClientTypes.DocDbSettings.write(value:to:))
-        try writer["DynamoDbSettings"].write(value.dynamoDbSettings, with: DatabaseMigrationClientTypes.DynamoDbSettings.write(value:to:))
-        try writer["ElasticsearchSettings"].write(value.elasticsearchSettings, with: DatabaseMigrationClientTypes.ElasticsearchSettings.write(value:to:))
-        try writer["EndpointArn"].write(value.endpointArn)
-        try writer["EndpointIdentifier"].write(value.endpointIdentifier)
-        try writer["EndpointType"].write(value.endpointType)
-        try writer["EngineDisplayName"].write(value.engineDisplayName)
-        try writer["EngineName"].write(value.engineName)
-        try writer["ExternalId"].write(value.externalId)
-        try writer["ExternalTableDefinition"].write(value.externalTableDefinition)
-        try writer["ExtraConnectionAttributes"].write(value.extraConnectionAttributes)
-        try writer["GcpMySQLSettings"].write(value.gcpMySQLSettings, with: DatabaseMigrationClientTypes.GcpMySQLSettings.write(value:to:))
-        try writer["IBMDb2Settings"].write(value.ibmDb2Settings, with: DatabaseMigrationClientTypes.IBMDb2Settings.write(value:to:))
-        try writer["KafkaSettings"].write(value.kafkaSettings, with: DatabaseMigrationClientTypes.KafkaSettings.write(value:to:))
-        try writer["KinesisSettings"].write(value.kinesisSettings, with: DatabaseMigrationClientTypes.KinesisSettings.write(value:to:))
-        try writer["KmsKeyId"].write(value.kmsKeyId)
-        try writer["MicrosoftSQLServerSettings"].write(value.microsoftSQLServerSettings, with: DatabaseMigrationClientTypes.MicrosoftSQLServerSettings.write(value:to:))
-        try writer["MongoDbSettings"].write(value.mongoDbSettings, with: DatabaseMigrationClientTypes.MongoDbSettings.write(value:to:))
-        try writer["MySQLSettings"].write(value.mySQLSettings, with: DatabaseMigrationClientTypes.MySQLSettings.write(value:to:))
-        try writer["NeptuneSettings"].write(value.neptuneSettings, with: DatabaseMigrationClientTypes.NeptuneSettings.write(value:to:))
-        try writer["OracleSettings"].write(value.oracleSettings, with: DatabaseMigrationClientTypes.OracleSettings.write(value:to:))
-        try writer["Port"].write(value.port)
-        try writer["PostgreSQLSettings"].write(value.postgreSQLSettings, with: DatabaseMigrationClientTypes.PostgreSQLSettings.write(value:to:))
-        try writer["RedisSettings"].write(value.redisSettings, with: DatabaseMigrationClientTypes.RedisSettings.write(value:to:))
-        try writer["RedshiftSettings"].write(value.redshiftSettings, with: DatabaseMigrationClientTypes.RedshiftSettings.write(value:to:))
-        try writer["S3Settings"].write(value.s3Settings, with: DatabaseMigrationClientTypes.S3Settings.write(value:to:))
-        try writer["ServerName"].write(value.serverName)
-        try writer["ServiceAccessRoleArn"].write(value.serviceAccessRoleArn)
-        try writer["SslMode"].write(value.sslMode)
-        try writer["Status"].write(value.status)
-        try writer["SybaseSettings"].write(value.sybaseSettings, with: DatabaseMigrationClientTypes.SybaseSettings.write(value:to:))
-        try writer["TimestreamSettings"].write(value.timestreamSettings, with: DatabaseMigrationClientTypes.TimestreamSettings.write(value:to:))
-        try writer["Username"].write(value.username)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.Endpoint {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DatabaseMigrationClientTypes.Endpoint()
@@ -8217,19 +8041,6 @@ extension DatabaseMigrationClientTypes {
 
 extension DatabaseMigrationClientTypes.EndpointSetting {
 
-    static func write(value: DatabaseMigrationClientTypes.EndpointSetting?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Applicability"].write(value.applicability)
-        try writer["DefaultValue"].write(value.defaultValue)
-        try writer["EnumValues"].writeList(value.enumValues, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["IntValueMax"].write(value.intValueMax)
-        try writer["IntValueMin"].write(value.intValueMin)
-        try writer["Name"].write(value.name)
-        try writer["Sensitive"].write(value.sensitive)
-        try writer["Type"].write(value.type)
-        try writer["Units"].write(value.units)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.EndpointSetting {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DatabaseMigrationClientTypes.EndpointSetting()
@@ -8332,18 +8143,6 @@ extension DatabaseMigrationClientTypes {
 
 extension DatabaseMigrationClientTypes.EngineVersion {
 
-    static func write(value: DatabaseMigrationClientTypes.EngineVersion?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AutoUpgradeDate"].writeTimestamp(value.autoUpgradeDate, format: .epochSeconds)
-        try writer["AvailableUpgrades"].writeList(value.availableUpgrades, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["DeprecationDate"].writeTimestamp(value.deprecationDate, format: .epochSeconds)
-        try writer["ForceUpgradeDate"].writeTimestamp(value.forceUpgradeDate, format: .epochSeconds)
-        try writer["LaunchDate"].writeTimestamp(value.launchDate, format: .epochSeconds)
-        try writer["Lifecycle"].write(value.lifecycle)
-        try writer["ReleaseStatus"].write(value.releaseStatus)
-        try writer["Version"].write(value.version)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.EngineVersion {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DatabaseMigrationClientTypes.EngineVersion()
@@ -8405,16 +8204,6 @@ extension DatabaseMigrationClientTypes {
 
 extension DatabaseMigrationClientTypes.ErrorDetails {
 
-    static func write(value: DatabaseMigrationClientTypes.ErrorDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .defaulterrordetails(defaulterrordetails):
-                try writer["defaultErrorDetails"].write(defaulterrordetails, with: DatabaseMigrationClientTypes.DefaultErrorDetails.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.ErrorDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
@@ -8438,15 +8227,6 @@ extension DatabaseMigrationClientTypes {
 }
 
 extension DatabaseMigrationClientTypes.Event {
-
-    static func write(value: DatabaseMigrationClientTypes.Event?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Date"].writeTimestamp(value.date, format: .epochSeconds)
-        try writer["EventCategories"].writeList(value.eventCategories, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Message"].write(value.message)
-        try writer["SourceIdentifier"].write(value.sourceIdentifier)
-        try writer["SourceType"].write(value.sourceType)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.Event {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8494,12 +8274,6 @@ extension DatabaseMigrationClientTypes {
 
 extension DatabaseMigrationClientTypes.EventCategoryGroup {
 
-    static func write(value: DatabaseMigrationClientTypes.EventCategoryGroup?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EventCategories"].writeList(value.eventCategories, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["SourceType"].write(value.sourceType)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.EventCategoryGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DatabaseMigrationClientTypes.EventCategoryGroup()
@@ -8530,19 +8304,6 @@ extension DatabaseMigrationClientTypes {
 }
 
 extension DatabaseMigrationClientTypes.EventSubscription {
-
-    static func write(value: DatabaseMigrationClientTypes.EventSubscription?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CustSubscriptionId"].write(value.custSubscriptionId)
-        try writer["CustomerAwsId"].write(value.customerAwsId)
-        try writer["Enabled"].write(value.enabled)
-        try writer["EventCategoriesList"].writeList(value.eventCategoriesList, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["SnsTopicArn"].write(value.snsTopicArn)
-        try writer["SourceIdsList"].writeList(value.sourceIdsList, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["SourceType"].write(value.sourceType)
-        try writer["Status"].write(value.status)
-        try writer["SubscriptionCreationTime"].write(value.subscriptionCreationTime)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.EventSubscription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8697,12 +8458,6 @@ enum ExportMetadataModelAssessmentOutputError {
 
 extension DatabaseMigrationClientTypes.ExportMetadataModelAssessmentResultEntry {
 
-    static func write(value: DatabaseMigrationClientTypes.ExportMetadataModelAssessmentResultEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ObjectURL"].write(value.objectURL)
-        try writer["S3ObjectKey"].write(value.s3ObjectKey)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.ExportMetadataModelAssessmentResultEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DatabaseMigrationClientTypes.ExportMetadataModelAssessmentResultEntry()
@@ -8733,12 +8488,6 @@ extension DatabaseMigrationClientTypes {
 }
 
 extension DatabaseMigrationClientTypes.ExportSqlDetails {
-
-    static func write(value: DatabaseMigrationClientTypes.ExportSqlDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ObjectURL"].write(value.objectURL)
-        try writer["S3ObjectKey"].write(value.s3ObjectKey)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.ExportSqlDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8776,14 +8525,6 @@ extension DatabaseMigrationClientTypes.Filter {
         try writer["Name"].write(value.name)
         try writer["Values"].writeList(value.values, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.Filter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DatabaseMigrationClientTypes.Filter()
-        value.name = try reader["Name"].readIfPresent()
-        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
 }
 
 extension DatabaseMigrationClientTypes {
@@ -8809,12 +8550,6 @@ extension DatabaseMigrationClientTypes {
 }
 
 extension DatabaseMigrationClientTypes.FleetAdvisorLsaAnalysisResponse {
-
-    static func write(value: DatabaseMigrationClientTypes.FleetAdvisorLsaAnalysisResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["LsaAnalysisId"].write(value.lsaAnalysisId)
-        try writer["Status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.FleetAdvisorLsaAnalysisResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8846,15 +8581,6 @@ extension DatabaseMigrationClientTypes {
 }
 
 extension DatabaseMigrationClientTypes.FleetAdvisorSchemaObjectResponse {
-
-    static func write(value: DatabaseMigrationClientTypes.FleetAdvisorSchemaObjectResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CodeLineCount"].write(value.codeLineCount)
-        try writer["CodeSize"].write(value.codeSize)
-        try writer["NumberOfObjects"].write(value.numberOfObjects)
-        try writer["ObjectType"].write(value.objectType)
-        try writer["SchemaId"].write(value.schemaId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.FleetAdvisorSchemaObjectResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -9226,20 +8952,6 @@ enum ImportCertificateOutputError {
 
 extension DatabaseMigrationClientTypes.InstanceProfile {
 
-    static func write(value: DatabaseMigrationClientTypes.InstanceProfile?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AvailabilityZone"].write(value.availabilityZone)
-        try writer["Description"].write(value.description)
-        try writer["InstanceProfileArn"].write(value.instanceProfileArn)
-        try writer["InstanceProfileCreationTime"].writeTimestamp(value.instanceProfileCreationTime, format: .dateTime)
-        try writer["InstanceProfileName"].write(value.instanceProfileName)
-        try writer["KmsKeyArn"].write(value.kmsKeyArn)
-        try writer["NetworkType"].write(value.networkType)
-        try writer["PubliclyAccessible"].write(value.publiclyAccessible)
-        try writer["SubnetGroupIdentifier"].write(value.subnetGroupIdentifier)
-        try writer["VpcSecurityGroups"].writeList(value.vpcSecurityGroups, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.InstanceProfile {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DatabaseMigrationClientTypes.InstanceProfile()
@@ -9498,12 +9210,6 @@ public struct InvalidSubnet: ClientRuntime.ModeledError, AWSClientRuntime.AWSSer
 }
 
 extension DatabaseMigrationClientTypes.InventoryData {
-
-    static func write(value: DatabaseMigrationClientTypes.InventoryData?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["NumberOfDatabases"].write(value.numberOfDatabases)
-        try writer["NumberOfSchemas"].write(value.numberOfSchemas)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.InventoryData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -10127,16 +9833,6 @@ extension DatabaseMigrationClientTypes {
 
 extension DatabaseMigrationClientTypes.Limitation {
 
-    static func write(value: DatabaseMigrationClientTypes.Limitation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DatabaseId"].write(value.databaseId)
-        try writer["Description"].write(value.description)
-        try writer["EngineName"].write(value.engineName)
-        try writer["Impact"].write(value.impact)
-        try writer["Name"].write(value.name)
-        try writer["Type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.Limitation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DatabaseMigrationClientTypes.Limitation()
@@ -10558,20 +10254,6 @@ extension DatabaseMigrationClientTypes {
 }
 
 extension DatabaseMigrationClientTypes.MigrationProject {
-
-    static func write(value: DatabaseMigrationClientTypes.MigrationProject?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Description"].write(value.description)
-        try writer["InstanceProfileArn"].write(value.instanceProfileArn)
-        try writer["InstanceProfileName"].write(value.instanceProfileName)
-        try writer["MigrationProjectArn"].write(value.migrationProjectArn)
-        try writer["MigrationProjectCreationTime"].writeTimestamp(value.migrationProjectCreationTime, format: .dateTime)
-        try writer["MigrationProjectName"].write(value.migrationProjectName)
-        try writer["SchemaConversionApplicationAttributes"].write(value.schemaConversionApplicationAttributes, with: DatabaseMigrationClientTypes.SCApplicationAttributes.write(value:to:))
-        try writer["SourceDataProviderDescriptors"].writeList(value.sourceDataProviderDescriptors, memberWritingClosure: DatabaseMigrationClientTypes.DataProviderDescriptor.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["TargetDataProviderDescriptors"].writeList(value.targetDataProviderDescriptors, memberWritingClosure: DatabaseMigrationClientTypes.DataProviderDescriptor.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["TransformationRules"].write(value.transformationRules)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.MigrationProject {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -12785,19 +12467,6 @@ extension DatabaseMigrationClientTypes {
 
 extension DatabaseMigrationClientTypes.OrderableReplicationInstance {
 
-    static func write(value: DatabaseMigrationClientTypes.OrderableReplicationInstance?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AvailabilityZones"].writeList(value.availabilityZones, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["DefaultAllocatedStorage"].write(value.defaultAllocatedStorage)
-        try writer["EngineVersion"].write(value.engineVersion)
-        try writer["IncludedAllocatedStorage"].write(value.includedAllocatedStorage)
-        try writer["MaxAllocatedStorage"].write(value.maxAllocatedStorage)
-        try writer["MinAllocatedStorage"].write(value.minAllocatedStorage)
-        try writer["ReleaseStatus"].write(value.releaseStatus)
-        try writer["ReplicationInstanceClass"].write(value.replicationInstanceClass)
-        try writer["StorageType"].write(value.storageType)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.OrderableReplicationInstance {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DatabaseMigrationClientTypes.OrderableReplicationInstance()
@@ -12923,16 +12592,6 @@ extension DatabaseMigrationClientTypes {
 }
 
 extension DatabaseMigrationClientTypes.PendingMaintenanceAction {
-
-    static func write(value: DatabaseMigrationClientTypes.PendingMaintenanceAction?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Action"].write(value.action)
-        try writer["AutoAppliedAfterDate"].writeTimestamp(value.autoAppliedAfterDate, format: .epochSeconds)
-        try writer["CurrentApplyDate"].writeTimestamp(value.currentApplyDate, format: .epochSeconds)
-        try writer["Description"].write(value.description)
-        try writer["ForcedApplyDate"].writeTimestamp(value.forcedApplyDate, format: .epochSeconds)
-        try writer["OptInStatus"].write(value.optInStatus)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.PendingMaintenanceAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -13247,16 +12906,6 @@ extension DatabaseMigrationClientTypes {
 
 extension DatabaseMigrationClientTypes.ProvisionData {
 
-    static func write(value: DatabaseMigrationClientTypes.ProvisionData?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DateNewProvisioningDataAvailable"].writeTimestamp(value.dateNewProvisioningDataAvailable, format: .epochSeconds)
-        try writer["DateProvisioned"].writeTimestamp(value.dateProvisioned, format: .epochSeconds)
-        try writer["IsNewProvisioningAvailable"].write(value.isNewProvisioningAvailable)
-        try writer["ProvisionState"].write(value.provisionState)
-        try writer["ProvisionedCapacityUnits"].write(value.provisionedCapacityUnits)
-        try writer["ReasonForNewProvisioningData"].write(value.reasonForNewProvisioningData)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.ProvisionData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DatabaseMigrationClientTypes.ProvisionData()
@@ -13307,19 +12956,6 @@ extension DatabaseMigrationClientTypes {
 }
 
 extension DatabaseMigrationClientTypes.RdsConfiguration {
-
-    static func write(value: DatabaseMigrationClientTypes.RdsConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DeploymentOption"].write(value.deploymentOption)
-        try writer["EngineEdition"].write(value.engineEdition)
-        try writer["EngineVersion"].write(value.engineVersion)
-        try writer["InstanceMemory"].write(value.instanceMemory)
-        try writer["InstanceType"].write(value.instanceType)
-        try writer["InstanceVcpu"].write(value.instanceVcpu)
-        try writer["StorageIops"].write(value.storageIops)
-        try writer["StorageSize"].write(value.storageSize)
-        try writer["StorageType"].write(value.storageType)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.RdsConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -13387,12 +13023,6 @@ extension DatabaseMigrationClientTypes {
 
 extension DatabaseMigrationClientTypes.RdsRecommendation {
 
-    static func write(value: DatabaseMigrationClientTypes.RdsRecommendation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["RequirementsToTarget"].write(value.requirementsToTarget, with: DatabaseMigrationClientTypes.RdsRequirements.write(value:to:))
-        try writer["TargetConfiguration"].write(value.targetConfiguration, with: DatabaseMigrationClientTypes.RdsConfiguration.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.RdsRecommendation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DatabaseMigrationClientTypes.RdsRecommendation()
@@ -13423,17 +13053,6 @@ extension DatabaseMigrationClientTypes {
 }
 
 extension DatabaseMigrationClientTypes.RdsRequirements {
-
-    static func write(value: DatabaseMigrationClientTypes.RdsRequirements?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DeploymentOption"].write(value.deploymentOption)
-        try writer["EngineEdition"].write(value.engineEdition)
-        try writer["EngineVersion"].write(value.engineVersion)
-        try writer["InstanceMemory"].write(value.instanceMemory)
-        try writer["InstanceVcpu"].write(value.instanceVcpu)
-        try writer["StorageIops"].write(value.storageIops)
-        try writer["StorageSize"].write(value.storageSize)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.RdsRequirements {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -13568,17 +13187,6 @@ enum RebootReplicationInstanceOutputError {
 
 extension DatabaseMigrationClientTypes.Recommendation {
 
-    static func write(value: DatabaseMigrationClientTypes.Recommendation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedDate"].write(value.createdDate)
-        try writer["Data"].write(value.data, with: DatabaseMigrationClientTypes.RecommendationData.write(value:to:))
-        try writer["DatabaseId"].write(value.databaseId)
-        try writer["EngineName"].write(value.engineName)
-        try writer["Preferred"].write(value.preferred)
-        try writer["Settings"].write(value.settings, with: DatabaseMigrationClientTypes.RecommendationSettings.write(value:to:))
-        try writer["Status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.Recommendation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DatabaseMigrationClientTypes.Recommendation()
@@ -13634,11 +13242,6 @@ extension DatabaseMigrationClientTypes {
 }
 
 extension DatabaseMigrationClientTypes.RecommendationData {
-
-    static func write(value: DatabaseMigrationClientTypes.RecommendationData?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["RdsEngine"].write(value.rdsEngine, with: DatabaseMigrationClientTypes.RdsRecommendation.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.RecommendationData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -14148,15 +13751,6 @@ enum RefreshSchemasOutputError {
 
 extension DatabaseMigrationClientTypes.RefreshSchemasStatus {
 
-    static func write(value: DatabaseMigrationClientTypes.RefreshSchemasStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EndpointArn"].write(value.endpointArn)
-        try writer["LastFailureMessage"].write(value.lastFailureMessage)
-        try writer["LastRefreshDate"].writeTimestamp(value.lastRefreshDate, format: .epochSeconds)
-        try writer["ReplicationInstanceArn"].write(value.replicationInstanceArn)
-        try writer["Status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.RefreshSchemasStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DatabaseMigrationClientTypes.RefreshSchemasStatus()
@@ -14516,29 +14110,6 @@ enum RemoveTagsFromResourceOutputError {
 
 extension DatabaseMigrationClientTypes.Replication {
 
-    static func write(value: DatabaseMigrationClientTypes.Replication?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CdcStartPosition"].write(value.cdcStartPosition)
-        try writer["CdcStartTime"].writeTimestamp(value.cdcStartTime, format: .epochSeconds)
-        try writer["CdcStopPosition"].write(value.cdcStopPosition)
-        try writer["FailureMessages"].writeList(value.failureMessages, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ProvisionData"].write(value.provisionData, with: DatabaseMigrationClientTypes.ProvisionData.write(value:to:))
-        try writer["RecoveryCheckpoint"].write(value.recoveryCheckpoint)
-        try writer["ReplicationConfigArn"].write(value.replicationConfigArn)
-        try writer["ReplicationConfigIdentifier"].write(value.replicationConfigIdentifier)
-        try writer["ReplicationCreateTime"].writeTimestamp(value.replicationCreateTime, format: .epochSeconds)
-        try writer["ReplicationDeprovisionTime"].writeTimestamp(value.replicationDeprovisionTime, format: .epochSeconds)
-        try writer["ReplicationLastStopTime"].writeTimestamp(value.replicationLastStopTime, format: .epochSeconds)
-        try writer["ReplicationStats"].write(value.replicationStats, with: DatabaseMigrationClientTypes.ReplicationStats.write(value:to:))
-        try writer["ReplicationType"].write(value.replicationType)
-        try writer["ReplicationUpdateTime"].writeTimestamp(value.replicationUpdateTime, format: .epochSeconds)
-        try writer["SourceEndpointArn"].write(value.sourceEndpointArn)
-        try writer["StartReplicationType"].write(value.startReplicationType)
-        try writer["Status"].write(value.status)
-        try writer["StopReason"].write(value.stopReason)
-        try writer["TargetEndpointArn"].write(value.targetEndpointArn)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.Replication {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DatabaseMigrationClientTypes.Replication()
@@ -14683,21 +14254,6 @@ extension DatabaseMigrationClientTypes {
 
 extension DatabaseMigrationClientTypes.ReplicationConfig {
 
-    static func write(value: DatabaseMigrationClientTypes.ReplicationConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ComputeConfig"].write(value.computeConfig, with: DatabaseMigrationClientTypes.ComputeConfig.write(value:to:))
-        try writer["ReplicationConfigArn"].write(value.replicationConfigArn)
-        try writer["ReplicationConfigCreateTime"].writeTimestamp(value.replicationConfigCreateTime, format: .epochSeconds)
-        try writer["ReplicationConfigIdentifier"].write(value.replicationConfigIdentifier)
-        try writer["ReplicationConfigUpdateTime"].writeTimestamp(value.replicationConfigUpdateTime, format: .epochSeconds)
-        try writer["ReplicationSettings"].write(value.replicationSettings)
-        try writer["ReplicationType"].write(value.replicationType)
-        try writer["SourceEndpointArn"].write(value.sourceEndpointArn)
-        try writer["SupplementalSettings"].write(value.supplementalSettings)
-        try writer["TableMappings"].write(value.tableMappings)
-        try writer["TargetEndpointArn"].write(value.targetEndpointArn)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.ReplicationConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DatabaseMigrationClientTypes.ReplicationConfig()
@@ -14803,35 +14359,6 @@ extension DatabaseMigrationClientTypes {
 }
 
 extension DatabaseMigrationClientTypes.ReplicationInstance {
-
-    static func write(value: DatabaseMigrationClientTypes.ReplicationInstance?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AllocatedStorage"].write(value.allocatedStorage)
-        try writer["AutoMinorVersionUpgrade"].write(value.autoMinorVersionUpgrade)
-        try writer["AvailabilityZone"].write(value.availabilityZone)
-        try writer["DnsNameServers"].write(value.dnsNameServers)
-        try writer["EngineVersion"].write(value.engineVersion)
-        try writer["FreeUntil"].writeTimestamp(value.freeUntil, format: .epochSeconds)
-        try writer["InstanceCreateTime"].writeTimestamp(value.instanceCreateTime, format: .epochSeconds)
-        try writer["KmsKeyId"].write(value.kmsKeyId)
-        try writer["MultiAZ"].write(value.multiAZ)
-        try writer["NetworkType"].write(value.networkType)
-        try writer["PendingModifiedValues"].write(value.pendingModifiedValues, with: DatabaseMigrationClientTypes.ReplicationPendingModifiedValues.write(value:to:))
-        try writer["PreferredMaintenanceWindow"].write(value.preferredMaintenanceWindow)
-        try writer["PubliclyAccessible"].write(value.publiclyAccessible)
-        try writer["ReplicationInstanceArn"].write(value.replicationInstanceArn)
-        try writer["ReplicationInstanceClass"].write(value.replicationInstanceClass)
-        try writer["ReplicationInstanceIdentifier"].write(value.replicationInstanceIdentifier)
-        try writer["ReplicationInstanceIpv6Addresses"].writeList(value.replicationInstanceIpv6Addresses, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ReplicationInstancePrivateIpAddress"].write(value.replicationInstancePrivateIpAddress)
-        try writer["ReplicationInstancePrivateIpAddresses"].writeList(value.replicationInstancePrivateIpAddresses, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ReplicationInstancePublicIpAddress"].write(value.replicationInstancePublicIpAddress)
-        try writer["ReplicationInstancePublicIpAddresses"].writeList(value.replicationInstancePublicIpAddresses, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ReplicationInstanceStatus"].write(value.replicationInstanceStatus)
-        try writer["ReplicationSubnetGroup"].write(value.replicationSubnetGroup, with: DatabaseMigrationClientTypes.ReplicationSubnetGroup.write(value:to:))
-        try writer["SecondaryAvailabilityZone"].write(value.secondaryAvailabilityZone)
-        try writer["VpcSecurityGroups"].writeList(value.vpcSecurityGroups, memberWritingClosure: DatabaseMigrationClientTypes.VpcSecurityGroupMembership.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.ReplicationInstance {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -15016,13 +14543,6 @@ extension DatabaseMigrationClientTypes {
 
 extension DatabaseMigrationClientTypes.ReplicationInstanceTaskLog {
 
-    static func write(value: DatabaseMigrationClientTypes.ReplicationInstanceTaskLog?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ReplicationInstanceTaskLogSize"].write(value.replicationInstanceTaskLogSize)
-        try writer["ReplicationTaskArn"].write(value.replicationTaskArn)
-        try writer["ReplicationTaskName"].write(value.replicationTaskName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.ReplicationInstanceTaskLog {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DatabaseMigrationClientTypes.ReplicationInstanceTaskLog()
@@ -15058,15 +14578,6 @@ extension DatabaseMigrationClientTypes {
 }
 
 extension DatabaseMigrationClientTypes.ReplicationPendingModifiedValues {
-
-    static func write(value: DatabaseMigrationClientTypes.ReplicationPendingModifiedValues?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AllocatedStorage"].write(value.allocatedStorage)
-        try writer["EngineVersion"].write(value.engineVersion)
-        try writer["MultiAZ"].write(value.multiAZ)
-        try writer["NetworkType"].write(value.networkType)
-        try writer["ReplicationInstanceClass"].write(value.replicationInstanceClass)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.ReplicationPendingModifiedValues {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -15113,21 +14624,6 @@ extension DatabaseMigrationClientTypes {
 }
 
 extension DatabaseMigrationClientTypes.ReplicationStats {
-
-    static func write(value: DatabaseMigrationClientTypes.ReplicationStats?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ElapsedTimeMillis"].write(value.elapsedTimeMillis)
-        try writer["FreshStartDate"].writeTimestamp(value.freshStartDate, format: .epochSeconds)
-        try writer["FullLoadFinishDate"].writeTimestamp(value.fullLoadFinishDate, format: .epochSeconds)
-        try writer["FullLoadProgressPercent"].write(value.fullLoadProgressPercent)
-        try writer["FullLoadStartDate"].writeTimestamp(value.fullLoadStartDate, format: .epochSeconds)
-        try writer["StartDate"].writeTimestamp(value.startDate, format: .epochSeconds)
-        try writer["StopDate"].writeTimestamp(value.stopDate, format: .epochSeconds)
-        try writer["TablesErrored"].write(value.tablesErrored)
-        try writer["TablesLoaded"].write(value.tablesLoaded)
-        try writer["TablesLoading"].write(value.tablesLoading)
-        try writer["TablesQueued"].write(value.tablesQueued)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.ReplicationStats {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -15204,16 +14700,6 @@ extension DatabaseMigrationClientTypes {
 }
 
 extension DatabaseMigrationClientTypes.ReplicationSubnetGroup {
-
-    static func write(value: DatabaseMigrationClientTypes.ReplicationSubnetGroup?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ReplicationSubnetGroupDescription"].write(value.replicationSubnetGroupDescription)
-        try writer["ReplicationSubnetGroupIdentifier"].write(value.replicationSubnetGroupIdentifier)
-        try writer["SubnetGroupStatus"].write(value.subnetGroupStatus)
-        try writer["Subnets"].writeList(value.subnets, memberWritingClosure: DatabaseMigrationClientTypes.Subnet.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["SupportedNetworkTypes"].writeList(value.supportedNetworkTypes, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["VpcId"].write(value.vpcId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.ReplicationSubnetGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -15303,29 +14789,6 @@ public struct ReplicationSubnetGroupDoesNotCoverEnoughAZs: ClientRuntime.Modeled
 }
 
 extension DatabaseMigrationClientTypes.ReplicationTask {
-
-    static func write(value: DatabaseMigrationClientTypes.ReplicationTask?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CdcStartPosition"].write(value.cdcStartPosition)
-        try writer["CdcStopPosition"].write(value.cdcStopPosition)
-        try writer["LastFailureMessage"].write(value.lastFailureMessage)
-        try writer["MigrationType"].write(value.migrationType)
-        try writer["RecoveryCheckpoint"].write(value.recoveryCheckpoint)
-        try writer["ReplicationInstanceArn"].write(value.replicationInstanceArn)
-        try writer["ReplicationTaskArn"].write(value.replicationTaskArn)
-        try writer["ReplicationTaskCreationDate"].writeTimestamp(value.replicationTaskCreationDate, format: .epochSeconds)
-        try writer["ReplicationTaskIdentifier"].write(value.replicationTaskIdentifier)
-        try writer["ReplicationTaskSettings"].write(value.replicationTaskSettings)
-        try writer["ReplicationTaskStartDate"].writeTimestamp(value.replicationTaskStartDate, format: .epochSeconds)
-        try writer["ReplicationTaskStats"].write(value.replicationTaskStats, with: DatabaseMigrationClientTypes.ReplicationTaskStats.write(value:to:))
-        try writer["SourceEndpointArn"].write(value.sourceEndpointArn)
-        try writer["Status"].write(value.status)
-        try writer["StopReason"].write(value.stopReason)
-        try writer["TableMappings"].write(value.tableMappings)
-        try writer["TargetEndpointArn"].write(value.targetEndpointArn)
-        try writer["TargetReplicationInstanceArn"].write(value.targetReplicationInstanceArn)
-        try writer["TaskData"].write(value.taskData)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.ReplicationTask {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -15501,17 +14964,6 @@ extension DatabaseMigrationClientTypes {
 
 extension DatabaseMigrationClientTypes.ReplicationTaskAssessmentResult {
 
-    static func write(value: DatabaseMigrationClientTypes.ReplicationTaskAssessmentResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AssessmentResults"].write(value.assessmentResults)
-        try writer["AssessmentResultsFile"].write(value.assessmentResultsFile)
-        try writer["AssessmentStatus"].write(value.assessmentStatus)
-        try writer["ReplicationTaskArn"].write(value.replicationTaskArn)
-        try writer["ReplicationTaskIdentifier"].write(value.replicationTaskIdentifier)
-        try writer["ReplicationTaskLastAssessmentDate"].writeTimestamp(value.replicationTaskLastAssessmentDate, format: .epochSeconds)
-        try writer["S3ObjectUrl"].write(value.s3ObjectUrl)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.ReplicationTaskAssessmentResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DatabaseMigrationClientTypes.ReplicationTaskAssessmentResult()
@@ -15567,22 +15019,6 @@ extension DatabaseMigrationClientTypes {
 }
 
 extension DatabaseMigrationClientTypes.ReplicationTaskAssessmentRun {
-
-    static func write(value: DatabaseMigrationClientTypes.ReplicationTaskAssessmentRun?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AssessmentProgress"].write(value.assessmentProgress, with: DatabaseMigrationClientTypes.ReplicationTaskAssessmentRunProgress.write(value:to:))
-        try writer["AssessmentRunName"].write(value.assessmentRunName)
-        try writer["LastFailureMessage"].write(value.lastFailureMessage)
-        try writer["ReplicationTaskArn"].write(value.replicationTaskArn)
-        try writer["ReplicationTaskAssessmentRunArn"].write(value.replicationTaskAssessmentRunArn)
-        try writer["ReplicationTaskAssessmentRunCreationDate"].writeTimestamp(value.replicationTaskAssessmentRunCreationDate, format: .epochSeconds)
-        try writer["ResultEncryptionMode"].write(value.resultEncryptionMode)
-        try writer["ResultKmsKeyArn"].write(value.resultKmsKeyArn)
-        try writer["ResultLocationBucket"].write(value.resultLocationBucket)
-        try writer["ResultLocationFolder"].write(value.resultLocationFolder)
-        try writer["ServiceAccessRoleArn"].write(value.serviceAccessRoleArn)
-        try writer["Status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.ReplicationTaskAssessmentRun {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -15685,12 +15121,6 @@ extension DatabaseMigrationClientTypes {
 
 extension DatabaseMigrationClientTypes.ReplicationTaskAssessmentRunProgress {
 
-    static func write(value: DatabaseMigrationClientTypes.ReplicationTaskAssessmentRunProgress?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["IndividualAssessmentCompletedCount"].write(value.individualAssessmentCompletedCount)
-        try writer["IndividualAssessmentCount"].write(value.individualAssessmentCount)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.ReplicationTaskAssessmentRunProgress {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DatabaseMigrationClientTypes.ReplicationTaskAssessmentRunProgress()
@@ -15721,15 +15151,6 @@ extension DatabaseMigrationClientTypes {
 }
 
 extension DatabaseMigrationClientTypes.ReplicationTaskIndividualAssessment {
-
-    static func write(value: DatabaseMigrationClientTypes.ReplicationTaskIndividualAssessment?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["IndividualAssessmentName"].write(value.individualAssessmentName)
-        try writer["ReplicationTaskAssessmentRunArn"].write(value.replicationTaskAssessmentRunArn)
-        try writer["ReplicationTaskIndividualAssessmentArn"].write(value.replicationTaskIndividualAssessmentArn)
-        try writer["ReplicationTaskIndividualAssessmentStartDate"].writeTimestamp(value.replicationTaskIndividualAssessmentStartDate, format: .epochSeconds)
-        try writer["Status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.ReplicationTaskIndividualAssessment {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -15788,21 +15209,6 @@ extension DatabaseMigrationClientTypes {
 }
 
 extension DatabaseMigrationClientTypes.ReplicationTaskStats {
-
-    static func write(value: DatabaseMigrationClientTypes.ReplicationTaskStats?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ElapsedTimeMillis"].write(value.elapsedTimeMillis)
-        try writer["FreshStartDate"].writeTimestamp(value.freshStartDate, format: .epochSeconds)
-        try writer["FullLoadFinishDate"].writeTimestamp(value.fullLoadFinishDate, format: .epochSeconds)
-        try writer["FullLoadProgressPercent"].write(value.fullLoadProgressPercent)
-        try writer["FullLoadStartDate"].writeTimestamp(value.fullLoadStartDate, format: .epochSeconds)
-        try writer["StartDate"].writeTimestamp(value.startDate, format: .epochSeconds)
-        try writer["StopDate"].writeTimestamp(value.stopDate, format: .epochSeconds)
-        try writer["TablesErrored"].write(value.tablesErrored)
-        try writer["TablesLoaded"].write(value.tablesLoaded)
-        try writer["TablesLoading"].write(value.tablesLoading)
-        try writer["TablesQueued"].write(value.tablesQueued)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.ReplicationTaskStats {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -15960,12 +15366,6 @@ public struct ResourceNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntim
 }
 
 extension DatabaseMigrationClientTypes.ResourcePendingMaintenanceActions {
-
-    static func write(value: DatabaseMigrationClientTypes.ResourcePendingMaintenanceActions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["PendingMaintenanceActionDetails"].writeList(value.pendingMaintenanceActionDetails, memberWritingClosure: DatabaseMigrationClientTypes.PendingMaintenanceAction.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ResourceIdentifier"].write(value.resourceIdentifier)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.ResourcePendingMaintenanceActions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -16623,15 +16023,6 @@ extension DatabaseMigrationClientTypes {
 
 extension DatabaseMigrationClientTypes.SchemaConversionRequest {
 
-    static func write(value: DatabaseMigrationClientTypes.SchemaConversionRequest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Error"].write(value.error, with: DatabaseMigrationClientTypes.ErrorDetails.write(value:to:))
-        try writer["ExportSqlDetails"].write(value.exportSqlDetails, with: DatabaseMigrationClientTypes.ExportSqlDetails.write(value:to:))
-        try writer["MigrationProjectArn"].write(value.migrationProjectArn)
-        try writer["RequestIdentifier"].write(value.requestIdentifier)
-        try writer["Status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.SchemaConversionRequest {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DatabaseMigrationClientTypes.SchemaConversionRequest()
@@ -16677,19 +16068,6 @@ extension DatabaseMigrationClientTypes {
 }
 
 extension DatabaseMigrationClientTypes.SchemaResponse {
-
-    static func write(value: DatabaseMigrationClientTypes.SchemaResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CodeLineCount"].write(value.codeLineCount)
-        try writer["CodeSize"].write(value.codeSize)
-        try writer["Complexity"].write(value.complexity)
-        try writer["DatabaseInstance"].write(value.databaseInstance, with: DatabaseMigrationClientTypes.DatabaseShortInfoResponse.write(value:to:))
-        try writer["OriginalSchema"].write(value.originalSchema, with: DatabaseMigrationClientTypes.SchemaShortInfoResponse.write(value:to:))
-        try writer["SchemaId"].write(value.schemaId)
-        try writer["SchemaName"].write(value.schemaName)
-        try writer["Server"].write(value.server, with: DatabaseMigrationClientTypes.ServerShortInfoResponse.write(value:to:))
-        try writer["Similarity"].write(value.similarity)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.SchemaResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -16757,15 +16135,6 @@ extension DatabaseMigrationClientTypes {
 
 extension DatabaseMigrationClientTypes.SchemaShortInfoResponse {
 
-    static func write(value: DatabaseMigrationClientTypes.SchemaShortInfoResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DatabaseId"].write(value.databaseId)
-        try writer["DatabaseIpAddress"].write(value.databaseIpAddress)
-        try writer["DatabaseName"].write(value.databaseName)
-        try writer["SchemaId"].write(value.schemaId)
-        try writer["SchemaName"].write(value.schemaName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.SchemaShortInfoResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DatabaseMigrationClientTypes.SchemaShortInfoResponse()
@@ -16811,13 +16180,6 @@ extension DatabaseMigrationClientTypes {
 }
 
 extension DatabaseMigrationClientTypes.ServerShortInfoResponse {
-
-    static func write(value: DatabaseMigrationClientTypes.ServerShortInfoResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["IpAddress"].write(value.ipAddress)
-        try writer["ServerId"].write(value.serverId)
-        try writer["ServerName"].write(value.serverName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.ServerShortInfoResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -17474,14 +16836,6 @@ extension DatabaseMigrationClientTypes.StartRecommendationsRequestEntry {
         try writer["DatabaseId"].write(value.databaseId)
         try writer["Settings"].write(value.settings, with: DatabaseMigrationClientTypes.RecommendationSettings.write(value:to:))
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.StartRecommendationsRequestEntry {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DatabaseMigrationClientTypes.StartRecommendationsRequestEntry()
-        value.databaseId = try reader["DatabaseId"].readIfPresent()
-        value.settings = try reader["Settings"].readIfPresent(with: DatabaseMigrationClientTypes.RecommendationSettings.read(from:))
-        return value
-    }
 }
 
 extension DatabaseMigrationClientTypes {
@@ -18094,13 +17448,6 @@ public struct StorageQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRu
 
 extension DatabaseMigrationClientTypes.Subnet {
 
-    static func write(value: DatabaseMigrationClientTypes.Subnet?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["SubnetAvailabilityZone"].write(value.subnetAvailabilityZone, with: DatabaseMigrationClientTypes.AvailabilityZone.write(value:to:))
-        try writer["SubnetIdentifier"].write(value.subnetIdentifier)
-        try writer["SubnetStatus"].write(value.subnetStatus)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.Subnet {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DatabaseMigrationClientTypes.Subnet()
@@ -18174,15 +17521,6 @@ public struct SubnetAlreadyInUse: ClientRuntime.ModeledError, AWSClientRuntime.A
 }
 
 extension DatabaseMigrationClientTypes.SupportedEndpointType {
-
-    static func write(value: DatabaseMigrationClientTypes.SupportedEndpointType?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EndpointType"].write(value.endpointType)
-        try writer["EngineDisplayName"].write(value.engineDisplayName)
-        try writer["EngineName"].write(value.engineName)
-        try writer["ReplicationInstanceEngineMinimumVersion"].write(value.replicationInstanceEngineMinimumVersion)
-        try writer["SupportsCDC"].write(value.supportsCDC)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.SupportedEndpointType {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -18301,33 +17639,6 @@ extension DatabaseMigrationClientTypes {
 }
 
 extension DatabaseMigrationClientTypes.TableStatistics {
-
-    static func write(value: DatabaseMigrationClientTypes.TableStatistics?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AppliedDdls"].write(value.appliedDdls)
-        try writer["AppliedDeletes"].write(value.appliedDeletes)
-        try writer["AppliedInserts"].write(value.appliedInserts)
-        try writer["AppliedUpdates"].write(value.appliedUpdates)
-        try writer["Ddls"].write(value.ddls)
-        try writer["Deletes"].write(value.deletes)
-        try writer["FullLoadCondtnlChkFailedRows"].write(value.fullLoadCondtnlChkFailedRows)
-        try writer["FullLoadEndTime"].writeTimestamp(value.fullLoadEndTime, format: .epochSeconds)
-        try writer["FullLoadErrorRows"].write(value.fullLoadErrorRows)
-        try writer["FullLoadReloaded"].write(value.fullLoadReloaded)
-        try writer["FullLoadRows"].write(value.fullLoadRows)
-        try writer["FullLoadStartTime"].writeTimestamp(value.fullLoadStartTime, format: .epochSeconds)
-        try writer["Inserts"].write(value.inserts)
-        try writer["LastUpdateTime"].writeTimestamp(value.lastUpdateTime, format: .epochSeconds)
-        try writer["SchemaName"].write(value.schemaName)
-        try writer["TableName"].write(value.tableName)
-        try writer["TableState"].write(value.tableState)
-        try writer["Updates"].write(value.updates)
-        try writer["ValidationFailedRecords"].write(value.validationFailedRecords)
-        try writer["ValidationPendingRecords"].write(value.validationPendingRecords)
-        try writer["ValidationState"].write(value.validationState)
-        try writer["ValidationStateDetails"].write(value.validationStateDetails)
-        try writer["ValidationSuspendedRecords"].write(value.validationSuspendedRecords)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.TableStatistics {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -18491,14 +17802,6 @@ extension DatabaseMigrationClientTypes.TableToReload {
         guard let value else { return }
         try writer["SchemaName"].write(value.schemaName)
         try writer["TableName"].write(value.tableName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.TableToReload {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DatabaseMigrationClientTypes.TableToReload()
-        value.schemaName = try reader["SchemaName"].readIfPresent()
-        value.tableName = try reader["TableName"].readIfPresent()
-        return value
     }
 }
 
@@ -18915,12 +18218,6 @@ extension DatabaseMigrationClientTypes {
 }
 
 extension DatabaseMigrationClientTypes.VpcSecurityGroupMembership {
-
-    static func write(value: DatabaseMigrationClientTypes.VpcSecurityGroupMembership?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Status"].write(value.status)
-        try writer["VpcSecurityGroupId"].write(value.vpcSecurityGroupId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.VpcSecurityGroupMembership {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

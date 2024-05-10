@@ -52,12 +52,6 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
 extension RekognitionClientTypes.AgeRange {
 
-    static func write(value: RekognitionClientTypes.AgeRange?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["High"].write(value.high)
-        try writer["Low"].write(value.low)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.AgeRange {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RekognitionClientTypes.AgeRange()
@@ -226,11 +220,6 @@ enum AssociateFacesOutputError {
 
 extension RekognitionClientTypes.AssociatedFace {
 
-    static func write(value: RekognitionClientTypes.AssociatedFace?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["FaceId"].write(value.faceId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.AssociatedFace {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RekognitionClientTypes.AssociatedFace()
@@ -323,14 +312,6 @@ extension RekognitionClientTypes {
 
 extension RekognitionClientTypes.AudioMetadata {
 
-    static func write(value: RekognitionClientTypes.AudioMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Codec"].write(value.codec)
-        try writer["DurationMillis"].write(value.durationMillis)
-        try writer["NumberOfChannels"].write(value.numberOfChannels)
-        try writer["SampleRate"].write(value.sampleRate)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.AudioMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RekognitionClientTypes.AudioMetadata()
@@ -377,13 +358,6 @@ extension RekognitionClientTypes.AuditImage: Swift.CustomDebugStringConvertible 
 
 extension RekognitionClientTypes.AuditImage {
 
-    static func write(value: RekognitionClientTypes.AuditImage?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BoundingBox"].write(value.boundingBox, with: RekognitionClientTypes.BoundingBox.write(value:to:))
-        try writer["Bytes"].write(value.bytes)
-        try writer["S3Object"].write(value.s3Object, with: RekognitionClientTypes.S3Object.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.AuditImage {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RekognitionClientTypes.AuditImage()
@@ -420,12 +394,6 @@ extension RekognitionClientTypes {
 
 extension RekognitionClientTypes.Beard {
 
-    static func write(value: RekognitionClientTypes.Beard?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Confidence"].write(value.confidence)
-        try writer["Value"].write(value.value)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.Beard {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RekognitionClientTypes.Beard()
@@ -461,14 +429,6 @@ extension RekognitionClientTypes.BlackFrame {
         guard let value else { return }
         try writer["MaxPixelThreshold"].write(value.maxPixelThreshold)
         try writer["MinCoveragePercentage"].write(value.minCoveragePercentage)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.BlackFrame {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.BlackFrame()
-        value.maxPixelThreshold = try reader["MaxPixelThreshold"].readIfPresent()
-        value.minCoveragePercentage = try reader["MinCoveragePercentage"].readIfPresent()
-        return value
     }
 }
 
@@ -579,16 +539,6 @@ extension RekognitionClientTypes {
 
 extension RekognitionClientTypes.Celebrity {
 
-    static func write(value: RekognitionClientTypes.Celebrity?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Face"].write(value.face, with: RekognitionClientTypes.ComparedFace.write(value:to:))
-        try writer["Id"].write(value.id)
-        try writer["KnownGender"].write(value.knownGender, with: RekognitionClientTypes.KnownGender.write(value:to:))
-        try writer["MatchConfidence"].write(value.matchConfidence)
-        try writer["Name"].write(value.name)
-        try writer["Urls"].writeList(value.urls, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.Celebrity {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RekognitionClientTypes.Celebrity()
@@ -639,17 +589,6 @@ extension RekognitionClientTypes {
 }
 
 extension RekognitionClientTypes.CelebrityDetail {
-
-    static func write(value: RekognitionClientTypes.CelebrityDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BoundingBox"].write(value.boundingBox, with: RekognitionClientTypes.BoundingBox.write(value:to:))
-        try writer["Confidence"].write(value.confidence)
-        try writer["Face"].write(value.face, with: RekognitionClientTypes.FaceDetail.write(value:to:))
-        try writer["Id"].write(value.id)
-        try writer["KnownGender"].write(value.knownGender, with: RekognitionClientTypes.KnownGender.write(value:to:))
-        try writer["Name"].write(value.name)
-        try writer["Urls"].writeList(value.urls, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.CelebrityDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -706,12 +645,6 @@ extension RekognitionClientTypes {
 }
 
 extension RekognitionClientTypes.CelebrityRecognition {
-
-    static func write(value: RekognitionClientTypes.CelebrityRecognition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Celebrity"].write(value.celebrity, with: RekognitionClientTypes.CelebrityDetail.write(value:to:))
-        try writer["Timestamp"].write(value.timestamp)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.CelebrityRecognition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -818,12 +751,6 @@ public struct CompareFacesInput {
 
 extension RekognitionClientTypes.CompareFacesMatch {
 
-    static func write(value: RekognitionClientTypes.CompareFacesMatch?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Face"].write(value.face, with: RekognitionClientTypes.ComparedFace.write(value:to:))
-        try writer["Similarity"].write(value.similarity)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.CompareFacesMatch {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RekognitionClientTypes.CompareFacesMatch()
@@ -920,17 +847,6 @@ enum CompareFacesOutputError {
 
 extension RekognitionClientTypes.ComparedFace {
 
-    static func write(value: RekognitionClientTypes.ComparedFace?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BoundingBox"].write(value.boundingBox, with: RekognitionClientTypes.BoundingBox.write(value:to:))
-        try writer["Confidence"].write(value.confidence)
-        try writer["Emotions"].writeList(value.emotions, memberWritingClosure: RekognitionClientTypes.Emotion.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Landmarks"].writeList(value.landmarks, memberWritingClosure: RekognitionClientTypes.Landmark.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Pose"].write(value.pose, with: RekognitionClientTypes.Pose.write(value:to:))
-        try writer["Quality"].write(value.quality, with: RekognitionClientTypes.ImageQuality.write(value:to:))
-        try writer["Smile"].write(value.smile, with: RekognitionClientTypes.Smile.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.ComparedFace {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RekognitionClientTypes.ComparedFace()
@@ -986,12 +902,6 @@ extension RekognitionClientTypes {
 }
 
 extension RekognitionClientTypes.ComparedSourceImageFace {
-
-    static func write(value: RekognitionClientTypes.ComparedSourceImageFace?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BoundingBox"].write(value.boundingBox, with: RekognitionClientTypes.BoundingBox.write(value:to:))
-        try writer["Confidence"].write(value.confidence)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.ComparedSourceImageFace {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1113,14 +1023,6 @@ extension RekognitionClientTypes.ConnectedHomeSettingsForUpdate {
         try writer["Labels"].writeList(value.labels, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["MinConfidence"].write(value.minConfidence)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.ConnectedHomeSettingsForUpdate {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.ConnectedHomeSettingsForUpdate()
-        value.labels = try reader["Labels"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.minConfidence = try reader["MinConfidence"].readIfPresent()
-        return value
-    }
 }
 
 extension RekognitionClientTypes {
@@ -1205,16 +1107,6 @@ extension RekognitionClientTypes {
 
 extension RekognitionClientTypes.ContentModerationDetection {
 
-    static func write(value: RekognitionClientTypes.ContentModerationDetection?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ContentTypes"].writeList(value.contentTypes, memberWritingClosure: RekognitionClientTypes.ContentType.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["DurationMillis"].write(value.durationMillis)
-        try writer["EndTimestampMillis"].write(value.endTimestampMillis)
-        try writer["ModerationLabel"].write(value.moderationLabel, with: RekognitionClientTypes.ModerationLabel.write(value:to:))
-        try writer["StartTimestampMillis"].write(value.startTimestampMillis)
-        try writer["Timestamp"].write(value.timestamp)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.ContentModerationDetection {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RekognitionClientTypes.ContentModerationDetection()
@@ -1295,12 +1187,6 @@ extension RekognitionClientTypes {
 }
 
 extension RekognitionClientTypes.ContentType {
-
-    static func write(value: RekognitionClientTypes.ContentType?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Confidence"].write(value.confidence)
-        try writer["Name"].write(value.name)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.ContentType {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1451,12 +1337,6 @@ enum CopyProjectVersionOutputError {
 }
 
 extension RekognitionClientTypes.CoversBodyPart {
-
-    static func write(value: RekognitionClientTypes.CoversBodyPart?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Confidence"].write(value.confidence)
-        try writer["Value"].write(value.value)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.CoversBodyPart {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1745,14 +1625,6 @@ extension RekognitionClientTypes.CreateFaceLivenessSessionRequestSettings {
         guard let value else { return }
         try writer["AuditImagesLimit"].write(value.auditImagesLimit)
         try writer["OutputConfig"].write(value.outputConfig, with: RekognitionClientTypes.LivenessOutputConfig.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.CreateFaceLivenessSessionRequestSettings {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.CreateFaceLivenessSessionRequestSettings()
-        value.outputConfig = try reader["OutputConfig"].readIfPresent(with: RekognitionClientTypes.LivenessOutputConfig.read(from:))
-        value.auditImagesLimit = try reader["AuditImagesLimit"].readIfPresent()
-        return value
     }
 }
 
@@ -2182,13 +2054,6 @@ enum CreateUserOutputError {
 
 extension RekognitionClientTypes.CustomLabel {
 
-    static func write(value: RekognitionClientTypes.CustomLabel?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Confidence"].write(value.confidence)
-        try writer["Geometry"].write(value.geometry, with: RekognitionClientTypes.Geometry.write(value:to:))
-        try writer["Name"].write(value.name)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.CustomLabel {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RekognitionClientTypes.CustomLabel()
@@ -2321,13 +2186,6 @@ extension RekognitionClientTypes.DatasetChanges {
         guard let value else { return }
         try writer["GroundTruth"].write(value.groundTruth)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.DatasetChanges {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.DatasetChanges()
-        value.groundTruth = try reader["GroundTruth"].readIfPresent()
-        return value
-    }
 }
 
 extension RekognitionClientTypes {
@@ -2348,16 +2206,6 @@ extension RekognitionClientTypes {
 }
 
 extension RekognitionClientTypes.DatasetDescription {
-
-    static func write(value: RekognitionClientTypes.DatasetDescription?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationTimestamp"].writeTimestamp(value.creationTimestamp, format: .epochSeconds)
-        try writer["DatasetStats"].write(value.datasetStats, with: RekognitionClientTypes.DatasetStats.write(value:to:))
-        try writer["LastUpdatedTimestamp"].writeTimestamp(value.lastUpdatedTimestamp, format: .epochSeconds)
-        try writer["Status"].write(value.status)
-        try writer["StatusMessage"].write(value.statusMessage)
-        try writer["StatusMessageCode"].write(value.statusMessageCode)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.DatasetDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2410,12 +2258,6 @@ extension RekognitionClientTypes {
 
 extension RekognitionClientTypes.DatasetLabelDescription {
 
-    static func write(value: RekognitionClientTypes.DatasetLabelDescription?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["LabelName"].write(value.labelName)
-        try writer["LabelStats"].write(value.labelStats, with: RekognitionClientTypes.DatasetLabelStats.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.DatasetLabelDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RekognitionClientTypes.DatasetLabelDescription()
@@ -2447,12 +2289,6 @@ extension RekognitionClientTypes {
 
 extension RekognitionClientTypes.DatasetLabelStats {
 
-    static func write(value: RekognitionClientTypes.DatasetLabelStats?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BoundingBoxCount"].write(value.boundingBoxCount)
-        try writer["EntryCount"].write(value.entryCount)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.DatasetLabelStats {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RekognitionClientTypes.DatasetLabelStats()
@@ -2483,16 +2319,6 @@ extension RekognitionClientTypes {
 }
 
 extension RekognitionClientTypes.DatasetMetadata {
-
-    static func write(value: RekognitionClientTypes.DatasetMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationTimestamp"].writeTimestamp(value.creationTimestamp, format: .epochSeconds)
-        try writer["DatasetArn"].write(value.datasetArn)
-        try writer["DatasetType"].write(value.datasetType)
-        try writer["Status"].write(value.status)
-        try writer["StatusMessage"].write(value.statusMessage)
-        try writer["StatusMessageCode"].write(value.statusMessageCode)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.DatasetMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2550,14 +2376,6 @@ extension RekognitionClientTypes.DatasetSource {
         try writer["DatasetArn"].write(value.datasetArn)
         try writer["GroundTruthManifest"].write(value.groundTruthManifest, with: RekognitionClientTypes.GroundTruthManifest.write(value:to:))
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.DatasetSource {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.DatasetSource()
-        value.groundTruthManifest = try reader["GroundTruthManifest"].readIfPresent(with: RekognitionClientTypes.GroundTruthManifest.read(from:))
-        value.datasetArn = try reader["DatasetArn"].readIfPresent()
-        return value
-    }
 }
 
 extension RekognitionClientTypes {
@@ -2581,14 +2399,6 @@ extension RekognitionClientTypes {
 }
 
 extension RekognitionClientTypes.DatasetStats {
-
-    static func write(value: RekognitionClientTypes.DatasetStats?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ErrorEntries"].write(value.errorEntries)
-        try writer["LabeledEntries"].write(value.labeledEntries)
-        try writer["TotalEntries"].write(value.totalEntries)
-        try writer["TotalLabels"].write(value.totalLabels)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.DatasetStats {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3985,12 +3795,6 @@ extension RekognitionClientTypes {
 
 extension RekognitionClientTypes.DetectLabelsImageBackground {
 
-    static func write(value: RekognitionClientTypes.DetectLabelsImageBackground?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DominantColors"].writeList(value.dominantColors, memberWritingClosure: RekognitionClientTypes.DominantColor.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Quality"].write(value.quality, with: RekognitionClientTypes.DetectLabelsImageQuality.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.DetectLabelsImageBackground {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RekognitionClientTypes.DetectLabelsImageBackground()
@@ -4022,12 +3826,6 @@ extension RekognitionClientTypes {
 
 extension RekognitionClientTypes.DetectLabelsImageForeground {
 
-    static func write(value: RekognitionClientTypes.DetectLabelsImageForeground?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DominantColors"].writeList(value.dominantColors, memberWritingClosure: RekognitionClientTypes.DominantColor.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Quality"].write(value.quality, with: RekognitionClientTypes.DetectLabelsImageQuality.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.DetectLabelsImageForeground {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RekognitionClientTypes.DetectLabelsImageForeground()
@@ -4058,14 +3856,6 @@ extension RekognitionClientTypes {
 }
 
 extension RekognitionClientTypes.DetectLabelsImageProperties {
-
-    static func write(value: RekognitionClientTypes.DetectLabelsImageProperties?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Background"].write(value.background, with: RekognitionClientTypes.DetectLabelsImageBackground.write(value:to:))
-        try writer["DominantColors"].writeList(value.dominantColors, memberWritingClosure: RekognitionClientTypes.DominantColor.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Foreground"].write(value.foreground, with: RekognitionClientTypes.DetectLabelsImageForeground.write(value:to:))
-        try writer["Quality"].write(value.quality, with: RekognitionClientTypes.DetectLabelsImageQuality.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.DetectLabelsImageProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4112,13 +3902,6 @@ extension RekognitionClientTypes.DetectLabelsImagePropertiesSettings {
         guard let value else { return }
         try writer["MaxDominantColors"].write(value.maxDominantColors)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.DetectLabelsImagePropertiesSettings {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.DetectLabelsImagePropertiesSettings()
-        value.maxDominantColors = try reader["MaxDominantColors"].readIfPresent() ?? 0
-        return value
-    }
 }
 
 extension RekognitionClientTypes {
@@ -4138,13 +3921,6 @@ extension RekognitionClientTypes {
 }
 
 extension RekognitionClientTypes.DetectLabelsImageQuality {
-
-    static func write(value: RekognitionClientTypes.DetectLabelsImageQuality?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Brightness"].write(value.brightness)
-        try writer["Contrast"].write(value.contrast)
-        try writer["Sharpness"].write(value.sharpness)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.DetectLabelsImageQuality {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4294,14 +4070,6 @@ extension RekognitionClientTypes.DetectLabelsSettings {
         guard let value else { return }
         try writer["GeneralLabels"].write(value.generalLabels, with: RekognitionClientTypes.GeneralLabelsSettings.write(value:to:))
         try writer["ImageProperties"].write(value.imageProperties, with: RekognitionClientTypes.DetectLabelsImagePropertiesSettings.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.DetectLabelsSettings {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.DetectLabelsSettings()
-        value.generalLabels = try reader["GeneralLabels"].readIfPresent(with: RekognitionClientTypes.GeneralLabelsSettings.read(from:))
-        value.imageProperties = try reader["ImageProperties"].readIfPresent(with: RekognitionClientTypes.DetectLabelsImagePropertiesSettings.read(from:))
-        return value
     }
 }
 
@@ -4531,14 +4299,6 @@ extension RekognitionClientTypes.DetectTextFilters {
         try writer["RegionsOfInterest"].writeList(value.regionsOfInterest, memberWritingClosure: RekognitionClientTypes.RegionOfInterest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["WordFilter"].write(value.wordFilter, with: RekognitionClientTypes.DetectionFilter.write(value:to:))
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.DetectTextFilters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.DetectTextFilters()
-        value.wordFilter = try reader["WordFilter"].readIfPresent(with: RekognitionClientTypes.DetectionFilter.read(from:))
-        value.regionsOfInterest = try reader["RegionsOfInterest"].readListIfPresent(memberReadingClosure: RekognitionClientTypes.RegionOfInterest.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
 }
 
 extension RekognitionClientTypes {
@@ -4651,15 +4411,6 @@ extension RekognitionClientTypes.DetectionFilter {
         try writer["MinBoundingBoxHeight"].write(value.minBoundingBoxHeight)
         try writer["MinBoundingBoxWidth"].write(value.minBoundingBoxWidth)
         try writer["MinConfidence"].write(value.minConfidence)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.DetectionFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.DetectionFilter()
-        value.minConfidence = try reader["MinConfidence"].readIfPresent()
-        value.minBoundingBoxHeight = try reader["MinBoundingBoxHeight"].readIfPresent()
-        value.minBoundingBoxWidth = try reader["MinBoundingBoxWidth"].readIfPresent()
-        return value
     }
 }
 
@@ -4789,11 +4540,6 @@ enum DisassociateFacesOutputError {
 
 extension RekognitionClientTypes.DisassociatedFace {
 
-    static func write(value: RekognitionClientTypes.DisassociatedFace?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["FaceId"].write(value.faceId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.DisassociatedFace {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RekognitionClientTypes.DisassociatedFace()
@@ -4823,13 +4569,6 @@ extension RekognitionClientTypes.DistributeDataset {
     static func write(value: RekognitionClientTypes.DistributeDataset?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Arn"].write(value.arn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.DistributeDataset {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.DistributeDataset()
-        value.arn = try reader["Arn"].readIfPresent()
-        return value
     }
 }
 
@@ -4912,17 +4651,6 @@ enum DistributeDatasetEntriesOutputError {
 
 extension RekognitionClientTypes.DominantColor {
 
-    static func write(value: RekognitionClientTypes.DominantColor?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Blue"].write(value.blue)
-        try writer["CSSColor"].write(value.cssColor)
-        try writer["Green"].write(value.green)
-        try writer["HexCode"].write(value.hexCode)
-        try writer["PixelPercent"].write(value.pixelPercent)
-        try writer["Red"].write(value.red)
-        try writer["SimplifiedColor"].write(value.simplifiedColor)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.DominantColor {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RekognitionClientTypes.DominantColor()
@@ -4978,12 +4706,6 @@ extension RekognitionClientTypes {
 }
 
 extension RekognitionClientTypes.Emotion {
-
-    static func write(value: RekognitionClientTypes.Emotion?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Confidence"].write(value.confidence)
-        try writer["Type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.Emotion {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5067,14 +4789,6 @@ extension RekognitionClientTypes {
 
 extension RekognitionClientTypes.EquipmentDetection {
 
-    static func write(value: RekognitionClientTypes.EquipmentDetection?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BoundingBox"].write(value.boundingBox, with: RekognitionClientTypes.BoundingBox.write(value:to:))
-        try writer["Confidence"].write(value.confidence)
-        try writer["CoversBodyPart"].write(value.coversBodyPart, with: RekognitionClientTypes.CoversBodyPart.write(value:to:))
-        try writer["Type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.EquipmentDetection {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RekognitionClientTypes.EquipmentDetection()
@@ -5116,12 +4830,6 @@ extension RekognitionClientTypes {
 
 extension RekognitionClientTypes.EvaluationResult {
 
-    static func write(value: RekognitionClientTypes.EvaluationResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["F1Score"].write(value.f1Score)
-        try writer["Summary"].write(value.summary, with: RekognitionClientTypes.Summary.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.EvaluationResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RekognitionClientTypes.EvaluationResult()
@@ -5152,13 +4860,6 @@ extension RekognitionClientTypes {
 }
 
 extension RekognitionClientTypes.EyeDirection {
-
-    static func write(value: RekognitionClientTypes.EyeDirection?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Confidence"].write(value.confidence)
-        try writer["Pitch"].write(value.pitch)
-        try writer["Yaw"].write(value.yaw)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.EyeDirection {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5196,12 +4897,6 @@ extension RekognitionClientTypes {
 
 extension RekognitionClientTypes.EyeOpen {
 
-    static func write(value: RekognitionClientTypes.EyeOpen?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Confidence"].write(value.confidence)
-        try writer["Value"].write(value.value)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.EyeOpen {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RekognitionClientTypes.EyeOpen()
@@ -5233,12 +4928,6 @@ extension RekognitionClientTypes {
 
 extension RekognitionClientTypes.Eyeglasses {
 
-    static func write(value: RekognitionClientTypes.Eyeglasses?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Confidence"].write(value.confidence)
-        try writer["Value"].write(value.value)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.Eyeglasses {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RekognitionClientTypes.Eyeglasses()
@@ -5269,17 +4958,6 @@ extension RekognitionClientTypes {
 }
 
 extension RekognitionClientTypes.Face {
-
-    static func write(value: RekognitionClientTypes.Face?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BoundingBox"].write(value.boundingBox, with: RekognitionClientTypes.BoundingBox.write(value:to:))
-        try writer["Confidence"].write(value.confidence)
-        try writer["ExternalImageId"].write(value.externalImageId)
-        try writer["FaceId"].write(value.faceId)
-        try writer["ImageId"].write(value.imageId)
-        try writer["IndexFacesModelVersion"].write(value.indexFacesModelVersion)
-        try writer["UserId"].write(value.userId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.Face {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5366,27 +5044,6 @@ extension RekognitionClientTypes {
 }
 
 extension RekognitionClientTypes.FaceDetail {
-
-    static func write(value: RekognitionClientTypes.FaceDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AgeRange"].write(value.ageRange, with: RekognitionClientTypes.AgeRange.write(value:to:))
-        try writer["Beard"].write(value.beard, with: RekognitionClientTypes.Beard.write(value:to:))
-        try writer["BoundingBox"].write(value.boundingBox, with: RekognitionClientTypes.BoundingBox.write(value:to:))
-        try writer["Confidence"].write(value.confidence)
-        try writer["Emotions"].writeList(value.emotions, memberWritingClosure: RekognitionClientTypes.Emotion.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["EyeDirection"].write(value.eyeDirection, with: RekognitionClientTypes.EyeDirection.write(value:to:))
-        try writer["Eyeglasses"].write(value.eyeglasses, with: RekognitionClientTypes.Eyeglasses.write(value:to:))
-        try writer["EyesOpen"].write(value.eyesOpen, with: RekognitionClientTypes.EyeOpen.write(value:to:))
-        try writer["FaceOccluded"].write(value.faceOccluded, with: RekognitionClientTypes.FaceOccluded.write(value:to:))
-        try writer["Gender"].write(value.gender, with: RekognitionClientTypes.Gender.write(value:to:))
-        try writer["Landmarks"].writeList(value.landmarks, memberWritingClosure: RekognitionClientTypes.Landmark.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["MouthOpen"].write(value.mouthOpen, with: RekognitionClientTypes.MouthOpen.write(value:to:))
-        try writer["Mustache"].write(value.mustache, with: RekognitionClientTypes.Mustache.write(value:to:))
-        try writer["Pose"].write(value.pose, with: RekognitionClientTypes.Pose.write(value:to:))
-        try writer["Quality"].write(value.quality, with: RekognitionClientTypes.ImageQuality.write(value:to:))
-        try writer["Smile"].write(value.smile, with: RekognitionClientTypes.Smile.write(value:to:))
-        try writer["Sunglasses"].write(value.sunglasses, with: RekognitionClientTypes.Sunglasses.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.FaceDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5503,12 +5160,6 @@ extension RekognitionClientTypes {
 
 extension RekognitionClientTypes.FaceDetection {
 
-    static func write(value: RekognitionClientTypes.FaceDetection?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Face"].write(value.face, with: RekognitionClientTypes.FaceDetail.write(value:to:))
-        try writer["Timestamp"].write(value.timestamp)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.FaceDetection {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RekognitionClientTypes.FaceDetection()
@@ -5539,12 +5190,6 @@ extension RekognitionClientTypes {
 }
 
 extension RekognitionClientTypes.FaceMatch {
-
-    static func write(value: RekognitionClientTypes.FaceMatch?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Face"].write(value.face, with: RekognitionClientTypes.Face.write(value:to:))
-        try writer["Similarity"].write(value.similarity)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.FaceMatch {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5577,12 +5222,6 @@ extension RekognitionClientTypes {
 
 extension RekognitionClientTypes.FaceOccluded {
 
-    static func write(value: RekognitionClientTypes.FaceOccluded?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Confidence"].write(value.confidence)
-        try writer["Value"].write(value.value)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.FaceOccluded {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RekognitionClientTypes.FaceOccluded()
@@ -5613,12 +5252,6 @@ extension RekognitionClientTypes {
 }
 
 extension RekognitionClientTypes.FaceRecord {
-
-    static func write(value: RekognitionClientTypes.FaceRecord?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Face"].write(value.face, with: RekognitionClientTypes.Face.write(value:to:))
-        try writer["FaceDetail"].write(value.faceDetail, with: RekognitionClientTypes.FaceDetail.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.FaceRecord {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5718,12 +5351,6 @@ extension RekognitionClientTypes {
 
 extension RekognitionClientTypes.Gender {
 
-    static func write(value: RekognitionClientTypes.Gender?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Confidence"].write(value.confidence)
-        try writer["Value"].write(value.value)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.Gender {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RekognitionClientTypes.Gender()
@@ -5792,16 +5419,6 @@ extension RekognitionClientTypes.GeneralLabelsSettings {
         try writer["LabelExclusionFilters"].writeList(value.labelExclusionFilters, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["LabelInclusionFilters"].writeList(value.labelInclusionFilters, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.GeneralLabelsSettings {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.GeneralLabelsSettings()
-        value.labelInclusionFilters = try reader["LabelInclusionFilters"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.labelExclusionFilters = try reader["LabelExclusionFilters"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.labelCategoryInclusionFilters = try reader["LabelCategoryInclusionFilters"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.labelCategoryExclusionFilters = try reader["LabelCategoryExclusionFilters"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
 }
 
 extension RekognitionClientTypes {
@@ -5833,12 +5450,6 @@ extension RekognitionClientTypes {
 }
 
 extension RekognitionClientTypes.Geometry {
-
-    static func write(value: RekognitionClientTypes.Geometry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BoundingBox"].write(value.boundingBox, with: RekognitionClientTypes.BoundingBox.write(value:to:))
-        try writer["Polygon"].writeList(value.polygon, memberWritingClosure: RekognitionClientTypes.Point.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.Geometry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6210,12 +5821,6 @@ enum GetContentModerationOutputError {
 }
 
 extension RekognitionClientTypes.GetContentModerationRequestMetadata {
-
-    static func write(value: RekognitionClientTypes.GetContentModerationRequestMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AggregateBy"].write(value.aggregateBy)
-        try writer["SortBy"].write(value.sortBy)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.GetContentModerationRequestMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6716,12 +6321,6 @@ enum GetLabelDetectionOutputError {
 }
 
 extension RekognitionClientTypes.GetLabelDetectionRequestMetadata {
-
-    static func write(value: RekognitionClientTypes.GetLabelDetectionRequestMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AggregateBy"].write(value.aggregateBy)
-        try writer["SortBy"].write(value.sortBy)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.GetLabelDetectionRequestMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7288,13 +6887,6 @@ extension RekognitionClientTypes {
 
 extension RekognitionClientTypes.HumanLoopActivationOutput {
 
-    static func write(value: RekognitionClientTypes.HumanLoopActivationOutput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["HumanLoopActivationConditionsEvaluationResults"].write(value.humanLoopActivationConditionsEvaluationResults)
-        try writer["HumanLoopActivationReasons"].writeList(value.humanLoopActivationReasons, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["HumanLoopArn"].write(value.humanLoopArn)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.HumanLoopActivationOutput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RekognitionClientTypes.HumanLoopActivationOutput()
@@ -7337,15 +6929,6 @@ extension RekognitionClientTypes.HumanLoopConfig {
         try writer["FlowDefinitionArn"].write(value.flowDefinitionArn)
         try writer["HumanLoopName"].write(value.humanLoopName)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.HumanLoopConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.HumanLoopConfig()
-        value.humanLoopName = try reader["HumanLoopName"].readIfPresent()
-        value.flowDefinitionArn = try reader["FlowDefinitionArn"].readIfPresent()
-        value.dataAttributes = try reader["DataAttributes"].readIfPresent(with: RekognitionClientTypes.HumanLoopDataAttributes.read(from:))
-        return value
-    }
 }
 
 extension RekognitionClientTypes {
@@ -7379,13 +6962,6 @@ extension RekognitionClientTypes.HumanLoopDataAttributes {
     static func write(value: RekognitionClientTypes.HumanLoopDataAttributes?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["ContentClassifiers"].writeList(value.contentClassifiers, memberWritingClosure: RekognitionClientTypes.ContentClassifier.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.HumanLoopDataAttributes {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.HumanLoopDataAttributes()
-        value.contentClassifiers = try reader["ContentClassifiers"].readListIfPresent(memberReadingClosure: RekognitionClientTypes.ContentClassifier.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -7519,14 +7095,6 @@ extension RekognitionClientTypes.Image {
         try writer["Bytes"].write(value.bytes)
         try writer["S3Object"].write(value.s3Object, with: RekognitionClientTypes.S3Object.write(value:to:))
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.Image {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.Image()
-        value.bytes = try reader["Bytes"].readIfPresent()
-        value.s3Object = try reader["S3Object"].readIfPresent(with: RekognitionClientTypes.S3Object.read(from:))
-        return value
-    }
 }
 
 extension RekognitionClientTypes {
@@ -7550,12 +7118,6 @@ extension RekognitionClientTypes {
 }
 
 extension RekognitionClientTypes.ImageQuality {
-
-    static func write(value: RekognitionClientTypes.ImageQuality?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Brightness"].write(value.brightness)
-        try writer["Sharpness"].write(value.sharpness)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.ImageQuality {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7756,13 +7318,6 @@ enum IndexFacesOutputError {
 }
 
 extension RekognitionClientTypes.Instance {
-
-    static func write(value: RekognitionClientTypes.Instance?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BoundingBox"].write(value.boundingBox, with: RekognitionClientTypes.BoundingBox.write(value:to:))
-        try writer["Confidence"].write(value.confidence)
-        try writer["DominantColors"].writeList(value.dominantColors, memberWritingClosure: RekognitionClientTypes.DominantColor.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.Instance {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8189,14 +7744,6 @@ extension RekognitionClientTypes.KinesisVideoStreamStartSelector {
         try writer["FragmentNumber"].write(value.fragmentNumber)
         try writer["ProducerTimestamp"].write(value.producerTimestamp)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.KinesisVideoStreamStartSelector {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.KinesisVideoStreamStartSelector()
-        value.producerTimestamp = try reader["ProducerTimestamp"].readIfPresent()
-        value.fragmentNumber = try reader["FragmentNumber"].readIfPresent()
-        return value
-    }
 }
 
 extension RekognitionClientTypes {
@@ -8220,11 +7767,6 @@ extension RekognitionClientTypes {
 }
 
 extension RekognitionClientTypes.KnownGender {
-
-    static func write(value: RekognitionClientTypes.KnownGender?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.KnownGender {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8289,16 +7831,6 @@ extension RekognitionClientTypes {
 
 extension RekognitionClientTypes.Label {
 
-    static func write(value: RekognitionClientTypes.Label?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Aliases"].writeList(value.aliases, memberWritingClosure: RekognitionClientTypes.LabelAlias.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Categories"].writeList(value.categories, memberWritingClosure: RekognitionClientTypes.LabelCategory.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Confidence"].write(value.confidence)
-        try writer["Instances"].writeList(value.instances, memberWritingClosure: RekognitionClientTypes.Instance.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Name"].write(value.name)
-        try writer["Parents"].writeList(value.parents, memberWritingClosure: RekognitionClientTypes.Parent.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.Label {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RekognitionClientTypes.Label()
@@ -8350,11 +7882,6 @@ extension RekognitionClientTypes {
 
 extension RekognitionClientTypes.LabelAlias {
 
-    static func write(value: RekognitionClientTypes.LabelAlias?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.LabelAlias {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RekognitionClientTypes.LabelAlias()
@@ -8381,11 +7908,6 @@ extension RekognitionClientTypes {
 
 extension RekognitionClientTypes.LabelCategory {
 
-    static func write(value: RekognitionClientTypes.LabelCategory?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.LabelCategory {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RekognitionClientTypes.LabelCategory()
@@ -8411,15 +7933,6 @@ extension RekognitionClientTypes {
 }
 
 extension RekognitionClientTypes.LabelDetection {
-
-    static func write(value: RekognitionClientTypes.LabelDetection?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DurationMillis"].write(value.durationMillis)
-        try writer["EndTimestampMillis"].write(value.endTimestampMillis)
-        try writer["Label"].write(value.label, with: RekognitionClientTypes.Label.write(value:to:))
-        try writer["StartTimestampMillis"].write(value.startTimestampMillis)
-        try writer["Timestamp"].write(value.timestamp)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.LabelDetection {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8528,13 +8041,6 @@ extension RekognitionClientTypes.LabelDetectionSettings {
         guard let value else { return }
         try writer["GeneralLabels"].write(value.generalLabels, with: RekognitionClientTypes.GeneralLabelsSettings.write(value:to:))
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.LabelDetectionSettings {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.LabelDetectionSettings()
-        value.generalLabels = try reader["GeneralLabels"].readIfPresent(with: RekognitionClientTypes.GeneralLabelsSettings.read(from:))
-        return value
-    }
 }
 
 extension RekognitionClientTypes {
@@ -8584,13 +8090,6 @@ extension RekognitionClientTypes {
 }
 
 extension RekognitionClientTypes.Landmark {
-
-    static func write(value: RekognitionClientTypes.Landmark?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Type"].write(value.type)
-        try writer["X"].write(value.x)
-        try writer["Y"].write(value.y)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.Landmark {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -9585,14 +9084,6 @@ extension RekognitionClientTypes.LivenessOutputConfig {
         try writer["S3Bucket"].write(value.s3Bucket)
         try writer["S3KeyPrefix"].write(value.s3KeyPrefix)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.LivenessOutputConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.LivenessOutputConfig()
-        value.s3Bucket = try reader["S3Bucket"].readIfPresent()
-        value.s3KeyPrefix = try reader["S3KeyPrefix"].readIfPresent()
-        return value
-    }
 }
 
 extension RekognitionClientTypes {
@@ -9703,12 +9194,6 @@ public struct MalformedPolicyDocumentException: ClientRuntime.ModeledError, AWSC
 
 extension RekognitionClientTypes.MatchedUser {
 
-    static func write(value: RekognitionClientTypes.MatchedUser?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["UserId"].write(value.userId)
-        try writer["UserStatus"].write(value.userStatus)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.MatchedUser {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RekognitionClientTypes.MatchedUser()
@@ -9808,22 +9293,6 @@ extension RekognitionClientTypes {
 }
 
 extension RekognitionClientTypes.MediaAnalysisJobDescription {
-
-    static func write(value: RekognitionClientTypes.MediaAnalysisJobDescription?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CompletionTimestamp"].writeTimestamp(value.completionTimestamp, format: .epochSeconds)
-        try writer["CreationTimestamp"].writeTimestamp(value.creationTimestamp, format: .epochSeconds)
-        try writer["FailureDetails"].write(value.failureDetails, with: RekognitionClientTypes.MediaAnalysisJobFailureDetails.write(value:to:))
-        try writer["Input"].write(value.input, with: RekognitionClientTypes.MediaAnalysisInput.write(value:to:))
-        try writer["JobId"].write(value.jobId)
-        try writer["JobName"].write(value.jobName)
-        try writer["KmsKeyId"].write(value.kmsKeyId)
-        try writer["ManifestSummary"].write(value.manifestSummary, with: RekognitionClientTypes.MediaAnalysisManifestSummary.write(value:to:))
-        try writer["OperationsConfig"].write(value.operationsConfig, with: RekognitionClientTypes.MediaAnalysisOperationsConfig.write(value:to:))
-        try writer["OutputConfig"].write(value.outputConfig, with: RekognitionClientTypes.MediaAnalysisOutputConfig.write(value:to:))
-        try writer["Results"].write(value.results, with: RekognitionClientTypes.MediaAnalysisResults.write(value:to:))
-        try writer["Status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.MediaAnalysisJobDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -9963,12 +9432,6 @@ extension RekognitionClientTypes {
 
 extension RekognitionClientTypes.MediaAnalysisJobFailureDetails {
 
-    static func write(value: RekognitionClientTypes.MediaAnalysisJobFailureDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Code"].write(value.code)
-        try writer["Message"].write(value.message)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.MediaAnalysisJobFailureDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RekognitionClientTypes.MediaAnalysisJobFailureDetails()
@@ -10039,11 +9502,6 @@ extension RekognitionClientTypes {
 
 extension RekognitionClientTypes.MediaAnalysisManifestSummary {
 
-    static func write(value: RekognitionClientTypes.MediaAnalysisManifestSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["S3Object"].write(value.s3Object, with: RekognitionClientTypes.S3Object.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.MediaAnalysisManifestSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RekognitionClientTypes.MediaAnalysisManifestSummary()
@@ -10069,11 +9527,6 @@ extension RekognitionClientTypes {
 }
 
 extension RekognitionClientTypes.MediaAnalysisModelVersions {
-
-    static func write(value: RekognitionClientTypes.MediaAnalysisModelVersions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Moderation"].write(value.moderation)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.MediaAnalysisModelVersions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -10170,12 +9623,6 @@ extension RekognitionClientTypes {
 
 extension RekognitionClientTypes.MediaAnalysisResults {
 
-    static func write(value: RekognitionClientTypes.MediaAnalysisResults?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ModelVersions"].write(value.modelVersions, with: RekognitionClientTypes.MediaAnalysisModelVersions.write(value:to:))
-        try writer["S3Object"].write(value.s3Object, with: RekognitionClientTypes.S3Object.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.MediaAnalysisResults {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RekognitionClientTypes.MediaAnalysisResults()
@@ -10206,14 +9653,6 @@ extension RekognitionClientTypes {
 }
 
 extension RekognitionClientTypes.ModerationLabel {
-
-    static func write(value: RekognitionClientTypes.ModerationLabel?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Confidence"].write(value.confidence)
-        try writer["Name"].write(value.name)
-        try writer["ParentName"].write(value.parentName)
-        try writer["TaxonomyLevel"].write(value.taxonomyLevel)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.ModerationLabel {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -10256,12 +9695,6 @@ extension RekognitionClientTypes {
 
 extension RekognitionClientTypes.MouthOpen {
 
-    static func write(value: RekognitionClientTypes.MouthOpen?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Confidence"].write(value.confidence)
-        try writer["Value"].write(value.value)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.MouthOpen {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RekognitionClientTypes.MouthOpen()
@@ -10292,12 +9725,6 @@ extension RekognitionClientTypes {
 }
 
 extension RekognitionClientTypes.Mustache {
-
-    static func write(value: RekognitionClientTypes.Mustache?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Confidence"].write(value.confidence)
-        try writer["Value"].write(value.value)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.Mustache {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -10334,14 +9761,6 @@ extension RekognitionClientTypes.NotificationChannel {
         guard let value else { return }
         try writer["RoleArn"].write(value.roleArn)
         try writer["SNSTopicArn"].write(value.snsTopicArn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.NotificationChannel {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.NotificationChannel()
-        value.snsTopicArn = try reader["SNSTopicArn"].readIfPresent()
-        value.roleArn = try reader["RoleArn"].readIfPresent()
-        return value
     }
 }
 
@@ -10442,11 +9861,6 @@ extension RekognitionClientTypes {
 
 extension RekognitionClientTypes.Parent {
 
-    static func write(value: RekognitionClientTypes.Parent?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.Parent {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RekognitionClientTypes.Parent()
@@ -10472,13 +9886,6 @@ extension RekognitionClientTypes {
 }
 
 extension RekognitionClientTypes.PersonDetail {
-
-    static func write(value: RekognitionClientTypes.PersonDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BoundingBox"].write(value.boundingBox, with: RekognitionClientTypes.BoundingBox.write(value:to:))
-        try writer["Face"].write(value.face, with: RekognitionClientTypes.FaceDetail.write(value:to:))
-        try writer["Index"].write(value.index)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.PersonDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -10516,12 +9923,6 @@ extension RekognitionClientTypes {
 
 extension RekognitionClientTypes.PersonDetection {
 
-    static func write(value: RekognitionClientTypes.PersonDetection?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Person"].write(value.person, with: RekognitionClientTypes.PersonDetail.write(value:to:))
-        try writer["Timestamp"].write(value.timestamp)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.PersonDetection {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RekognitionClientTypes.PersonDetection()
@@ -10552,13 +9953,6 @@ extension RekognitionClientTypes {
 }
 
 extension RekognitionClientTypes.PersonMatch {
-
-    static func write(value: RekognitionClientTypes.PersonMatch?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["FaceMatches"].writeList(value.faceMatches, memberWritingClosure: RekognitionClientTypes.FaceMatch.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Person"].write(value.person, with: RekognitionClientTypes.PersonDetail.write(value:to:))
-        try writer["Timestamp"].write(value.timestamp)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.PersonMatch {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -10663,13 +10057,6 @@ extension RekognitionClientTypes {
 
 extension RekognitionClientTypes.Pose {
 
-    static func write(value: RekognitionClientTypes.Pose?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Pitch"].write(value.pitch)
-        try writer["Roll"].write(value.roll)
-        try writer["Yaw"].write(value.yaw)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.Pose {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RekognitionClientTypes.Pose()
@@ -10736,16 +10123,6 @@ extension RekognitionClientTypes {
 
 extension RekognitionClientTypes.ProjectDescription {
 
-    static func write(value: RekognitionClientTypes.ProjectDescription?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AutoUpdate"].write(value.autoUpdate)
-        try writer["CreationTimestamp"].writeTimestamp(value.creationTimestamp, format: .epochSeconds)
-        try writer["Datasets"].writeList(value.datasets, memberWritingClosure: RekognitionClientTypes.DatasetMetadata.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Feature"].write(value.feature)
-        try writer["ProjectArn"].write(value.projectArn)
-        try writer["Status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.ProjectDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RekognitionClientTypes.ProjectDescription()
@@ -10796,16 +10173,6 @@ extension RekognitionClientTypes {
 }
 
 extension RekognitionClientTypes.ProjectPolicy {
-
-    static func write(value: RekognitionClientTypes.ProjectPolicy?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationTimestamp"].writeTimestamp(value.creationTimestamp, format: .epochSeconds)
-        try writer["LastUpdatedTimestamp"].writeTimestamp(value.lastUpdatedTimestamp, format: .epochSeconds)
-        try writer["PolicyDocument"].write(value.policyDocument)
-        try writer["PolicyName"].write(value.policyName)
-        try writer["PolicyRevisionId"].write(value.policyRevisionId)
-        try writer["ProjectArn"].write(value.projectArn)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.ProjectPolicy {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -10890,29 +10257,6 @@ extension RekognitionClientTypes {
 }
 
 extension RekognitionClientTypes.ProjectVersionDescription {
-
-    static func write(value: RekognitionClientTypes.ProjectVersionDescription?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BaseModelVersion"].write(value.baseModelVersion)
-        try writer["BillableTrainingTimeInSeconds"].write(value.billableTrainingTimeInSeconds)
-        try writer["CreationTimestamp"].writeTimestamp(value.creationTimestamp, format: .epochSeconds)
-        try writer["EvaluationResult"].write(value.evaluationResult, with: RekognitionClientTypes.EvaluationResult.write(value:to:))
-        try writer["Feature"].write(value.feature)
-        try writer["FeatureConfig"].write(value.featureConfig, with: RekognitionClientTypes.CustomizationFeatureConfig.write(value:to:))
-        try writer["KmsKeyId"].write(value.kmsKeyId)
-        try writer["ManifestSummary"].write(value.manifestSummary, with: RekognitionClientTypes.GroundTruthManifest.write(value:to:))
-        try writer["MaxInferenceUnits"].write(value.maxInferenceUnits)
-        try writer["MinInferenceUnits"].write(value.minInferenceUnits)
-        try writer["OutputConfig"].write(value.outputConfig, with: RekognitionClientTypes.OutputConfig.write(value:to:))
-        try writer["ProjectVersionArn"].write(value.projectVersionArn)
-        try writer["SourceProjectVersionArn"].write(value.sourceProjectVersionArn)
-        try writer["Status"].write(value.status)
-        try writer["StatusMessage"].write(value.statusMessage)
-        try writer["TestingDataResult"].write(value.testingDataResult, with: RekognitionClientTypes.TestingDataResult.write(value:to:))
-        try writer["TrainingDataResult"].write(value.trainingDataResult, with: RekognitionClientTypes.TrainingDataResult.write(value:to:))
-        try writer["TrainingEndTimestamp"].writeTimestamp(value.trainingEndTimestamp, format: .epochSeconds)
-        try writer["VersionDescription"].write(value.versionDescription)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.ProjectVersionDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -11096,13 +10440,6 @@ extension RekognitionClientTypes {
 
 extension RekognitionClientTypes.ProtectiveEquipmentBodyPart {
 
-    static func write(value: RekognitionClientTypes.ProtectiveEquipmentBodyPart?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Confidence"].write(value.confidence)
-        try writer["EquipmentDetections"].writeList(value.equipmentDetections, memberWritingClosure: RekognitionClientTypes.EquipmentDetection.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Name"].write(value.name)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.ProtectiveEquipmentBodyPart {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RekognitionClientTypes.ProtectiveEquipmentBodyPart()
@@ -11138,14 +10475,6 @@ extension RekognitionClientTypes {
 }
 
 extension RekognitionClientTypes.ProtectiveEquipmentPerson {
-
-    static func write(value: RekognitionClientTypes.ProtectiveEquipmentPerson?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BodyParts"].writeList(value.bodyParts, memberWritingClosure: RekognitionClientTypes.ProtectiveEquipmentBodyPart.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["BoundingBox"].write(value.boundingBox, with: RekognitionClientTypes.BoundingBox.write(value:to:))
-        try writer["Confidence"].write(value.confidence)
-        try writer["Id"].write(value.id)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.ProtectiveEquipmentPerson {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -11193,14 +10522,6 @@ extension RekognitionClientTypes.ProtectiveEquipmentSummarizationAttributes {
         try writer["MinConfidence"].write(value.minConfidence)
         try writer["RequiredEquipmentTypes"].writeList(value.requiredEquipmentTypes, memberWritingClosure: RekognitionClientTypes.ProtectiveEquipmentType.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.ProtectiveEquipmentSummarizationAttributes {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.ProtectiveEquipmentSummarizationAttributes()
-        value.minConfidence = try reader["MinConfidence"].readIfPresent()
-        value.requiredEquipmentTypes = try reader["RequiredEquipmentTypes"].readListIfPresent(memberReadingClosure: RekognitionClientTypes.ProtectiveEquipmentType.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
 }
 
 extension RekognitionClientTypes {
@@ -11226,13 +10547,6 @@ extension RekognitionClientTypes {
 }
 
 extension RekognitionClientTypes.ProtectiveEquipmentSummary {
-
-    static func write(value: RekognitionClientTypes.ProtectiveEquipmentSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["PersonsIndeterminate"].writeList(value.personsIndeterminate, memberWritingClosure: Swift.Int.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["PersonsWithRequiredEquipment"].writeList(value.personsWithRequiredEquipment, memberWritingClosure: Swift.Int.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["PersonsWithoutRequiredEquipment"].writeList(value.personsWithoutRequiredEquipment, memberWritingClosure: Swift.Int.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.ProtectiveEquipmentSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -12335,11 +11649,6 @@ enum SearchUsersOutputError {
 
 extension RekognitionClientTypes.SearchedFace {
 
-    static func write(value: RekognitionClientTypes.SearchedFace?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["FaceId"].write(value.faceId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.SearchedFace {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RekognitionClientTypes.SearchedFace()
@@ -12365,11 +11674,6 @@ extension RekognitionClientTypes {
 }
 
 extension RekognitionClientTypes.SearchedFaceDetails {
-
-    static func write(value: RekognitionClientTypes.SearchedFaceDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["FaceDetail"].write(value.faceDetail, with: RekognitionClientTypes.FaceDetail.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.SearchedFaceDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -12406,11 +11710,6 @@ extension RekognitionClientTypes {
 
 extension RekognitionClientTypes.SearchedUser {
 
-    static func write(value: RekognitionClientTypes.SearchedUser?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["UserId"].write(value.userId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.SearchedUser {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RekognitionClientTypes.SearchedUser()
@@ -12436,22 +11735,6 @@ extension RekognitionClientTypes {
 }
 
 extension RekognitionClientTypes.SegmentDetection {
-
-    static func write(value: RekognitionClientTypes.SegmentDetection?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DurationFrames"].write(value.durationFrames)
-        try writer["DurationMillis"].write(value.durationMillis)
-        try writer["DurationSMPTE"].write(value.durationSMPTE)
-        try writer["EndFrameNumber"].write(value.endFrameNumber)
-        try writer["EndTimecodeSMPTE"].write(value.endTimecodeSMPTE)
-        try writer["EndTimestampMillis"].write(value.endTimestampMillis)
-        try writer["ShotSegment"].write(value.shotSegment, with: RekognitionClientTypes.ShotSegment.write(value:to:))
-        try writer["StartFrameNumber"].write(value.startFrameNumber)
-        try writer["StartTimecodeSMPTE"].write(value.startTimecodeSMPTE)
-        try writer["StartTimestampMillis"].write(value.startTimestampMillis)
-        try writer["TechnicalCueSegment"].write(value.technicalCueSegment, with: RekognitionClientTypes.TechnicalCueSegment.write(value:to:))
-        try writer["Type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.SegmentDetection {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -12563,12 +11846,6 @@ extension RekognitionClientTypes {
 }
 
 extension RekognitionClientTypes.SegmentTypeInfo {
-
-    static func write(value: RekognitionClientTypes.SegmentTypeInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ModelVersion"].write(value.modelVersion)
-        try writer["Type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.SegmentTypeInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -12693,12 +11970,6 @@ public struct SessionNotFoundException: ClientRuntime.ModeledError, AWSClientRun
 
 extension RekognitionClientTypes.ShotSegment {
 
-    static func write(value: RekognitionClientTypes.ShotSegment?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Confidence"].write(value.confidence)
-        try writer["Index"].write(value.index)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.ShotSegment {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RekognitionClientTypes.ShotSegment()
@@ -12729,12 +12000,6 @@ extension RekognitionClientTypes {
 }
 
 extension RekognitionClientTypes.Smile {
-
-    static func write(value: RekognitionClientTypes.Smile?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Confidence"].write(value.confidence)
-        try writer["Value"].write(value.value)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.Smile {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -13531,14 +12796,6 @@ extension RekognitionClientTypes.StartSegmentDetectionFilters {
         try writer["ShotFilter"].write(value.shotFilter, with: RekognitionClientTypes.StartShotDetectionFilter.write(value:to:))
         try writer["TechnicalCueFilter"].write(value.technicalCueFilter, with: RekognitionClientTypes.StartTechnicalCueDetectionFilter.write(value:to:))
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.StartSegmentDetectionFilters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.StartSegmentDetectionFilters()
-        value.technicalCueFilter = try reader["TechnicalCueFilter"].readIfPresent(with: RekognitionClientTypes.StartTechnicalCueDetectionFilter.read(from:))
-        value.shotFilter = try reader["ShotFilter"].readIfPresent(with: RekognitionClientTypes.StartShotDetectionFilter.read(from:))
-        return value
-    }
 }
 
 extension RekognitionClientTypes {
@@ -13667,13 +12924,6 @@ extension RekognitionClientTypes.StartShotDetectionFilter {
         guard let value else { return }
         try writer["MinSegmentConfidence"].write(value.minSegmentConfidence)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.StartShotDetectionFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.StartShotDetectionFilter()
-        value.minSegmentConfidence = try reader["MinSegmentConfidence"].readIfPresent()
-        return value
-    }
 }
 
 extension RekognitionClientTypes {
@@ -13781,14 +13031,6 @@ extension RekognitionClientTypes.StartTechnicalCueDetectionFilter {
         try writer["BlackFrame"].write(value.blackFrame, with: RekognitionClientTypes.BlackFrame.write(value:to:))
         try writer["MinSegmentConfidence"].write(value.minSegmentConfidence)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.StartTechnicalCueDetectionFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.StartTechnicalCueDetectionFilter()
-        value.minSegmentConfidence = try reader["MinSegmentConfidence"].readIfPresent()
-        value.blackFrame = try reader["BlackFrame"].readIfPresent(with: RekognitionClientTypes.BlackFrame.read(from:))
-        return value
-    }
 }
 
 extension RekognitionClientTypes {
@@ -13817,14 +13059,6 @@ extension RekognitionClientTypes.StartTextDetectionFilters {
         guard let value else { return }
         try writer["RegionsOfInterest"].writeList(value.regionsOfInterest, memberWritingClosure: RekognitionClientTypes.RegionOfInterest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["WordFilter"].write(value.wordFilter, with: RekognitionClientTypes.DetectionFilter.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.StartTextDetectionFilters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.StartTextDetectionFilters()
-        value.wordFilter = try reader["WordFilter"].readIfPresent(with: RekognitionClientTypes.DetectionFilter.read(from:))
-        value.regionsOfInterest = try reader["RegionsOfInterest"].readListIfPresent(memberReadingClosure: RekognitionClientTypes.RegionOfInterest.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -14080,13 +13314,6 @@ extension RekognitionClientTypes.StreamProcessingStartSelector {
         guard let value else { return }
         try writer["KVSStreamStartSelector"].write(value.kvsStreamStartSelector, with: RekognitionClientTypes.KinesisVideoStreamStartSelector.write(value:to:))
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.StreamProcessingStartSelector {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.StreamProcessingStartSelector()
-        value.kvsStreamStartSelector = try reader["KVSStreamStartSelector"].readIfPresent(with: RekognitionClientTypes.KinesisVideoStreamStartSelector.read(from:))
-        return value
-    }
 }
 
 extension RekognitionClientTypes {
@@ -14111,13 +13338,6 @@ extension RekognitionClientTypes.StreamProcessingStopSelector {
         guard let value else { return }
         try writer["MaxDurationInSeconds"].write(value.maxDurationInSeconds)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.StreamProcessingStopSelector {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.StreamProcessingStopSelector()
-        value.maxDurationInSeconds = try reader["MaxDurationInSeconds"].readIfPresent()
-        return value
-    }
 }
 
 extension RekognitionClientTypes {
@@ -14137,12 +13357,6 @@ extension RekognitionClientTypes {
 }
 
 extension RekognitionClientTypes.StreamProcessor {
-
-    static func write(value: RekognitionClientTypes.StreamProcessor?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["Status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.StreamProcessor {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -14378,13 +13592,6 @@ extension RekognitionClientTypes.StreamProcessorSettingsForUpdate {
         guard let value else { return }
         try writer["ConnectedHomeForUpdate"].write(value.connectedHomeForUpdate, with: RekognitionClientTypes.ConnectedHomeSettingsForUpdate.write(value:to:))
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.StreamProcessorSettingsForUpdate {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.StreamProcessorSettingsForUpdate()
-        value.connectedHomeForUpdate = try reader["ConnectedHomeForUpdate"].readIfPresent(with: RekognitionClientTypes.ConnectedHomeSettingsForUpdate.read(from:))
-        return value
-    }
 }
 
 extension RekognitionClientTypes {
@@ -14447,11 +13654,6 @@ extension RekognitionClientTypes {
 
 extension RekognitionClientTypes.Summary {
 
-    static func write(value: RekognitionClientTypes.Summary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["S3Object"].write(value.s3Object, with: RekognitionClientTypes.S3Object.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.Summary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RekognitionClientTypes.Summary()
@@ -14477,12 +13679,6 @@ extension RekognitionClientTypes {
 }
 
 extension RekognitionClientTypes.Sunglasses {
-
-    static func write(value: RekognitionClientTypes.Sunglasses?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Confidence"].write(value.confidence)
-        try writer["Value"].write(value.value)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.Sunglasses {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -14580,12 +13776,6 @@ enum TagResourceOutputError {
 }
 
 extension RekognitionClientTypes.TechnicalCueSegment {
-
-    static func write(value: RekognitionClientTypes.TechnicalCueSegment?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Confidence"].write(value.confidence)
-        try writer["Type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.TechnicalCueSegment {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -14700,13 +13890,6 @@ extension RekognitionClientTypes {
 
 extension RekognitionClientTypes.TestingDataResult {
 
-    static func write(value: RekognitionClientTypes.TestingDataResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Input"].write(value.input, with: RekognitionClientTypes.TestingData.write(value:to:))
-        try writer["Output"].write(value.output, with: RekognitionClientTypes.TestingData.write(value:to:))
-        try writer["Validation"].write(value.validation, with: RekognitionClientTypes.ValidationData.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.TestingDataResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RekognitionClientTypes.TestingDataResult()
@@ -14742,16 +13925,6 @@ extension RekognitionClientTypes {
 }
 
 extension RekognitionClientTypes.TextDetection {
-
-    static func write(value: RekognitionClientTypes.TextDetection?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Confidence"].write(value.confidence)
-        try writer["DetectedText"].write(value.detectedText)
-        try writer["Geometry"].write(value.geometry, with: RekognitionClientTypes.Geometry.write(value:to:))
-        try writer["Id"].write(value.id)
-        try writer["ParentId"].write(value.parentId)
-        try writer["Type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.TextDetection {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -14803,12 +13976,6 @@ extension RekognitionClientTypes {
 }
 
 extension RekognitionClientTypes.TextDetectionResult {
-
-    static func write(value: RekognitionClientTypes.TextDetectionResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["TextDetection"].write(value.textDetection, with: RekognitionClientTypes.TextDetection.write(value:to:))
-        try writer["Timestamp"].write(value.timestamp)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.TextDetectionResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -14948,13 +14115,6 @@ extension RekognitionClientTypes {
 
 extension RekognitionClientTypes.TrainingDataResult {
 
-    static func write(value: RekognitionClientTypes.TrainingDataResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Input"].write(value.input, with: RekognitionClientTypes.TrainingData.write(value:to:))
-        try writer["Output"].write(value.output, with: RekognitionClientTypes.TrainingData.write(value:to:))
-        try writer["Validation"].write(value.validation, with: RekognitionClientTypes.ValidationData.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.TrainingDataResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RekognitionClientTypes.TrainingDataResult()
@@ -14990,12 +14150,6 @@ extension RekognitionClientTypes {
 }
 
 extension RekognitionClientTypes.UnindexedFace {
-
-    static func write(value: RekognitionClientTypes.UnindexedFace?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["FaceDetail"].write(value.faceDetail, with: RekognitionClientTypes.FaceDetail.write(value:to:))
-        try writer["Reasons"].writeList(value.reasons, memberWritingClosure: RekognitionClientTypes.Reason.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.UnindexedFace {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -15039,12 +14193,6 @@ extension RekognitionClientTypes {
 }
 
 extension RekognitionClientTypes.UnsearchedFace {
-
-    static func write(value: RekognitionClientTypes.UnsearchedFace?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["FaceDetails"].write(value.faceDetails, with: RekognitionClientTypes.FaceDetail.write(value:to:))
-        try writer["Reasons"].writeList(value.reasons, memberWritingClosure: RekognitionClientTypes.UnsearchedFaceReason.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.UnsearchedFace {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -15134,14 +14282,6 @@ extension RekognitionClientTypes {
 
 extension RekognitionClientTypes.UnsuccessfulFaceAssociation {
 
-    static func write(value: RekognitionClientTypes.UnsuccessfulFaceAssociation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Confidence"].write(value.confidence)
-        try writer["FaceId"].write(value.faceId)
-        try writer["Reasons"].writeList(value.reasons, memberWritingClosure: RekognitionClientTypes.UnsuccessfulFaceAssociationReason.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["UserId"].write(value.userId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.UnsuccessfulFaceAssociation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RekognitionClientTypes.UnsuccessfulFaceAssociation()
@@ -15216,13 +14356,6 @@ extension RekognitionClientTypes {
 
 extension RekognitionClientTypes.UnsuccessfulFaceDeletion {
 
-    static func write(value: RekognitionClientTypes.UnsuccessfulFaceDeletion?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["FaceId"].write(value.faceId)
-        try writer["Reasons"].writeList(value.reasons, memberWritingClosure: RekognitionClientTypes.UnsuccessfulFaceDeletionReason.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["UserId"].write(value.userId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.UnsuccessfulFaceDeletion {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RekognitionClientTypes.UnsuccessfulFaceDeletion()
@@ -15288,13 +14421,6 @@ extension RekognitionClientTypes {
 }
 
 extension RekognitionClientTypes.UnsuccessfulFaceDisassociation {
-
-    static func write(value: RekognitionClientTypes.UnsuccessfulFaceDisassociation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["FaceId"].write(value.faceId)
-        try writer["Reasons"].writeList(value.reasons, memberWritingClosure: RekognitionClientTypes.UnsuccessfulFaceDisassociationReason.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["UserId"].write(value.userId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.UnsuccessfulFaceDisassociation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -15574,12 +14700,6 @@ enum UpdateStreamProcessorOutputError {
 
 extension RekognitionClientTypes.User {
 
-    static func write(value: RekognitionClientTypes.User?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["UserId"].write(value.userId)
-        try writer["UserStatus"].write(value.userStatus)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.User {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RekognitionClientTypes.User()
@@ -15610,12 +14730,6 @@ extension RekognitionClientTypes {
 }
 
 extension RekognitionClientTypes.UserMatch {
-
-    static func write(value: RekognitionClientTypes.UserMatch?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Similarity"].write(value.similarity)
-        try writer["User"].write(value.user, with: RekognitionClientTypes.MatchedUser.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.UserMatch {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -15683,11 +14797,6 @@ extension RekognitionClientTypes {
 }
 
 extension RekognitionClientTypes.ValidationData {
-
-    static func write(value: RekognitionClientTypes.ValidationData?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Assets"].writeList(value.assets, memberWritingClosure: RekognitionClientTypes.Asset.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.ValidationData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -15808,17 +14917,6 @@ extension RekognitionClientTypes {
 }
 
 extension RekognitionClientTypes.VideoMetadata {
-
-    static func write(value: RekognitionClientTypes.VideoMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Codec"].write(value.codec)
-        try writer["ColorRange"].write(value.colorRange)
-        try writer["DurationMillis"].write(value.durationMillis)
-        try writer["Format"].write(value.format)
-        try writer["FrameHeight"].write(value.frameHeight)
-        try writer["FrameRate"].write(value.frameRate)
-        try writer["FrameWidth"].write(value.frameWidth)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.VideoMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

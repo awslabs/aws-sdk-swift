@@ -53,15 +53,6 @@ extension TextractClientTypes.Adapter {
         try writer["Pages"].writeList(value.pages, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Version"].write(value.version)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.Adapter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TextractClientTypes.Adapter()
-        value.adapterId = try reader["AdapterId"].readIfPresent()
-        value.pages = try reader["Pages"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.version = try reader["Version"].readIfPresent()
-        return value
-    }
 }
 
 extension TextractClientTypes {
@@ -101,14 +92,6 @@ extension TextractClientTypes {
 }
 
 extension TextractClientTypes.AdapterOverview {
-
-    static func write(value: TextractClientTypes.AdapterOverview?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AdapterId"].write(value.adapterId)
-        try writer["AdapterName"].write(value.adapterName)
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["FeatureTypes"].writeList(value.featureTypes, memberWritingClosure: TextractClientTypes.FeatureType.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.AdapterOverview {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -182,13 +165,6 @@ extension TextractClientTypes {
 
 extension TextractClientTypes.AdapterVersionEvaluationMetric {
 
-    static func write(value: TextractClientTypes.AdapterVersionEvaluationMetric?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AdapterVersion"].write(value.adapterVersion, with: TextractClientTypes.EvaluationMetric.write(value:to:))
-        try writer["Baseline"].write(value.baseline, with: TextractClientTypes.EvaluationMetric.write(value:to:))
-        try writer["FeatureType"].write(value.featureType)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.AdapterVersionEvaluationMetric {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TextractClientTypes.AdapterVersionEvaluationMetric()
@@ -224,16 +200,6 @@ extension TextractClientTypes {
 }
 
 extension TextractClientTypes.AdapterVersionOverview {
-
-    static func write(value: TextractClientTypes.AdapterVersionOverview?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AdapterId"].write(value.adapterId)
-        try writer["AdapterVersion"].write(value.adapterVersion)
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["FeatureTypes"].writeList(value.featureTypes, memberWritingClosure: TextractClientTypes.FeatureType.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Status"].write(value.status)
-        try writer["StatusMessage"].write(value.statusMessage)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.AdapterVersionOverview {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -328,13 +294,6 @@ extension TextractClientTypes.AdaptersConfig {
     static func write(value: TextractClientTypes.AdaptersConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Adapters"].writeList(value.adapters, memberWritingClosure: TextractClientTypes.Adapter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.AdaptersConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TextractClientTypes.AdaptersConfig()
-        value.adapters = try reader["Adapters"].readListIfPresent(memberReadingClosure: TextractClientTypes.Adapter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -547,13 +506,6 @@ enum AnalyzeExpenseOutputError {
 
 extension TextractClientTypes.AnalyzeIDDetections {
 
-    static func write(value: TextractClientTypes.AnalyzeIDDetections?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Confidence"].write(value.confidence)
-        try writer["NormalizedValue"].write(value.normalizedValue, with: TextractClientTypes.NormalizedValue.write(value:to:))
-        try writer["Text"].write(value.text)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.AnalyzeIDDetections {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TextractClientTypes.AnalyzeIDDetections()
@@ -745,25 +697,6 @@ public struct BadDocumentException: ClientRuntime.ModeledError, AWSClientRuntime
 }
 
 extension TextractClientTypes.Block {
-
-    static func write(value: TextractClientTypes.Block?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BlockType"].write(value.blockType)
-        try writer["ColumnIndex"].write(value.columnIndex)
-        try writer["ColumnSpan"].write(value.columnSpan)
-        try writer["Confidence"].write(value.confidence)
-        try writer["EntityTypes"].writeList(value.entityTypes, memberWritingClosure: TextractClientTypes.EntityType.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Geometry"].write(value.geometry, with: TextractClientTypes.Geometry.write(value:to:))
-        try writer["Id"].write(value.id)
-        try writer["Page"].write(value.page)
-        try writer["Query"].write(value.query, with: TextractClientTypes.Query.write(value:to:))
-        try writer["Relationships"].writeList(value.relationships, memberWritingClosure: TextractClientTypes.Relationship.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["RowIndex"].write(value.rowIndex)
-        try writer["RowSpan"].write(value.rowSpan)
-        try writer["SelectionStatus"].write(value.selectionStatus)
-        try writer["Text"].write(value.text)
-        try writer["TextType"].write(value.textType)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.Block {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1038,14 +971,6 @@ extension TextractClientTypes {
 }
 
 extension TextractClientTypes.BoundingBox {
-
-    static func write(value: TextractClientTypes.BoundingBox?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Height"].write(value.height)
-        try writer["Left"].write(value.`left`)
-        try writer["Top"].write(value.top)
-        try writer["Width"].write(value.width)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.BoundingBox {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1582,11 +1507,6 @@ enum DetectDocumentTextOutputError {
 
 extension TextractClientTypes.DetectedSignature {
 
-    static func write(value: TextractClientTypes.DetectedSignature?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Page"].write(value.page)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.DetectedSignature {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TextractClientTypes.DetectedSignature()
@@ -1618,14 +1538,6 @@ extension TextractClientTypes.Document {
         try writer["Bytes"].write(value.bytes)
         try writer["S3Object"].write(value.s3Object, with: TextractClientTypes.S3Object.write(value:to:))
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.Document {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TextractClientTypes.Document()
-        value.bytes = try reader["Bytes"].readIfPresent()
-        value.s3Object = try reader["S3Object"].readIfPresent(with: TextractClientTypes.S3Object.read(from:))
-        return value
-    }
 }
 
 extension TextractClientTypes {
@@ -1649,14 +1561,6 @@ extension TextractClientTypes {
 }
 
 extension TextractClientTypes.DocumentGroup {
-
-    static func write(value: TextractClientTypes.DocumentGroup?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DetectedSignatures"].writeList(value.detectedSignatures, memberWritingClosure: TextractClientTypes.DetectedSignature.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["SplitDocuments"].writeList(value.splitDocuments, memberWritingClosure: TextractClientTypes.SplitDocument.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Type"].write(value.type)
-        try writer["UndetectedSignatures"].writeList(value.undetectedSignatures, memberWritingClosure: TextractClientTypes.UndetectedSignature.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.DocumentGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1703,13 +1607,6 @@ extension TextractClientTypes.DocumentLocation {
         guard let value else { return }
         try writer["S3Object"].write(value.s3Object, with: TextractClientTypes.S3Object.write(value:to:))
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.DocumentLocation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TextractClientTypes.DocumentLocation()
-        value.s3Object = try reader["S3Object"].readIfPresent(with: TextractClientTypes.S3Object.read(from:))
-        return value
-    }
 }
 
 extension TextractClientTypes {
@@ -1729,11 +1626,6 @@ extension TextractClientTypes {
 }
 
 extension TextractClientTypes.DocumentMetadata {
-
-    static func write(value: TextractClientTypes.DocumentMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Pages"].write(value.pages)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.DocumentMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1853,13 +1745,6 @@ extension TextractClientTypes {
 
 extension TextractClientTypes.EvaluationMetric {
 
-    static func write(value: TextractClientTypes.EvaluationMetric?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["F1Score"].write(value.f1Score)
-        try writer["Precision"].write(value.precision)
-        try writer["Recall"].write(value.recall)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.EvaluationMetric {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TextractClientTypes.EvaluationMetric()
@@ -1895,12 +1780,6 @@ extension TextractClientTypes {
 }
 
 extension TextractClientTypes.ExpenseCurrency {
-
-    static func write(value: TextractClientTypes.ExpenseCurrency?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Code"].write(value.code)
-        try writer["Confidence"].write(value.confidence)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.ExpenseCurrency {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1957,13 +1836,6 @@ extension TextractClientTypes {
 
 extension TextractClientTypes.ExpenseDetection {
 
-    static func write(value: TextractClientTypes.ExpenseDetection?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Confidence"].write(value.confidence)
-        try writer["Geometry"].write(value.geometry, with: TextractClientTypes.Geometry.write(value:to:))
-        try writer["Text"].write(value.text)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.ExpenseDetection {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TextractClientTypes.ExpenseDetection()
@@ -1999,14 +1871,6 @@ extension TextractClientTypes {
 }
 
 extension TextractClientTypes.ExpenseDocument {
-
-    static func write(value: TextractClientTypes.ExpenseDocument?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Blocks"].writeList(value.blocks, memberWritingClosure: TextractClientTypes.Block.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ExpenseIndex"].write(value.expenseIndex)
-        try writer["LineItemGroups"].writeList(value.lineItemGroups, memberWritingClosure: TextractClientTypes.LineItemGroup.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["SummaryFields"].writeList(value.summaryFields, memberWritingClosure: TextractClientTypes.ExpenseField.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.ExpenseDocument {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2048,16 +1912,6 @@ extension TextractClientTypes {
 }
 
 extension TextractClientTypes.ExpenseField {
-
-    static func write(value: TextractClientTypes.ExpenseField?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Currency"].write(value.currency, with: TextractClientTypes.ExpenseCurrency.write(value:to:))
-        try writer["GroupProperties"].writeList(value.groupProperties, memberWritingClosure: TextractClientTypes.ExpenseGroupProperty.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["LabelDetection"].write(value.labelDetection, with: TextractClientTypes.ExpenseDetection.write(value:to:))
-        try writer["PageNumber"].write(value.pageNumber)
-        try writer["Type"].write(value.type, with: TextractClientTypes.ExpenseType.write(value:to:))
-        try writer["ValueDetection"].write(value.valueDetection, with: TextractClientTypes.ExpenseDetection.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.ExpenseField {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2110,12 +1964,6 @@ extension TextractClientTypes {
 
 extension TextractClientTypes.ExpenseGroupProperty {
 
-    static func write(value: TextractClientTypes.ExpenseGroupProperty?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Id"].write(value.id)
-        try writer["Types"].writeList(value.types, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.ExpenseGroupProperty {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TextractClientTypes.ExpenseGroupProperty()
@@ -2147,12 +1995,6 @@ extension TextractClientTypes {
 
 extension TextractClientTypes.ExpenseType {
 
-    static func write(value: TextractClientTypes.ExpenseType?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Confidence"].write(value.confidence)
-        try writer["Text"].write(value.text)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.ExpenseType {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TextractClientTypes.ExpenseType()
@@ -2183,13 +2025,6 @@ extension TextractClientTypes {
 }
 
 extension TextractClientTypes.Extraction {
-
-    static func write(value: TextractClientTypes.Extraction?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ExpenseDocument"].write(value.expenseDocument, with: TextractClientTypes.ExpenseDocument.write(value:to:))
-        try writer["IdentityDocument"].write(value.identityDocument, with: TextractClientTypes.IdentityDocument.write(value:to:))
-        try writer["LendingDocument"].write(value.lendingDocument, with: TextractClientTypes.LendingDocument.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.Extraction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2265,12 +2100,6 @@ extension TextractClientTypes {
 }
 
 extension TextractClientTypes.Geometry {
-
-    static func write(value: TextractClientTypes.Geometry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BoundingBox"].write(value.boundingBox, with: TextractClientTypes.BoundingBox.write(value:to:))
-        try writer["Polygon"].writeList(value.polygon, memberWritingClosure: TextractClientTypes.Point.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.Geometry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3083,13 +2912,6 @@ enum GetLendingAnalysisSummaryOutputError {
 
 extension TextractClientTypes.HumanLoopActivationOutput {
 
-    static func write(value: TextractClientTypes.HumanLoopActivationOutput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["HumanLoopActivationConditionsEvaluationResults"].write(value.humanLoopActivationConditionsEvaluationResults)
-        try writer["HumanLoopActivationReasons"].writeList(value.humanLoopActivationReasons, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["HumanLoopArn"].write(value.humanLoopArn)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.HumanLoopActivationOutput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TextractClientTypes.HumanLoopActivationOutput()
@@ -3132,15 +2954,6 @@ extension TextractClientTypes.HumanLoopConfig {
         try writer["FlowDefinitionArn"].write(value.flowDefinitionArn)
         try writer["HumanLoopName"].write(value.humanLoopName)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.HumanLoopConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TextractClientTypes.HumanLoopConfig()
-        value.humanLoopName = try reader["HumanLoopName"].readIfPresent()
-        value.flowDefinitionArn = try reader["FlowDefinitionArn"].readIfPresent()
-        value.dataAttributes = try reader["DataAttributes"].readIfPresent(with: TextractClientTypes.HumanLoopDataAttributes.read(from:))
-        return value
-    }
 }
 
 extension TextractClientTypes {
@@ -3174,13 +2987,6 @@ extension TextractClientTypes.HumanLoopDataAttributes {
     static func write(value: TextractClientTypes.HumanLoopDataAttributes?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["ContentClassifiers"].writeList(value.contentClassifiers, memberWritingClosure: TextractClientTypes.ContentClassifier.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.HumanLoopDataAttributes {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TextractClientTypes.HumanLoopDataAttributes()
-        value.contentClassifiers = try reader["ContentClassifiers"].readListIfPresent(memberReadingClosure: TextractClientTypes.ContentClassifier.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -3299,13 +3105,6 @@ public struct IdempotentParameterMismatchException: ClientRuntime.ModeledError, 
 
 extension TextractClientTypes.IdentityDocument {
 
-    static func write(value: TextractClientTypes.IdentityDocument?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Blocks"].writeList(value.blocks, memberWritingClosure: TextractClientTypes.Block.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["DocumentIndex"].write(value.documentIndex)
-        try writer["IdentityDocumentFields"].writeList(value.identityDocumentFields, memberWritingClosure: TextractClientTypes.IdentityDocumentField.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.IdentityDocument {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TextractClientTypes.IdentityDocument()
@@ -3341,12 +3140,6 @@ extension TextractClientTypes {
 }
 
 extension TextractClientTypes.IdentityDocumentField {
-
-    static func write(value: TextractClientTypes.IdentityDocumentField?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Type"].write(value.type, with: TextractClientTypes.AnalyzeIDDetections.write(value:to:))
-        try writer["ValueDetection"].write(value.valueDetection, with: TextractClientTypes.AnalyzeIDDetections.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.IdentityDocumentField {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3620,14 +3413,6 @@ extension TextractClientTypes {
 
 extension TextractClientTypes.LendingDetection {
 
-    static func write(value: TextractClientTypes.LendingDetection?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Confidence"].write(value.confidence)
-        try writer["Geometry"].write(value.geometry, with: TextractClientTypes.Geometry.write(value:to:))
-        try writer["SelectionStatus"].write(value.selectionStatus)
-        try writer["Text"].write(value.text)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.LendingDetection {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TextractClientTypes.LendingDetection()
@@ -3669,12 +3454,6 @@ extension TextractClientTypes {
 
 extension TextractClientTypes.LendingDocument {
 
-    static func write(value: TextractClientTypes.LendingDocument?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["LendingFields"].writeList(value.lendingFields, memberWritingClosure: TextractClientTypes.LendingField.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["SignatureDetections"].writeList(value.signatureDetections, memberWritingClosure: TextractClientTypes.SignatureDetection.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.LendingDocument {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TextractClientTypes.LendingDocument()
@@ -3705,13 +3484,6 @@ extension TextractClientTypes {
 }
 
 extension TextractClientTypes.LendingField {
-
-    static func write(value: TextractClientTypes.LendingField?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["KeyDetection"].write(value.keyDetection, with: TextractClientTypes.LendingDetection.write(value:to:))
-        try writer["Type"].write(value.type)
-        try writer["ValueDetections"].writeList(value.valueDetections, memberWritingClosure: TextractClientTypes.LendingDetection.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.LendingField {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3749,13 +3521,6 @@ extension TextractClientTypes {
 
 extension TextractClientTypes.LendingResult {
 
-    static func write(value: TextractClientTypes.LendingResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Extractions"].writeList(value.extractions, memberWritingClosure: TextractClientTypes.Extraction.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Page"].write(value.page)
-        try writer["PageClassification"].write(value.pageClassification, with: TextractClientTypes.PageClassification.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.LendingResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TextractClientTypes.LendingResult()
@@ -3791,12 +3556,6 @@ extension TextractClientTypes {
 }
 
 extension TextractClientTypes.LendingSummary {
-
-    static func write(value: TextractClientTypes.LendingSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DocumentGroups"].writeList(value.documentGroups, memberWritingClosure: TextractClientTypes.DocumentGroup.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["UndetectedDocumentTypes"].writeList(value.undetectedDocumentTypes, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.LendingSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3870,11 +3629,6 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 
 extension TextractClientTypes.LineItemFields {
 
-    static func write(value: TextractClientTypes.LineItemFields?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["LineItemExpenseFields"].writeList(value.lineItemExpenseFields, memberWritingClosure: TextractClientTypes.ExpenseField.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.LineItemFields {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TextractClientTypes.LineItemFields()
@@ -3900,12 +3654,6 @@ extension TextractClientTypes {
 }
 
 extension TextractClientTypes.LineItemGroup {
-
-    static func write(value: TextractClientTypes.LineItemGroup?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["LineItemGroupIndex"].write(value.lineItemGroupIndex)
-        try writer["LineItems"].writeList(value.lineItems, memberWritingClosure: TextractClientTypes.LineItemFields.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.LineItemGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4196,12 +3944,6 @@ enum ListTagsForResourceOutputError {
 
 extension TextractClientTypes.NormalizedValue {
 
-    static func write(value: TextractClientTypes.NormalizedValue?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Value"].write(value.value)
-        try writer["ValueType"].write(value.valueType)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.NormalizedValue {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TextractClientTypes.NormalizedValue()
@@ -4237,14 +3979,6 @@ extension TextractClientTypes.NotificationChannel {
         guard let value else { return }
         try writer["RoleArn"].write(value.roleArn)
         try writer["SNSTopicArn"].write(value.snsTopicArn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.NotificationChannel {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TextractClientTypes.NotificationChannel()
-        value.snsTopicArn = try reader["SNSTopicArn"].readIfPresent()
-        value.roleArn = try reader["RoleArn"].readIfPresent()
-        return value
     }
 }
 
@@ -4310,12 +4044,6 @@ extension TextractClientTypes {
 
 extension TextractClientTypes.PageClassification {
 
-    static func write(value: TextractClientTypes.PageClassification?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["PageNumber"].writeList(value.pageNumber, memberWritingClosure: TextractClientTypes.Prediction.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["PageType"].writeList(value.pageType, memberWritingClosure: TextractClientTypes.Prediction.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.PageClassification {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TextractClientTypes.PageClassification()
@@ -4349,12 +4077,6 @@ extension TextractClientTypes {
 
 extension TextractClientTypes.Point {
 
-    static func write(value: TextractClientTypes.Point?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["X"].write(value.x)
-        try writer["Y"].write(value.y)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.Point {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TextractClientTypes.Point()
@@ -4385,12 +4107,6 @@ extension TextractClientTypes {
 }
 
 extension TextractClientTypes.Prediction {
-
-    static func write(value: TextractClientTypes.Prediction?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Confidence"].write(value.confidence)
-        try writer["Value"].write(value.value)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.Prediction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4468,13 +4184,6 @@ extension TextractClientTypes.QueriesConfig {
         guard let value else { return }
         try writer["Queries"].writeList(value.queries, memberWritingClosure: TextractClientTypes.Query.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.QueriesConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TextractClientTypes.QueriesConfig()
-        value.queries = try reader["Queries"].readListIfPresent(memberReadingClosure: TextractClientTypes.Query.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
 }
 
 extension TextractClientTypes {
@@ -4549,12 +4258,6 @@ extension TextractClientTypes {
 }
 
 extension TextractClientTypes.Relationship {
-
-    static func write(value: TextractClientTypes.Relationship?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Ids"].writeList(value.ids, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.Relationship {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4807,12 +4510,6 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
 extension TextractClientTypes.SignatureDetection {
 
-    static func write(value: TextractClientTypes.SignatureDetection?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Confidence"].write(value.confidence)
-        try writer["Geometry"].write(value.geometry, with: TextractClientTypes.Geometry.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.SignatureDetection {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TextractClientTypes.SignatureDetection()
@@ -4843,12 +4540,6 @@ extension TextractClientTypes {
 }
 
 extension TextractClientTypes.SplitDocument {
-
-    static func write(value: TextractClientTypes.SplitDocument?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Index"].write(value.index)
-        try writer["Pages"].writeList(value.pages, memberWritingClosure: Swift.Int.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.SplitDocument {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5445,11 +5136,6 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
 extension TextractClientTypes.UndetectedSignature {
 
-    static func write(value: TextractClientTypes.UndetectedSignature?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Page"].write(value.page)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.UndetectedSignature {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TextractClientTypes.UndetectedSignature()
@@ -5763,12 +5449,6 @@ extension TextractClientTypes {
 }
 
 extension TextractClientTypes.Warning {
-
-    static func write(value: TextractClientTypes.Warning?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ErrorCode"].write(value.errorCode)
-        try writer["Pages"].writeList(value.pages, memberWritingClosure: Swift.Int.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.Warning {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

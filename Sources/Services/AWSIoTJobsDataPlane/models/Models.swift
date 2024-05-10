@@ -289,21 +289,6 @@ public enum IoTJobsDataPlaneClientTypes {}
 
 extension IoTJobsDataPlaneClientTypes.JobExecution {
 
-    static func write(value: IoTJobsDataPlaneClientTypes.JobExecution?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["approximateSecondsBeforeTimedOut"].write(value.approximateSecondsBeforeTimedOut)
-        try writer["executionNumber"].write(value.executionNumber)
-        try writer["jobDocument"].write(value.jobDocument)
-        try writer["jobId"].write(value.jobId)
-        try writer["lastUpdatedAt"].write(value.lastUpdatedAt)
-        try writer["queuedAt"].write(value.queuedAt)
-        try writer["startedAt"].write(value.startedAt)
-        try writer["status"].write(value.status)
-        try writer["statusDetails"].writeMap(value.statusDetails, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["thingName"].write(value.thingName)
-        try writer["versionNumber"].write(value.versionNumber)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTJobsDataPlaneClientTypes.JobExecution {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTJobsDataPlaneClientTypes.JobExecution()
@@ -379,13 +364,6 @@ extension IoTJobsDataPlaneClientTypes {
 }
 
 extension IoTJobsDataPlaneClientTypes.JobExecutionState {
-
-    static func write(value: IoTJobsDataPlaneClientTypes.JobExecutionState?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["status"].write(value.status)
-        try writer["statusDetails"].writeMap(value.statusDetails, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["versionNumber"].write(value.versionNumber)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTJobsDataPlaneClientTypes.JobExecutionState {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -470,16 +448,6 @@ extension IoTJobsDataPlaneClientTypes {
 }
 
 extension IoTJobsDataPlaneClientTypes.JobExecutionSummary {
-
-    static func write(value: IoTJobsDataPlaneClientTypes.JobExecutionSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["executionNumber"].write(value.executionNumber)
-        try writer["jobId"].write(value.jobId)
-        try writer["lastUpdatedAt"].write(value.lastUpdatedAt)
-        try writer["queuedAt"].write(value.queuedAt)
-        try writer["startedAt"].write(value.startedAt)
-        try writer["versionNumber"].write(value.versionNumber)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTJobsDataPlaneClientTypes.JobExecutionSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

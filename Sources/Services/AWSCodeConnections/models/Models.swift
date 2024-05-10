@@ -213,16 +213,6 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
 extension CodeConnectionsClientTypes.Connection {
 
-    static func write(value: CodeConnectionsClientTypes.Connection?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ConnectionArn"].write(value.connectionArn)
-        try writer["ConnectionName"].write(value.connectionName)
-        try writer["ConnectionStatus"].write(value.connectionStatus)
-        try writer["HostArn"].write(value.hostArn)
-        try writer["OwnerAccountId"].write(value.ownerAccountId)
-        try writer["ProviderType"].write(value.providerType)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodeConnectionsClientTypes.Connection {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeConnectionsClientTypes.Connection()
@@ -1482,17 +1472,6 @@ enum GetSyncConfigurationOutputError {
 
 extension CodeConnectionsClientTypes.Host {
 
-    static func write(value: CodeConnectionsClientTypes.Host?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["HostArn"].write(value.hostArn)
-        try writer["Name"].write(value.name)
-        try writer["ProviderEndpoint"].write(value.providerEndpoint)
-        try writer["ProviderType"].write(value.providerType)
-        try writer["Status"].write(value.status)
-        try writer["StatusMessage"].write(value.statusMessage)
-        try writer["VpcConfiguration"].write(value.vpcConfiguration, with: CodeConnectionsClientTypes.VpcConfiguration.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodeConnectionsClientTypes.Host {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeConnectionsClientTypes.Host()
@@ -2209,17 +2188,6 @@ extension CodeConnectionsClientTypes {
 
 extension CodeConnectionsClientTypes.RepositoryLinkInfo {
 
-    static func write(value: CodeConnectionsClientTypes.RepositoryLinkInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ConnectionArn"].write(value.connectionArn)
-        try writer["EncryptionKeyArn"].write(value.encryptionKeyArn)
-        try writer["OwnerId"].write(value.ownerId)
-        try writer["ProviderType"].write(value.providerType)
-        try writer["RepositoryLinkArn"].write(value.repositoryLinkArn)
-        try writer["RepositoryLinkId"].write(value.repositoryLinkId)
-        try writer["RepositoryName"].write(value.repositoryName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodeConnectionsClientTypes.RepositoryLinkInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeConnectionsClientTypes.RepositoryLinkInfo()
@@ -2282,13 +2250,6 @@ extension CodeConnectionsClientTypes {
 
 extension CodeConnectionsClientTypes.RepositorySyncAttempt {
 
-    static func write(value: CodeConnectionsClientTypes.RepositorySyncAttempt?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Events"].writeList(value.events, memberWritingClosure: CodeConnectionsClientTypes.RepositorySyncEvent.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["StartedAt"].writeTimestamp(value.startedAt, format: .epochSeconds)
-        try writer["Status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodeConnectionsClientTypes.RepositorySyncAttempt {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeConnectionsClientTypes.RepositorySyncAttempt()
@@ -2338,14 +2299,6 @@ extension CodeConnectionsClientTypes {
 
 extension CodeConnectionsClientTypes.RepositorySyncDefinition {
 
-    static func write(value: CodeConnectionsClientTypes.RepositorySyncDefinition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Branch"].write(value.branch)
-        try writer["Directory"].write(value.directory)
-        try writer["Parent"].write(value.parent)
-        try writer["Target"].write(value.target)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodeConnectionsClientTypes.RepositorySyncDefinition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeConnectionsClientTypes.RepositorySyncDefinition()
@@ -2390,14 +2343,6 @@ extension CodeConnectionsClientTypes {
 }
 
 extension CodeConnectionsClientTypes.RepositorySyncEvent {
-
-    static func write(value: CodeConnectionsClientTypes.RepositorySyncEvent?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Event"].write(value.event)
-        try writer["ExternalId"].write(value.externalId)
-        try writer["Time"].writeTimestamp(value.time, format: .epochSeconds)
-        try writer["Type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeConnectionsClientTypes.RepositorySyncEvent {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2556,16 +2501,6 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
 extension CodeConnectionsClientTypes.ResourceSyncAttempt {
 
-    static func write(value: CodeConnectionsClientTypes.ResourceSyncAttempt?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Events"].writeList(value.events, memberWritingClosure: CodeConnectionsClientTypes.ResourceSyncEvent.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["InitialRevision"].write(value.initialRevision, with: CodeConnectionsClientTypes.Revision.write(value:to:))
-        try writer["StartedAt"].writeTimestamp(value.startedAt, format: .epochSeconds)
-        try writer["Status"].write(value.status)
-        try writer["Target"].write(value.target)
-        try writer["TargetRevision"].write(value.targetRevision, with: CodeConnectionsClientTypes.Revision.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodeConnectionsClientTypes.ResourceSyncAttempt {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeConnectionsClientTypes.ResourceSyncAttempt()
@@ -2630,14 +2565,6 @@ extension CodeConnectionsClientTypes {
 }
 
 extension CodeConnectionsClientTypes.ResourceSyncEvent {
-
-    static func write(value: CodeConnectionsClientTypes.ResourceSyncEvent?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Event"].write(value.event)
-        try writer["ExternalId"].write(value.externalId)
-        try writer["Time"].writeTimestamp(value.time, format: .epochSeconds)
-        try writer["Type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeConnectionsClientTypes.ResourceSyncEvent {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2793,16 +2720,6 @@ public struct RetryLatestCommitFailedException: ClientRuntime.ModeledError, AWSC
 
 extension CodeConnectionsClientTypes.Revision {
 
-    static func write(value: CodeConnectionsClientTypes.Revision?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Branch"].write(value.branch)
-        try writer["Directory"].write(value.directory)
-        try writer["OwnerId"].write(value.ownerId)
-        try writer["ProviderType"].write(value.providerType)
-        try writer["RepositoryName"].write(value.repositoryName)
-        try writer["Sha"].write(value.sha)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodeConnectionsClientTypes.Revision {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeConnectionsClientTypes.Revision()
@@ -2859,18 +2776,6 @@ extension CodeConnectionsClientTypes {
 }
 
 extension CodeConnectionsClientTypes.SyncBlocker {
-
-    static func write(value: CodeConnectionsClientTypes.SyncBlocker?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Contexts"].writeList(value.contexts, memberWritingClosure: CodeConnectionsClientTypes.SyncBlockerContext.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["CreatedAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["CreatedReason"].write(value.createdReason)
-        try writer["Id"].write(value.id)
-        try writer["ResolvedAt"].writeTimestamp(value.resolvedAt, format: .epochSeconds)
-        try writer["ResolvedReason"].write(value.resolvedReason)
-        try writer["Status"].write(value.status)
-        try writer["Type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeConnectionsClientTypes.SyncBlocker {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2937,12 +2842,6 @@ extension CodeConnectionsClientTypes {
 }
 
 extension CodeConnectionsClientTypes.SyncBlockerContext {
-
-    static func write(value: CodeConnectionsClientTypes.SyncBlockerContext?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Key"].write(value.key)
-        try writer["Value"].write(value.value)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeConnectionsClientTypes.SyncBlockerContext {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3014,13 +2913,6 @@ public struct SyncBlockerDoesNotExistException: ClientRuntime.ModeledError, AWSC
 
 extension CodeConnectionsClientTypes.SyncBlockerSummary {
 
-    static func write(value: CodeConnectionsClientTypes.SyncBlockerSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["LatestBlockers"].writeList(value.latestBlockers, memberWritingClosure: CodeConnectionsClientTypes.SyncBlocker.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ParentResourceName"].write(value.parentResourceName)
-        try writer["ResourceName"].write(value.resourceName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodeConnectionsClientTypes.SyncBlockerSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeConnectionsClientTypes.SyncBlockerSummary()
@@ -3057,21 +2949,6 @@ extension CodeConnectionsClientTypes {
 }
 
 extension CodeConnectionsClientTypes.SyncConfiguration {
-
-    static func write(value: CodeConnectionsClientTypes.SyncConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Branch"].write(value.branch)
-        try writer["ConfigFile"].write(value.configFile)
-        try writer["OwnerId"].write(value.ownerId)
-        try writer["ProviderType"].write(value.providerType)
-        try writer["PublishDeploymentStatus"].write(value.publishDeploymentStatus)
-        try writer["RepositoryLinkId"].write(value.repositoryLinkId)
-        try writer["RepositoryName"].write(value.repositoryName)
-        try writer["ResourceName"].write(value.resourceName)
-        try writer["RoleArn"].write(value.roleArn)
-        try writer["SyncType"].write(value.syncType)
-        try writer["TriggerResourceUpdateOn"].write(value.triggerResourceUpdateOn)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeConnectionsClientTypes.SyncConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

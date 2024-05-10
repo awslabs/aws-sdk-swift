@@ -303,18 +303,6 @@ enum AssociateResourceSharePermissionOutputError {
 
 extension RAMClientTypes.AssociatedPermission {
 
-    static func write(value: RAMClientTypes.AssociatedPermission?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["defaultVersion"].write(value.defaultVersion)
-        try writer["featureSet"].write(value.featureSet)
-        try writer["lastUpdatedTime"].writeTimestamp(value.lastUpdatedTime, format: .epochSeconds)
-        try writer["permissionVersion"].write(value.permissionVersion)
-        try writer["resourceShareArn"].write(value.resourceShareArn)
-        try writer["resourceType"].write(value.resourceType)
-        try writer["status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> RAMClientTypes.AssociatedPermission {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RAMClientTypes.AssociatedPermission()
@@ -3386,15 +3374,6 @@ public struct PermissionVersionsLimitExceededException: ClientRuntime.ModeledErr
 
 extension RAMClientTypes.Principal {
 
-    static func write(value: RAMClientTypes.Principal?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["creationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["external"].write(value.external)
-        try writer["id"].write(value.id)
-        try writer["lastUpdatedTime"].writeTimestamp(value.lastUpdatedTime, format: .epochSeconds)
-        try writer["resourceShareArn"].write(value.resourceShareArn)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> RAMClientTypes.Principal {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RAMClientTypes.Principal()
@@ -3795,19 +3774,6 @@ enum ReplacePermissionAssociationsOutputError {
 
 extension RAMClientTypes.ReplacePermissionAssociationsWork {
 
-    static func write(value: RAMClientTypes.ReplacePermissionAssociationsWork?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["creationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["fromPermissionArn"].write(value.fromPermissionArn)
-        try writer["fromPermissionVersion"].write(value.fromPermissionVersion)
-        try writer["id"].write(value.id)
-        try writer["lastUpdatedTime"].writeTimestamp(value.lastUpdatedTime, format: .epochSeconds)
-        try writer["status"].write(value.status)
-        try writer["statusMessage"].write(value.statusMessage)
-        try writer["toPermissionArn"].write(value.toPermissionArn)
-        try writer["toPermissionVersion"].write(value.toPermissionVersion)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> RAMClientTypes.ReplacePermissionAssociationsWork {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RAMClientTypes.ReplacePermissionAssociationsWork()
@@ -3912,19 +3878,6 @@ extension RAMClientTypes {
 }
 
 extension RAMClientTypes.Resource {
-
-    static func write(value: RAMClientTypes.Resource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["creationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["lastUpdatedTime"].writeTimestamp(value.lastUpdatedTime, format: .epochSeconds)
-        try writer["resourceGroupArn"].write(value.resourceGroupArn)
-        try writer["resourceRegionScope"].write(value.resourceRegionScope)
-        try writer["resourceShareArn"].write(value.resourceShareArn)
-        try writer["status"].write(value.status)
-        try writer["statusMessage"].write(value.statusMessage)
-        try writer["type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> RAMClientTypes.Resource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4127,20 +4080,6 @@ extension RAMClientTypes {
 
 extension RAMClientTypes.ResourceShare {
 
-    static func write(value: RAMClientTypes.ResourceShare?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["allowExternalPrincipals"].write(value.allowExternalPrincipals)
-        try writer["creationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["featureSet"].write(value.featureSet)
-        try writer["lastUpdatedTime"].writeTimestamp(value.lastUpdatedTime, format: .epochSeconds)
-        try writer["name"].write(value.name)
-        try writer["owningAccountId"].write(value.owningAccountId)
-        try writer["resourceShareArn"].write(value.resourceShareArn)
-        try writer["status"].write(value.status)
-        try writer["statusMessage"].write(value.statusMessage)
-        try writer["tags"].writeList(value.tags, memberWritingClosure: RAMClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> RAMClientTypes.ResourceShare {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RAMClientTypes.ResourceShare()
@@ -4221,19 +4160,6 @@ extension RAMClientTypes {
 }
 
 extension RAMClientTypes.ResourceShareAssociation {
-
-    static func write(value: RAMClientTypes.ResourceShareAssociation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["associatedEntity"].write(value.associatedEntity)
-        try writer["associationType"].write(value.associationType)
-        try writer["creationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["external"].write(value.external)
-        try writer["lastUpdatedTime"].writeTimestamp(value.lastUpdatedTime, format: .epochSeconds)
-        try writer["resourceShareArn"].write(value.resourceShareArn)
-        try writer["resourceShareName"].write(value.resourceShareName)
-        try writer["status"].write(value.status)
-        try writer["statusMessage"].write(value.statusMessage)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> RAMClientTypes.ResourceShareAssociation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4416,19 +4342,6 @@ extension RAMClientTypes {
 }
 
 extension RAMClientTypes.ResourceShareInvitation {
-
-    static func write(value: RAMClientTypes.ResourceShareInvitation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["invitationTimestamp"].writeTimestamp(value.invitationTimestamp, format: .epochSeconds)
-        try writer["receiverAccountId"].write(value.receiverAccountId)
-        try writer["receiverArn"].write(value.receiverArn)
-        try writer["resourceShareArn"].write(value.resourceShareArn)
-        try writer["resourceShareAssociations"].writeList(value.resourceShareAssociations, memberWritingClosure: RAMClientTypes.ResourceShareAssociation.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["resourceShareInvitationArn"].write(value.resourceShareInvitationArn)
-        try writer["resourceShareName"].write(value.resourceShareName)
-        try writer["senderAccountId"].write(value.senderAccountId)
-        try writer["status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> RAMClientTypes.ResourceShareInvitation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4723,23 +4636,6 @@ public struct ResourceShareLimitExceededException: ClientRuntime.ModeledError, A
 
 extension RAMClientTypes.ResourceSharePermissionDetail {
 
-    static func write(value: RAMClientTypes.ResourceSharePermissionDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["creationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["defaultVersion"].write(value.defaultVersion)
-        try writer["featureSet"].write(value.featureSet)
-        try writer["isResourceTypeDefault"].write(value.isResourceTypeDefault)
-        try writer["lastUpdatedTime"].writeTimestamp(value.lastUpdatedTime, format: .epochSeconds)
-        try writer["name"].write(value.name)
-        try writer["permission"].write(value.permission)
-        try writer["permissionType"].write(value.permissionType)
-        try writer["resourceType"].write(value.resourceType)
-        try writer["status"].write(value.status)
-        try writer["tags"].writeList(value.tags, memberWritingClosure: RAMClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["version"].write(value.version)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> RAMClientTypes.ResourceSharePermissionDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RAMClientTypes.ResourceSharePermissionDetail()
@@ -4843,22 +4739,6 @@ extension RAMClientTypes {
 }
 
 extension RAMClientTypes.ResourceSharePermissionSummary {
-
-    static func write(value: RAMClientTypes.ResourceSharePermissionSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["creationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["defaultVersion"].write(value.defaultVersion)
-        try writer["featureSet"].write(value.featureSet)
-        try writer["isResourceTypeDefault"].write(value.isResourceTypeDefault)
-        try writer["lastUpdatedTime"].writeTimestamp(value.lastUpdatedTime, format: .epochSeconds)
-        try writer["name"].write(value.name)
-        try writer["permissionType"].write(value.permissionType)
-        try writer["resourceType"].write(value.resourceType)
-        try writer["status"].write(value.status)
-        try writer["tags"].writeList(value.tags, memberWritingClosure: RAMClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["version"].write(value.version)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> RAMClientTypes.ResourceSharePermissionSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5067,13 +4947,6 @@ public struct ServerInternalException: ClientRuntime.ModeledError, AWSClientRunt
 
 extension RAMClientTypes.ServiceNameAndResourceType {
 
-    static func write(value: RAMClientTypes.ServiceNameAndResourceType?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["resourceRegionScope"].write(value.resourceRegionScope)
-        try writer["resourceType"].write(value.resourceType)
-        try writer["serviceName"].write(value.serviceName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> RAMClientTypes.ServiceNameAndResourceType {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RAMClientTypes.ServiceNameAndResourceType()
@@ -5281,14 +5154,6 @@ extension RAMClientTypes.TagFilter {
         guard let value else { return }
         try writer["tagKey"].write(value.tagKey)
         try writer["tagValues"].writeList(value.tagValues, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RAMClientTypes.TagFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RAMClientTypes.TagFilter()
-        value.tagKey = try reader["tagKey"].readIfPresent()
-        value.tagValues = try reader["tagValues"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 

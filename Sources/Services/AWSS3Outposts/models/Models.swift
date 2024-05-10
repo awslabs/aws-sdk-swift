@@ -250,22 +250,6 @@ enum DeleteEndpointOutputError {
 
 extension S3OutpostsClientTypes.Endpoint {
 
-    static func write(value: S3OutpostsClientTypes.Endpoint?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccessType"].write(value.accessType)
-        try writer["CidrBlock"].write(value.cidrBlock)
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["CustomerOwnedIpv4Pool"].write(value.customerOwnedIpv4Pool)
-        try writer["EndpointArn"].write(value.endpointArn)
-        try writer["FailedReason"].write(value.failedReason, with: S3OutpostsClientTypes.FailedReason.write(value:to:))
-        try writer["NetworkInterfaces"].writeList(value.networkInterfaces, memberWritingClosure: S3OutpostsClientTypes.NetworkInterface.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["OutpostsId"].write(value.outpostsId)
-        try writer["SecurityGroupId"].write(value.securityGroupId)
-        try writer["Status"].write(value.status)
-        try writer["SubnetId"].write(value.subnetId)
-        try writer["VpcId"].write(value.vpcId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> S3OutpostsClientTypes.Endpoint {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = S3OutpostsClientTypes.Endpoint()
@@ -415,12 +399,6 @@ extension S3OutpostsClientTypes {
 }
 
 extension S3OutpostsClientTypes.FailedReason {
-
-    static func write(value: S3OutpostsClientTypes.FailedReason?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ErrorCode"].write(value.errorCode)
-        try writer["Message"].write(value.message)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> S3OutpostsClientTypes.FailedReason {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -764,11 +742,6 @@ enum ListSharedEndpointsOutputError {
 
 extension S3OutpostsClientTypes.NetworkInterface {
 
-    static func write(value: S3OutpostsClientTypes.NetworkInterface?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["NetworkInterfaceId"].write(value.networkInterfaceId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> S3OutpostsClientTypes.NetworkInterface {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = S3OutpostsClientTypes.NetworkInterface()
@@ -794,15 +767,6 @@ extension S3OutpostsClientTypes {
 }
 
 extension S3OutpostsClientTypes.Outpost {
-
-    static func write(value: S3OutpostsClientTypes.Outpost?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CapacityInBytes"].write(value.capacityInBytes)
-        try writer["OutpostArn"].write(value.outpostArn)
-        try writer["OutpostId"].write(value.outpostId)
-        try writer["OwnerId"].write(value.ownerId)
-        try writer["S3OutpostArn"].write(value.s3OutpostArn)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> S3OutpostsClientTypes.Outpost {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

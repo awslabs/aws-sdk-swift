@@ -389,20 +389,6 @@ extension IoTClientTypes {
 
 extension IoTClientTypes.ActiveViolation {
 
-    static func write(value: IoTClientTypes.ActiveViolation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["behavior"].write(value.behavior, with: IoTClientTypes.Behavior.write(value:to:))
-        try writer["lastViolationTime"].writeTimestamp(value.lastViolationTime, format: .epochSeconds)
-        try writer["lastViolationValue"].write(value.lastViolationValue, with: IoTClientTypes.MetricValue.write(value:to:))
-        try writer["securityProfileName"].write(value.securityProfileName)
-        try writer["thingName"].write(value.thingName)
-        try writer["verificationState"].write(value.verificationState)
-        try writer["verificationStateDescription"].write(value.verificationStateDescription)
-        try writer["violationEventAdditionalInfo"].write(value.violationEventAdditionalInfo, with: IoTClientTypes.ViolationEventAdditionalInfo.write(value:to:))
-        try writer["violationId"].write(value.violationId)
-        try writer["violationStartTime"].writeTimestamp(value.violationStartTime, format: .epochSeconds)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.ActiveViolation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.ActiveViolation()
@@ -796,11 +782,6 @@ extension IoTClientTypes {
 }
 
 extension IoTClientTypes.Allowed {
-
-    static func write(value: IoTClientTypes.Allowed?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["policies"].writeList(value.policies, memberWritingClosure: IoTClientTypes.Policy.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.Allowed {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1425,17 +1406,6 @@ extension IoTClientTypes {
 
 extension IoTClientTypes.AuditCheckDetails {
 
-    static func write(value: IoTClientTypes.AuditCheckDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["checkCompliant"].write(value.checkCompliant)
-        try writer["checkRunStatus"].write(value.checkRunStatus)
-        try writer["errorCode"].write(value.errorCode)
-        try writer["message"].write(value.message)
-        try writer["nonCompliantResourcesCount"].write(value.nonCompliantResourcesCount)
-        try writer["suppressedNonCompliantResourcesCount"].write(value.suppressedNonCompliantResourcesCount)
-        try writer["totalResourcesCount"].write(value.totalResourcesCount)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.AuditCheckDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.AuditCheckDetails()
@@ -1533,21 +1503,6 @@ extension IoTClientTypes {
 }
 
 extension IoTClientTypes.AuditFinding {
-
-    static func write(value: IoTClientTypes.AuditFinding?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["checkName"].write(value.checkName)
-        try writer["findingId"].write(value.findingId)
-        try writer["findingTime"].writeTimestamp(value.findingTime, format: .epochSeconds)
-        try writer["isSuppressed"].write(value.isSuppressed)
-        try writer["nonCompliantResource"].write(value.nonCompliantResource, with: IoTClientTypes.NonCompliantResource.write(value:to:))
-        try writer["reasonForNonCompliance"].write(value.reasonForNonCompliance)
-        try writer["reasonForNonComplianceCode"].write(value.reasonForNonComplianceCode)
-        try writer["relatedResources"].writeList(value.relatedResources, memberWritingClosure: IoTClientTypes.RelatedResource.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["severity"].write(value.severity)
-        try writer["taskId"].write(value.taskId)
-        try writer["taskStartTime"].writeTimestamp(value.taskStartTime, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.AuditFinding {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1697,19 +1652,6 @@ extension IoTClientTypes {
 
 extension IoTClientTypes.AuditMitigationActionExecutionMetadata {
 
-    static func write(value: IoTClientTypes.AuditMitigationActionExecutionMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["actionId"].write(value.actionId)
-        try writer["actionName"].write(value.actionName)
-        try writer["endTime"].writeTimestamp(value.endTime, format: .epochSeconds)
-        try writer["errorCode"].write(value.errorCode)
-        try writer["findingId"].write(value.findingId)
-        try writer["message"].write(value.message)
-        try writer["startTime"].writeTimestamp(value.startTime, format: .epochSeconds)
-        try writer["status"].write(value.status)
-        try writer["taskId"].write(value.taskId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.AuditMitigationActionExecutionMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.AuditMitigationActionExecutionMetadata()
@@ -1817,13 +1759,6 @@ extension IoTClientTypes {
 }
 
 extension IoTClientTypes.AuditMitigationActionsTaskMetadata {
-
-    static func write(value: IoTClientTypes.AuditMitigationActionsTaskMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["startTime"].writeTimestamp(value.startTime, format: .epochSeconds)
-        try writer["taskId"].write(value.taskId)
-        try writer["taskStatus"].write(value.taskStatus)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.AuditMitigationActionsTaskMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2010,15 +1945,6 @@ extension IoTClientTypes {
 
 extension IoTClientTypes.AuditSuppression {
 
-    static func write(value: IoTClientTypes.AuditSuppression?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["checkName"].write(value.checkName)
-        try writer["description"].write(value.description)
-        try writer["expirationDate"].writeTimestamp(value.expirationDate, format: .epochSeconds)
-        try writer["resourceIdentifier"].write(value.resourceIdentifier, with: IoTClientTypes.ResourceIdentifier.write(value:to:))
-        try writer["suppressIndefinitely"].write(value.suppressIndefinitely)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.AuditSuppression {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.AuditSuppression()
@@ -2066,13 +1992,6 @@ extension IoTClientTypes {
 }
 
 extension IoTClientTypes.AuditTaskMetadata {
-
-    static func write(value: IoTClientTypes.AuditTaskMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["taskId"].write(value.taskId)
-        try writer["taskStatus"].write(value.taskStatus)
-        try writer["taskType"].write(value.taskType)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.AuditTaskMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2247,15 +2166,6 @@ extension IoTClientTypes {
 
 extension IoTClientTypes.AuthResult {
 
-    static func write(value: IoTClientTypes.AuthResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["allowed"].write(value.allowed, with: IoTClientTypes.Allowed.write(value:to:))
-        try writer["authDecision"].write(value.authDecision)
-        try writer["authInfo"].write(value.authInfo, with: IoTClientTypes.AuthInfo.write(value:to:))
-        try writer["denied"].write(value.denied, with: IoTClientTypes.Denied.write(value:to:))
-        try writer["missingContextValues"].writeList(value.missingContextValues, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.AuthResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.AuthResult()
@@ -2338,20 +2248,6 @@ extension IoTClientTypes {
 }
 
 extension IoTClientTypes.AuthorizerDescription {
-
-    static func write(value: IoTClientTypes.AuthorizerDescription?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["authorizerArn"].write(value.authorizerArn)
-        try writer["authorizerFunctionArn"].write(value.authorizerFunctionArn)
-        try writer["authorizerName"].write(value.authorizerName)
-        try writer["creationDate"].writeTimestamp(value.creationDate, format: .epochSeconds)
-        try writer["enableCachingForHttp"].write(value.enableCachingForHttp)
-        try writer["lastModifiedDate"].writeTimestamp(value.lastModifiedDate, format: .epochSeconds)
-        try writer["signingDisabled"].write(value.signingDisabled)
-        try writer["status"].write(value.status)
-        try writer["tokenKeyName"].write(value.tokenKeyName)
-        try writer["tokenSigningPublicKeys"].writeMap(value.tokenSigningPublicKeys, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.AuthorizerDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2454,12 +2350,6 @@ extension IoTClientTypes {
 
 extension IoTClientTypes.AuthorizerSummary {
 
-    static func write(value: IoTClientTypes.AuthorizerSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["authorizerArn"].write(value.authorizerArn)
-        try writer["authorizerName"].write(value.authorizerName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.AuthorizerSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.AuthorizerSummary()
@@ -2525,13 +2415,6 @@ extension IoTClientTypes.AwsJobAbortConfig {
         guard let value else { return }
         try writer["abortCriteriaList"].writeList(value.abortCriteriaList, memberWritingClosure: IoTClientTypes.AwsJobAbortCriteria.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.AwsJobAbortConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTClientTypes.AwsJobAbortConfig()
-        value.abortCriteriaList = try reader["abortCriteriaList"].readListIfPresent(memberReadingClosure: IoTClientTypes.AwsJobAbortCriteria.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
 }
 
 extension IoTClientTypes {
@@ -2559,16 +2442,6 @@ extension IoTClientTypes.AwsJobAbortCriteria {
         try writer["failureType"].write(value.failureType)
         try writer["minNumberOfExecutedThings"].write(value.minNumberOfExecutedThings)
         try writer["thresholdPercentage"].write(value.thresholdPercentage)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.AwsJobAbortCriteria {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTClientTypes.AwsJobAbortCriteria()
-        value.failureType = try reader["failureType"].readIfPresent()
-        value.action = try reader["action"].readIfPresent()
-        value.thresholdPercentage = try reader["thresholdPercentage"].readIfPresent()
-        value.minNumberOfExecutedThings = try reader["minNumberOfExecutedThings"].readIfPresent()
-        return value
     }
 }
 
@@ -2824,13 +2697,6 @@ extension IoTClientTypes.AwsJobTimeoutConfig {
         guard let value else { return }
         try writer["inProgressTimeoutInMinutes"].write(value.inProgressTimeoutInMinutes)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.AwsJobTimeoutConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTClientTypes.AwsJobTimeoutConfig()
-        value.inProgressTimeoutInMinutes = try reader["inProgressTimeoutInMinutes"].readIfPresent()
-        return value
-    }
 }
 
 extension IoTClientTypes {
@@ -3021,16 +2887,6 @@ extension IoTClientTypes {
 
 extension IoTClientTypes.BehaviorModelTrainingSummary {
 
-    static func write(value: IoTClientTypes.BehaviorModelTrainingSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["behaviorName"].write(value.behaviorName)
-        try writer["datapointsCollectionPercentage"].write(value.datapointsCollectionPercentage)
-        try writer["lastModelRefreshDate"].writeTimestamp(value.lastModelRefreshDate, format: .epochSeconds)
-        try writer["modelStatus"].write(value.modelStatus)
-        try writer["securityProfileName"].write(value.securityProfileName)
-        try writer["trainingDataCollectionStartDate"].writeTimestamp(value.trainingDataCollectionStartDate, format: .epochSeconds)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.BehaviorModelTrainingSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.BehaviorModelTrainingSummary()
@@ -3081,11 +2937,6 @@ extension IoTClientTypes {
 }
 
 extension IoTClientTypes.BillingGroupMetadata {
-
-    static func write(value: IoTClientTypes.BillingGroupMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["creationDate"].writeTimestamp(value.creationDate, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.BillingGroupMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3144,12 +2995,6 @@ extension IoTClientTypes {
 
 extension IoTClientTypes.Bucket {
 
-    static func write(value: IoTClientTypes.Bucket?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["count"].write(value.count)
-        try writer["keyValue"].write(value.keyValue)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.Bucket {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.Bucket()
@@ -3185,13 +3030,6 @@ extension IoTClientTypes.BucketsAggregationType {
         guard let value else { return }
         try writer["termsAggregation"].write(value.termsAggregation, with: IoTClientTypes.TermsAggregation.write(value:to:))
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.BucketsAggregationType {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTClientTypes.BucketsAggregationType()
-        value.termsAggregation = try reader["termsAggregation"].readIfPresent(with: IoTClientTypes.TermsAggregation.read(from:))
-        return value
-    }
 }
 
 extension IoTClientTypes {
@@ -3211,14 +3049,6 @@ extension IoTClientTypes {
 }
 
 extension IoTClientTypes.CACertificate {
-
-    static func write(value: IoTClientTypes.CACertificate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["certificateArn"].write(value.certificateArn)
-        try writer["certificateId"].write(value.certificateId)
-        try writer["creationDate"].writeTimestamp(value.creationDate, format: .epochSeconds)
-        try writer["status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.CACertificate {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3260,22 +3090,6 @@ extension IoTClientTypes {
 }
 
 extension IoTClientTypes.CACertificateDescription {
-
-    static func write(value: IoTClientTypes.CACertificateDescription?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["autoRegistrationStatus"].write(value.autoRegistrationStatus)
-        try writer["certificateArn"].write(value.certificateArn)
-        try writer["certificateId"].write(value.certificateId)
-        try writer["certificateMode"].write(value.certificateMode)
-        try writer["certificatePem"].write(value.certificatePem)
-        try writer["creationDate"].writeTimestamp(value.creationDate, format: .epochSeconds)
-        try writer["customerVersion"].write(value.customerVersion)
-        try writer["generationId"].write(value.generationId)
-        try writer["lastModifiedDate"].writeTimestamp(value.lastModifiedDate, format: .epochSeconds)
-        try writer["ownedBy"].write(value.ownedBy)
-        try writer["status"].write(value.status)
-        try writer["validity"].write(value.validity, with: IoTClientTypes.CertificateValidity.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.CACertificateDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3878,15 +3692,6 @@ extension IoTClientTypes {
 
 extension IoTClientTypes.Certificate {
 
-    static func write(value: IoTClientTypes.Certificate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["certificateArn"].write(value.certificateArn)
-        try writer["certificateId"].write(value.certificateId)
-        try writer["certificateMode"].write(value.certificateMode)
-        try writer["creationDate"].writeTimestamp(value.creationDate, format: .epochSeconds)
-        try writer["status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.Certificate {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.Certificate()
@@ -3970,24 +3775,6 @@ public struct CertificateConflictException: ClientRuntime.ModeledError, AWSClien
 }
 
 extension IoTClientTypes.CertificateDescription {
-
-    static func write(value: IoTClientTypes.CertificateDescription?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["caCertificateId"].write(value.caCertificateId)
-        try writer["certificateArn"].write(value.certificateArn)
-        try writer["certificateId"].write(value.certificateId)
-        try writer["certificateMode"].write(value.certificateMode)
-        try writer["certificatePem"].write(value.certificatePem)
-        try writer["creationDate"].writeTimestamp(value.creationDate, format: .epochSeconds)
-        try writer["customerVersion"].write(value.customerVersion)
-        try writer["generationId"].write(value.generationId)
-        try writer["lastModifiedDate"].writeTimestamp(value.lastModifiedDate, format: .epochSeconds)
-        try writer["ownedBy"].write(value.ownedBy)
-        try writer["previousOwnedBy"].write(value.previousOwnedBy)
-        try writer["status"].write(value.status)
-        try writer["transferData"].write(value.transferData, with: IoTClientTypes.TransferData.write(value:to:))
-        try writer["validity"].write(value.validity, with: IoTClientTypes.CertificateValidity.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.CertificateDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4137,12 +3924,6 @@ extension IoTClientTypes {
 
 extension IoTClientTypes.CertificateProviderSummary {
 
-    static func write(value: IoTClientTypes.CertificateProviderSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["certificateProviderArn"].write(value.certificateProviderArn)
-        try writer["certificateProviderName"].write(value.certificateProviderName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.CertificateProviderSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.CertificateProviderSummary()
@@ -4291,12 +4072,6 @@ public struct CertificateValidationException: ClientRuntime.ModeledError, AWSCli
 }
 
 extension IoTClientTypes.CertificateValidity {
-
-    static func write(value: IoTClientTypes.CertificateValidity?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["notAfter"].writeTimestamp(value.notAfter, format: .epochSeconds)
-        try writer["notBefore"].writeTimestamp(value.notBefore, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.CertificateValidity {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -10543,12 +10318,6 @@ enum DeleteV2LoggingLevelOutputError {
 
 extension IoTClientTypes.Denied {
 
-    static func write(value: IoTClientTypes.Denied?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["explicitDeny"].write(value.explicitDeny, with: IoTClientTypes.ExplicitDeny.write(value:to:))
-        try writer["implicitDeny"].write(value.implicitDeny, with: IoTClientTypes.ImplicitDeny.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.Denied {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.Denied()
@@ -13979,19 +13748,6 @@ enum DetachThingPrincipalOutputError {
 
 extension IoTClientTypes.DetectMitigationActionExecution {
 
-    static func write(value: IoTClientTypes.DetectMitigationActionExecution?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["actionName"].write(value.actionName)
-        try writer["errorCode"].write(value.errorCode)
-        try writer["executionEndDate"].writeTimestamp(value.executionEndDate, format: .epochSeconds)
-        try writer["executionStartDate"].writeTimestamp(value.executionStartDate, format: .epochSeconds)
-        try writer["message"].write(value.message)
-        try writer["status"].write(value.status)
-        try writer["taskId"].write(value.taskId)
-        try writer["thingName"].write(value.thingName)
-        try writer["violationId"].write(value.violationId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.DetectMitigationActionExecution {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.DetectMitigationActionExecution()
@@ -14094,13 +13850,6 @@ extension IoTClientTypes {
 
 extension IoTClientTypes.DetectMitigationActionsTaskStatistics {
 
-    static func write(value: IoTClientTypes.DetectMitigationActionsTaskStatistics?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["actionsExecuted"].write(value.actionsExecuted)
-        try writer["actionsFailed"].write(value.actionsFailed)
-        try writer["actionsSkipped"].write(value.actionsSkipped)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.DetectMitigationActionsTaskStatistics {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.DetectMitigationActionsTaskStatistics()
@@ -14172,20 +13921,6 @@ extension IoTClientTypes {
 }
 
 extension IoTClientTypes.DetectMitigationActionsTaskSummary {
-
-    static func write(value: IoTClientTypes.DetectMitigationActionsTaskSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["actionsDefinition"].writeList(value.actionsDefinition, memberWritingClosure: IoTClientTypes.MitigationAction.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["onlyActiveViolationsIncluded"].write(value.onlyActiveViolationsIncluded)
-        try writer["suppressedAlertsIncluded"].write(value.suppressedAlertsIncluded)
-        try writer["target"].write(value.target, with: IoTClientTypes.DetectMitigationActionsTaskTarget.write(value:to:))
-        try writer["taskEndTime"].writeTimestamp(value.taskEndTime, format: .epochSeconds)
-        try writer["taskId"].write(value.taskId)
-        try writer["taskStartTime"].writeTimestamp(value.taskStartTime, format: .epochSeconds)
-        try writer["taskStatistics"].write(value.taskStatistics, with: IoTClientTypes.DetectMitigationActionsTaskStatistics.write(value:to:))
-        try writer["taskStatus"].write(value.taskStatus)
-        try writer["violationEventOccurrenceRange"].write(value.violationEventOccurrenceRange, with: IoTClientTypes.ViolationEventOccurrenceRange.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.DetectMitigationActionsTaskSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -14469,15 +14204,6 @@ enum DisableTopicRuleOutputError {
 
 extension IoTClientTypes.DocumentParameter {
 
-    static func write(value: IoTClientTypes.DocumentParameter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["description"].write(value.description)
-        try writer["example"].write(value.example)
-        try writer["key"].write(value.key)
-        try writer["optional"].write(value.`optional`)
-        try writer["regex"].write(value.regex)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.DocumentParameter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.DocumentParameter()
@@ -14553,13 +14279,6 @@ extension IoTClientTypes {
 }
 
 extension IoTClientTypes.DomainConfigurationSummary {
-
-    static func write(value: IoTClientTypes.DomainConfigurationSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["domainConfigurationArn"].write(value.domainConfigurationArn)
-        try writer["domainConfigurationName"].write(value.domainConfigurationName)
-        try writer["serviceType"].write(value.serviceType)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.DomainConfigurationSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -14827,13 +14546,6 @@ extension IoTClientTypes {
 
 extension IoTClientTypes.EffectivePolicy {
 
-    static func write(value: IoTClientTypes.EffectivePolicy?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["policyArn"].write(value.policyArn)
-        try writer["policyDocument"].write(value.policyDocument)
-        try writer["policyName"].write(value.policyName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.EffectivePolicy {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.EffectivePolicy()
@@ -15023,12 +14735,6 @@ enum EnableTopicRuleOutputError {
 
 extension IoTClientTypes.ErrorInfo {
 
-    static func write(value: IoTClientTypes.ErrorInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["code"].write(value.code)
-        try writer["message"].write(value.message)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.ErrorInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.ErrorInfo()
@@ -15116,11 +14822,6 @@ extension IoTClientTypes {
 }
 
 extension IoTClientTypes.ExplicitDeny {
-
-    static func write(value: IoTClientTypes.ExplicitDeny?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["policies"].writeList(value.policies, memberWritingClosure: IoTClientTypes.Policy.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.ExplicitDeny {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -15351,12 +15052,6 @@ extension IoTClientTypes {
 }
 
 extension IoTClientTypes.FleetMetricNameAndArn {
-
-    static func write(value: IoTClientTypes.FleetMetricNameAndArn?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["metricArn"].write(value.metricArn)
-        try writer["metricName"].write(value.metricName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.FleetMetricNameAndArn {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -17061,12 +16756,6 @@ enum GetV2LoggingOptionsOutputError {
 
 extension IoTClientTypes.GroupNameAndArn {
 
-    static func write(value: IoTClientTypes.GroupNameAndArn?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["groupArn"].write(value.groupArn)
-        try writer["groupName"].write(value.groupName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.GroupNameAndArn {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.GroupNameAndArn()
@@ -17223,14 +16912,6 @@ extension IoTClientTypes.HttpContext {
         try writer["headers"].writeMap(value.headers, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["queryString"].write(value.queryString)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.HttpContext {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTClientTypes.HttpContext()
-        value.headers = try reader["headers"].readMapIfPresent(valueReadingClosure: Swift.String.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.queryString = try reader["queryString"].readIfPresent()
-        return value
-    }
 }
 
 extension IoTClientTypes {
@@ -17259,13 +16940,6 @@ extension IoTClientTypes.HttpUrlDestinationConfiguration {
         guard let value else { return }
         try writer["confirmationUrl"].write(value.confirmationUrl)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.HttpUrlDestinationConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTClientTypes.HttpUrlDestinationConfiguration()
-        value.confirmationUrl = try reader["confirmationUrl"].readIfPresent()
-        return value
-    }
 }
 
 extension IoTClientTypes {
@@ -17286,11 +16960,6 @@ extension IoTClientTypes {
 }
 
 extension IoTClientTypes.HttpUrlDestinationProperties {
-
-    static func write(value: IoTClientTypes.HttpUrlDestinationProperties?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["confirmationUrl"].write(value.confirmationUrl)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.HttpUrlDestinationProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -17318,11 +16987,6 @@ extension IoTClientTypes {
 
 extension IoTClientTypes.HttpUrlDestinationSummary {
 
-    static func write(value: IoTClientTypes.HttpUrlDestinationSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["confirmationUrl"].write(value.confirmationUrl)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.HttpUrlDestinationSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.HttpUrlDestinationSummary()
@@ -17348,11 +17012,6 @@ extension IoTClientTypes {
 }
 
 extension IoTClientTypes.ImplicitDeny {
-
-    static func write(value: IoTClientTypes.ImplicitDeny?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["policies"].writeList(value.policies, memberWritingClosure: IoTClientTypes.Policy.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.ImplicitDeny {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -17978,35 +17637,6 @@ extension IoTClientTypes {
 
 extension IoTClientTypes.Job {
 
-    static func write(value: IoTClientTypes.Job?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["abortConfig"].write(value.abortConfig, with: IoTClientTypes.AbortConfig.write(value:to:))
-        try writer["comment"].write(value.comment)
-        try writer["completedAt"].writeTimestamp(value.completedAt, format: .epochSeconds)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["description"].write(value.description)
-        try writer["destinationPackageVersions"].writeList(value.destinationPackageVersions, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["documentParameters"].writeMap(value.documentParameters, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["forceCanceled"].write(value.forceCanceled)
-        try writer["isConcurrent"].write(value.isConcurrent)
-        try writer["jobArn"].write(value.jobArn)
-        try writer["jobExecutionsRetryConfig"].write(value.jobExecutionsRetryConfig, with: IoTClientTypes.JobExecutionsRetryConfig.write(value:to:))
-        try writer["jobExecutionsRolloutConfig"].write(value.jobExecutionsRolloutConfig, with: IoTClientTypes.JobExecutionsRolloutConfig.write(value:to:))
-        try writer["jobId"].write(value.jobId)
-        try writer["jobProcessDetails"].write(value.jobProcessDetails, with: IoTClientTypes.JobProcessDetails.write(value:to:))
-        try writer["jobTemplateArn"].write(value.jobTemplateArn)
-        try writer["lastUpdatedAt"].writeTimestamp(value.lastUpdatedAt, format: .epochSeconds)
-        try writer["namespaceId"].write(value.namespaceId)
-        try writer["presignedUrlConfig"].write(value.presignedUrlConfig, with: IoTClientTypes.PresignedUrlConfig.write(value:to:))
-        try writer["reasonCode"].write(value.reasonCode)
-        try writer["scheduledJobRollouts"].writeList(value.scheduledJobRollouts, memberWritingClosure: IoTClientTypes.ScheduledJobRollout.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["schedulingConfig"].write(value.schedulingConfig, with: IoTClientTypes.SchedulingConfig.write(value:to:))
-        try writer["status"].write(value.status)
-        try writer["targetSelection"].write(value.targetSelection)
-        try writer["targets"].writeList(value.targets, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["timeoutConfig"].write(value.timeoutConfig, with: IoTClientTypes.TimeoutConfig.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.Job {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.Job()
@@ -18186,21 +17816,6 @@ extension IoTClientTypes {
 
 extension IoTClientTypes.JobExecution {
 
-    static func write(value: IoTClientTypes.JobExecution?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["approximateSecondsBeforeTimedOut"].write(value.approximateSecondsBeforeTimedOut)
-        try writer["executionNumber"].write(value.executionNumber)
-        try writer["forceCanceled"].write(value.forceCanceled)
-        try writer["jobId"].write(value.jobId)
-        try writer["lastUpdatedAt"].writeTimestamp(value.lastUpdatedAt, format: .epochSeconds)
-        try writer["queuedAt"].writeTimestamp(value.queuedAt, format: .epochSeconds)
-        try writer["startedAt"].writeTimestamp(value.startedAt, format: .epochSeconds)
-        try writer["status"].write(value.status)
-        try writer["statusDetails"].write(value.statusDetails, with: IoTClientTypes.JobExecutionStatusDetails.write(value:to:))
-        try writer["thingArn"].write(value.thingArn)
-        try writer["versionNumber"].write(value.versionNumber)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.JobExecution {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.JobExecution()
@@ -18361,11 +17976,6 @@ extension IoTClientTypes {
 
 extension IoTClientTypes.JobExecutionStatusDetails {
 
-    static func write(value: IoTClientTypes.JobExecutionStatusDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["detailsMap"].writeMap(value.detailsMap, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.JobExecutionStatusDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.JobExecutionStatusDetails()
@@ -18391,16 +18001,6 @@ extension IoTClientTypes {
 }
 
 extension IoTClientTypes.JobExecutionSummary {
-
-    static func write(value: IoTClientTypes.JobExecutionSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["executionNumber"].write(value.executionNumber)
-        try writer["lastUpdatedAt"].writeTimestamp(value.lastUpdatedAt, format: .epochSeconds)
-        try writer["queuedAt"].writeTimestamp(value.queuedAt, format: .epochSeconds)
-        try writer["retryAttempt"].write(value.retryAttempt)
-        try writer["startedAt"].writeTimestamp(value.startedAt, format: .epochSeconds)
-        try writer["status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.JobExecutionSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -18453,12 +18053,6 @@ extension IoTClientTypes {
 
 extension IoTClientTypes.JobExecutionSummaryForJob {
 
-    static func write(value: IoTClientTypes.JobExecutionSummaryForJob?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["jobExecutionSummary"].write(value.jobExecutionSummary, with: IoTClientTypes.JobExecutionSummary.write(value:to:))
-        try writer["thingArn"].write(value.thingArn)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.JobExecutionSummaryForJob {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.JobExecutionSummaryForJob()
@@ -18489,12 +18083,6 @@ extension IoTClientTypes {
 }
 
 extension IoTClientTypes.JobExecutionSummaryForThing {
-
-    static func write(value: IoTClientTypes.JobExecutionSummaryForThing?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["jobExecutionSummary"].write(value.jobExecutionSummary, with: IoTClientTypes.JobExecutionSummary.write(value:to:))
-        try writer["jobId"].write(value.jobId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.JobExecutionSummaryForThing {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -18595,19 +18183,6 @@ extension IoTClientTypes {
 }
 
 extension IoTClientTypes.JobProcessDetails {
-
-    static func write(value: IoTClientTypes.JobProcessDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["numberOfCanceledThings"].write(value.numberOfCanceledThings)
-        try writer["numberOfFailedThings"].write(value.numberOfFailedThings)
-        try writer["numberOfInProgressThings"].write(value.numberOfInProgressThings)
-        try writer["numberOfQueuedThings"].write(value.numberOfQueuedThings)
-        try writer["numberOfRejectedThings"].write(value.numberOfRejectedThings)
-        try writer["numberOfRemovedThings"].write(value.numberOfRemovedThings)
-        try writer["numberOfSucceededThings"].write(value.numberOfSucceededThings)
-        try writer["numberOfTimedOutThings"].write(value.numberOfTimedOutThings)
-        try writer["processingTargets"].writeList(value.processingTargets, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.JobProcessDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -18714,19 +18289,6 @@ extension IoTClientTypes {
 
 extension IoTClientTypes.JobSummary {
 
-    static func write(value: IoTClientTypes.JobSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["completedAt"].writeTimestamp(value.completedAt, format: .epochSeconds)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["isConcurrent"].write(value.isConcurrent)
-        try writer["jobArn"].write(value.jobArn)
-        try writer["jobId"].write(value.jobId)
-        try writer["lastUpdatedAt"].writeTimestamp(value.lastUpdatedAt, format: .epochSeconds)
-        try writer["status"].write(value.status)
-        try writer["targetSelection"].write(value.targetSelection)
-        try writer["thingGroupId"].write(value.thingGroupId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.JobSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.JobSummary()
@@ -18792,14 +18354,6 @@ extension IoTClientTypes {
 }
 
 extension IoTClientTypes.JobTemplateSummary {
-
-    static func write(value: IoTClientTypes.JobTemplateSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["description"].write(value.description)
-        try writer["jobTemplateArn"].write(value.jobTemplateArn)
-        try writer["jobTemplateId"].write(value.jobTemplateId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.JobTemplateSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -18949,12 +18503,6 @@ extension IoTClientTypes.KeyPair: Swift.CustomDebugStringConvertible {
 }
 
 extension IoTClientTypes.KeyPair {
-
-    static func write(value: IoTClientTypes.KeyPair?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["PrivateKey"].write(value.privateKey)
-        try writer["PublicKey"].write(value.publicKey)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.KeyPair {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -25318,12 +24866,6 @@ extension IoTClientTypes {
 
 extension IoTClientTypes.LogTargetConfiguration {
 
-    static func write(value: IoTClientTypes.LogTargetConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["logLevel"].write(value.logLevel)
-        try writer["logTarget"].write(value.logTarget, with: IoTClientTypes.LogTarget.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.LogTargetConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.LogTargetConfiguration()
@@ -25398,14 +24940,6 @@ extension IoTClientTypes.LoggingOptionsPayload {
         guard let value else { return }
         try writer["logLevel"].write(value.logLevel)
         try writer["roleArn"].write(value.roleArn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.LoggingOptionsPayload {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTClientTypes.LoggingOptionsPayload()
-        value.roleArn = try reader["roleArn"].readIfPresent()
-        value.logLevel = try reader["logLevel"].readIfPresent()
-        return value
     }
 }
 
@@ -25541,15 +25075,6 @@ public struct MalformedPolicyException: ClientRuntime.ModeledError, AWSClientRun
 
 extension IoTClientTypes.ManagedJobTemplateSummary {
 
-    static func write(value: IoTClientTypes.ManagedJobTemplateSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["description"].write(value.description)
-        try writer["environments"].writeList(value.environments, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["templateArn"].write(value.templateArn)
-        try writer["templateName"].write(value.templateName)
-        try writer["templateVersion"].write(value.templateVersion)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.ManagedJobTemplateSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.ManagedJobTemplateSummary()
@@ -25625,12 +25150,6 @@ extension IoTClientTypes {
 }
 
 extension IoTClientTypes.MetricDatum {
-
-    static func write(value: IoTClientTypes.MetricDatum?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["timestamp"].writeTimestamp(value.timestamp, format: .epochSeconds)
-        try writer["value"].write(value.value, with: IoTClientTypes.MetricValue.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.MetricDatum {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -25845,14 +25364,6 @@ extension IoTClientTypes {
 
 extension IoTClientTypes.MitigationAction {
 
-    static func write(value: IoTClientTypes.MitigationAction?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["actionParams"].write(value.actionParams, with: IoTClientTypes.MitigationActionParams.write(value:to:))
-        try writer["id"].write(value.id)
-        try writer["name"].write(value.name)
-        try writer["roleArn"].write(value.roleArn)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.MitigationAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.MitigationAction()
@@ -25893,13 +25404,6 @@ extension IoTClientTypes {
 }
 
 extension IoTClientTypes.MitigationActionIdentifier {
-
-    static func write(value: IoTClientTypes.MitigationActionIdentifier?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["actionArn"].write(value.actionArn)
-        try writer["actionName"].write(value.actionName)
-        try writer["creationDate"].writeTimestamp(value.creationDate, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.MitigationActionIdentifier {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -26079,15 +25583,6 @@ extension IoTClientTypes.MqttContext {
         try writer["password"].write(value.password)
         try writer["username"].write(value.username)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.MqttContext {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTClientTypes.MqttContext()
-        value.username = try reader["username"].readIfPresent()
-        value.password = try reader["password"].readIfPresent()
-        value.clientId = try reader["clientId"].readIfPresent()
-        return value
-    }
 }
 
 extension IoTClientTypes {
@@ -26206,13 +25701,6 @@ extension IoTClientTypes {
 }
 
 extension IoTClientTypes.NonCompliantResource {
-
-    static func write(value: IoTClientTypes.NonCompliantResource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["additionalInfo"].writeMap(value.additionalInfo, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["resourceIdentifier"].write(value.resourceIdentifier, with: IoTClientTypes.ResourceIdentifier.write(value:to:))
-        try writer["resourceType"].write(value.resourceType)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.NonCompliantResource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -26348,26 +25836,6 @@ extension IoTClientTypes {
 }
 
 extension IoTClientTypes.OTAUpdateInfo {
-
-    static func write(value: IoTClientTypes.OTAUpdateInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["additionalParameters"].writeMap(value.additionalParameters, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["awsIotJobArn"].write(value.awsIotJobArn)
-        try writer["awsIotJobId"].write(value.awsIotJobId)
-        try writer["awsJobExecutionsRolloutConfig"].write(value.awsJobExecutionsRolloutConfig, with: IoTClientTypes.AwsJobExecutionsRolloutConfig.write(value:to:))
-        try writer["awsJobPresignedUrlConfig"].write(value.awsJobPresignedUrlConfig, with: IoTClientTypes.AwsJobPresignedUrlConfig.write(value:to:))
-        try writer["creationDate"].writeTimestamp(value.creationDate, format: .epochSeconds)
-        try writer["description"].write(value.description)
-        try writer["errorInfo"].write(value.errorInfo, with: IoTClientTypes.ErrorInfo.write(value:to:))
-        try writer["lastModifiedDate"].writeTimestamp(value.lastModifiedDate, format: .epochSeconds)
-        try writer["otaUpdateArn"].write(value.otaUpdateArn)
-        try writer["otaUpdateFiles"].writeList(value.otaUpdateFiles, memberWritingClosure: IoTClientTypes.OTAUpdateFile.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["otaUpdateId"].write(value.otaUpdateId)
-        try writer["otaUpdateStatus"].write(value.otaUpdateStatus)
-        try writer["protocols"].writeList(value.protocols, memberWritingClosure: IoTClientTypes.ModelProtocol.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["targetSelection"].write(value.targetSelection)
-        try writer["targets"].writeList(value.targets, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.OTAUpdateInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -26512,13 +25980,6 @@ extension IoTClientTypes {
 
 extension IoTClientTypes.OTAUpdateSummary {
 
-    static func write(value: IoTClientTypes.OTAUpdateSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["creationDate"].writeTimestamp(value.creationDate, format: .epochSeconds)
-        try writer["otaUpdateArn"].write(value.otaUpdateArn)
-        try writer["otaUpdateId"].write(value.otaUpdateId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.OTAUpdateSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.OTAUpdateSummary()
@@ -26615,16 +26076,6 @@ extension IoTClientTypes {
 
 extension IoTClientTypes.OutgoingCertificate {
 
-    static func write(value: IoTClientTypes.OutgoingCertificate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["certificateArn"].write(value.certificateArn)
-        try writer["certificateId"].write(value.certificateId)
-        try writer["creationDate"].writeTimestamp(value.creationDate, format: .epochSeconds)
-        try writer["transferDate"].writeTimestamp(value.transferDate, format: .epochSeconds)
-        try writer["transferMessage"].write(value.transferMessage)
-        try writer["transferredTo"].write(value.transferredTo)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.OutgoingCertificate {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.OutgoingCertificate()
@@ -26675,14 +26126,6 @@ extension IoTClientTypes {
 }
 
 extension IoTClientTypes.PackageSummary {
-
-    static func write(value: IoTClientTypes.PackageSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["creationDate"].writeTimestamp(value.creationDate, format: .epochSeconds)
-        try writer["defaultVersionName"].write(value.defaultVersionName)
-        try writer["lastModifiedDate"].writeTimestamp(value.lastModifiedDate, format: .epochSeconds)
-        try writer["packageName"].write(value.packageName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.PackageSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -26788,15 +26231,6 @@ extension IoTClientTypes {
 
 extension IoTClientTypes.PackageVersionSummary {
 
-    static func write(value: IoTClientTypes.PackageVersionSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["creationDate"].writeTimestamp(value.creationDate, format: .epochSeconds)
-        try writer["lastModifiedDate"].writeTimestamp(value.lastModifiedDate, format: .epochSeconds)
-        try writer["packageName"].write(value.packageName)
-        try writer["status"].write(value.status)
-        try writer["versionName"].write(value.versionName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.PackageVersionSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.PackageVersionSummary()
@@ -26843,12 +26277,6 @@ extension IoTClientTypes {
 
 extension IoTClientTypes.PercentPair {
 
-    static func write(value: IoTClientTypes.PercentPair?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["percent"].write(value.percent)
-        try writer["value"].write(value.value)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.PercentPair {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.PercentPair()
@@ -26879,12 +26307,6 @@ extension IoTClientTypes {
 }
 
 extension IoTClientTypes.Policy {
-
-    static func write(value: IoTClientTypes.Policy?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["policyArn"].write(value.policyArn)
-        try writer["policyName"].write(value.policyName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.Policy {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -26943,13 +26365,6 @@ extension IoTClientTypes {
 }
 
 extension IoTClientTypes.PolicyVersion {
-
-    static func write(value: IoTClientTypes.PolicyVersion?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["createDate"].writeTimestamp(value.createDate, format: .epochSeconds)
-        try writer["isDefaultVersion"].write(value.isDefaultVersion)
-        try writer["versionId"].write(value.versionId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.PolicyVersion {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -27129,17 +26544,6 @@ extension IoTClientTypes {
 
 extension IoTClientTypes.ProvisioningTemplateSummary {
 
-    static func write(value: IoTClientTypes.ProvisioningTemplateSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["creationDate"].writeTimestamp(value.creationDate, format: .epochSeconds)
-        try writer["description"].write(value.description)
-        try writer["enabled"].write(value.enabled)
-        try writer["lastModifiedDate"].writeTimestamp(value.lastModifiedDate, format: .epochSeconds)
-        try writer["templateArn"].write(value.templateArn)
-        try writer["templateName"].write(value.templateName)
-        try writer["type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.ProvisioningTemplateSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.ProvisioningTemplateSummary()
@@ -27195,13 +26599,6 @@ extension IoTClientTypes {
 }
 
 extension IoTClientTypes.ProvisioningTemplateVersionSummary {
-
-    static func write(value: IoTClientTypes.ProvisioningTemplateVersionSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["creationDate"].writeTimestamp(value.creationDate, format: .epochSeconds)
-        try writer["isDefaultVersion"].write(value.isDefaultVersion)
-        try writer["versionId"].write(value.versionId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.ProvisioningTemplateVersionSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -28013,13 +27410,6 @@ enum RejectCertificateTransferOutputError {
 
 extension IoTClientTypes.RelatedResource {
 
-    static func write(value: IoTClientTypes.RelatedResource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["additionalInfo"].writeMap(value.additionalInfo, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["resourceIdentifier"].write(value.resourceIdentifier, with: IoTClientTypes.ResourceIdentifier.write(value:to:))
-        try writer["resourceType"].write(value.resourceType)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.RelatedResource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.RelatedResource()
@@ -28711,17 +28101,6 @@ extension IoTClientTypes {
 
 extension IoTClientTypes.RoleAliasDescription {
 
-    static func write(value: IoTClientTypes.RoleAliasDescription?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["creationDate"].writeTimestamp(value.creationDate, format: .epochSeconds)
-        try writer["credentialDurationSeconds"].write(value.credentialDurationSeconds)
-        try writer["lastModifiedDate"].writeTimestamp(value.lastModifiedDate, format: .epochSeconds)
-        try writer["owner"].write(value.owner)
-        try writer["roleAlias"].write(value.roleAlias)
-        try writer["roleAliasArn"].write(value.roleAliasArn)
-        try writer["roleArn"].write(value.roleArn)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.RoleAliasDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.RoleAliasDescription()
@@ -28949,15 +28328,6 @@ extension IoTClientTypes {
 
 extension IoTClientTypes.ScheduledAuditMetadata {
 
-    static func write(value: IoTClientTypes.ScheduledAuditMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["dayOfMonth"].write(value.dayOfMonth)
-        try writer["dayOfWeek"].write(value.dayOfWeek)
-        try writer["frequency"].write(value.frequency)
-        try writer["scheduledAuditArn"].write(value.scheduledAuditArn)
-        try writer["scheduledAuditName"].write(value.scheduledAuditName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.ScheduledAuditMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.ScheduledAuditMetadata()
@@ -29003,11 +28373,6 @@ extension IoTClientTypes {
 }
 
 extension IoTClientTypes.ScheduledJobRollout {
-
-    static func write(value: IoTClientTypes.ScheduledJobRollout?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["startTime"].write(value.startTime)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.ScheduledJobRollout {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -29187,12 +28552,6 @@ enum SearchIndexOutputError {
 
 extension IoTClientTypes.SecurityProfileIdentifier {
 
-    static func write(value: IoTClientTypes.SecurityProfileIdentifier?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["name"].write(value.name)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.SecurityProfileIdentifier {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.SecurityProfileIdentifier()
@@ -29226,11 +28585,6 @@ extension IoTClientTypes {
 
 extension IoTClientTypes.SecurityProfileTarget {
 
-    static func write(value: IoTClientTypes.SecurityProfileTarget?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.SecurityProfileTarget {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.SecurityProfileTarget()
@@ -29257,12 +28611,6 @@ extension IoTClientTypes {
 }
 
 extension IoTClientTypes.SecurityProfileTargetMapping {
-
-    static func write(value: IoTClientTypes.SecurityProfileTargetMapping?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["securityProfileIdentifier"].write(value.securityProfileIdentifier, with: IoTClientTypes.SecurityProfileIdentifier.write(value:to:))
-        try writer["target"].write(value.target, with: IoTClientTypes.SecurityProfileTarget.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.SecurityProfileTargetMapping {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -29355,13 +28703,6 @@ extension IoTClientTypes {
 }
 
 extension IoTClientTypes.ServerCertificateSummary {
-
-    static func write(value: IoTClientTypes.ServerCertificateSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["serverCertificateArn"].write(value.serverCertificateArn)
-        try writer["serverCertificateStatus"].write(value.serverCertificateStatus)
-        try writer["serverCertificateStatusDetail"].write(value.serverCertificateStatusDetail)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.ServerCertificateSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -30475,18 +29816,6 @@ extension IoTClientTypes {
 
 extension IoTClientTypes.Statistics {
 
-    static func write(value: IoTClientTypes.Statistics?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["average"].write(value.average)
-        try writer["count"].write(value.count)
-        try writer["maximum"].write(value.maximum)
-        try writer["minimum"].write(value.minimum)
-        try writer["stdDeviation"].write(value.stdDeviation)
-        try writer["sum"].write(value.sum)
-        try writer["sumOfSquares"].write(value.sumOfSquares)
-        try writer["variance"].write(value.variance)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.Statistics {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.Statistics()
@@ -30759,18 +30088,6 @@ extension IoTClientTypes {
 
 extension IoTClientTypes.StreamInfo {
 
-    static func write(value: IoTClientTypes.StreamInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["description"].write(value.description)
-        try writer["files"].writeList(value.files, memberWritingClosure: IoTClientTypes.StreamFile.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["lastUpdatedAt"].writeTimestamp(value.lastUpdatedAt, format: .epochSeconds)
-        try writer["roleArn"].write(value.roleArn)
-        try writer["streamArn"].write(value.streamArn)
-        try writer["streamId"].write(value.streamId)
-        try writer["streamVersion"].write(value.streamVersion)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.StreamInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.StreamInfo()
@@ -30831,14 +30148,6 @@ extension IoTClientTypes {
 }
 
 extension IoTClientTypes.StreamSummary {
-
-    static func write(value: IoTClientTypes.StreamSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["description"].write(value.description)
-        try writer["streamArn"].write(value.streamArn)
-        try writer["streamId"].write(value.streamId)
-        try writer["streamVersion"].write(value.streamVersion)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.StreamSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -31080,17 +30389,6 @@ public struct TaskAlreadyExistsException: ClientRuntime.ModeledError, AWSClientR
 
 extension IoTClientTypes.TaskStatistics {
 
-    static func write(value: IoTClientTypes.TaskStatistics?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["canceledChecks"].write(value.canceledChecks)
-        try writer["compliantChecks"].write(value.compliantChecks)
-        try writer["failedChecks"].write(value.failedChecks)
-        try writer["inProgressChecks"].write(value.inProgressChecks)
-        try writer["nonCompliantChecks"].write(value.nonCompliantChecks)
-        try writer["totalChecks"].write(value.totalChecks)
-        try writer["waitingForDataCollectionChecks"].write(value.waitingForDataCollectionChecks)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.TaskStatistics {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.TaskStatistics()
@@ -31146,15 +30444,6 @@ extension IoTClientTypes {
 }
 
 extension IoTClientTypes.TaskStatisticsForAuditCheck {
-
-    static func write(value: IoTClientTypes.TaskStatisticsForAuditCheck?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["canceledFindingsCount"].write(value.canceledFindingsCount)
-        try writer["failedFindingsCount"].write(value.failedFindingsCount)
-        try writer["skippedFindingsCount"].write(value.skippedFindingsCount)
-        try writer["succeededFindingsCount"].write(value.succeededFindingsCount)
-        try writer["totalFindingsCount"].write(value.totalFindingsCount)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.TaskStatisticsForAuditCheck {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -31235,13 +30524,6 @@ extension IoTClientTypes.TermsAggregation {
     static func write(value: IoTClientTypes.TermsAggregation?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["maxBuckets"].write(value.maxBuckets)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.TermsAggregation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTClientTypes.TermsAggregation()
-        value.maxBuckets = try reader["maxBuckets"].readIfPresent()
-        return value
     }
 }
 
@@ -31490,15 +30772,6 @@ enum TestInvokeAuthorizerOutputError {
 
 extension IoTClientTypes.ThingAttribute {
 
-    static func write(value: IoTClientTypes.ThingAttribute?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["attributes"].writeMap(value.attributes, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["thingArn"].write(value.thingArn)
-        try writer["thingName"].write(value.thingName)
-        try writer["thingTypeName"].write(value.thingTypeName)
-        try writer["version"].write(value.version)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.ThingAttribute {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.ThingAttribute()
@@ -31544,13 +30817,6 @@ extension IoTClientTypes {
 }
 
 extension IoTClientTypes.ThingConnectivity {
-
-    static func write(value: IoTClientTypes.ThingConnectivity?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["connected"].write(value.connected)
-        try writer["disconnectReason"].write(value.disconnectReason)
-        try writer["timestamp"].write(value.timestamp)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.ThingConnectivity {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -31618,18 +30884,6 @@ extension IoTClientTypes {
 
 extension IoTClientTypes.ThingDocument {
 
-    static func write(value: IoTClientTypes.ThingDocument?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["attributes"].writeMap(value.attributes, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["connectivity"].write(value.connectivity, with: IoTClientTypes.ThingConnectivity.write(value:to:))
-        try writer["deviceDefender"].write(value.deviceDefender)
-        try writer["shadow"].write(value.shadow)
-        try writer["thingGroupNames"].writeList(value.thingGroupNames, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["thingId"].write(value.thingId)
-        try writer["thingName"].write(value.thingName)
-        try writer["thingTypeName"].write(value.thingTypeName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.ThingDocument {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.ThingDocument()
@@ -31690,15 +30944,6 @@ extension IoTClientTypes {
 }
 
 extension IoTClientTypes.ThingGroupDocument {
-
-    static func write(value: IoTClientTypes.ThingGroupDocument?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["attributes"].writeMap(value.attributes, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["parentGroupNames"].writeList(value.parentGroupNames, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["thingGroupDescription"].write(value.thingGroupDescription)
-        try writer["thingGroupId"].write(value.thingGroupId)
-        try writer["thingGroupName"].write(value.thingGroupName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.ThingGroupDocument {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -31819,13 +31064,6 @@ extension IoTClientTypes {
 }
 
 extension IoTClientTypes.ThingGroupMetadata {
-
-    static func write(value: IoTClientTypes.ThingGroupMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["creationDate"].writeTimestamp(value.creationDate, format: .epochSeconds)
-        try writer["parentGroupName"].write(value.parentGroupName)
-        try writer["rootToParentThingGroups"].writeList(value.rootToParentThingGroups, memberWritingClosure: IoTClientTypes.GroupNameAndArn.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.ThingGroupMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -32029,14 +31267,6 @@ extension IoTClientTypes {
 
 extension IoTClientTypes.ThingTypeDefinition {
 
-    static func write(value: IoTClientTypes.ThingTypeDefinition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["thingTypeArn"].write(value.thingTypeArn)
-        try writer["thingTypeMetadata"].write(value.thingTypeMetadata, with: IoTClientTypes.ThingTypeMetadata.write(value:to:))
-        try writer["thingTypeName"].write(value.thingTypeName)
-        try writer["thingTypeProperties"].write(value.thingTypeProperties, with: IoTClientTypes.ThingTypeProperties.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.ThingTypeDefinition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.ThingTypeDefinition()
@@ -32077,13 +31307,6 @@ extension IoTClientTypes {
 }
 
 extension IoTClientTypes.ThingTypeMetadata {
-
-    static func write(value: IoTClientTypes.ThingTypeMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["creationDate"].writeTimestamp(value.creationDate, format: .epochSeconds)
-        try writer["deprecated"].write(value.deprecated)
-        try writer["deprecationDate"].writeTimestamp(value.deprecationDate, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.ThingTypeMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -32399,13 +31622,6 @@ extension IoTClientTypes.TlsContext {
         guard let value else { return }
         try writer["serverName"].write(value.serverName)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.TlsContext {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTClientTypes.TlsContext()
-        value.serverName = try reader["serverName"].readIfPresent()
-        return value
-    }
 }
 
 extension IoTClientTypes {
@@ -32425,18 +31641,6 @@ extension IoTClientTypes {
 }
 
 extension IoTClientTypes.TopicRule {
-
-    static func write(value: IoTClientTypes.TopicRule?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["actions"].writeList(value.actions, memberWritingClosure: IoTClientTypes.Action.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["awsIotSqlVersion"].write(value.awsIotSqlVersion)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["description"].write(value.description)
-        try writer["errorAction"].write(value.errorAction, with: IoTClientTypes.Action.write(value:to:))
-        try writer["ruleDisabled"].write(value.ruleDisabled)
-        try writer["ruleName"].write(value.ruleName)
-        try writer["sql"].write(value.sql)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.TopicRule {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -32499,17 +31703,6 @@ extension IoTClientTypes {
 
 extension IoTClientTypes.TopicRuleDestination {
 
-    static func write(value: IoTClientTypes.TopicRuleDestination?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["httpUrlProperties"].write(value.httpUrlProperties, with: IoTClientTypes.HttpUrlDestinationProperties.write(value:to:))
-        try writer["lastUpdatedAt"].writeTimestamp(value.lastUpdatedAt, format: .epochSeconds)
-        try writer["status"].write(value.status)
-        try writer["statusReason"].write(value.statusReason)
-        try writer["vpcProperties"].write(value.vpcProperties, with: IoTClientTypes.VpcDestinationProperties.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.TopicRuleDestination {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.TopicRuleDestination()
@@ -32570,14 +31763,6 @@ extension IoTClientTypes.TopicRuleDestinationConfiguration {
         guard let value else { return }
         try writer["httpUrlConfiguration"].write(value.httpUrlConfiguration, with: IoTClientTypes.HttpUrlDestinationConfiguration.write(value:to:))
         try writer["vpcConfiguration"].write(value.vpcConfiguration, with: IoTClientTypes.VpcDestinationConfiguration.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.TopicRuleDestinationConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTClientTypes.TopicRuleDestinationConfiguration()
-        value.httpUrlConfiguration = try reader["httpUrlConfiguration"].readIfPresent(with: IoTClientTypes.HttpUrlDestinationConfiguration.read(from:))
-        value.vpcConfiguration = try reader["vpcConfiguration"].readIfPresent(with: IoTClientTypes.VpcDestinationConfiguration.read(from:))
-        return value
     }
 }
 
@@ -32642,17 +31827,6 @@ extension IoTClientTypes {
 
 extension IoTClientTypes.TopicRuleDestinationSummary {
 
-    static func write(value: IoTClientTypes.TopicRuleDestinationSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["httpUrlSummary"].write(value.httpUrlSummary, with: IoTClientTypes.HttpUrlDestinationSummary.write(value:to:))
-        try writer["lastUpdatedAt"].writeTimestamp(value.lastUpdatedAt, format: .epochSeconds)
-        try writer["status"].write(value.status)
-        try writer["statusReason"].write(value.statusReason)
-        try writer["vpcDestinationSummary"].write(value.vpcDestinationSummary, with: IoTClientTypes.VpcDestinationSummary.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.TopicRuleDestinationSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.TopicRuleDestinationSummary()
@@ -32709,15 +31883,6 @@ extension IoTClientTypes {
 
 extension IoTClientTypes.TopicRuleListItem {
 
-    static func write(value: IoTClientTypes.TopicRuleListItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["ruleArn"].write(value.ruleArn)
-        try writer["ruleDisabled"].write(value.ruleDisabled)
-        try writer["ruleName"].write(value.ruleName)
-        try writer["topicPattern"].write(value.topicPattern)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.TopicRuleListItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.TopicRuleListItem()
@@ -32772,18 +31937,6 @@ extension IoTClientTypes.TopicRulePayload {
         try writer["errorAction"].write(value.errorAction, with: IoTClientTypes.Action.write(value:to:))
         try writer["ruleDisabled"].write(value.ruleDisabled)
         try writer["sql"].write(value.sql)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.TopicRulePayload {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTClientTypes.TopicRulePayload()
-        value.sql = try reader["sql"].readIfPresent()
-        value.description = try reader["description"].readIfPresent()
-        value.actions = try reader["actions"].readListIfPresent(memberReadingClosure: IoTClientTypes.Action.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.ruleDisabled = try reader["ruleDisabled"].readIfPresent()
-        value.awsIotSqlVersion = try reader["awsIotSqlVersion"].readIfPresent()
-        value.errorAction = try reader["errorAction"].readIfPresent(with: IoTClientTypes.Action.read(from:))
-        return value
     }
 }
 
@@ -33003,15 +32156,6 @@ public struct TransferConflictException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 extension IoTClientTypes.TransferData {
-
-    static func write(value: IoTClientTypes.TransferData?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["acceptDate"].writeTimestamp(value.acceptDate, format: .epochSeconds)
-        try writer["rejectDate"].writeTimestamp(value.rejectDate, format: .epochSeconds)
-        try writer["rejectReason"].write(value.rejectReason)
-        try writer["transferDate"].writeTimestamp(value.transferDate, format: .epochSeconds)
-        try writer["transferMessage"].write(value.transferMessage)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.TransferData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -35887,11 +35031,6 @@ enum ValidateSecurityProfileBehaviorsOutputError {
 
 extension IoTClientTypes.ValidationError {
 
-    static func write(value: IoTClientTypes.ValidationError?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["errorMessage"].write(value.errorMessage)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.ValidationError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.ValidationError()
@@ -36104,20 +35243,6 @@ public struct VersionsLimitExceededException: ClientRuntime.ModeledError, AWSCli
 
 extension IoTClientTypes.ViolationEvent {
 
-    static func write(value: IoTClientTypes.ViolationEvent?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["behavior"].write(value.behavior, with: IoTClientTypes.Behavior.write(value:to:))
-        try writer["metricValue"].write(value.metricValue, with: IoTClientTypes.MetricValue.write(value:to:))
-        try writer["securityProfileName"].write(value.securityProfileName)
-        try writer["thingName"].write(value.thingName)
-        try writer["verificationState"].write(value.verificationState)
-        try writer["verificationStateDescription"].write(value.verificationStateDescription)
-        try writer["violationEventAdditionalInfo"].write(value.violationEventAdditionalInfo, with: IoTClientTypes.ViolationEventAdditionalInfo.write(value:to:))
-        try writer["violationEventTime"].writeTimestamp(value.violationEventTime, format: .epochSeconds)
-        try writer["violationEventType"].write(value.violationEventType)
-        try writer["violationId"].write(value.violationId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.ViolationEvent {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.ViolationEvent()
@@ -36188,11 +35313,6 @@ extension IoTClientTypes {
 }
 
 extension IoTClientTypes.ViolationEventAdditionalInfo {
-
-    static func write(value: IoTClientTypes.ViolationEventAdditionalInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["confidenceLevel"].write(value.confidenceLevel)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.ViolationEventAdditionalInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -36299,16 +35419,6 @@ extension IoTClientTypes.VpcDestinationConfiguration {
         try writer["subnetIds"].writeList(value.subnetIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["vpcId"].write(value.vpcId)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.VpcDestinationConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTClientTypes.VpcDestinationConfiguration()
-        value.subnetIds = try reader["subnetIds"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.securityGroups = try reader["securityGroups"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.vpcId = try reader["vpcId"].readIfPresent()
-        value.roleArn = try reader["roleArn"].readIfPresent()
-        return value
-    }
 }
 
 extension IoTClientTypes {
@@ -36343,14 +35453,6 @@ extension IoTClientTypes {
 }
 
 extension IoTClientTypes.VpcDestinationProperties {
-
-    static func write(value: IoTClientTypes.VpcDestinationProperties?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["roleArn"].write(value.roleArn)
-        try writer["securityGroups"].writeList(value.securityGroups, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["subnetIds"].writeList(value.subnetIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["vpcId"].write(value.vpcId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.VpcDestinationProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -36392,14 +35494,6 @@ extension IoTClientTypes {
 }
 
 extension IoTClientTypes.VpcDestinationSummary {
-
-    static func write(value: IoTClientTypes.VpcDestinationSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["roleArn"].write(value.roleArn)
-        try writer["securityGroups"].writeList(value.securityGroups, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["subnetIds"].writeList(value.subnetIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["vpcId"].write(value.vpcId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.VpcDestinationSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

@@ -85,16 +85,6 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes.AccountInfo {
 
-    static func write(value: QuickSightClientTypes.AccountInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccountName"].write(value.accountName)
-        try writer["AccountSubscriptionStatus"].write(value.accountSubscriptionStatus)
-        try writer["AuthenticationType"].write(value.authenticationType)
-        try writer["Edition"].write(value.edition)
-        try writer["IAMIdentityCenterInstanceArn"].write(value.iamIdentityCenterInstanceArn)
-        try writer["NotificationEmail"].write(value.notificationEmail)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.AccountInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.AccountInfo()
@@ -156,16 +146,6 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes.AccountSettings {
 
-    static func write(value: QuickSightClientTypes.AccountSettings?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccountName"].write(value.accountName)
-        try writer["DefaultNamespace"].write(value.defaultNamespace)
-        try writer["Edition"].write(value.edition)
-        try writer["NotificationEmail"].write(value.notificationEmail)
-        try writer["PublicSharingEnabled"].write(value.publicSharingEnabled)
-        try writer["TerminationProtectionEnabled"].write(value.terminationProtectionEnabled)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.AccountSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.AccountSettings()
@@ -216,12 +196,6 @@ extension QuickSightClientTypes {
 }
 
 extension QuickSightClientTypes.ActiveIAMPolicyAssignment {
-
-    static func write(value: QuickSightClientTypes.ActiveIAMPolicyAssignment?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AssignmentName"].write(value.assignmentName)
-        try writer["PolicyArn"].write(value.policyArn)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.ActiveIAMPolicyAssignment {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -481,20 +455,6 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes.Analysis {
 
-    static func write(value: QuickSightClientTypes.Analysis?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AnalysisId"].write(value.analysisId)
-        try writer["Arn"].write(value.arn)
-        try writer["CreatedTime"].writeTimestamp(value.createdTime, format: .epochSeconds)
-        try writer["DataSetArns"].writeList(value.dataSetArns, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Errors"].writeList(value.errors, memberWritingClosure: QuickSightClientTypes.AnalysisError.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["LastUpdatedTime"].writeTimestamp(value.lastUpdatedTime, format: .epochSeconds)
-        try writer["Name"].write(value.name)
-        try writer["Sheets"].writeList(value.sheets, memberWritingClosure: QuickSightClientTypes.Sheet.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Status"].write(value.status)
-        try writer["ThemeArn"].write(value.themeArn)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.Analysis {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.Analysis()
@@ -672,13 +632,6 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes.AnalysisError {
 
-    static func write(value: QuickSightClientTypes.AnalysisError?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.message)
-        try writer["Type"].write(value.type)
-        try writer["ViolatedEntities"].writeList(value.violatedEntities, memberWritingClosure: QuickSightClientTypes.Entity.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.AnalysisError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.AnalysisError()
@@ -820,15 +773,6 @@ extension QuickSightClientTypes.AnalysisSearchFilter {
         try writer["Operator"].write(value.`operator`)
         try writer["Value"].write(value.value)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.AnalysisSearchFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QuickSightClientTypes.AnalysisSearchFilter()
-        value.`operator` = try reader["Operator"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
-        return value
-    }
 }
 
 extension QuickSightClientTypes {
@@ -873,13 +817,6 @@ extension QuickSightClientTypes.AnalysisSourceEntity {
         guard let value else { return }
         try writer["SourceTemplate"].write(value.sourceTemplate, with: QuickSightClientTypes.AnalysisSourceTemplate.write(value:to:))
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.AnalysisSourceEntity {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QuickSightClientTypes.AnalysisSourceEntity()
-        value.sourceTemplate = try reader["SourceTemplate"].readIfPresent(with: QuickSightClientTypes.AnalysisSourceTemplate.read(from:))
-        return value
-    }
 }
 
 extension QuickSightClientTypes {
@@ -904,14 +841,6 @@ extension QuickSightClientTypes.AnalysisSourceTemplate {
         guard let value else { return }
         try writer["Arn"].write(value.arn)
         try writer["DataSetReferences"].writeList(value.dataSetReferences, memberWritingClosure: QuickSightClientTypes.DataSetReference.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.AnalysisSourceTemplate {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QuickSightClientTypes.AnalysisSourceTemplate()
-        value.dataSetReferences = try reader["DataSetReferences"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.DataSetReference.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.arn = try reader["Arn"].readIfPresent()
-        return value
     }
 }
 
@@ -938,16 +867,6 @@ extension QuickSightClientTypes {
 }
 
 extension QuickSightClientTypes.AnalysisSummary {
-
-    static func write(value: QuickSightClientTypes.AnalysisSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AnalysisId"].write(value.analysisId)
-        try writer["Arn"].write(value.arn)
-        try writer["CreatedTime"].writeTimestamp(value.createdTime, format: .epochSeconds)
-        try writer["LastUpdatedTime"].writeTimestamp(value.lastUpdatedTime, format: .epochSeconds)
-        try writer["Name"].write(value.name)
-        try writer["Status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.AnalysisSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1070,13 +989,6 @@ extension QuickSightClientTypes.AnonymousUserDashboardEmbeddingConfiguration {
         guard let value else { return }
         try writer["InitialDashboardId"].write(value.initialDashboardId)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.AnonymousUserDashboardEmbeddingConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QuickSightClientTypes.AnonymousUserDashboardEmbeddingConfiguration()
-        value.initialDashboardId = try reader["InitialDashboardId"].readIfPresent()
-        return value
-    }
 }
 
 extension QuickSightClientTypes {
@@ -1101,13 +1013,6 @@ extension QuickSightClientTypes.AnonymousUserDashboardVisualEmbeddingConfigurati
     static func write(value: QuickSightClientTypes.AnonymousUserDashboardVisualEmbeddingConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["InitialDashboardVisualId"].write(value.initialDashboardVisualId, with: QuickSightClientTypes.DashboardVisualId.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.AnonymousUserDashboardVisualEmbeddingConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QuickSightClientTypes.AnonymousUserDashboardVisualEmbeddingConfiguration()
-        value.initialDashboardVisualId = try reader["InitialDashboardVisualId"].readIfPresent(with: QuickSightClientTypes.DashboardVisualId.read(from:))
-        return value
     }
 }
 
@@ -1136,16 +1041,6 @@ extension QuickSightClientTypes.AnonymousUserEmbeddingExperienceConfiguration {
         try writer["DashboardVisual"].write(value.dashboardVisual, with: QuickSightClientTypes.AnonymousUserDashboardVisualEmbeddingConfiguration.write(value:to:))
         try writer["GenerativeQnA"].write(value.generativeQnA, with: QuickSightClientTypes.AnonymousUserGenerativeQnAEmbeddingConfiguration.write(value:to:))
         try writer["QSearchBar"].write(value.qSearchBar, with: QuickSightClientTypes.AnonymousUserQSearchBarEmbeddingConfiguration.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.AnonymousUserEmbeddingExperienceConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QuickSightClientTypes.AnonymousUserEmbeddingExperienceConfiguration()
-        value.dashboard = try reader["Dashboard"].readIfPresent(with: QuickSightClientTypes.AnonymousUserDashboardEmbeddingConfiguration.read(from:))
-        value.dashboardVisual = try reader["DashboardVisual"].readIfPresent(with: QuickSightClientTypes.AnonymousUserDashboardVisualEmbeddingConfiguration.read(from:))
-        value.qSearchBar = try reader["QSearchBar"].readIfPresent(with: QuickSightClientTypes.AnonymousUserQSearchBarEmbeddingConfiguration.read(from:))
-        value.generativeQnA = try reader["GenerativeQnA"].readIfPresent(with: QuickSightClientTypes.AnonymousUserGenerativeQnAEmbeddingConfiguration.read(from:))
-        return value
     }
 }
 
@@ -1183,13 +1078,6 @@ extension QuickSightClientTypes.AnonymousUserGenerativeQnAEmbeddingConfiguration
         guard let value else { return }
         try writer["InitialTopicId"].write(value.initialTopicId)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.AnonymousUserGenerativeQnAEmbeddingConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QuickSightClientTypes.AnonymousUserGenerativeQnAEmbeddingConfiguration()
-        value.initialTopicId = try reader["InitialTopicId"].readIfPresent()
-        return value
-    }
 }
 
 extension QuickSightClientTypes {
@@ -1215,13 +1103,6 @@ extension QuickSightClientTypes.AnonymousUserQSearchBarEmbeddingConfiguration {
         guard let value else { return }
         try writer["InitialTopicId"].write(value.initialTopicId)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.AnonymousUserQSearchBarEmbeddingConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QuickSightClientTypes.AnonymousUserQSearchBarEmbeddingConfiguration()
-        value.initialTopicId = try reader["InitialTopicId"].readIfPresent()
-        return value
-    }
 }
 
 extension QuickSightClientTypes {
@@ -1242,11 +1123,6 @@ extension QuickSightClientTypes {
 }
 
 extension QuickSightClientTypes.AnonymousUserSnapshotJobResult {
-
-    static func write(value: QuickSightClientTypes.AnonymousUserSnapshotJobResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["FileGroups"].writeList(value.fileGroups, memberWritingClosure: QuickSightClientTypes.SnapshotJobResultFileGroup.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.AnonymousUserSnapshotJobResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1903,13 +1779,6 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes.AssetBundleExportJobError {
 
-    static func write(value: QuickSightClientTypes.AssetBundleExportJobError?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["Message"].write(value.message)
-        try writer["Type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.AssetBundleExportJobError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.AssetBundleExportJobError()
@@ -2078,18 +1947,6 @@ extension QuickSightClientTypes {
 }
 
 extension QuickSightClientTypes.AssetBundleExportJobSummary {
-
-    static func write(value: QuickSightClientTypes.AssetBundleExportJobSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["AssetBundleExportJobId"].write(value.assetBundleExportJobId)
-        try writer["CreatedTime"].writeTimestamp(value.createdTime, format: .epochSeconds)
-        try writer["ExportFormat"].write(value.exportFormat)
-        try writer["IncludeAllDependencies"].write(value.includeAllDependencies)
-        try writer["IncludePermissions"].write(value.includePermissions)
-        try writer["IncludeTags"].write(value.includeTags)
-        try writer["JobStatus"].write(value.jobStatus)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.AssetBundleExportJobSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2320,12 +2177,6 @@ extension QuickSightClientTypes {
 }
 
 extension QuickSightClientTypes.AssetBundleExportJobWarning {
-
-    static func write(value: QuickSightClientTypes.AssetBundleExportJobWarning?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["Message"].write(value.message)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.AssetBundleExportJobWarning {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2968,13 +2819,6 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes.AssetBundleImportJobError {
 
-    static func write(value: QuickSightClientTypes.AssetBundleImportJobError?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["Message"].write(value.message)
-        try writer["Type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.AssetBundleImportJobError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.AssetBundleImportJobError()
@@ -3352,15 +3196,6 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes.AssetBundleImportJobSummary {
 
-    static func write(value: QuickSightClientTypes.AssetBundleImportJobSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["AssetBundleImportJobId"].write(value.assetBundleImportJobId)
-        try writer["CreatedTime"].writeTimestamp(value.createdTime, format: .epochSeconds)
-        try writer["FailureAction"].write(value.failureAction)
-        try writer["JobStatus"].write(value.jobStatus)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.AssetBundleImportJobSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.AssetBundleImportJobSummary()
@@ -3624,12 +3459,6 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes.AssetBundleImportJobWarning {
 
-    static func write(value: QuickSightClientTypes.AssetBundleImportJobWarning?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["Message"].write(value.message)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.AssetBundleImportJobWarning {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.AssetBundleImportJobWarning()
@@ -3671,14 +3500,6 @@ extension QuickSightClientTypes.AssetBundleImportSource {
         try writer["Body"].write(value.body)
         try writer["S3Uri"].write(value.s3Uri)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.AssetBundleImportSource {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QuickSightClientTypes.AssetBundleImportSource()
-        value.body = try reader["Body"].readIfPresent()
-        value.s3Uri = try reader["S3Uri"].readIfPresent()
-        return value
-    }
 }
 
 extension QuickSightClientTypes {
@@ -3707,12 +3528,6 @@ extension QuickSightClientTypes.AssetBundleImportSourceDescription: Swift.Custom
 }
 
 extension QuickSightClientTypes.AssetBundleImportSourceDescription {
-
-    static func write(value: QuickSightClientTypes.AssetBundleImportSourceDescription?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Body"].write(value.body)
-        try writer["S3Uri"].write(value.s3Uri)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.AssetBundleImportSourceDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4148,12 +3963,6 @@ extension QuickSightClientTypes {
 }
 
 extension QuickSightClientTypes.AuthorizedTargetsByService {
-
-    static func write(value: QuickSightClientTypes.AuthorizedTargetsByService?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AuthorizedTargets"].writeList(value.authorizedTargets, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Service"].write(value.service)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.AuthorizedTargetsByService {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5305,13 +5114,6 @@ extension QuickSightClientTypes.BookmarksConfigurations {
     static func write(value: QuickSightClientTypes.BookmarksConfigurations?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Enabled"].write(value.enabled)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.BookmarksConfigurations {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QuickSightClientTypes.BookmarksConfigurations()
-        value.enabled = try reader["Enabled"].readIfPresent() ?? false
-        return value
     }
 }
 
@@ -11522,15 +11324,6 @@ extension QuickSightClientTypes.CredentialPair {
         try writer["Password"].write(value.password)
         try writer["Username"].write(value.username)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.CredentialPair {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QuickSightClientTypes.CredentialPair()
-        value.username = try reader["Username"].readIfPresent()
-        value.password = try reader["Password"].readIfPresent()
-        value.alternateDataSourceParameters = try reader["AlternateDataSourceParameters"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.DataSourceParameters.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
 }
 
 extension QuickSightClientTypes {
@@ -12338,18 +12131,6 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes.Dashboard {
 
-    static func write(value: QuickSightClientTypes.Dashboard?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["CreatedTime"].writeTimestamp(value.createdTime, format: .epochSeconds)
-        try writer["DashboardId"].write(value.dashboardId)
-        try writer["LastPublishedTime"].writeTimestamp(value.lastPublishedTime, format: .epochSeconds)
-        try writer["LastUpdatedTime"].writeTimestamp(value.lastUpdatedTime, format: .epochSeconds)
-        try writer["LinkEntities"].writeList(value.linkEntities, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Name"].write(value.name)
-        try writer["Version"].write(value.version, with: QuickSightClientTypes.DashboardVersion.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.Dashboard {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.Dashboard()
@@ -12440,13 +12221,6 @@ extension QuickSightClientTypes {
 }
 
 extension QuickSightClientTypes.DashboardError {
-
-    static func write(value: QuickSightClientTypes.DashboardError?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.message)
-        try writer["Type"].write(value.type)
-        try writer["ViolatedEntities"].writeList(value.violatedEntities, memberWritingClosure: QuickSightClientTypes.Entity.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.DashboardError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -12681,15 +12455,6 @@ extension QuickSightClientTypes.DashboardSearchFilter {
         try writer["Operator"].write(value.`operator`)
         try writer["Value"].write(value.value)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.DashboardSearchFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QuickSightClientTypes.DashboardSearchFilter()
-        value.`operator` = try reader["Operator"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
-        return value
-    }
 }
 
 extension QuickSightClientTypes {
@@ -12735,13 +12500,6 @@ extension QuickSightClientTypes.DashboardSourceEntity {
         guard let value else { return }
         try writer["SourceTemplate"].write(value.sourceTemplate, with: QuickSightClientTypes.DashboardSourceTemplate.write(value:to:))
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.DashboardSourceEntity {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QuickSightClientTypes.DashboardSourceEntity()
-        value.sourceTemplate = try reader["SourceTemplate"].readIfPresent(with: QuickSightClientTypes.DashboardSourceTemplate.read(from:))
-        return value
-    }
 }
 
 extension QuickSightClientTypes {
@@ -12766,14 +12524,6 @@ extension QuickSightClientTypes.DashboardSourceTemplate {
         guard let value else { return }
         try writer["Arn"].write(value.arn)
         try writer["DataSetReferences"].writeList(value.dataSetReferences, memberWritingClosure: QuickSightClientTypes.DataSetReference.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.DashboardSourceTemplate {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QuickSightClientTypes.DashboardSourceTemplate()
-        value.dataSetReferences = try reader["DataSetReferences"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.DataSetReference.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.arn = try reader["Arn"].readIfPresent()
-        return value
     }
 }
 
@@ -12800,17 +12550,6 @@ extension QuickSightClientTypes {
 }
 
 extension QuickSightClientTypes.DashboardSummary {
-
-    static func write(value: QuickSightClientTypes.DashboardSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["CreatedTime"].writeTimestamp(value.createdTime, format: .epochSeconds)
-        try writer["DashboardId"].write(value.dashboardId)
-        try writer["LastPublishedTime"].writeTimestamp(value.lastPublishedTime, format: .epochSeconds)
-        try writer["LastUpdatedTime"].writeTimestamp(value.lastUpdatedTime, format: .epochSeconds)
-        try writer["Name"].write(value.name)
-        try writer["PublishedVersionNumber"].write(value.publishedVersionNumber)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.DashboardSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -12897,20 +12636,6 @@ extension QuickSightClientTypes {
 }
 
 extension QuickSightClientTypes.DashboardVersion {
-
-    static func write(value: QuickSightClientTypes.DashboardVersion?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["CreatedTime"].writeTimestamp(value.createdTime, format: .epochSeconds)
-        try writer["DataSetArns"].writeList(value.dataSetArns, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Description"].write(value.description)
-        try writer["Errors"].writeList(value.errors, memberWritingClosure: QuickSightClientTypes.DashboardError.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Sheets"].writeList(value.sheets, memberWritingClosure: QuickSightClientTypes.Sheet.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["SourceEntityArn"].write(value.sourceEntityArn)
-        try writer["Status"].write(value.status)
-        try writer["ThemeArn"].write(value.themeArn)
-        try writer["VersionNumber"].write(value.versionNumber)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.DashboardVersion {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -13057,16 +12782,6 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes.DashboardVersionSummary {
 
-    static func write(value: QuickSightClientTypes.DashboardVersionSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["CreatedTime"].writeTimestamp(value.createdTime, format: .epochSeconds)
-        try writer["Description"].write(value.description)
-        try writer["SourceEntityArn"].write(value.sourceEntityArn)
-        try writer["Status"].write(value.status)
-        try writer["VersionNumber"].write(value.versionNumber)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.DashboardVersionSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.DashboardVersionSummary()
@@ -13123,15 +12838,6 @@ extension QuickSightClientTypes.DashboardVisualId {
         try writer["DashboardId"].write(value.dashboardId)
         try writer["SheetId"].write(value.sheetId)
         try writer["VisualId"].write(value.visualId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.DashboardVisualId {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QuickSightClientTypes.DashboardVisualId()
-        value.dashboardId = try reader["DashboardId"].readIfPresent()
-        value.sheetId = try reader["SheetId"].readIfPresent()
-        value.visualId = try reader["VisualId"].readIfPresent()
-        return value
     }
 }
 
@@ -13978,27 +13684,6 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes.DataSet {
 
-    static func write(value: QuickSightClientTypes.DataSet?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["ColumnGroups"].writeList(value.columnGroups, memberWritingClosure: QuickSightClientTypes.ColumnGroup.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ColumnLevelPermissionRules"].writeList(value.columnLevelPermissionRules, memberWritingClosure: QuickSightClientTypes.ColumnLevelPermissionRule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ConsumedSpiceCapacityInBytes"].write(value.consumedSpiceCapacityInBytes)
-        try writer["CreatedTime"].writeTimestamp(value.createdTime, format: .epochSeconds)
-        try writer["DataSetId"].write(value.dataSetId)
-        try writer["DataSetUsageConfiguration"].write(value.dataSetUsageConfiguration, with: QuickSightClientTypes.DataSetUsageConfiguration.write(value:to:))
-        try writer["DatasetParameters"].writeList(value.datasetParameters, memberWritingClosure: QuickSightClientTypes.DatasetParameter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["FieldFolders"].writeMap(value.fieldFolders, valueWritingClosure: QuickSightClientTypes.FieldFolder.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["ImportMode"].write(value.importMode)
-        try writer["LastUpdatedTime"].writeTimestamp(value.lastUpdatedTime, format: .epochSeconds)
-        try writer["LogicalTableMap"].writeMap(value.logicalTableMap, valueWritingClosure: QuickSightClientTypes.LogicalTable.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["Name"].write(value.name)
-        try writer["OutputColumns"].writeList(value.outputColumns, memberWritingClosure: QuickSightClientTypes.OutputColumn.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["PhysicalTableMap"].writeMap(value.physicalTableMap, valueWritingClosure: QuickSightClientTypes.PhysicalTable.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["RowLevelPermissionDataSet"].write(value.rowLevelPermissionDataSet, with: QuickSightClientTypes.RowLevelPermissionDataSet.write(value:to:))
-        try writer["RowLevelPermissionTagConfiguration"].write(value.rowLevelPermissionTagConfiguration, with: QuickSightClientTypes.RowLevelPermissionTagConfiguration.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.DataSet {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.DataSet()
@@ -14264,14 +13949,6 @@ extension QuickSightClientTypes.DataSetReference {
         try writer["DataSetArn"].write(value.dataSetArn)
         try writer["DataSetPlaceholder"].write(value.dataSetPlaceholder)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.DataSetReference {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QuickSightClientTypes.DataSetReference()
-        value.dataSetPlaceholder = try reader["DataSetPlaceholder"].readIfPresent()
-        value.dataSetArn = try reader["DataSetArn"].readIfPresent()
-        return value
-    }
 }
 
 extension QuickSightClientTypes {
@@ -14367,15 +14044,6 @@ extension QuickSightClientTypes.DataSetSearchFilter {
         try writer["Operator"].write(value.`operator`)
         try writer["Value"].write(value.value)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.DataSetSearchFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QuickSightClientTypes.DataSetSearchFilter()
-        value.`operator` = try reader["Operator"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
-        return value
-    }
 }
 
 extension QuickSightClientTypes {
@@ -14418,19 +14086,6 @@ extension QuickSightClientTypes {
 }
 
 extension QuickSightClientTypes.DataSetSummary {
-
-    static func write(value: QuickSightClientTypes.DataSetSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["ColumnLevelPermissionRulesApplied"].write(value.columnLevelPermissionRulesApplied)
-        try writer["CreatedTime"].writeTimestamp(value.createdTime, format: .epochSeconds)
-        try writer["DataSetId"].write(value.dataSetId)
-        try writer["ImportMode"].write(value.importMode)
-        try writer["LastUpdatedTime"].writeTimestamp(value.lastUpdatedTime, format: .epochSeconds)
-        try writer["Name"].write(value.name)
-        try writer["RowLevelPermissionDataSet"].write(value.rowLevelPermissionDataSet, with: QuickSightClientTypes.RowLevelPermissionDataSet.write(value:to:))
-        try writer["RowLevelPermissionTagConfigurationApplied"].write(value.rowLevelPermissionTagConfigurationApplied)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.DataSetSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -14535,23 +14190,6 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes.DataSource {
 
-    static func write(value: QuickSightClientTypes.DataSource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AlternateDataSourceParameters"].writeList(value.alternateDataSourceParameters, memberWritingClosure: QuickSightClientTypes.DataSourceParameters.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Arn"].write(value.arn)
-        try writer["CreatedTime"].writeTimestamp(value.createdTime, format: .epochSeconds)
-        try writer["DataSourceId"].write(value.dataSourceId)
-        try writer["DataSourceParameters"].write(value.dataSourceParameters, with: QuickSightClientTypes.DataSourceParameters.write(value:to:))
-        try writer["ErrorInfo"].write(value.errorInfo, with: QuickSightClientTypes.DataSourceErrorInfo.write(value:to:))
-        try writer["LastUpdatedTime"].writeTimestamp(value.lastUpdatedTime, format: .epochSeconds)
-        try writer["Name"].write(value.name)
-        try writer["SecretArn"].write(value.secretArn)
-        try writer["SslProperties"].write(value.sslProperties, with: QuickSightClientTypes.SslProperties.write(value:to:))
-        try writer["Status"].write(value.status)
-        try writer["Type"].write(value.type)
-        try writer["VpcConnectionProperties"].write(value.vpcConnectionProperties, with: QuickSightClientTypes.VpcConnectionProperties.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.DataSource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.DataSource()
@@ -14650,15 +14288,6 @@ extension QuickSightClientTypes.DataSourceCredentials {
         try writer["CredentialPair"].write(value.credentialPair, with: QuickSightClientTypes.CredentialPair.write(value:to:))
         try writer["SecretArn"].write(value.secretArn)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.DataSourceCredentials {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QuickSightClientTypes.DataSourceCredentials()
-        value.credentialPair = try reader["CredentialPair"].readIfPresent(with: QuickSightClientTypes.CredentialPair.read(from:))
-        value.copySourceArn = try reader["CopySourceArn"].readIfPresent()
-        value.secretArn = try reader["SecretArn"].readIfPresent()
-        return value
-    }
 }
 
 extension QuickSightClientTypes {
@@ -14686,12 +14315,6 @@ extension QuickSightClientTypes {
 }
 
 extension QuickSightClientTypes.DataSourceErrorInfo {
-
-    static func write(value: QuickSightClientTypes.DataSourceErrorInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.message)
-        try writer["Type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.DataSourceErrorInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -14998,15 +14621,6 @@ extension QuickSightClientTypes.DataSourceSearchFilter {
         try writer["Operator"].write(value.`operator`)
         try writer["Value"].write(value.value)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.DataSourceSearchFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QuickSightClientTypes.DataSourceSearchFilter()
-        value.`operator` = try reader["Operator"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
-        return value
-    }
 }
 
 extension QuickSightClientTypes {
@@ -15045,16 +14659,6 @@ extension QuickSightClientTypes {
 }
 
 extension QuickSightClientTypes.DataSourceSummary {
-
-    static func write(value: QuickSightClientTypes.DataSourceSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["CreatedTime"].writeTimestamp(value.createdTime, format: .epochSeconds)
-        try writer["DataSourceId"].write(value.dataSourceId)
-        try writer["LastUpdatedTime"].writeTimestamp(value.lastUpdatedTime, format: .epochSeconds)
-        try writer["Name"].write(value.name)
-        try writer["Type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.DataSourceSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -24464,11 +24068,6 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes.Entity {
 
-    static func write(value: QuickSightClientTypes.Entity?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Path"].write(value.path)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.Entity {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.Entity()
@@ -24494,12 +24093,6 @@ extension QuickSightClientTypes {
 }
 
 extension QuickSightClientTypes.ErrorInfo {
-
-    static func write(value: QuickSightClientTypes.ErrorInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.message)
-        try writer["Type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.ErrorInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -26551,18 +26144,6 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes.Folder {
 
-    static func write(value: QuickSightClientTypes.Folder?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["CreatedTime"].writeTimestamp(value.createdTime, format: .epochSeconds)
-        try writer["FolderId"].write(value.folderId)
-        try writer["FolderPath"].writeList(value.folderPath, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["FolderType"].write(value.folderType)
-        try writer["LastUpdatedTime"].writeTimestamp(value.lastUpdatedTime, format: .epochSeconds)
-        try writer["Name"].write(value.name)
-        try writer["SharingModel"].write(value.sharingModel)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.Folder {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.Folder()
@@ -26669,12 +26250,6 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes.FolderMember {
 
-    static func write(value: QuickSightClientTypes.FolderMember?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MemberId"].write(value.memberId)
-        try writer["MemberType"].write(value.memberType)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.FolderMember {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.FolderMember()
@@ -26711,15 +26286,6 @@ extension QuickSightClientTypes.FolderSearchFilter {
         try writer["Name"].write(value.name)
         try writer["Operator"].write(value.`operator`)
         try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.FolderSearchFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QuickSightClientTypes.FolderSearchFilter()
-        value.`operator` = try reader["Operator"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
-        return value
     }
 }
 
@@ -26762,17 +26328,6 @@ extension QuickSightClientTypes {
 }
 
 extension QuickSightClientTypes.FolderSummary {
-
-    static func write(value: QuickSightClientTypes.FolderSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["CreatedTime"].writeTimestamp(value.createdTime, format: .epochSeconds)
-        try writer["FolderId"].write(value.folderId)
-        try writer["FolderType"].write(value.folderType)
-        try writer["LastUpdatedTime"].writeTimestamp(value.lastUpdatedTime, format: .epochSeconds)
-        try writer["Name"].write(value.name)
-        try writer["SharingModel"].write(value.sharingModel)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.FolderSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -29863,14 +29418,6 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes.Group {
 
-    static func write(value: QuickSightClientTypes.Group?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["Description"].write(value.description)
-        try writer["GroupName"].write(value.groupName)
-        try writer["PrincipalId"].write(value.principalId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.Group {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.Group()
@@ -29966,12 +29513,6 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes.GroupMember {
 
-    static func write(value: QuickSightClientTypes.GroupMember?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["MemberName"].write(value.memberName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.GroupMember {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.GroupMember()
@@ -30008,15 +29549,6 @@ extension QuickSightClientTypes.GroupSearchFilter {
         try writer["Name"].write(value.name)
         try writer["Operator"].write(value.`operator`)
         try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.GroupSearchFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QuickSightClientTypes.GroupSearchFilter()
-        value.`operator` = try reader["Operator"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
-        return value
     }
 }
 
@@ -30757,16 +30289,6 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes.IAMPolicyAssignment {
 
-    static func write(value: QuickSightClientTypes.IAMPolicyAssignment?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AssignmentId"].write(value.assignmentId)
-        try writer["AssignmentName"].write(value.assignmentName)
-        try writer["AssignmentStatus"].write(value.assignmentStatus)
-        try writer["AwsAccountId"].write(value.awsAccountId)
-        try writer["Identities"].writeMap(value.identities, valueWritingClosure: listWritingClosure(memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["PolicyArn"].write(value.policyArn)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.IAMPolicyAssignment {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.IAMPolicyAssignment()
@@ -30817,12 +30339,6 @@ extension QuickSightClientTypes {
 }
 
 extension QuickSightClientTypes.IAMPolicyAssignmentSummary {
-
-    static func write(value: QuickSightClientTypes.IAMPolicyAssignmentSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AssignmentName"].write(value.assignmentName)
-        try writer["AssignmentStatus"].write(value.assignmentStatus)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.IAMPolicyAssignmentSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -31121,21 +30637,6 @@ extension QuickSightClientTypes {
 }
 
 extension QuickSightClientTypes.Ingestion {
-
-    static func write(value: QuickSightClientTypes.Ingestion?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["CreatedTime"].writeTimestamp(value.createdTime, format: .epochSeconds)
-        try writer["ErrorInfo"].write(value.errorInfo, with: QuickSightClientTypes.ErrorInfo.write(value:to:))
-        try writer["IngestionId"].write(value.ingestionId)
-        try writer["IngestionSizeInBytes"].write(value.ingestionSizeInBytes)
-        try writer["IngestionStatus"].write(value.ingestionStatus)
-        try writer["IngestionTimeInSeconds"].write(value.ingestionTimeInSeconds)
-        try writer["QueueInfo"].write(value.queueInfo, with: QuickSightClientTypes.QueueInfo.write(value:to:))
-        try writer["RequestSource"].write(value.requestSource)
-        try writer["RequestType"].write(value.requestType)
-        try writer["RowInfo"].write(value.rowInfo, with: QuickSightClientTypes.RowInfo.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.Ingestion {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -38063,12 +37564,6 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes.MemberIdArnPair {
 
-    static func write(value: QuickSightClientTypes.MemberIdArnPair?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MemberArn"].write(value.memberArn)
-        try writer["MemberId"].write(value.memberId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.MemberIdArnPair {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.MemberIdArnPair()
@@ -38596,12 +38091,6 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes.NamespaceError {
 
-    static func write(value: QuickSightClientTypes.NamespaceError?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.message)
-        try writer["Type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.NamespaceError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.NamespaceError()
@@ -38662,16 +38151,6 @@ extension QuickSightClientTypes {
 }
 
 extension QuickSightClientTypes.NamespaceInfoV2 {
-
-    static func write(value: QuickSightClientTypes.NamespaceInfoV2?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["CapacityRegion"].write(value.capacityRegion)
-        try writer["CreationStatus"].write(value.creationStatus)
-        try writer["IdentityStore"].write(value.identityStore)
-        try writer["Name"].write(value.name)
-        try writer["NamespaceError"].write(value.namespaceError, with: QuickSightClientTypes.NamespaceError.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.NamespaceInfoV2 {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -38861,15 +38340,6 @@ extension QuickSightClientTypes {
 }
 
 extension QuickSightClientTypes.NetworkInterface {
-
-    static func write(value: QuickSightClientTypes.NetworkInterface?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AvailabilityZone"].write(value.availabilityZone)
-        try writer["ErrorMessage"].write(value.errorMessage)
-        try writer["NetworkInterfaceId"].write(value.networkInterfaceId)
-        try writer["Status"].write(value.status)
-        try writer["SubnetId"].write(value.subnetId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.NetworkInterface {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -39908,14 +39378,6 @@ extension QuickSightClientTypes {
 }
 
 extension QuickSightClientTypes.OutputColumn {
-
-    static func write(value: QuickSightClientTypes.OutputColumn?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Description"].write(value.description)
-        try writer["Name"].write(value.name)
-        try writer["SubType"].write(value.subType)
-        try writer["Type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.OutputColumn {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -43114,12 +42576,6 @@ enum PutDataSetRefreshPropertiesOutputError {
 
 extension QuickSightClientTypes.QueueInfo {
 
-    static func write(value: QuickSightClientTypes.QueueInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["QueuedIngestion"].write(value.queuedIngestion)
-        try writer["WaitingOnIngestion"].write(value.waitingOnIngestion)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.QueueInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.QueueInfo()
@@ -44771,13 +44227,6 @@ extension QuickSightClientTypes.RegisteredUserConsoleFeatureConfigurations {
         guard let value else { return }
         try writer["StatePersistence"].write(value.statePersistence, with: QuickSightClientTypes.StatePersistenceConfigurations.write(value:to:))
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.RegisteredUserConsoleFeatureConfigurations {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QuickSightClientTypes.RegisteredUserConsoleFeatureConfigurations()
-        value.statePersistence = try reader["StatePersistence"].readIfPresent(with: QuickSightClientTypes.StatePersistenceConfigurations.read(from:))
-        return value
-    }
 }
 
 extension QuickSightClientTypes {
@@ -44802,14 +44251,6 @@ extension QuickSightClientTypes.RegisteredUserDashboardEmbeddingConfiguration {
         guard let value else { return }
         try writer["FeatureConfigurations"].write(value.featureConfigurations, with: QuickSightClientTypes.RegisteredUserDashboardFeatureConfigurations.write(value:to:))
         try writer["InitialDashboardId"].write(value.initialDashboardId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.RegisteredUserDashboardEmbeddingConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QuickSightClientTypes.RegisteredUserDashboardEmbeddingConfiguration()
-        value.initialDashboardId = try reader["InitialDashboardId"].readIfPresent()
-        value.featureConfigurations = try reader["FeatureConfigurations"].readIfPresent(with: QuickSightClientTypes.RegisteredUserDashboardFeatureConfigurations.read(from:))
-        return value
     }
 }
 
@@ -44841,14 +44282,6 @@ extension QuickSightClientTypes.RegisteredUserDashboardFeatureConfigurations {
         try writer["Bookmarks"].write(value.bookmarks, with: QuickSightClientTypes.BookmarksConfigurations.write(value:to:))
         try writer["StatePersistence"].write(value.statePersistence, with: QuickSightClientTypes.StatePersistenceConfigurations.write(value:to:))
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.RegisteredUserDashboardFeatureConfigurations {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QuickSightClientTypes.RegisteredUserDashboardFeatureConfigurations()
-        value.statePersistence = try reader["StatePersistence"].readIfPresent(with: QuickSightClientTypes.StatePersistenceConfigurations.read(from:))
-        value.bookmarks = try reader["Bookmarks"].readIfPresent(with: QuickSightClientTypes.BookmarksConfigurations.read(from:))
-        return value
-    }
 }
 
 extension QuickSightClientTypes {
@@ -44876,13 +44309,6 @@ extension QuickSightClientTypes.RegisteredUserDashboardVisualEmbeddingConfigurat
     static func write(value: QuickSightClientTypes.RegisteredUserDashboardVisualEmbeddingConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["InitialDashboardVisualId"].write(value.initialDashboardVisualId, with: QuickSightClientTypes.DashboardVisualId.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.RegisteredUserDashboardVisualEmbeddingConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QuickSightClientTypes.RegisteredUserDashboardVisualEmbeddingConfiguration()
-        value.initialDashboardVisualId = try reader["InitialDashboardVisualId"].readIfPresent(with: QuickSightClientTypes.DashboardVisualId.read(from:))
-        return value
     }
 }
 
@@ -44912,17 +44338,6 @@ extension QuickSightClientTypes.RegisteredUserEmbeddingExperienceConfiguration {
         try writer["GenerativeQnA"].write(value.generativeQnA, with: QuickSightClientTypes.RegisteredUserGenerativeQnAEmbeddingConfiguration.write(value:to:))
         try writer["QSearchBar"].write(value.qSearchBar, with: QuickSightClientTypes.RegisteredUserQSearchBarEmbeddingConfiguration.write(value:to:))
         try writer["QuickSightConsole"].write(value.quickSightConsole, with: QuickSightClientTypes.RegisteredUserQuickSightConsoleEmbeddingConfiguration.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.RegisteredUserEmbeddingExperienceConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QuickSightClientTypes.RegisteredUserEmbeddingExperienceConfiguration()
-        value.dashboard = try reader["Dashboard"].readIfPresent(with: QuickSightClientTypes.RegisteredUserDashboardEmbeddingConfiguration.read(from:))
-        value.quickSightConsole = try reader["QuickSightConsole"].readIfPresent(with: QuickSightClientTypes.RegisteredUserQuickSightConsoleEmbeddingConfiguration.read(from:))
-        value.qSearchBar = try reader["QSearchBar"].readIfPresent(with: QuickSightClientTypes.RegisteredUserQSearchBarEmbeddingConfiguration.read(from:))
-        value.dashboardVisual = try reader["DashboardVisual"].readIfPresent(with: QuickSightClientTypes.RegisteredUserDashboardVisualEmbeddingConfiguration.read(from:))
-        value.generativeQnA = try reader["GenerativeQnA"].readIfPresent(with: QuickSightClientTypes.RegisteredUserGenerativeQnAEmbeddingConfiguration.read(from:))
-        return value
     }
 }
 
@@ -44971,13 +44386,6 @@ extension QuickSightClientTypes.RegisteredUserGenerativeQnAEmbeddingConfiguratio
         guard let value else { return }
         try writer["InitialTopicId"].write(value.initialTopicId)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.RegisteredUserGenerativeQnAEmbeddingConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QuickSightClientTypes.RegisteredUserGenerativeQnAEmbeddingConfiguration()
-        value.initialTopicId = try reader["InitialTopicId"].readIfPresent()
-        return value
-    }
 }
 
 extension QuickSightClientTypes {
@@ -45001,13 +44409,6 @@ extension QuickSightClientTypes.RegisteredUserQSearchBarEmbeddingConfiguration {
     static func write(value: QuickSightClientTypes.RegisteredUserQSearchBarEmbeddingConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["InitialTopicId"].write(value.initialTopicId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.RegisteredUserQSearchBarEmbeddingConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QuickSightClientTypes.RegisteredUserQSearchBarEmbeddingConfiguration()
-        value.initialTopicId = try reader["InitialTopicId"].readIfPresent()
-        return value
     }
 }
 
@@ -45033,14 +44434,6 @@ extension QuickSightClientTypes.RegisteredUserQuickSightConsoleEmbeddingConfigur
         guard let value else { return }
         try writer["FeatureConfigurations"].write(value.featureConfigurations, with: QuickSightClientTypes.RegisteredUserConsoleFeatureConfigurations.write(value:to:))
         try writer["InitialPath"].write(value.initialPath)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.RegisteredUserQuickSightConsoleEmbeddingConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QuickSightClientTypes.RegisteredUserQuickSightConsoleEmbeddingConfiguration()
-        value.initialPath = try reader["InitialPath"].readIfPresent()
-        value.featureConfigurations = try reader["FeatureConfigurations"].readIfPresent(with: QuickSightClientTypes.RegisteredUserConsoleFeatureConfigurations.read(from:))
-        return value
     }
 }
 
@@ -45886,13 +45279,6 @@ extension QuickSightClientTypes {
 }
 
 extension QuickSightClientTypes.RowInfo {
-
-    static func write(value: QuickSightClientTypes.RowInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["RowsDropped"].write(value.rowsDropped)
-        try writer["RowsIngested"].write(value.rowsIngested)
-        try writer["TotalRowsInDataset"].write(value.totalRowsInDataset)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.RowInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -48293,14 +47679,6 @@ extension QuickSightClientTypes.SessionTag {
         try writer["Key"].write(value.key)
         try writer["Value"].write(value.value)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.SessionTag {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QuickSightClientTypes.SessionTag()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
-        return value
-    }
 }
 
 extension QuickSightClientTypes {
@@ -48427,12 +47805,6 @@ extension QuickSightClientTypes {
 }
 
 extension QuickSightClientTypes.Sheet {
-
-    static func write(value: QuickSightClientTypes.Sheet?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["SheetId"].write(value.sheetId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.Sheet {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -49083,14 +48455,6 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes.SignupResponse {
 
-    static func write(value: QuickSightClientTypes.SignupResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["IAMUser"].write(value.iamUser)
-        try writer["accountName"].write(value.accountName)
-        try writer["directoryType"].write(value.directoryType)
-        try writer["userLoginName"].write(value.userLoginName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.SignupResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.SignupResponse()
@@ -49540,13 +48904,6 @@ extension QuickSightClientTypes.SnapshotAnonymousUser {
         guard let value else { return }
         try writer["RowLevelPermissionTags"].writeList(value.rowLevelPermissionTags, memberWritingClosure: QuickSightClientTypes.SessionTag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.SnapshotAnonymousUser {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QuickSightClientTypes.SnapshotAnonymousUser()
-        value.rowLevelPermissionTags = try reader["RowLevelPermissionTags"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.SessionTag.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
 }
 
 extension QuickSightClientTypes {
@@ -49566,11 +48923,6 @@ extension QuickSightClientTypes {
 }
 
 extension QuickSightClientTypes.SnapshotAnonymousUserRedacted {
-
-    static func write(value: QuickSightClientTypes.SnapshotAnonymousUserRedacted?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["RowLevelPermissionTagKeys"].writeList(value.rowLevelPermissionTagKeys, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.SnapshotAnonymousUserRedacted {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -49855,12 +49207,6 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes.SnapshotJobErrorInfo {
 
-    static func write(value: QuickSightClientTypes.SnapshotJobErrorInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ErrorMessage"].write(value.errorMessage)
-        try writer["ErrorType"].write(value.errorType)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.SnapshotJobErrorInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.SnapshotJobErrorInfo()
@@ -49892,11 +49238,6 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes.SnapshotJobResult {
 
-    static func write(value: QuickSightClientTypes.SnapshotJobResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AnonymousUsers"].writeList(value.anonymousUsers, memberWritingClosure: QuickSightClientTypes.AnonymousUserSnapshotJobResult.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.SnapshotJobResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.SnapshotJobResult()
@@ -49922,12 +49263,6 @@ extension QuickSightClientTypes {
 }
 
 extension QuickSightClientTypes.SnapshotJobResultErrorInfo {
-
-    static func write(value: QuickSightClientTypes.SnapshotJobResultErrorInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ErrorMessage"].write(value.errorMessage)
-        try writer["ErrorType"].write(value.errorType)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.SnapshotJobResultErrorInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -49959,12 +49294,6 @@ extension QuickSightClientTypes {
 }
 
 extension QuickSightClientTypes.SnapshotJobResultFileGroup {
-
-    static func write(value: QuickSightClientTypes.SnapshotJobResultFileGroup?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Files"].writeList(value.files, memberWritingClosure: QuickSightClientTypes.SnapshotFile.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["S3Results"].writeList(value.s3Results, memberWritingClosure: QuickSightClientTypes.SnapshotJobS3Result.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.SnapshotJobResultFileGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -50001,13 +49330,6 @@ extension QuickSightClientTypes.SnapshotJobS3Result: Swift.CustomDebugStringConv
 }
 
 extension QuickSightClientTypes.SnapshotJobS3Result {
-
-    static func write(value: QuickSightClientTypes.SnapshotJobS3Result?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ErrorInfo"].writeList(value.errorInfo, memberWritingClosure: QuickSightClientTypes.SnapshotJobResultErrorInfo.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["S3DestinationConfiguration"].write(value.s3DestinationConfiguration, with: QuickSightClientTypes.SnapshotS3DestinationConfiguration.write(value:to:))
-        try writer["S3Uri"].write(value.s3Uri)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.SnapshotJobS3Result {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -50117,13 +49439,6 @@ extension QuickSightClientTypes.SnapshotUserConfiguration {
         guard let value else { return }
         try writer["AnonymousUsers"].writeList(value.anonymousUsers, memberWritingClosure: QuickSightClientTypes.SnapshotAnonymousUser.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.SnapshotUserConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QuickSightClientTypes.SnapshotUserConfiguration()
-        value.anonymousUsers = try reader["AnonymousUsers"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.SnapshotAnonymousUser.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
 }
 
 extension QuickSightClientTypes {
@@ -50143,11 +49458,6 @@ extension QuickSightClientTypes {
 }
 
 extension QuickSightClientTypes.SnapshotUserConfigurationRedacted {
-
-    static func write(value: QuickSightClientTypes.SnapshotUserConfigurationRedacted?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AnonymousUsers"].writeList(value.anonymousUsers, memberWritingClosure: QuickSightClientTypes.SnapshotAnonymousUserRedacted.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.SnapshotUserConfigurationRedacted {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -50926,13 +50236,6 @@ extension QuickSightClientTypes.StatePersistenceConfigurations {
     static func write(value: QuickSightClientTypes.StatePersistenceConfigurations?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Enabled"].write(value.enabled)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.StatePersistenceConfigurations {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QuickSightClientTypes.StatePersistenceConfigurations()
-        value.enabled = try reader["Enabled"].readIfPresent() ?? false
-        return value
     }
 }
 
@@ -52882,16 +52185,6 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes.Template {
 
-    static func write(value: QuickSightClientTypes.Template?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["CreatedTime"].writeTimestamp(value.createdTime, format: .epochSeconds)
-        try writer["LastUpdatedTime"].writeTimestamp(value.lastUpdatedTime, format: .epochSeconds)
-        try writer["Name"].write(value.name)
-        try writer["TemplateId"].write(value.templateId)
-        try writer["Version"].write(value.version, with: QuickSightClientTypes.TemplateVersion.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.Template {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.Template()
@@ -52943,13 +52236,6 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes.TemplateAlias {
 
-    static func write(value: QuickSightClientTypes.TemplateAlias?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AliasName"].write(value.aliasName)
-        try writer["Arn"].write(value.arn)
-        try writer["TemplateVersionNumber"].write(value.templateVersionNumber)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.TemplateAlias {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.TemplateAlias()
@@ -52985,13 +52271,6 @@ extension QuickSightClientTypes {
 }
 
 extension QuickSightClientTypes.TemplateError {
-
-    static func write(value: QuickSightClientTypes.TemplateError?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.message)
-        try writer["Type"].write(value.type)
-        try writer["ViolatedEntities"].writeList(value.violatedEntities, memberWritingClosure: QuickSightClientTypes.Entity.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.TemplateError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -53070,14 +52349,6 @@ extension QuickSightClientTypes.TemplateSourceAnalysis {
         try writer["Arn"].write(value.arn)
         try writer["DataSetReferences"].writeList(value.dataSetReferences, memberWritingClosure: QuickSightClientTypes.DataSetReference.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.TemplateSourceAnalysis {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QuickSightClientTypes.TemplateSourceAnalysis()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.dataSetReferences = try reader["DataSetReferences"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.DataSetReference.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
 }
 
 extension QuickSightClientTypes {
@@ -53109,14 +52380,6 @@ extension QuickSightClientTypes.TemplateSourceEntity {
         try writer["SourceAnalysis"].write(value.sourceAnalysis, with: QuickSightClientTypes.TemplateSourceAnalysis.write(value:to:))
         try writer["SourceTemplate"].write(value.sourceTemplate, with: QuickSightClientTypes.TemplateSourceTemplate.write(value:to:))
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.TemplateSourceEntity {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QuickSightClientTypes.TemplateSourceEntity()
-        value.sourceAnalysis = try reader["SourceAnalysis"].readIfPresent(with: QuickSightClientTypes.TemplateSourceAnalysis.read(from:))
-        value.sourceTemplate = try reader["SourceTemplate"].readIfPresent(with: QuickSightClientTypes.TemplateSourceTemplate.read(from:))
-        return value
-    }
 }
 
 extension QuickSightClientTypes {
@@ -53145,13 +52408,6 @@ extension QuickSightClientTypes.TemplateSourceTemplate {
         guard let value else { return }
         try writer["Arn"].write(value.arn)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.TemplateSourceTemplate {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QuickSightClientTypes.TemplateSourceTemplate()
-        value.arn = try reader["Arn"].readIfPresent()
-        return value
-    }
 }
 
 extension QuickSightClientTypes {
@@ -53172,16 +52428,6 @@ extension QuickSightClientTypes {
 }
 
 extension QuickSightClientTypes.TemplateSummary {
-
-    static func write(value: QuickSightClientTypes.TemplateSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["CreatedTime"].writeTimestamp(value.createdTime, format: .epochSeconds)
-        try writer["LastUpdatedTime"].writeTimestamp(value.lastUpdatedTime, format: .epochSeconds)
-        try writer["LatestVersionNumber"].write(value.latestVersionNumber)
-        try writer["Name"].write(value.name)
-        try writer["TemplateId"].write(value.templateId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.TemplateSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -53233,19 +52479,6 @@ extension QuickSightClientTypes {
 }
 
 extension QuickSightClientTypes.TemplateVersion {
-
-    static func write(value: QuickSightClientTypes.TemplateVersion?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedTime"].writeTimestamp(value.createdTime, format: .epochSeconds)
-        try writer["DataSetConfigurations"].writeList(value.dataSetConfigurations, memberWritingClosure: QuickSightClientTypes.DataSetConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Description"].write(value.description)
-        try writer["Errors"].writeList(value.errors, memberWritingClosure: QuickSightClientTypes.TemplateError.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Sheets"].writeList(value.sheets, memberWritingClosure: QuickSightClientTypes.Sheet.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["SourceEntityArn"].write(value.sourceEntityArn)
-        try writer["Status"].write(value.status)
-        try writer["ThemeArn"].write(value.themeArn)
-        try writer["VersionNumber"].write(value.versionNumber)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.TemplateVersion {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -53400,15 +52633,6 @@ extension QuickSightClientTypes {
 }
 
 extension QuickSightClientTypes.TemplateVersionSummary {
-
-    static func write(value: QuickSightClientTypes.TemplateVersionSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["CreatedTime"].writeTimestamp(value.createdTime, format: .epochSeconds)
-        try writer["Description"].write(value.description)
-        try writer["Status"].write(value.status)
-        try writer["VersionNumber"].write(value.versionNumber)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.TemplateVersionSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -53722,17 +52946,6 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes.Theme {
 
-    static func write(value: QuickSightClientTypes.Theme?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["CreatedTime"].writeTimestamp(value.createdTime, format: .epochSeconds)
-        try writer["LastUpdatedTime"].writeTimestamp(value.lastUpdatedTime, format: .epochSeconds)
-        try writer["Name"].write(value.name)
-        try writer["ThemeId"].write(value.themeId)
-        try writer["Type"].write(value.type)
-        try writer["Version"].write(value.version, with: QuickSightClientTypes.ThemeVersion.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.Theme {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.Theme()
@@ -53788,13 +53001,6 @@ extension QuickSightClientTypes {
 }
 
 extension QuickSightClientTypes.ThemeAlias {
-
-    static func write(value: QuickSightClientTypes.ThemeAlias?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AliasName"].write(value.aliasName)
-        try writer["Arn"].write(value.arn)
-        try writer["ThemeVersionNumber"].write(value.themeVersionNumber)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.ThemeAlias {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -53881,12 +53087,6 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes.ThemeError {
 
-    static func write(value: QuickSightClientTypes.ThemeError?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.message)
-        try writer["Type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.ThemeError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.ThemeError()
@@ -53944,16 +53144,6 @@ extension QuickSightClientTypes {
 }
 
 extension QuickSightClientTypes.ThemeSummary {
-
-    static func write(value: QuickSightClientTypes.ThemeSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["CreatedTime"].writeTimestamp(value.createdTime, format: .epochSeconds)
-        try writer["LastUpdatedTime"].writeTimestamp(value.lastUpdatedTime, format: .epochSeconds)
-        try writer["LatestVersionNumber"].write(value.latestVersionNumber)
-        try writer["Name"].write(value.name)
-        try writer["ThemeId"].write(value.themeId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.ThemeSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -54039,18 +53229,6 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes.ThemeVersion {
 
-    static func write(value: QuickSightClientTypes.ThemeVersion?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["BaseThemeId"].write(value.baseThemeId)
-        try writer["Configuration"].write(value.configuration, with: QuickSightClientTypes.ThemeConfiguration.write(value:to:))
-        try writer["CreatedTime"].writeTimestamp(value.createdTime, format: .epochSeconds)
-        try writer["Description"].write(value.description)
-        try writer["Errors"].writeList(value.errors, memberWritingClosure: QuickSightClientTypes.ThemeError.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Status"].write(value.status)
-        try writer["VersionNumber"].write(value.versionNumber)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.ThemeVersion {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.ThemeVersion()
@@ -54111,15 +53289,6 @@ extension QuickSightClientTypes {
 }
 
 extension QuickSightClientTypes.ThemeVersionSummary {
-
-    static func write(value: QuickSightClientTypes.ThemeVersionSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["CreatedTime"].writeTimestamp(value.createdTime, format: .epochSeconds)
-        try writer["Description"].write(value.description)
-        try writer["Status"].write(value.status)
-        try writer["VersionNumber"].write(value.versionNumber)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.ThemeVersionSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -55880,13 +55049,6 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes.TopicRefreshDetails {
 
-    static func write(value: QuickSightClientTypes.TopicRefreshDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["RefreshArn"].write(value.refreshArn)
-        try writer["RefreshId"].write(value.refreshId)
-        try writer["RefreshStatus"].write(value.refreshStatus)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.TopicRefreshDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.TopicRefreshDetails()
@@ -55985,14 +55147,6 @@ extension QuickSightClientTypes {
 }
 
 extension QuickSightClientTypes.TopicRefreshScheduleSummary {
-
-    static func write(value: QuickSightClientTypes.TopicRefreshScheduleSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DatasetArn"].write(value.datasetArn)
-        try writer["DatasetId"].write(value.datasetId)
-        try writer["DatasetName"].write(value.datasetName)
-        try writer["RefreshSchedule"].write(value.refreshSchedule, with: QuickSightClientTypes.TopicRefreshSchedule.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.TopicRefreshScheduleSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -56239,14 +55393,6 @@ extension QuickSightClientTypes {
 }
 
 extension QuickSightClientTypes.TopicSummary {
-
-    static func write(value: QuickSightClientTypes.TopicSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["Name"].write(value.name)
-        try writer["TopicId"].write(value.topicId)
-        try writer["UserExperienceVersion"].write(value.userExperienceVersion)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.TopicSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -61392,21 +60538,6 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes.User {
 
-    static func write(value: QuickSightClientTypes.User?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Active"].write(value.active)
-        try writer["Arn"].write(value.arn)
-        try writer["CustomPermissionsName"].write(value.customPermissionsName)
-        try writer["Email"].write(value.email)
-        try writer["ExternalLoginFederationProviderType"].write(value.externalLoginFederationProviderType)
-        try writer["ExternalLoginFederationProviderUrl"].write(value.externalLoginFederationProviderUrl)
-        try writer["ExternalLoginId"].write(value.externalLoginId)
-        try writer["IdentityType"].write(value.identityType)
-        try writer["PrincipalId"].write(value.principalId)
-        try writer["Role"].write(value.role)
-        try writer["UserName"].write(value.userName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.User {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.User()
@@ -61550,22 +60681,6 @@ extension QuickSightClientTypes {
 }
 
 extension QuickSightClientTypes.VPCConnection {
-
-    static func write(value: QuickSightClientTypes.VPCConnection?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["AvailabilityStatus"].write(value.availabilityStatus)
-        try writer["CreatedTime"].writeTimestamp(value.createdTime, format: .epochSeconds)
-        try writer["DnsResolvers"].writeList(value.dnsResolvers, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["LastUpdatedTime"].writeTimestamp(value.lastUpdatedTime, format: .epochSeconds)
-        try writer["Name"].write(value.name)
-        try writer["NetworkInterfaces"].writeList(value.networkInterfaces, memberWritingClosure: QuickSightClientTypes.NetworkInterface.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["RoleArn"].write(value.roleArn)
-        try writer["SecurityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Status"].write(value.status)
-        try writer["VPCConnectionId"].write(value.vpcConnectionId)
-        try writer["VPCId"].write(value.vpcId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.VPCConnection {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -61732,22 +60847,6 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes.VPCConnectionSummary {
 
-    static func write(value: QuickSightClientTypes.VPCConnectionSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["AvailabilityStatus"].write(value.availabilityStatus)
-        try writer["CreatedTime"].writeTimestamp(value.createdTime, format: .epochSeconds)
-        try writer["DnsResolvers"].writeList(value.dnsResolvers, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["LastUpdatedTime"].writeTimestamp(value.lastUpdatedTime, format: .epochSeconds)
-        try writer["Name"].write(value.name)
-        try writer["NetworkInterfaces"].writeList(value.networkInterfaces, memberWritingClosure: QuickSightClientTypes.NetworkInterface.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["RoleArn"].write(value.roleArn)
-        try writer["SecurityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Status"].write(value.status)
-        try writer["VPCConnectionId"].write(value.vpcConnectionId)
-        try writer["VPCId"].write(value.vpcId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.VPCConnectionSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.VPCConnectionSummary()
@@ -61832,13 +60931,6 @@ extension QuickSightClientTypes.ValidationStrategy {
     static func write(value: QuickSightClientTypes.ValidationStrategy?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Mode"].write(value.mode)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.ValidationStrategy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QuickSightClientTypes.ValidationStrategy()
-        value.mode = try reader["Mode"].readIfPresent()
-        return value
     }
 }
 

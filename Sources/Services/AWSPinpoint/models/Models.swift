@@ -12,15 +12,6 @@ extension PinpointClientTypes.ADMChannelRequest {
         try writer["ClientSecret"].write(value.clientSecret)
         try writer["Enabled"].write(value.enabled)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.ADMChannelRequest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PinpointClientTypes.ADMChannelRequest()
-        value.clientId = try reader["ClientId"].readIfPresent()
-        value.clientSecret = try reader["ClientSecret"].readIfPresent()
-        value.enabled = try reader["Enabled"].readIfPresent()
-        return value
-    }
 }
 
 extension PinpointClientTypes {
@@ -50,20 +41,6 @@ extension PinpointClientTypes {
 }
 
 extension PinpointClientTypes.ADMChannelResponse {
-
-    static func write(value: PinpointClientTypes.ADMChannelResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ApplicationId"].write(value.applicationId)
-        try writer["CreationDate"].write(value.creationDate)
-        try writer["Enabled"].write(value.enabled)
-        try writer["HasCredential"].write(value.hasCredential)
-        try writer["Id"].write(value.id)
-        try writer["IsArchived"].write(value.isArchived)
-        try writer["LastModifiedBy"].write(value.lastModifiedBy)
-        try writer["LastModifiedDate"].write(value.lastModifiedDate)
-        try writer["Platform"].write(value.platform)
-        try writer["Version"].write(value.version)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.ADMChannelResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -155,28 +132,6 @@ extension PinpointClientTypes.ADMMessage {
         try writer["Substitutions"].writeMap(value.substitutions, valueWritingClosure: listWritingClosure(memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["Title"].write(value.title)
         try writer["Url"].write(value.url)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.ADMMessage {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PinpointClientTypes.ADMMessage()
-        value.action = try reader["Action"].readIfPresent()
-        value.body = try reader["Body"].readIfPresent()
-        value.consolidationKey = try reader["ConsolidationKey"].readIfPresent()
-        value.data = try reader["Data"].readMapIfPresent(valueReadingClosure: Swift.String.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.expiresAfter = try reader["ExpiresAfter"].readIfPresent()
-        value.iconReference = try reader["IconReference"].readIfPresent()
-        value.imageIconUrl = try reader["ImageIconUrl"].readIfPresent()
-        value.imageUrl = try reader["ImageUrl"].readIfPresent()
-        value.md5 = try reader["MD5"].readIfPresent()
-        value.rawContent = try reader["RawContent"].readIfPresent()
-        value.silentPush = try reader["SilentPush"].readIfPresent()
-        value.smallImageIconUrl = try reader["SmallImageIconUrl"].readIfPresent()
-        value.sound = try reader["Sound"].readIfPresent()
-        value.substitutions = try reader["Substitutions"].readMapIfPresent(valueReadingClosure: listReadingClosure(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.title = try reader["Title"].readIfPresent()
-        value.url = try reader["Url"].readIfPresent()
-        return value
     }
 }
 
@@ -275,20 +230,6 @@ extension PinpointClientTypes.APNSChannelRequest {
         try writer["TokenKey"].write(value.tokenKey)
         try writer["TokenKeyId"].write(value.tokenKeyId)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.APNSChannelRequest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PinpointClientTypes.APNSChannelRequest()
-        value.bundleId = try reader["BundleId"].readIfPresent()
-        value.certificate = try reader["Certificate"].readIfPresent()
-        value.defaultAuthenticationMethod = try reader["DefaultAuthenticationMethod"].readIfPresent()
-        value.enabled = try reader["Enabled"].readIfPresent()
-        value.privateKey = try reader["PrivateKey"].readIfPresent()
-        value.teamId = try reader["TeamId"].readIfPresent()
-        value.tokenKey = try reader["TokenKey"].readIfPresent()
-        value.tokenKeyId = try reader["TokenKeyId"].readIfPresent()
-        return value
-    }
 }
 
 extension PinpointClientTypes {
@@ -336,22 +277,6 @@ extension PinpointClientTypes {
 }
 
 extension PinpointClientTypes.APNSChannelResponse {
-
-    static func write(value: PinpointClientTypes.APNSChannelResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ApplicationId"].write(value.applicationId)
-        try writer["CreationDate"].write(value.creationDate)
-        try writer["DefaultAuthenticationMethod"].write(value.defaultAuthenticationMethod)
-        try writer["Enabled"].write(value.enabled)
-        try writer["HasCredential"].write(value.hasCredential)
-        try writer["HasTokenKey"].write(value.hasTokenKey)
-        try writer["Id"].write(value.id)
-        try writer["IsArchived"].write(value.isArchived)
-        try writer["LastModifiedBy"].write(value.lastModifiedBy)
-        try writer["LastModifiedDate"].write(value.lastModifiedDate)
-        try writer["Platform"].write(value.platform)
-        try writer["Version"].write(value.version)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.APNSChannelResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -455,30 +380,6 @@ extension PinpointClientTypes.APNSMessage {
         try writer["TimeToLive"].write(value.timeToLive)
         try writer["Title"].write(value.title)
         try writer["Url"].write(value.url)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.APNSMessage {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PinpointClientTypes.APNSMessage()
-        value.apnsPushType = try reader["APNSPushType"].readIfPresent()
-        value.action = try reader["Action"].readIfPresent()
-        value.badge = try reader["Badge"].readIfPresent()
-        value.body = try reader["Body"].readIfPresent()
-        value.category = try reader["Category"].readIfPresent()
-        value.collapseId = try reader["CollapseId"].readIfPresent()
-        value.data = try reader["Data"].readMapIfPresent(valueReadingClosure: Swift.String.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.mediaUrl = try reader["MediaUrl"].readIfPresent()
-        value.preferredAuthenticationMethod = try reader["PreferredAuthenticationMethod"].readIfPresent()
-        value.priority = try reader["Priority"].readIfPresent()
-        value.rawContent = try reader["RawContent"].readIfPresent()
-        value.silentPush = try reader["SilentPush"].readIfPresent()
-        value.sound = try reader["Sound"].readIfPresent()
-        value.substitutions = try reader["Substitutions"].readMapIfPresent(valueReadingClosure: listReadingClosure(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.threadId = try reader["ThreadId"].readIfPresent()
-        value.timeToLive = try reader["TimeToLive"].readIfPresent()
-        value.title = try reader["Title"].readIfPresent()
-        value.url = try reader["Url"].readIfPresent()
-        return value
     }
 }
 
@@ -675,20 +576,6 @@ extension PinpointClientTypes.APNSSandboxChannelRequest {
         try writer["TokenKey"].write(value.tokenKey)
         try writer["TokenKeyId"].write(value.tokenKeyId)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.APNSSandboxChannelRequest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PinpointClientTypes.APNSSandboxChannelRequest()
-        value.bundleId = try reader["BundleId"].readIfPresent()
-        value.certificate = try reader["Certificate"].readIfPresent()
-        value.defaultAuthenticationMethod = try reader["DefaultAuthenticationMethod"].readIfPresent()
-        value.enabled = try reader["Enabled"].readIfPresent()
-        value.privateKey = try reader["PrivateKey"].readIfPresent()
-        value.teamId = try reader["TeamId"].readIfPresent()
-        value.tokenKey = try reader["TokenKey"].readIfPresent()
-        value.tokenKeyId = try reader["TokenKeyId"].readIfPresent()
-        return value
-    }
 }
 
 extension PinpointClientTypes {
@@ -736,22 +623,6 @@ extension PinpointClientTypes {
 }
 
 extension PinpointClientTypes.APNSSandboxChannelResponse {
-
-    static func write(value: PinpointClientTypes.APNSSandboxChannelResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ApplicationId"].write(value.applicationId)
-        try writer["CreationDate"].write(value.creationDate)
-        try writer["DefaultAuthenticationMethod"].write(value.defaultAuthenticationMethod)
-        try writer["Enabled"].write(value.enabled)
-        try writer["HasCredential"].write(value.hasCredential)
-        try writer["HasTokenKey"].write(value.hasTokenKey)
-        try writer["Id"].write(value.id)
-        try writer["IsArchived"].write(value.isArchived)
-        try writer["LastModifiedBy"].write(value.lastModifiedBy)
-        try writer["LastModifiedDate"].write(value.lastModifiedDate)
-        try writer["Platform"].write(value.platform)
-        try writer["Version"].write(value.version)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.APNSSandboxChannelResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -846,20 +717,6 @@ extension PinpointClientTypes.APNSVoipChannelRequest {
         try writer["TokenKey"].write(value.tokenKey)
         try writer["TokenKeyId"].write(value.tokenKeyId)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.APNSVoipChannelRequest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PinpointClientTypes.APNSVoipChannelRequest()
-        value.bundleId = try reader["BundleId"].readIfPresent()
-        value.certificate = try reader["Certificate"].readIfPresent()
-        value.defaultAuthenticationMethod = try reader["DefaultAuthenticationMethod"].readIfPresent()
-        value.enabled = try reader["Enabled"].readIfPresent()
-        value.privateKey = try reader["PrivateKey"].readIfPresent()
-        value.teamId = try reader["TeamId"].readIfPresent()
-        value.tokenKey = try reader["TokenKey"].readIfPresent()
-        value.tokenKeyId = try reader["TokenKeyId"].readIfPresent()
-        return value
-    }
 }
 
 extension PinpointClientTypes {
@@ -907,22 +764,6 @@ extension PinpointClientTypes {
 }
 
 extension PinpointClientTypes.APNSVoipChannelResponse {
-
-    static func write(value: PinpointClientTypes.APNSVoipChannelResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ApplicationId"].write(value.applicationId)
-        try writer["CreationDate"].write(value.creationDate)
-        try writer["DefaultAuthenticationMethod"].write(value.defaultAuthenticationMethod)
-        try writer["Enabled"].write(value.enabled)
-        try writer["HasCredential"].write(value.hasCredential)
-        try writer["HasTokenKey"].write(value.hasTokenKey)
-        try writer["Id"].write(value.id)
-        try writer["IsArchived"].write(value.isArchived)
-        try writer["LastModifiedBy"].write(value.lastModifiedBy)
-        try writer["LastModifiedDate"].write(value.lastModifiedDate)
-        try writer["Platform"].write(value.platform)
-        try writer["Version"].write(value.version)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.APNSVoipChannelResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1017,20 +858,6 @@ extension PinpointClientTypes.APNSVoipSandboxChannelRequest {
         try writer["TokenKey"].write(value.tokenKey)
         try writer["TokenKeyId"].write(value.tokenKeyId)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.APNSVoipSandboxChannelRequest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PinpointClientTypes.APNSVoipSandboxChannelRequest()
-        value.bundleId = try reader["BundleId"].readIfPresent()
-        value.certificate = try reader["Certificate"].readIfPresent()
-        value.defaultAuthenticationMethod = try reader["DefaultAuthenticationMethod"].readIfPresent()
-        value.enabled = try reader["Enabled"].readIfPresent()
-        value.privateKey = try reader["PrivateKey"].readIfPresent()
-        value.teamId = try reader["TeamId"].readIfPresent()
-        value.tokenKey = try reader["TokenKey"].readIfPresent()
-        value.tokenKeyId = try reader["TokenKeyId"].readIfPresent()
-        return value
-    }
 }
 
 extension PinpointClientTypes {
@@ -1078,22 +905,6 @@ extension PinpointClientTypes {
 }
 
 extension PinpointClientTypes.APNSVoipSandboxChannelResponse {
-
-    static func write(value: PinpointClientTypes.APNSVoipSandboxChannelResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ApplicationId"].write(value.applicationId)
-        try writer["CreationDate"].write(value.creationDate)
-        try writer["DefaultAuthenticationMethod"].write(value.defaultAuthenticationMethod)
-        try writer["Enabled"].write(value.enabled)
-        try writer["HasCredential"].write(value.hasCredential)
-        try writer["HasTokenKey"].write(value.hasTokenKey)
-        try writer["Id"].write(value.id)
-        try writer["IsArchived"].write(value.isArchived)
-        try writer["LastModifiedBy"].write(value.lastModifiedBy)
-        try writer["LastModifiedDate"].write(value.lastModifiedDate)
-        try writer["Platform"].write(value.platform)
-        try writer["Version"].write(value.version)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.APNSVoipSandboxChannelResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1209,12 +1020,6 @@ extension PinpointClientTypes {
 }
 
 extension PinpointClientTypes.ActivitiesResponse {
-
-    static func write(value: PinpointClientTypes.ActivitiesResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Item"].writeList(value.item, memberWritingClosure: PinpointClientTypes.ActivityResponse.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["NextToken"].write(value.nextToken)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.ActivitiesResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1339,24 +1144,6 @@ extension PinpointClientTypes {
 
 extension PinpointClientTypes.ActivityResponse {
 
-    static func write(value: PinpointClientTypes.ActivityResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ApplicationId"].write(value.applicationId)
-        try writer["CampaignId"].write(value.campaignId)
-        try writer["End"].write(value.end)
-        try writer["ExecutionMetrics"].writeMap(value.executionMetrics, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["Id"].write(value.id)
-        try writer["Result"].write(value.result)
-        try writer["ScheduledStart"].write(value.scheduledStart)
-        try writer["Start"].write(value.start)
-        try writer["State"].write(value.state)
-        try writer["SuccessfulEndpointCount"].write(value.successfulEndpointCount)
-        try writer["TimezonesCompletedCount"].write(value.timezonesCompletedCount)
-        try writer["TimezonesTotalCount"].write(value.timezonesTotalCount)
-        try writer["TotalEndpointCount"].write(value.totalEndpointCount)
-        try writer["TreatmentId"].write(value.treatmentId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.ActivityResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointClientTypes.ActivityResponse()
@@ -1459,18 +1246,6 @@ extension PinpointClientTypes.AddressConfiguration {
         try writer["RawContent"].write(value.rawContent)
         try writer["Substitutions"].writeMap(value.substitutions, valueWritingClosure: listWritingClosure(memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["TitleOverride"].write(value.titleOverride)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.AddressConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PinpointClientTypes.AddressConfiguration()
-        value.bodyOverride = try reader["BodyOverride"].readIfPresent()
-        value.channelType = try reader["ChannelType"].readIfPresent()
-        value.context = try reader["Context"].readMapIfPresent(valueReadingClosure: Swift.String.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.rawContent = try reader["RawContent"].readIfPresent()
-        value.substitutions = try reader["Substitutions"].readMapIfPresent(valueReadingClosure: listReadingClosure(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.titleOverride = try reader["TitleOverride"].readIfPresent()
-        return value
     }
 }
 
@@ -1630,16 +1405,6 @@ extension PinpointClientTypes {
 
 extension PinpointClientTypes.ApplicationDateRangeKpiResponse {
 
-    static func write(value: PinpointClientTypes.ApplicationDateRangeKpiResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ApplicationId"].write(value.applicationId)
-        try writer["EndTime"].writeTimestamp(value.endTime, format: .dateTime)
-        try writer["KpiName"].write(value.kpiName)
-        try writer["KpiResult"].write(value.kpiResult, with: PinpointClientTypes.BaseKpiResult.write(value:to:))
-        try writer["NextToken"].write(value.nextToken)
-        try writer["StartTime"].writeTimestamp(value.startTime, format: .dateTime)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.ApplicationDateRangeKpiResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointClientTypes.ApplicationDateRangeKpiResponse()
@@ -1695,15 +1460,6 @@ extension PinpointClientTypes {
 }
 
 extension PinpointClientTypes.ApplicationResponse {
-
-    static func write(value: PinpointClientTypes.ApplicationResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["CreationDate"].write(value.creationDate)
-        try writer["Id"].write(value.id)
-        try writer["Name"].write(value.name)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.ApplicationResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1797,16 +1553,6 @@ extension PinpointClientTypes {
 
 extension PinpointClientTypes.ApplicationSettingsResource {
 
-    static func write(value: PinpointClientTypes.ApplicationSettingsResource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ApplicationId"].write(value.applicationId)
-        try writer["CampaignHook"].write(value.campaignHook, with: PinpointClientTypes.CampaignHook.write(value:to:))
-        try writer["JourneyLimits"].write(value.journeyLimits, with: PinpointClientTypes.ApplicationSettingsJourneyLimits.write(value:to:))
-        try writer["LastModifiedDate"].write(value.lastModifiedDate)
-        try writer["Limits"].write(value.limits, with: PinpointClientTypes.CampaignLimits.write(value:to:))
-        try writer["QuietTime"].write(value.quietTime, with: PinpointClientTypes.QuietTime.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.ApplicationSettingsResource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointClientTypes.ApplicationSettingsResource()
@@ -1867,12 +1613,6 @@ extension PinpointClientTypes {
 }
 
 extension PinpointClientTypes.ApplicationsResponse {
-
-    static func write(value: PinpointClientTypes.ApplicationsResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Item"].writeList(value.item, memberWritingClosure: PinpointClientTypes.ApplicationResponse.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["NextToken"].write(value.nextToken)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.ApplicationsResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2002,13 +1742,6 @@ extension PinpointClientTypes {
 
 extension PinpointClientTypes.AttributesResource {
 
-    static func write(value: PinpointClientTypes.AttributesResource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ApplicationId"].write(value.applicationId)
-        try writer["AttributeType"].write(value.attributeType)
-        try writer["Attributes"].writeList(value.attributes, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.AttributesResource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointClientTypes.AttributesResource()
@@ -2102,15 +1835,6 @@ extension PinpointClientTypes.BaiduChannelRequest {
         try writer["Enabled"].write(value.enabled)
         try writer["SecretKey"].write(value.secretKey)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.BaiduChannelRequest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PinpointClientTypes.BaiduChannelRequest()
-        value.apiKey = try reader["ApiKey"].readIfPresent()
-        value.enabled = try reader["Enabled"].readIfPresent()
-        value.secretKey = try reader["SecretKey"].readIfPresent()
-        return value
-    }
 }
 
 extension PinpointClientTypes {
@@ -2140,21 +1864,6 @@ extension PinpointClientTypes {
 }
 
 extension PinpointClientTypes.BaiduChannelResponse {
-
-    static func write(value: PinpointClientTypes.BaiduChannelResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ApplicationId"].write(value.applicationId)
-        try writer["CreationDate"].write(value.creationDate)
-        try writer["Credential"].write(value.credential)
-        try writer["Enabled"].write(value.enabled)
-        try writer["HasCredential"].write(value.hasCredential)
-        try writer["Id"].write(value.id)
-        try writer["IsArchived"].write(value.isArchived)
-        try writer["LastModifiedBy"].write(value.lastModifiedBy)
-        try writer["LastModifiedDate"].write(value.lastModifiedDate)
-        try writer["Platform"].write(value.platform)
-        try writer["Version"].write(value.version)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.BaiduChannelResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2251,26 +1960,6 @@ extension PinpointClientTypes.BaiduMessage {
         try writer["Title"].write(value.title)
         try writer["Url"].write(value.url)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.BaiduMessage {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PinpointClientTypes.BaiduMessage()
-        value.action = try reader["Action"].readIfPresent()
-        value.body = try reader["Body"].readIfPresent()
-        value.data = try reader["Data"].readMapIfPresent(valueReadingClosure: Swift.String.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.iconReference = try reader["IconReference"].readIfPresent()
-        value.imageIconUrl = try reader["ImageIconUrl"].readIfPresent()
-        value.imageUrl = try reader["ImageUrl"].readIfPresent()
-        value.rawContent = try reader["RawContent"].readIfPresent()
-        value.silentPush = try reader["SilentPush"].readIfPresent()
-        value.smallImageIconUrl = try reader["SmallImageIconUrl"].readIfPresent()
-        value.sound = try reader["Sound"].readIfPresent()
-        value.substitutions = try reader["Substitutions"].readMapIfPresent(valueReadingClosure: listReadingClosure(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.timeToLive = try reader["TimeToLive"].readIfPresent()
-        value.title = try reader["Title"].readIfPresent()
-        value.url = try reader["Url"].readIfPresent()
-        return value
-    }
 }
 
 extension PinpointClientTypes {
@@ -2348,11 +2037,6 @@ extension PinpointClientTypes {
 }
 
 extension PinpointClientTypes.BaseKpiResult {
-
-    static func write(value: PinpointClientTypes.BaseKpiResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Rows"].writeList(value.rows, memberWritingClosure: PinpointClientTypes.ResultRow.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.BaseKpiResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2444,17 +2128,6 @@ extension PinpointClientTypes {
 }
 
 extension PinpointClientTypes.CampaignDateRangeKpiResponse {
-
-    static func write(value: PinpointClientTypes.CampaignDateRangeKpiResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ApplicationId"].write(value.applicationId)
-        try writer["CampaignId"].write(value.campaignId)
-        try writer["EndTime"].writeTimestamp(value.endTime, format: .dateTime)
-        try writer["KpiName"].write(value.kpiName)
-        try writer["KpiResult"].write(value.kpiResult, with: PinpointClientTypes.BaseKpiResult.write(value:to:))
-        try writer["NextToken"].write(value.nextToken)
-        try writer["StartTime"].writeTimestamp(value.startTime, format: .dateTime)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.CampaignDateRangeKpiResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2757,35 +2430,6 @@ extension PinpointClientTypes {
 
 extension PinpointClientTypes.CampaignResponse {
 
-    static func write(value: PinpointClientTypes.CampaignResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AdditionalTreatments"].writeList(value.additionalTreatments, memberWritingClosure: PinpointClientTypes.TreatmentResource.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ApplicationId"].write(value.applicationId)
-        try writer["Arn"].write(value.arn)
-        try writer["CreationDate"].write(value.creationDate)
-        try writer["CustomDeliveryConfiguration"].write(value.customDeliveryConfiguration, with: PinpointClientTypes.CustomDeliveryConfiguration.write(value:to:))
-        try writer["DefaultState"].write(value.defaultState, with: PinpointClientTypes.CampaignState.write(value:to:))
-        try writer["Description"].write(value.description)
-        try writer["HoldoutPercent"].write(value.holdoutPercent)
-        try writer["Hook"].write(value.hook, with: PinpointClientTypes.CampaignHook.write(value:to:))
-        try writer["Id"].write(value.id)
-        try writer["IsPaused"].write(value.isPaused)
-        try writer["LastModifiedDate"].write(value.lastModifiedDate)
-        try writer["Limits"].write(value.limits, with: PinpointClientTypes.CampaignLimits.write(value:to:))
-        try writer["MessageConfiguration"].write(value.messageConfiguration, with: PinpointClientTypes.MessageConfiguration.write(value:to:))
-        try writer["Name"].write(value.name)
-        try writer["Priority"].write(value.priority)
-        try writer["Schedule"].write(value.schedule, with: PinpointClientTypes.Schedule.write(value:to:))
-        try writer["SegmentId"].write(value.segmentId)
-        try writer["SegmentVersion"].write(value.segmentVersion)
-        try writer["State"].write(value.state, with: PinpointClientTypes.CampaignState.write(value:to:))
-        try writer["TemplateConfiguration"].write(value.templateConfiguration, with: PinpointClientTypes.TemplateConfiguration.write(value:to:))
-        try writer["TreatmentDescription"].write(value.treatmentDescription)
-        try writer["TreatmentName"].write(value.treatmentName)
-        try writer["Version"].write(value.version)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.CampaignResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointClientTypes.CampaignResponse()
@@ -3000,11 +2644,6 @@ extension PinpointClientTypes {
 
 extension PinpointClientTypes.CampaignState {
 
-    static func write(value: PinpointClientTypes.CampaignState?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CampaignStatus"].write(value.campaignStatus)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.CampaignState {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointClientTypes.CampaignState()
@@ -3076,12 +2715,6 @@ extension PinpointClientTypes {
 
 extension PinpointClientTypes.CampaignsResponse {
 
-    static func write(value: PinpointClientTypes.CampaignsResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Item"].writeList(value.item, memberWritingClosure: PinpointClientTypes.CampaignResponse.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["NextToken"].write(value.nextToken)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.CampaignsResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointClientTypes.CampaignsResponse()
@@ -3113,19 +2746,6 @@ extension PinpointClientTypes {
 }
 
 extension PinpointClientTypes.ChannelResponse {
-
-    static func write(value: PinpointClientTypes.ChannelResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ApplicationId"].write(value.applicationId)
-        try writer["CreationDate"].write(value.creationDate)
-        try writer["Enabled"].write(value.enabled)
-        try writer["HasCredential"].write(value.hasCredential)
-        try writer["Id"].write(value.id)
-        try writer["IsArchived"].write(value.isArchived)
-        try writer["LastModifiedBy"].write(value.lastModifiedBy)
-        try writer["LastModifiedDate"].write(value.lastModifiedDate)
-        try writer["Version"].write(value.version)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.ChannelResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3255,11 +2875,6 @@ extension PinpointClientTypes {
 }
 
 extension PinpointClientTypes.ChannelsResponse {
-
-    static func write(value: PinpointClientTypes.ChannelsResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Channels"].writeMap(value.channels, valueWritingClosure: PinpointClientTypes.ChannelResponse.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.ChannelsResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3622,14 +3237,6 @@ extension PinpointClientTypes.CreateApplicationRequest {
         guard let value else { return }
         try writer["Name"].write(value.name)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.CreateApplicationRequest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PinpointClientTypes.CreateApplicationRequest()
-        value.name = try reader["Name"].readIfPresent()
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: Swift.String.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
     }
 }
 
@@ -4302,21 +3909,6 @@ extension PinpointClientTypes.CreateRecommenderConfigurationShape {
         try writer["RecommendationsDisplayName"].write(value.recommendationsDisplayName)
         try writer["RecommendationsPerMessage"].write(value.recommendationsPerMessage)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.CreateRecommenderConfigurationShape {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PinpointClientTypes.CreateRecommenderConfigurationShape()
-        value.attributes = try reader["Attributes"].readMapIfPresent(valueReadingClosure: Swift.String.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.description = try reader["Description"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.recommendationProviderIdType = try reader["RecommendationProviderIdType"].readIfPresent()
-        value.recommendationProviderRoleArn = try reader["RecommendationProviderRoleArn"].readIfPresent()
-        value.recommendationProviderUri = try reader["RecommendationProviderUri"].readIfPresent()
-        value.recommendationTransformerUri = try reader["RecommendationTransformerUri"].readIfPresent()
-        value.recommendationsDisplayName = try reader["RecommendationsDisplayName"].readIfPresent()
-        value.recommendationsPerMessage = try reader["RecommendationsPerMessage"].readIfPresent()
-        return value
-    }
 }
 
 extension PinpointClientTypes {
@@ -4541,13 +4133,6 @@ enum CreateSmsTemplateOutputError {
 }
 
 extension PinpointClientTypes.CreateTemplateMessageBody {
-
-    static func write(value: PinpointClientTypes.CreateTemplateMessageBody?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["Message"].write(value.message)
-        try writer["RequestID"].write(value.requestID)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.CreateTemplateMessageBody {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4884,14 +4469,6 @@ extension PinpointClientTypes.DefaultMessage {
         try writer["Body"].write(value.body)
         try writer["Substitutions"].writeMap(value.substitutions, valueWritingClosure: listWritingClosure(memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.DefaultMessage {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PinpointClientTypes.DefaultMessage()
-        value.body = try reader["Body"].readIfPresent()
-        value.substitutions = try reader["Substitutions"].readMapIfPresent(valueReadingClosure: listReadingClosure(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
 }
 
 extension PinpointClientTypes {
@@ -4925,19 +4502,6 @@ extension PinpointClientTypes.DefaultPushNotificationMessage {
         try writer["Substitutions"].writeMap(value.substitutions, valueWritingClosure: listWritingClosure(memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["Title"].write(value.title)
         try writer["Url"].write(value.url)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.DefaultPushNotificationMessage {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PinpointClientTypes.DefaultPushNotificationMessage()
-        value.action = try reader["Action"].readIfPresent()
-        value.body = try reader["Body"].readIfPresent()
-        value.data = try reader["Data"].readMapIfPresent(valueReadingClosure: Swift.String.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.silentPush = try reader["SilentPush"].readIfPresent()
-        value.substitutions = try reader["Substitutions"].readMapIfPresent(valueReadingClosure: listReadingClosure(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.title = try reader["Title"].readIfPresent()
-        value.url = try reader["Url"].readIfPresent()
-        return value
     }
 }
 
@@ -6851,21 +6415,6 @@ extension PinpointClientTypes.DirectMessageConfiguration {
         try writer["SMSMessage"].write(value.smsMessage, with: PinpointClientTypes.SMSMessage.write(value:to:))
         try writer["VoiceMessage"].write(value.voiceMessage, with: PinpointClientTypes.VoiceMessage.write(value:to:))
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.DirectMessageConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PinpointClientTypes.DirectMessageConfiguration()
-        value.admMessage = try reader["ADMMessage"].readIfPresent(with: PinpointClientTypes.ADMMessage.read(from:))
-        value.apnsMessage = try reader["APNSMessage"].readIfPresent(with: PinpointClientTypes.APNSMessage.read(from:))
-        value.baiduMessage = try reader["BaiduMessage"].readIfPresent(with: PinpointClientTypes.BaiduMessage.read(from:))
-        value.defaultMessage = try reader["DefaultMessage"].readIfPresent(with: PinpointClientTypes.DefaultMessage.read(from:))
-        value.defaultPushNotificationMessage = try reader["DefaultPushNotificationMessage"].readIfPresent(with: PinpointClientTypes.DefaultPushNotificationMessage.read(from:))
-        value.emailMessage = try reader["EmailMessage"].readIfPresent(with: PinpointClientTypes.EmailMessage.read(from:))
-        value.gcmMessage = try reader["GCMMessage"].readIfPresent(with: PinpointClientTypes.GCMMessage.read(from:))
-        value.smsMessage = try reader["SMSMessage"].readIfPresent(with: PinpointClientTypes.SMSMessage.read(from:))
-        value.voiceMessage = try reader["VoiceMessage"].readIfPresent(with: PinpointClientTypes.VoiceMessage.read(from:))
-        return value
-    }
 }
 
 extension PinpointClientTypes {
@@ -6963,18 +6512,6 @@ extension PinpointClientTypes.EmailChannelRequest {
         try writer["OrchestrationSendingRoleArn"].write(value.orchestrationSendingRoleArn)
         try writer["RoleArn"].write(value.roleArn)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.EmailChannelRequest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PinpointClientTypes.EmailChannelRequest()
-        value.configurationSet = try reader["ConfigurationSet"].readIfPresent()
-        value.enabled = try reader["Enabled"].readIfPresent()
-        value.fromAddress = try reader["FromAddress"].readIfPresent()
-        value.identity = try reader["Identity"].readIfPresent()
-        value.roleArn = try reader["RoleArn"].readIfPresent()
-        value.orchestrationSendingRoleArn = try reader["OrchestrationSendingRoleArn"].readIfPresent()
-        return value
-    }
 }
 
 extension PinpointClientTypes {
@@ -7016,26 +6553,6 @@ extension PinpointClientTypes {
 }
 
 extension PinpointClientTypes.EmailChannelResponse {
-
-    static func write(value: PinpointClientTypes.EmailChannelResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ApplicationId"].write(value.applicationId)
-        try writer["ConfigurationSet"].write(value.configurationSet)
-        try writer["CreationDate"].write(value.creationDate)
-        try writer["Enabled"].write(value.enabled)
-        try writer["FromAddress"].write(value.fromAddress)
-        try writer["HasCredential"].write(value.hasCredential)
-        try writer["Id"].write(value.id)
-        try writer["Identity"].write(value.identity)
-        try writer["IsArchived"].write(value.isArchived)
-        try writer["LastModifiedBy"].write(value.lastModifiedBy)
-        try writer["LastModifiedDate"].write(value.lastModifiedDate)
-        try writer["MessagesPerSecond"].write(value.messagesPerSecond)
-        try writer["OrchestrationSendingRoleArn"].write(value.orchestrationSendingRoleArn)
-        try writer["Platform"].write(value.platform)
-        try writer["RoleArn"].write(value.roleArn)
-        try writer["Version"].write(value.version)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.EmailChannelResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7149,19 +6666,6 @@ extension PinpointClientTypes.EmailMessage {
         try writer["SimpleEmail"].write(value.simpleEmail, with: PinpointClientTypes.SimpleEmail.write(value:to:))
         try writer["Substitutions"].writeMap(value.substitutions, valueWritingClosure: listWritingClosure(memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.EmailMessage {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PinpointClientTypes.EmailMessage()
-        value.body = try reader["Body"].readIfPresent()
-        value.feedbackForwardingAddress = try reader["FeedbackForwardingAddress"].readIfPresent()
-        value.fromAddress = try reader["FromAddress"].readIfPresent()
-        value.rawEmail = try reader["RawEmail"].readIfPresent(with: PinpointClientTypes.RawEmail.read(from:))
-        value.replyToAddresses = try reader["ReplyToAddresses"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.simpleEmail = try reader["SimpleEmail"].readIfPresent(with: PinpointClientTypes.SimpleEmail.read(from:))
-        value.substitutions = try reader["Substitutions"].readMapIfPresent(valueReadingClosure: listReadingClosure(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
 }
 
 extension PinpointClientTypes {
@@ -7265,19 +6769,6 @@ extension PinpointClientTypes.EmailTemplateRequest {
         try writer["TextPart"].write(value.textPart)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.EmailTemplateRequest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PinpointClientTypes.EmailTemplateRequest()
-        value.defaultSubstitutions = try reader["DefaultSubstitutions"].readIfPresent()
-        value.htmlPart = try reader["HtmlPart"].readIfPresent()
-        value.recommenderId = try reader["RecommenderId"].readIfPresent()
-        value.subject = try reader["Subject"].readIfPresent()
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: Swift.String.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.templateDescription = try reader["TemplateDescription"].readIfPresent()
-        value.textPart = try reader["TextPart"].readIfPresent()
-        return value
-    }
 }
 
 extension PinpointClientTypes {
@@ -7321,23 +6812,6 @@ extension PinpointClientTypes {
 }
 
 extension PinpointClientTypes.EmailTemplateResponse {
-
-    static func write(value: PinpointClientTypes.EmailTemplateResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["CreationDate"].write(value.creationDate)
-        try writer["DefaultSubstitutions"].write(value.defaultSubstitutions)
-        try writer["HtmlPart"].write(value.htmlPart)
-        try writer["LastModifiedDate"].write(value.lastModifiedDate)
-        try writer["RecommenderId"].write(value.recommenderId)
-        try writer["Subject"].write(value.subject)
-        try writer["TemplateDescription"].write(value.templateDescription)
-        try writer["TemplateName"].write(value.templateName)
-        try writer["TemplateType"].write(value.templateType)
-        try writer["TextPart"].write(value.textPart)
-        try writer["Version"].write(value.version)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.EmailTemplateResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7444,24 +6918,6 @@ extension PinpointClientTypes.EndpointBatchItem {
         try writer["RequestId"].write(value.requestId)
         try writer["User"].write(value.user, with: PinpointClientTypes.EndpointUser.write(value:to:))
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.EndpointBatchItem {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PinpointClientTypes.EndpointBatchItem()
-        value.address = try reader["Address"].readIfPresent()
-        value.attributes = try reader["Attributes"].readMapIfPresent(valueReadingClosure: listReadingClosure(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.channelType = try reader["ChannelType"].readIfPresent()
-        value.demographic = try reader["Demographic"].readIfPresent(with: PinpointClientTypes.EndpointDemographic.read(from:))
-        value.effectiveDate = try reader["EffectiveDate"].readIfPresent()
-        value.endpointStatus = try reader["EndpointStatus"].readIfPresent()
-        value.id = try reader["Id"].readIfPresent()
-        value.location = try reader["Location"].readIfPresent(with: PinpointClientTypes.EndpointLocation.read(from:))
-        value.metrics = try reader["Metrics"].readMapIfPresent(valueReadingClosure: Swift.Double.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.optOut = try reader["OptOut"].readIfPresent()
-        value.requestId = try reader["RequestId"].readIfPresent()
-        value.user = try reader["User"].readIfPresent(with: PinpointClientTypes.EndpointUser.read(from:))
-        return value
-    }
 }
 
 extension PinpointClientTypes {
@@ -7529,13 +6985,6 @@ extension PinpointClientTypes.EndpointBatchRequest {
     static func write(value: PinpointClientTypes.EndpointBatchRequest?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Item"].writeList(value.item, memberWritingClosure: PinpointClientTypes.EndpointBatchItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.EndpointBatchRequest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PinpointClientTypes.EndpointBatchRequest()
-        value.item = try reader["Item"].readListIfPresent(memberReadingClosure: PinpointClientTypes.EndpointBatchItem.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -7631,12 +7080,6 @@ extension PinpointClientTypes {
 
 extension PinpointClientTypes.EndpointItemResponse {
 
-    static func write(value: PinpointClientTypes.EndpointItemResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.message)
-        try writer["StatusCode"].write(value.statusCode)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.EndpointItemResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointClientTypes.EndpointItemResponse()
@@ -7729,16 +7172,6 @@ extension PinpointClientTypes {
 
 extension PinpointClientTypes.EndpointMessageResult {
 
-    static func write(value: PinpointClientTypes.EndpointMessageResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Address"].write(value.address)
-        try writer["DeliveryStatus"].write(value.deliveryStatus)
-        try writer["MessageId"].write(value.messageId)
-        try writer["StatusCode"].write(value.statusCode)
-        try writer["StatusMessage"].write(value.statusMessage)
-        try writer["UpdatedToken"].write(value.updatedToken)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.EndpointMessageResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointClientTypes.EndpointMessageResult()
@@ -7820,23 +7253,6 @@ extension PinpointClientTypes.EndpointRequest {
         try writer["RequestId"].write(value.requestId)
         try writer["User"].write(value.user, with: PinpointClientTypes.EndpointUser.write(value:to:))
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.EndpointRequest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PinpointClientTypes.EndpointRequest()
-        value.address = try reader["Address"].readIfPresent()
-        value.attributes = try reader["Attributes"].readMapIfPresent(valueReadingClosure: listReadingClosure(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.channelType = try reader["ChannelType"].readIfPresent()
-        value.demographic = try reader["Demographic"].readIfPresent(with: PinpointClientTypes.EndpointDemographic.read(from:))
-        value.effectiveDate = try reader["EffectiveDate"].readIfPresent()
-        value.endpointStatus = try reader["EndpointStatus"].readIfPresent()
-        value.location = try reader["Location"].readIfPresent(with: PinpointClientTypes.EndpointLocation.read(from:))
-        value.metrics = try reader["Metrics"].readMapIfPresent(valueReadingClosure: Swift.Double.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.optOut = try reader["OptOut"].readIfPresent()
-        value.requestId = try reader["RequestId"].readIfPresent()
-        value.user = try reader["User"].readIfPresent(with: PinpointClientTypes.EndpointUser.read(from:))
-        return value
-    }
 }
 
 extension PinpointClientTypes {
@@ -7896,25 +7312,6 @@ extension PinpointClientTypes {
 }
 
 extension PinpointClientTypes.EndpointResponse {
-
-    static func write(value: PinpointClientTypes.EndpointResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Address"].write(value.address)
-        try writer["ApplicationId"].write(value.applicationId)
-        try writer["Attributes"].writeMap(value.attributes, valueWritingClosure: listWritingClosure(memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["ChannelType"].write(value.channelType)
-        try writer["CohortId"].write(value.cohortId)
-        try writer["CreationDate"].write(value.creationDate)
-        try writer["Demographic"].write(value.demographic, with: PinpointClientTypes.EndpointDemographic.write(value:to:))
-        try writer["EffectiveDate"].write(value.effectiveDate)
-        try writer["EndpointStatus"].write(value.endpointStatus)
-        try writer["Id"].write(value.id)
-        try writer["Location"].write(value.location, with: PinpointClientTypes.EndpointLocation.write(value:to:))
-        try writer["Metrics"].writeMap(value.metrics, valueWritingClosure: Swift.Double.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["OptOut"].write(value.optOut)
-        try writer["RequestId"].write(value.requestId)
-        try writer["User"].write(value.user, with: PinpointClientTypes.EndpointUser.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.EndpointResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8020,17 +7417,6 @@ extension PinpointClientTypes.EndpointSendConfiguration {
         try writer["Substitutions"].writeMap(value.substitutions, valueWritingClosure: listWritingClosure(memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["TitleOverride"].write(value.titleOverride)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.EndpointSendConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PinpointClientTypes.EndpointSendConfiguration()
-        value.bodyOverride = try reader["BodyOverride"].readIfPresent()
-        value.context = try reader["Context"].readMapIfPresent(valueReadingClosure: Swift.String.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.rawContent = try reader["RawContent"].readIfPresent()
-        value.substitutions = try reader["Substitutions"].readMapIfPresent(valueReadingClosure: listReadingClosure(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.titleOverride = try reader["TitleOverride"].readIfPresent()
-        return value
-    }
 }
 
 extension PinpointClientTypes {
@@ -8104,11 +7490,6 @@ extension PinpointClientTypes {
 
 extension PinpointClientTypes.EndpointsResponse {
 
-    static func write(value: PinpointClientTypes.EndpointsResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Item"].writeList(value.item, memberWritingClosure: PinpointClientTypes.EndpointResponse.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.EndpointsResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointClientTypes.EndpointsResponse()
@@ -8148,22 +7529,6 @@ extension PinpointClientTypes.Event {
         try writer["SdkName"].write(value.sdkName)
         try writer["Session"].write(value.session, with: PinpointClientTypes.Session.write(value:to:))
         try writer["Timestamp"].write(value.timestamp)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.Event {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PinpointClientTypes.Event()
-        value.appPackageName = try reader["AppPackageName"].readIfPresent()
-        value.appTitle = try reader["AppTitle"].readIfPresent()
-        value.appVersionCode = try reader["AppVersionCode"].readIfPresent()
-        value.attributes = try reader["Attributes"].readMapIfPresent(valueReadingClosure: Swift.String.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.clientSdkVersion = try reader["ClientSdkVersion"].readIfPresent()
-        value.eventType = try reader["EventType"].readIfPresent()
-        value.metrics = try reader["Metrics"].readMapIfPresent(valueReadingClosure: Swift.Double.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.sdkName = try reader["SdkName"].readIfPresent()
-        value.session = try reader["Session"].readIfPresent(with: PinpointClientTypes.Session.read(from:))
-        value.timestamp = try reader["Timestamp"].readIfPresent()
-        return value
     }
 }
 
@@ -8342,12 +7707,6 @@ extension PinpointClientTypes {
 
 extension PinpointClientTypes.EventItemResponse {
 
-    static func write(value: PinpointClientTypes.EventItemResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.message)
-        try writer["StatusCode"].write(value.statusCode)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.EventItemResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointClientTypes.EventItemResponse()
@@ -8415,16 +7774,6 @@ extension PinpointClientTypes {
 
 extension PinpointClientTypes.EventStream {
 
-    static func write(value: PinpointClientTypes.EventStream?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ApplicationId"].write(value.applicationId)
-        try writer["DestinationStreamArn"].write(value.destinationStreamArn)
-        try writer["ExternalId"].write(value.externalId)
-        try writer["LastModifiedDate"].write(value.lastModifiedDate)
-        try writer["LastUpdatedBy"].write(value.lastUpdatedBy)
-        try writer["RoleArn"].write(value.roleArn)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.EventStream {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointClientTypes.EventStream()
@@ -8484,14 +7833,6 @@ extension PinpointClientTypes.EventsBatch {
         try writer["Endpoint"].write(value.endpoint, with: PinpointClientTypes.PublicEndpoint.write(value:to:))
         try writer["Events"].writeMap(value.events, valueWritingClosure: PinpointClientTypes.Event.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.EventsBatch {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PinpointClientTypes.EventsBatch()
-        value.endpoint = try reader["Endpoint"].readIfPresent(with: PinpointClientTypes.PublicEndpoint.read(from:))
-        value.events = try reader["Events"].readMapIfPresent(valueReadingClosure: PinpointClientTypes.Event.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
 }
 
 extension PinpointClientTypes {
@@ -8522,13 +7863,6 @@ extension PinpointClientTypes.EventsRequest {
         guard let value else { return }
         try writer["BatchItem"].writeMap(value.batchItem, valueWritingClosure: PinpointClientTypes.EventsBatch.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.EventsRequest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PinpointClientTypes.EventsRequest()
-        value.batchItem = try reader["BatchItem"].readMapIfPresent(valueReadingClosure: PinpointClientTypes.EventsBatch.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
 }
 
 extension PinpointClientTypes {
@@ -8549,11 +7883,6 @@ extension PinpointClientTypes {
 }
 
 extension PinpointClientTypes.EventsResponse {
-
-    static func write(value: PinpointClientTypes.EventsResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Results"].writeMap(value.results, valueWritingClosure: PinpointClientTypes.ItemResponse.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.EventsResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8588,16 +7917,6 @@ extension PinpointClientTypes.ExportJobRequest {
         try writer["SegmentId"].write(value.segmentId)
         try writer["SegmentVersion"].write(value.segmentVersion)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.ExportJobRequest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PinpointClientTypes.ExportJobRequest()
-        value.roleArn = try reader["RoleArn"].readIfPresent()
-        value.s3UrlPrefix = try reader["S3UrlPrefix"].readIfPresent()
-        value.segmentId = try reader["SegmentId"].readIfPresent()
-        value.segmentVersion = try reader["SegmentVersion"].readIfPresent()
-        return value
-    }
 }
 
 extension PinpointClientTypes {
@@ -8631,14 +7950,6 @@ extension PinpointClientTypes {
 }
 
 extension PinpointClientTypes.ExportJobResource {
-
-    static func write(value: PinpointClientTypes.ExportJobResource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["RoleArn"].write(value.roleArn)
-        try writer["S3UrlPrefix"].write(value.s3UrlPrefix)
-        try writer["SegmentId"].write(value.segmentId)
-        try writer["SegmentVersion"].write(value.segmentVersion)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.ExportJobResource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8682,23 +7993,6 @@ extension PinpointClientTypes {
 }
 
 extension PinpointClientTypes.ExportJobResponse {
-
-    static func write(value: PinpointClientTypes.ExportJobResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ApplicationId"].write(value.applicationId)
-        try writer["CompletedPieces"].write(value.completedPieces)
-        try writer["CompletionDate"].write(value.completionDate)
-        try writer["CreationDate"].write(value.creationDate)
-        try writer["Definition"].write(value.definition, with: PinpointClientTypes.ExportJobResource.write(value:to:))
-        try writer["FailedPieces"].write(value.failedPieces)
-        try writer["Failures"].writeList(value.failures, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Id"].write(value.id)
-        try writer["JobStatus"].write(value.jobStatus)
-        try writer["TotalFailures"].write(value.totalFailures)
-        try writer["TotalPieces"].write(value.totalPieces)
-        try writer["TotalProcessed"].write(value.totalProcessed)
-        try writer["Type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.ExportJobResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8791,12 +8085,6 @@ extension PinpointClientTypes {
 }
 
 extension PinpointClientTypes.ExportJobsResponse {
-
-    static func write(value: PinpointClientTypes.ExportJobsResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Item"].writeList(value.item, memberWritingClosure: PinpointClientTypes.ExportJobResponse.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["NextToken"].write(value.nextToken)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.ExportJobsResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8985,16 +8273,6 @@ extension PinpointClientTypes.GCMChannelRequest {
         try writer["Enabled"].write(value.enabled)
         try writer["ServiceJson"].write(value.serviceJson)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.GCMChannelRequest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PinpointClientTypes.GCMChannelRequest()
-        value.apiKey = try reader["ApiKey"].readIfPresent()
-        value.defaultAuthenticationMethod = try reader["DefaultAuthenticationMethod"].readIfPresent()
-        value.enabled = try reader["Enabled"].readIfPresent()
-        value.serviceJson = try reader["ServiceJson"].readIfPresent()
-        return value
-    }
 }
 
 extension PinpointClientTypes {
@@ -9026,23 +8304,6 @@ extension PinpointClientTypes {
 }
 
 extension PinpointClientTypes.GCMChannelResponse {
-
-    static func write(value: PinpointClientTypes.GCMChannelResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ApplicationId"].write(value.applicationId)
-        try writer["CreationDate"].write(value.creationDate)
-        try writer["Credential"].write(value.credential)
-        try writer["DefaultAuthenticationMethod"].write(value.defaultAuthenticationMethod)
-        try writer["Enabled"].write(value.enabled)
-        try writer["HasCredential"].write(value.hasCredential)
-        try writer["HasFcmServiceCredentials"].write(value.hasFcmServiceCredentials)
-        try writer["Id"].write(value.id)
-        try writer["IsArchived"].write(value.isArchived)
-        try writer["LastModifiedBy"].write(value.lastModifiedBy)
-        try writer["LastModifiedDate"].write(value.lastModifiedDate)
-        try writer["Platform"].write(value.platform)
-        try writer["Version"].write(value.version)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.GCMChannelResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -9151,30 +8412,6 @@ extension PinpointClientTypes.GCMMessage {
         try writer["TimeToLive"].write(value.timeToLive)
         try writer["Title"].write(value.title)
         try writer["Url"].write(value.url)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.GCMMessage {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PinpointClientTypes.GCMMessage()
-        value.action = try reader["Action"].readIfPresent()
-        value.body = try reader["Body"].readIfPresent()
-        value.collapseKey = try reader["CollapseKey"].readIfPresent()
-        value.data = try reader["Data"].readMapIfPresent(valueReadingClosure: Swift.String.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.iconReference = try reader["IconReference"].readIfPresent()
-        value.imageIconUrl = try reader["ImageIconUrl"].readIfPresent()
-        value.imageUrl = try reader["ImageUrl"].readIfPresent()
-        value.preferredAuthenticationMethod = try reader["PreferredAuthenticationMethod"].readIfPresent()
-        value.priority = try reader["Priority"].readIfPresent()
-        value.rawContent = try reader["RawContent"].readIfPresent()
-        value.restrictedPackageName = try reader["RestrictedPackageName"].readIfPresent()
-        value.silentPush = try reader["SilentPush"].readIfPresent()
-        value.smallImageIconUrl = try reader["SmallImageIconUrl"].readIfPresent()
-        value.sound = try reader["Sound"].readIfPresent()
-        value.substitutions = try reader["Substitutions"].readMapIfPresent(valueReadingClosure: listReadingClosure(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.timeToLive = try reader["TimeToLive"].readIfPresent()
-        value.title = try reader["Title"].readIfPresent()
-        value.url = try reader["Url"].readIfPresent()
-        return value
     }
 }
 
@@ -13576,20 +12813,6 @@ extension PinpointClientTypes.ImportJobRequest {
         try writer["SegmentId"].write(value.segmentId)
         try writer["SegmentName"].write(value.segmentName)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.ImportJobRequest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PinpointClientTypes.ImportJobRequest()
-        value.defineSegment = try reader["DefineSegment"].readIfPresent()
-        value.externalId = try reader["ExternalId"].readIfPresent()
-        value.format = try reader["Format"].readIfPresent()
-        value.registerEndpoints = try reader["RegisterEndpoints"].readIfPresent()
-        value.roleArn = try reader["RoleArn"].readIfPresent()
-        value.s3Url = try reader["S3Url"].readIfPresent()
-        value.segmentId = try reader["SegmentId"].readIfPresent()
-        value.segmentName = try reader["SegmentName"].readIfPresent()
-        return value
-    }
 }
 
 extension PinpointClientTypes {
@@ -13640,18 +12863,6 @@ extension PinpointClientTypes {
 }
 
 extension PinpointClientTypes.ImportJobResource {
-
-    static func write(value: PinpointClientTypes.ImportJobResource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DefineSegment"].write(value.defineSegment)
-        try writer["ExternalId"].write(value.externalId)
-        try writer["Format"].write(value.format)
-        try writer["RegisterEndpoints"].write(value.registerEndpoints)
-        try writer["RoleArn"].write(value.roleArn)
-        try writer["S3Url"].write(value.s3Url)
-        try writer["SegmentId"].write(value.segmentId)
-        try writer["SegmentName"].write(value.segmentName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.ImportJobResource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -13716,23 +12927,6 @@ extension PinpointClientTypes {
 }
 
 extension PinpointClientTypes.ImportJobResponse {
-
-    static func write(value: PinpointClientTypes.ImportJobResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ApplicationId"].write(value.applicationId)
-        try writer["CompletedPieces"].write(value.completedPieces)
-        try writer["CompletionDate"].write(value.completionDate)
-        try writer["CreationDate"].write(value.creationDate)
-        try writer["Definition"].write(value.definition, with: PinpointClientTypes.ImportJobResource.write(value:to:))
-        try writer["FailedPieces"].write(value.failedPieces)
-        try writer["Failures"].writeList(value.failures, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Id"].write(value.id)
-        try writer["JobStatus"].write(value.jobStatus)
-        try writer["TotalFailures"].write(value.totalFailures)
-        try writer["TotalPieces"].write(value.totalPieces)
-        try writer["TotalProcessed"].write(value.totalProcessed)
-        try writer["Type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.ImportJobResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -13826,12 +13020,6 @@ extension PinpointClientTypes {
 
 extension PinpointClientTypes.ImportJobsResponse {
 
-    static func write(value: PinpointClientTypes.ImportJobsResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Item"].writeList(value.item, memberWritingClosure: PinpointClientTypes.ImportJobResponse.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["NextToken"].write(value.nextToken)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.ImportJobsResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointClientTypes.ImportJobsResponse()
@@ -13863,13 +13051,6 @@ extension PinpointClientTypes {
 }
 
 extension PinpointClientTypes.InAppCampaignSchedule {
-
-    static func write(value: PinpointClientTypes.InAppCampaignSchedule?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EndDate"].write(value.endDate)
-        try writer["EventFilter"].write(value.eventFilter, with: PinpointClientTypes.CampaignEventFilter.write(value:to:))
-        try writer["QuietTime"].write(value.quietTime, with: PinpointClientTypes.QuietTime.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.InAppCampaignSchedule {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -13906,13 +13087,6 @@ extension PinpointClientTypes {
 }
 
 extension PinpointClientTypes.InAppMessage {
-
-    static func write(value: PinpointClientTypes.InAppMessage?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Content"].writeList(value.content, memberWritingClosure: PinpointClientTypes.InAppMessageContent.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["CustomConfig"].writeMap(value.customConfig, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["Layout"].write(value.layout)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.InAppMessage {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -14044,18 +13218,6 @@ extension PinpointClientTypes {
 }
 
 extension PinpointClientTypes.InAppMessageCampaign {
-
-    static func write(value: PinpointClientTypes.InAppMessageCampaign?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CampaignId"].write(value.campaignId)
-        try writer["DailyCap"].write(value.dailyCap)
-        try writer["InAppMessage"].write(value.inAppMessage, with: PinpointClientTypes.InAppMessage.write(value:to:))
-        try writer["Priority"].write(value.priority)
-        try writer["Schedule"].write(value.schedule, with: PinpointClientTypes.InAppCampaignSchedule.write(value:to:))
-        try writer["SessionCap"].write(value.sessionCap)
-        try writer["TotalCap"].write(value.totalCap)
-        try writer["TreatmentId"].write(value.treatmentId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.InAppMessageCampaign {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -14225,11 +13387,6 @@ extension PinpointClientTypes {
 
 extension PinpointClientTypes.InAppMessagesResponse {
 
-    static func write(value: PinpointClientTypes.InAppMessagesResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["InAppMessageCampaigns"].writeList(value.inAppMessageCampaigns, memberWritingClosure: PinpointClientTypes.InAppMessageCampaign.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.InAppMessagesResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointClientTypes.InAppMessagesResponse()
@@ -14263,17 +13420,6 @@ extension PinpointClientTypes.InAppTemplateRequest {
         try writer["Layout"].write(value.layout)
         try writer["TemplateDescription"].write(value.templateDescription)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.InAppTemplateRequest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PinpointClientTypes.InAppTemplateRequest()
-        value.content = try reader["Content"].readListIfPresent(memberReadingClosure: PinpointClientTypes.InAppMessageContent.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.customConfig = try reader["CustomConfig"].readMapIfPresent(valueReadingClosure: Swift.String.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.layout = try reader["Layout"].readIfPresent()
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: Swift.String.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.templateDescription = try reader["TemplateDescription"].readIfPresent()
-        return value
     }
 }
 
@@ -14310,21 +13456,6 @@ extension PinpointClientTypes {
 }
 
 extension PinpointClientTypes.InAppTemplateResponse {
-
-    static func write(value: PinpointClientTypes.InAppTemplateResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["Content"].writeList(value.content, memberWritingClosure: PinpointClientTypes.InAppMessageContent.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["CreationDate"].write(value.creationDate)
-        try writer["CustomConfig"].writeMap(value.customConfig, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["LastModifiedDate"].write(value.lastModifiedDate)
-        try writer["Layout"].write(value.layout)
-        try writer["TemplateDescription"].write(value.templateDescription)
-        try writer["TemplateName"].write(value.templateName)
-        try writer["TemplateType"].write(value.templateType)
-        try writer["Version"].write(value.version)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.InAppTemplateResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -14482,12 +13613,6 @@ public struct InternalServerErrorException: ClientRuntime.ModeledError, AWSClien
 
 extension PinpointClientTypes.ItemResponse {
 
-    static func write(value: PinpointClientTypes.ItemResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EndpointItemResponse"].write(value.endpointItemResponse, with: PinpointClientTypes.EndpointItemResponse.write(value:to:))
-        try writer["EventsItemResponse"].writeMap(value.eventsItemResponse, valueWritingClosure: PinpointClientTypes.EventItemResponse.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.ItemResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointClientTypes.ItemResponse()
@@ -14638,17 +13763,6 @@ extension PinpointClientTypes {
 
 extension PinpointClientTypes.JourneyDateRangeKpiResponse {
 
-    static func write(value: PinpointClientTypes.JourneyDateRangeKpiResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ApplicationId"].write(value.applicationId)
-        try writer["EndTime"].writeTimestamp(value.endTime, format: .dateTime)
-        try writer["JourneyId"].write(value.journeyId)
-        try writer["KpiName"].write(value.kpiName)
-        try writer["KpiResult"].write(value.kpiResult, with: PinpointClientTypes.BaseKpiResult.write(value:to:))
-        try writer["NextToken"].write(value.nextToken)
-        try writer["StartTime"].writeTimestamp(value.startTime, format: .dateTime)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.JourneyDateRangeKpiResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointClientTypes.JourneyDateRangeKpiResponse()
@@ -14742,16 +13856,6 @@ extension PinpointClientTypes {
 
 extension PinpointClientTypes.JourneyExecutionActivityMetricsResponse {
 
-    static func write(value: PinpointClientTypes.JourneyExecutionActivityMetricsResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ActivityType"].write(value.activityType)
-        try writer["ApplicationId"].write(value.applicationId)
-        try writer["JourneyActivityId"].write(value.journeyActivityId)
-        try writer["JourneyId"].write(value.journeyId)
-        try writer["LastEvaluatedTime"].write(value.lastEvaluatedTime)
-        try writer["Metrics"].writeMap(value.metrics, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.JourneyExecutionActivityMetricsResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointClientTypes.JourneyExecutionActivityMetricsResponse()
@@ -14820,14 +13924,6 @@ extension PinpointClientTypes {
 }
 
 extension PinpointClientTypes.JourneyExecutionMetricsResponse {
-
-    static func write(value: PinpointClientTypes.JourneyExecutionMetricsResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ApplicationId"].write(value.applicationId)
-        try writer["JourneyId"].write(value.journeyId)
-        try writer["LastEvaluatedTime"].write(value.lastEvaluatedTime)
-        try writer["Metrics"].writeMap(value.metrics, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.JourneyExecutionMetricsResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -14965,32 +14061,6 @@ extension PinpointClientTypes {
 }
 
 extension PinpointClientTypes.JourneyResponse {
-
-    static func write(value: PinpointClientTypes.JourneyResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Activities"].writeMap(value.activities, valueWritingClosure: PinpointClientTypes.Activity.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["ApplicationId"].write(value.applicationId)
-        try writer["ClosedDays"].write(value.closedDays, with: PinpointClientTypes.ClosedDays.write(value:to:))
-        try writer["CreationDate"].write(value.creationDate)
-        try writer["Id"].write(value.id)
-        try writer["JourneyChannelSettings"].write(value.journeyChannelSettings, with: PinpointClientTypes.JourneyChannelSettings.write(value:to:))
-        try writer["LastModifiedDate"].write(value.lastModifiedDate)
-        try writer["Limits"].write(value.limits, with: PinpointClientTypes.JourneyLimits.write(value:to:))
-        try writer["LocalTime"].write(value.localTime)
-        try writer["Name"].write(value.name)
-        try writer["OpenHours"].write(value.openHours, with: PinpointClientTypes.OpenHours.write(value:to:))
-        try writer["QuietTime"].write(value.quietTime, with: PinpointClientTypes.QuietTime.write(value:to:))
-        try writer["RefreshFrequency"].write(value.refreshFrequency)
-        try writer["RefreshOnSegmentUpdate"].write(value.refreshOnSegmentUpdate)
-        try writer["Schedule"].write(value.schedule, with: PinpointClientTypes.JourneySchedule.write(value:to:))
-        try writer["SendingSchedule"].write(value.sendingSchedule)
-        try writer["StartActivity"].write(value.startActivity)
-        try writer["StartCondition"].write(value.startCondition, with: PinpointClientTypes.StartCondition.write(value:to:))
-        try writer["State"].write(value.state)
-        try writer["TimezoneEstimationMethods"].writeList(value.timezoneEstimationMethods, memberWritingClosure: PinpointClientTypes.__TimezoneEstimationMethodsElement.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["WaitForQuietTime"].write(value.waitForQuietTime)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.JourneyResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -15149,17 +14219,6 @@ extension PinpointClientTypes {
 
 extension PinpointClientTypes.JourneyRunExecutionActivityMetricsResponse {
 
-    static func write(value: PinpointClientTypes.JourneyRunExecutionActivityMetricsResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ActivityType"].write(value.activityType)
-        try writer["ApplicationId"].write(value.applicationId)
-        try writer["JourneyActivityId"].write(value.journeyActivityId)
-        try writer["JourneyId"].write(value.journeyId)
-        try writer["LastEvaluatedTime"].write(value.lastEvaluatedTime)
-        try writer["Metrics"].writeMap(value.metrics, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["RunId"].write(value.runId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.JourneyRunExecutionActivityMetricsResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointClientTypes.JourneyRunExecutionActivityMetricsResponse()
@@ -15235,15 +14294,6 @@ extension PinpointClientTypes {
 
 extension PinpointClientTypes.JourneyRunExecutionMetricsResponse {
 
-    static func write(value: PinpointClientTypes.JourneyRunExecutionMetricsResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ApplicationId"].write(value.applicationId)
-        try writer["JourneyId"].write(value.journeyId)
-        try writer["LastEvaluatedTime"].write(value.lastEvaluatedTime)
-        try writer["Metrics"].writeMap(value.metrics, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["RunId"].write(value.runId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.JourneyRunExecutionMetricsResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointClientTypes.JourneyRunExecutionMetricsResponse()
@@ -15294,14 +14344,6 @@ extension PinpointClientTypes {
 }
 
 extension PinpointClientTypes.JourneyRunResponse {
-
-    static func write(value: PinpointClientTypes.JourneyRunResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationTime"].write(value.creationTime)
-        try writer["LastUpdateTime"].write(value.lastUpdateTime)
-        try writer["RunId"].write(value.runId)
-        try writer["Status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.JourneyRunResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -15383,12 +14425,6 @@ extension PinpointClientTypes {
 }
 
 extension PinpointClientTypes.JourneyRunsResponse {
-
-    static func write(value: PinpointClientTypes.JourneyRunsResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Item"].writeList(value.item, memberWritingClosure: PinpointClientTypes.JourneyRunResponse.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["NextToken"].write(value.nextToken)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.JourneyRunsResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -15524,13 +14560,6 @@ extension PinpointClientTypes.JourneyStateRequest {
         guard let value else { return }
         try writer["State"].write(value.state)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.JourneyStateRequest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PinpointClientTypes.JourneyStateRequest()
-        value.state = try reader["State"].readIfPresent()
-        return value
-    }
 }
 
 extension PinpointClientTypes {
@@ -15587,12 +14616,6 @@ extension PinpointClientTypes {
 }
 
 extension PinpointClientTypes.JourneysResponse {
-
-    static func write(value: PinpointClientTypes.JourneysResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Item"].writeList(value.item, memberWritingClosure: PinpointClientTypes.JourneyResponse.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["NextToken"].write(value.nextToken)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.JourneysResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -15759,12 +14782,6 @@ enum ListJourneysOutputError {
 }
 
 extension PinpointClientTypes.ListRecommenderConfigurationsResponse {
-
-    static func write(value: PinpointClientTypes.ListRecommenderConfigurationsResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Item"].writeList(value.item, memberWritingClosure: PinpointClientTypes.RecommenderConfigurationResponse.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["NextToken"].write(value.nextToken)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.ListRecommenderConfigurationsResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -16160,12 +15177,6 @@ extension PinpointClientTypes {
 
 extension PinpointClientTypes.MessageBody {
 
-    static func write(value: PinpointClientTypes.MessageBody?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.message)
-        try writer["RequestID"].write(value.requestID)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.MessageBody {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointClientTypes.MessageBody()
@@ -16285,18 +15296,6 @@ extension PinpointClientTypes.MessageRequest {
         try writer["TemplateConfiguration"].write(value.templateConfiguration, with: PinpointClientTypes.TemplateConfiguration.write(value:to:))
         try writer["TraceId"].write(value.traceId)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.MessageRequest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PinpointClientTypes.MessageRequest()
-        value.addresses = try reader["Addresses"].readMapIfPresent(valueReadingClosure: PinpointClientTypes.AddressConfiguration.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.context = try reader["Context"].readMapIfPresent(valueReadingClosure: Swift.String.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.endpoints = try reader["Endpoints"].readMapIfPresent(valueReadingClosure: PinpointClientTypes.EndpointSendConfiguration.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.messageConfiguration = try reader["MessageConfiguration"].readIfPresent(with: PinpointClientTypes.DirectMessageConfiguration.read(from:))
-        value.templateConfiguration = try reader["TemplateConfiguration"].readIfPresent(with: PinpointClientTypes.TemplateConfiguration.read(from:))
-        value.traceId = try reader["TraceId"].readIfPresent()
-        return value
-    }
 }
 
 extension PinpointClientTypes {
@@ -16337,14 +15336,6 @@ extension PinpointClientTypes {
 }
 
 extension PinpointClientTypes.MessageResponse {
-
-    static func write(value: PinpointClientTypes.MessageResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ApplicationId"].write(value.applicationId)
-        try writer["EndpointResult"].writeMap(value.endpointResult, valueWritingClosure: PinpointClientTypes.EndpointMessageResult.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["RequestId"].write(value.requestId)
-        try writer["Result"].writeMap(value.result, valueWritingClosure: PinpointClientTypes.MessageResult.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.MessageResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -16387,15 +15378,6 @@ extension PinpointClientTypes {
 }
 
 extension PinpointClientTypes.MessageResult {
-
-    static func write(value: PinpointClientTypes.MessageResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DeliveryStatus"].write(value.deliveryStatus)
-        try writer["MessageId"].write(value.messageId)
-        try writer["StatusCode"].write(value.statusCode)
-        try writer["StatusMessage"].write(value.statusMessage)
-        try writer["UpdatedToken"].write(value.updatedToken)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.MessageResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -16729,14 +15711,6 @@ extension PinpointClientTypes.NumberValidateRequest {
         try writer["IsoCountryCode"].write(value.isoCountryCode)
         try writer["PhoneNumber"].write(value.phoneNumber)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.NumberValidateRequest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PinpointClientTypes.NumberValidateRequest()
-        value.isoCountryCode = try reader["IsoCountryCode"].readIfPresent()
-        value.phoneNumber = try reader["PhoneNumber"].readIfPresent()
-        return value
-    }
 }
 
 extension PinpointClientTypes {
@@ -16760,24 +15734,6 @@ extension PinpointClientTypes {
 }
 
 extension PinpointClientTypes.NumberValidateResponse {
-
-    static func write(value: PinpointClientTypes.NumberValidateResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Carrier"].write(value.carrier)
-        try writer["City"].write(value.city)
-        try writer["CleansedPhoneNumberE164"].write(value.cleansedPhoneNumberE164)
-        try writer["CleansedPhoneNumberNational"].write(value.cleansedPhoneNumberNational)
-        try writer["Country"].write(value.country)
-        try writer["CountryCodeIso2"].write(value.countryCodeIso2)
-        try writer["CountryCodeNumeric"].write(value.countryCodeNumeric)
-        try writer["County"].write(value.county)
-        try writer["OriginalCountryCodeIso2"].write(value.originalCountryCodeIso2)
-        try writer["OriginalPhoneNumber"].write(value.originalPhoneNumber)
-        try writer["PhoneType"].write(value.phoneType)
-        try writer["PhoneTypeCode"].write(value.phoneTypeCode)
-        try writer["Timezone"].write(value.timezone)
-        try writer["ZipCode"].write(value.zipCode)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.NumberValidateResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -17162,23 +16118,6 @@ extension PinpointClientTypes.PublicEndpoint {
         try writer["RequestId"].write(value.requestId)
         try writer["User"].write(value.user, with: PinpointClientTypes.EndpointUser.write(value:to:))
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.PublicEndpoint {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PinpointClientTypes.PublicEndpoint()
-        value.address = try reader["Address"].readIfPresent()
-        value.attributes = try reader["Attributes"].readMapIfPresent(valueReadingClosure: listReadingClosure(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.channelType = try reader["ChannelType"].readIfPresent()
-        value.demographic = try reader["Demographic"].readIfPresent(with: PinpointClientTypes.EndpointDemographic.read(from:))
-        value.effectiveDate = try reader["EffectiveDate"].readIfPresent()
-        value.endpointStatus = try reader["EndpointStatus"].readIfPresent()
-        value.location = try reader["Location"].readIfPresent(with: PinpointClientTypes.EndpointLocation.read(from:))
-        value.metrics = try reader["Metrics"].readMapIfPresent(valueReadingClosure: Swift.Double.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.optOut = try reader["OptOut"].readIfPresent()
-        value.requestId = try reader["RequestId"].readIfPresent()
-        value.user = try reader["User"].readIfPresent(with: PinpointClientTypes.EndpointUser.read(from:))
-        return value
-    }
 }
 
 extension PinpointClientTypes {
@@ -17300,21 +16239,6 @@ extension PinpointClientTypes.PushNotificationTemplateRequest {
         try writer["TemplateDescription"].write(value.templateDescription)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.PushNotificationTemplateRequest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PinpointClientTypes.PushNotificationTemplateRequest()
-        value.adm = try reader["ADM"].readIfPresent(with: PinpointClientTypes.AndroidPushNotificationTemplate.read(from:))
-        value.apns = try reader["APNS"].readIfPresent(with: PinpointClientTypes.APNSPushNotificationTemplate.read(from:))
-        value.baidu = try reader["Baidu"].readIfPresent(with: PinpointClientTypes.AndroidPushNotificationTemplate.read(from:))
-        value.`default` = try reader["Default"].readIfPresent(with: PinpointClientTypes.DefaultPushNotificationTemplate.read(from:))
-        value.defaultSubstitutions = try reader["DefaultSubstitutions"].readIfPresent()
-        value.gcm = try reader["GCM"].readIfPresent(with: PinpointClientTypes.AndroidPushNotificationTemplate.read(from:))
-        value.recommenderId = try reader["RecommenderId"].readIfPresent()
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: Swift.String.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.templateDescription = try reader["TemplateDescription"].readIfPresent()
-        return value
-    }
 }
 
 extension PinpointClientTypes {
@@ -17366,25 +16290,6 @@ extension PinpointClientTypes {
 }
 
 extension PinpointClientTypes.PushNotificationTemplateResponse {
-
-    static func write(value: PinpointClientTypes.PushNotificationTemplateResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ADM"].write(value.adm, with: PinpointClientTypes.AndroidPushNotificationTemplate.write(value:to:))
-        try writer["APNS"].write(value.apns, with: PinpointClientTypes.APNSPushNotificationTemplate.write(value:to:))
-        try writer["Arn"].write(value.arn)
-        try writer["Baidu"].write(value.baidu, with: PinpointClientTypes.AndroidPushNotificationTemplate.write(value:to:))
-        try writer["CreationDate"].write(value.creationDate)
-        try writer["Default"].write(value.`default`, with: PinpointClientTypes.DefaultPushNotificationTemplate.write(value:to:))
-        try writer["DefaultSubstitutions"].write(value.defaultSubstitutions)
-        try writer["GCM"].write(value.gcm, with: PinpointClientTypes.AndroidPushNotificationTemplate.write(value:to:))
-        try writer["LastModifiedDate"].write(value.lastModifiedDate)
-        try writer["RecommenderId"].write(value.recommenderId)
-        try writer["TemplateDescription"].write(value.templateDescription)
-        try writer["TemplateName"].write(value.templateName)
-        try writer["TemplateType"].write(value.templateType)
-        try writer["Version"].write(value.version)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.PushNotificationTemplateResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -17757,13 +16662,6 @@ extension PinpointClientTypes.RawEmail {
         guard let value else { return }
         try writer["Data"].write(value.data)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.RawEmail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PinpointClientTypes.RawEmail()
-        value.data = try reader["Data"].readIfPresent()
-        return value
-    }
 }
 
 extension PinpointClientTypes {
@@ -17852,22 +16750,6 @@ extension PinpointClientTypes {
 }
 
 extension PinpointClientTypes.RecommenderConfigurationResponse {
-
-    static func write(value: PinpointClientTypes.RecommenderConfigurationResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Attributes"].writeMap(value.attributes, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["CreationDate"].write(value.creationDate)
-        try writer["Description"].write(value.description)
-        try writer["Id"].write(value.id)
-        try writer["LastModifiedDate"].write(value.lastModifiedDate)
-        try writer["Name"].write(value.name)
-        try writer["RecommendationProviderIdType"].write(value.recommendationProviderIdType)
-        try writer["RecommendationProviderRoleArn"].write(value.recommendationProviderRoleArn)
-        try writer["RecommendationProviderUri"].write(value.recommendationProviderUri)
-        try writer["RecommendationTransformerUri"].write(value.recommendationTransformerUri)
-        try writer["RecommendationsDisplayName"].write(value.recommendationsDisplayName)
-        try writer["RecommendationsPerMessage"].write(value.recommendationsPerMessage)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.RecommenderConfigurationResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -18054,12 +16936,6 @@ enum RemoveAttributesOutputError {
 
 extension PinpointClientTypes.ResultRow {
 
-    static func write(value: PinpointClientTypes.ResultRow?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["GroupedBys"].writeList(value.groupedBys, memberWritingClosure: PinpointClientTypes.ResultRowValue.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Values"].writeList(value.values, memberWritingClosure: PinpointClientTypes.ResultRowValue.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.ResultRow {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointClientTypes.ResultRow()
@@ -18092,13 +16968,6 @@ extension PinpointClientTypes {
 }
 
 extension PinpointClientTypes.ResultRowValue {
-
-    static func write(value: PinpointClientTypes.ResultRowValue?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Key"].write(value.key)
-        try writer["Type"].write(value.type)
-        try writer["Value"].write(value.value)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.ResultRowValue {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -18145,15 +17014,6 @@ extension PinpointClientTypes.SMSChannelRequest {
         try writer["SenderId"].write(value.senderId)
         try writer["ShortCode"].write(value.shortCode)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.SMSChannelRequest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PinpointClientTypes.SMSChannelRequest()
-        value.enabled = try reader["Enabled"].readIfPresent()
-        value.senderId = try reader["SenderId"].readIfPresent()
-        value.shortCode = try reader["ShortCode"].readIfPresent()
-        return value
-    }
 }
 
 extension PinpointClientTypes {
@@ -18181,24 +17041,6 @@ extension PinpointClientTypes {
 }
 
 extension PinpointClientTypes.SMSChannelResponse {
-
-    static func write(value: PinpointClientTypes.SMSChannelResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ApplicationId"].write(value.applicationId)
-        try writer["CreationDate"].write(value.creationDate)
-        try writer["Enabled"].write(value.enabled)
-        try writer["HasCredential"].write(value.hasCredential)
-        try writer["Id"].write(value.id)
-        try writer["IsArchived"].write(value.isArchived)
-        try writer["LastModifiedBy"].write(value.lastModifiedBy)
-        try writer["LastModifiedDate"].write(value.lastModifiedDate)
-        try writer["Platform"].write(value.platform)
-        try writer["PromotionalMessagesPerSecond"].write(value.promotionalMessagesPerSecond)
-        try writer["SenderId"].write(value.senderId)
-        try writer["ShortCode"].write(value.shortCode)
-        try writer["TransactionalMessagesPerSecond"].write(value.transactionalMessagesPerSecond)
-        try writer["Version"].write(value.version)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.SMSChannelResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -18303,21 +17145,6 @@ extension PinpointClientTypes.SMSMessage {
         try writer["SenderId"].write(value.senderId)
         try writer["Substitutions"].writeMap(value.substitutions, valueWritingClosure: listWritingClosure(memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["TemplateId"].write(value.templateId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.SMSMessage {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PinpointClientTypes.SMSMessage()
-        value.body = try reader["Body"].readIfPresent()
-        value.keyword = try reader["Keyword"].readIfPresent()
-        value.mediaUrl = try reader["MediaUrl"].readIfPresent()
-        value.messageType = try reader["MessageType"].readIfPresent()
-        value.originationNumber = try reader["OriginationNumber"].readIfPresent()
-        value.senderId = try reader["SenderId"].readIfPresent()
-        value.substitutions = try reader["Substitutions"].readMapIfPresent(valueReadingClosure: listReadingClosure(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.entityId = try reader["EntityId"].readIfPresent()
-        value.templateId = try reader["TemplateId"].readIfPresent()
-        return value
     }
 }
 
@@ -18428,17 +17255,6 @@ extension PinpointClientTypes.SMSTemplateRequest {
         try writer["TemplateDescription"].write(value.templateDescription)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.SMSTemplateRequest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PinpointClientTypes.SMSTemplateRequest()
-        value.body = try reader["Body"].readIfPresent()
-        value.defaultSubstitutions = try reader["DefaultSubstitutions"].readIfPresent()
-        value.recommenderId = try reader["RecommenderId"].readIfPresent()
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: Swift.String.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.templateDescription = try reader["TemplateDescription"].readIfPresent()
-        return value
-    }
 }
 
 extension PinpointClientTypes {
@@ -18474,21 +17290,6 @@ extension PinpointClientTypes {
 }
 
 extension PinpointClientTypes.SMSTemplateResponse {
-
-    static func write(value: PinpointClientTypes.SMSTemplateResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["Body"].write(value.body)
-        try writer["CreationDate"].write(value.creationDate)
-        try writer["DefaultSubstitutions"].write(value.defaultSubstitutions)
-        try writer["LastModifiedDate"].write(value.lastModifiedDate)
-        try writer["RecommenderId"].write(value.recommenderId)
-        try writer["TemplateDescription"].write(value.templateDescription)
-        try writer["TemplateName"].write(value.templateName)
-        try writer["TemplateType"].write(value.templateType)
-        try writer["Version"].write(value.version)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.SMSTemplateResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -18918,16 +17719,6 @@ extension PinpointClientTypes {
 
 extension PinpointClientTypes.SegmentImportResource {
 
-    static func write(value: PinpointClientTypes.SegmentImportResource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ChannelCounts"].writeMap(value.channelCounts, valueWritingClosure: Swift.Int.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["ExternalId"].write(value.externalId)
-        try writer["Format"].write(value.format)
-        try writer["RoleArn"].write(value.roleArn)
-        try writer["S3Url"].write(value.s3Url)
-        try writer["Size"].write(value.size)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.SegmentImportResource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointClientTypes.SegmentImportResource()
@@ -19059,22 +17850,6 @@ extension PinpointClientTypes {
 
 extension PinpointClientTypes.SegmentResponse {
 
-    static func write(value: PinpointClientTypes.SegmentResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ApplicationId"].write(value.applicationId)
-        try writer["Arn"].write(value.arn)
-        try writer["CreationDate"].write(value.creationDate)
-        try writer["Dimensions"].write(value.dimensions, with: PinpointClientTypes.SegmentDimensions.write(value:to:))
-        try writer["Id"].write(value.id)
-        try writer["ImportDefinition"].write(value.importDefinition, with: PinpointClientTypes.SegmentImportResource.write(value:to:))
-        try writer["LastModifiedDate"].write(value.lastModifiedDate)
-        try writer["Name"].write(value.name)
-        try writer["SegmentGroups"].write(value.segmentGroups, with: PinpointClientTypes.SegmentGroupList.write(value:to:))
-        try writer["SegmentType"].write(value.segmentType)
-        try writer["Version"].write(value.version)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.SegmentResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointClientTypes.SegmentResponse()
@@ -19194,12 +17969,6 @@ extension PinpointClientTypes {
 }
 
 extension PinpointClientTypes.SegmentsResponse {
-
-    static func write(value: PinpointClientTypes.SegmentsResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Item"].writeList(value.item, memberWritingClosure: PinpointClientTypes.SegmentResponse.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["NextToken"].write(value.nextToken)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.SegmentsResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -19409,23 +18178,6 @@ extension PinpointClientTypes.SendOTPMessageRequestParameters {
         try writer["TemplateId"].write(value.templateId)
         try writer["ValidityPeriod"].write(value.validityPeriod)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.SendOTPMessageRequestParameters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PinpointClientTypes.SendOTPMessageRequestParameters()
-        value.allowedAttempts = try reader["AllowedAttempts"].readIfPresent()
-        value.brandName = try reader["BrandName"].readIfPresent()
-        value.channel = try reader["Channel"].readIfPresent()
-        value.codeLength = try reader["CodeLength"].readIfPresent()
-        value.destinationIdentity = try reader["DestinationIdentity"].readIfPresent()
-        value.entityId = try reader["EntityId"].readIfPresent()
-        value.language = try reader["Language"].readIfPresent()
-        value.originationIdentity = try reader["OriginationIdentity"].readIfPresent()
-        value.referenceId = try reader["ReferenceId"].readIfPresent()
-        value.templateId = try reader["TemplateId"].readIfPresent()
-        value.validityPeriod = try reader["ValidityPeriod"].readIfPresent()
-        return value
-    }
 }
 
 extension PinpointClientTypes {
@@ -19499,17 +18251,6 @@ extension PinpointClientTypes.SendUsersMessageRequest {
         try writer["TraceId"].write(value.traceId)
         try writer["Users"].writeMap(value.users, valueWritingClosure: PinpointClientTypes.EndpointSendConfiguration.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.SendUsersMessageRequest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PinpointClientTypes.SendUsersMessageRequest()
-        value.context = try reader["Context"].readMapIfPresent(valueReadingClosure: Swift.String.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.messageConfiguration = try reader["MessageConfiguration"].readIfPresent(with: PinpointClientTypes.DirectMessageConfiguration.read(from:))
-        value.templateConfiguration = try reader["TemplateConfiguration"].readIfPresent(with: PinpointClientTypes.TemplateConfiguration.read(from:))
-        value.traceId = try reader["TraceId"].readIfPresent()
-        value.users = try reader["Users"].readMapIfPresent(valueReadingClosure: PinpointClientTypes.EndpointSendConfiguration.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
 }
 
 extension PinpointClientTypes {
@@ -19547,13 +18288,6 @@ extension PinpointClientTypes {
 }
 
 extension PinpointClientTypes.SendUsersMessageResponse {
-
-    static func write(value: PinpointClientTypes.SendUsersMessageResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ApplicationId"].write(value.applicationId)
-        try writer["RequestId"].write(value.requestId)
-        try writer["Result"].writeMap(value.result, valueWritingClosure: mapWritingClosure(valueWritingClosure: PinpointClientTypes.EndpointMessageResult.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.SendUsersMessageResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -19680,16 +18414,6 @@ extension PinpointClientTypes.Session {
         try writer["StartTimestamp"].write(value.startTimestamp)
         try writer["StopTimestamp"].write(value.stopTimestamp)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.Session {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PinpointClientTypes.Session()
-        value.duration = try reader["Duration"].readIfPresent()
-        value.id = try reader["Id"].readIfPresent()
-        value.startTimestamp = try reader["StartTimestamp"].readIfPresent()
-        value.stopTimestamp = try reader["StopTimestamp"].readIfPresent()
-        return value
-    }
 }
 
 extension PinpointClientTypes {
@@ -19811,15 +18535,6 @@ extension PinpointClientTypes.SimpleEmail {
         try writer["Subject"].write(value.subject, with: PinpointClientTypes.SimpleEmailPart.write(value:to:))
         try writer["TextPart"].write(value.textPart, with: PinpointClientTypes.SimpleEmailPart.write(value:to:))
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.SimpleEmail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PinpointClientTypes.SimpleEmail()
-        value.htmlPart = try reader["HtmlPart"].readIfPresent(with: PinpointClientTypes.SimpleEmailPart.read(from:))
-        value.subject = try reader["Subject"].readIfPresent(with: PinpointClientTypes.SimpleEmailPart.read(from:))
-        value.textPart = try reader["TextPart"].readIfPresent(with: PinpointClientTypes.SimpleEmailPart.read(from:))
-        return value
-    }
 }
 
 extension PinpointClientTypes {
@@ -19852,14 +18567,6 @@ extension PinpointClientTypes.SimpleEmailPart {
         guard let value else { return }
         try writer["Charset"].write(value.charset)
         try writer["Data"].write(value.data)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.SimpleEmailPart {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PinpointClientTypes.SimpleEmailPart()
-        value.charset = try reader["Charset"].readIfPresent()
-        value.data = try reader["Data"].readIfPresent()
-        return value
     }
 }
 
@@ -20137,13 +18844,6 @@ extension PinpointClientTypes.TemplateActiveVersionRequest {
         guard let value else { return }
         try writer["Version"].write(value.version)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.TemplateActiveVersionRequest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PinpointClientTypes.TemplateActiveVersionRequest()
-        value.version = try reader["Version"].readIfPresent()
-        return value
-    }
 }
 
 extension PinpointClientTypes {
@@ -20219,13 +18919,6 @@ extension PinpointClientTypes {
 
 extension PinpointClientTypes.TemplateCreateMessageBody {
 
-    static func write(value: PinpointClientTypes.TemplateCreateMessageBody?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["Message"].write(value.message)
-        try writer["RequestID"].write(value.requestID)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.TemplateCreateMessageBody {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointClientTypes.TemplateCreateMessageBody()
@@ -20261,19 +18954,6 @@ extension PinpointClientTypes {
 }
 
 extension PinpointClientTypes.TemplateResponse {
-
-    static func write(value: PinpointClientTypes.TemplateResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["CreationDate"].write(value.creationDate)
-        try writer["DefaultSubstitutions"].write(value.defaultSubstitutions)
-        try writer["LastModifiedDate"].write(value.lastModifiedDate)
-        try writer["TemplateDescription"].write(value.templateDescription)
-        try writer["TemplateName"].write(value.templateName)
-        try writer["TemplateType"].write(value.templateType)
-        try writer["Version"].write(value.version)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.TemplateResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -20384,17 +19064,6 @@ extension PinpointClientTypes {
 
 extension PinpointClientTypes.TemplateVersionResponse {
 
-    static func write(value: PinpointClientTypes.TemplateVersionResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationDate"].write(value.creationDate)
-        try writer["DefaultSubstitutions"].write(value.defaultSubstitutions)
-        try writer["LastModifiedDate"].write(value.lastModifiedDate)
-        try writer["TemplateDescription"].write(value.templateDescription)
-        try writer["TemplateName"].write(value.templateName)
-        try writer["TemplateType"].write(value.templateType)
-        try writer["Version"].write(value.version)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.TemplateVersionResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointClientTypes.TemplateVersionResponse()
@@ -20455,14 +19124,6 @@ extension PinpointClientTypes {
 
 extension PinpointClientTypes.TemplateVersionsResponse {
 
-    static func write(value: PinpointClientTypes.TemplateVersionsResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Item"].writeList(value.item, memberWritingClosure: PinpointClientTypes.TemplateVersionResponse.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Message"].write(value.message)
-        try writer["NextToken"].write(value.nextToken)
-        try writer["RequestID"].write(value.requestID)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.TemplateVersionsResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointClientTypes.TemplateVersionsResponse()
@@ -20504,12 +19165,6 @@ extension PinpointClientTypes {
 }
 
 extension PinpointClientTypes.TemplatesResponse {
-
-    static func write(value: PinpointClientTypes.TemplatesResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Item"].writeList(value.item, memberWritingClosure: PinpointClientTypes.TemplateResponse.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["NextToken"].write(value.nextToken)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.TemplatesResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -20585,19 +19240,6 @@ public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRun
 }
 
 extension PinpointClientTypes.TreatmentResource {
-
-    static func write(value: PinpointClientTypes.TreatmentResource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CustomDeliveryConfiguration"].write(value.customDeliveryConfiguration, with: PinpointClientTypes.CustomDeliveryConfiguration.write(value:to:))
-        try writer["Id"].write(value.id)
-        try writer["MessageConfiguration"].write(value.messageConfiguration, with: PinpointClientTypes.MessageConfiguration.write(value:to:))
-        try writer["Schedule"].write(value.schedule, with: PinpointClientTypes.Schedule.write(value:to:))
-        try writer["SizePercent"].write(value.sizePercent)
-        try writer["State"].write(value.state, with: PinpointClientTypes.CampaignState.write(value:to:))
-        try writer["TemplateConfiguration"].write(value.templateConfiguration, with: PinpointClientTypes.TemplateConfiguration.write(value:to:))
-        try writer["TreatmentDescription"].write(value.treatmentDescription)
-        try writer["TreatmentName"].write(value.treatmentName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.TreatmentResource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -21258,13 +19900,6 @@ extension PinpointClientTypes.UpdateAttributesRequest {
     static func write(value: PinpointClientTypes.UpdateAttributesRequest?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Blacklist"].writeList(value.blacklist, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.UpdateAttributesRequest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PinpointClientTypes.UpdateAttributesRequest()
-        value.blacklist = try reader["Blacklist"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -22393,21 +21028,6 @@ extension PinpointClientTypes.UpdateRecommenderConfigurationShape {
         try writer["RecommendationsDisplayName"].write(value.recommendationsDisplayName)
         try writer["RecommendationsPerMessage"].write(value.recommendationsPerMessage)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.UpdateRecommenderConfigurationShape {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PinpointClientTypes.UpdateRecommenderConfigurationShape()
-        value.attributes = try reader["Attributes"].readMapIfPresent(valueReadingClosure: Swift.String.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.description = try reader["Description"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.recommendationProviderIdType = try reader["RecommendationProviderIdType"].readIfPresent()
-        value.recommendationProviderRoleArn = try reader["RecommendationProviderRoleArn"].readIfPresent()
-        value.recommendationProviderUri = try reader["RecommendationProviderUri"].readIfPresent()
-        value.recommendationTransformerUri = try reader["RecommendationTransformerUri"].readIfPresent()
-        value.recommendationsDisplayName = try reader["RecommendationsDisplayName"].readIfPresent()
-        value.recommendationsPerMessage = try reader["RecommendationsPerMessage"].readIfPresent()
-        return value
-    }
 }
 
 extension PinpointClientTypes {
@@ -23035,11 +21655,6 @@ enum UpdateVoiceTemplateOutputError {
 
 extension PinpointClientTypes.VerificationResponse {
 
-    static func write(value: PinpointClientTypes.VerificationResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Valid"].write(value.valid)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.VerificationResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointClientTypes.VerificationResponse()
@@ -23153,15 +21768,6 @@ extension PinpointClientTypes.VerifyOTPMessageRequestParameters {
         try writer["Otp"].write(value.otp)
         try writer["ReferenceId"].write(value.referenceId)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.VerifyOTPMessageRequestParameters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PinpointClientTypes.VerifyOTPMessageRequestParameters()
-        value.destinationIdentity = try reader["DestinationIdentity"].readIfPresent()
-        value.otp = try reader["Otp"].readIfPresent()
-        value.referenceId = try reader["ReferenceId"].readIfPresent()
-        return value
-    }
 }
 
 extension PinpointClientTypes {
@@ -23197,13 +21803,6 @@ extension PinpointClientTypes.VoiceChannelRequest {
         guard let value else { return }
         try writer["Enabled"].write(value.enabled)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.VoiceChannelRequest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PinpointClientTypes.VoiceChannelRequest()
-        value.enabled = try reader["Enabled"].readIfPresent()
-        return value
-    }
 }
 
 extension PinpointClientTypes {
@@ -23223,20 +21822,6 @@ extension PinpointClientTypes {
 }
 
 extension PinpointClientTypes.VoiceChannelResponse {
-
-    static func write(value: PinpointClientTypes.VoiceChannelResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ApplicationId"].write(value.applicationId)
-        try writer["CreationDate"].write(value.creationDate)
-        try writer["Enabled"].write(value.enabled)
-        try writer["HasCredential"].write(value.hasCredential)
-        try writer["Id"].write(value.id)
-        try writer["IsArchived"].write(value.isArchived)
-        try writer["LastModifiedBy"].write(value.lastModifiedBy)
-        try writer["LastModifiedDate"].write(value.lastModifiedDate)
-        try writer["Platform"].write(value.platform)
-        try writer["Version"].write(value.version)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.VoiceChannelResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -23318,17 +21903,6 @@ extension PinpointClientTypes.VoiceMessage {
         try writer["Substitutions"].writeMap(value.substitutions, valueWritingClosure: listWritingClosure(memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["VoiceId"].write(value.voiceId)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.VoiceMessage {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PinpointClientTypes.VoiceMessage()
-        value.body = try reader["Body"].readIfPresent()
-        value.languageCode = try reader["LanguageCode"].readIfPresent()
-        value.originationNumber = try reader["OriginationNumber"].readIfPresent()
-        value.substitutions = try reader["Substitutions"].readMapIfPresent(valueReadingClosure: listReadingClosure(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.voiceId = try reader["VoiceId"].readIfPresent()
-        return value
-    }
 }
 
 extension PinpointClientTypes {
@@ -23374,18 +21948,6 @@ extension PinpointClientTypes.VoiceTemplateRequest {
         try writer["VoiceId"].write(value.voiceId)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.VoiceTemplateRequest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PinpointClientTypes.VoiceTemplateRequest()
-        value.body = try reader["Body"].readIfPresent()
-        value.defaultSubstitutions = try reader["DefaultSubstitutions"].readIfPresent()
-        value.languageCode = try reader["LanguageCode"].readIfPresent()
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: Swift.String.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.templateDescription = try reader["TemplateDescription"].readIfPresent()
-        value.voiceId = try reader["VoiceId"].readIfPresent()
-        return value
-    }
 }
 
 extension PinpointClientTypes {
@@ -23425,22 +21987,6 @@ extension PinpointClientTypes {
 }
 
 extension PinpointClientTypes.VoiceTemplateResponse {
-
-    static func write(value: PinpointClientTypes.VoiceTemplateResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["Body"].write(value.body)
-        try writer["CreationDate"].write(value.creationDate)
-        try writer["DefaultSubstitutions"].write(value.defaultSubstitutions)
-        try writer["LanguageCode"].write(value.languageCode)
-        try writer["LastModifiedDate"].write(value.lastModifiedDate)
-        try writer["TemplateDescription"].write(value.templateDescription)
-        try writer["TemplateName"].write(value.templateName)
-        try writer["TemplateType"].write(value.templateType)
-        try writer["Version"].write(value.version)
-        try writer["VoiceId"].write(value.voiceId)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.VoiceTemplateResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -23610,18 +22156,6 @@ extension PinpointClientTypes.WriteApplicationSettingsRequest {
         try writer["Limits"].write(value.limits, with: PinpointClientTypes.CampaignLimits.write(value:to:))
         try writer["QuietTime"].write(value.quietTime, with: PinpointClientTypes.QuietTime.write(value:to:))
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.WriteApplicationSettingsRequest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PinpointClientTypes.WriteApplicationSettingsRequest()
-        value.campaignHook = try reader["CampaignHook"].readIfPresent(with: PinpointClientTypes.CampaignHook.read(from:))
-        value.cloudWatchMetricsEnabled = try reader["CloudWatchMetricsEnabled"].readIfPresent()
-        value.eventTaggingEnabled = try reader["EventTaggingEnabled"].readIfPresent()
-        value.limits = try reader["Limits"].readIfPresent(with: PinpointClientTypes.CampaignLimits.read(from:))
-        value.quietTime = try reader["QuietTime"].readIfPresent(with: PinpointClientTypes.QuietTime.read(from:))
-        value.journeyLimits = try reader["JourneyLimits"].readIfPresent(with: PinpointClientTypes.ApplicationSettingsJourneyLimits.read(from:))
-        return value
-    }
 }
 
 extension PinpointClientTypes {
@@ -23689,29 +22223,6 @@ extension PinpointClientTypes.WriteCampaignRequest {
         try writer["TreatmentDescription"].write(value.treatmentDescription)
         try writer["TreatmentName"].write(value.treatmentName)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.WriteCampaignRequest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PinpointClientTypes.WriteCampaignRequest()
-        value.additionalTreatments = try reader["AdditionalTreatments"].readListIfPresent(memberReadingClosure: PinpointClientTypes.WriteTreatmentResource.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.customDeliveryConfiguration = try reader["CustomDeliveryConfiguration"].readIfPresent(with: PinpointClientTypes.CustomDeliveryConfiguration.read(from:))
-        value.description = try reader["Description"].readIfPresent()
-        value.holdoutPercent = try reader["HoldoutPercent"].readIfPresent()
-        value.hook = try reader["Hook"].readIfPresent(with: PinpointClientTypes.CampaignHook.read(from:))
-        value.isPaused = try reader["IsPaused"].readIfPresent()
-        value.limits = try reader["Limits"].readIfPresent(with: PinpointClientTypes.CampaignLimits.read(from:))
-        value.messageConfiguration = try reader["MessageConfiguration"].readIfPresent(with: PinpointClientTypes.MessageConfiguration.read(from:))
-        value.name = try reader["Name"].readIfPresent()
-        value.schedule = try reader["Schedule"].readIfPresent(with: PinpointClientTypes.Schedule.read(from:))
-        value.segmentId = try reader["SegmentId"].readIfPresent()
-        value.segmentVersion = try reader["SegmentVersion"].readIfPresent()
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: Swift.String.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.templateConfiguration = try reader["TemplateConfiguration"].readIfPresent(with: PinpointClientTypes.TemplateConfiguration.read(from:))
-        value.treatmentDescription = try reader["TreatmentDescription"].readIfPresent()
-        value.treatmentName = try reader["TreatmentName"].readIfPresent()
-        value.priority = try reader["Priority"].readIfPresent()
-        return value
     }
 }
 
@@ -23802,14 +22313,6 @@ extension PinpointClientTypes.WriteEventStream {
         try writer["DestinationStreamArn"].write(value.destinationStreamArn)
         try writer["RoleArn"].write(value.roleArn)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.WriteEventStream {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PinpointClientTypes.WriteEventStream()
-        value.destinationStreamArn = try reader["DestinationStreamArn"].readIfPresent()
-        value.roleArn = try reader["RoleArn"].readIfPresent()
-        return value
-    }
 }
 
 extension PinpointClientTypes {
@@ -23857,31 +22360,6 @@ extension PinpointClientTypes.WriteJourneyRequest {
         try writer["State"].write(value.state)
         try writer["TimezoneEstimationMethods"].writeList(value.timezoneEstimationMethods, memberWritingClosure: PinpointClientTypes.__TimezoneEstimationMethodsElement.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["WaitForQuietTime"].write(value.waitForQuietTime)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.WriteJourneyRequest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PinpointClientTypes.WriteJourneyRequest()
-        value.activities = try reader["Activities"].readMapIfPresent(valueReadingClosure: PinpointClientTypes.Activity.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.creationDate = try reader["CreationDate"].readIfPresent()
-        value.lastModifiedDate = try reader["LastModifiedDate"].readIfPresent()
-        value.limits = try reader["Limits"].readIfPresent(with: PinpointClientTypes.JourneyLimits.read(from:))
-        value.localTime = try reader["LocalTime"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.quietTime = try reader["QuietTime"].readIfPresent(with: PinpointClientTypes.QuietTime.read(from:))
-        value.refreshFrequency = try reader["RefreshFrequency"].readIfPresent()
-        value.schedule = try reader["Schedule"].readIfPresent(with: PinpointClientTypes.JourneySchedule.read(from:))
-        value.startActivity = try reader["StartActivity"].readIfPresent()
-        value.startCondition = try reader["StartCondition"].readIfPresent(with: PinpointClientTypes.StartCondition.read(from:))
-        value.state = try reader["State"].readIfPresent()
-        value.waitForQuietTime = try reader["WaitForQuietTime"].readIfPresent()
-        value.refreshOnSegmentUpdate = try reader["RefreshOnSegmentUpdate"].readIfPresent()
-        value.journeyChannelSettings = try reader["JourneyChannelSettings"].readIfPresent(with: PinpointClientTypes.JourneyChannelSettings.read(from:))
-        value.sendingSchedule = try reader["SendingSchedule"].readIfPresent()
-        value.openHours = try reader["OpenHours"].readIfPresent(with: PinpointClientTypes.OpenHours.read(from:))
-        value.closedDays = try reader["ClosedDays"].readIfPresent(with: PinpointClientTypes.ClosedDays.read(from:))
-        value.timezoneEstimationMethods = try reader["TimezoneEstimationMethods"].readListIfPresent(memberReadingClosure: PinpointClientTypes.__TimezoneEstimationMethodsElement.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -24003,16 +22481,6 @@ extension PinpointClientTypes.WriteSegmentRequest {
         try writer["SegmentGroups"].write(value.segmentGroups, with: PinpointClientTypes.SegmentGroupList.write(value:to:))
         try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.WriteSegmentRequest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PinpointClientTypes.WriteSegmentRequest()
-        value.dimensions = try reader["Dimensions"].readIfPresent(with: PinpointClientTypes.SegmentDimensions.read(from:))
-        value.name = try reader["Name"].readIfPresent()
-        value.segmentGroups = try reader["SegmentGroups"].readIfPresent(with: PinpointClientTypes.SegmentGroupList.read(from:))
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: Swift.String.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
 }
 
 extension PinpointClientTypes {
@@ -24054,19 +22522,6 @@ extension PinpointClientTypes.WriteTreatmentResource {
         try writer["TemplateConfiguration"].write(value.templateConfiguration, with: PinpointClientTypes.TemplateConfiguration.write(value:to:))
         try writer["TreatmentDescription"].write(value.treatmentDescription)
         try writer["TreatmentName"].write(value.treatmentName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.WriteTreatmentResource {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PinpointClientTypes.WriteTreatmentResource()
-        value.customDeliveryConfiguration = try reader["CustomDeliveryConfiguration"].readIfPresent(with: PinpointClientTypes.CustomDeliveryConfiguration.read(from:))
-        value.messageConfiguration = try reader["MessageConfiguration"].readIfPresent(with: PinpointClientTypes.MessageConfiguration.read(from:))
-        value.schedule = try reader["Schedule"].readIfPresent(with: PinpointClientTypes.Schedule.read(from:))
-        value.sizePercent = try reader["SizePercent"].readIfPresent()
-        value.templateConfiguration = try reader["TemplateConfiguration"].readIfPresent(with: PinpointClientTypes.TemplateConfiguration.read(from:))
-        value.treatmentDescription = try reader["TreatmentDescription"].readIfPresent()
-        value.treatmentName = try reader["TreatmentName"].readIfPresent()
-        return value
     }
 }
 

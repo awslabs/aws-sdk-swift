@@ -44,13 +44,6 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
 extension CodeCatalystClientTypes.AccessTokenSummary {
 
-    static func write(value: CodeCatalystClientTypes.AccessTokenSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["expiresTime"].writeTimestamp(value.expiresTime, format: .dateTime)
-        try writer["id"].write(value.id)
-        try writer["name"].write(value.name)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodeCatalystClientTypes.AccessTokenSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeCatalystClientTypes.AccessTokenSummary()
@@ -1111,12 +1104,6 @@ extension CodeCatalystClientTypes.DevEnvironmentAccessDetails: Swift.CustomDebug
 
 extension CodeCatalystClientTypes.DevEnvironmentAccessDetails {
 
-    static func write(value: CodeCatalystClientTypes.DevEnvironmentAccessDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["streamUrl"].write(value.streamUrl)
-        try writer["tokenValue"].write(value.tokenValue)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodeCatalystClientTypes.DevEnvironmentAccessDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeCatalystClientTypes.DevEnvironmentAccessDetails()
@@ -1149,12 +1136,6 @@ extension CodeCatalystClientTypes {
 }
 
 extension CodeCatalystClientTypes.DevEnvironmentRepositorySummary {
-
-    static func write(value: CodeCatalystClientTypes.DevEnvironmentRepositorySummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["branchName"].write(value.branchName)
-        try writer["repositoryName"].write(value.repositoryName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeCatalystClientTypes.DevEnvironmentRepositorySummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1193,14 +1174,6 @@ extension CodeCatalystClientTypes.DevEnvironmentSessionConfiguration {
         try writer["executeCommandSessionConfiguration"].write(value.executeCommandSessionConfiguration, with: CodeCatalystClientTypes.ExecuteCommandSessionConfiguration.write(value:to:))
         try writer["sessionType"].write(value.sessionType)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeCatalystClientTypes.DevEnvironmentSessionConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeCatalystClientTypes.DevEnvironmentSessionConfiguration()
-        value.sessionType = try reader["sessionType"].readIfPresent()
-        value.executeCommandSessionConfiguration = try reader["executeCommandSessionConfiguration"].readIfPresent(with: CodeCatalystClientTypes.ExecuteCommandSessionConfiguration.read(from:))
-        return value
-    }
 }
 
 extension CodeCatalystClientTypes {
@@ -1225,15 +1198,6 @@ extension CodeCatalystClientTypes {
 }
 
 extension CodeCatalystClientTypes.DevEnvironmentSessionSummary {
-
-    static func write(value: CodeCatalystClientTypes.DevEnvironmentSessionSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["devEnvironmentId"].write(value.devEnvironmentId)
-        try writer["id"].write(value.id)
-        try writer["projectName"].write(value.projectName)
-        try writer["spaceName"].write(value.spaceName)
-        try writer["startedTime"].writeTimestamp(value.startedTime, format: .dateTime)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeCatalystClientTypes.DevEnvironmentSessionSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1364,24 +1328,6 @@ extension CodeCatalystClientTypes {
 
 extension CodeCatalystClientTypes.DevEnvironmentSummary {
 
-    static func write(value: CodeCatalystClientTypes.DevEnvironmentSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["alias"].write(value.alias)
-        try writer["creatorId"].write(value.creatorId)
-        try writer["id"].write(value.id)
-        try writer["ides"].writeList(value.ides, memberWritingClosure: CodeCatalystClientTypes.Ide.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["inactivityTimeoutMinutes"].write(value.inactivityTimeoutMinutes)
-        try writer["instanceType"].write(value.instanceType)
-        try writer["lastUpdatedTime"].writeTimestamp(value.lastUpdatedTime, format: .dateTime)
-        try writer["persistentStorage"].write(value.persistentStorage, with: CodeCatalystClientTypes.PersistentStorage.write(value:to:))
-        try writer["projectName"].write(value.projectName)
-        try writer["repositories"].writeList(value.repositories, memberWritingClosure: CodeCatalystClientTypes.DevEnvironmentRepositorySummary.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["spaceName"].write(value.spaceName)
-        try writer["status"].write(value.status)
-        try writer["statusReason"].write(value.statusReason)
-        try writer["vpcConnectionName"].write(value.vpcConnectionName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodeCatalystClientTypes.DevEnvironmentSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeCatalystClientTypes.DevEnvironmentSummary()
@@ -1481,12 +1427,6 @@ extension CodeCatalystClientTypes {
 
 extension CodeCatalystClientTypes.EmailAddress {
 
-    static func write(value: CodeCatalystClientTypes.EmailAddress?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["email"].write(value.email)
-        try writer["verified"].write(value.verified)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodeCatalystClientTypes.EmailAddress {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeCatalystClientTypes.EmailAddress()
@@ -1517,25 +1457,6 @@ extension CodeCatalystClientTypes {
 }
 
 extension CodeCatalystClientTypes.EventLogEntry {
-
-    static func write(value: CodeCatalystClientTypes.EventLogEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["errorCode"].write(value.errorCode)
-        try writer["eventCategory"].write(value.eventCategory)
-        try writer["eventName"].write(value.eventName)
-        try writer["eventSource"].write(value.eventSource)
-        try writer["eventTime"].writeTimestamp(value.eventTime, format: .dateTime)
-        try writer["eventType"].write(value.eventType)
-        try writer["id"].write(value.id)
-        try writer["operationType"].write(value.operationType)
-        try writer["projectInformation"].write(value.projectInformation, with: CodeCatalystClientTypes.ProjectInformation.write(value:to:))
-        try writer["requestId"].write(value.requestId)
-        try writer["requestPayload"].write(value.requestPayload, with: CodeCatalystClientTypes.EventPayload.write(value:to:))
-        try writer["responsePayload"].write(value.responsePayload, with: CodeCatalystClientTypes.EventPayload.write(value:to:))
-        try writer["sourceIpAddress"].write(value.sourceIpAddress)
-        try writer["userAgent"].write(value.userAgent)
-        try writer["userIdentity"].write(value.userIdentity, with: CodeCatalystClientTypes.UserIdentity.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeCatalystClientTypes.EventLogEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1641,12 +1562,6 @@ extension CodeCatalystClientTypes {
 
 extension CodeCatalystClientTypes.EventPayload {
 
-    static func write(value: CodeCatalystClientTypes.EventPayload?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["contentType"].write(value.contentType)
-        try writer["data"].write(value.data)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodeCatalystClientTypes.EventPayload {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeCatalystClientTypes.EventPayload()
@@ -1683,14 +1598,6 @@ extension CodeCatalystClientTypes.ExecuteCommandSessionConfiguration {
         try writer["arguments"].writeList(value.arguments, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["command"].write(value.command)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeCatalystClientTypes.ExecuteCommandSessionConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeCatalystClientTypes.ExecuteCommandSessionConfiguration()
-        value.command = try reader["command"].readIfPresent()
-        value.arguments = try reader["arguments"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
 }
 
 extension CodeCatalystClientTypes {
@@ -1721,15 +1628,6 @@ extension CodeCatalystClientTypes.Filter {
         try writer["comparisonOperator"].write(value.comparisonOperator)
         try writer["key"].write(value.key)
         try writer["values"].writeList(value.values, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeCatalystClientTypes.Filter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeCatalystClientTypes.Filter()
-        value.key = try reader["key"].readIfPresent()
-        value.values = try reader["values"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.comparisonOperator = try reader["comparisonOperator"].readIfPresent()
-        return value
     }
 }
 
@@ -2724,12 +2622,6 @@ enum GetWorkflowRunOutputError {
 
 extension CodeCatalystClientTypes.Ide {
 
-    static func write(value: CodeCatalystClientTypes.Ide?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-        try writer["runtime"].write(value.runtime)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodeCatalystClientTypes.Ide {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeCatalystClientTypes.Ide()
@@ -3341,15 +3233,6 @@ public struct ListSourceRepositoriesInput {
 
 extension CodeCatalystClientTypes.ListSourceRepositoriesItem {
 
-    static func write(value: CodeCatalystClientTypes.ListSourceRepositoriesItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["createdTime"].writeTimestamp(value.createdTime, format: .dateTime)
-        try writer["description"].write(value.description)
-        try writer["id"].write(value.id)
-        try writer["lastUpdatedTime"].writeTimestamp(value.lastUpdatedTime, format: .dateTime)
-        try writer["name"].write(value.name)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodeCatalystClientTypes.ListSourceRepositoriesItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeCatalystClientTypes.ListSourceRepositoriesItem()
@@ -3498,14 +3381,6 @@ public struct ListSourceRepositoryBranchesInput {
 }
 
 extension CodeCatalystClientTypes.ListSourceRepositoryBranchesItem {
-
-    static func write(value: CodeCatalystClientTypes.ListSourceRepositoryBranchesItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["headCommitId"].write(value.headCommitId)
-        try writer["lastUpdatedTime"].writeTimestamp(value.lastUpdatedTime, format: .dateTime)
-        try writer["name"].write(value.name)
-        try writer["ref"].write(value.ref)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeCatalystClientTypes.ListSourceRepositoryBranchesItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3920,11 +3795,6 @@ extension CodeCatalystClientTypes {
 
 extension CodeCatalystClientTypes.PersistentStorage {
 
-    static func write(value: CodeCatalystClientTypes.PersistentStorage?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["sizeInGiB"].write(value.sizeInGiB)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodeCatalystClientTypes.PersistentStorage {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeCatalystClientTypes.PersistentStorage()
@@ -3956,13 +3826,6 @@ extension CodeCatalystClientTypes.PersistentStorageConfiguration {
         guard let value else { return }
         try writer["sizeInGiB"].write(value.sizeInGiB)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeCatalystClientTypes.PersistentStorageConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeCatalystClientTypes.PersistentStorageConfiguration()
-        value.sizeInGiB = try reader["sizeInGiB"].readIfPresent()
-        return value
-    }
 }
 
 extension CodeCatalystClientTypes {
@@ -3983,12 +3846,6 @@ extension CodeCatalystClientTypes {
 }
 
 extension CodeCatalystClientTypes.ProjectInformation {
-
-    static func write(value: CodeCatalystClientTypes.ProjectInformation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-        try writer["projectId"].write(value.projectId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeCatalystClientTypes.ProjectInformation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4027,15 +3884,6 @@ extension CodeCatalystClientTypes.ProjectListFilter {
         try writer["key"].write(value.key)
         try writer["values"].writeList(value.values, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeCatalystClientTypes.ProjectListFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeCatalystClientTypes.ProjectListFilter()
-        value.key = try reader["key"].readIfPresent()
-        value.values = try reader["values"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.comparisonOperator = try reader["comparisonOperator"].readIfPresent()
-        return value
-    }
 }
 
 extension CodeCatalystClientTypes {
@@ -4065,13 +3913,6 @@ extension CodeCatalystClientTypes {
 }
 
 extension CodeCatalystClientTypes.ProjectSummary {
-
-    static func write(value: CodeCatalystClientTypes.ProjectSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["description"].write(value.description)
-        try writer["displayName"].write(value.displayName)
-        try writer["name"].write(value.name)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeCatalystClientTypes.ProjectSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4114,14 +3955,6 @@ extension CodeCatalystClientTypes.RepositoryInput {
         guard let value else { return }
         try writer["branchName"].write(value.branchName)
         try writer["repositoryName"].write(value.repositoryName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeCatalystClientTypes.RepositoryInput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeCatalystClientTypes.RepositoryInput()
-        value.repositoryName = try reader["repositoryName"].readIfPresent()
-        value.branchName = try reader["branchName"].readIfPresent()
-        return value
     }
 }
 
@@ -4223,14 +4056,6 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 }
 
 extension CodeCatalystClientTypes.SpaceSummary {
-
-    static func write(value: CodeCatalystClientTypes.SpaceSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["description"].write(value.description)
-        try writer["displayName"].write(value.displayName)
-        try writer["name"].write(value.name)
-        try writer["regionName"].write(value.regionName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeCatalystClientTypes.SpaceSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5195,14 +5020,6 @@ enum UpdateSpaceOutputError {
 
 extension CodeCatalystClientTypes.UserIdentity {
 
-    static func write(value: CodeCatalystClientTypes.UserIdentity?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["awsAccountId"].write(value.awsAccountId)
-        try writer["principalId"].write(value.principalId)
-        try writer["userName"].write(value.userName)
-        try writer["userType"].write(value.userType)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodeCatalystClientTypes.UserIdentity {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeCatalystClientTypes.UserIdentity()
@@ -5367,11 +5184,6 @@ enum VerifySessionOutputError {
 
 extension CodeCatalystClientTypes.WorkflowDefinition {
 
-    static func write(value: CodeCatalystClientTypes.WorkflowDefinition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["path"].write(value.path)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodeCatalystClientTypes.WorkflowDefinition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeCatalystClientTypes.WorkflowDefinition()
@@ -5398,11 +5210,6 @@ extension CodeCatalystClientTypes {
 }
 
 extension CodeCatalystClientTypes.WorkflowDefinitionSummary {
-
-    static func write(value: CodeCatalystClientTypes.WorkflowDefinitionSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["path"].write(value.path)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeCatalystClientTypes.WorkflowDefinitionSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5467,11 +5274,6 @@ extension CodeCatalystClientTypes.WorkflowRunSortCriteria {
     static func write(value: CodeCatalystClientTypes.WorkflowRunSortCriteria?, to writer: SmithyJSON.Writer) throws {
         guard value != nil else { return }
         _ = writer[""]  // create an empty structure
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeCatalystClientTypes.WorkflowRunSortCriteria {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        return CodeCatalystClientTypes.WorkflowRunSortCriteria()
     }
 }
 
@@ -5543,11 +5345,6 @@ extension CodeCatalystClientTypes {
 
 extension CodeCatalystClientTypes.WorkflowRunStatusReason {
 
-    static func write(value: CodeCatalystClientTypes.WorkflowRunStatusReason?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodeCatalystClientTypes.WorkflowRunStatusReason {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         return CodeCatalystClientTypes.WorkflowRunStatusReason()
@@ -5564,18 +5361,6 @@ extension CodeCatalystClientTypes {
 }
 
 extension CodeCatalystClientTypes.WorkflowRunSummary {
-
-    static func write(value: CodeCatalystClientTypes.WorkflowRunSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["endTime"].writeTimestamp(value.endTime, format: .dateTime)
-        try writer["id"].write(value.id)
-        try writer["lastUpdatedTime"].writeTimestamp(value.lastUpdatedTime, format: .dateTime)
-        try writer["startTime"].writeTimestamp(value.startTime, format: .dateTime)
-        try writer["status"].write(value.status)
-        try writer["statusReasons"].writeList(value.statusReasons, memberWritingClosure: CodeCatalystClientTypes.WorkflowRunStatusReason.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["workflowId"].write(value.workflowId)
-        try writer["workflowName"].write(value.workflowName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeCatalystClientTypes.WorkflowRunSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5648,11 +5433,6 @@ extension CodeCatalystClientTypes.WorkflowSortCriteria {
         guard value != nil else { return }
         _ = writer[""]  // create an empty structure
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeCatalystClientTypes.WorkflowSortCriteria {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        return CodeCatalystClientTypes.WorkflowSortCriteria()
-    }
 }
 
 extension CodeCatalystClientTypes {
@@ -5695,19 +5475,6 @@ extension CodeCatalystClientTypes {
 }
 
 extension CodeCatalystClientTypes.WorkflowSummary {
-
-    static func write(value: CodeCatalystClientTypes.WorkflowSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["createdTime"].writeTimestamp(value.createdTime, format: .dateTime)
-        try writer["definition"].write(value.definition, with: CodeCatalystClientTypes.WorkflowDefinitionSummary.write(value:to:))
-        try writer["id"].write(value.id)
-        try writer["lastUpdatedTime"].writeTimestamp(value.lastUpdatedTime, format: .dateTime)
-        try writer["name"].write(value.name)
-        try writer["runMode"].write(value.runMode)
-        try writer["sourceBranchName"].write(value.sourceBranchName)
-        try writer["sourceRepositoryName"].write(value.sourceRepositoryName)
-        try writer["status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeCatalystClientTypes.WorkflowSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

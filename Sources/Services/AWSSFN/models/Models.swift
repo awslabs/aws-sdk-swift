@@ -48,12 +48,6 @@ extension SFNClientTypes.ActivityFailedEventDetails: Swift.CustomDebugStringConv
 
 extension SFNClientTypes.ActivityFailedEventDetails {
 
-    static func write(value: SFNClientTypes.ActivityFailedEventDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["cause"].write(value.cause)
-        try writer["error"].write(value.error)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.ActivityFailedEventDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SFNClientTypes.ActivityFailedEventDetails()
@@ -122,13 +116,6 @@ public struct ActivityLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntim
 
 extension SFNClientTypes.ActivityListItem {
 
-    static func write(value: SFNClientTypes.ActivityListItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["activityArn"].write(value.activityArn)
-        try writer["creationDate"].writeTimestamp(value.creationDate, format: .epochSeconds)
-        try writer["name"].write(value.name)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.ActivityListItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SFNClientTypes.ActivityListItem()
@@ -186,12 +173,6 @@ extension SFNClientTypes.ActivityScheduleFailedEventDetails: Swift.CustomDebugSt
 
 extension SFNClientTypes.ActivityScheduleFailedEventDetails {
 
-    static func write(value: SFNClientTypes.ActivityScheduleFailedEventDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["cause"].write(value.cause)
-        try writer["error"].write(value.error)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.ActivityScheduleFailedEventDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SFNClientTypes.ActivityScheduleFailedEventDetails()
@@ -227,15 +208,6 @@ extension SFNClientTypes.ActivityScheduledEventDetails: Swift.CustomDebugStringC
 }
 
 extension SFNClientTypes.ActivityScheduledEventDetails {
-
-    static func write(value: SFNClientTypes.ActivityScheduledEventDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["heartbeatInSeconds"].write(value.heartbeatInSeconds)
-        try writer["input"].write(value.input)
-        try writer["inputDetails"].write(value.inputDetails, with: SFNClientTypes.HistoryEventExecutionDataDetails.write(value:to:))
-        try writer["resource"].write(value.resource)
-        try writer["timeoutInSeconds"].write(value.timeoutInSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.ActivityScheduledEventDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -284,11 +256,6 @@ extension SFNClientTypes {
 
 extension SFNClientTypes.ActivityStartedEventDetails {
 
-    static func write(value: SFNClientTypes.ActivityStartedEventDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["workerName"].write(value.workerName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.ActivityStartedEventDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SFNClientTypes.ActivityStartedEventDetails()
@@ -319,12 +286,6 @@ extension SFNClientTypes.ActivitySucceededEventDetails: Swift.CustomDebugStringC
 }
 
 extension SFNClientTypes.ActivitySucceededEventDetails {
-
-    static func write(value: SFNClientTypes.ActivitySucceededEventDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["output"].write(value.output)
-        try writer["outputDetails"].write(value.outputDetails, with: SFNClientTypes.HistoryEventExecutionDataDetails.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.ActivitySucceededEventDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -361,12 +322,6 @@ extension SFNClientTypes.ActivityTimedOutEventDetails: Swift.CustomDebugStringCo
 }
 
 extension SFNClientTypes.ActivityTimedOutEventDetails {
-
-    static func write(value: SFNClientTypes.ActivityTimedOutEventDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["cause"].write(value.cause)
-        try writer["error"].write(value.error)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.ActivityTimedOutEventDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -436,12 +391,6 @@ public struct ActivityWorkerLimitExceeded: ClientRuntime.ModeledError, AWSClient
 
 extension SFNClientTypes.BillingDetails {
 
-    static func write(value: SFNClientTypes.BillingDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["billedDurationInMilliseconds"].write(value.billedDurationInMilliseconds)
-        try writer["billedMemoryUsedInMB"].write(value.billedMemoryUsedInMB)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.BillingDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SFNClientTypes.BillingDetails()
@@ -472,11 +421,6 @@ extension SFNClientTypes {
 }
 
 extension SFNClientTypes.CloudWatchEventsExecutionDataDetails {
-
-    static func write(value: SFNClientTypes.CloudWatchEventsExecutionDataDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["included"].write(value.included)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.CloudWatchEventsExecutionDataDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1937,12 +1881,6 @@ extension SFNClientTypes.ExecutionAbortedEventDetails: Swift.CustomDebugStringCo
 
 extension SFNClientTypes.ExecutionAbortedEventDetails {
 
-    static func write(value: SFNClientTypes.ExecutionAbortedEventDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["cause"].write(value.cause)
-        try writer["error"].write(value.error)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.ExecutionAbortedEventDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SFNClientTypes.ExecutionAbortedEventDetails()
@@ -2053,12 +1991,6 @@ extension SFNClientTypes.ExecutionFailedEventDetails: Swift.CustomDebugStringCon
 
 extension SFNClientTypes.ExecutionFailedEventDetails {
 
-    static func write(value: SFNClientTypes.ExecutionFailedEventDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["cause"].write(value.cause)
-        try writer["error"].write(value.error)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.ExecutionFailedEventDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SFNClientTypes.ExecutionFailedEventDetails()
@@ -2126,22 +2058,6 @@ public struct ExecutionLimitExceeded: ClientRuntime.ModeledError, AWSClientRunti
 }
 
 extension SFNClientTypes.ExecutionListItem {
-
-    static func write(value: SFNClientTypes.ExecutionListItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["executionArn"].write(value.executionArn)
-        try writer["itemCount"].write(value.itemCount)
-        try writer["mapRunArn"].write(value.mapRunArn)
-        try writer["name"].write(value.name)
-        try writer["redriveCount"].write(value.redriveCount)
-        try writer["redriveDate"].writeTimestamp(value.redriveDate, format: .epochSeconds)
-        try writer["startDate"].writeTimestamp(value.startDate, format: .epochSeconds)
-        try writer["stateMachineAliasArn"].write(value.stateMachineAliasArn)
-        try writer["stateMachineArn"].write(value.stateMachineArn)
-        try writer["stateMachineVersionArn"].write(value.stateMachineVersionArn)
-        try writer["status"].write(value.status)
-        try writer["stopDate"].writeTimestamp(value.stopDate, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.ExecutionListItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2342,11 +2258,6 @@ extension SFNClientTypes {
 
 extension SFNClientTypes.ExecutionRedrivenEventDetails {
 
-    static func write(value: SFNClientTypes.ExecutionRedrivenEventDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["redriveCount"].write(value.redriveCount)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.ExecutionRedrivenEventDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SFNClientTypes.ExecutionRedrivenEventDetails()
@@ -2377,15 +2288,6 @@ extension SFNClientTypes.ExecutionStartedEventDetails: Swift.CustomDebugStringCo
 }
 
 extension SFNClientTypes.ExecutionStartedEventDetails {
-
-    static func write(value: SFNClientTypes.ExecutionStartedEventDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["input"].write(value.input)
-        try writer["inputDetails"].write(value.inputDetails, with: SFNClientTypes.HistoryEventExecutionDataDetails.write(value:to:))
-        try writer["roleArn"].write(value.roleArn)
-        try writer["stateMachineAliasArn"].write(value.stateMachineAliasArn)
-        try writer["stateMachineVersionArn"].write(value.stateMachineVersionArn)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.ExecutionStartedEventDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2480,12 +2382,6 @@ extension SFNClientTypes.ExecutionSucceededEventDetails: Swift.CustomDebugString
 
 extension SFNClientTypes.ExecutionSucceededEventDetails {
 
-    static func write(value: SFNClientTypes.ExecutionSucceededEventDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["output"].write(value.output)
-        try writer["outputDetails"].write(value.outputDetails, with: SFNClientTypes.HistoryEventExecutionDataDetails.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.ExecutionSucceededEventDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SFNClientTypes.ExecutionSucceededEventDetails()
@@ -2521,12 +2417,6 @@ extension SFNClientTypes.ExecutionTimedOutEventDetails: Swift.CustomDebugStringC
 }
 
 extension SFNClientTypes.ExecutionTimedOutEventDetails {
-
-    static func write(value: SFNClientTypes.ExecutionTimedOutEventDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["cause"].write(value.cause)
-        try writer["error"].write(value.error)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.ExecutionTimedOutEventDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2735,50 +2625,6 @@ enum GetExecutionHistoryOutputError {
 }
 
 extension SFNClientTypes.HistoryEvent {
-
-    static func write(value: SFNClientTypes.HistoryEvent?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["activityFailedEventDetails"].write(value.activityFailedEventDetails, with: SFNClientTypes.ActivityFailedEventDetails.write(value:to:))
-        try writer["activityScheduleFailedEventDetails"].write(value.activityScheduleFailedEventDetails, with: SFNClientTypes.ActivityScheduleFailedEventDetails.write(value:to:))
-        try writer["activityScheduledEventDetails"].write(value.activityScheduledEventDetails, with: SFNClientTypes.ActivityScheduledEventDetails.write(value:to:))
-        try writer["activityStartedEventDetails"].write(value.activityStartedEventDetails, with: SFNClientTypes.ActivityStartedEventDetails.write(value:to:))
-        try writer["activitySucceededEventDetails"].write(value.activitySucceededEventDetails, with: SFNClientTypes.ActivitySucceededEventDetails.write(value:to:))
-        try writer["activityTimedOutEventDetails"].write(value.activityTimedOutEventDetails, with: SFNClientTypes.ActivityTimedOutEventDetails.write(value:to:))
-        try writer["executionAbortedEventDetails"].write(value.executionAbortedEventDetails, with: SFNClientTypes.ExecutionAbortedEventDetails.write(value:to:))
-        try writer["executionFailedEventDetails"].write(value.executionFailedEventDetails, with: SFNClientTypes.ExecutionFailedEventDetails.write(value:to:))
-        try writer["executionRedrivenEventDetails"].write(value.executionRedrivenEventDetails, with: SFNClientTypes.ExecutionRedrivenEventDetails.write(value:to:))
-        try writer["executionStartedEventDetails"].write(value.executionStartedEventDetails, with: SFNClientTypes.ExecutionStartedEventDetails.write(value:to:))
-        try writer["executionSucceededEventDetails"].write(value.executionSucceededEventDetails, with: SFNClientTypes.ExecutionSucceededEventDetails.write(value:to:))
-        try writer["executionTimedOutEventDetails"].write(value.executionTimedOutEventDetails, with: SFNClientTypes.ExecutionTimedOutEventDetails.write(value:to:))
-        try writer["id"].write(value.id)
-        try writer["lambdaFunctionFailedEventDetails"].write(value.lambdaFunctionFailedEventDetails, with: SFNClientTypes.LambdaFunctionFailedEventDetails.write(value:to:))
-        try writer["lambdaFunctionScheduleFailedEventDetails"].write(value.lambdaFunctionScheduleFailedEventDetails, with: SFNClientTypes.LambdaFunctionScheduleFailedEventDetails.write(value:to:))
-        try writer["lambdaFunctionScheduledEventDetails"].write(value.lambdaFunctionScheduledEventDetails, with: SFNClientTypes.LambdaFunctionScheduledEventDetails.write(value:to:))
-        try writer["lambdaFunctionStartFailedEventDetails"].write(value.lambdaFunctionStartFailedEventDetails, with: SFNClientTypes.LambdaFunctionStartFailedEventDetails.write(value:to:))
-        try writer["lambdaFunctionSucceededEventDetails"].write(value.lambdaFunctionSucceededEventDetails, with: SFNClientTypes.LambdaFunctionSucceededEventDetails.write(value:to:))
-        try writer["lambdaFunctionTimedOutEventDetails"].write(value.lambdaFunctionTimedOutEventDetails, with: SFNClientTypes.LambdaFunctionTimedOutEventDetails.write(value:to:))
-        try writer["mapIterationAbortedEventDetails"].write(value.mapIterationAbortedEventDetails, with: SFNClientTypes.MapIterationEventDetails.write(value:to:))
-        try writer["mapIterationFailedEventDetails"].write(value.mapIterationFailedEventDetails, with: SFNClientTypes.MapIterationEventDetails.write(value:to:))
-        try writer["mapIterationStartedEventDetails"].write(value.mapIterationStartedEventDetails, with: SFNClientTypes.MapIterationEventDetails.write(value:to:))
-        try writer["mapIterationSucceededEventDetails"].write(value.mapIterationSucceededEventDetails, with: SFNClientTypes.MapIterationEventDetails.write(value:to:))
-        try writer["mapRunFailedEventDetails"].write(value.mapRunFailedEventDetails, with: SFNClientTypes.MapRunFailedEventDetails.write(value:to:))
-        try writer["mapRunRedrivenEventDetails"].write(value.mapRunRedrivenEventDetails, with: SFNClientTypes.MapRunRedrivenEventDetails.write(value:to:))
-        try writer["mapRunStartedEventDetails"].write(value.mapRunStartedEventDetails, with: SFNClientTypes.MapRunStartedEventDetails.write(value:to:))
-        try writer["mapStateStartedEventDetails"].write(value.mapStateStartedEventDetails, with: SFNClientTypes.MapStateStartedEventDetails.write(value:to:))
-        try writer["previousEventId"].write(value.previousEventId)
-        try writer["stateEnteredEventDetails"].write(value.stateEnteredEventDetails, with: SFNClientTypes.StateEnteredEventDetails.write(value:to:))
-        try writer["stateExitedEventDetails"].write(value.stateExitedEventDetails, with: SFNClientTypes.StateExitedEventDetails.write(value:to:))
-        try writer["taskFailedEventDetails"].write(value.taskFailedEventDetails, with: SFNClientTypes.TaskFailedEventDetails.write(value:to:))
-        try writer["taskScheduledEventDetails"].write(value.taskScheduledEventDetails, with: SFNClientTypes.TaskScheduledEventDetails.write(value:to:))
-        try writer["taskStartFailedEventDetails"].write(value.taskStartFailedEventDetails, with: SFNClientTypes.TaskStartFailedEventDetails.write(value:to:))
-        try writer["taskStartedEventDetails"].write(value.taskStartedEventDetails, with: SFNClientTypes.TaskStartedEventDetails.write(value:to:))
-        try writer["taskSubmitFailedEventDetails"].write(value.taskSubmitFailedEventDetails, with: SFNClientTypes.TaskSubmitFailedEventDetails.write(value:to:))
-        try writer["taskSubmittedEventDetails"].write(value.taskSubmittedEventDetails, with: SFNClientTypes.TaskSubmittedEventDetails.write(value:to:))
-        try writer["taskSucceededEventDetails"].write(value.taskSucceededEventDetails, with: SFNClientTypes.TaskSucceededEventDetails.write(value:to:))
-        try writer["taskTimedOutEventDetails"].write(value.taskTimedOutEventDetails, with: SFNClientTypes.TaskTimedOutEventDetails.write(value:to:))
-        try writer["timestamp"].writeTimestamp(value.timestamp, format: .epochSeconds)
-        try writer["type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.HistoryEvent {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3003,11 +2849,6 @@ extension SFNClientTypes {
 }
 
 extension SFNClientTypes.HistoryEventExecutionDataDetails {
-
-    static func write(value: SFNClientTypes.HistoryEventExecutionDataDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["truncated"].write(value.truncated)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.HistoryEventExecutionDataDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3248,18 +3089,6 @@ extension SFNClientTypes.InspectionData: Swift.CustomDebugStringConvertible {
 
 extension SFNClientTypes.InspectionData {
 
-    static func write(value: SFNClientTypes.InspectionData?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["afterInputPath"].write(value.afterInputPath)
-        try writer["afterParameters"].write(value.afterParameters)
-        try writer["afterResultPath"].write(value.afterResultPath)
-        try writer["afterResultSelector"].write(value.afterResultSelector)
-        try writer["input"].write(value.input)
-        try writer["request"].write(value.request, with: SFNClientTypes.InspectionDataRequest.write(value:to:))
-        try writer["response"].write(value.response, with: SFNClientTypes.InspectionDataResponse.write(value:to:))
-        try writer["result"].write(value.result)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.InspectionData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SFNClientTypes.InspectionData()
@@ -3321,15 +3150,6 @@ extension SFNClientTypes {
 
 extension SFNClientTypes.InspectionDataRequest {
 
-    static func write(value: SFNClientTypes.InspectionDataRequest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["body"].write(value.body)
-        try writer["headers"].write(value.headers)
-        try writer["method"].write(value.method)
-        try writer["protocol"].write(value.`protocol`)
-        try writer["url"].write(value.url)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.InspectionDataRequest {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SFNClientTypes.InspectionDataRequest()
@@ -3375,15 +3195,6 @@ extension SFNClientTypes {
 }
 
 extension SFNClientTypes.InspectionDataResponse {
-
-    static func write(value: SFNClientTypes.InspectionDataResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["body"].write(value.body)
-        try writer["headers"].write(value.headers)
-        try writer["protocol"].write(value.`protocol`)
-        try writer["statusCode"].write(value.statusCode)
-        try writer["statusMessage"].write(value.statusMessage)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.InspectionDataResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3765,12 +3576,6 @@ extension SFNClientTypes.LambdaFunctionFailedEventDetails: Swift.CustomDebugStri
 
 extension SFNClientTypes.LambdaFunctionFailedEventDetails {
 
-    static func write(value: SFNClientTypes.LambdaFunctionFailedEventDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["cause"].write(value.cause)
-        try writer["error"].write(value.error)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.LambdaFunctionFailedEventDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SFNClientTypes.LambdaFunctionFailedEventDetails()
@@ -3807,12 +3612,6 @@ extension SFNClientTypes.LambdaFunctionScheduleFailedEventDetails: Swift.CustomD
 
 extension SFNClientTypes.LambdaFunctionScheduleFailedEventDetails {
 
-    static func write(value: SFNClientTypes.LambdaFunctionScheduleFailedEventDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["cause"].write(value.cause)
-        try writer["error"].write(value.error)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.LambdaFunctionScheduleFailedEventDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SFNClientTypes.LambdaFunctionScheduleFailedEventDetails()
@@ -3848,15 +3647,6 @@ extension SFNClientTypes.LambdaFunctionScheduledEventDetails: Swift.CustomDebugS
 }
 
 extension SFNClientTypes.LambdaFunctionScheduledEventDetails {
-
-    static func write(value: SFNClientTypes.LambdaFunctionScheduledEventDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["input"].write(value.input)
-        try writer["inputDetails"].write(value.inputDetails, with: SFNClientTypes.HistoryEventExecutionDataDetails.write(value:to:))
-        try writer["resource"].write(value.resource)
-        try writer["taskCredentials"].write(value.taskCredentials, with: SFNClientTypes.TaskCredentials.write(value:to:))
-        try writer["timeoutInSeconds"].write(value.timeoutInSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.LambdaFunctionScheduledEventDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3910,12 +3700,6 @@ extension SFNClientTypes.LambdaFunctionStartFailedEventDetails: Swift.CustomDebu
 
 extension SFNClientTypes.LambdaFunctionStartFailedEventDetails {
 
-    static func write(value: SFNClientTypes.LambdaFunctionStartFailedEventDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["cause"].write(value.cause)
-        try writer["error"].write(value.error)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.LambdaFunctionStartFailedEventDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SFNClientTypes.LambdaFunctionStartFailedEventDetails()
@@ -3952,12 +3736,6 @@ extension SFNClientTypes.LambdaFunctionSucceededEventDetails: Swift.CustomDebugS
 
 extension SFNClientTypes.LambdaFunctionSucceededEventDetails {
 
-    static func write(value: SFNClientTypes.LambdaFunctionSucceededEventDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["output"].write(value.output)
-        try writer["outputDetails"].write(value.outputDetails, with: SFNClientTypes.HistoryEventExecutionDataDetails.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.LambdaFunctionSucceededEventDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SFNClientTypes.LambdaFunctionSucceededEventDetails()
@@ -3993,12 +3771,6 @@ extension SFNClientTypes.LambdaFunctionTimedOutEventDetails: Swift.CustomDebugSt
 }
 
 extension SFNClientTypes.LambdaFunctionTimedOutEventDetails {
-
-    static func write(value: SFNClientTypes.LambdaFunctionTimedOutEventDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["cause"].write(value.cause)
-        try writer["error"].write(value.error)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.LambdaFunctionTimedOutEventDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4714,12 +4486,6 @@ extension SFNClientTypes {
 
 extension SFNClientTypes.MapIterationEventDetails {
 
-    static func write(value: SFNClientTypes.MapIterationEventDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["index"].write(value.index)
-        try writer["name"].write(value.name)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.MapIterationEventDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SFNClientTypes.MapIterationEventDetails()
@@ -4750,20 +4516,6 @@ extension SFNClientTypes {
 }
 
 extension SFNClientTypes.MapRunExecutionCounts {
-
-    static func write(value: SFNClientTypes.MapRunExecutionCounts?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["aborted"].write(value.aborted)
-        try writer["failed"].write(value.failed)
-        try writer["failuresNotRedrivable"].write(value.failuresNotRedrivable)
-        try writer["pending"].write(value.pending)
-        try writer["pendingRedrive"].write(value.pendingRedrive)
-        try writer["resultsWritten"].write(value.resultsWritten)
-        try writer["running"].write(value.running)
-        try writer["succeeded"].write(value.succeeded)
-        try writer["timedOut"].write(value.timedOut)
-        try writer["total"].write(value.total)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.MapRunExecutionCounts {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4849,12 +4601,6 @@ extension SFNClientTypes.MapRunFailedEventDetails: Swift.CustomDebugStringConver
 
 extension SFNClientTypes.MapRunFailedEventDetails {
 
-    static func write(value: SFNClientTypes.MapRunFailedEventDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["cause"].write(value.cause)
-        try writer["error"].write(value.error)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.MapRunFailedEventDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SFNClientTypes.MapRunFailedEventDetails()
@@ -4885,20 +4631,6 @@ extension SFNClientTypes {
 }
 
 extension SFNClientTypes.MapRunItemCounts {
-
-    static func write(value: SFNClientTypes.MapRunItemCounts?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["aborted"].write(value.aborted)
-        try writer["failed"].write(value.failed)
-        try writer["failuresNotRedrivable"].write(value.failuresNotRedrivable)
-        try writer["pending"].write(value.pending)
-        try writer["pendingRedrive"].write(value.pendingRedrive)
-        try writer["resultsWritten"].write(value.resultsWritten)
-        try writer["running"].write(value.running)
-        try writer["succeeded"].write(value.succeeded)
-        try writer["timedOut"].write(value.timedOut)
-        try writer["total"].write(value.total)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.MapRunItemCounts {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4979,15 +4711,6 @@ extension SFNClientTypes {
 
 extension SFNClientTypes.MapRunListItem {
 
-    static func write(value: SFNClientTypes.MapRunListItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["executionArn"].write(value.executionArn)
-        try writer["mapRunArn"].write(value.mapRunArn)
-        try writer["startDate"].writeTimestamp(value.startDate, format: .epochSeconds)
-        try writer["stateMachineArn"].write(value.stateMachineArn)
-        try writer["stopDate"].writeTimestamp(value.stopDate, format: .epochSeconds)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.MapRunListItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SFNClientTypes.MapRunListItem()
@@ -5038,12 +4761,6 @@ extension SFNClientTypes {
 
 extension SFNClientTypes.MapRunRedrivenEventDetails {
 
-    static func write(value: SFNClientTypes.MapRunRedrivenEventDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["mapRunArn"].write(value.mapRunArn)
-        try writer["redriveCount"].write(value.redriveCount)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.MapRunRedrivenEventDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SFNClientTypes.MapRunRedrivenEventDetails()
@@ -5074,11 +4791,6 @@ extension SFNClientTypes {
 }
 
 extension SFNClientTypes.MapRunStartedEventDetails {
-
-    static func write(value: SFNClientTypes.MapRunStartedEventDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["mapRunArn"].write(value.mapRunArn)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.MapRunStartedEventDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5141,11 +4853,6 @@ extension SFNClientTypes {
 }
 
 extension SFNClientTypes.MapStateStartedEventDetails {
-
-    static func write(value: SFNClientTypes.MapStateStartedEventDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["length"].write(value.length)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.MapStateStartedEventDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5982,13 +5689,6 @@ extension SFNClientTypes.StateEnteredEventDetails: Swift.CustomDebugStringConver
 
 extension SFNClientTypes.StateEnteredEventDetails {
 
-    static func write(value: SFNClientTypes.StateEnteredEventDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["input"].write(value.input)
-        try writer["inputDetails"].write(value.inputDetails, with: SFNClientTypes.HistoryEventExecutionDataDetails.write(value:to:))
-        try writer["name"].write(value.name)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.StateEnteredEventDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SFNClientTypes.StateEnteredEventDetails()
@@ -6030,13 +5730,6 @@ extension SFNClientTypes.StateExitedEventDetails: Swift.CustomDebugStringConvert
 }
 
 extension SFNClientTypes.StateExitedEventDetails {
-
-    static func write(value: SFNClientTypes.StateExitedEventDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-        try writer["output"].write(value.output)
-        try writer["outputDetails"].write(value.outputDetails, with: SFNClientTypes.HistoryEventExecutionDataDetails.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.StateExitedEventDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6087,12 +5780,6 @@ extension SFNClientTypes {
 }
 
 extension SFNClientTypes.StateMachineAliasListItem {
-
-    static func write(value: SFNClientTypes.StateMachineAliasListItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["creationDate"].writeTimestamp(value.creationDate, format: .epochSeconds)
-        try writer["stateMachineAliasArn"].write(value.stateMachineAliasArn)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.StateMachineAliasListItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6275,14 +5962,6 @@ public struct StateMachineLimitExceeded: ClientRuntime.ModeledError, AWSClientRu
 
 extension SFNClientTypes.StateMachineListItem {
 
-    static func write(value: SFNClientTypes.StateMachineListItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["creationDate"].writeTimestamp(value.creationDate, format: .epochSeconds)
-        try writer["name"].write(value.name)
-        try writer["stateMachineArn"].write(value.stateMachineArn)
-        try writer["type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.StateMachineListItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SFNClientTypes.StateMachineListItem()
@@ -6437,12 +6116,6 @@ public struct StateMachineTypeNotSupported: ClientRuntime.ModeledError, AWSClien
 }
 
 extension SFNClientTypes.StateMachineVersionListItem {
-
-    static func write(value: SFNClientTypes.StateMachineVersionListItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["creationDate"].writeTimestamp(value.creationDate, format: .epochSeconds)
-        try writer["stateMachineVersionArn"].write(value.stateMachineVersionArn)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.StateMachineVersionListItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6693,11 +6366,6 @@ enum TagResourceOutputError {
 
 extension SFNClientTypes.TaskCredentials {
 
-    static func write(value: SFNClientTypes.TaskCredentials?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["roleArn"].write(value.roleArn)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.TaskCredentials {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SFNClientTypes.TaskCredentials()
@@ -6766,14 +6434,6 @@ extension SFNClientTypes.TaskFailedEventDetails: Swift.CustomDebugStringConverti
 
 extension SFNClientTypes.TaskFailedEventDetails {
 
-    static func write(value: SFNClientTypes.TaskFailedEventDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["cause"].write(value.cause)
-        try writer["error"].write(value.error)
-        try writer["resource"].write(value.resource)
-        try writer["resourceType"].write(value.resourceType)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.TaskFailedEventDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SFNClientTypes.TaskFailedEventDetails()
@@ -6821,17 +6481,6 @@ extension SFNClientTypes.TaskScheduledEventDetails: Swift.CustomDebugStringConve
 }
 
 extension SFNClientTypes.TaskScheduledEventDetails {
-
-    static func write(value: SFNClientTypes.TaskScheduledEventDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["heartbeatInSeconds"].write(value.heartbeatInSeconds)
-        try writer["parameters"].write(value.parameters)
-        try writer["region"].write(value.region)
-        try writer["resource"].write(value.resource)
-        try writer["resourceType"].write(value.resourceType)
-        try writer["taskCredentials"].write(value.taskCredentials, with: SFNClientTypes.TaskCredentials.write(value:to:))
-        try writer["timeoutInSeconds"].write(value.timeoutInSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.TaskScheduledEventDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6898,14 +6547,6 @@ extension SFNClientTypes.TaskStartFailedEventDetails: Swift.CustomDebugStringCon
 
 extension SFNClientTypes.TaskStartFailedEventDetails {
 
-    static func write(value: SFNClientTypes.TaskStartFailedEventDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["cause"].write(value.cause)
-        try writer["error"].write(value.error)
-        try writer["resource"].write(value.resource)
-        try writer["resourceType"].write(value.resourceType)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.TaskStartFailedEventDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SFNClientTypes.TaskStartFailedEventDetails()
@@ -6949,12 +6590,6 @@ extension SFNClientTypes {
 
 extension SFNClientTypes.TaskStartedEventDetails {
 
-    static func write(value: SFNClientTypes.TaskStartedEventDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["resource"].write(value.resource)
-        try writer["resourceType"].write(value.resourceType)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.TaskStartedEventDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SFNClientTypes.TaskStartedEventDetails()
@@ -6992,14 +6627,6 @@ extension SFNClientTypes.TaskSubmitFailedEventDetails: Swift.CustomDebugStringCo
 }
 
 extension SFNClientTypes.TaskSubmitFailedEventDetails {
-
-    static func write(value: SFNClientTypes.TaskSubmitFailedEventDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["cause"].write(value.cause)
-        try writer["error"].write(value.error)
-        try writer["resource"].write(value.resource)
-        try writer["resourceType"].write(value.resourceType)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.TaskSubmitFailedEventDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7049,14 +6676,6 @@ extension SFNClientTypes.TaskSubmittedEventDetails: Swift.CustomDebugStringConve
 
 extension SFNClientTypes.TaskSubmittedEventDetails {
 
-    static func write(value: SFNClientTypes.TaskSubmittedEventDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["output"].write(value.output)
-        try writer["outputDetails"].write(value.outputDetails, with: SFNClientTypes.HistoryEventExecutionDataDetails.write(value:to:))
-        try writer["resource"].write(value.resource)
-        try writer["resourceType"].write(value.resourceType)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.TaskSubmittedEventDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SFNClientTypes.TaskSubmittedEventDetails()
@@ -7104,14 +6723,6 @@ extension SFNClientTypes.TaskSucceededEventDetails: Swift.CustomDebugStringConve
 }
 
 extension SFNClientTypes.TaskSucceededEventDetails {
-
-    static func write(value: SFNClientTypes.TaskSucceededEventDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["output"].write(value.output)
-        try writer["outputDetails"].write(value.outputDetails, with: SFNClientTypes.HistoryEventExecutionDataDetails.write(value:to:))
-        try writer["resource"].write(value.resource)
-        try writer["resourceType"].write(value.resourceType)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.TaskSucceededEventDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7197,14 +6808,6 @@ extension SFNClientTypes.TaskTimedOutEventDetails: Swift.CustomDebugStringConver
 }
 
 extension SFNClientTypes.TaskTimedOutEventDetails {
-
-    static func write(value: SFNClientTypes.TaskTimedOutEventDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["cause"].write(value.cause)
-        try writer["error"].write(value.error)
-        try writer["resource"].write(value.resource)
-        try writer["resourceType"].write(value.resourceType)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.TaskTimedOutEventDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7829,14 +7432,6 @@ enum UpdateStateMachineOutputError {
 }
 
 extension SFNClientTypes.ValidateStateMachineDefinitionDiagnostic {
-
-    static func write(value: SFNClientTypes.ValidateStateMachineDefinitionDiagnostic?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["code"].write(value.code)
-        try writer["location"].write(value.location)
-        try writer["message"].write(value.message)
-        try writer["severity"].write(value.severity)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.ValidateStateMachineDefinitionDiagnostic {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

@@ -135,13 +135,6 @@ extension ARCZonalShiftClientTypes {
 
 extension ARCZonalShiftClientTypes.AutoshiftInResource {
 
-    static func write(value: ARCZonalShiftClientTypes.AutoshiftInResource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["appliedStatus"].write(value.appliedStatus)
-        try writer["awayFrom"].write(value.awayFrom)
-        try writer["startTime"].writeTimestamp(value.startTime, format: .epochSeconds)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ARCZonalShiftClientTypes.AutoshiftInResource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ARCZonalShiftClientTypes.AutoshiftInResource()
@@ -180,14 +173,6 @@ extension ARCZonalShiftClientTypes {
 }
 
 extension ARCZonalShiftClientTypes.AutoshiftSummary {
-
-    static func write(value: ARCZonalShiftClientTypes.AutoshiftSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["awayFrom"].write(value.awayFrom)
-        try writer["endTime"].writeTimestamp(value.endTime, format: .epochSeconds)
-        try writer["startTime"].writeTimestamp(value.startTime, format: .epochSeconds)
-        try writer["status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ARCZonalShiftClientTypes.AutoshiftSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1110,18 +1095,6 @@ enum ListZonalShiftsOutputError {
 
 extension ARCZonalShiftClientTypes.ManagedResourceSummary {
 
-    static func write(value: ARCZonalShiftClientTypes.ManagedResourceSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["appliedWeights"].writeMap(value.appliedWeights, valueWritingClosure: Swift.Float.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["arn"].write(value.arn)
-        try writer["autoshifts"].writeList(value.autoshifts, memberWritingClosure: ARCZonalShiftClientTypes.AutoshiftInResource.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["availabilityZones"].writeList(value.availabilityZones, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["name"].write(value.name)
-        try writer["practiceRunStatus"].write(value.practiceRunStatus)
-        try writer["zonalAutoshiftStatus"].write(value.zonalAutoshiftStatus)
-        try writer["zonalShifts"].writeList(value.zonalShifts, memberWritingClosure: ARCZonalShiftClientTypes.ZonalShiftInResource.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ARCZonalShiftClientTypes.ManagedResourceSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ARCZonalShiftClientTypes.ManagedResourceSummary()
@@ -1183,14 +1156,6 @@ extension ARCZonalShiftClientTypes {
 }
 
 extension ARCZonalShiftClientTypes.PracticeRunConfiguration {
-
-    static func write(value: ARCZonalShiftClientTypes.PracticeRunConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["blockedDates"].writeList(value.blockedDates, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["blockedWindows"].writeList(value.blockedWindows, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["blockingAlarms"].writeList(value.blockingAlarms, memberWritingClosure: ARCZonalShiftClientTypes.ControlCondition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["outcomeAlarms"].writeList(value.outcomeAlarms, memberWritingClosure: ARCZonalShiftClientTypes.ControlCondition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ARCZonalShiftClientTypes.PracticeRunConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1943,18 +1908,6 @@ extension ARCZonalShiftClientTypes {
 
 extension ARCZonalShiftClientTypes.ZonalShiftInResource {
 
-    static func write(value: ARCZonalShiftClientTypes.ZonalShiftInResource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["appliedStatus"].write(value.appliedStatus)
-        try writer["awayFrom"].write(value.awayFrom)
-        try writer["comment"].write(value.comment)
-        try writer["expiryTime"].writeTimestamp(value.expiryTime, format: .epochSeconds)
-        try writer["practiceRunOutcome"].write(value.practiceRunOutcome)
-        try writer["resourceIdentifier"].write(value.resourceIdentifier)
-        try writer["startTime"].writeTimestamp(value.startTime, format: .epochSeconds)
-        try writer["zonalShiftId"].write(value.zonalShiftId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ARCZonalShiftClientTypes.ZonalShiftInResource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ARCZonalShiftClientTypes.ZonalShiftInResource()
@@ -2066,18 +2019,6 @@ extension ARCZonalShiftClientTypes {
 }
 
 extension ARCZonalShiftClientTypes.ZonalShiftSummary {
-
-    static func write(value: ARCZonalShiftClientTypes.ZonalShiftSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["awayFrom"].write(value.awayFrom)
-        try writer["comment"].write(value.comment)
-        try writer["expiryTime"].writeTimestamp(value.expiryTime, format: .epochSeconds)
-        try writer["practiceRunOutcome"].write(value.practiceRunOutcome)
-        try writer["resourceIdentifier"].write(value.resourceIdentifier)
-        try writer["startTime"].writeTimestamp(value.startTime, format: .epochSeconds)
-        try writer["status"].write(value.status)
-        try writer["zonalShiftId"].write(value.zonalShiftId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ARCZonalShiftClientTypes.ZonalShiftSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

@@ -6,13 +6,6 @@ import SmithyReadWrite
 
 extension ElasticInferenceClientTypes.AcceleratorType {
 
-    static func write(value: ElasticInferenceClientTypes.AcceleratorType?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["acceleratorTypeName"].write(value.acceleratorTypeName)
-        try writer["memoryInfo"].write(value.memoryInfo, with: ElasticInferenceClientTypes.MemoryInfo.write(value:to:))
-        try writer["throughputInfo"].writeList(value.throughputInfo, memberWritingClosure: ElasticInferenceClientTypes.KeyValuePair.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ElasticInferenceClientTypes.AcceleratorType {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ElasticInferenceClientTypes.AcceleratorType()
@@ -48,13 +41,6 @@ extension ElasticInferenceClientTypes {
 }
 
 extension ElasticInferenceClientTypes.AcceleratorTypeOffering {
-
-    static func write(value: ElasticInferenceClientTypes.AcceleratorTypeOffering?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["acceleratorType"].write(value.acceleratorType)
-        try writer["location"].write(value.location)
-        try writer["locationType"].write(value.locationType)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ElasticInferenceClientTypes.AcceleratorTypeOffering {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -339,15 +325,6 @@ enum DescribeAcceleratorsOutputError {
 
 extension ElasticInferenceClientTypes.ElasticInferenceAccelerator {
 
-    static func write(value: ElasticInferenceClientTypes.ElasticInferenceAccelerator?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["acceleratorHealth"].write(value.acceleratorHealth, with: ElasticInferenceClientTypes.ElasticInferenceAcceleratorHealth.write(value:to:))
-        try writer["acceleratorId"].write(value.acceleratorId)
-        try writer["acceleratorType"].write(value.acceleratorType)
-        try writer["attachedResource"].write(value.attachedResource)
-        try writer["availabilityZone"].write(value.availabilityZone)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ElasticInferenceClientTypes.ElasticInferenceAccelerator {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ElasticInferenceClientTypes.ElasticInferenceAccelerator()
@@ -394,11 +371,6 @@ extension ElasticInferenceClientTypes {
 
 extension ElasticInferenceClientTypes.ElasticInferenceAcceleratorHealth {
 
-    static func write(value: ElasticInferenceClientTypes.ElasticInferenceAcceleratorHealth?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ElasticInferenceClientTypes.ElasticInferenceAcceleratorHealth {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ElasticInferenceClientTypes.ElasticInferenceAcceleratorHealth()
@@ -431,14 +403,6 @@ extension ElasticInferenceClientTypes.Filter {
         guard let value else { return }
         try writer["name"].write(value.name)
         try writer["values"].writeList(value.values, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ElasticInferenceClientTypes.Filter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElasticInferenceClientTypes.Filter()
-        value.name = try reader["name"].readIfPresent()
-        value.values = try reader["values"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -500,12 +464,6 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 }
 
 extension ElasticInferenceClientTypes.KeyValuePair {
-
-    static func write(value: ElasticInferenceClientTypes.KeyValuePair?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["key"].write(value.key)
-        try writer["value"].write(value.value)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ElasticInferenceClientTypes.KeyValuePair {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -633,11 +591,6 @@ extension ElasticInferenceClientTypes {
 }
 
 extension ElasticInferenceClientTypes.MemoryInfo {
-
-    static func write(value: ElasticInferenceClientTypes.MemoryInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["sizeInMiB"].write(value.sizeInMiB)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ElasticInferenceClientTypes.MemoryInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

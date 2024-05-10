@@ -129,17 +129,6 @@ enum AddWorkloadOutputError {
 
 extension ApplicationInsightsClientTypes.ApplicationComponent {
 
-    static func write(value: ApplicationInsightsClientTypes.ApplicationComponent?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ComponentName"].write(value.componentName)
-        try writer["ComponentRemarks"].write(value.componentRemarks)
-        try writer["DetectedWorkload"].writeMap(value.detectedWorkload, valueWritingClosure: mapWritingClosure(valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["Monitor"].write(value.monitor)
-        try writer["OsType"].write(value.osType)
-        try writer["ResourceType"].write(value.resourceType)
-        try writer["Tier"].write(value.tier)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ApplicationInsightsClientTypes.ApplicationComponent {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ApplicationInsightsClientTypes.ApplicationComponent()
@@ -195,20 +184,6 @@ extension ApplicationInsightsClientTypes {
 }
 
 extension ApplicationInsightsClientTypes.ApplicationInfo {
-
-    static func write(value: ApplicationInsightsClientTypes.ApplicationInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccountId"].write(value.accountId)
-        try writer["AttachMissingPermission"].write(value.attachMissingPermission)
-        try writer["AutoConfigEnabled"].write(value.autoConfigEnabled)
-        try writer["CWEMonitorEnabled"].write(value.cweMonitorEnabled)
-        try writer["DiscoveryType"].write(value.discoveryType)
-        try writer["LifeCycle"].write(value.lifeCycle)
-        try writer["OpsCenterEnabled"].write(value.opsCenterEnabled)
-        try writer["OpsItemSNSTopicArn"].write(value.opsItemSNSTopicArn)
-        try writer["Remarks"].write(value.remarks)
-        try writer["ResourceGroupName"].write(value.resourceGroupName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ApplicationInsightsClientTypes.ApplicationInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -359,18 +334,6 @@ extension ApplicationInsightsClientTypes {
 }
 
 extension ApplicationInsightsClientTypes.ConfigurationEvent {
-
-    static func write(value: ApplicationInsightsClientTypes.ConfigurationEvent?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccountId"].write(value.accountId)
-        try writer["EventDetail"].write(value.eventDetail)
-        try writer["EventResourceName"].write(value.eventResourceName)
-        try writer["EventResourceType"].write(value.eventResourceType)
-        try writer["EventStatus"].write(value.eventStatus)
-        try writer["EventTime"].writeTimestamp(value.eventTime, format: .epochSeconds)
-        try writer["MonitoredResourceARN"].write(value.monitoredResourceARN)
-        try writer["ResourceGroupName"].write(value.resourceGroupName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ApplicationInsightsClientTypes.ConfigurationEvent {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2649,14 +2612,6 @@ extension ApplicationInsightsClientTypes {
 
 extension ApplicationInsightsClientTypes.LogPattern {
 
-    static func write(value: ApplicationInsightsClientTypes.LogPattern?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Pattern"].write(value.pattern)
-        try writer["PatternName"].write(value.patternName)
-        try writer["PatternSetName"].write(value.patternSetName)
-        try writer["Rank"].write(value.rank)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ApplicationInsightsClientTypes.LogPattern {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ApplicationInsightsClientTypes.LogPattern()
@@ -2697,55 +2652,6 @@ extension ApplicationInsightsClientTypes {
 }
 
 extension ApplicationInsightsClientTypes.Observation {
-
-    static func write(value: ApplicationInsightsClientTypes.Observation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CloudWatchEventDetailType"].write(value.cloudWatchEventDetailType)
-        try writer["CloudWatchEventId"].write(value.cloudWatchEventId)
-        try writer["CloudWatchEventSource"].write(value.cloudWatchEventSource)
-        try writer["CodeDeployApplication"].write(value.codeDeployApplication)
-        try writer["CodeDeployDeploymentGroup"].write(value.codeDeployDeploymentGroup)
-        try writer["CodeDeployDeploymentId"].write(value.codeDeployDeploymentId)
-        try writer["CodeDeployInstanceGroupId"].write(value.codeDeployInstanceGroupId)
-        try writer["CodeDeployState"].write(value.codeDeployState)
-        try writer["EbsCause"].write(value.ebsCause)
-        try writer["EbsEvent"].write(value.ebsEvent)
-        try writer["EbsRequestId"].write(value.ebsRequestId)
-        try writer["EbsResult"].write(value.ebsResult)
-        try writer["Ec2State"].write(value.ec2State)
-        try writer["EndTime"].writeTimestamp(value.endTime, format: .epochSeconds)
-        try writer["HealthEventArn"].write(value.healthEventArn)
-        try writer["HealthEventDescription"].write(value.healthEventDescription)
-        try writer["HealthEventTypeCategory"].write(value.healthEventTypeCategory)
-        try writer["HealthEventTypeCode"].write(value.healthEventTypeCode)
-        try writer["HealthService"].write(value.healthService)
-        try writer["Id"].write(value.id)
-        try writer["LineTime"].writeTimestamp(value.lineTime, format: .epochSeconds)
-        try writer["LogFilter"].write(value.logFilter)
-        try writer["LogGroup"].write(value.logGroup)
-        try writer["LogText"].write(value.logText)
-        try writer["MetricName"].write(value.metricName)
-        try writer["MetricNamespace"].write(value.metricNamespace)
-        try writer["RdsEventCategories"].write(value.rdsEventCategories)
-        try writer["RdsEventMessage"].write(value.rdsEventMessage)
-        try writer["S3EventName"].write(value.s3EventName)
-        try writer["SourceARN"].write(value.sourceARN)
-        try writer["SourceType"].write(value.sourceType)
-        try writer["StartTime"].writeTimestamp(value.startTime, format: .epochSeconds)
-        try writer["StatesArn"].write(value.statesArn)
-        try writer["StatesExecutionArn"].write(value.statesExecutionArn)
-        try writer["StatesInput"].write(value.statesInput)
-        try writer["StatesStatus"].write(value.statesStatus)
-        try writer["Unit"].write(value.unit)
-        try writer["Value"].write(value.value)
-        try writer["XRayErrorPercent"].write(value.xRayErrorPercent)
-        try writer["XRayFaultPercent"].write(value.xRayFaultPercent)
-        try writer["XRayNodeName"].write(value.xRayNodeName)
-        try writer["XRayNodeType"].write(value.xRayNodeType)
-        try writer["XRayRequestAverageLatency"].write(value.xRayRequestAverageLatency)
-        try writer["XRayRequestCount"].write(value.xRayRequestCount)
-        try writer["XRayThrottlePercent"].write(value.xRayThrottlePercent)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ApplicationInsightsClientTypes.Observation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3023,25 +2929,6 @@ extension ApplicationInsightsClientTypes {
 
 extension ApplicationInsightsClientTypes.Problem {
 
-    static func write(value: ApplicationInsightsClientTypes.Problem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccountId"].write(value.accountId)
-        try writer["AffectedResource"].write(value.affectedResource)
-        try writer["EndTime"].writeTimestamp(value.endTime, format: .epochSeconds)
-        try writer["Feedback"].writeMap(value.feedback, valueWritingClosure: ApplicationInsightsClientTypes.FeedbackValue.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["Id"].write(value.id)
-        try writer["Insights"].write(value.insights)
-        try writer["LastRecurrenceTime"].writeTimestamp(value.lastRecurrenceTime, format: .epochSeconds)
-        try writer["RecurringCount"].write(value.recurringCount)
-        try writer["ResolutionMethod"].write(value.resolutionMethod)
-        try writer["ResourceGroupName"].write(value.resourceGroupName)
-        try writer["SeverityLevel"].write(value.severityLevel)
-        try writer["StartTime"].writeTimestamp(value.startTime, format: .epochSeconds)
-        try writer["Status"].write(value.status)
-        try writer["Title"].write(value.title)
-        try writer["Visibility"].write(value.visibility)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ApplicationInsightsClientTypes.Problem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ApplicationInsightsClientTypes.Problem()
@@ -3170,11 +3057,6 @@ extension ApplicationInsightsClientTypes {
 }
 
 extension ApplicationInsightsClientTypes.RelatedObservations {
-
-    static func write(value: ApplicationInsightsClientTypes.RelatedObservations?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ObservationList"].writeList(value.observationList, memberWritingClosure: ApplicationInsightsClientTypes.Observation.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ApplicationInsightsClientTypes.RelatedObservations {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4385,15 +4267,6 @@ extension ApplicationInsightsClientTypes {
 }
 
 extension ApplicationInsightsClientTypes.Workload {
-
-    static func write(value: ApplicationInsightsClientTypes.Workload?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ComponentName"].write(value.componentName)
-        try writer["Tier"].write(value.tier)
-        try writer["WorkloadId"].write(value.workloadId)
-        try writer["WorkloadName"].write(value.workloadName)
-        try writer["WorkloadRemarks"].write(value.workloadRemarks)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ApplicationInsightsClientTypes.Workload {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

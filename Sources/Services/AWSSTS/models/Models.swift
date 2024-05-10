@@ -448,12 +448,6 @@ enum AssumeRoleWithWebIdentityOutputError {
 
 extension STSClientTypes.AssumedRoleUser {
 
-    static func write(value: STSClientTypes.AssumedRoleUser?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["AssumedRoleId"].write(value.assumedRoleId)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> STSClientTypes.AssumedRoleUser {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = STSClientTypes.AssumedRoleUser()
@@ -491,14 +485,6 @@ extension STSClientTypes.Credentials: Swift.CustomDebugStringConvertible {
 }
 
 extension STSClientTypes.Credentials {
-
-    static func write(value: STSClientTypes.Credentials?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["AccessKeyId"].write(value.accessKeyId)
-        try writer["Expiration"].writeTimestamp(value.expiration, format: .dateTime)
-        try writer["SecretAccessKey"].write(value.secretAccessKey)
-        try writer["SessionToken"].write(value.sessionToken)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> STSClientTypes.Credentials {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -650,12 +636,6 @@ public struct ExpiredTokenException: ClientRuntime.ModeledError, AWSClientRuntim
 }
 
 extension STSClientTypes.FederatedUser {
-
-    static func write(value: STSClientTypes.FederatedUser?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["FederatedUserId"].write(value.federatedUserId)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> STSClientTypes.FederatedUser {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1277,13 +1257,6 @@ extension STSClientTypes.PolicyDescriptorType {
         guard let value else { return }
         try writer["arn"].write(value.arn)
     }
-
-    static func read(from reader: SmithyXML.Reader) throws -> STSClientTypes.PolicyDescriptorType {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = STSClientTypes.PolicyDescriptorType()
-        value.arn = try reader["arn"].readIfPresent()
-        return value
-    }
 }
 
 extension STSClientTypes {
@@ -1308,14 +1281,6 @@ extension STSClientTypes.ProvidedContext {
         guard let value else { return }
         try writer["ContextAssertion"].write(value.contextAssertion)
         try writer["ProviderArn"].write(value.providerArn)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> STSClientTypes.ProvidedContext {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = STSClientTypes.ProvidedContext()
-        value.providerArn = try reader["ProviderArn"].readIfPresent()
-        value.contextAssertion = try reader["ContextAssertion"].readIfPresent()
-        return value
     }
 }
 
@@ -1384,14 +1349,6 @@ extension STSClientTypes.Tag {
         guard let value else { return }
         try writer["Key"].write(value.key)
         try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> STSClientTypes.Tag {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = STSClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
-        return value
     }
 }
 

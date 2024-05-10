@@ -529,15 +529,6 @@ enum DisassociateGatewayFromServerOutputError {
 
 extension BackupGatewayClientTypes.Gateway {
 
-    static func write(value: BackupGatewayClientTypes.Gateway?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["GatewayArn"].write(value.gatewayArn)
-        try writer["GatewayDisplayName"].write(value.gatewayDisplayName)
-        try writer["GatewayType"].write(value.gatewayType)
-        try writer["HypervisorId"].write(value.hypervisorId)
-        try writer["LastSeenTime"].writeTimestamp(value.lastSeenTime, format: .epochSeconds)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> BackupGatewayClientTypes.Gateway {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BackupGatewayClientTypes.Gateway()
@@ -583,18 +574,6 @@ extension BackupGatewayClientTypes {
 }
 
 extension BackupGatewayClientTypes.GatewayDetails {
-
-    static func write(value: BackupGatewayClientTypes.GatewayDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["GatewayArn"].write(value.gatewayArn)
-        try writer["GatewayDisplayName"].write(value.gatewayDisplayName)
-        try writer["GatewayType"].write(value.gatewayType)
-        try writer["HypervisorId"].write(value.hypervisorId)
-        try writer["LastSeenTime"].writeTimestamp(value.lastSeenTime, format: .epochSeconds)
-        try writer["MaintenanceStartTime"].write(value.maintenanceStartTime, with: BackupGatewayClientTypes.MaintenanceStartTime.write(value:to:))
-        try writer["NextUpdateAvailabilityTime"].writeTimestamp(value.nextUpdateAvailabilityTime, format: .epochSeconds)
-        try writer["VpcEndpoint"].write(value.vpcEndpoint)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> BackupGatewayClientTypes.GatewayDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1034,15 +1013,6 @@ enum GetVirtualMachineOutputError {
 
 extension BackupGatewayClientTypes.Hypervisor {
 
-    static func write(value: BackupGatewayClientTypes.Hypervisor?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Host"].write(value.host)
-        try writer["HypervisorArn"].write(value.hypervisorArn)
-        try writer["KmsKeyArn"].write(value.kmsKeyArn)
-        try writer["Name"].write(value.name)
-        try writer["State"].write(value.state)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> BackupGatewayClientTypes.Hypervisor {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BackupGatewayClientTypes.Hypervisor()
@@ -1088,19 +1058,6 @@ extension BackupGatewayClientTypes {
 }
 
 extension BackupGatewayClientTypes.HypervisorDetails {
-
-    static func write(value: BackupGatewayClientTypes.HypervisorDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Host"].write(value.host)
-        try writer["HypervisorArn"].write(value.hypervisorArn)
-        try writer["KmsKeyArn"].write(value.kmsKeyArn)
-        try writer["LastSuccessfulMetadataSyncTime"].writeTimestamp(value.lastSuccessfulMetadataSyncTime, format: .epochSeconds)
-        try writer["LatestMetadataSyncStatus"].write(value.latestMetadataSyncStatus)
-        try writer["LatestMetadataSyncStatusMessage"].write(value.latestMetadataSyncStatusMessage)
-        try writer["LogGroupArn"].write(value.logGroupArn)
-        try writer["Name"].write(value.name)
-        try writer["State"].write(value.state)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> BackupGatewayClientTypes.HypervisorDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1646,14 +1603,6 @@ enum ListVirtualMachinesOutputError {
 }
 
 extension BackupGatewayClientTypes.MaintenanceStartTime {
-
-    static func write(value: BackupGatewayClientTypes.MaintenanceStartTime?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DayOfMonth"].write(value.dayOfMonth)
-        try writer["DayOfWeek"].write(value.dayOfWeek)
-        try writer["HourOfDay"].write(value.hourOfDay)
-        try writer["MinuteOfHour"].write(value.minuteOfHour)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> BackupGatewayClientTypes.MaintenanceStartTime {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2677,16 +2626,6 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
 extension BackupGatewayClientTypes.VirtualMachine {
 
-    static func write(value: BackupGatewayClientTypes.VirtualMachine?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["HostName"].write(value.hostName)
-        try writer["HypervisorId"].write(value.hypervisorId)
-        try writer["LastBackupDate"].writeTimestamp(value.lastBackupDate, format: .epochSeconds)
-        try writer["Name"].write(value.name)
-        try writer["Path"].write(value.path)
-        try writer["ResourceArn"].write(value.resourceArn)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> BackupGatewayClientTypes.VirtualMachine {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BackupGatewayClientTypes.VirtualMachine()
@@ -2737,17 +2676,6 @@ extension BackupGatewayClientTypes {
 }
 
 extension BackupGatewayClientTypes.VirtualMachineDetails {
-
-    static func write(value: BackupGatewayClientTypes.VirtualMachineDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["HostName"].write(value.hostName)
-        try writer["HypervisorId"].write(value.hypervisorId)
-        try writer["LastBackupDate"].writeTimestamp(value.lastBackupDate, format: .epochSeconds)
-        try writer["Name"].write(value.name)
-        try writer["Path"].write(value.path)
-        try writer["ResourceArn"].write(value.resourceArn)
-        try writer["VmwareTags"].writeList(value.vmwareTags, memberWritingClosure: BackupGatewayClientTypes.VmwareTag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> BackupGatewayClientTypes.VirtualMachineDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2804,13 +2732,6 @@ extension BackupGatewayClientTypes {
 }
 
 extension BackupGatewayClientTypes.VmwareTag {
-
-    static func write(value: BackupGatewayClientTypes.VmwareTag?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["VmwareCategory"].write(value.vmwareCategory)
-        try writer["VmwareTagDescription"].write(value.vmwareTagDescription)
-        try writer["VmwareTagName"].write(value.vmwareTagName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> BackupGatewayClientTypes.VmwareTag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

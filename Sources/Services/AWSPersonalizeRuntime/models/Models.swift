@@ -356,12 +356,6 @@ public enum PersonalizeRuntimeClientTypes {}
 
 extension PersonalizeRuntimeClientTypes.PredictedAction {
 
-    static func write(value: PersonalizeRuntimeClientTypes.PredictedAction?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["actionId"].write(value.actionId)
-        try writer["score"].write(value.score)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeRuntimeClientTypes.PredictedAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PersonalizeRuntimeClientTypes.PredictedAction()
@@ -397,15 +391,6 @@ extension PersonalizeRuntimeClientTypes.PredictedItem: Swift.CustomDebugStringCo
 }
 
 extension PersonalizeRuntimeClientTypes.PredictedItem {
-
-    static func write(value: PersonalizeRuntimeClientTypes.PredictedItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["itemId"].write(value.itemId)
-        try writer["metadata"].writeMap(value.metadata, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["promotionName"].write(value.promotionName)
-        try writer["reason"].writeList(value.reason, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["score"].write(value.score)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeRuntimeClientTypes.PredictedItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -465,16 +450,6 @@ extension PersonalizeRuntimeClientTypes.Promotion {
         try writer["filterValues"].writeMap(value.filterValues, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["name"].write(value.name)
         try writer["percentPromotedItems"].write(value.percentPromotedItems)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeRuntimeClientTypes.Promotion {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PersonalizeRuntimeClientTypes.Promotion()
-        value.name = try reader["name"].readIfPresent()
-        value.percentPromotedItems = try reader["percentPromotedItems"].readIfPresent()
-        value.filterArn = try reader["filterArn"].readIfPresent()
-        value.filterValues = try reader["filterValues"].readMapIfPresent(valueReadingClosure: Swift.String.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
     }
 }
 

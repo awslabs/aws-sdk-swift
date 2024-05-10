@@ -16,14 +16,6 @@ extension PersonalizeEventsClientTypes.Action {
         try writer["actionId"].write(value.actionId)
         try writer["properties"].write(value.properties)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeEventsClientTypes.Action {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PersonalizeEventsClientTypes.Action()
-        value.actionId = try reader["actionId"].readIfPresent()
-        value.properties = try reader["properties"].readIfPresent()
-        return value
-    }
 }
 
 extension PersonalizeEventsClientTypes {
@@ -65,21 +57,6 @@ extension PersonalizeEventsClientTypes.ActionInteraction {
         try writer["sessionId"].write(value.sessionId)
         try writer["timestamp"].writeTimestamp(value.timestamp, format: .epochSeconds)
         try writer["userId"].write(value.userId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeEventsClientTypes.ActionInteraction {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PersonalizeEventsClientTypes.ActionInteraction()
-        value.actionId = try reader["actionId"].readIfPresent()
-        value.userId = try reader["userId"].readIfPresent()
-        value.sessionId = try reader["sessionId"].readIfPresent()
-        value.timestamp = try reader["timestamp"].readTimestampIfPresent(format: .epochSeconds)
-        value.eventType = try reader["eventType"].readIfPresent()
-        value.eventId = try reader["eventId"].readIfPresent()
-        value.recommendationId = try reader["recommendationId"].readIfPresent()
-        value.impression = try reader["impression"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.properties = try reader["properties"].readIfPresent()
-        return value
     }
 }
 
@@ -166,21 +143,6 @@ extension PersonalizeEventsClientTypes.Event {
         try writer["properties"].write(value.properties)
         try writer["recommendationId"].write(value.recommendationId)
         try writer["sentAt"].writeTimestamp(value.sentAt, format: .epochSeconds)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeEventsClientTypes.Event {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PersonalizeEventsClientTypes.Event()
-        value.eventId = try reader["eventId"].readIfPresent()
-        value.eventType = try reader["eventType"].readIfPresent()
-        value.eventValue = try reader["eventValue"].readIfPresent()
-        value.itemId = try reader["itemId"].readIfPresent()
-        value.properties = try reader["properties"].readIfPresent()
-        value.sentAt = try reader["sentAt"].readTimestampIfPresent(format: .epochSeconds)
-        value.recommendationId = try reader["recommendationId"].readIfPresent()
-        value.impression = try reader["impression"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.metricAttribution = try reader["metricAttribution"].readIfPresent(with: PersonalizeEventsClientTypes.MetricAttribution.read(from:))
-        return value
     }
 }
 
@@ -295,14 +257,6 @@ extension PersonalizeEventsClientTypes.Item {
         try writer["itemId"].write(value.itemId)
         try writer["properties"].write(value.properties)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeEventsClientTypes.Item {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PersonalizeEventsClientTypes.Item()
-        value.itemId = try reader["itemId"].readIfPresent()
-        value.properties = try reader["properties"].readIfPresent()
-        return value
-    }
 }
 
 extension PersonalizeEventsClientTypes {
@@ -331,13 +285,6 @@ extension PersonalizeEventsClientTypes.MetricAttribution {
     static func write(value: PersonalizeEventsClientTypes.MetricAttribution?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["eventAttributionSource"].write(value.eventAttributionSource)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeEventsClientTypes.MetricAttribution {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PersonalizeEventsClientTypes.MetricAttribution()
-        value.eventAttributionSource = try reader["eventAttributionSource"].readIfPresent()
-        return value
     }
 }
 
@@ -769,14 +716,6 @@ extension PersonalizeEventsClientTypes.User {
         guard let value else { return }
         try writer["properties"].write(value.properties)
         try writer["userId"].write(value.userId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeEventsClientTypes.User {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PersonalizeEventsClientTypes.User()
-        value.userId = try reader["userId"].readIfPresent()
-        value.properties = try reader["properties"].readIfPresent()
-        return value
     }
 }
 

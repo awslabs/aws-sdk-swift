@@ -265,16 +265,6 @@ extension HealthLakeClientTypes.DatastoreFilter {
         try writer["DatastoreName"].write(value.datastoreName)
         try writer["DatastoreStatus"].write(value.datastoreStatus)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> HealthLakeClientTypes.DatastoreFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = HealthLakeClientTypes.DatastoreFilter()
-        value.datastoreName = try reader["DatastoreName"].readIfPresent()
-        value.datastoreStatus = try reader["DatastoreStatus"].readIfPresent()
-        value.createdBefore = try reader["CreatedBefore"].readTimestampIfPresent(format: .epochSeconds)
-        value.createdAfter = try reader["CreatedAfter"].readTimestampIfPresent(format: .epochSeconds)
-        return value
-    }
 }
 
 extension HealthLakeClientTypes {
@@ -306,21 +296,6 @@ extension HealthLakeClientTypes {
 }
 
 extension HealthLakeClientTypes.DatastoreProperties {
-
-    static func write(value: HealthLakeClientTypes.DatastoreProperties?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["DatastoreArn"].write(value.datastoreArn)
-        try writer["DatastoreEndpoint"].write(value.datastoreEndpoint)
-        try writer["DatastoreId"].write(value.datastoreId)
-        try writer["DatastoreName"].write(value.datastoreName)
-        try writer["DatastoreStatus"].write(value.datastoreStatus)
-        try writer["DatastoreTypeVersion"].write(value.datastoreTypeVersion)
-        try writer["ErrorCause"].write(value.errorCause, with: HealthLakeClientTypes.ErrorCause.write(value:to:))
-        try writer["IdentityProviderConfiguration"].write(value.identityProviderConfiguration, with: HealthLakeClientTypes.IdentityProviderConfiguration.write(value:to:))
-        try writer["PreloadDataConfig"].write(value.preloadDataConfig, with: HealthLakeClientTypes.PreloadDataConfig.write(value:to:))
-        try writer["SseConfiguration"].write(value.sseConfiguration, with: HealthLakeClientTypes.SseConfiguration.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> HealthLakeClientTypes.DatastoreProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -784,12 +759,6 @@ extension HealthLakeClientTypes {
 
 extension HealthLakeClientTypes.ErrorCause {
 
-    static func write(value: HealthLakeClientTypes.ErrorCause?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ErrorCategory"].write(value.errorCategory)
-        try writer["ErrorMessage"].write(value.errorMessage)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> HealthLakeClientTypes.ErrorCause {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = HealthLakeClientTypes.ErrorCause()
@@ -820,19 +789,6 @@ extension HealthLakeClientTypes {
 }
 
 extension HealthLakeClientTypes.ExportJobProperties {
-
-    static func write(value: HealthLakeClientTypes.ExportJobProperties?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DataAccessRoleArn"].write(value.dataAccessRoleArn)
-        try writer["DatastoreId"].write(value.datastoreId)
-        try writer["EndTime"].writeTimestamp(value.endTime, format: .epochSeconds)
-        try writer["JobId"].write(value.jobId)
-        try writer["JobName"].write(value.jobName)
-        try writer["JobStatus"].write(value.jobStatus)
-        try writer["Message"].write(value.message)
-        try writer["OutputDataConfig"].write(value.outputDataConfig, with: HealthLakeClientTypes.OutputDataConfig.write(value:to:))
-        try writer["SubmitTime"].writeTimestamp(value.submitTime, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> HealthLakeClientTypes.ExportJobProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -983,21 +939,6 @@ extension HealthLakeClientTypes {
 }
 
 extension HealthLakeClientTypes.ImportJobProperties {
-
-    static func write(value: HealthLakeClientTypes.ImportJobProperties?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DataAccessRoleArn"].write(value.dataAccessRoleArn)
-        try writer["DatastoreId"].write(value.datastoreId)
-        try writer["EndTime"].writeTimestamp(value.endTime, format: .epochSeconds)
-        try writer["InputDataConfig"].write(value.inputDataConfig, with: HealthLakeClientTypes.InputDataConfig.write(value:to:))
-        try writer["JobId"].write(value.jobId)
-        try writer["JobName"].write(value.jobName)
-        try writer["JobOutputDataConfig"].write(value.jobOutputDataConfig, with: HealthLakeClientTypes.OutputDataConfig.write(value:to:))
-        try writer["JobProgressReport"].write(value.jobProgressReport, with: HealthLakeClientTypes.JobProgressReport.write(value:to:))
-        try writer["JobStatus"].write(value.jobStatus)
-        try writer["Message"].write(value.message)
-        try writer["SubmitTime"].writeTimestamp(value.submitTime, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> HealthLakeClientTypes.ImportJobProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1150,18 +1091,6 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 }
 
 extension HealthLakeClientTypes.JobProgressReport {
-
-    static func write(value: HealthLakeClientTypes.JobProgressReport?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Throughput"].write(value.throughput)
-        try writer["TotalNumberOfFilesReadWithCustomerError"].write(value.totalNumberOfFilesReadWithCustomerError)
-        try writer["TotalNumberOfImportedFiles"].write(value.totalNumberOfImportedFiles)
-        try writer["TotalNumberOfResourcesImported"].write(value.totalNumberOfResourcesImported)
-        try writer["TotalNumberOfResourcesScanned"].write(value.totalNumberOfResourcesScanned)
-        try writer["TotalNumberOfResourcesWithCustomerError"].write(value.totalNumberOfResourcesWithCustomerError)
-        try writer["TotalNumberOfScannedFiles"].write(value.totalNumberOfScannedFiles)
-        try writer["TotalSizeOfScannedFilesInMB"].write(value.totalSizeOfScannedFilesInMB)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> HealthLakeClientTypes.JobProgressReport {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

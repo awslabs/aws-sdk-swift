@@ -39,18 +39,6 @@ extension MediaPackageVodClientTypes {
 
 extension MediaPackageVodClientTypes.AssetShallow {
 
-    static func write(value: MediaPackageVodClientTypes.AssetShallow?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["createdAt"].write(value.createdAt)
-        try writer["id"].write(value.id)
-        try writer["packagingGroupId"].write(value.packagingGroupId)
-        try writer["resourceId"].write(value.resourceId)
-        try writer["sourceArn"].write(value.sourceArn)
-        try writer["sourceRoleArn"].write(value.sourceRoleArn)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageVodClientTypes.AssetShallow {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaPackageVodClientTypes.AssetShallow()
@@ -1415,13 +1403,6 @@ extension MediaPackageVodClientTypes {
 
 extension MediaPackageVodClientTypes.EgressEndpoint {
 
-    static func write(value: MediaPackageVodClientTypes.EgressEndpoint?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["packagingConfigurationId"].write(value.packagingConfigurationId)
-        try writer["status"].write(value.status)
-        try writer["url"].write(value.url)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageVodClientTypes.EgressEndpoint {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaPackageVodClientTypes.EgressEndpoint()
@@ -2281,19 +2262,6 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
 extension MediaPackageVodClientTypes.PackagingConfiguration {
 
-    static func write(value: MediaPackageVodClientTypes.PackagingConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["cmafPackage"].write(value.cmafPackage, with: MediaPackageVodClientTypes.CmafPackage.write(value:to:))
-        try writer["createdAt"].write(value.createdAt)
-        try writer["dashPackage"].write(value.dashPackage, with: MediaPackageVodClientTypes.DashPackage.write(value:to:))
-        try writer["hlsPackage"].write(value.hlsPackage, with: MediaPackageVodClientTypes.HlsPackage.write(value:to:))
-        try writer["id"].write(value.id)
-        try writer["mssPackage"].write(value.mssPackage, with: MediaPackageVodClientTypes.MssPackage.write(value:to:))
-        try writer["packagingGroupId"].write(value.packagingGroupId)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageVodClientTypes.PackagingConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaPackageVodClientTypes.PackagingConfiguration()
@@ -2359,18 +2327,6 @@ extension MediaPackageVodClientTypes {
 }
 
 extension MediaPackageVodClientTypes.PackagingGroup {
-
-    static func write(value: MediaPackageVodClientTypes.PackagingGroup?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["approximateAssetCount"].write(value.approximateAssetCount)
-        try writer["arn"].write(value.arn)
-        try writer["authorization"].write(value.authorization, with: MediaPackageVodClientTypes.Authorization.write(value:to:))
-        try writer["createdAt"].write(value.createdAt)
-        try writer["domainName"].write(value.domainName)
-        try writer["egressAccessLogs"].write(value.egressAccessLogs, with: MediaPackageVodClientTypes.EgressAccessLogs.write(value:to:))
-        try writer["id"].write(value.id)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageVodClientTypes.PackagingGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

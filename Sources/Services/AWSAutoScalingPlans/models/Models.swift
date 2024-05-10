@@ -287,12 +287,6 @@ extension AutoScalingPlansClientTypes {
 
 extension AutoScalingPlansClientTypes.Datapoint {
 
-    static func write(value: AutoScalingPlansClientTypes.Datapoint?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Timestamp"].writeTimestamp(value.timestamp, format: .epochSeconds)
-        try writer["Value"].write(value.value)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AutoScalingPlansClientTypes.Datapoint {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AutoScalingPlansClientTypes.Datapoint()
@@ -1429,18 +1423,6 @@ extension AutoScalingPlansClientTypes {
 
 extension AutoScalingPlansClientTypes.ScalingPlan {
 
-    static func write(value: AutoScalingPlansClientTypes.ScalingPlan?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ApplicationSource"].write(value.applicationSource, with: AutoScalingPlansClientTypes.ApplicationSource.write(value:to:))
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["ScalingInstructions"].writeList(value.scalingInstructions, memberWritingClosure: AutoScalingPlansClientTypes.ScalingInstruction.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ScalingPlanName"].write(value.scalingPlanName)
-        try writer["ScalingPlanVersion"].write(value.scalingPlanVersion)
-        try writer["StatusCode"].write(value.statusCode)
-        try writer["StatusMessage"].write(value.statusMessage)
-        try writer["StatusStartTime"].writeTimestamp(value.statusStartTime, format: .epochSeconds)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AutoScalingPlansClientTypes.ScalingPlan {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AutoScalingPlansClientTypes.ScalingPlan()
@@ -1522,18 +1504,6 @@ extension AutoScalingPlansClientTypes {
 }
 
 extension AutoScalingPlansClientTypes.ScalingPlanResource {
-
-    static func write(value: AutoScalingPlansClientTypes.ScalingPlanResource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ResourceId"].write(value.resourceId)
-        try writer["ScalableDimension"].write(value.scalableDimension)
-        try writer["ScalingPlanName"].write(value.scalingPlanName)
-        try writer["ScalingPlanVersion"].write(value.scalingPlanVersion)
-        try writer["ScalingPolicies"].writeList(value.scalingPolicies, memberWritingClosure: AutoScalingPlansClientTypes.ScalingPolicy.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ScalingStatusCode"].write(value.scalingStatusCode)
-        try writer["ScalingStatusMessage"].write(value.scalingStatusMessage)
-        try writer["ServiceNamespace"].write(value.serviceNamespace)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AutoScalingPlansClientTypes.ScalingPlanResource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1683,13 +1653,6 @@ extension AutoScalingPlansClientTypes {
 }
 
 extension AutoScalingPlansClientTypes.ScalingPolicy {
-
-    static func write(value: AutoScalingPlansClientTypes.ScalingPolicy?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["PolicyName"].write(value.policyName)
-        try writer["PolicyType"].write(value.policyType)
-        try writer["TargetTrackingConfiguration"].write(value.targetTrackingConfiguration, with: AutoScalingPlansClientTypes.TargetTrackingConfiguration.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AutoScalingPlansClientTypes.ScalingPolicy {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

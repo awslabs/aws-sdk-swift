@@ -38,12 +38,6 @@ extension AthenaClientTypes {
 
 extension AthenaClientTypes.ApplicationDPUSizes {
 
-    static func write(value: AthenaClientTypes.ApplicationDPUSizes?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ApplicationRuntimeId"].write(value.applicationRuntimeId)
-        try writer["SupportedDPUSizes"].writeList(value.supportedDPUSizes, memberWritingClosure: Swift.Int.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AthenaClientTypes.ApplicationDPUSizes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AthenaClientTypes.ApplicationDPUSizes()
@@ -76,14 +70,6 @@ extension AthenaClientTypes {
 public enum AthenaClientTypes {}
 
 extension AthenaClientTypes.AthenaError {
-
-    static func write(value: AthenaClientTypes.AthenaError?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ErrorCategory"].write(value.errorCategory)
-        try writer["ErrorMessage"].write(value.errorMessage)
-        try writer["ErrorType"].write(value.errorType)
-        try writer["Retryable"].write(value.retryable)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AthenaClientTypes.AthenaError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -381,13 +367,6 @@ extension AthenaClientTypes.CalculationConfiguration {
         guard let value else { return }
         try writer["CodeBlock"].write(value.codeBlock)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AthenaClientTypes.CalculationConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AthenaClientTypes.CalculationConfiguration()
-        value.codeBlock = try reader["CodeBlock"].readIfPresent()
-        return value
-    }
 }
 
 extension AthenaClientTypes {
@@ -456,14 +435,6 @@ extension AthenaClientTypes {
 
 extension AthenaClientTypes.CalculationResult {
 
-    static func write(value: AthenaClientTypes.CalculationResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ResultS3Uri"].write(value.resultS3Uri)
-        try writer["ResultType"].write(value.resultType)
-        try writer["StdErrorS3Uri"].write(value.stdErrorS3Uri)
-        try writer["StdOutS3Uri"].write(value.stdOutS3Uri)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AthenaClientTypes.CalculationResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AthenaClientTypes.CalculationResult()
@@ -505,12 +476,6 @@ extension AthenaClientTypes {
 
 extension AthenaClientTypes.CalculationStatistics {
 
-    static func write(value: AthenaClientTypes.CalculationStatistics?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DpuExecutionInMillis"].write(value.dpuExecutionInMillis)
-        try writer["Progress"].write(value.progress)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AthenaClientTypes.CalculationStatistics {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AthenaClientTypes.CalculationStatistics()
@@ -541,14 +506,6 @@ extension AthenaClientTypes {
 }
 
 extension AthenaClientTypes.CalculationStatus {
-
-    static func write(value: AthenaClientTypes.CalculationStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CompletionDateTime"].writeTimestamp(value.completionDateTime, format: .epochSeconds)
-        try writer["State"].write(value.state)
-        try writer["StateChangeReason"].write(value.stateChangeReason)
-        try writer["SubmissionDateTime"].writeTimestamp(value.submissionDateTime, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AthenaClientTypes.CalculationStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -590,13 +547,6 @@ extension AthenaClientTypes {
 }
 
 extension AthenaClientTypes.CalculationSummary {
-
-    static func write(value: AthenaClientTypes.CalculationSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CalculationExecutionId"].write(value.calculationExecutionId)
-        try writer["Description"].write(value.description)
-        try writer["Status"].write(value.status, with: AthenaClientTypes.CalculationStatus.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AthenaClientTypes.CalculationSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -688,14 +638,6 @@ enum CancelCapacityReservationOutputError {
 }
 
 extension AthenaClientTypes.CapacityAllocation {
-
-    static func write(value: AthenaClientTypes.CapacityAllocation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["RequestCompletionTime"].writeTimestamp(value.requestCompletionTime, format: .epochSeconds)
-        try writer["RequestTime"].writeTimestamp(value.requestTime, format: .epochSeconds)
-        try writer["Status"].write(value.status)
-        try writer["StatusMessage"].write(value.statusMessage)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AthenaClientTypes.CapacityAllocation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -804,12 +746,6 @@ extension AthenaClientTypes {
 
 extension AthenaClientTypes.CapacityAssignmentConfiguration {
 
-    static func write(value: AthenaClientTypes.CapacityAssignmentConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CapacityAssignments"].writeList(value.capacityAssignments, memberWritingClosure: AthenaClientTypes.CapacityAssignment.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["CapacityReservationName"].write(value.capacityReservationName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AthenaClientTypes.CapacityAssignmentConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AthenaClientTypes.CapacityAssignmentConfiguration()
@@ -840,17 +776,6 @@ extension AthenaClientTypes {
 }
 
 extension AthenaClientTypes.CapacityReservation {
-
-    static func write(value: AthenaClientTypes.CapacityReservation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AllocatedDpus"].write(value.allocatedDpus)
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["LastAllocation"].write(value.lastAllocation, with: AthenaClientTypes.CapacityAllocation.write(value:to:))
-        try writer["LastSuccessfulAllocationTime"].writeTimestamp(value.lastSuccessfulAllocationTime, format: .epochSeconds)
-        try writer["Name"].write(value.name)
-        try writer["Status"].write(value.status)
-        try writer["TargetDpus"].write(value.targetDpus)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AthenaClientTypes.CapacityReservation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -955,13 +880,6 @@ extension AthenaClientTypes {
 
 extension AthenaClientTypes.Column {
 
-    static func write(value: AthenaClientTypes.Column?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Comment"].write(value.comment)
-        try writer["Name"].write(value.name)
-        try writer["Type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AthenaClientTypes.Column {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AthenaClientTypes.Column()
@@ -998,20 +916,6 @@ extension AthenaClientTypes {
 }
 
 extension AthenaClientTypes.ColumnInfo {
-
-    static func write(value: AthenaClientTypes.ColumnInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CaseSensitive"].write(value.caseSensitive)
-        try writer["CatalogName"].write(value.catalogName)
-        try writer["Label"].write(value.label)
-        try writer["Name"].write(value.name)
-        try writer["Nullable"].write(value.nullable)
-        try writer["Precision"].write(value.precision)
-        try writer["Scale"].write(value.scale)
-        try writer["SchemaName"].write(value.schemaName)
-        try writer["TableName"].write(value.tableName)
-        try writer["Type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AthenaClientTypes.ColumnInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1704,14 +1608,6 @@ extension AthenaClientTypes {
 
 extension AthenaClientTypes.DataCatalog {
 
-    static func write(value: AthenaClientTypes.DataCatalog?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Description"].write(value.description)
-        try writer["Name"].write(value.name)
-        try writer["Parameters"].writeMap(value.parameters, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["Type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AthenaClientTypes.DataCatalog {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AthenaClientTypes.DataCatalog()
@@ -1769,12 +1665,6 @@ extension AthenaClientTypes {
 }
 
 extension AthenaClientTypes.DataCatalogSummary {
-
-    static func write(value: AthenaClientTypes.DataCatalogSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CatalogName"].write(value.catalogName)
-        try writer["Type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AthenaClientTypes.DataCatalogSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1840,13 +1730,6 @@ extension AthenaClientTypes {
 
 extension AthenaClientTypes.Database {
 
-    static func write(value: AthenaClientTypes.Database?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Description"].write(value.description)
-        try writer["Name"].write(value.name)
-        try writer["Parameters"].writeMap(value.parameters, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AthenaClientTypes.Database {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AthenaClientTypes.Database()
@@ -1883,11 +1766,6 @@ extension AthenaClientTypes {
 }
 
 extension AthenaClientTypes.Datum {
-
-    static func write(value: AthenaClientTypes.Datum?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["VarCharValue"].write(value.varCharValue)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AthenaClientTypes.Datum {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2497,16 +2375,6 @@ extension AthenaClientTypes {
 
 extension AthenaClientTypes.ExecutorsSummary {
 
-    static func write(value: AthenaClientTypes.ExecutorsSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ExecutorId"].write(value.executorId)
-        try writer["ExecutorSize"].write(value.executorSize)
-        try writer["ExecutorState"].write(value.executorState)
-        try writer["ExecutorType"].write(value.executorType)
-        try writer["StartDateTime"].write(value.startDateTime)
-        try writer["TerminationDateTime"].write(value.terminationDateTime)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AthenaClientTypes.ExecutorsSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AthenaClientTypes.ExecutorsSummary()
@@ -2635,13 +2503,6 @@ extension AthenaClientTypes.FilterDefinition {
     static func write(value: AthenaClientTypes.FilterDefinition?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Name"].write(value.name)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AthenaClientTypes.FilterDefinition {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AthenaClientTypes.FilterDefinition()
-        value.name = try reader["Name"].readIfPresent()
-        return value
     }
 }
 
@@ -5544,16 +5405,6 @@ public struct MetadataException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
 extension AthenaClientTypes.NamedQuery {
 
-    static func write(value: AthenaClientTypes.NamedQuery?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Database"].write(value.database)
-        try writer["Description"].write(value.description)
-        try writer["Name"].write(value.name)
-        try writer["NamedQueryId"].write(value.namedQueryId)
-        try writer["QueryString"].write(value.queryString)
-        try writer["WorkGroup"].write(value.workGroup)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AthenaClientTypes.NamedQuery {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AthenaClientTypes.NamedQuery()
@@ -5608,16 +5459,6 @@ extension AthenaClientTypes {
 
 extension AthenaClientTypes.NotebookMetadata {
 
-    static func write(value: AthenaClientTypes.NotebookMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["LastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .epochSeconds)
-        try writer["Name"].write(value.name)
-        try writer["NotebookId"].write(value.notebookId)
-        try writer["Type"].write(value.type)
-        try writer["WorkGroup"].write(value.workGroup)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AthenaClientTypes.NotebookMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AthenaClientTypes.NotebookMetadata()
@@ -5668,12 +5509,6 @@ extension AthenaClientTypes {
 }
 
 extension AthenaClientTypes.NotebookSessionSummary {
-
-    static func write(value: AthenaClientTypes.NotebookSessionSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["SessionId"].write(value.sessionId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AthenaClientTypes.NotebookSessionSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5733,15 +5568,6 @@ extension AthenaClientTypes {
 
 extension AthenaClientTypes.PreparedStatement {
 
-    static func write(value: AthenaClientTypes.PreparedStatement?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Description"].write(value.description)
-        try writer["LastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .epochSeconds)
-        try writer["QueryStatement"].write(value.queryStatement)
-        try writer["StatementName"].write(value.statementName)
-        try writer["WorkGroupName"].write(value.workGroupName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AthenaClientTypes.PreparedStatement {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AthenaClientTypes.PreparedStatement()
@@ -5787,12 +5613,6 @@ extension AthenaClientTypes {
 }
 
 extension AthenaClientTypes.PreparedStatementSummary {
-
-    static func write(value: AthenaClientTypes.PreparedStatementSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["LastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .epochSeconds)
-        try writer["StatementName"].write(value.statementName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AthenaClientTypes.PreparedStatementSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5885,23 +5705,6 @@ enum PutCapacityAssignmentConfigurationOutputError {
 }
 
 extension AthenaClientTypes.QueryExecution {
-
-    static func write(value: AthenaClientTypes.QueryExecution?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EngineVersion"].write(value.engineVersion, with: AthenaClientTypes.EngineVersion.write(value:to:))
-        try writer["ExecutionParameters"].writeList(value.executionParameters, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Query"].write(value.query)
-        try writer["QueryExecutionContext"].write(value.queryExecutionContext, with: AthenaClientTypes.QueryExecutionContext.write(value:to:))
-        try writer["QueryExecutionId"].write(value.queryExecutionId)
-        try writer["QueryResultsS3AccessGrantsConfiguration"].write(value.queryResultsS3AccessGrantsConfiguration, with: AthenaClientTypes.QueryResultsS3AccessGrantsConfiguration.write(value:to:))
-        try writer["ResultConfiguration"].write(value.resultConfiguration, with: AthenaClientTypes.ResultConfiguration.write(value:to:))
-        try writer["ResultReuseConfiguration"].write(value.resultReuseConfiguration, with: AthenaClientTypes.ResultReuseConfiguration.write(value:to:))
-        try writer["StatementType"].write(value.statementType)
-        try writer["Statistics"].write(value.statistics, with: AthenaClientTypes.QueryExecutionStatistics.write(value:to:))
-        try writer["Status"].write(value.status, with: AthenaClientTypes.QueryExecutionStatus.write(value:to:))
-        try writer["SubstatementType"].write(value.substatementType)
-        try writer["WorkGroup"].write(value.workGroup)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AthenaClientTypes.QueryExecution {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6065,19 +5868,6 @@ extension AthenaClientTypes {
 
 extension AthenaClientTypes.QueryExecutionStatistics {
 
-    static func write(value: AthenaClientTypes.QueryExecutionStatistics?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DataManifestLocation"].write(value.dataManifestLocation)
-        try writer["DataScannedInBytes"].write(value.dataScannedInBytes)
-        try writer["EngineExecutionTimeInMillis"].write(value.engineExecutionTimeInMillis)
-        try writer["QueryPlanningTimeInMillis"].write(value.queryPlanningTimeInMillis)
-        try writer["QueryQueueTimeInMillis"].write(value.queryQueueTimeInMillis)
-        try writer["ResultReuseInformation"].write(value.resultReuseInformation, with: AthenaClientTypes.ResultReuseInformation.write(value:to:))
-        try writer["ServicePreProcessingTimeInMillis"].write(value.servicePreProcessingTimeInMillis)
-        try writer["ServiceProcessingTimeInMillis"].write(value.serviceProcessingTimeInMillis)
-        try writer["TotalExecutionTimeInMillis"].write(value.totalExecutionTimeInMillis)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AthenaClientTypes.QueryExecutionStatistics {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AthenaClientTypes.QueryExecutionStatistics()
@@ -6143,15 +5933,6 @@ extension AthenaClientTypes {
 }
 
 extension AthenaClientTypes.QueryExecutionStatus {
-
-    static func write(value: AthenaClientTypes.QueryExecutionStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AthenaError"].write(value.athenaError, with: AthenaClientTypes.AthenaError.write(value:to:))
-        try writer["CompletionDateTime"].writeTimestamp(value.completionDateTime, format: .epochSeconds)
-        try writer["State"].write(value.state)
-        try writer["StateChangeReason"].write(value.stateChangeReason)
-        try writer["SubmissionDateTime"].writeTimestamp(value.submissionDateTime, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AthenaClientTypes.QueryExecutionStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6244,13 +6025,6 @@ extension AthenaClientTypes {
 
 extension AthenaClientTypes.QueryRuntimeStatistics {
 
-    static func write(value: AthenaClientTypes.QueryRuntimeStatistics?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["OutputStage"].write(value.outputStage, with: AthenaClientTypes.QueryStage.write(value:to:))
-        try writer["Rows"].write(value.rows, with: AthenaClientTypes.QueryRuntimeStatisticsRows.write(value:to:))
-        try writer["Timeline"].write(value.timeline, with: AthenaClientTypes.QueryRuntimeStatisticsTimeline.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AthenaClientTypes.QueryRuntimeStatistics {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AthenaClientTypes.QueryRuntimeStatistics()
@@ -6286,14 +6060,6 @@ extension AthenaClientTypes {
 }
 
 extension AthenaClientTypes.QueryRuntimeStatisticsRows {
-
-    static func write(value: AthenaClientTypes.QueryRuntimeStatisticsRows?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["InputBytes"].write(value.inputBytes)
-        try writer["InputRows"].write(value.inputRows)
-        try writer["OutputBytes"].write(value.outputBytes)
-        try writer["OutputRows"].write(value.outputRows)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AthenaClientTypes.QueryRuntimeStatisticsRows {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6335,16 +6101,6 @@ extension AthenaClientTypes {
 }
 
 extension AthenaClientTypes.QueryRuntimeStatisticsTimeline {
-
-    static func write(value: AthenaClientTypes.QueryRuntimeStatisticsTimeline?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EngineExecutionTimeInMillis"].write(value.engineExecutionTimeInMillis)
-        try writer["QueryPlanningTimeInMillis"].write(value.queryPlanningTimeInMillis)
-        try writer["QueryQueueTimeInMillis"].write(value.queryQueueTimeInMillis)
-        try writer["ServicePreProcessingTimeInMillis"].write(value.servicePreProcessingTimeInMillis)
-        try writer["ServiceProcessingTimeInMillis"].write(value.serviceProcessingTimeInMillis)
-        try writer["TotalExecutionTimeInMillis"].write(value.totalExecutionTimeInMillis)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AthenaClientTypes.QueryRuntimeStatisticsTimeline {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6396,19 +6152,6 @@ extension AthenaClientTypes {
 }
 
 extension AthenaClientTypes.QueryStage {
-
-    static func write(value: AthenaClientTypes.QueryStage?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ExecutionTime"].write(value.executionTime)
-        try writer["InputBytes"].write(value.inputBytes)
-        try writer["InputRows"].write(value.inputRows)
-        try writer["OutputBytes"].write(value.outputBytes)
-        try writer["OutputRows"].write(value.outputRows)
-        try writer["QueryStagePlan"].write(value.queryStagePlan, with: AthenaClientTypes.QueryStagePlanNode.write(value:to:))
-        try writer["StageId"].write(value.stageId)
-        try writer["State"].write(value.state)
-        try writer["SubStages"].writeList(value.subStages, memberWritingClosure: AthenaClientTypes.QueryStage.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AthenaClientTypes.QueryStage {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6475,14 +6218,6 @@ extension AthenaClientTypes {
 }
 
 extension AthenaClientTypes.QueryStagePlanNode {
-
-    static func write(value: AthenaClientTypes.QueryStagePlanNode?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Children"].writeList(value.children, memberWritingClosure: AthenaClientTypes.QueryStagePlanNode.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Identifier"].write(value.identifier)
-        try writer["Name"].write(value.name)
-        try writer["RemoteSources"].writeList(value.remoteSources, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AthenaClientTypes.QueryStagePlanNode {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6627,20 +6362,6 @@ extension AthenaClientTypes.ResultConfigurationUpdates {
         try writer["RemoveExpectedBucketOwner"].write(value.removeExpectedBucketOwner)
         try writer["RemoveOutputLocation"].write(value.removeOutputLocation)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AthenaClientTypes.ResultConfigurationUpdates {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AthenaClientTypes.ResultConfigurationUpdates()
-        value.outputLocation = try reader["OutputLocation"].readIfPresent()
-        value.removeOutputLocation = try reader["RemoveOutputLocation"].readIfPresent()
-        value.encryptionConfiguration = try reader["EncryptionConfiguration"].readIfPresent(with: AthenaClientTypes.EncryptionConfiguration.read(from:))
-        value.removeEncryptionConfiguration = try reader["RemoveEncryptionConfiguration"].readIfPresent()
-        value.expectedBucketOwner = try reader["ExpectedBucketOwner"].readIfPresent()
-        value.removeExpectedBucketOwner = try reader["RemoveExpectedBucketOwner"].readIfPresent()
-        value.aclConfiguration = try reader["AclConfiguration"].readIfPresent(with: AthenaClientTypes.AclConfiguration.read(from:))
-        value.removeAclConfiguration = try reader["RemoveAclConfiguration"].readIfPresent()
-        return value
-    }
 }
 
 extension AthenaClientTypes {
@@ -6758,11 +6479,6 @@ extension AthenaClientTypes {
 
 extension AthenaClientTypes.ResultReuseInformation {
 
-    static func write(value: AthenaClientTypes.ResultReuseInformation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ReusedPreviousResult"].write(value.reusedPreviousResult)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AthenaClientTypes.ResultReuseInformation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AthenaClientTypes.ResultReuseInformation()
@@ -6789,12 +6505,6 @@ extension AthenaClientTypes {
 }
 
 extension AthenaClientTypes.ResultSet {
-
-    static func write(value: AthenaClientTypes.ResultSet?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ResultSetMetadata"].write(value.resultSetMetadata, with: AthenaClientTypes.ResultSetMetadata.write(value:to:))
-        try writer["Rows"].writeList(value.rows, memberWritingClosure: AthenaClientTypes.Row.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AthenaClientTypes.ResultSet {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6827,11 +6537,6 @@ extension AthenaClientTypes {
 
 extension AthenaClientTypes.ResultSetMetadata {
 
-    static func write(value: AthenaClientTypes.ResultSetMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ColumnInfo"].writeList(value.columnInfo, memberWritingClosure: AthenaClientTypes.ColumnInfo.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AthenaClientTypes.ResultSetMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AthenaClientTypes.ResultSetMetadata()
@@ -6857,11 +6562,6 @@ extension AthenaClientTypes {
 }
 
 extension AthenaClientTypes.Row {
-
-    static func write(value: AthenaClientTypes.Row?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Data"].writeList(value.data, memberWritingClosure: AthenaClientTypes.Datum.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AthenaClientTypes.Row {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6953,14 +6653,6 @@ public struct SessionAlreadyExistsException: ClientRuntime.ModeledError, AWSClie
 
 extension AthenaClientTypes.SessionConfiguration {
 
-    static func write(value: AthenaClientTypes.SessionConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EncryptionConfiguration"].write(value.encryptionConfiguration, with: AthenaClientTypes.EncryptionConfiguration.write(value:to:))
-        try writer["ExecutionRole"].write(value.executionRole)
-        try writer["IdleTimeoutSeconds"].write(value.idleTimeoutSeconds)
-        try writer["WorkingDirectory"].write(value.workingDirectory)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AthenaClientTypes.SessionConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AthenaClientTypes.SessionConfiguration()
@@ -7050,11 +6742,6 @@ extension AthenaClientTypes {
 
 extension AthenaClientTypes.SessionStatistics {
 
-    static func write(value: AthenaClientTypes.SessionStatistics?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DpuExecutionInMillis"].write(value.dpuExecutionInMillis)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AthenaClientTypes.SessionStatistics {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AthenaClientTypes.SessionStatistics()
@@ -7080,16 +6767,6 @@ extension AthenaClientTypes {
 }
 
 extension AthenaClientTypes.SessionStatus {
-
-    static func write(value: AthenaClientTypes.SessionStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EndDateTime"].writeTimestamp(value.endDateTime, format: .epochSeconds)
-        try writer["IdleSinceDateTime"].writeTimestamp(value.idleSinceDateTime, format: .epochSeconds)
-        try writer["LastModifiedDateTime"].writeTimestamp(value.lastModifiedDateTime, format: .epochSeconds)
-        try writer["StartDateTime"].writeTimestamp(value.startDateTime, format: .epochSeconds)
-        try writer["State"].write(value.state)
-        try writer["StateChangeReason"].write(value.stateChangeReason)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AthenaClientTypes.SessionStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7141,15 +6818,6 @@ extension AthenaClientTypes {
 }
 
 extension AthenaClientTypes.SessionSummary {
-
-    static func write(value: AthenaClientTypes.SessionSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Description"].write(value.description)
-        try writer["EngineVersion"].write(value.engineVersion, with: AthenaClientTypes.EngineVersion.write(value:to:))
-        try writer["NotebookVersion"].write(value.notebookVersion)
-        try writer["SessionId"].write(value.sessionId)
-        try writer["Status"].write(value.status, with: AthenaClientTypes.SessionStatus.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AthenaClientTypes.SessionSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7646,17 +7314,6 @@ enum StopQueryExecutionOutputError {
 
 extension AthenaClientTypes.TableMetadata {
 
-    static func write(value: AthenaClientTypes.TableMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Columns"].writeList(value.columns, memberWritingClosure: AthenaClientTypes.Column.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["CreateTime"].writeTimestamp(value.createTime, format: .epochSeconds)
-        try writer["LastAccessTime"].writeTimestamp(value.lastAccessTime, format: .epochSeconds)
-        try writer["Name"].write(value.name)
-        try writer["Parameters"].writeMap(value.parameters, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["PartitionKeys"].writeList(value.partitionKeys, memberWritingClosure: AthenaClientTypes.Column.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["TableType"].write(value.tableType)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AthenaClientTypes.TableMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AthenaClientTypes.TableMetadata()
@@ -7951,13 +7608,6 @@ public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRun
 
 extension AthenaClientTypes.UnprocessedNamedQueryId {
 
-    static func write(value: AthenaClientTypes.UnprocessedNamedQueryId?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ErrorCode"].write(value.errorCode)
-        try writer["ErrorMessage"].write(value.errorMessage)
-        try writer["NamedQueryId"].write(value.namedQueryId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AthenaClientTypes.UnprocessedNamedQueryId {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AthenaClientTypes.UnprocessedNamedQueryId()
@@ -7993,13 +7643,6 @@ extension AthenaClientTypes {
 }
 
 extension AthenaClientTypes.UnprocessedPreparedStatementName {
-
-    static func write(value: AthenaClientTypes.UnprocessedPreparedStatementName?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ErrorCode"].write(value.errorCode)
-        try writer["ErrorMessage"].write(value.errorMessage)
-        try writer["StatementName"].write(value.statementName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AthenaClientTypes.UnprocessedPreparedStatementName {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8042,13 +7685,6 @@ extension AthenaClientTypes {
 }
 
 extension AthenaClientTypes.UnprocessedQueryExecutionId {
-
-    static func write(value: AthenaClientTypes.UnprocessedQueryExecutionId?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ErrorCode"].write(value.errorCode)
-        try writer["ErrorMessage"].write(value.errorMessage)
-        try writer["QueryExecutionId"].write(value.queryExecutionId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AthenaClientTypes.UnprocessedQueryExecutionId {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8648,16 +8284,6 @@ enum UpdateWorkGroupOutputError {
 
 extension AthenaClientTypes.WorkGroup {
 
-    static func write(value: AthenaClientTypes.WorkGroup?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Configuration"].write(value.configuration, with: AthenaClientTypes.WorkGroupConfiguration.write(value:to:))
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["Description"].write(value.description)
-        try writer["IdentityCenterApplicationArn"].write(value.identityCenterApplicationArn)
-        try writer["Name"].write(value.name)
-        try writer["State"].write(value.state)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AthenaClientTypes.WorkGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AthenaClientTypes.WorkGroup()
@@ -8823,25 +8449,6 @@ extension AthenaClientTypes.WorkGroupConfigurationUpdates {
         try writer["RequesterPaysEnabled"].write(value.requesterPaysEnabled)
         try writer["ResultConfigurationUpdates"].write(value.resultConfigurationUpdates, with: AthenaClientTypes.ResultConfigurationUpdates.write(value:to:))
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AthenaClientTypes.WorkGroupConfigurationUpdates {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AthenaClientTypes.WorkGroupConfigurationUpdates()
-        value.enforceWorkGroupConfiguration = try reader["EnforceWorkGroupConfiguration"].readIfPresent()
-        value.resultConfigurationUpdates = try reader["ResultConfigurationUpdates"].readIfPresent(with: AthenaClientTypes.ResultConfigurationUpdates.read(from:))
-        value.publishCloudWatchMetricsEnabled = try reader["PublishCloudWatchMetricsEnabled"].readIfPresent()
-        value.bytesScannedCutoffPerQuery = try reader["BytesScannedCutoffPerQuery"].readIfPresent()
-        value.removeBytesScannedCutoffPerQuery = try reader["RemoveBytesScannedCutoffPerQuery"].readIfPresent()
-        value.requesterPaysEnabled = try reader["RequesterPaysEnabled"].readIfPresent()
-        value.engineVersion = try reader["EngineVersion"].readIfPresent(with: AthenaClientTypes.EngineVersion.read(from:))
-        value.removeCustomerContentEncryptionConfiguration = try reader["RemoveCustomerContentEncryptionConfiguration"].readIfPresent()
-        value.additionalConfiguration = try reader["AdditionalConfiguration"].readIfPresent()
-        value.executionRole = try reader["ExecutionRole"].readIfPresent()
-        value.customerContentEncryptionConfiguration = try reader["CustomerContentEncryptionConfiguration"].readIfPresent(with: AthenaClientTypes.CustomerContentEncryptionConfiguration.read(from:))
-        value.enableMinimumEncryptionConfiguration = try reader["EnableMinimumEncryptionConfiguration"].readIfPresent()
-        value.queryResultsS3AccessGrantsConfiguration = try reader["QueryResultsS3AccessGrantsConfiguration"].readIfPresent(with: AthenaClientTypes.QueryResultsS3AccessGrantsConfiguration.read(from:))
-        return value
-    }
 }
 
 extension AthenaClientTypes {
@@ -8939,16 +8546,6 @@ extension AthenaClientTypes {
 }
 
 extension AthenaClientTypes.WorkGroupSummary {
-
-    static func write(value: AthenaClientTypes.WorkGroupSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["Description"].write(value.description)
-        try writer["EngineVersion"].write(value.engineVersion, with: AthenaClientTypes.EngineVersion.write(value:to:))
-        try writer["IdentityCenterApplicationArn"].write(value.identityCenterApplicationArn)
-        try writer["Name"].write(value.name)
-        try writer["State"].write(value.state)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AthenaClientTypes.WorkGroupSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

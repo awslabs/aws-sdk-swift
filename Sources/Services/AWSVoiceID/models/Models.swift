@@ -132,11 +132,6 @@ enum AssociateFraudsterOutputError {
 
 extension VoiceIDClientTypes.AuthenticationConfiguration {
 
-    static func write(value: VoiceIDClientTypes.AuthenticationConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AcceptanceThreshold"].write(value.acceptanceThreshold)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> VoiceIDClientTypes.AuthenticationConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = VoiceIDClientTypes.AuthenticationConfiguration()
@@ -213,18 +208,6 @@ extension VoiceIDClientTypes.AuthenticationResult: Swift.CustomDebugStringConver
 }
 
 extension VoiceIDClientTypes.AuthenticationResult {
-
-    static func write(value: VoiceIDClientTypes.AuthenticationResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AudioAggregationEndedAt"].writeTimestamp(value.audioAggregationEndedAt, format: .epochSeconds)
-        try writer["AudioAggregationStartedAt"].writeTimestamp(value.audioAggregationStartedAt, format: .epochSeconds)
-        try writer["AuthenticationResultId"].write(value.authenticationResultId)
-        try writer["Configuration"].write(value.configuration, with: VoiceIDClientTypes.AuthenticationConfiguration.write(value:to:))
-        try writer["CustomerSpeakerId"].write(value.customerSpeakerId)
-        try writer["Decision"].write(value.decision)
-        try writer["GeneratedSpeakerId"].write(value.generatedSpeakerId)
-        try writer["Score"].write(value.score)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> VoiceIDClientTypes.AuthenticationResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1403,20 +1386,6 @@ extension VoiceIDClientTypes.Domain: Swift.CustomDebugStringConvertible {
 
 extension VoiceIDClientTypes.Domain {
 
-    static func write(value: VoiceIDClientTypes.Domain?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["CreatedAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["Description"].write(value.description)
-        try writer["DomainId"].write(value.domainId)
-        try writer["DomainStatus"].write(value.domainStatus)
-        try writer["Name"].write(value.name)
-        try writer["ServerSideEncryptionConfiguration"].write(value.serverSideEncryptionConfiguration, with: VoiceIDClientTypes.ServerSideEncryptionConfiguration.write(value:to:))
-        try writer["ServerSideEncryptionUpdateDetails"].write(value.serverSideEncryptionUpdateDetails, with: VoiceIDClientTypes.ServerSideEncryptionUpdateDetails.write(value:to:))
-        try writer["UpdatedAt"].writeTimestamp(value.updatedAt, format: .epochSeconds)
-        try writer["WatchlistDetails"].write(value.watchlistDetails, with: VoiceIDClientTypes.WatchlistDetails.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> VoiceIDClientTypes.Domain {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = VoiceIDClientTypes.Domain()
@@ -1525,20 +1494,6 @@ extension VoiceIDClientTypes.DomainSummary: Swift.CustomDebugStringConvertible {
 }
 
 extension VoiceIDClientTypes.DomainSummary {
-
-    static func write(value: VoiceIDClientTypes.DomainSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["CreatedAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["Description"].write(value.description)
-        try writer["DomainId"].write(value.domainId)
-        try writer["DomainStatus"].write(value.domainStatus)
-        try writer["Name"].write(value.name)
-        try writer["ServerSideEncryptionConfiguration"].write(value.serverSideEncryptionConfiguration, with: VoiceIDClientTypes.ServerSideEncryptionConfiguration.write(value:to:))
-        try writer["ServerSideEncryptionUpdateDetails"].write(value.serverSideEncryptionUpdateDetails, with: VoiceIDClientTypes.ServerSideEncryptionUpdateDetails.write(value:to:))
-        try writer["UpdatedAt"].writeTimestamp(value.updatedAt, format: .epochSeconds)
-        try writer["WatchlistDetails"].write(value.watchlistDetails, with: VoiceIDClientTypes.WatchlistDetails.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> VoiceIDClientTypes.DomainSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1853,12 +1808,6 @@ extension VoiceIDClientTypes {
 
 extension VoiceIDClientTypes.FailureDetails {
 
-    static func write(value: VoiceIDClientTypes.FailureDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.message)
-        try writer["StatusCode"].write(value.statusCode)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> VoiceIDClientTypes.FailureDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = VoiceIDClientTypes.FailureDetails()
@@ -1919,12 +1868,6 @@ extension VoiceIDClientTypes {
 }
 
 extension VoiceIDClientTypes.FraudDetectionConfiguration {
-
-    static func write(value: VoiceIDClientTypes.FraudDetectionConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["RiskThreshold"].write(value.riskThreshold)
-        try writer["WatchlistId"].write(value.watchlistId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> VoiceIDClientTypes.FraudDetectionConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2020,17 +1963,6 @@ extension VoiceIDClientTypes {
 
 extension VoiceIDClientTypes.FraudDetectionResult {
 
-    static func write(value: VoiceIDClientTypes.FraudDetectionResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AudioAggregationEndedAt"].writeTimestamp(value.audioAggregationEndedAt, format: .epochSeconds)
-        try writer["AudioAggregationStartedAt"].writeTimestamp(value.audioAggregationStartedAt, format: .epochSeconds)
-        try writer["Configuration"].write(value.configuration, with: VoiceIDClientTypes.FraudDetectionConfiguration.write(value:to:))
-        try writer["Decision"].write(value.decision)
-        try writer["FraudDetectionResultId"].write(value.fraudDetectionResultId)
-        try writer["Reasons"].writeList(value.reasons, memberWritingClosure: VoiceIDClientTypes.FraudDetectionReason.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["RiskDetails"].write(value.riskDetails, with: VoiceIDClientTypes.FraudRiskDetails.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> VoiceIDClientTypes.FraudDetectionResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = VoiceIDClientTypes.FraudDetectionResult()
@@ -2087,12 +2019,6 @@ extension VoiceIDClientTypes {
 
 extension VoiceIDClientTypes.FraudRiskDetails {
 
-    static func write(value: VoiceIDClientTypes.FraudRiskDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["KnownFraudsterRisk"].write(value.knownFraudsterRisk, with: VoiceIDClientTypes.KnownFraudsterRisk.write(value:to:))
-        try writer["VoiceSpoofingRisk"].write(value.voiceSpoofingRisk, with: VoiceIDClientTypes.VoiceSpoofingRisk.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> VoiceIDClientTypes.FraudRiskDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = VoiceIDClientTypes.FraudRiskDetails()
@@ -2125,14 +2051,6 @@ extension VoiceIDClientTypes {
 }
 
 extension VoiceIDClientTypes.Fraudster {
-
-    static func write(value: VoiceIDClientTypes.Fraudster?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["DomainId"].write(value.domainId)
-        try writer["GeneratedFraudsterId"].write(value.generatedFraudsterId)
-        try writer["WatchlistIds"].writeList(value.watchlistIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> VoiceIDClientTypes.Fraudster {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2179,22 +2097,6 @@ extension VoiceIDClientTypes.FraudsterRegistrationJob: Swift.CustomDebugStringCo
 }
 
 extension VoiceIDClientTypes.FraudsterRegistrationJob {
-
-    static func write(value: VoiceIDClientTypes.FraudsterRegistrationJob?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["DataAccessRoleArn"].write(value.dataAccessRoleArn)
-        try writer["DomainId"].write(value.domainId)
-        try writer["EndedAt"].writeTimestamp(value.endedAt, format: .epochSeconds)
-        try writer["FailureDetails"].write(value.failureDetails, with: VoiceIDClientTypes.FailureDetails.write(value:to:))
-        try writer["InputDataConfig"].write(value.inputDataConfig, with: VoiceIDClientTypes.InputDataConfig.write(value:to:))
-        try writer["JobId"].write(value.jobId)
-        try writer["JobName"].write(value.jobName)
-        try writer["JobProgress"].write(value.jobProgress, with: VoiceIDClientTypes.JobProgress.write(value:to:))
-        try writer["JobStatus"].write(value.jobStatus)
-        try writer["OutputDataConfig"].write(value.outputDataConfig, with: VoiceIDClientTypes.OutputDataConfig.write(value:to:))
-        try writer["RegistrationConfig"].write(value.registrationConfig, with: VoiceIDClientTypes.RegistrationConfig.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> VoiceIDClientTypes.FraudsterRegistrationJob {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2321,18 +2223,6 @@ extension VoiceIDClientTypes.FraudsterRegistrationJobSummary: Swift.CustomDebugS
 
 extension VoiceIDClientTypes.FraudsterRegistrationJobSummary {
 
-    static func write(value: VoiceIDClientTypes.FraudsterRegistrationJobSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["DomainId"].write(value.domainId)
-        try writer["EndedAt"].writeTimestamp(value.endedAt, format: .epochSeconds)
-        try writer["FailureDetails"].write(value.failureDetails, with: VoiceIDClientTypes.FailureDetails.write(value:to:))
-        try writer["JobId"].write(value.jobId)
-        try writer["JobName"].write(value.jobName)
-        try writer["JobProgress"].write(value.jobProgress, with: VoiceIDClientTypes.JobProgress.write(value:to:))
-        try writer["JobStatus"].write(value.jobStatus)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> VoiceIDClientTypes.FraudsterRegistrationJobSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = VoiceIDClientTypes.FraudsterRegistrationJobSummary()
@@ -2393,14 +2283,6 @@ extension VoiceIDClientTypes {
 }
 
 extension VoiceIDClientTypes.FraudsterSummary {
-
-    static func write(value: VoiceIDClientTypes.FraudsterSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["DomainId"].write(value.domainId)
-        try writer["GeneratedFraudsterId"].write(value.generatedFraudsterId)
-        try writer["WatchlistIds"].writeList(value.watchlistIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> VoiceIDClientTypes.FraudsterSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2512,11 +2394,6 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
 extension VoiceIDClientTypes.JobProgress {
 
-    static func write(value: VoiceIDClientTypes.JobProgress?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["PercentComplete"].write(value.percentComplete)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> VoiceIDClientTypes.JobProgress {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = VoiceIDClientTypes.JobProgress()
@@ -2542,12 +2419,6 @@ extension VoiceIDClientTypes {
 }
 
 extension VoiceIDClientTypes.KnownFraudsterRisk {
-
-    static func write(value: VoiceIDClientTypes.KnownFraudsterRisk?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["GeneratedFraudsterId"].write(value.generatedFraudsterId)
-        try writer["RiskScore"].write(value.riskScore)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> VoiceIDClientTypes.KnownFraudsterRisk {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3452,13 +3323,6 @@ extension VoiceIDClientTypes {
 
 extension VoiceIDClientTypes.ServerSideEncryptionUpdateDetails {
 
-    static func write(value: VoiceIDClientTypes.ServerSideEncryptionUpdateDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.message)
-        try writer["OldKmsKeyId"].write(value.oldKmsKeyId)
-        try writer["UpdateStatus"].write(value.updateStatus)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> VoiceIDClientTypes.ServerSideEncryptionUpdateDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = VoiceIDClientTypes.ServerSideEncryptionUpdateDetails()
@@ -3570,17 +3434,6 @@ extension VoiceIDClientTypes.Speaker: Swift.CustomDebugStringConvertible {
 
 extension VoiceIDClientTypes.Speaker {
 
-    static func write(value: VoiceIDClientTypes.Speaker?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["CustomerSpeakerId"].write(value.customerSpeakerId)
-        try writer["DomainId"].write(value.domainId)
-        try writer["GeneratedSpeakerId"].write(value.generatedSpeakerId)
-        try writer["LastAccessedAt"].writeTimestamp(value.lastAccessedAt, format: .epochSeconds)
-        try writer["Status"].write(value.status)
-        try writer["UpdatedAt"].writeTimestamp(value.updatedAt, format: .epochSeconds)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> VoiceIDClientTypes.Speaker {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = VoiceIDClientTypes.Speaker()
@@ -3641,22 +3494,6 @@ extension VoiceIDClientTypes.SpeakerEnrollmentJob: Swift.CustomDebugStringConver
 }
 
 extension VoiceIDClientTypes.SpeakerEnrollmentJob {
-
-    static func write(value: VoiceIDClientTypes.SpeakerEnrollmentJob?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["DataAccessRoleArn"].write(value.dataAccessRoleArn)
-        try writer["DomainId"].write(value.domainId)
-        try writer["EndedAt"].writeTimestamp(value.endedAt, format: .epochSeconds)
-        try writer["EnrollmentConfig"].write(value.enrollmentConfig, with: VoiceIDClientTypes.EnrollmentConfig.write(value:to:))
-        try writer["FailureDetails"].write(value.failureDetails, with: VoiceIDClientTypes.FailureDetails.write(value:to:))
-        try writer["InputDataConfig"].write(value.inputDataConfig, with: VoiceIDClientTypes.InputDataConfig.write(value:to:))
-        try writer["JobId"].write(value.jobId)
-        try writer["JobName"].write(value.jobName)
-        try writer["JobProgress"].write(value.jobProgress, with: VoiceIDClientTypes.JobProgress.write(value:to:))
-        try writer["JobStatus"].write(value.jobStatus)
-        try writer["OutputDataConfig"].write(value.outputDataConfig, with: VoiceIDClientTypes.OutputDataConfig.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> VoiceIDClientTypes.SpeakerEnrollmentJob {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3783,18 +3620,6 @@ extension VoiceIDClientTypes.SpeakerEnrollmentJobSummary: Swift.CustomDebugStrin
 
 extension VoiceIDClientTypes.SpeakerEnrollmentJobSummary {
 
-    static func write(value: VoiceIDClientTypes.SpeakerEnrollmentJobSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["DomainId"].write(value.domainId)
-        try writer["EndedAt"].writeTimestamp(value.endedAt, format: .epochSeconds)
-        try writer["FailureDetails"].write(value.failureDetails, with: VoiceIDClientTypes.FailureDetails.write(value:to:))
-        try writer["JobId"].write(value.jobId)
-        try writer["JobName"].write(value.jobName)
-        try writer["JobProgress"].write(value.jobProgress, with: VoiceIDClientTypes.JobProgress.write(value:to:))
-        try writer["JobStatus"].write(value.jobStatus)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> VoiceIDClientTypes.SpeakerEnrollmentJobSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = VoiceIDClientTypes.SpeakerEnrollmentJobSummary()
@@ -3896,17 +3721,6 @@ extension VoiceIDClientTypes.SpeakerSummary: Swift.CustomDebugStringConvertible 
 }
 
 extension VoiceIDClientTypes.SpeakerSummary {
-
-    static func write(value: VoiceIDClientTypes.SpeakerSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["CustomerSpeakerId"].write(value.customerSpeakerId)
-        try writer["DomainId"].write(value.domainId)
-        try writer["GeneratedSpeakerId"].write(value.generatedSpeakerId)
-        try writer["LastAccessedAt"].writeTimestamp(value.lastAccessedAt, format: .epochSeconds)
-        try writer["Status"].write(value.status)
-        try writer["UpdatedAt"].writeTimestamp(value.updatedAt, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> VoiceIDClientTypes.SpeakerSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4652,11 +4466,6 @@ public enum VoiceIDClientTypes {}
 
 extension VoiceIDClientTypes.VoiceSpoofingRisk {
 
-    static func write(value: VoiceIDClientTypes.VoiceSpoofingRisk?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["RiskScore"].write(value.riskScore)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> VoiceIDClientTypes.VoiceSpoofingRisk {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = VoiceIDClientTypes.VoiceSpoofingRisk()
@@ -4688,17 +4497,6 @@ extension VoiceIDClientTypes.Watchlist: Swift.CustomDebugStringConvertible {
 }
 
 extension VoiceIDClientTypes.Watchlist {
-
-    static func write(value: VoiceIDClientTypes.Watchlist?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["DefaultWatchlist"].write(value.defaultWatchlist)
-        try writer["Description"].write(value.description)
-        try writer["DomainId"].write(value.domainId)
-        try writer["Name"].write(value.name)
-        try writer["UpdatedAt"].writeTimestamp(value.updatedAt, format: .epochSeconds)
-        try writer["WatchlistId"].write(value.watchlistId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> VoiceIDClientTypes.Watchlist {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4756,11 +4554,6 @@ extension VoiceIDClientTypes {
 
 extension VoiceIDClientTypes.WatchlistDetails {
 
-    static func write(value: VoiceIDClientTypes.WatchlistDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DefaultWatchlistId"].write(value.defaultWatchlistId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> VoiceIDClientTypes.WatchlistDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = VoiceIDClientTypes.WatchlistDetails()
@@ -4792,17 +4585,6 @@ extension VoiceIDClientTypes.WatchlistSummary: Swift.CustomDebugStringConvertibl
 }
 
 extension VoiceIDClientTypes.WatchlistSummary {
-
-    static func write(value: VoiceIDClientTypes.WatchlistSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["DefaultWatchlist"].write(value.defaultWatchlist)
-        try writer["Description"].write(value.description)
-        try writer["DomainId"].write(value.domainId)
-        try writer["Name"].write(value.name)
-        try writer["UpdatedAt"].writeTimestamp(value.updatedAt, format: .epochSeconds)
-        try writer["WatchlistId"].write(value.watchlistId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> VoiceIDClientTypes.WatchlistSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

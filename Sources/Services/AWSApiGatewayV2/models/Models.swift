@@ -79,26 +79,6 @@ extension ApiGatewayV2ClientTypes {
 
 extension ApiGatewayV2ClientTypes.Api {
 
-    static func write(value: ApiGatewayV2ClientTypes.Api?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["apiEndpoint"].write(value.apiEndpoint)
-        try writer["apiGatewayManaged"].write(value.apiGatewayManaged)
-        try writer["apiId"].write(value.apiId)
-        try writer["apiKeySelectionExpression"].write(value.apiKeySelectionExpression)
-        try writer["corsConfiguration"].write(value.corsConfiguration, with: ApiGatewayV2ClientTypes.Cors.write(value:to:))
-        try writer["createdDate"].writeTimestamp(value.createdDate, format: .dateTime)
-        try writer["description"].write(value.description)
-        try writer["disableExecuteApiEndpoint"].write(value.disableExecuteApiEndpoint)
-        try writer["disableSchemaValidation"].write(value.disableSchemaValidation)
-        try writer["importInfo"].writeList(value.importInfo, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["name"].write(value.name)
-        try writer["protocolType"].write(value.protocolType)
-        try writer["routeSelectionExpression"].write(value.routeSelectionExpression)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["version"].write(value.version)
-        try writer["warnings"].writeList(value.warnings, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.Api {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ApiGatewayV2ClientTypes.Api()
@@ -205,14 +185,6 @@ public enum ApiGatewayV2ClientTypes {}
 
 extension ApiGatewayV2ClientTypes.ApiMapping {
 
-    static func write(value: ApiGatewayV2ClientTypes.ApiMapping?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["apiId"].write(value.apiId)
-        try writer["apiMappingId"].write(value.apiMappingId)
-        try writer["apiMappingKey"].write(value.apiMappingKey)
-        try writer["stage"].write(value.stage)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.ApiMapping {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ApiGatewayV2ClientTypes.ApiMapping()
@@ -292,21 +264,6 @@ extension ApiGatewayV2ClientTypes {
 }
 
 extension ApiGatewayV2ClientTypes.Authorizer {
-
-    static func write(value: ApiGatewayV2ClientTypes.Authorizer?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["authorizerCredentialsArn"].write(value.authorizerCredentialsArn)
-        try writer["authorizerId"].write(value.authorizerId)
-        try writer["authorizerPayloadFormatVersion"].write(value.authorizerPayloadFormatVersion)
-        try writer["authorizerResultTtlInSeconds"].write(value.authorizerResultTtlInSeconds)
-        try writer["authorizerType"].write(value.authorizerType)
-        try writer["authorizerUri"].write(value.authorizerUri)
-        try writer["enableSimpleResponses"].write(value.enableSimpleResponses)
-        try writer["identitySource"].writeList(value.identitySource, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["identityValidationExpression"].write(value.identityValidationExpression)
-        try writer["jwtConfiguration"].write(value.jwtConfiguration, with: ApiGatewayV2ClientTypes.JWTConfiguration.write(value:to:))
-        try writer["name"].write(value.name)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.Authorizer {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3361,16 +3318,6 @@ enum DeleteVpcLinkOutputError {
 
 extension ApiGatewayV2ClientTypes.Deployment {
 
-    static func write(value: ApiGatewayV2ClientTypes.Deployment?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["autoDeployed"].write(value.autoDeployed)
-        try writer["createdDate"].writeTimestamp(value.createdDate, format: .dateTime)
-        try writer["deploymentId"].write(value.deploymentId)
-        try writer["deploymentStatus"].write(value.deploymentStatus)
-        try writer["deploymentStatusMessage"].write(value.deploymentStatusMessage)
-        try writer["description"].write(value.description)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.Deployment {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ApiGatewayV2ClientTypes.Deployment()
@@ -3455,15 +3402,6 @@ extension ApiGatewayV2ClientTypes {
 }
 
 extension ApiGatewayV2ClientTypes.DomainName {
-
-    static func write(value: ApiGatewayV2ClientTypes.DomainName?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["apiMappingSelectionExpression"].write(value.apiMappingSelectionExpression)
-        try writer["domainName"].write(value.domainName)
-        try writer["domainNameConfigurations"].writeList(value.domainNameConfigurations, memberWritingClosure: ApiGatewayV2ClientTypes.DomainNameConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["mutualTlsAuthentication"].write(value.mutualTlsAuthentication, with: ApiGatewayV2ClientTypes.MutualTlsAuthentication.write(value:to:))
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.DomainName {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6527,30 +6465,6 @@ enum ImportApiOutputError {
 
 extension ApiGatewayV2ClientTypes.Integration {
 
-    static func write(value: ApiGatewayV2ClientTypes.Integration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["apiGatewayManaged"].write(value.apiGatewayManaged)
-        try writer["connectionId"].write(value.connectionId)
-        try writer["connectionType"].write(value.connectionType)
-        try writer["contentHandlingStrategy"].write(value.contentHandlingStrategy)
-        try writer["credentialsArn"].write(value.credentialsArn)
-        try writer["description"].write(value.description)
-        try writer["integrationId"].write(value.integrationId)
-        try writer["integrationMethod"].write(value.integrationMethod)
-        try writer["integrationResponseSelectionExpression"].write(value.integrationResponseSelectionExpression)
-        try writer["integrationSubtype"].write(value.integrationSubtype)
-        try writer["integrationType"].write(value.integrationType)
-        try writer["integrationUri"].write(value.integrationUri)
-        try writer["passthroughBehavior"].write(value.passthroughBehavior)
-        try writer["payloadFormatVersion"].write(value.payloadFormatVersion)
-        try writer["requestParameters"].writeMap(value.requestParameters, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["requestTemplates"].writeMap(value.requestTemplates, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["responseParameters"].writeMap(value.responseParameters, valueWritingClosure: mapWritingClosure(valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["templateSelectionExpression"].write(value.templateSelectionExpression)
-        try writer["timeoutInMillis"].write(value.timeoutInMillis)
-        try writer["tlsConfig"].write(value.tlsConfig, with: ApiGatewayV2ClientTypes.TlsConfig.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.Integration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ApiGatewayV2ClientTypes.Integration()
@@ -6671,16 +6585,6 @@ extension ApiGatewayV2ClientTypes {
 }
 
 extension ApiGatewayV2ClientTypes.IntegrationResponse {
-
-    static func write(value: ApiGatewayV2ClientTypes.IntegrationResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["contentHandlingStrategy"].write(value.contentHandlingStrategy)
-        try writer["integrationResponseId"].write(value.integrationResponseId)
-        try writer["integrationResponseKey"].write(value.integrationResponseKey)
-        try writer["responseParameters"].writeMap(value.responseParameters, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["responseTemplates"].writeMap(value.responseTemplates, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["templateSelectionExpression"].write(value.templateSelectionExpression)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.IntegrationResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6845,15 +6749,6 @@ extension ApiGatewayV2ClientTypes {
 
 extension ApiGatewayV2ClientTypes.Model {
 
-    static func write(value: ApiGatewayV2ClientTypes.Model?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["contentType"].write(value.contentType)
-        try writer["description"].write(value.description)
-        try writer["modelId"].write(value.modelId)
-        try writer["name"].write(value.name)
-        try writer["schema"].write(value.schema)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.Model {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ApiGatewayV2ClientTypes.Model()
@@ -6901,13 +6796,6 @@ extension ApiGatewayV2ClientTypes {
 
 extension ApiGatewayV2ClientTypes.MutualTlsAuthentication {
 
-    static func write(value: ApiGatewayV2ClientTypes.MutualTlsAuthentication?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["truststoreUri"].write(value.truststoreUri)
-        try writer["truststoreVersion"].write(value.truststoreVersion)
-        try writer["truststoreWarnings"].writeList(value.truststoreWarnings, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.MutualTlsAuthentication {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ApiGatewayV2ClientTypes.MutualTlsAuthentication()
@@ -6947,14 +6835,6 @@ extension ApiGatewayV2ClientTypes.MutualTlsAuthenticationInput {
         guard let value else { return }
         try writer["truststoreUri"].write(value.truststoreUri)
         try writer["truststoreVersion"].write(value.truststoreVersion)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.MutualTlsAuthenticationInput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ApiGatewayV2ClientTypes.MutualTlsAuthenticationInput()
-        value.truststoreUri = try reader["truststoreUri"].readIfPresent()
-        value.truststoreVersion = try reader["truststoreVersion"].readIfPresent()
-        return value
     }
 }
 
@@ -7353,23 +7233,6 @@ enum ResetAuthorizersCacheOutputError {
 
 extension ApiGatewayV2ClientTypes.Route {
 
-    static func write(value: ApiGatewayV2ClientTypes.Route?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["apiGatewayManaged"].write(value.apiGatewayManaged)
-        try writer["apiKeyRequired"].write(value.apiKeyRequired)
-        try writer["authorizationScopes"].writeList(value.authorizationScopes, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["authorizationType"].write(value.authorizationType)
-        try writer["authorizerId"].write(value.authorizerId)
-        try writer["modelSelectionExpression"].write(value.modelSelectionExpression)
-        try writer["operationName"].write(value.operationName)
-        try writer["requestModels"].writeMap(value.requestModels, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["requestParameters"].writeMap(value.requestParameters, valueWritingClosure: ApiGatewayV2ClientTypes.ParameterConstraints.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["routeId"].write(value.routeId)
-        try writer["routeKey"].write(value.routeKey)
-        try writer["routeResponseSelectionExpression"].write(value.routeResponseSelectionExpression)
-        try writer["target"].write(value.target)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.Route {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ApiGatewayV2ClientTypes.Route()
@@ -7456,15 +7319,6 @@ extension ApiGatewayV2ClientTypes {
 }
 
 extension ApiGatewayV2ClientTypes.RouteResponse {
-
-    static func write(value: ApiGatewayV2ClientTypes.RouteResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["modelSelectionExpression"].write(value.modelSelectionExpression)
-        try writer["responseModels"].writeMap(value.responseModels, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["responseParameters"].writeMap(value.responseParameters, valueWritingClosure: ApiGatewayV2ClientTypes.ParameterConstraints.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["routeResponseId"].write(value.routeResponseId)
-        try writer["routeResponseKey"].write(value.routeResponseKey)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.RouteResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7598,24 +7452,6 @@ extension ApiGatewayV2ClientTypes {
 }
 
 extension ApiGatewayV2ClientTypes.Stage {
-
-    static func write(value: ApiGatewayV2ClientTypes.Stage?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["accessLogSettings"].write(value.accessLogSettings, with: ApiGatewayV2ClientTypes.AccessLogSettings.write(value:to:))
-        try writer["apiGatewayManaged"].write(value.apiGatewayManaged)
-        try writer["autoDeploy"].write(value.autoDeploy)
-        try writer["clientCertificateId"].write(value.clientCertificateId)
-        try writer["createdDate"].writeTimestamp(value.createdDate, format: .dateTime)
-        try writer["defaultRouteSettings"].write(value.defaultRouteSettings, with: ApiGatewayV2ClientTypes.RouteSettings.write(value:to:))
-        try writer["deploymentId"].write(value.deploymentId)
-        try writer["description"].write(value.description)
-        try writer["lastDeploymentStatusMessage"].write(value.lastDeploymentStatusMessage)
-        try writer["lastUpdatedDate"].writeTimestamp(value.lastUpdatedDate, format: .dateTime)
-        try writer["routeSettings"].writeMap(value.routeSettings, valueWritingClosure: ApiGatewayV2ClientTypes.RouteSettings.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["stageName"].write(value.stageName)
-        try writer["stageVariables"].writeMap(value.stageVariables, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.Stage {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7774,11 +7610,6 @@ enum TagResourceOutputError {
 
 extension ApiGatewayV2ClientTypes.TlsConfig {
 
-    static func write(value: ApiGatewayV2ClientTypes.TlsConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["serverNameToVerify"].write(value.serverNameToVerify)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.TlsConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ApiGatewayV2ClientTypes.TlsConfig()
@@ -7808,13 +7639,6 @@ extension ApiGatewayV2ClientTypes.TlsConfigInput {
     static func write(value: ApiGatewayV2ClientTypes.TlsConfigInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["serverNameToVerify"].write(value.serverNameToVerify)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.TlsConfigInput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ApiGatewayV2ClientTypes.TlsConfigInput()
-        value.serverNameToVerify = try reader["serverNameToVerify"].readIfPresent()
-        return value
     }
 }
 
@@ -9798,19 +9622,6 @@ enum UpdateVpcLinkOutputError {
 }
 
 extension ApiGatewayV2ClientTypes.VpcLink {
-
-    static func write(value: ApiGatewayV2ClientTypes.VpcLink?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["createdDate"].writeTimestamp(value.createdDate, format: .dateTime)
-        try writer["name"].write(value.name)
-        try writer["securityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["subnetIds"].writeList(value.subnetIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["vpcLinkId"].write(value.vpcLinkId)
-        try writer["vpcLinkStatus"].write(value.vpcLinkStatus)
-        try writer["vpcLinkStatusMessage"].write(value.vpcLinkStatusMessage)
-        try writer["vpcLinkVersion"].write(value.vpcLinkVersion)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.VpcLink {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

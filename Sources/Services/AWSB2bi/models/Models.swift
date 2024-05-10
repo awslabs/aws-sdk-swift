@@ -80,15 +80,6 @@ extension B2biClientTypes {
 
 extension B2biClientTypes.CapabilitySummary {
 
-    static func write(value: B2biClientTypes.CapabilitySummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["capabilityId"].write(value.capabilityId)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .dateTime)
-        try writer["modifiedAt"].writeTimestamp(value.modifiedAt, format: .dateTime)
-        try writer["name"].write(value.name)
-        try writer["type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> B2biClientTypes.CapabilitySummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = B2biClientTypes.CapabilitySummary()
@@ -2218,17 +2209,6 @@ extension B2biClientTypes {
 
 extension B2biClientTypes.PartnershipSummary {
 
-    static func write(value: B2biClientTypes.PartnershipSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["capabilities"].writeList(value.capabilities, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .dateTime)
-        try writer["modifiedAt"].writeTimestamp(value.modifiedAt, format: .dateTime)
-        try writer["name"].write(value.name)
-        try writer["partnershipId"].write(value.partnershipId)
-        try writer["profileId"].write(value.profileId)
-        try writer["tradingPartnerId"].write(value.tradingPartnerId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> B2biClientTypes.PartnershipSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = B2biClientTypes.PartnershipSummary()
@@ -2287,17 +2267,6 @@ extension B2biClientTypes {
 }
 
 extension B2biClientTypes.ProfileSummary {
-
-    static func write(value: B2biClientTypes.ProfileSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["businessName"].write(value.businessName)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .dateTime)
-        try writer["logGroupName"].write(value.logGroupName)
-        try writer["logging"].write(value.logging)
-        try writer["modifiedAt"].writeTimestamp(value.modifiedAt, format: .dateTime)
-        try writer["name"].write(value.name)
-        try writer["profileId"].write(value.profileId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> B2biClientTypes.ProfileSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2959,19 +2928,6 @@ extension B2biClientTypes {
 }
 
 extension B2biClientTypes.TransformerSummary {
-
-    static func write(value: B2biClientTypes.TransformerSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .dateTime)
-        try writer["ediType"].write(value.ediType, with: B2biClientTypes.EdiType.write(value:to:))
-        try writer["fileFormat"].write(value.fileFormat)
-        try writer["mappingTemplate"].write(value.mappingTemplate)
-        try writer["modifiedAt"].writeTimestamp(value.modifiedAt, format: .dateTime)
-        try writer["name"].write(value.name)
-        try writer["sampleDocument"].write(value.sampleDocument)
-        try writer["status"].write(value.status)
-        try writer["transformerId"].write(value.transformerId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> B2biClientTypes.TransformerSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

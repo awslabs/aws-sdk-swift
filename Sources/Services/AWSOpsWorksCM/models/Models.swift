@@ -6,13 +6,6 @@ import SmithyReadWrite
 
 extension OpsWorksCMClientTypes.AccountAttribute {
 
-    static func write(value: OpsWorksCMClientTypes.AccountAttribute?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Maximum"].write(value.maximum)
-        try writer["Name"].write(value.name)
-        try writer["Used"].write(value.used)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> OpsWorksCMClientTypes.AccountAttribute {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OpsWorksCMClientTypes.AccountAttribute()
@@ -141,34 +134,6 @@ enum AssociateNodeOutputError {
 }
 
 extension OpsWorksCMClientTypes.Backup {
-
-    static func write(value: OpsWorksCMClientTypes.Backup?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BackupArn"].write(value.backupArn)
-        try writer["BackupId"].write(value.backupId)
-        try writer["BackupType"].write(value.backupType)
-        try writer["CreatedAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["Description"].write(value.description)
-        try writer["Engine"].write(value.engine)
-        try writer["EngineModel"].write(value.engineModel)
-        try writer["EngineVersion"].write(value.engineVersion)
-        try writer["InstanceProfileArn"].write(value.instanceProfileArn)
-        try writer["InstanceType"].write(value.instanceType)
-        try writer["KeyPair"].write(value.keyPair)
-        try writer["PreferredBackupWindow"].write(value.preferredBackupWindow)
-        try writer["PreferredMaintenanceWindow"].write(value.preferredMaintenanceWindow)
-        try writer["S3DataSize"].write(value.s3DataSize)
-        try writer["S3DataUrl"].write(value.s3DataUrl)
-        try writer["S3LogUrl"].write(value.s3LogUrl)
-        try writer["SecurityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ServerName"].write(value.serverName)
-        try writer["ServiceRoleArn"].write(value.serviceRoleArn)
-        try writer["Status"].write(value.status)
-        try writer["StatusDescription"].write(value.statusDescription)
-        try writer["SubnetIds"].writeList(value.subnetIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ToolsVersion"].write(value.toolsVersion)
-        try writer["UserArn"].write(value.userArn)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> OpsWorksCMClientTypes.Backup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1838,34 +1803,6 @@ enum RestoreServerOutputError {
 
 extension OpsWorksCMClientTypes.Server {
 
-    static func write(value: OpsWorksCMClientTypes.Server?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AssociatePublicIpAddress"].write(value.associatePublicIpAddress)
-        try writer["BackupRetentionCount"].write(value.backupRetentionCount)
-        try writer["CloudFormationStackArn"].write(value.cloudFormationStackArn)
-        try writer["CreatedAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["CustomDomain"].write(value.customDomain)
-        try writer["DisableAutomatedBackup"].write(value.disableAutomatedBackup)
-        try writer["Endpoint"].write(value.endpoint)
-        try writer["Engine"].write(value.engine)
-        try writer["EngineAttributes"].writeList(value.engineAttributes, memberWritingClosure: OpsWorksCMClientTypes.EngineAttribute.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["EngineModel"].write(value.engineModel)
-        try writer["EngineVersion"].write(value.engineVersion)
-        try writer["InstanceProfileArn"].write(value.instanceProfileArn)
-        try writer["InstanceType"].write(value.instanceType)
-        try writer["KeyPair"].write(value.keyPair)
-        try writer["MaintenanceStatus"].write(value.maintenanceStatus)
-        try writer["PreferredBackupWindow"].write(value.preferredBackupWindow)
-        try writer["PreferredMaintenanceWindow"].write(value.preferredMaintenanceWindow)
-        try writer["SecurityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ServerArn"].write(value.serverArn)
-        try writer["ServerName"].write(value.serverName)
-        try writer["ServiceRoleArn"].write(value.serviceRoleArn)
-        try writer["Status"].write(value.status)
-        try writer["StatusReason"].write(value.statusReason)
-        try writer["SubnetIds"].writeList(value.subnetIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> OpsWorksCMClientTypes.Server {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OpsWorksCMClientTypes.Server()
@@ -2017,14 +1954,6 @@ extension OpsWorksCMClientTypes {
 }
 
 extension OpsWorksCMClientTypes.ServerEvent {
-
-    static func write(value: OpsWorksCMClientTypes.ServerEvent?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["LogUrl"].write(value.logUrl)
-        try writer["Message"].write(value.message)
-        try writer["ServerName"].write(value.serverName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> OpsWorksCMClientTypes.ServerEvent {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

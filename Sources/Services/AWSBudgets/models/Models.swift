@@ -44,20 +44,6 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
 extension BudgetsClientTypes.Action {
 
-    static func write(value: BudgetsClientTypes.Action?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ActionId"].write(value.actionId)
-        try writer["ActionThreshold"].write(value.actionThreshold, with: BudgetsClientTypes.ActionThreshold.write(value:to:))
-        try writer["ActionType"].write(value.actionType)
-        try writer["ApprovalModel"].write(value.approvalModel)
-        try writer["BudgetName"].write(value.budgetName)
-        try writer["Definition"].write(value.definition, with: BudgetsClientTypes.Definition.write(value:to:))
-        try writer["ExecutionRoleArn"].write(value.executionRoleArn)
-        try writer["NotificationType"].write(value.notificationType)
-        try writer["Status"].write(value.status)
-        try writer["Subscribers"].writeList(value.subscribers, memberWritingClosure: BudgetsClientTypes.Subscriber.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> BudgetsClientTypes.Action {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BudgetsClientTypes.Action()
@@ -139,14 +125,6 @@ extension BudgetsClientTypes {
 
 extension BudgetsClientTypes.ActionHistory {
 
-    static func write(value: BudgetsClientTypes.ActionHistory?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ActionHistoryDetails"].write(value.actionHistoryDetails, with: BudgetsClientTypes.ActionHistoryDetails.write(value:to:))
-        try writer["EventType"].write(value.eventType)
-        try writer["Status"].write(value.status)
-        try writer["Timestamp"].writeTimestamp(value.timestamp, format: .epochSeconds)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> BudgetsClientTypes.ActionHistory {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BudgetsClientTypes.ActionHistory()
@@ -191,12 +169,6 @@ extension BudgetsClientTypes {
 }
 
 extension BudgetsClientTypes.ActionHistoryDetails {
-
-    static func write(value: BudgetsClientTypes.ActionHistoryDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Action"].write(value.action, with: BudgetsClientTypes.Action.write(value:to:))
-        try writer["Message"].write(value.message)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> BudgetsClientTypes.ActionHistoryDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -595,12 +567,6 @@ extension BudgetsClientTypes {
 
 extension BudgetsClientTypes.BudgetNotificationsForAccount {
 
-    static func write(value: BudgetsClientTypes.BudgetNotificationsForAccount?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BudgetName"].write(value.budgetName)
-        try writer["Notifications"].writeList(value.notifications, memberWritingClosure: BudgetsClientTypes.Notification.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> BudgetsClientTypes.BudgetNotificationsForAccount {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BudgetsClientTypes.BudgetNotificationsForAccount()
@@ -631,16 +597,6 @@ extension BudgetsClientTypes {
 }
 
 extension BudgetsClientTypes.BudgetPerformanceHistory {
-
-    static func write(value: BudgetsClientTypes.BudgetPerformanceHistory?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BudgetName"].write(value.budgetName)
-        try writer["BudgetType"].write(value.budgetType)
-        try writer["BudgetedAndActualAmountsList"].writeList(value.budgetedAndActualAmountsList, memberWritingClosure: BudgetsClientTypes.BudgetedAndActualAmounts.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["CostFilters"].writeMap(value.costFilters, valueWritingClosure: listWritingClosure(memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["CostTypes"].write(value.costTypes, with: BudgetsClientTypes.CostTypes.write(value:to:))
-        try writer["TimeUnit"].write(value.timeUnit)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> BudgetsClientTypes.BudgetPerformanceHistory {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -735,13 +691,6 @@ extension BudgetsClientTypes {
 }
 
 extension BudgetsClientTypes.BudgetedAndActualAmounts {
-
-    static func write(value: BudgetsClientTypes.BudgetedAndActualAmounts?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ActualAmount"].write(value.actualAmount, with: BudgetsClientTypes.Spend.write(value:to:))
-        try writer["BudgetedAmount"].write(value.budgetedAmount, with: BudgetsClientTypes.Spend.write(value:to:))
-        try writer["TimePeriod"].write(value.timePeriod, with: BudgetsClientTypes.TimePeriod.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> BudgetsClientTypes.BudgetedAndActualAmounts {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3266,14 +3215,6 @@ extension BudgetsClientTypes.NotificationWithSubscribers {
         guard let value else { return }
         try writer["Notification"].write(value.notification, with: BudgetsClientTypes.Notification.write(value:to:))
         try writer["Subscribers"].writeList(value.subscribers, memberWritingClosure: BudgetsClientTypes.Subscriber.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BudgetsClientTypes.NotificationWithSubscribers {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BudgetsClientTypes.NotificationWithSubscribers()
-        value.notification = try reader["Notification"].readIfPresent(with: BudgetsClientTypes.Notification.read(from:))
-        value.subscribers = try reader["Subscribers"].readListIfPresent(memberReadingClosure: BudgetsClientTypes.Subscriber.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 

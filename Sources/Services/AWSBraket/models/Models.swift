@@ -800,13 +800,6 @@ public struct DeviceOfflineException: ClientRuntime.ModeledError, AWSClientRunti
 
 extension BraketClientTypes.DeviceQueueInfo {
 
-    static func write(value: BraketClientTypes.DeviceQueueInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["queue"].write(value.queue)
-        try writer["queuePriority"].write(value.queuePriority)
-        try writer["queueSize"].write(value.queueSize)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> BraketClientTypes.DeviceQueueInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BraketClientTypes.DeviceQueueInfo()
@@ -914,15 +907,6 @@ extension BraketClientTypes {
 }
 
 extension BraketClientTypes.DeviceSummary {
-
-    static func write(value: BraketClientTypes.DeviceSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["deviceArn"].write(value.deviceArn)
-        try writer["deviceName"].write(value.deviceName)
-        try writer["deviceStatus"].write(value.deviceStatus)
-        try writer["deviceType"].write(value.deviceType)
-        try writer["providerName"].write(value.providerName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> BraketClientTypes.DeviceSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1480,13 +1464,6 @@ extension BraketClientTypes {
 
 extension BraketClientTypes.HybridJobQueueInfo {
 
-    static func write(value: BraketClientTypes.HybridJobQueueInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.message)
-        try writer["position"].write(value.position)
-        try writer["queue"].write(value.queue)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> BraketClientTypes.HybridJobQueueInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BraketClientTypes.HybridJobQueueInfo()
@@ -1831,13 +1808,6 @@ extension BraketClientTypes {
 
 extension BraketClientTypes.JobEventDetails {
 
-    static func write(value: BraketClientTypes.JobEventDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["eventType"].write(value.eventType)
-        try writer["message"].write(value.message)
-        try writer["timeOfEvent"].writeTimestamp(value.timeOfEvent, format: .dateTime)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> BraketClientTypes.JobEventDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BraketClientTypes.JobEventDetails()
@@ -2042,18 +2012,6 @@ extension BraketClientTypes {
 
 extension BraketClientTypes.JobSummary {
 
-    static func write(value: BraketClientTypes.JobSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .dateTime)
-        try writer["device"].write(value.device)
-        try writer["endedAt"].writeTimestamp(value.endedAt, format: .dateTime)
-        try writer["jobArn"].write(value.jobArn)
-        try writer["jobName"].write(value.jobName)
-        try writer["startedAt"].writeTimestamp(value.startedAt, format: .dateTime)
-        try writer["status"].write(value.status)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> BraketClientTypes.JobSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BraketClientTypes.JobSummary()
@@ -2210,14 +2168,6 @@ extension BraketClientTypes {
 
 extension BraketClientTypes.QuantumTaskQueueInfo {
 
-    static func write(value: BraketClientTypes.QuantumTaskQueueInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.message)
-        try writer["position"].write(value.position)
-        try writer["queue"].write(value.queue)
-        try writer["queuePriority"].write(value.queuePriority)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> BraketClientTypes.QuantumTaskQueueInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BraketClientTypes.QuantumTaskQueueInfo()
@@ -2305,19 +2255,6 @@ extension BraketClientTypes {
 }
 
 extension BraketClientTypes.QuantumTaskSummary {
-
-    static func write(value: BraketClientTypes.QuantumTaskSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .dateTime)
-        try writer["deviceArn"].write(value.deviceArn)
-        try writer["endedAt"].writeTimestamp(value.endedAt, format: .dateTime)
-        try writer["outputS3Bucket"].write(value.outputS3Bucket)
-        try writer["outputS3Directory"].write(value.outputS3Directory)
-        try writer["quantumTaskArn"].write(value.quantumTaskArn)
-        try writer["shots"].write(value.shots)
-        try writer["status"].write(value.status)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> BraketClientTypes.QuantumTaskSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2571,14 +2508,6 @@ extension BraketClientTypes.SearchDevicesFilter {
         try writer["name"].write(value.name)
         try writer["values"].writeList(value.values, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BraketClientTypes.SearchDevicesFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BraketClientTypes.SearchDevicesFilter()
-        value.name = try reader["name"].readIfPresent()
-        value.values = try reader["values"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
 }
 
 extension BraketClientTypes {
@@ -2695,15 +2624,6 @@ extension BraketClientTypes.SearchJobsFilter {
         try writer["name"].write(value.name)
         try writer["operator"].write(value.`operator`)
         try writer["values"].writeList(value.values, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BraketClientTypes.SearchJobsFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BraketClientTypes.SearchJobsFilter()
-        value.name = try reader["name"].readIfPresent()
-        value.values = try reader["values"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.`operator` = try reader["operator"].readIfPresent()
-        return value
     }
 }
 
@@ -2871,15 +2791,6 @@ extension BraketClientTypes.SearchQuantumTasksFilter {
         try writer["name"].write(value.name)
         try writer["operator"].write(value.`operator`)
         try writer["values"].writeList(value.values, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BraketClientTypes.SearchQuantumTasksFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BraketClientTypes.SearchQuantumTasksFilter()
-        value.name = try reader["name"].readIfPresent()
-        value.values = try reader["values"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.`operator` = try reader["operator"].readIfPresent()
-        return value
     }
 }
 

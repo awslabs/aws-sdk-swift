@@ -45,15 +45,6 @@ extension KMSClientTypes {
 
 extension KMSClientTypes.AliasListEntry {
 
-    static func write(value: KMSClientTypes.AliasListEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AliasArn"].write(value.aliasArn)
-        try writer["AliasName"].write(value.aliasName)
-        try writer["CreationDate"].writeTimestamp(value.creationDate, format: .epochSeconds)
-        try writer["LastUpdatedDate"].writeTimestamp(value.lastUpdatedDate, format: .epochSeconds)
-        try writer["TargetKeyId"].write(value.targetKeyId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> KMSClientTypes.AliasListEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = KMSClientTypes.AliasListEntry()
@@ -1343,19 +1334,6 @@ extension KMSClientTypes {
 }
 
 extension KMSClientTypes.CustomKeyStoresListEntry {
-
-    static func write(value: KMSClientTypes.CustomKeyStoresListEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CloudHsmClusterId"].write(value.cloudHsmClusterId)
-        try writer["ConnectionErrorCode"].write(value.connectionErrorCode)
-        try writer["ConnectionState"].write(value.connectionState)
-        try writer["CreationDate"].writeTimestamp(value.creationDate, format: .epochSeconds)
-        try writer["CustomKeyStoreId"].write(value.customKeyStoreId)
-        try writer["CustomKeyStoreName"].write(value.customKeyStoreName)
-        try writer["CustomKeyStoreType"].write(value.customKeyStoreType)
-        try writer["TrustAnchorCertificate"].write(value.trustAnchorCertificate)
-        try writer["XksProxyConfiguration"].write(value.xksProxyConfiguration, with: KMSClientTypes.XksProxyConfigurationType.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> KMSClientTypes.CustomKeyStoresListEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3963,19 +3941,6 @@ extension KMSClientTypes {
 
 extension KMSClientTypes.GrantListEntry {
 
-    static func write(value: KMSClientTypes.GrantListEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Constraints"].write(value.constraints, with: KMSClientTypes.GrantConstraints.write(value:to:))
-        try writer["CreationDate"].writeTimestamp(value.creationDate, format: .epochSeconds)
-        try writer["GrantId"].write(value.grantId)
-        try writer["GranteePrincipal"].write(value.granteePrincipal)
-        try writer["IssuingAccount"].write(value.issuingAccount)
-        try writer["KeyId"].write(value.keyId)
-        try writer["Name"].write(value.name)
-        try writer["Operations"].writeList(value.operations, memberWritingClosure: KMSClientTypes.GrantOperation.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["RetiringPrincipal"].write(value.retiringPrincipal)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> KMSClientTypes.GrantListEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = KMSClientTypes.GrantListEntry()
@@ -4801,12 +4766,6 @@ extension KMSClientTypes {
 
 extension KMSClientTypes.KeyListEntry {
 
-    static func write(value: KMSClientTypes.KeyListEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["KeyArn"].write(value.keyArn)
-        try writer["KeyId"].write(value.keyId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> KMSClientTypes.KeyListEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = KMSClientTypes.KeyListEntry()
@@ -4867,34 +4826,6 @@ extension KMSClientTypes {
 }
 
 extension KMSClientTypes.KeyMetadata {
-
-    static func write(value: KMSClientTypes.KeyMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AWSAccountId"].write(value.awsAccountId)
-        try writer["Arn"].write(value.arn)
-        try writer["CloudHsmClusterId"].write(value.cloudHsmClusterId)
-        try writer["CreationDate"].writeTimestamp(value.creationDate, format: .epochSeconds)
-        try writer["CustomKeyStoreId"].write(value.customKeyStoreId)
-        try writer["CustomerMasterKeySpec"].write(value.customerMasterKeySpec)
-        try writer["DeletionDate"].writeTimestamp(value.deletionDate, format: .epochSeconds)
-        try writer["Description"].write(value.description)
-        try writer["Enabled"].write(value.enabled)
-        try writer["EncryptionAlgorithms"].writeList(value.encryptionAlgorithms, memberWritingClosure: KMSClientTypes.EncryptionAlgorithmSpec.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ExpirationModel"].write(value.expirationModel)
-        try writer["KeyId"].write(value.keyId)
-        try writer["KeyManager"].write(value.keyManager)
-        try writer["KeySpec"].write(value.keySpec)
-        try writer["KeyState"].write(value.keyState)
-        try writer["KeyUsage"].write(value.keyUsage)
-        try writer["MacAlgorithms"].writeList(value.macAlgorithms, memberWritingClosure: KMSClientTypes.MacAlgorithmSpec.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["MultiRegion"].write(value.multiRegion)
-        try writer["MultiRegionConfiguration"].write(value.multiRegionConfiguration, with: KMSClientTypes.MultiRegionConfiguration.write(value:to:))
-        try writer["Origin"].write(value.origin)
-        try writer["PendingDeletionWindowInDays"].write(value.pendingDeletionWindowInDays)
-        try writer["SigningAlgorithms"].writeList(value.signingAlgorithms, memberWritingClosure: KMSClientTypes.SigningAlgorithmSpec.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ValidTo"].writeTimestamp(value.validTo, format: .epochSeconds)
-        try writer["XksKeyConfiguration"].write(value.xksKeyConfiguration, with: KMSClientTypes.XksKeyConfigurationType.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> KMSClientTypes.KeyMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6034,13 +5965,6 @@ extension KMSClientTypes {
 
 extension KMSClientTypes.MultiRegionConfiguration {
 
-    static func write(value: KMSClientTypes.MultiRegionConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MultiRegionKeyType"].write(value.multiRegionKeyType)
-        try writer["PrimaryKey"].write(value.primaryKey, with: KMSClientTypes.MultiRegionKey.write(value:to:))
-        try writer["ReplicaKeys"].writeList(value.replicaKeys, memberWritingClosure: KMSClientTypes.MultiRegionKey.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> KMSClientTypes.MultiRegionConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = KMSClientTypes.MultiRegionConfiguration()
@@ -6076,12 +6000,6 @@ extension KMSClientTypes {
 }
 
 extension KMSClientTypes.MultiRegionKey {
-
-    static func write(value: KMSClientTypes.MultiRegionKey?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["Region"].write(value.region)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> KMSClientTypes.MultiRegionKey {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6480,14 +6398,6 @@ extension KMSClientTypes.RecipientInfo {
         guard let value else { return }
         try writer["AttestationDocument"].write(value.attestationDocument)
         try writer["KeyEncryptionAlgorithm"].write(value.keyEncryptionAlgorithm)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KMSClientTypes.RecipientInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KMSClientTypes.RecipientInfo()
-        value.keyEncryptionAlgorithm = try reader["KeyEncryptionAlgorithm"].readIfPresent()
-        value.attestationDocument = try reader["AttestationDocument"].readIfPresent()
-        return value
     }
 }
 
@@ -6912,13 +6822,6 @@ extension KMSClientTypes {
 }
 
 extension KMSClientTypes.RotationsListEntry {
-
-    static func write(value: KMSClientTypes.RotationsListEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["KeyId"].write(value.keyId)
-        try writer["RotationDate"].writeTimestamp(value.rotationDate, format: .epochSeconds)
-        try writer["RotationType"].write(value.rotationType)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> KMSClientTypes.RotationsListEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8163,11 +8066,6 @@ public struct XksKeyAlreadyInUseException: ClientRuntime.ModeledError, AWSClient
 
 extension KMSClientTypes.XksKeyConfigurationType {
 
-    static func write(value: KMSClientTypes.XksKeyConfigurationType?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Id"].write(value.id)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> KMSClientTypes.XksKeyConfigurationType {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = KMSClientTypes.XksKeyConfigurationType()
@@ -8278,14 +8176,6 @@ extension KMSClientTypes.XksProxyAuthenticationCredentialType {
         try writer["AccessKeyId"].write(value.accessKeyId)
         try writer["RawSecretAccessKey"].write(value.rawSecretAccessKey)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KMSClientTypes.XksProxyAuthenticationCredentialType {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KMSClientTypes.XksProxyAuthenticationCredentialType()
-        value.accessKeyId = try reader["AccessKeyId"].readIfPresent()
-        value.rawSecretAccessKey = try reader["RawSecretAccessKey"].readIfPresent()
-        return value
-    }
 }
 
 extension KMSClientTypes {
@@ -8316,15 +8206,6 @@ extension KMSClientTypes.XksProxyConfigurationType: Swift.CustomDebugStringConve
 }
 
 extension KMSClientTypes.XksProxyConfigurationType {
-
-    static func write(value: KMSClientTypes.XksProxyConfigurationType?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccessKeyId"].write(value.accessKeyId)
-        try writer["Connectivity"].write(value.connectivity)
-        try writer["UriEndpoint"].write(value.uriEndpoint)
-        try writer["UriPath"].write(value.uriPath)
-        try writer["VpcEndpointServiceName"].write(value.vpcEndpointServiceName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> KMSClientTypes.XksProxyConfigurationType {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

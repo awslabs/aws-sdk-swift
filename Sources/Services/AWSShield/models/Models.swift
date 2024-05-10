@@ -80,12 +80,6 @@ public struct AccessDeniedForDependencyException: ClientRuntime.ModeledError, AW
 
 extension ShieldClientTypes.ApplicationLayerAutomaticResponseConfiguration {
 
-    static func write(value: ShieldClientTypes.ApplicationLayerAutomaticResponseConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Action"].write(value.action, with: ShieldClientTypes.ResponseAction.write(value:to:))
-        try writer["Status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ShieldClientTypes.ApplicationLayerAutomaticResponseConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ShieldClientTypes.ApplicationLayerAutomaticResponseConfiguration()
@@ -392,18 +386,6 @@ enum AssociateProactiveEngagementDetailsOutputError {
 
 extension ShieldClientTypes.AttackDetail {
 
-    static func write(value: ShieldClientTypes.AttackDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AttackCounters"].writeList(value.attackCounters, memberWritingClosure: ShieldClientTypes.SummarizedCounter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["AttackId"].write(value.attackId)
-        try writer["AttackProperties"].writeList(value.attackProperties, memberWritingClosure: ShieldClientTypes.AttackProperty.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["EndTime"].writeTimestamp(value.endTime, format: .epochSeconds)
-        try writer["Mitigations"].writeList(value.mitigations, memberWritingClosure: ShieldClientTypes.Mitigation.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ResourceArn"].write(value.resourceArn)
-        try writer["StartTime"].writeTimestamp(value.startTime, format: .epochSeconds)
-        try writer["SubResources"].writeList(value.subResources, memberWritingClosure: ShieldClientTypes.SubResourceSummary.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ShieldClientTypes.AttackDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ShieldClientTypes.AttackDetail()
@@ -494,15 +476,6 @@ extension ShieldClientTypes {
 }
 
 extension ShieldClientTypes.AttackProperty {
-
-    static func write(value: ShieldClientTypes.AttackProperty?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AttackLayer"].write(value.attackLayer)
-        try writer["AttackPropertyIdentifier"].write(value.attackPropertyIdentifier)
-        try writer["TopContributors"].writeList(value.topContributors, memberWritingClosure: ShieldClientTypes.Contributor.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Total"].write(value.total)
-        try writer["Unit"].write(value.unit)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ShieldClientTypes.AttackProperty {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -598,12 +571,6 @@ extension ShieldClientTypes {
 
 extension ShieldClientTypes.AttackStatisticsDataItem {
 
-    static func write(value: ShieldClientTypes.AttackStatisticsDataItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AttackCount"].write(value.attackCount)
-        try writer["AttackVolume"].write(value.attackVolume, with: ShieldClientTypes.AttackVolume.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ShieldClientTypes.AttackStatisticsDataItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ShieldClientTypes.AttackStatisticsDataItem()
@@ -635,15 +602,6 @@ extension ShieldClientTypes {
 }
 
 extension ShieldClientTypes.AttackSummary {
-
-    static func write(value: ShieldClientTypes.AttackSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AttackId"].write(value.attackId)
-        try writer["AttackVectors"].writeList(value.attackVectors, memberWritingClosure: ShieldClientTypes.AttackVectorDescription.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["EndTime"].writeTimestamp(value.endTime, format: .epochSeconds)
-        try writer["ResourceArn"].write(value.resourceArn)
-        try writer["StartTime"].writeTimestamp(value.startTime, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ShieldClientTypes.AttackSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -690,11 +648,6 @@ extension ShieldClientTypes {
 }
 
 extension ShieldClientTypes.AttackVectorDescription {
-
-    static func write(value: ShieldClientTypes.AttackVectorDescription?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["VectorType"].write(value.vectorType)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ShieldClientTypes.AttackVectorDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -759,13 +712,6 @@ extension ShieldClientTypes {
 
 extension ShieldClientTypes.AttackVolume {
 
-    static func write(value: ShieldClientTypes.AttackVolume?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BitsPerSecond"].write(value.bitsPerSecond, with: ShieldClientTypes.AttackVolumeStatistics.write(value:to:))
-        try writer["PacketsPerSecond"].write(value.packetsPerSecond, with: ShieldClientTypes.AttackVolumeStatistics.write(value:to:))
-        try writer["RequestsPerSecond"].write(value.requestsPerSecond, with: ShieldClientTypes.AttackVolumeStatistics.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ShieldClientTypes.AttackVolume {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ShieldClientTypes.AttackVolume()
@@ -801,11 +747,6 @@ extension ShieldClientTypes {
 }
 
 extension ShieldClientTypes.AttackVolumeStatistics {
-
-    static func write(value: ShieldClientTypes.AttackVolumeStatistics?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Max"].write(value.max)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ShieldClientTypes.AttackVolumeStatistics {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -885,12 +826,6 @@ extension ShieldClientTypes {
 }
 
 extension ShieldClientTypes.Contributor {
-
-    static func write(value: ShieldClientTypes.Contributor?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["Value"].write(value.value)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ShieldClientTypes.Contributor {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2300,15 +2235,6 @@ extension ShieldClientTypes.InclusionProtectionFilters {
         try writer["ResourceArns"].writeList(value.resourceArns, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ResourceTypes"].writeList(value.resourceTypes, memberWritingClosure: ShieldClientTypes.ProtectedResourceType.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ShieldClientTypes.InclusionProtectionFilters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ShieldClientTypes.InclusionProtectionFilters()
-        value.resourceArns = try reader["ResourceArns"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.protectionNames = try reader["ProtectionNames"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.resourceTypes = try reader["ResourceTypes"].readListIfPresent(memberReadingClosure: ShieldClientTypes.ProtectedResourceType.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
 }
 
 extension ShieldClientTypes {
@@ -2343,16 +2269,6 @@ extension ShieldClientTypes.InclusionProtectionGroupFilters {
         try writer["Patterns"].writeList(value.patterns, memberWritingClosure: ShieldClientTypes.ProtectionGroupPattern.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ProtectionGroupIds"].writeList(value.protectionGroupIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ResourceTypes"].writeList(value.resourceTypes, memberWritingClosure: ShieldClientTypes.ProtectedResourceType.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ShieldClientTypes.InclusionProtectionGroupFilters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ShieldClientTypes.InclusionProtectionGroupFilters()
-        value.protectionGroupIds = try reader["ProtectionGroupIds"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.patterns = try reader["Patterns"].readListIfPresent(memberReadingClosure: ShieldClientTypes.ProtectionGroupPattern.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.resourceTypes = try reader["ResourceTypes"].readListIfPresent(memberReadingClosure: ShieldClientTypes.ProtectedResourceType.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.aggregations = try reader["Aggregations"].readListIfPresent(memberReadingClosure: ShieldClientTypes.ProtectionGroupAggregation.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -2580,12 +2496,6 @@ public struct InvalidResourceException: ClientRuntime.ModeledError, AWSClientRun
 }
 
 extension ShieldClientTypes.Limit {
-
-    static func write(value: ShieldClientTypes.Limit?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Max"].write(value.max)
-        try writer["Type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ShieldClientTypes.Limit {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3111,11 +3021,6 @@ public struct LockedSubscriptionException: ClientRuntime.ModeledError, AWSClient
 
 extension ShieldClientTypes.Mitigation {
 
-    static func write(value: ShieldClientTypes.Mitigation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MitigationName"].write(value.mitigationName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ShieldClientTypes.Mitigation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ShieldClientTypes.Mitigation()
@@ -3291,16 +3196,6 @@ extension ShieldClientTypes {
 
 extension ShieldClientTypes.Protection {
 
-    static func write(value: ShieldClientTypes.Protection?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ApplicationLayerAutomaticResponseConfiguration"].write(value.applicationLayerAutomaticResponseConfiguration, with: ShieldClientTypes.ApplicationLayerAutomaticResponseConfiguration.write(value:to:))
-        try writer["HealthCheckIds"].writeList(value.healthCheckIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Id"].write(value.id)
-        try writer["Name"].write(value.name)
-        try writer["ProtectionArn"].write(value.protectionArn)
-        try writer["ResourceArn"].write(value.resourceArn)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ShieldClientTypes.Protection {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ShieldClientTypes.Protection()
@@ -3351,16 +3246,6 @@ extension ShieldClientTypes {
 }
 
 extension ShieldClientTypes.ProtectionGroup {
-
-    static func write(value: ShieldClientTypes.ProtectionGroup?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Aggregation"].write(value.aggregation)
-        try writer["Members"].writeList(value.members, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Pattern"].write(value.pattern)
-        try writer["ProtectionGroupArn"].write(value.protectionGroupArn)
-        try writer["ProtectionGroupId"].write(value.protectionGroupId)
-        try writer["ResourceType"].write(value.resourceType)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ShieldClientTypes.ProtectionGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3456,11 +3341,6 @@ extension ShieldClientTypes {
 
 extension ShieldClientTypes.ProtectionGroupArbitraryPatternLimits {
 
-    static func write(value: ShieldClientTypes.ProtectionGroupArbitraryPatternLimits?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MaxMembers"].write(value.maxMembers)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ShieldClientTypes.ProtectionGroupArbitraryPatternLimits {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ShieldClientTypes.ProtectionGroupArbitraryPatternLimits()
@@ -3487,12 +3367,6 @@ extension ShieldClientTypes {
 }
 
 extension ShieldClientTypes.ProtectionGroupLimits {
-
-    static func write(value: ShieldClientTypes.ProtectionGroupLimits?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MaxProtectionGroups"].write(value.maxProtectionGroups)
-        try writer["PatternTypeLimits"].write(value.patternTypeLimits, with: ShieldClientTypes.ProtectionGroupPatternTypeLimits.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ShieldClientTypes.ProtectionGroupLimits {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3560,11 +3434,6 @@ extension ShieldClientTypes {
 
 extension ShieldClientTypes.ProtectionGroupPatternTypeLimits {
 
-    static func write(value: ShieldClientTypes.ProtectionGroupPatternTypeLimits?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ArbitraryPatternLimits"].write(value.arbitraryPatternLimits, with: ShieldClientTypes.ProtectionGroupArbitraryPatternLimits.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ShieldClientTypes.ProtectionGroupPatternTypeLimits {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ShieldClientTypes.ProtectionGroupPatternTypeLimits()
@@ -3591,11 +3460,6 @@ extension ShieldClientTypes {
 }
 
 extension ShieldClientTypes.ProtectionLimits {
-
-    static func write(value: ShieldClientTypes.ProtectionLimits?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ProtectedResourceTypeLimits"].writeList(value.protectedResourceTypeLimits, memberWritingClosure: ShieldClientTypes.Limit.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ShieldClientTypes.ProtectionLimits {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3747,14 +3611,6 @@ public enum ShieldClientTypes {}
 
 extension ShieldClientTypes.SubResourceSummary {
 
-    static func write(value: ShieldClientTypes.SubResourceSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AttackVectors"].writeList(value.attackVectors, memberWritingClosure: ShieldClientTypes.SummarizedAttackVector.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Counters"].writeList(value.counters, memberWritingClosure: ShieldClientTypes.SummarizedCounter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Id"].write(value.id)
-        try writer["Type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ShieldClientTypes.SubResourceSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ShieldClientTypes.SubResourceSummary()
@@ -3826,18 +3682,6 @@ extension ShieldClientTypes {
 
 extension ShieldClientTypes.Subscription {
 
-    static func write(value: ShieldClientTypes.Subscription?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AutoRenew"].write(value.autoRenew)
-        try writer["EndTime"].writeTimestamp(value.endTime, format: .epochSeconds)
-        try writer["Limits"].writeList(value.limits, memberWritingClosure: ShieldClientTypes.Limit.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ProactiveEngagementStatus"].write(value.proactiveEngagementStatus)
-        try writer["StartTime"].writeTimestamp(value.startTime, format: .epochSeconds)
-        try writer["SubscriptionArn"].write(value.subscriptionArn)
-        try writer["SubscriptionLimits"].write(value.subscriptionLimits, with: ShieldClientTypes.SubscriptionLimits.write(value:to:))
-        try writer["TimeCommitmentInSeconds"].write(value.timeCommitmentInSeconds)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ShieldClientTypes.Subscription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ShieldClientTypes.Subscription()
@@ -3899,12 +3743,6 @@ extension ShieldClientTypes {
 }
 
 extension ShieldClientTypes.SubscriptionLimits {
-
-    static func write(value: ShieldClientTypes.SubscriptionLimits?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ProtectionGroupLimits"].write(value.protectionGroupLimits, with: ShieldClientTypes.ProtectionGroupLimits.write(value:to:))
-        try writer["ProtectionLimits"].write(value.protectionLimits, with: ShieldClientTypes.ProtectionLimits.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ShieldClientTypes.SubscriptionLimits {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3969,12 +3807,6 @@ extension ShieldClientTypes {
 
 extension ShieldClientTypes.SummarizedAttackVector {
 
-    static func write(value: ShieldClientTypes.SummarizedAttackVector?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["VectorCounters"].writeList(value.vectorCounters, memberWritingClosure: ShieldClientTypes.SummarizedCounter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["VectorType"].write(value.vectorType)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ShieldClientTypes.SummarizedAttackVector {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ShieldClientTypes.SummarizedAttackVector()
@@ -4006,16 +3838,6 @@ extension ShieldClientTypes {
 }
 
 extension ShieldClientTypes.SummarizedCounter {
-
-    static func write(value: ShieldClientTypes.SummarizedCounter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Average"].write(value.average)
-        try writer["Max"].write(value.max)
-        try writer["N"].write(value.n)
-        try writer["Name"].write(value.name)
-        try writer["Sum"].write(value.sum)
-        try writer["Unit"].write(value.unit)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ShieldClientTypes.SummarizedCounter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4565,12 +4387,6 @@ enum UpdateSubscriptionOutputError {
 }
 
 extension ShieldClientTypes.ValidationExceptionField {
-
-    static func write(value: ShieldClientTypes.ValidationExceptionField?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.message)
-        try writer["name"].write(value.name)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ShieldClientTypes.ValidationExceptionField {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

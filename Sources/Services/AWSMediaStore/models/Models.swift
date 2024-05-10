@@ -6,16 +6,6 @@ import SmithyReadWrite
 
 extension MediaStoreClientTypes.Container {
 
-    static func write(value: MediaStoreClientTypes.Container?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ARN"].write(value.arn)
-        try writer["AccessLoggingEnabled"].write(value.accessLoggingEnabled)
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["Endpoint"].write(value.endpoint)
-        try writer["Name"].write(value.name)
-        try writer["Status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MediaStoreClientTypes.Container {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaStoreClientTypes.Container()

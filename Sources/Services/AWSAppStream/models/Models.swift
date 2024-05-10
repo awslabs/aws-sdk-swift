@@ -116,21 +116,6 @@ extension AppStreamClientTypes {
 
 extension AppStreamClientTypes.AppBlock {
 
-    static func write(value: AppStreamClientTypes.AppBlock?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AppBlockErrors"].writeList(value.appBlockErrors, memberWritingClosure: AppStreamClientTypes.ErrorDetails.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Arn"].write(value.arn)
-        try writer["CreatedTime"].writeTimestamp(value.createdTime, format: .epochSeconds)
-        try writer["Description"].write(value.description)
-        try writer["DisplayName"].write(value.displayName)
-        try writer["Name"].write(value.name)
-        try writer["PackagingType"].write(value.packagingType)
-        try writer["PostSetupScriptDetails"].write(value.postSetupScriptDetails, with: AppStreamClientTypes.ScriptDetails.write(value:to:))
-        try writer["SetupScriptDetails"].write(value.setupScriptDetails, with: AppStreamClientTypes.ScriptDetails.write(value:to:))
-        try writer["SourceS3Location"].write(value.sourceS3Location, with: AppStreamClientTypes.S3Location.write(value:to:))
-        try writer["State"].write(value.state)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.AppBlock {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppStreamClientTypes.AppBlock()
@@ -208,24 +193,6 @@ extension AppStreamClientTypes {
 }
 
 extension AppStreamClientTypes.AppBlockBuilder {
-
-    static func write(value: AppStreamClientTypes.AppBlockBuilder?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccessEndpoints"].writeList(value.accessEndpoints, memberWritingClosure: AppStreamClientTypes.AccessEndpoint.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["AppBlockBuilderErrors"].writeList(value.appBlockBuilderErrors, memberWritingClosure: AppStreamClientTypes.ResourceError.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Arn"].write(value.arn)
-        try writer["CreatedTime"].writeTimestamp(value.createdTime, format: .epochSeconds)
-        try writer["Description"].write(value.description)
-        try writer["DisplayName"].write(value.displayName)
-        try writer["EnableDefaultInternetAccess"].write(value.enableDefaultInternetAccess)
-        try writer["IamRoleArn"].write(value.iamRoleArn)
-        try writer["InstanceType"].write(value.instanceType)
-        try writer["Name"].write(value.name)
-        try writer["Platform"].write(value.platform)
-        try writer["State"].write(value.state)
-        try writer["StateChangeReason"].write(value.stateChangeReason, with: AppStreamClientTypes.AppBlockBuilderStateChangeReason.write(value:to:))
-        try writer["VpcConfig"].write(value.vpcConfig, with: AppStreamClientTypes.VpcConfig.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.AppBlockBuilder {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -323,12 +290,6 @@ extension AppStreamClientTypes {
 }
 
 extension AppStreamClientTypes.AppBlockBuilderAppBlockAssociation {
-
-    static func write(value: AppStreamClientTypes.AppBlockBuilderAppBlockAssociation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AppBlockArn"].write(value.appBlockArn)
-        try writer["AppBlockBuilderName"].write(value.appBlockBuilderName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.AppBlockBuilderAppBlockAssociation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -459,12 +420,6 @@ extension AppStreamClientTypes {
 
 extension AppStreamClientTypes.AppBlockBuilderStateChangeReason {
 
-    static func write(value: AppStreamClientTypes.AppBlockBuilderStateChangeReason?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Code"].write(value.code)
-        try writer["Message"].write(value.message)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.AppBlockBuilderStateChangeReason {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppStreamClientTypes.AppBlockBuilderStateChangeReason()
@@ -584,25 +539,6 @@ extension AppStreamClientTypes {
 }
 
 extension AppStreamClientTypes.Application {
-
-    static func write(value: AppStreamClientTypes.Application?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AppBlockArn"].write(value.appBlockArn)
-        try writer["Arn"].write(value.arn)
-        try writer["CreatedTime"].writeTimestamp(value.createdTime, format: .epochSeconds)
-        try writer["Description"].write(value.description)
-        try writer["DisplayName"].write(value.displayName)
-        try writer["Enabled"].write(value.enabled)
-        try writer["IconS3Location"].write(value.iconS3Location, with: AppStreamClientTypes.S3Location.write(value:to:))
-        try writer["IconURL"].write(value.iconURL)
-        try writer["InstanceFamilies"].writeList(value.instanceFamilies, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["LaunchParameters"].write(value.launchParameters)
-        try writer["LaunchPath"].write(value.launchPath)
-        try writer["Metadata"].writeMap(value.metadata, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["Name"].write(value.name)
-        try writer["Platforms"].writeList(value.platforms, memberWritingClosure: AppStreamClientTypes.PlatformType.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["WorkingDirectory"].write(value.workingDirectory)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.Application {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -730,12 +666,6 @@ extension AppStreamClientTypes {
 
 extension AppStreamClientTypes.ApplicationFleetAssociation {
 
-    static func write(value: AppStreamClientTypes.ApplicationFleetAssociation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ApplicationArn"].write(value.applicationArn)
-        try writer["FleetName"].write(value.fleetName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.ApplicationFleetAssociation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppStreamClientTypes.ApplicationFleetAssociation()
@@ -774,14 +704,6 @@ extension AppStreamClientTypes.ApplicationSettings {
         try writer["Enabled"].write(value.enabled)
         try writer["SettingsGroup"].write(value.settingsGroup)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.ApplicationSettings {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppStreamClientTypes.ApplicationSettings()
-        value.enabled = try reader["Enabled"].readIfPresent()
-        value.settingsGroup = try reader["SettingsGroup"].readIfPresent()
-        return value
-    }
 }
 
 extension AppStreamClientTypes {
@@ -806,13 +728,6 @@ extension AppStreamClientTypes {
 }
 
 extension AppStreamClientTypes.ApplicationSettingsResponse {
-
-    static func write(value: AppStreamClientTypes.ApplicationSettingsResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Enabled"].write(value.enabled)
-        try writer["S3BucketName"].write(value.s3BucketName)
-        try writer["SettingsGroup"].write(value.settingsGroup)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.ApplicationSettingsResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1381,14 +1296,6 @@ extension AppStreamClientTypes.ComputeCapacity {
         try writer["DesiredInstances"].write(value.desiredInstances)
         try writer["DesiredSessions"].write(value.desiredSessions)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.ComputeCapacity {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppStreamClientTypes.ComputeCapacity()
-        value.desiredInstances = try reader["DesiredInstances"].readIfPresent()
-        value.desiredSessions = try reader["DesiredSessions"].readIfPresent()
-        return value
-    }
 }
 
 extension AppStreamClientTypes {
@@ -1412,18 +1319,6 @@ extension AppStreamClientTypes {
 }
 
 extension AppStreamClientTypes.ComputeCapacityStatus {
-
-    static func write(value: AppStreamClientTypes.ComputeCapacityStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ActiveUserSessions"].write(value.activeUserSessions)
-        try writer["ActualUserSessions"].write(value.actualUserSessions)
-        try writer["Available"].write(value.available)
-        try writer["AvailableUserSessions"].write(value.availableUserSessions)
-        try writer["Desired"].write(value.desired)
-        try writer["DesiredUserSessions"].write(value.desiredUserSessions)
-        try writer["InUse"].write(value.inUse)
-        try writer["Running"].write(value.running)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.ComputeCapacityStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5321,15 +5216,6 @@ enum DescribeUsersOutputError {
 
 extension AppStreamClientTypes.DirectoryConfig {
 
-    static func write(value: AppStreamClientTypes.DirectoryConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CertificateBasedAuthProperties"].write(value.certificateBasedAuthProperties, with: AppStreamClientTypes.CertificateBasedAuthProperties.write(value:to:))
-        try writer["CreatedTime"].writeTimestamp(value.createdTime, format: .epochSeconds)
-        try writer["DirectoryName"].write(value.directoryName)
-        try writer["OrganizationalUnitDistinguishedNames"].writeList(value.organizationalUnitDistinguishedNames, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ServiceAccountCredentials"].write(value.serviceAccountCredentials, with: AppStreamClientTypes.ServiceAccountCredentials.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.DirectoryConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppStreamClientTypes.DirectoryConfig()
@@ -5801,11 +5687,6 @@ enum EnableUserOutputError {
 
 extension AppStreamClientTypes.EntitledApplication {
 
-    static func write(value: AppStreamClientTypes.EntitledApplication?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ApplicationIdentifier"].write(value.applicationIdentifier)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.EntitledApplication {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppStreamClientTypes.EntitledApplication()
@@ -5832,17 +5713,6 @@ extension AppStreamClientTypes {
 }
 
 extension AppStreamClientTypes.Entitlement {
-
-    static func write(value: AppStreamClientTypes.Entitlement?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AppVisibility"].write(value.appVisibility)
-        try writer["Attributes"].writeList(value.attributes, memberWritingClosure: AppStreamClientTypes.EntitlementAttribute.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["CreatedTime"].writeTimestamp(value.createdTime, format: .epochSeconds)
-        try writer["Description"].write(value.description)
-        try writer["LastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .epochSeconds)
-        try writer["Name"].write(value.name)
-        try writer["StackName"].write(value.stackName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.Entitlement {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6033,12 +5903,6 @@ public struct EntitlementNotFoundException: ClientRuntime.ModeledError, AWSClien
 
 extension AppStreamClientTypes.ErrorDetails {
 
-    static func write(value: AppStreamClientTypes.ErrorDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ErrorCode"].write(value.errorCode)
-        try writer["ErrorMessage"].write(value.errorMessage)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.ErrorDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppStreamClientTypes.ErrorDetails()
@@ -6122,35 +5986,6 @@ enum ExpireSessionOutputError {
 }
 
 extension AppStreamClientTypes.Fleet {
-
-    static func write(value: AppStreamClientTypes.Fleet?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["ComputeCapacityStatus"].write(value.computeCapacityStatus, with: AppStreamClientTypes.ComputeCapacityStatus.write(value:to:))
-        try writer["CreatedTime"].writeTimestamp(value.createdTime, format: .epochSeconds)
-        try writer["Description"].write(value.description)
-        try writer["DisconnectTimeoutInSeconds"].write(value.disconnectTimeoutInSeconds)
-        try writer["DisplayName"].write(value.displayName)
-        try writer["DomainJoinInfo"].write(value.domainJoinInfo, with: AppStreamClientTypes.DomainJoinInfo.write(value:to:))
-        try writer["EnableDefaultInternetAccess"].write(value.enableDefaultInternetAccess)
-        try writer["FleetErrors"].writeList(value.fleetErrors, memberWritingClosure: AppStreamClientTypes.FleetError.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["FleetType"].write(value.fleetType)
-        try writer["IamRoleArn"].write(value.iamRoleArn)
-        try writer["IdleDisconnectTimeoutInSeconds"].write(value.idleDisconnectTimeoutInSeconds)
-        try writer["ImageArn"].write(value.imageArn)
-        try writer["ImageName"].write(value.imageName)
-        try writer["InstanceType"].write(value.instanceType)
-        try writer["MaxConcurrentSessions"].write(value.maxConcurrentSessions)
-        try writer["MaxSessionsPerInstance"].write(value.maxSessionsPerInstance)
-        try writer["MaxUserDurationInSeconds"].write(value.maxUserDurationInSeconds)
-        try writer["Name"].write(value.name)
-        try writer["Platform"].write(value.platform)
-        try writer["SessionScriptS3Location"].write(value.sessionScriptS3Location, with: AppStreamClientTypes.S3Location.write(value:to:))
-        try writer["State"].write(value.state)
-        try writer["StreamView"].write(value.streamView)
-        try writer["UsbDeviceFilterStrings"].writeList(value.usbDeviceFilterStrings, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["VpcConfig"].write(value.vpcConfig, with: AppStreamClientTypes.VpcConfig.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.Fleet {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6415,12 +6250,6 @@ extension AppStreamClientTypes {
 
 extension AppStreamClientTypes.FleetError {
 
-    static func write(value: AppStreamClientTypes.FleetError?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ErrorCode"].write(value.errorCode)
-        try writer["ErrorMessage"].write(value.errorMessage)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.FleetError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppStreamClientTypes.FleetError()
@@ -6635,27 +6464,6 @@ extension AppStreamClientTypes {
 
 extension AppStreamClientTypes.Image {
 
-    static func write(value: AppStreamClientTypes.Image?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Applications"].writeList(value.applications, memberWritingClosure: AppStreamClientTypes.Application.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["AppstreamAgentVersion"].write(value.appstreamAgentVersion)
-        try writer["Arn"].write(value.arn)
-        try writer["BaseImageArn"].write(value.baseImageArn)
-        try writer["CreatedTime"].writeTimestamp(value.createdTime, format: .epochSeconds)
-        try writer["Description"].write(value.description)
-        try writer["DisplayName"].write(value.displayName)
-        try writer["ImageBuilderName"].write(value.imageBuilderName)
-        try writer["ImageBuilderSupported"].write(value.imageBuilderSupported)
-        try writer["ImageErrors"].writeList(value.imageErrors, memberWritingClosure: AppStreamClientTypes.ResourceError.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ImagePermissions"].write(value.imagePermissions, with: AppStreamClientTypes.ImagePermissions.write(value:to:))
-        try writer["Name"].write(value.name)
-        try writer["Platform"].write(value.platform)
-        try writer["PublicBaseImageReleasedDate"].writeTimestamp(value.publicBaseImageReleasedDate, format: .epochSeconds)
-        try writer["State"].write(value.state)
-        try writer["StateChangeReason"].write(value.stateChangeReason, with: AppStreamClientTypes.ImageStateChangeReason.write(value:to:))
-        try writer["Visibility"].write(value.visibility)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.Image {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppStreamClientTypes.Image()
@@ -6762,28 +6570,6 @@ extension AppStreamClientTypes {
 }
 
 extension AppStreamClientTypes.ImageBuilder {
-
-    static func write(value: AppStreamClientTypes.ImageBuilder?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccessEndpoints"].writeList(value.accessEndpoints, memberWritingClosure: AppStreamClientTypes.AccessEndpoint.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["AppstreamAgentVersion"].write(value.appstreamAgentVersion)
-        try writer["Arn"].write(value.arn)
-        try writer["CreatedTime"].writeTimestamp(value.createdTime, format: .epochSeconds)
-        try writer["Description"].write(value.description)
-        try writer["DisplayName"].write(value.displayName)
-        try writer["DomainJoinInfo"].write(value.domainJoinInfo, with: AppStreamClientTypes.DomainJoinInfo.write(value:to:))
-        try writer["EnableDefaultInternetAccess"].write(value.enableDefaultInternetAccess)
-        try writer["IamRoleArn"].write(value.iamRoleArn)
-        try writer["ImageArn"].write(value.imageArn)
-        try writer["ImageBuilderErrors"].writeList(value.imageBuilderErrors, memberWritingClosure: AppStreamClientTypes.ResourceError.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["InstanceType"].write(value.instanceType)
-        try writer["Name"].write(value.name)
-        try writer["NetworkAccessConfiguration"].write(value.networkAccessConfiguration, with: AppStreamClientTypes.NetworkAccessConfiguration.write(value:to:))
-        try writer["Platform"].write(value.platform)
-        try writer["State"].write(value.state)
-        try writer["StateChangeReason"].write(value.stateChangeReason, with: AppStreamClientTypes.ImageBuilderStateChangeReason.write(value:to:))
-        try writer["VpcConfig"].write(value.vpcConfig, with: AppStreamClientTypes.VpcConfig.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.ImageBuilder {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7020,12 +6806,6 @@ extension AppStreamClientTypes {
 
 extension AppStreamClientTypes.ImageBuilderStateChangeReason {
 
-    static func write(value: AppStreamClientTypes.ImageBuilderStateChangeReason?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Code"].write(value.code)
-        try writer["Message"].write(value.message)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.ImageBuilderStateChangeReason {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppStreamClientTypes.ImageBuilderStateChangeReason()
@@ -7168,12 +6948,6 @@ extension AppStreamClientTypes {
 }
 
 extension AppStreamClientTypes.ImageStateChangeReason {
-
-    static func write(value: AppStreamClientTypes.ImageStateChangeReason?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Code"].write(value.code)
-        try writer["Message"].write(value.message)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.ImageStateChangeReason {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7390,12 +7164,6 @@ public struct InvalidRoleException: ClientRuntime.ModeledError, AWSClientRuntime
 }
 
 extension AppStreamClientTypes.LastReportGenerationExecutionError {
-
-    static func write(value: AppStreamClientTypes.LastReportGenerationExecutionError?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ErrorCode"].write(value.errorCode)
-        try writer["ErrorMessage"].write(value.errorMessage)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.LastReportGenerationExecutionError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7801,12 +7569,6 @@ extension AppStreamClientTypes {
 
 extension AppStreamClientTypes.NetworkAccessConfiguration {
 
-    static func write(value: AppStreamClientTypes.NetworkAccessConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EniId"].write(value.eniId)
-        try writer["EniPrivateIpAddress"].write(value.eniPrivateIpAddress)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.NetworkAccessConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppStreamClientTypes.NetworkAccessConfiguration()
@@ -8080,13 +7842,6 @@ public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSCli
 }
 
 extension AppStreamClientTypes.ResourceError {
-
-    static func write(value: AppStreamClientTypes.ResourceError?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ErrorCode"].write(value.errorCode)
-        try writer["ErrorMessage"].write(value.errorMessage)
-        try writer["ErrorTimestamp"].writeTimestamp(value.errorTimestamp, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.ResourceError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8382,21 +8137,6 @@ extension AppStreamClientTypes {
 
 extension AppStreamClientTypes.Session {
 
-    static func write(value: AppStreamClientTypes.Session?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AuthenticationType"].write(value.authenticationType)
-        try writer["ConnectionState"].write(value.connectionState)
-        try writer["FleetName"].write(value.fleetName)
-        try writer["Id"].write(value.id)
-        try writer["InstanceId"].write(value.instanceId)
-        try writer["MaxExpirationTime"].writeTimestamp(value.maxExpirationTime, format: .epochSeconds)
-        try writer["NetworkAccessConfiguration"].write(value.networkAccessConfiguration, with: AppStreamClientTypes.NetworkAccessConfiguration.write(value:to:))
-        try writer["StackName"].write(value.stackName)
-        try writer["StartTime"].writeTimestamp(value.startTime, format: .epochSeconds)
-        try writer["State"].write(value.state)
-        try writer["UserId"].write(value.userId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.Session {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppStreamClientTypes.Session()
@@ -8542,12 +8282,6 @@ extension AppStreamClientTypes {
 
 extension AppStreamClientTypes.SharedImagePermissions {
 
-    static func write(value: AppStreamClientTypes.SharedImagePermissions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["imagePermissions"].write(value.imagePermissions, with: AppStreamClientTypes.ImagePermissions.write(value:to:))
-        try writer["sharedAccountId"].write(value.sharedAccountId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.SharedImagePermissions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppStreamClientTypes.SharedImagePermissions()
@@ -8580,24 +8314,6 @@ extension AppStreamClientTypes {
 }
 
 extension AppStreamClientTypes.Stack {
-
-    static func write(value: AppStreamClientTypes.Stack?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccessEndpoints"].writeList(value.accessEndpoints, memberWritingClosure: AppStreamClientTypes.AccessEndpoint.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ApplicationSettings"].write(value.applicationSettings, with: AppStreamClientTypes.ApplicationSettingsResponse.write(value:to:))
-        try writer["Arn"].write(value.arn)
-        try writer["CreatedTime"].writeTimestamp(value.createdTime, format: .epochSeconds)
-        try writer["Description"].write(value.description)
-        try writer["DisplayName"].write(value.displayName)
-        try writer["EmbedHostDomains"].writeList(value.embedHostDomains, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["FeedbackURL"].write(value.feedbackURL)
-        try writer["Name"].write(value.name)
-        try writer["RedirectURL"].write(value.redirectURL)
-        try writer["StackErrors"].writeList(value.stackErrors, memberWritingClosure: AppStreamClientTypes.StackError.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["StorageConnectors"].writeList(value.storageConnectors, memberWritingClosure: AppStreamClientTypes.StorageConnector.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["StreamingExperienceSettings"].write(value.streamingExperienceSettings, with: AppStreamClientTypes.StreamingExperienceSettings.write(value:to:))
-        try writer["UserSettings"].writeList(value.userSettings, memberWritingClosure: AppStreamClientTypes.UserSetting.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.Stack {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8750,12 +8466,6 @@ extension AppStreamClientTypes {
 }
 
 extension AppStreamClientTypes.StackError {
-
-    static func write(value: AppStreamClientTypes.StackError?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ErrorCode"].write(value.errorCode)
-        try writer["ErrorMessage"].write(value.errorMessage)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.StackError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -10418,14 +10128,6 @@ extension AppStreamClientTypes {
 
 extension AppStreamClientTypes.UsageReportSubscription {
 
-    static func write(value: AppStreamClientTypes.UsageReportSubscription?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["LastGeneratedReportDate"].writeTimestamp(value.lastGeneratedReportDate, format: .epochSeconds)
-        try writer["S3BucketName"].write(value.s3BucketName)
-        try writer["Schedule"].write(value.schedule)
-        try writer["SubscriptionErrors"].writeList(value.subscriptionErrors, memberWritingClosure: AppStreamClientTypes.LastReportGenerationExecutionError.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.UsageReportSubscription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppStreamClientTypes.UsageReportSubscription()
@@ -10471,18 +10173,6 @@ extension AppStreamClientTypes.User: Swift.CustomDebugStringConvertible {
 }
 
 extension AppStreamClientTypes.User {
-
-    static func write(value: AppStreamClientTypes.User?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["AuthenticationType"].write(value.authenticationType)
-        try writer["CreatedTime"].writeTimestamp(value.createdTime, format: .epochSeconds)
-        try writer["Enabled"].write(value.enabled)
-        try writer["FirstName"].write(value.firstName)
-        try writer["LastName"].write(value.lastName)
-        try writer["Status"].write(value.status)
-        try writer["UserName"].write(value.userName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.User {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -10657,13 +10347,6 @@ extension AppStreamClientTypes {
 }
 
 extension AppStreamClientTypes.UserStackAssociationError {
-
-    static func write(value: AppStreamClientTypes.UserStackAssociationError?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ErrorCode"].write(value.errorCode)
-        try writer["ErrorMessage"].write(value.errorMessage)
-        try writer["UserStackAssociation"].write(value.userStackAssociation, with: AppStreamClientTypes.UserStackAssociation.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.UserStackAssociationError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

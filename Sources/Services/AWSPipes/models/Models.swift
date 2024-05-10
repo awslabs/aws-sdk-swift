@@ -416,11 +416,6 @@ extension PipesClientTypes {
 
 extension PipesClientTypes.CloudwatchLogsLogDestination {
 
-    static func write(value: PipesClientTypes.CloudwatchLogsLogDestination?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["LogGroupArn"].write(value.logGroupArn)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> PipesClientTypes.CloudwatchLogsLogDestination {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PipesClientTypes.CloudwatchLogsLogDestination()
@@ -450,13 +445,6 @@ extension PipesClientTypes.CloudwatchLogsLogDestinationParameters {
     static func write(value: PipesClientTypes.CloudwatchLogsLogDestinationParameters?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["LogGroupArn"].write(value.logGroupArn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PipesClientTypes.CloudwatchLogsLogDestinationParameters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PipesClientTypes.CloudwatchLogsLogDestinationParameters()
-        value.logGroupArn = try reader["LogGroupArn"].readIfPresent()
-        return value
     }
 }
 
@@ -1446,11 +1434,6 @@ extension PipesClientTypes {
 
 extension PipesClientTypes.FirehoseLogDestination {
 
-    static func write(value: PipesClientTypes.FirehoseLogDestination?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DeliveryStreamArn"].write(value.deliveryStreamArn)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> PipesClientTypes.FirehoseLogDestination {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PipesClientTypes.FirehoseLogDestination()
@@ -1480,13 +1463,6 @@ extension PipesClientTypes.FirehoseLogDestinationParameters {
     static func write(value: PipesClientTypes.FirehoseLogDestinationParameters?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["DeliveryStreamArn"].write(value.deliveryStreamArn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PipesClientTypes.FirehoseLogDestinationParameters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PipesClientTypes.FirehoseLogDestinationParameters()
-        value.deliveryStreamArn = try reader["DeliveryStreamArn"].readIfPresent()
-        return value
     }
 }
 
@@ -2080,20 +2056,6 @@ extension PipesClientTypes {
 
 extension PipesClientTypes.Pipe {
 
-    static func write(value: PipesClientTypes.Pipe?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["CurrentState"].write(value.currentState)
-        try writer["DesiredState"].write(value.desiredState)
-        try writer["Enrichment"].write(value.enrichment)
-        try writer["LastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .epochSeconds)
-        try writer["Name"].write(value.name)
-        try writer["Source"].write(value.source)
-        try writer["StateReason"].write(value.stateReason)
-        try writer["Target"].write(value.target)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> PipesClientTypes.Pipe {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PipesClientTypes.Pipe()
@@ -2250,15 +2212,6 @@ extension PipesClientTypes {
 
 extension PipesClientTypes.PipeLogConfiguration {
 
-    static func write(value: PipesClientTypes.PipeLogConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CloudwatchLogsLogDestination"].write(value.cloudwatchLogsLogDestination, with: PipesClientTypes.CloudwatchLogsLogDestination.write(value:to:))
-        try writer["FirehoseLogDestination"].write(value.firehoseLogDestination, with: PipesClientTypes.FirehoseLogDestination.write(value:to:))
-        try writer["IncludeExecutionData"].writeList(value.includeExecutionData, memberWritingClosure: PipesClientTypes.IncludeExecutionDataOption.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Level"].write(value.level)
-        try writer["S3LogDestination"].write(value.s3LogDestination, with: PipesClientTypes.S3LogDestination.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> PipesClientTypes.PipeLogConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PipesClientTypes.PipeLogConfiguration()
@@ -2312,17 +2265,6 @@ extension PipesClientTypes.PipeLogConfigurationParameters {
         try writer["IncludeExecutionData"].writeList(value.includeExecutionData, memberWritingClosure: PipesClientTypes.IncludeExecutionDataOption.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Level"].write(value.level)
         try writer["S3LogDestination"].write(value.s3LogDestination, with: PipesClientTypes.S3LogDestinationParameters.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PipesClientTypes.PipeLogConfigurationParameters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PipesClientTypes.PipeLogConfigurationParameters()
-        value.s3LogDestination = try reader["S3LogDestination"].readIfPresent(with: PipesClientTypes.S3LogDestinationParameters.read(from:))
-        value.firehoseLogDestination = try reader["FirehoseLogDestination"].readIfPresent(with: PipesClientTypes.FirehoseLogDestinationParameters.read(from:))
-        value.cloudwatchLogsLogDestination = try reader["CloudwatchLogsLogDestination"].readIfPresent(with: PipesClientTypes.CloudwatchLogsLogDestinationParameters.read(from:))
-        value.level = try reader["Level"].readIfPresent()
-        value.includeExecutionData = try reader["IncludeExecutionData"].readListIfPresent(memberReadingClosure: PipesClientTypes.IncludeExecutionDataOption.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -3919,14 +3861,6 @@ extension PipesClientTypes {
 
 extension PipesClientTypes.S3LogDestination {
 
-    static func write(value: PipesClientTypes.S3LogDestination?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BucketName"].write(value.bucketName)
-        try writer["BucketOwner"].write(value.bucketOwner)
-        try writer["OutputFormat"].write(value.outputFormat)
-        try writer["Prefix"].write(value.`prefix`)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> PipesClientTypes.S3LogDestination {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PipesClientTypes.S3LogDestination()
@@ -3980,16 +3914,6 @@ extension PipesClientTypes.S3LogDestinationParameters {
         try writer["BucketOwner"].write(value.bucketOwner)
         try writer["OutputFormat"].write(value.outputFormat)
         try writer["Prefix"].write(value.`prefix`)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PipesClientTypes.S3LogDestinationParameters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PipesClientTypes.S3LogDestinationParameters()
-        value.bucketName = try reader["BucketName"].readIfPresent()
-        value.bucketOwner = try reader["BucketOwner"].readIfPresent()
-        value.outputFormat = try reader["OutputFormat"].readIfPresent()
-        value.`prefix` = try reader["Prefix"].readIfPresent()
-        return value
     }
 }
 
@@ -4859,15 +4783,6 @@ extension PipesClientTypes.UpdatePipeSourceActiveMQBrokerParameters {
         try writer["Credentials"].write(value.credentials, with: PipesClientTypes.MQBrokerAccessCredentials.write(value:to:))
         try writer["MaximumBatchingWindowInSeconds"].write(value.maximumBatchingWindowInSeconds)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PipesClientTypes.UpdatePipeSourceActiveMQBrokerParameters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PipesClientTypes.UpdatePipeSourceActiveMQBrokerParameters()
-        value.credentials = try reader["Credentials"].readIfPresent(with: PipesClientTypes.MQBrokerAccessCredentials.read(from:))
-        value.batchSize = try reader["BatchSize"].readIfPresent()
-        value.maximumBatchingWindowInSeconds = try reader["MaximumBatchingWindowInSeconds"].readIfPresent()
-        return value
-    }
 }
 
 extension PipesClientTypes {
@@ -4906,19 +4821,6 @@ extension PipesClientTypes.UpdatePipeSourceDynamoDBStreamParameters {
         try writer["MaximumRetryAttempts"].write(value.maximumRetryAttempts)
         try writer["OnPartialBatchItemFailure"].write(value.onPartialBatchItemFailure)
         try writer["ParallelizationFactor"].write(value.parallelizationFactor)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PipesClientTypes.UpdatePipeSourceDynamoDBStreamParameters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PipesClientTypes.UpdatePipeSourceDynamoDBStreamParameters()
-        value.batchSize = try reader["BatchSize"].readIfPresent()
-        value.deadLetterConfig = try reader["DeadLetterConfig"].readIfPresent(with: PipesClientTypes.DeadLetterConfig.read(from:))
-        value.onPartialBatchItemFailure = try reader["OnPartialBatchItemFailure"].readIfPresent()
-        value.maximumBatchingWindowInSeconds = try reader["MaximumBatchingWindowInSeconds"].readIfPresent()
-        value.maximumRecordAgeInSeconds = try reader["MaximumRecordAgeInSeconds"].readIfPresent()
-        value.maximumRetryAttempts = try reader["MaximumRetryAttempts"].readIfPresent()
-        value.parallelizationFactor = try reader["ParallelizationFactor"].readIfPresent()
-        return value
     }
 }
 
@@ -4974,19 +4876,6 @@ extension PipesClientTypes.UpdatePipeSourceKinesisStreamParameters {
         try writer["OnPartialBatchItemFailure"].write(value.onPartialBatchItemFailure)
         try writer["ParallelizationFactor"].write(value.parallelizationFactor)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PipesClientTypes.UpdatePipeSourceKinesisStreamParameters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PipesClientTypes.UpdatePipeSourceKinesisStreamParameters()
-        value.batchSize = try reader["BatchSize"].readIfPresent()
-        value.deadLetterConfig = try reader["DeadLetterConfig"].readIfPresent(with: PipesClientTypes.DeadLetterConfig.read(from:))
-        value.onPartialBatchItemFailure = try reader["OnPartialBatchItemFailure"].readIfPresent()
-        value.maximumBatchingWindowInSeconds = try reader["MaximumBatchingWindowInSeconds"].readIfPresent()
-        value.maximumRecordAgeInSeconds = try reader["MaximumRecordAgeInSeconds"].readIfPresent()
-        value.maximumRetryAttempts = try reader["MaximumRetryAttempts"].readIfPresent()
-        value.parallelizationFactor = try reader["ParallelizationFactor"].readIfPresent()
-        return value
-    }
 }
 
 extension PipesClientTypes {
@@ -5037,15 +4926,6 @@ extension PipesClientTypes.UpdatePipeSourceManagedStreamingKafkaParameters {
         try writer["Credentials"].write(value.credentials, with: PipesClientTypes.MSKAccessCredentials.write(value:to:))
         try writer["MaximumBatchingWindowInSeconds"].write(value.maximumBatchingWindowInSeconds)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PipesClientTypes.UpdatePipeSourceManagedStreamingKafkaParameters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PipesClientTypes.UpdatePipeSourceManagedStreamingKafkaParameters()
-        value.batchSize = try reader["BatchSize"].readIfPresent()
-        value.credentials = try reader["Credentials"].readIfPresent(with: PipesClientTypes.MSKAccessCredentials.read(from:))
-        value.maximumBatchingWindowInSeconds = try reader["MaximumBatchingWindowInSeconds"].readIfPresent()
-        return value
-    }
 }
 
 extension PipesClientTypes {
@@ -5084,20 +4964,6 @@ extension PipesClientTypes.UpdatePipeSourceParameters {
         try writer["RabbitMQBrokerParameters"].write(value.rabbitMQBrokerParameters, with: PipesClientTypes.UpdatePipeSourceRabbitMQBrokerParameters.write(value:to:))
         try writer["SelfManagedKafkaParameters"].write(value.selfManagedKafkaParameters, with: PipesClientTypes.UpdatePipeSourceSelfManagedKafkaParameters.write(value:to:))
         try writer["SqsQueueParameters"].write(value.sqsQueueParameters, with: PipesClientTypes.UpdatePipeSourceSqsQueueParameters.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PipesClientTypes.UpdatePipeSourceParameters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PipesClientTypes.UpdatePipeSourceParameters()
-        value.filterCriteria = try reader["FilterCriteria"].readIfPresent(with: PipesClientTypes.FilterCriteria.read(from:))
-        value.kinesisStreamParameters = try reader["KinesisStreamParameters"].readIfPresent(with: PipesClientTypes.UpdatePipeSourceKinesisStreamParameters.read(from:))
-        value.dynamoDBStreamParameters = try reader["DynamoDBStreamParameters"].readIfPresent(with: PipesClientTypes.UpdatePipeSourceDynamoDBStreamParameters.read(from:))
-        value.sqsQueueParameters = try reader["SqsQueueParameters"].readIfPresent(with: PipesClientTypes.UpdatePipeSourceSqsQueueParameters.read(from:))
-        value.activeMQBrokerParameters = try reader["ActiveMQBrokerParameters"].readIfPresent(with: PipesClientTypes.UpdatePipeSourceActiveMQBrokerParameters.read(from:))
-        value.rabbitMQBrokerParameters = try reader["RabbitMQBrokerParameters"].readIfPresent(with: PipesClientTypes.UpdatePipeSourceRabbitMQBrokerParameters.read(from:))
-        value.managedStreamingKafkaParameters = try reader["ManagedStreamingKafkaParameters"].readIfPresent(with: PipesClientTypes.UpdatePipeSourceManagedStreamingKafkaParameters.read(from:))
-        value.selfManagedKafkaParameters = try reader["SelfManagedKafkaParameters"].readIfPresent(with: PipesClientTypes.UpdatePipeSourceSelfManagedKafkaParameters.read(from:))
-        return value
     }
 }
 
@@ -5153,15 +5019,6 @@ extension PipesClientTypes.UpdatePipeSourceRabbitMQBrokerParameters {
         try writer["Credentials"].write(value.credentials, with: PipesClientTypes.MQBrokerAccessCredentials.write(value:to:))
         try writer["MaximumBatchingWindowInSeconds"].write(value.maximumBatchingWindowInSeconds)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PipesClientTypes.UpdatePipeSourceRabbitMQBrokerParameters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PipesClientTypes.UpdatePipeSourceRabbitMQBrokerParameters()
-        value.credentials = try reader["Credentials"].readIfPresent(with: PipesClientTypes.MQBrokerAccessCredentials.read(from:))
-        value.batchSize = try reader["BatchSize"].readIfPresent()
-        value.maximumBatchingWindowInSeconds = try reader["MaximumBatchingWindowInSeconds"].readIfPresent()
-        return value
-    }
 }
 
 extension PipesClientTypes {
@@ -5198,17 +5055,6 @@ extension PipesClientTypes.UpdatePipeSourceSelfManagedKafkaParameters {
         try writer["MaximumBatchingWindowInSeconds"].write(value.maximumBatchingWindowInSeconds)
         try writer["ServerRootCaCertificate"].write(value.serverRootCaCertificate)
         try writer["Vpc"].write(value.vpc, with: PipesClientTypes.SelfManagedKafkaAccessConfigurationVpc.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PipesClientTypes.UpdatePipeSourceSelfManagedKafkaParameters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PipesClientTypes.UpdatePipeSourceSelfManagedKafkaParameters()
-        value.batchSize = try reader["BatchSize"].readIfPresent()
-        value.maximumBatchingWindowInSeconds = try reader["MaximumBatchingWindowInSeconds"].readIfPresent()
-        value.credentials = try reader["Credentials"].readIfPresent(with: PipesClientTypes.SelfManagedKafkaAccessConfigurationCredentials.read(from:))
-        value.serverRootCaCertificate = try reader["ServerRootCaCertificate"].readIfPresent()
-        value.vpc = try reader["Vpc"].readIfPresent(with: PipesClientTypes.SelfManagedKafkaAccessConfigurationVpc.read(from:))
-        return value
     }
 }
 
@@ -5250,14 +5096,6 @@ extension PipesClientTypes.UpdatePipeSourceSqsQueueParameters {
         guard let value else { return }
         try writer["BatchSize"].write(value.batchSize)
         try writer["MaximumBatchingWindowInSeconds"].write(value.maximumBatchingWindowInSeconds)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PipesClientTypes.UpdatePipeSourceSqsQueueParameters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PipesClientTypes.UpdatePipeSourceSqsQueueParameters()
-        value.batchSize = try reader["BatchSize"].readIfPresent()
-        value.maximumBatchingWindowInSeconds = try reader["MaximumBatchingWindowInSeconds"].readIfPresent()
-        return value
     }
 }
 
@@ -5324,12 +5162,6 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 extension PipesClientTypes.ValidationExceptionField {
-
-    static func write(value: PipesClientTypes.ValidationExceptionField?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.message)
-        try writer["name"].write(value.name)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PipesClientTypes.ValidationExceptionField {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

@@ -43,16 +43,6 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
 extension IoTSiteWiseClientTypes.AccessPolicySummary {
 
-    static func write(value: IoTSiteWiseClientTypes.AccessPolicySummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["creationDate"].writeTimestamp(value.creationDate, format: .epochSeconds)
-        try writer["id"].write(value.id)
-        try writer["identity"].write(value.identity, with: IoTSiteWiseClientTypes.Identity.write(value:to:))
-        try writer["lastUpdateDate"].writeTimestamp(value.lastUpdateDate, format: .epochSeconds)
-        try writer["permission"].write(value.permission)
-        try writer["resource"].write(value.resource, with: IoTSiteWiseClientTypes.Resource.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.AccessPolicySummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTSiteWiseClientTypes.AccessPolicySummary()
@@ -107,13 +97,6 @@ extension IoTSiteWiseClientTypes {
 }
 
 extension IoTSiteWiseClientTypes.ActionDefinition {
-
-    static func write(value: IoTSiteWiseClientTypes.ActionDefinition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["actionDefinitionId"].write(value.actionDefinitionId)
-        try writer["actionName"].write(value.actionName)
-        try writer["actionType"].write(value.actionType)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.ActionDefinition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -185,13 +168,6 @@ extension IoTSiteWiseClientTypes {
 }
 
 extension IoTSiteWiseClientTypes.ActionSummary {
-
-    static func write(value: IoTSiteWiseClientTypes.ActionSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["actionDefinitionId"].write(value.actionDefinitionId)
-        try writer["actionId"].write(value.actionId)
-        try writer["targetResource"].write(value.targetResource, with: IoTSiteWiseClientTypes.TargetResource.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.ActionSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -271,13 +247,6 @@ extension IoTSiteWiseClientTypes {
 
 extension IoTSiteWiseClientTypes.AggregatedValue {
 
-    static func write(value: IoTSiteWiseClientTypes.AggregatedValue?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["quality"].write(value.quality)
-        try writer["timestamp"].writeTimestamp(value.timestamp, format: .epochSeconds)
-        try writer["value"].write(value.value, with: IoTSiteWiseClientTypes.Aggregates.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.AggregatedValue {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTSiteWiseClientTypes.AggregatedValue()
@@ -315,16 +284,6 @@ extension IoTSiteWiseClientTypes {
 }
 
 extension IoTSiteWiseClientTypes.Aggregates {
-
-    static func write(value: IoTSiteWiseClientTypes.Aggregates?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["average"].write(value.average)
-        try writer["count"].write(value.count)
-        try writer["maximum"].write(value.maximum)
-        try writer["minimum"].write(value.minimum)
-        try writer["standardDeviation"].write(value.standardDeviation)
-        try writer["sum"].write(value.sum)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.Aggregates {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -415,16 +374,6 @@ extension IoTSiteWiseClientTypes {
 
 extension IoTSiteWiseClientTypes.AssetCompositeModel {
 
-    static func write(value: IoTSiteWiseClientTypes.AssetCompositeModel?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["description"].write(value.description)
-        try writer["externalId"].write(value.externalId)
-        try writer["id"].write(value.id)
-        try writer["name"].write(value.name)
-        try writer["properties"].writeList(value.properties, memberWritingClosure: IoTSiteWiseClientTypes.AssetProperty.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.AssetCompositeModel {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTSiteWiseClientTypes.AssetCompositeModel()
@@ -479,12 +428,6 @@ extension IoTSiteWiseClientTypes {
 
 extension IoTSiteWiseClientTypes.AssetCompositeModelPathSegment {
 
-    static func write(value: IoTSiteWiseClientTypes.AssetCompositeModelPathSegment?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["id"].write(value.id)
-        try writer["name"].write(value.name)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.AssetCompositeModelPathSegment {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTSiteWiseClientTypes.AssetCompositeModelPathSegment()
@@ -515,16 +458,6 @@ extension IoTSiteWiseClientTypes {
 }
 
 extension IoTSiteWiseClientTypes.AssetCompositeModelSummary {
-
-    static func write(value: IoTSiteWiseClientTypes.AssetCompositeModelSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["description"].write(value.description)
-        try writer["externalId"].write(value.externalId)
-        try writer["id"].write(value.id)
-        try writer["name"].write(value.name)
-        try writer["path"].writeList(value.path, memberWritingClosure: IoTSiteWiseClientTypes.AssetCompositeModelPathSegment.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.AssetCompositeModelSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -613,13 +546,6 @@ extension IoTSiteWiseClientTypes {
 
 extension IoTSiteWiseClientTypes.AssetErrorDetails {
 
-    static func write(value: IoTSiteWiseClientTypes.AssetErrorDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["assetId"].write(value.assetId)
-        try writer["code"].write(value.code)
-        try writer["message"].write(value.message)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.AssetErrorDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTSiteWiseClientTypes.AssetErrorDetails()
@@ -659,13 +585,6 @@ extension IoTSiteWiseClientTypes {
 
 extension IoTSiteWiseClientTypes.AssetHierarchy {
 
-    static func write(value: IoTSiteWiseClientTypes.AssetHierarchy?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["externalId"].write(value.externalId)
-        try writer["id"].write(value.id)
-        try writer["name"].write(value.name)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.AssetHierarchy {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTSiteWiseClientTypes.AssetHierarchy()
@@ -702,12 +621,6 @@ extension IoTSiteWiseClientTypes {
 }
 
 extension IoTSiteWiseClientTypes.AssetHierarchyInfo {
-
-    static func write(value: IoTSiteWiseClientTypes.AssetHierarchyInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["childAssetId"].write(value.childAssetId)
-        try writer["parentAssetId"].write(value.parentAssetId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.AssetHierarchyInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -812,18 +725,6 @@ extension IoTSiteWiseClientTypes.AssetModelCompositeModelDefinition {
         try writer["properties"].writeList(value.properties, memberWritingClosure: IoTSiteWiseClientTypes.AssetModelPropertyDefinition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["type"].write(value.type)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.AssetModelCompositeModelDefinition {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.AssetModelCompositeModelDefinition()
-        value.name = try reader["name"].readIfPresent()
-        value.description = try reader["description"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
-        value.properties = try reader["properties"].readListIfPresent(memberReadingClosure: IoTSiteWiseClientTypes.AssetModelPropertyDefinition.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.id = try reader["id"].readIfPresent()
-        value.externalId = try reader["externalId"].readIfPresent()
-        return value
-    }
 }
 
 extension IoTSiteWiseClientTypes {
@@ -866,12 +767,6 @@ extension IoTSiteWiseClientTypes {
 
 extension IoTSiteWiseClientTypes.AssetModelCompositeModelPathSegment {
 
-    static func write(value: IoTSiteWiseClientTypes.AssetModelCompositeModelPathSegment?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["id"].write(value.id)
-        try writer["name"].write(value.name)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.AssetModelCompositeModelPathSegment {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTSiteWiseClientTypes.AssetModelCompositeModelPathSegment()
@@ -902,16 +797,6 @@ extension IoTSiteWiseClientTypes {
 }
 
 extension IoTSiteWiseClientTypes.AssetModelCompositeModelSummary {
-
-    static func write(value: IoTSiteWiseClientTypes.AssetModelCompositeModelSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["description"].write(value.description)
-        try writer["externalId"].write(value.externalId)
-        try writer["id"].write(value.id)
-        try writer["name"].write(value.name)
-        try writer["path"].writeList(value.path, memberWritingClosure: IoTSiteWiseClientTypes.AssetModelCompositeModelPathSegment.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.AssetModelCompositeModelSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1032,16 +917,6 @@ extension IoTSiteWiseClientTypes.AssetModelHierarchyDefinition {
         try writer["externalId"].write(value.externalId)
         try writer["id"].write(value.id)
         try writer["name"].write(value.name)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.AssetModelHierarchyDefinition {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.AssetModelHierarchyDefinition()
-        value.name = try reader["name"].readIfPresent()
-        value.childAssetModelId = try reader["childAssetModelId"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
-        value.externalId = try reader["externalId"].readIfPresent()
-        return value
     }
 }
 
@@ -1167,19 +1042,6 @@ extension IoTSiteWiseClientTypes.AssetModelPropertyDefinition {
         try writer["type"].write(value.type, with: IoTSiteWiseClientTypes.PropertyType.write(value:to:))
         try writer["unit"].write(value.unit)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.AssetModelPropertyDefinition {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.AssetModelPropertyDefinition()
-        value.name = try reader["name"].readIfPresent()
-        value.dataType = try reader["dataType"].readIfPresent()
-        value.dataTypeSpec = try reader["dataTypeSpec"].readIfPresent()
-        value.unit = try reader["unit"].readIfPresent()
-        value.type = try reader["type"].readIfPresent(with: IoTSiteWiseClientTypes.PropertyType.read(from:))
-        value.id = try reader["id"].readIfPresent()
-        value.externalId = try reader["externalId"].readIfPresent()
-        return value
-    }
 }
 
 extension IoTSiteWiseClientTypes {
@@ -1263,19 +1125,6 @@ extension IoTSiteWiseClientTypes {
 }
 
 extension IoTSiteWiseClientTypes.AssetModelPropertySummary {
-
-    static func write(value: IoTSiteWiseClientTypes.AssetModelPropertySummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["assetModelCompositeModelId"].write(value.assetModelCompositeModelId)
-        try writer["dataType"].write(value.dataType)
-        try writer["dataTypeSpec"].write(value.dataTypeSpec)
-        try writer["externalId"].write(value.externalId)
-        try writer["id"].write(value.id)
-        try writer["name"].write(value.name)
-        try writer["path"].writeList(value.path, memberWritingClosure: IoTSiteWiseClientTypes.AssetModelPropertyPathSegment.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["type"].write(value.type, with: IoTSiteWiseClientTypes.PropertyType.write(value:to:))
-        try writer["unit"].write(value.unit)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.AssetModelPropertySummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1388,12 +1237,6 @@ extension IoTSiteWiseClientTypes {
 
 extension IoTSiteWiseClientTypes.AssetModelStatus {
 
-    static func write(value: IoTSiteWiseClientTypes.AssetModelStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["error"].write(value.error, with: IoTSiteWiseClientTypes.ErrorDetails.write(value:to:))
-        try writer["state"].write(value.state)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.AssetModelStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTSiteWiseClientTypes.AssetModelStatus()
@@ -1425,19 +1268,6 @@ extension IoTSiteWiseClientTypes {
 }
 
 extension IoTSiteWiseClientTypes.AssetModelSummary {
-
-    static func write(value: IoTSiteWiseClientTypes.AssetModelSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["assetModelType"].write(value.assetModelType)
-        try writer["creationDate"].writeTimestamp(value.creationDate, format: .epochSeconds)
-        try writer["description"].write(value.description)
-        try writer["externalId"].write(value.externalId)
-        try writer["id"].write(value.id)
-        try writer["lastUpdateDate"].writeTimestamp(value.lastUpdateDate, format: .epochSeconds)
-        try writer["name"].write(value.name)
-        try writer["status"].write(value.status, with: IoTSiteWiseClientTypes.AssetModelStatus.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.AssetModelSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1546,19 +1376,6 @@ extension IoTSiteWiseClientTypes {
 
 extension IoTSiteWiseClientTypes.AssetProperty {
 
-    static func write(value: IoTSiteWiseClientTypes.AssetProperty?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["alias"].write(value.alias)
-        try writer["dataType"].write(value.dataType)
-        try writer["dataTypeSpec"].write(value.dataTypeSpec)
-        try writer["externalId"].write(value.externalId)
-        try writer["id"].write(value.id)
-        try writer["name"].write(value.name)
-        try writer["notification"].write(value.notification, with: IoTSiteWiseClientTypes.PropertyNotification.write(value:to:))
-        try writer["path"].writeList(value.path, memberWritingClosure: IoTSiteWiseClientTypes.AssetPropertyPathSegment.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["unit"].write(value.unit)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.AssetProperty {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTSiteWiseClientTypes.AssetProperty()
@@ -1628,12 +1445,6 @@ extension IoTSiteWiseClientTypes {
 
 extension IoTSiteWiseClientTypes.AssetPropertyPathSegment {
 
-    static func write(value: IoTSiteWiseClientTypes.AssetPropertyPathSegment?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["id"].write(value.id)
-        try writer["name"].write(value.name)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.AssetPropertyPathSegment {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTSiteWiseClientTypes.AssetPropertyPathSegment()
@@ -1664,17 +1475,6 @@ extension IoTSiteWiseClientTypes {
 }
 
 extension IoTSiteWiseClientTypes.AssetPropertySummary {
-
-    static func write(value: IoTSiteWiseClientTypes.AssetPropertySummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["alias"].write(value.alias)
-        try writer["assetCompositeModelId"].write(value.assetCompositeModelId)
-        try writer["externalId"].write(value.externalId)
-        try writer["id"].write(value.id)
-        try writer["notification"].write(value.notification, with: IoTSiteWiseClientTypes.PropertyNotification.write(value:to:))
-        try writer["path"].writeList(value.path, memberWritingClosure: IoTSiteWiseClientTypes.AssetPropertyPathSegment.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["unit"].write(value.unit)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.AssetPropertySummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1778,12 +1578,6 @@ extension IoTSiteWiseClientTypes {
 
 extension IoTSiteWiseClientTypes.AssetRelationshipSummary {
 
-    static func write(value: IoTSiteWiseClientTypes.AssetRelationshipSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["hierarchyInfo"].write(value.hierarchyInfo, with: IoTSiteWiseClientTypes.AssetHierarchyInfo.write(value:to:))
-        try writer["relationshipType"].write(value.relationshipType)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.AssetRelationshipSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTSiteWiseClientTypes.AssetRelationshipSummary()
@@ -1884,12 +1678,6 @@ extension IoTSiteWiseClientTypes {
 
 extension IoTSiteWiseClientTypes.AssetStatus {
 
-    static func write(value: IoTSiteWiseClientTypes.AssetStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["error"].write(value.error, with: IoTSiteWiseClientTypes.ErrorDetails.write(value:to:))
-        try writer["state"].write(value.state)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.AssetStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTSiteWiseClientTypes.AssetStatus()
@@ -1921,20 +1709,6 @@ extension IoTSiteWiseClientTypes {
 }
 
 extension IoTSiteWiseClientTypes.AssetSummary {
-
-    static func write(value: IoTSiteWiseClientTypes.AssetSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["assetModelId"].write(value.assetModelId)
-        try writer["creationDate"].writeTimestamp(value.creationDate, format: .epochSeconds)
-        try writer["description"].write(value.description)
-        try writer["externalId"].write(value.externalId)
-        try writer["hierarchies"].writeList(value.hierarchies, memberWritingClosure: IoTSiteWiseClientTypes.AssetHierarchy.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["id"].write(value.id)
-        try writer["lastUpdateDate"].writeTimestamp(value.lastUpdateDate, format: .epochSeconds)
-        try writer["name"].write(value.name)
-        try writer["status"].write(value.status, with: IoTSiteWiseClientTypes.AssetStatus.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.AssetSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2191,20 +1965,6 @@ enum AssociateTimeSeriesToAssetPropertyOutputError {
 }
 
 extension IoTSiteWiseClientTypes.AssociatedAssetsSummary {
-
-    static func write(value: IoTSiteWiseClientTypes.AssociatedAssetsSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["assetModelId"].write(value.assetModelId)
-        try writer["creationDate"].writeTimestamp(value.creationDate, format: .epochSeconds)
-        try writer["description"].write(value.description)
-        try writer["externalId"].write(value.externalId)
-        try writer["hierarchies"].writeList(value.hierarchies, memberWritingClosure: IoTSiteWiseClientTypes.AssetHierarchy.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["id"].write(value.id)
-        try writer["lastUpdateDate"].writeTimestamp(value.lastUpdateDate, format: .epochSeconds)
-        try writer["name"].write(value.name)
-        try writer["status"].write(value.status, with: IoTSiteWiseClientTypes.AssetStatus.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.AssociatedAssetsSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2554,22 +2314,6 @@ extension IoTSiteWiseClientTypes.BatchGetAssetPropertyAggregatesEntry {
         try writer["startDate"].writeTimestamp(value.startDate, format: .epochSeconds)
         try writer["timeOrdering"].write(value.timeOrdering)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.BatchGetAssetPropertyAggregatesEntry {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.BatchGetAssetPropertyAggregatesEntry()
-        value.entryId = try reader["entryId"].readIfPresent()
-        value.assetId = try reader["assetId"].readIfPresent()
-        value.propertyId = try reader["propertyId"].readIfPresent()
-        value.propertyAlias = try reader["propertyAlias"].readIfPresent()
-        value.aggregateTypes = try reader["aggregateTypes"].readListIfPresent(memberReadingClosure: IoTSiteWiseClientTypes.AggregateType.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.resolution = try reader["resolution"].readIfPresent()
-        value.startDate = try reader["startDate"].readTimestampIfPresent(format: .epochSeconds)
-        value.endDate = try reader["endDate"].readTimestampIfPresent(format: .epochSeconds)
-        value.qualities = try reader["qualities"].readListIfPresent(memberReadingClosure: IoTSiteWiseClientTypes.Quality.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.timeOrdering = try reader["timeOrdering"].readIfPresent()
-        return value
-    }
 }
 
 extension IoTSiteWiseClientTypes {
@@ -2668,13 +2412,6 @@ extension IoTSiteWiseClientTypes {
 
 extension IoTSiteWiseClientTypes.BatchGetAssetPropertyAggregatesErrorEntry {
 
-    static func write(value: IoTSiteWiseClientTypes.BatchGetAssetPropertyAggregatesErrorEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["entryId"].write(value.entryId)
-        try writer["errorCode"].write(value.errorCode)
-        try writer["errorMessage"].write(value.errorMessage)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.BatchGetAssetPropertyAggregatesErrorEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTSiteWiseClientTypes.BatchGetAssetPropertyAggregatesErrorEntry()
@@ -2713,12 +2450,6 @@ extension IoTSiteWiseClientTypes {
 }
 
 extension IoTSiteWiseClientTypes.BatchGetAssetPropertyAggregatesErrorInfo {
-
-    static func write(value: IoTSiteWiseClientTypes.BatchGetAssetPropertyAggregatesErrorInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["errorCode"].write(value.errorCode)
-        try writer["errorTimestamp"].writeTimestamp(value.errorTimestamp, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.BatchGetAssetPropertyAggregatesErrorInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2854,13 +2585,6 @@ enum BatchGetAssetPropertyAggregatesOutputError {
 
 extension IoTSiteWiseClientTypes.BatchGetAssetPropertyAggregatesSkippedEntry {
 
-    static func write(value: IoTSiteWiseClientTypes.BatchGetAssetPropertyAggregatesSkippedEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["completionStatus"].write(value.completionStatus)
-        try writer["entryId"].write(value.entryId)
-        try writer["errorInfo"].write(value.errorInfo, with: IoTSiteWiseClientTypes.BatchGetAssetPropertyAggregatesErrorInfo.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.BatchGetAssetPropertyAggregatesSkippedEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTSiteWiseClientTypes.BatchGetAssetPropertyAggregatesSkippedEntry()
@@ -2898,12 +2622,6 @@ extension IoTSiteWiseClientTypes {
 }
 
 extension IoTSiteWiseClientTypes.BatchGetAssetPropertyAggregatesSuccessEntry {
-
-    static func write(value: IoTSiteWiseClientTypes.BatchGetAssetPropertyAggregatesSuccessEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["aggregatedValues"].writeList(value.aggregatedValues, memberWritingClosure: IoTSiteWiseClientTypes.AggregatedValue.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["entryId"].write(value.entryId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.BatchGetAssetPropertyAggregatesSuccessEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2944,16 +2662,6 @@ extension IoTSiteWiseClientTypes.BatchGetAssetPropertyValueEntry {
         try writer["entryId"].write(value.entryId)
         try writer["propertyAlias"].write(value.propertyAlias)
         try writer["propertyId"].write(value.propertyId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.BatchGetAssetPropertyValueEntry {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.BatchGetAssetPropertyValueEntry()
-        value.entryId = try reader["entryId"].readIfPresent()
-        value.assetId = try reader["assetId"].readIfPresent()
-        value.propertyId = try reader["propertyId"].readIfPresent()
-        value.propertyAlias = try reader["propertyAlias"].readIfPresent()
-        return value
     }
 }
 
@@ -3025,13 +2733,6 @@ extension IoTSiteWiseClientTypes {
 
 extension IoTSiteWiseClientTypes.BatchGetAssetPropertyValueErrorEntry {
 
-    static func write(value: IoTSiteWiseClientTypes.BatchGetAssetPropertyValueErrorEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["entryId"].write(value.entryId)
-        try writer["errorCode"].write(value.errorCode)
-        try writer["errorMessage"].write(value.errorMessage)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.BatchGetAssetPropertyValueErrorEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTSiteWiseClientTypes.BatchGetAssetPropertyValueErrorEntry()
@@ -3070,12 +2771,6 @@ extension IoTSiteWiseClientTypes {
 }
 
 extension IoTSiteWiseClientTypes.BatchGetAssetPropertyValueErrorInfo {
-
-    static func write(value: IoTSiteWiseClientTypes.BatchGetAssetPropertyValueErrorInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["errorCode"].write(value.errorCode)
-        try writer["errorTimestamp"].writeTimestamp(value.errorTimestamp, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.BatchGetAssetPropertyValueErrorInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3120,20 +2815,6 @@ extension IoTSiteWiseClientTypes.BatchGetAssetPropertyValueHistoryEntry {
         try writer["qualities"].writeList(value.qualities, memberWritingClosure: IoTSiteWiseClientTypes.Quality.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["startDate"].writeTimestamp(value.startDate, format: .epochSeconds)
         try writer["timeOrdering"].write(value.timeOrdering)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.BatchGetAssetPropertyValueHistoryEntry {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.BatchGetAssetPropertyValueHistoryEntry()
-        value.entryId = try reader["entryId"].readIfPresent()
-        value.assetId = try reader["assetId"].readIfPresent()
-        value.propertyId = try reader["propertyId"].readIfPresent()
-        value.propertyAlias = try reader["propertyAlias"].readIfPresent()
-        value.startDate = try reader["startDate"].readTimestampIfPresent(format: .epochSeconds)
-        value.endDate = try reader["endDate"].readTimestampIfPresent(format: .epochSeconds)
-        value.qualities = try reader["qualities"].readListIfPresent(memberReadingClosure: IoTSiteWiseClientTypes.Quality.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.timeOrdering = try reader["timeOrdering"].readIfPresent()
-        return value
     }
 }
 
@@ -3221,13 +2902,6 @@ extension IoTSiteWiseClientTypes {
 
 extension IoTSiteWiseClientTypes.BatchGetAssetPropertyValueHistoryErrorEntry {
 
-    static func write(value: IoTSiteWiseClientTypes.BatchGetAssetPropertyValueHistoryErrorEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["entryId"].write(value.entryId)
-        try writer["errorCode"].write(value.errorCode)
-        try writer["errorMessage"].write(value.errorMessage)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.BatchGetAssetPropertyValueHistoryErrorEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTSiteWiseClientTypes.BatchGetAssetPropertyValueHistoryErrorEntry()
@@ -3266,12 +2940,6 @@ extension IoTSiteWiseClientTypes {
 }
 
 extension IoTSiteWiseClientTypes.BatchGetAssetPropertyValueHistoryErrorInfo {
-
-    static func write(value: IoTSiteWiseClientTypes.BatchGetAssetPropertyValueHistoryErrorInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["errorCode"].write(value.errorCode)
-        try writer["errorTimestamp"].writeTimestamp(value.errorTimestamp, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.BatchGetAssetPropertyValueHistoryErrorInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3407,13 +3075,6 @@ enum BatchGetAssetPropertyValueHistoryOutputError {
 
 extension IoTSiteWiseClientTypes.BatchGetAssetPropertyValueHistorySkippedEntry {
 
-    static func write(value: IoTSiteWiseClientTypes.BatchGetAssetPropertyValueHistorySkippedEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["completionStatus"].write(value.completionStatus)
-        try writer["entryId"].write(value.entryId)
-        try writer["errorInfo"].write(value.errorInfo, with: IoTSiteWiseClientTypes.BatchGetAssetPropertyValueHistoryErrorInfo.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.BatchGetAssetPropertyValueHistorySkippedEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTSiteWiseClientTypes.BatchGetAssetPropertyValueHistorySkippedEntry()
@@ -3451,12 +3112,6 @@ extension IoTSiteWiseClientTypes {
 }
 
 extension IoTSiteWiseClientTypes.BatchGetAssetPropertyValueHistorySuccessEntry {
-
-    static func write(value: IoTSiteWiseClientTypes.BatchGetAssetPropertyValueHistorySuccessEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["assetPropertyValueHistory"].writeList(value.assetPropertyValueHistory, memberWritingClosure: IoTSiteWiseClientTypes.AssetPropertyValue.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["entryId"].write(value.entryId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.BatchGetAssetPropertyValueHistorySuccessEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3583,13 +3238,6 @@ enum BatchGetAssetPropertyValueOutputError {
 
 extension IoTSiteWiseClientTypes.BatchGetAssetPropertyValueSkippedEntry {
 
-    static func write(value: IoTSiteWiseClientTypes.BatchGetAssetPropertyValueSkippedEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["completionStatus"].write(value.completionStatus)
-        try writer["entryId"].write(value.entryId)
-        try writer["errorInfo"].write(value.errorInfo, with: IoTSiteWiseClientTypes.BatchGetAssetPropertyValueErrorInfo.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.BatchGetAssetPropertyValueSkippedEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTSiteWiseClientTypes.BatchGetAssetPropertyValueSkippedEntry()
@@ -3628,12 +3276,6 @@ extension IoTSiteWiseClientTypes {
 
 extension IoTSiteWiseClientTypes.BatchGetAssetPropertyValueSuccessEntry {
 
-    static func write(value: IoTSiteWiseClientTypes.BatchGetAssetPropertyValueSuccessEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["assetPropertyValue"].write(value.assetPropertyValue, with: IoTSiteWiseClientTypes.AssetPropertyValue.write(value:to:))
-        try writer["entryId"].write(value.entryId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.BatchGetAssetPropertyValueSuccessEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTSiteWiseClientTypes.BatchGetAssetPropertyValueSuccessEntry()
@@ -3665,13 +3307,6 @@ extension IoTSiteWiseClientTypes {
 }
 
 extension IoTSiteWiseClientTypes.BatchPutAssetPropertyError {
-
-    static func write(value: IoTSiteWiseClientTypes.BatchPutAssetPropertyError?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["errorCode"].write(value.errorCode)
-        try writer["errorMessage"].write(value.errorMessage)
-        try writer["timestamps"].writeList(value.timestamps, memberWritingClosure: IoTSiteWiseClientTypes.TimeInNanos.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.BatchPutAssetPropertyError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3711,12 +3346,6 @@ extension IoTSiteWiseClientTypes {
 }
 
 extension IoTSiteWiseClientTypes.BatchPutAssetPropertyErrorEntry {
-
-    static func write(value: IoTSiteWiseClientTypes.BatchPutAssetPropertyErrorEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["entryId"].write(value.entryId)
-        try writer["errors"].writeList(value.errors, memberWritingClosure: IoTSiteWiseClientTypes.BatchPutAssetPropertyError.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.BatchPutAssetPropertyErrorEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3911,12 +3540,6 @@ extension IoTSiteWiseClientTypes {
 
 extension IoTSiteWiseClientTypes.ColumnInfo {
 
-    static func write(value: IoTSiteWiseClientTypes.ColumnInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-        try writer["type"].write(value.type, with: IoTSiteWiseClientTypes.ColumnType.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.ColumnInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTSiteWiseClientTypes.ColumnInfo()
@@ -3996,11 +3619,6 @@ extension IoTSiteWiseClientTypes {
 
 extension IoTSiteWiseClientTypes.ColumnType {
 
-    static func write(value: IoTSiteWiseClientTypes.ColumnType?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["scalarType"].write(value.scalarType)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.ColumnType {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTSiteWiseClientTypes.ColumnType()
@@ -4026,15 +3644,6 @@ extension IoTSiteWiseClientTypes {
 }
 
 extension IoTSiteWiseClientTypes.CompositeModelProperty {
-
-    static func write(value: IoTSiteWiseClientTypes.CompositeModelProperty?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["assetProperty"].write(value.assetProperty, with: IoTSiteWiseClientTypes.Property.write(value:to:))
-        try writer["externalId"].write(value.externalId)
-        try writer["id"].write(value.id)
-        try writer["name"].write(value.name)
-        try writer["type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.CompositeModelProperty {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4085,11 +3694,6 @@ extension IoTSiteWiseClientTypes {
 
 extension IoTSiteWiseClientTypes.CompositionDetails {
 
-    static func write(value: IoTSiteWiseClientTypes.CompositionDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["compositionRelationship"].writeList(value.compositionRelationship, memberWritingClosure: IoTSiteWiseClientTypes.CompositionRelationshipItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.CompositionDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTSiteWiseClientTypes.CompositionDetails()
@@ -4116,11 +3720,6 @@ extension IoTSiteWiseClientTypes {
 
 extension IoTSiteWiseClientTypes.CompositionRelationshipItem {
 
-    static func write(value: IoTSiteWiseClientTypes.CompositionRelationshipItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["id"].write(value.id)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.CompositionRelationshipItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTSiteWiseClientTypes.CompositionRelationshipItem()
@@ -4146,13 +3745,6 @@ extension IoTSiteWiseClientTypes {
 }
 
 extension IoTSiteWiseClientTypes.CompositionRelationshipSummary {
-
-    static func write(value: IoTSiteWiseClientTypes.CompositionRelationshipSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["assetModelCompositeModelId"].write(value.assetModelCompositeModelId)
-        try writer["assetModelCompositeModelType"].write(value.assetModelCompositeModelType)
-        try writer["assetModelId"].write(value.assetModelId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.CompositionRelationshipSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4223,12 +3815,6 @@ extension IoTSiteWiseClientTypes {
 
 extension IoTSiteWiseClientTypes.ConfigurationErrorDetails {
 
-    static func write(value: IoTSiteWiseClientTypes.ConfigurationErrorDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["code"].write(value.code)
-        try writer["message"].write(value.message)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.ConfigurationErrorDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTSiteWiseClientTypes.ConfigurationErrorDetails()
@@ -4294,12 +3880,6 @@ extension IoTSiteWiseClientTypes {
 }
 
 extension IoTSiteWiseClientTypes.ConfigurationStatus {
-
-    static func write(value: IoTSiteWiseClientTypes.ConfigurationStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["error"].write(value.error, with: IoTSiteWiseClientTypes.ConfigurationErrorDetails.write(value:to:))
-        try writer["state"].write(value.state)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.ConfigurationStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5507,15 +5087,6 @@ extension IoTSiteWiseClientTypes {
 
 extension IoTSiteWiseClientTypes.DashboardSummary {
 
-    static func write(value: IoTSiteWiseClientTypes.DashboardSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["creationDate"].writeTimestamp(value.creationDate, format: .epochSeconds)
-        try writer["description"].write(value.description)
-        try writer["id"].write(value.id)
-        try writer["lastUpdateDate"].writeTimestamp(value.lastUpdateDate, format: .epochSeconds)
-        try writer["name"].write(value.name)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.DashboardSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTSiteWiseClientTypes.DashboardSummary()
@@ -5563,14 +5134,6 @@ extension IoTSiteWiseClientTypes {
 }
 
 extension IoTSiteWiseClientTypes.Datum {
-
-    static func write(value: IoTSiteWiseClientTypes.Datum?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arrayValue"].writeList(value.arrayValue, memberWritingClosure: IoTSiteWiseClientTypes.Datum.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["nullValue"].write(value.nullValue)
-        try writer["rowValue"].write(value.rowValue, with: IoTSiteWiseClientTypes.Row.write(value:to:))
-        try writer["scalarValue"].write(value.scalarValue)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.Datum {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8176,12 +7739,6 @@ enum DescribeTimeSeriesOutputError {
 
 extension IoTSiteWiseClientTypes.DetailedError {
 
-    static func write(value: IoTSiteWiseClientTypes.DetailedError?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["code"].write(value.code)
-        try writer["message"].write(value.message)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.DetailedError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTSiteWiseClientTypes.DetailedError()
@@ -8509,13 +8066,6 @@ extension IoTSiteWiseClientTypes {
 }
 
 extension IoTSiteWiseClientTypes.ErrorDetails {
-
-    static func write(value: IoTSiteWiseClientTypes.ErrorDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["code"].write(value.code)
-        try writer["details"].writeList(value.details, memberWritingClosure: IoTSiteWiseClientTypes.DetailedError.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["message"].write(value.message)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.ErrorDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8958,12 +8508,6 @@ extension IoTSiteWiseClientTypes {
 
 extension IoTSiteWiseClientTypes.GatewayCapabilitySummary {
 
-    static func write(value: IoTSiteWiseClientTypes.GatewayCapabilitySummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["capabilityNamespace"].write(value.capabilityNamespace)
-        try writer["capabilitySyncStatus"].write(value.capabilitySyncStatus)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.GatewayCapabilitySummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTSiteWiseClientTypes.GatewayCapabilitySummary()
@@ -9039,16 +8583,6 @@ extension IoTSiteWiseClientTypes {
 }
 
 extension IoTSiteWiseClientTypes.GatewaySummary {
-
-    static func write(value: IoTSiteWiseClientTypes.GatewaySummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["creationDate"].writeTimestamp(value.creationDate, format: .epochSeconds)
-        try writer["gatewayCapabilitySummaries"].writeList(value.gatewayCapabilitySummaries, memberWritingClosure: IoTSiteWiseClientTypes.GatewayCapabilitySummary.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["gatewayId"].write(value.gatewayId)
-        try writer["gatewayName"].write(value.gatewayName)
-        try writer["gatewayPlatform"].write(value.gatewayPlatform, with: IoTSiteWiseClientTypes.GatewayPlatform.write(value:to:))
-        try writer["lastUpdateDate"].writeTimestamp(value.lastUpdateDate, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.GatewaySummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -9970,14 +9504,6 @@ extension IoTSiteWiseClientTypes.Image {
         try writer["file"].write(value.file, with: IoTSiteWiseClientTypes.ImageFile.write(value:to:))
         try writer["id"].write(value.id)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.Image {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.Image()
-        value.id = try reader["id"].readIfPresent()
-        value.file = try reader["file"].readIfPresent(with: IoTSiteWiseClientTypes.ImageFile.read(from:))
-        return value
-    }
 }
 
 extension IoTSiteWiseClientTypes {
@@ -10010,14 +9536,6 @@ extension IoTSiteWiseClientTypes.ImageFile {
         guard let value else { return }
         try writer["data"].write(value.data)
         try writer["type"].write(value.type)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.ImageFile {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.ImageFile()
-        value.data = try reader["data"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
-        return value
     }
 }
 
@@ -10071,12 +9589,6 @@ extension IoTSiteWiseClientTypes {
 }
 
 extension IoTSiteWiseClientTypes.ImageLocation {
-
-    static func write(value: IoTSiteWiseClientTypes.ImageLocation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["id"].write(value.id)
-        try writer["url"].write(value.url)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.ImageLocation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -10148,12 +9660,6 @@ public struct InternalFailureException: ClientRuntime.ModeledError, AWSClientRun
 }
 
 extension IoTSiteWiseClientTypes.InterpolatedAssetPropertyValue {
-
-    static func write(value: IoTSiteWiseClientTypes.InterpolatedAssetPropertyValue?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["timestamp"].write(value.timestamp, with: IoTSiteWiseClientTypes.TimeInNanos.write(value:to:))
-        try writer["value"].write(value.value, with: IoTSiteWiseClientTypes.Variant.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.InterpolatedAssetPropertyValue {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -10301,13 +9807,6 @@ extension IoTSiteWiseClientTypes {
 }
 
 extension IoTSiteWiseClientTypes.JobSummary {
-
-    static func write(value: IoTSiteWiseClientTypes.JobSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["id"].write(value.id)
-        try writer["name"].write(value.name)
-        try writer["status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.JobSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -12651,12 +12150,6 @@ extension IoTSiteWiseClientTypes {
 
 extension IoTSiteWiseClientTypes.MonitorErrorDetails {
 
-    static func write(value: IoTSiteWiseClientTypes.MonitorErrorDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["code"].write(value.code)
-        try writer["message"].write(value.message)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.MonitorErrorDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTSiteWiseClientTypes.MonitorErrorDetails()
@@ -12843,12 +12336,6 @@ extension IoTSiteWiseClientTypes {
 
 extension IoTSiteWiseClientTypes.PortalStatus {
 
-    static func write(value: IoTSiteWiseClientTypes.PortalStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["error"].write(value.error, with: IoTSiteWiseClientTypes.MonitorErrorDetails.write(value:to:))
-        try writer["state"].write(value.state)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.PortalStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTSiteWiseClientTypes.PortalStatus()
@@ -12880,18 +12367,6 @@ extension IoTSiteWiseClientTypes {
 }
 
 extension IoTSiteWiseClientTypes.PortalSummary {
-
-    static func write(value: IoTSiteWiseClientTypes.PortalSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["creationDate"].writeTimestamp(value.creationDate, format: .epochSeconds)
-        try writer["description"].write(value.description)
-        try writer["id"].write(value.id)
-        try writer["lastUpdateDate"].writeTimestamp(value.lastUpdateDate, format: .epochSeconds)
-        try writer["name"].write(value.name)
-        try writer["roleArn"].write(value.roleArn)
-        try writer["startUrl"].write(value.startUrl)
-        try writer["status"].write(value.status, with: IoTSiteWiseClientTypes.PortalStatus.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.PortalSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -12990,15 +12465,6 @@ extension IoTSiteWiseClientTypes {
 
 extension IoTSiteWiseClientTypes.ProjectSummary {
 
-    static func write(value: IoTSiteWiseClientTypes.ProjectSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["creationDate"].writeTimestamp(value.creationDate, format: .epochSeconds)
-        try writer["description"].write(value.description)
-        try writer["id"].write(value.id)
-        try writer["lastUpdateDate"].writeTimestamp(value.lastUpdateDate, format: .epochSeconds)
-        try writer["name"].write(value.name)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.ProjectSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTSiteWiseClientTypes.ProjectSummary()
@@ -13046,19 +12512,6 @@ extension IoTSiteWiseClientTypes {
 }
 
 extension IoTSiteWiseClientTypes.Property {
-
-    static func write(value: IoTSiteWiseClientTypes.Property?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["alias"].write(value.alias)
-        try writer["dataType"].write(value.dataType)
-        try writer["externalId"].write(value.externalId)
-        try writer["id"].write(value.id)
-        try writer["name"].write(value.name)
-        try writer["notification"].write(value.notification, with: IoTSiteWiseClientTypes.PropertyNotification.write(value:to:))
-        try writer["path"].writeList(value.path, memberWritingClosure: IoTSiteWiseClientTypes.AssetPropertyPathSegment.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["type"].write(value.type, with: IoTSiteWiseClientTypes.PropertyType.write(value:to:))
-        try writer["unit"].write(value.unit)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.Property {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -13167,12 +12620,6 @@ extension IoTSiteWiseClientTypes {
 }
 
 extension IoTSiteWiseClientTypes.PropertyNotification {
-
-    static func write(value: IoTSiteWiseClientTypes.PropertyNotification?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["state"].write(value.state)
-        try writer["topic"].write(value.topic)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.PropertyNotification {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -13293,17 +12740,6 @@ extension IoTSiteWiseClientTypes.PutAssetPropertyValueEntry {
         try writer["propertyAlias"].write(value.propertyAlias)
         try writer["propertyId"].write(value.propertyId)
         try writer["propertyValues"].writeList(value.propertyValues, memberWritingClosure: IoTSiteWiseClientTypes.AssetPropertyValue.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.PutAssetPropertyValueEntry {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.PutAssetPropertyValueEntry()
-        value.entryId = try reader["entryId"].readIfPresent()
-        value.assetId = try reader["assetId"].readIfPresent()
-        value.propertyId = try reader["propertyId"].readIfPresent()
-        value.propertyAlias = try reader["propertyAlias"].readIfPresent()
-        value.propertyValues = try reader["propertyValues"].readListIfPresent(memberReadingClosure: IoTSiteWiseClientTypes.AssetPropertyValue.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -13901,11 +13337,6 @@ extension IoTSiteWiseClientTypes {
 
 extension IoTSiteWiseClientTypes.Row {
 
-    static func write(value: IoTSiteWiseClientTypes.Row?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["data"].writeList(value.data, memberWritingClosure: IoTSiteWiseClientTypes.Datum.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.Row {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTSiteWiseClientTypes.Row()
@@ -14284,19 +13715,6 @@ extension IoTSiteWiseClientTypes {
 }
 
 extension IoTSiteWiseClientTypes.TimeSeriesSummary {
-
-    static func write(value: IoTSiteWiseClientTypes.TimeSeriesSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["alias"].write(value.alias)
-        try writer["assetId"].write(value.assetId)
-        try writer["dataType"].write(value.dataType)
-        try writer["dataTypeSpec"].write(value.dataTypeSpec)
-        try writer["propertyId"].write(value.propertyId)
-        try writer["timeSeriesArn"].write(value.timeSeriesArn)
-        try writer["timeSeriesCreationDate"].writeTimestamp(value.timeSeriesCreationDate, format: .epochSeconds)
-        try writer["timeSeriesId"].write(value.timeSeriesId)
-        try writer["timeSeriesLastUpdateDate"].writeTimestamp(value.timeSeriesLastUpdateDate, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.TimeSeriesSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
