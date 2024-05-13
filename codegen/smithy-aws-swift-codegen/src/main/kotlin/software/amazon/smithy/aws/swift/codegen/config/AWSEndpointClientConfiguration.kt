@@ -5,13 +5,13 @@
 
 package software.amazon.smithy.aws.swift.codegen.config
 
-import software.amazon.smithy.aws.swift.codegen.AWSServiceTypes
 import software.amazon.smithy.aws.swift.codegen.ENDPOINT_RESOLVER
 import software.amazon.smithy.aws.swift.codegen.toSwiftType
 import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.rulesengine.traits.ClientContextParamsTrait
 import software.amazon.smithy.swift.codegen.config.ClientConfiguration
 import software.amazon.smithy.swift.codegen.config.ConfigProperty
+import software.amazon.smithy.swift.codegen.endpoints.EndpointTypes
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.model.getTrait
 import software.amazon.smithy.swift.codegen.model.toOptional
@@ -27,7 +27,7 @@ class AWSEndpointClientConfiguration(val ctx: ProtocolGenerator.GenerationContex
         clientContextParams?.parameters?.forEach {
             properties.add(ConfigProperty(it.key.toLowerCamelCase(), it.value.type.toSwiftType().toOptional()))
         }
-        properties.add(ConfigProperty(ENDPOINT_RESOLVER, AWSServiceTypes.EndpointResolver, "DefaultEndpointResolver()", true))
+        properties.add(ConfigProperty(ENDPOINT_RESOLVER, EndpointTypes.EndpointResolver, "DefaultEndpointResolver()", true))
         return properties
     }
 }

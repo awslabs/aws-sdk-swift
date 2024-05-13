@@ -53,6 +53,7 @@ object AWSClientRuntimeTypes {
         val DefaultAuthSchemeResolver = runtimeSymbol("DefaultAuthSchemeResolver")
         val AWSRetryErrorInfoProvider = runtimeSymbol("AWSRetryErrorInfoProvider")
         val AWSRetryMode = runtimeSymbol("AWSRetryMode")
+        val AWSPartitionDefinition = runtimeSymbol("awsPartitionJSON")
     }
 
     object CRT {

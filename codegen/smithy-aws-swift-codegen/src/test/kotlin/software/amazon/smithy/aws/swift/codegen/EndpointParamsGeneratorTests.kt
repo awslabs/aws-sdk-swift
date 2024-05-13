@@ -12,6 +12,7 @@ import software.amazon.smithy.model.node.Node
 import software.amazon.smithy.rulesengine.language.EndpointRuleSet
 import software.amazon.smithy.rulesengine.traits.EndpointRuleSetTrait
 import software.amazon.smithy.swift.codegen.SwiftWriter
+import software.amazon.smithy.swift.codegen.endpoints.EndpointParamsGenerator
 import software.amazon.smithy.swift.codegen.model.getTrait
 
 class EndpointParamsGeneratorTests {

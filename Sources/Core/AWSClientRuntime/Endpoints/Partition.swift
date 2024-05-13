@@ -4,6 +4,7 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 //
+import ClientRuntime
 
 public struct Partition {
 
@@ -43,19 +44,19 @@ public struct Partition {
         self.endpoints = endpoints
     }
 
-    func canResolveEndpoint(region: String) -> Bool {
+    public func canResolveEndpoint(region: String) -> Bool {
         return endpoints[region] != nil || region.range(of: regionRegex,
                                                         options: .regularExpression) != nil
     }
 
-    func resolveEndpoint(region: String) throws -> AWSEndpoint {
+    public func resolveEndpoint(region: String) throws -> AWSEndpoint {
         let shouldUsePartitionEndpoint = region.isEmpty && !partitionEndpoint.isEmpty
         let resolvedRegion = shouldUsePartitionEndpoint ? partitionEndpoint : region
         let endpointDefinition = endpointDefinitionForRegion(region: resolvedRegion)
         return try endpointDefinition.resolve(region: region, defaults: defaults)
     }
 
-    func endpointDefinitionForRegion(region: String) -> ServiceEndpointMetadata {
+    public func endpointDefinitionForRegion(region: String) -> ServiceEndpointMetadata {
         if let endpointMetadata = endpoints[region] {
             return endpointMetadata
         } else if !isRegionalized {

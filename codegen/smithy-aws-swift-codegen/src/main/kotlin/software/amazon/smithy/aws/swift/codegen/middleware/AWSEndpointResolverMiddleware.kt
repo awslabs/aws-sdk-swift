@@ -5,53 +5,19 @@
 
 package software.amazon.smithy.aws.swift.codegen.middleware
 
-import software.amazon.smithy.aws.swift.codegen.AUTH_SCHEME_RESOLVER
-import software.amazon.smithy.aws.swift.codegen.AWSClientRuntimeTypes
-import software.amazon.smithy.aws.swift.codegen.AWSServiceTypes
-import software.amazon.smithy.aws.swift.codegen.AWSSwiftDependency
-import software.amazon.smithy.aws.swift.codegen.ENDPOINT_PARAMS
-import software.amazon.smithy.aws.swift.codegen.ENDPOINT_RESOLVER
 import software.amazon.smithy.codegen.core.Symbol
-import software.amazon.smithy.swift.codegen.Middleware
-import software.amazon.smithy.swift.codegen.SwiftDependency
 import software.amazon.smithy.swift.codegen.SwiftWriter
-import software.amazon.smithy.swift.codegen.integration.steps.OperationBuildStep
+import software.amazon.smithy.swift.codegen.middleware.EndpointResolverMiddleware
 
 /**
  * Generates endpoint middleware for the service.
  */
-class EndpointResolverMiddleware(
+class AWSEndpointResolverMiddleware(
     private val writer: SwiftWriter,
     inputSymbol: Symbol,
     outputSymbol: Symbol,
     outputErrorSymbol: Symbol
-) : Middleware(writer, inputSymbol, OperationBuildStep(outputSymbol, outputErrorSymbol)) {
-
-    override val id: String = "EndpointResolverMiddleware"
-
-    override val typeName = "EndpointResolverMiddleware<$outputSymbol>"
-
-    override val properties: MutableMap<String, Symbol> = mutableMapOf(
-        ENDPOINT_RESOLVER to AWSServiceTypes.EndpointResolver,
-        ENDPOINT_PARAMS to AWSServiceTypes.EndpointParams,
-        AUTH_SCHEME_RESOLVER to AWSClientRuntimeTypes.Core.AuthSchemeResolver
-    )
-
-    override fun generateInit() {
-        writer.openBlock(
-            "public init($ENDPOINT_RESOLVER: \$N, $ENDPOINT_PARAMS: \$N, $AUTH_SCHEME_RESOLVER: \$N = \$N()) {",
-            "}",
-            AWSServiceTypes.EndpointResolver,
-            AWSServiceTypes.EndpointParams,
-            AWSClientRuntimeTypes.Core.AuthSchemeResolver,
-            AWSClientRuntimeTypes.Core.DefaultAuthSchemeResolver
-        ) {
-            writer.write("self.\$L = \$L", ENDPOINT_RESOLVER, ENDPOINT_RESOLVER)
-            writer.write("self.\$L = \$L", ENDPOINT_PARAMS, ENDPOINT_PARAMS)
-            writer.write("self.\$L = \$L", AUTH_SCHEME_RESOLVER, AUTH_SCHEME_RESOLVER)
-        }
-    }
-
+) : EndpointResolverMiddleware(writer, inputSymbol, outputSymbol, outputErrorSymbol) {
     override fun renderExtensions() {
         writer.write(
             """
@@ -69,7 +35,7 @@ class EndpointResolverMiddleware(
                     var signingRegion: String? = nil
                     var signingAlgorithm: String? = nil
                     if let authSchemes = endpoint.authSchemes() {
-                        let schemes = try authSchemes.map { try AuthScheme(from: ${'$'}${'$'}0) }
+                        let schemes = try authSchemes.map { try EndpointsAuthScheme(from: ${'$'}${'$'}0) }
                         let authScheme = try authSchemeResolver.resolve(authSchemes: schemes)
                         signingAlgorithm = authScheme.name
                         switch authScheme {
@@ -125,21 +91,5 @@ class EndpointResolverMiddleware(
             }
             """.trimIndent()
         )
-    }
-
-    override fun generateMiddlewareClosure() {
-        writer.addImport(SwiftDependency.CLIENT_RUNTIME.target)
-        writer.addImport(AWSSwiftDependency.AWS_CLIENT_RUNTIME.target)
-        writer.write(
-            """
-            let selectedAuthScheme = context.getSelectedAuthScheme()
-            let request = input.build()
-            let updatedRequest = try await apply(request: request, selectedAuthScheme: selectedAuthScheme, attributes: context)
-            """.trimIndent()
-        )
-    }
-
-    override fun renderReturn() {
-        writer.write("return try await next.handle(context: context, input: updatedRequest.toBuilder())")
     }
 }

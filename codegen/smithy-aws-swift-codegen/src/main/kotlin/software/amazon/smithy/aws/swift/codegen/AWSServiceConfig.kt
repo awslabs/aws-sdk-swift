@@ -10,6 +10,7 @@ import software.amazon.smithy.model.shapes.ShapeType
 import software.amazon.smithy.rulesengine.traits.ClientContextParamsTrait
 import software.amazon.smithy.swift.codegen.SwiftTypes
 import software.amazon.smithy.swift.codegen.SwiftWriter
+import software.amazon.smithy.swift.codegen.endpoints.EndpointTypes
 import software.amazon.smithy.swift.codegen.integration.ConfigField
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.ServiceConfig
@@ -29,7 +30,7 @@ class AWSServiceConfig(writer: SwiftWriter, val ctx: ProtocolGenerator.Generatio
         var configs = mutableListOf<ConfigField>()
 
         // service specific EndpointResolver
-        configs.add(ConfigField(ENDPOINT_RESOLVER, AWSServiceTypes.EndpointResolver, "\$N", "Endpoint resolver"))
+        configs.add(ConfigField(ENDPOINT_RESOLVER, EndpointTypes.EndpointResolver, "\$N", "Endpoint resolver"))
         // service specific AuthSchemeResolver
         configs.add(ConfigField(AUTH_SCHEME_RESOLVER, buildSymbol { this.name = serviceName.clientName() + "AuthSchemeResolver" }, "\$N"))
 
@@ -46,16 +47,5 @@ fun ShapeType.toSwiftType(): Symbol {
         ShapeType.STRING -> SwiftTypes.String
         ShapeType.BOOLEAN -> SwiftTypes.Bool
         else -> throw IllegalArgumentException("Unsupported shape type: $this")
-    }
-}
-
-object AWSServiceTypes {
-    val EndpointResolver = symbol("EndpointResolver")
-    val EndpointParams = symbol("EndpointParams")
-    val EndpointResolverMiddleware = symbol("EndpointResolverMiddleware")
-    val DefaultEndpointResolver = symbol("DefaultEndpointResolver")
-
-    private fun symbol(name: String): Symbol = buildSymbol {
-        this.name = name
     }
 }
