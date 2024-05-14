@@ -17,6 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     container: swift:5.10-jammy
     env:
+      AWS_SWIFT_SDK_ENABLE_DOCC: 1
       IGNORE: none
     outputs:
       version: ${{ steps.set-version.outputs.version }}
