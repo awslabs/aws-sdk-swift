@@ -10,13 +10,6 @@ extension AccessAnalyzerClientTypes.Access {
         guard let value else { return }
         try writer["actions"].writeList(value.actions, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AccessAnalyzerClientTypes.Access {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AccessAnalyzerClientTypes.Access()
-        value.actions = try reader["actions"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
 }
 
 extension AccessAnalyzerClientTypes {
@@ -108,16 +101,6 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
 extension AccessAnalyzerClientTypes.AccessPreview {
 
-    static func write(value: AccessAnalyzerClientTypes.AccessPreview?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["analyzerArn"].write(value.analyzerArn)
-        try writer["configurations"].writeMap(value.configurations, valueWritingClosure: AccessAnalyzerClientTypes.Configuration.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .dateTime)
-        try writer["id"].write(value.id)
-        try writer["status"].write(value.status)
-        try writer["statusReason"].write(value.statusReason, with: AccessAnalyzerClientTypes.AccessPreviewStatusReason.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AccessAnalyzerClientTypes.AccessPreview {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AccessAnalyzerClientTypes.AccessPreview()
@@ -179,25 +162,6 @@ extension AccessAnalyzerClientTypes {
 }
 
 extension AccessAnalyzerClientTypes.AccessPreviewFinding {
-
-    static func write(value: AccessAnalyzerClientTypes.AccessPreviewFinding?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["action"].writeList(value.action, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["changeType"].write(value.changeType)
-        try writer["condition"].writeMap(value.condition, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .dateTime)
-        try writer["error"].write(value.error)
-        try writer["existingFindingId"].write(value.existingFindingId)
-        try writer["existingFindingStatus"].write(value.existingFindingStatus)
-        try writer["id"].write(value.id)
-        try writer["isPublic"].write(value.isPublic)
-        try writer["principal"].writeMap(value.principal, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["resource"].write(value.resource)
-        try writer["resourceOwnerAccount"].write(value.resourceOwnerAccount)
-        try writer["resourceType"].write(value.resourceType)
-        try writer["sources"].writeList(value.sources, memberWritingClosure: AccessAnalyzerClientTypes.FindingSource.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AccessAnalyzerClientTypes.AccessPreviewFinding {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -343,11 +307,6 @@ extension AccessAnalyzerClientTypes {
 
 extension AccessAnalyzerClientTypes.AccessPreviewStatusReason {
 
-    static func write(value: AccessAnalyzerClientTypes.AccessPreviewStatusReason?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["code"].write(value.code)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AccessAnalyzerClientTypes.AccessPreviewStatusReason {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AccessAnalyzerClientTypes.AccessPreviewStatusReason()
@@ -404,15 +363,6 @@ extension AccessAnalyzerClientTypes {
 }
 
 extension AccessAnalyzerClientTypes.AccessPreviewSummary {
-
-    static func write(value: AccessAnalyzerClientTypes.AccessPreviewSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["analyzerArn"].write(value.analyzerArn)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .dateTime)
-        try writer["id"].write(value.id)
-        try writer["status"].write(value.status)
-        try writer["statusReason"].write(value.statusReason, with: AccessAnalyzerClientTypes.AccessPreviewStatusReason.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AccessAnalyzerClientTypes.AccessPreviewSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -549,21 +499,6 @@ extension AccessAnalyzerClientTypes {
 
 extension AccessAnalyzerClientTypes.AnalyzedResource {
 
-    static func write(value: AccessAnalyzerClientTypes.AnalyzedResource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["actions"].writeList(value.actions, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["analyzedAt"].writeTimestamp(value.analyzedAt, format: .dateTime)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .dateTime)
-        try writer["error"].write(value.error)
-        try writer["isPublic"].write(value.isPublic)
-        try writer["resourceArn"].write(value.resourceArn)
-        try writer["resourceOwnerAccount"].write(value.resourceOwnerAccount)
-        try writer["resourceType"].write(value.resourceType)
-        try writer["sharedVia"].writeList(value.sharedVia, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["status"].write(value.status)
-        try writer["updatedAt"].writeTimestamp(value.updatedAt, format: .dateTime)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AccessAnalyzerClientTypes.AnalyzedResource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AccessAnalyzerClientTypes.AnalyzedResource()
@@ -646,13 +581,6 @@ extension AccessAnalyzerClientTypes {
 }
 
 extension AccessAnalyzerClientTypes.AnalyzedResourceSummary {
-
-    static func write(value: AccessAnalyzerClientTypes.AnalyzedResourceSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["resourceArn"].write(value.resourceArn)
-        try writer["resourceOwnerAccount"].write(value.resourceOwnerAccount)
-        try writer["resourceType"].write(value.resourceType)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AccessAnalyzerClientTypes.AnalyzedResourceSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -762,20 +690,6 @@ extension AccessAnalyzerClientTypes {
 }
 
 extension AccessAnalyzerClientTypes.AnalyzerSummary {
-
-    static func write(value: AccessAnalyzerClientTypes.AnalyzerSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["configuration"].write(value.configuration, with: AccessAnalyzerClientTypes.AnalyzerConfiguration.write(value:to:))
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .dateTime)
-        try writer["lastResourceAnalyzed"].write(value.lastResourceAnalyzed)
-        try writer["lastResourceAnalyzedAt"].writeTimestamp(value.lastResourceAnalyzedAt, format: .dateTime)
-        try writer["name"].write(value.name)
-        try writer["status"].write(value.status)
-        try writer["statusReason"].write(value.statusReason, with: AccessAnalyzerClientTypes.StatusReason.write(value:to:))
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AccessAnalyzerClientTypes.AnalyzerSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -922,14 +836,6 @@ enum ApplyArchiveRuleOutputError {
 }
 
 extension AccessAnalyzerClientTypes.ArchiveRuleSummary {
-
-    static func write(value: AccessAnalyzerClientTypes.ArchiveRuleSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .dateTime)
-        try writer["filter"].writeMap(value.filter, valueWritingClosure: AccessAnalyzerClientTypes.Criterion.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["ruleName"].write(value.ruleName)
-        try writer["updatedAt"].writeTimestamp(value.updatedAt, format: .dateTime)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AccessAnalyzerClientTypes.ArchiveRuleSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1291,16 +1197,6 @@ extension AccessAnalyzerClientTypes.CloudTrailDetails {
         try writer["startTime"].writeTimestamp(value.startTime, format: .dateTime)
         try writer["trails"].writeList(value.trails, memberWritingClosure: AccessAnalyzerClientTypes.Trail.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AccessAnalyzerClientTypes.CloudTrailDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AccessAnalyzerClientTypes.CloudTrailDetails()
-        value.trails = try reader["trails"].readListIfPresent(memberReadingClosure: AccessAnalyzerClientTypes.Trail.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.accessRole = try reader["accessRole"].readIfPresent()
-        value.startTime = try reader["startTime"].readTimestampIfPresent(format: .dateTime)
-        value.endTime = try reader["endTime"].readTimestampIfPresent(format: .dateTime)
-        return value
-    }
 }
 
 extension AccessAnalyzerClientTypes {
@@ -1335,13 +1231,6 @@ extension AccessAnalyzerClientTypes {
 }
 
 extension AccessAnalyzerClientTypes.CloudTrailProperties {
-
-    static func write(value: AccessAnalyzerClientTypes.CloudTrailProperties?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["endTime"].writeTimestamp(value.endTime, format: .dateTime)
-        try writer["startTime"].writeTimestamp(value.startTime, format: .dateTime)
-        try writer["trailProperties"].writeList(value.trailProperties, memberWritingClosure: AccessAnalyzerClientTypes.TrailProperties.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AccessAnalyzerClientTypes.CloudTrailProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2211,15 +2100,6 @@ extension AccessAnalyzerClientTypes {
 
 extension AccessAnalyzerClientTypes.ExternalAccessDetails {
 
-    static func write(value: AccessAnalyzerClientTypes.ExternalAccessDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["action"].writeList(value.action, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["condition"].writeMap(value.condition, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["isPublic"].write(value.isPublic)
-        try writer["principal"].writeMap(value.principal, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["sources"].writeList(value.sources, memberWritingClosure: AccessAnalyzerClientTypes.FindingSource.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AccessAnalyzerClientTypes.ExternalAccessDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AccessAnalyzerClientTypes.ExternalAccessDetails()
@@ -2266,24 +2146,6 @@ extension AccessAnalyzerClientTypes {
 }
 
 extension AccessAnalyzerClientTypes.Finding {
-
-    static func write(value: AccessAnalyzerClientTypes.Finding?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["action"].writeList(value.action, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["analyzedAt"].writeTimestamp(value.analyzedAt, format: .dateTime)
-        try writer["condition"].writeMap(value.condition, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .dateTime)
-        try writer["error"].write(value.error)
-        try writer["id"].write(value.id)
-        try writer["isPublic"].write(value.isPublic)
-        try writer["principal"].writeMap(value.principal, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["resource"].write(value.resource)
-        try writer["resourceOwnerAccount"].write(value.resourceOwnerAccount)
-        try writer["resourceType"].write(value.resourceType)
-        try writer["sources"].writeList(value.sources, memberWritingClosure: AccessAnalyzerClientTypes.FindingSource.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["status"].write(value.status)
-        try writer["updatedAt"].writeTimestamp(value.updatedAt, format: .dateTime)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AccessAnalyzerClientTypes.Finding {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2417,24 +2279,6 @@ extension AccessAnalyzerClientTypes {
 
 extension AccessAnalyzerClientTypes.FindingDetails {
 
-    static func write(value: AccessAnalyzerClientTypes.FindingDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .externalaccessdetails(externalaccessdetails):
-                try writer["externalAccessDetails"].write(externalaccessdetails, with: AccessAnalyzerClientTypes.ExternalAccessDetails.write(value:to:))
-            case let .unusediamroledetails(unusediamroledetails):
-                try writer["unusedIamRoleDetails"].write(unusediamroledetails, with: AccessAnalyzerClientTypes.UnusedIamRoleDetails.write(value:to:))
-            case let .unusediamuseraccesskeydetails(unusediamuseraccesskeydetails):
-                try writer["unusedIamUserAccessKeyDetails"].write(unusediamuseraccesskeydetails, with: AccessAnalyzerClientTypes.UnusedIamUserAccessKeyDetails.write(value:to:))
-            case let .unusediamuserpassworddetails(unusediamuserpassworddetails):
-                try writer["unusedIamUserPasswordDetails"].write(unusediamuserpassworddetails, with: AccessAnalyzerClientTypes.UnusedIamUserPasswordDetails.write(value:to:))
-            case let .unusedpermissiondetails(unusedpermissiondetails):
-                try writer["unusedPermissionDetails"].write(unusedpermissiondetails, with: AccessAnalyzerClientTypes.UnusedPermissionDetails.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AccessAnalyzerClientTypes.FindingDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
@@ -2475,12 +2319,6 @@ extension AccessAnalyzerClientTypes {
 
 extension AccessAnalyzerClientTypes.FindingSource {
 
-    static func write(value: AccessAnalyzerClientTypes.FindingSource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["detail"].write(value.detail, with: AccessAnalyzerClientTypes.FindingSourceDetail.write(value:to:))
-        try writer["type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AccessAnalyzerClientTypes.FindingSource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AccessAnalyzerClientTypes.FindingSource()
@@ -2512,12 +2350,6 @@ extension AccessAnalyzerClientTypes {
 }
 
 extension AccessAnalyzerClientTypes.FindingSourceDetail {
-
-    static func write(value: AccessAnalyzerClientTypes.FindingSourceDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["accessPointAccount"].write(value.accessPointAccount)
-        try writer["accessPointArn"].write(value.accessPointArn)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AccessAnalyzerClientTypes.FindingSourceDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2649,24 +2481,6 @@ extension AccessAnalyzerClientTypes {
 
 extension AccessAnalyzerClientTypes.FindingSummary {
 
-    static func write(value: AccessAnalyzerClientTypes.FindingSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["action"].writeList(value.action, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["analyzedAt"].writeTimestamp(value.analyzedAt, format: .dateTime)
-        try writer["condition"].writeMap(value.condition, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .dateTime)
-        try writer["error"].write(value.error)
-        try writer["id"].write(value.id)
-        try writer["isPublic"].write(value.isPublic)
-        try writer["principal"].writeMap(value.principal, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["resource"].write(value.resource)
-        try writer["resourceOwnerAccount"].write(value.resourceOwnerAccount)
-        try writer["resourceType"].write(value.resourceType)
-        try writer["sources"].writeList(value.sources, memberWritingClosure: AccessAnalyzerClientTypes.FindingSource.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["status"].write(value.status)
-        try writer["updatedAt"].writeTimestamp(value.updatedAt, format: .dateTime)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AccessAnalyzerClientTypes.FindingSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AccessAnalyzerClientTypes.FindingSummary()
@@ -2765,20 +2579,6 @@ extension AccessAnalyzerClientTypes {
 }
 
 extension AccessAnalyzerClientTypes.FindingSummaryV2 {
-
-    static func write(value: AccessAnalyzerClientTypes.FindingSummaryV2?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["analyzedAt"].writeTimestamp(value.analyzedAt, format: .dateTime)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .dateTime)
-        try writer["error"].write(value.error)
-        try writer["findingType"].write(value.findingType)
-        try writer["id"].write(value.id)
-        try writer["resource"].write(value.resource)
-        try writer["resourceOwnerAccount"].write(value.resourceOwnerAccount)
-        try writer["resourceType"].write(value.resourceType)
-        try writer["status"].write(value.status)
-        try writer["updatedAt"].writeTimestamp(value.updatedAt, format: .dateTime)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AccessAnalyzerClientTypes.FindingSummaryV2 {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2897,11 +2697,6 @@ extension AccessAnalyzerClientTypes {
 
 extension AccessAnalyzerClientTypes.GeneratedPolicy {
 
-    static func write(value: AccessAnalyzerClientTypes.GeneratedPolicy?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["policy"].write(value.policy)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AccessAnalyzerClientTypes.GeneratedPolicy {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AccessAnalyzerClientTypes.GeneratedPolicy()
@@ -2928,13 +2723,6 @@ extension AccessAnalyzerClientTypes {
 }
 
 extension AccessAnalyzerClientTypes.GeneratedPolicyProperties {
-
-    static func write(value: AccessAnalyzerClientTypes.GeneratedPolicyProperties?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["cloudTrailProperties"].write(value.cloudTrailProperties, with: AccessAnalyzerClientTypes.CloudTrailProperties.write(value:to:))
-        try writer["isComplete"].write(value.isComplete)
-        try writer["principalArn"].write(value.principalArn)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AccessAnalyzerClientTypes.GeneratedPolicyProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2972,12 +2760,6 @@ extension AccessAnalyzerClientTypes {
 }
 
 extension AccessAnalyzerClientTypes.GeneratedPolicyResult {
-
-    static func write(value: AccessAnalyzerClientTypes.GeneratedPolicyResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["generatedPolicies"].writeList(value.generatedPolicies, memberWritingClosure: AccessAnalyzerClientTypes.GeneratedPolicy.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["properties"].write(value.properties, with: AccessAnalyzerClientTypes.GeneratedPolicyProperties.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AccessAnalyzerClientTypes.GeneratedPolicyResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3709,14 +3491,6 @@ extension AccessAnalyzerClientTypes.InlineArchiveRule {
         try writer["filter"].writeMap(value.filter, valueWritingClosure: AccessAnalyzerClientTypes.Criterion.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["ruleName"].write(value.ruleName)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AccessAnalyzerClientTypes.InlineArchiveRule {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AccessAnalyzerClientTypes.InlineArchiveRule()
-        value.ruleName = try reader["ruleName"].readIfPresent()
-        value.filter = try reader["filter"].readMapIfPresent(valueReadingClosure: AccessAnalyzerClientTypes.Criterion.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
 }
 
 extension AccessAnalyzerClientTypes {
@@ -3849,15 +3623,6 @@ public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRu
 
 extension AccessAnalyzerClientTypes.JobDetails {
 
-    static func write(value: AccessAnalyzerClientTypes.JobDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["completedOn"].writeTimestamp(value.completedOn, format: .dateTime)
-        try writer["jobError"].write(value.jobError, with: AccessAnalyzerClientTypes.JobError.write(value:to:))
-        try writer["jobId"].write(value.jobId)
-        try writer["startedOn"].writeTimestamp(value.startedOn, format: .dateTime)
-        try writer["status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AccessAnalyzerClientTypes.JobDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AccessAnalyzerClientTypes.JobDetails()
@@ -3906,12 +3671,6 @@ extension AccessAnalyzerClientTypes {
 }
 
 extension AccessAnalyzerClientTypes.JobError {
-
-    static func write(value: AccessAnalyzerClientTypes.JobError?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["code"].write(value.code)
-        try writer["message"].write(value.message)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AccessAnalyzerClientTypes.JobError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5108,12 +4867,6 @@ extension AccessAnalyzerClientTypes {
 
 extension AccessAnalyzerClientTypes.Location {
 
-    static func write(value: AccessAnalyzerClientTypes.Location?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["path"].writeList(value.path, memberWritingClosure: AccessAnalyzerClientTypes.PathElement.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["span"].write(value.span, with: AccessAnalyzerClientTypes.Span.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AccessAnalyzerClientTypes.Location {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AccessAnalyzerClientTypes.Location()
@@ -5217,22 +4970,6 @@ extension AccessAnalyzerClientTypes {
 
 extension AccessAnalyzerClientTypes.PathElement {
 
-    static func write(value: AccessAnalyzerClientTypes.PathElement?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .index(index):
-                try writer["index"].write(index)
-            case let .key(key):
-                try writer["key"].write(key)
-            case let .substring(substring):
-                try writer["substring"].write(substring, with: AccessAnalyzerClientTypes.Substring.write(value:to:))
-            case let .value(value):
-                try writer["value"].write(value)
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AccessAnalyzerClientTypes.PathElement {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
@@ -5268,15 +5005,6 @@ extension AccessAnalyzerClientTypes {
 }
 
 extension AccessAnalyzerClientTypes.PolicyGeneration {
-
-    static func write(value: AccessAnalyzerClientTypes.PolicyGeneration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["completedOn"].writeTimestamp(value.completedOn, format: .dateTime)
-        try writer["jobId"].write(value.jobId)
-        try writer["principalArn"].write(value.principalArn)
-        try writer["startedOn"].writeTimestamp(value.startedOn, format: .dateTime)
-        try writer["status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AccessAnalyzerClientTypes.PolicyGeneration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5332,13 +5060,6 @@ extension AccessAnalyzerClientTypes.PolicyGenerationDetails {
         guard let value else { return }
         try writer["principalArn"].write(value.principalArn)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AccessAnalyzerClientTypes.PolicyGenerationDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AccessAnalyzerClientTypes.PolicyGenerationDetails()
-        value.principalArn = try reader["principalArn"].readIfPresent()
-        return value
-    }
 }
 
 extension AccessAnalyzerClientTypes {
@@ -5392,13 +5113,6 @@ extension AccessAnalyzerClientTypes {
 }
 
 extension AccessAnalyzerClientTypes.Position {
-
-    static func write(value: AccessAnalyzerClientTypes.Position?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["column"].write(value.column)
-        try writer["line"].write(value.line)
-        try writer["offset"].write(value.offset)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AccessAnalyzerClientTypes.Position {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5636,13 +5350,6 @@ extension AccessAnalyzerClientTypes {
 }
 
 extension AccessAnalyzerClientTypes.ReasonSummary {
-
-    static func write(value: AccessAnalyzerClientTypes.ReasonSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["description"].write(value.description)
-        try writer["statementId"].write(value.statementId)
-        try writer["statementIndex"].write(value.statementIndex)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AccessAnalyzerClientTypes.ReasonSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6126,14 +5833,6 @@ extension AccessAnalyzerClientTypes.SortCriteria {
         try writer["attributeName"].write(value.attributeName)
         try writer["orderBy"].write(value.orderBy)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AccessAnalyzerClientTypes.SortCriteria {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AccessAnalyzerClientTypes.SortCriteria()
-        value.attributeName = try reader["attributeName"].readIfPresent()
-        value.orderBy = try reader["orderBy"].readIfPresent()
-        return value
-    }
 }
 
 extension AccessAnalyzerClientTypes {
@@ -6157,12 +5856,6 @@ extension AccessAnalyzerClientTypes {
 }
 
 extension AccessAnalyzerClientTypes.Span {
-
-    static func write(value: AccessAnalyzerClientTypes.Span?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["end"].write(value.end, with: AccessAnalyzerClientTypes.Position.write(value:to:))
-        try writer["start"].write(value.start, with: AccessAnalyzerClientTypes.Position.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AccessAnalyzerClientTypes.Span {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6380,11 +6073,6 @@ enum StartResourceScanOutputError {
 
 extension AccessAnalyzerClientTypes.StatusReason {
 
-    static func write(value: AccessAnalyzerClientTypes.StatusReason?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["code"].write(value.code)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AccessAnalyzerClientTypes.StatusReason {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AccessAnalyzerClientTypes.StatusReason()
@@ -6411,12 +6099,6 @@ extension AccessAnalyzerClientTypes {
 }
 
 extension AccessAnalyzerClientTypes.Substring {
-
-    static func write(value: AccessAnalyzerClientTypes.Substring?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["length"].write(value.length)
-        try writer["start"].write(value.start)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AccessAnalyzerClientTypes.Substring {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6571,15 +6253,6 @@ extension AccessAnalyzerClientTypes.Trail {
         try writer["cloudTrailArn"].write(value.cloudTrailArn)
         try writer["regions"].writeList(value.regions, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AccessAnalyzerClientTypes.Trail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AccessAnalyzerClientTypes.Trail()
-        value.cloudTrailArn = try reader["cloudTrailArn"].readIfPresent()
-        value.regions = try reader["regions"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.allRegions = try reader["allRegions"].readIfPresent()
-        return value
-    }
 }
 
 extension AccessAnalyzerClientTypes {
@@ -6608,13 +6281,6 @@ extension AccessAnalyzerClientTypes {
 }
 
 extension AccessAnalyzerClientTypes.TrailProperties {
-
-    static func write(value: AccessAnalyzerClientTypes.TrailProperties?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["allRegions"].write(value.allRegions)
-        try writer["cloudTrailArn"].write(value.cloudTrailArn)
-        try writer["regions"].writeList(value.regions, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AccessAnalyzerClientTypes.TrailProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6834,12 +6500,6 @@ extension AccessAnalyzerClientTypes {
 
 extension AccessAnalyzerClientTypes.UnusedAction {
 
-    static func write(value: AccessAnalyzerClientTypes.UnusedAction?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["action"].write(value.action)
-        try writer["lastAccessed"].writeTimestamp(value.lastAccessed, format: .dateTime)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AccessAnalyzerClientTypes.UnusedAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AccessAnalyzerClientTypes.UnusedAction()
@@ -6872,11 +6532,6 @@ extension AccessAnalyzerClientTypes {
 
 extension AccessAnalyzerClientTypes.UnusedIamRoleDetails {
 
-    static func write(value: AccessAnalyzerClientTypes.UnusedIamRoleDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["lastAccessed"].writeTimestamp(value.lastAccessed, format: .dateTime)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AccessAnalyzerClientTypes.UnusedIamRoleDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AccessAnalyzerClientTypes.UnusedIamRoleDetails()
@@ -6902,12 +6557,6 @@ extension AccessAnalyzerClientTypes {
 }
 
 extension AccessAnalyzerClientTypes.UnusedIamUserAccessKeyDetails {
-
-    static func write(value: AccessAnalyzerClientTypes.UnusedIamUserAccessKeyDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["accessKeyId"].write(value.accessKeyId)
-        try writer["lastAccessed"].writeTimestamp(value.lastAccessed, format: .dateTime)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AccessAnalyzerClientTypes.UnusedIamUserAccessKeyDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6941,11 +6590,6 @@ extension AccessAnalyzerClientTypes {
 
 extension AccessAnalyzerClientTypes.UnusedIamUserPasswordDetails {
 
-    static func write(value: AccessAnalyzerClientTypes.UnusedIamUserPasswordDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["lastAccessed"].writeTimestamp(value.lastAccessed, format: .dateTime)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AccessAnalyzerClientTypes.UnusedIamUserPasswordDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AccessAnalyzerClientTypes.UnusedIamUserPasswordDetails()
@@ -6971,13 +6615,6 @@ extension AccessAnalyzerClientTypes {
 }
 
 extension AccessAnalyzerClientTypes.UnusedPermissionDetails {
-
-    static func write(value: AccessAnalyzerClientTypes.UnusedPermissionDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["actions"].writeList(value.actions, memberWritingClosure: AccessAnalyzerClientTypes.UnusedAction.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["lastAccessed"].writeTimestamp(value.lastAccessed, format: .dateTime)
-        try writer["serviceNamespace"].write(value.serviceNamespace)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AccessAnalyzerClientTypes.UnusedPermissionDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7175,15 +6812,6 @@ enum UpdateFindingsOutputError {
 }
 
 extension AccessAnalyzerClientTypes.ValidatePolicyFinding {
-
-    static func write(value: AccessAnalyzerClientTypes.ValidatePolicyFinding?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["findingDetails"].write(value.findingDetails)
-        try writer["findingType"].write(value.findingType)
-        try writer["issueCode"].write(value.issueCode)
-        try writer["learnMoreLink"].write(value.learnMoreLink)
-        try writer["locations"].writeList(value.locations, memberWritingClosure: AccessAnalyzerClientTypes.Location.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AccessAnalyzerClientTypes.ValidatePolicyFinding {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7477,12 +7105,6 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 extension AccessAnalyzerClientTypes.ValidationExceptionField {
-
-    static func write(value: AccessAnalyzerClientTypes.ValidationExceptionField?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.message)
-        try writer["name"].write(value.name)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AccessAnalyzerClientTypes.ValidationExceptionField {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

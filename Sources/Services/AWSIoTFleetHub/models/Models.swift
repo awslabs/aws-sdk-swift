@@ -45,17 +45,6 @@ extension IoTFleetHubClientTypes {
 
 extension IoTFleetHubClientTypes.ApplicationSummary {
 
-    static func write(value: IoTFleetHubClientTypes.ApplicationSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["applicationCreationDate"].write(value.applicationCreationDate)
-        try writer["applicationDescription"].write(value.applicationDescription)
-        try writer["applicationId"].write(value.applicationId)
-        try writer["applicationLastUpdateDate"].write(value.applicationLastUpdateDate)
-        try writer["applicationName"].write(value.applicationName)
-        try writer["applicationState"].write(value.applicationState)
-        try writer["applicationUrl"].write(value.applicationUrl)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetHubClientTypes.ApplicationSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTFleetHubClientTypes.ApplicationSummary()

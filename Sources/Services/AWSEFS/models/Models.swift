@@ -55,20 +55,6 @@ public struct AccessPointAlreadyExists: ClientRuntime.ModeledError, AWSClientRun
 
 extension EFSClientTypes.AccessPointDescription {
 
-    static func write(value: EFSClientTypes.AccessPointDescription?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccessPointArn"].write(value.accessPointArn)
-        try writer["AccessPointId"].write(value.accessPointId)
-        try writer["ClientToken"].write(value.clientToken)
-        try writer["FileSystemId"].write(value.fileSystemId)
-        try writer["LifeCycleState"].write(value.lifeCycleState)
-        try writer["Name"].write(value.name)
-        try writer["OwnerId"].write(value.ownerId)
-        try writer["PosixUser"].write(value.posixUser, with: EFSClientTypes.PosixUser.write(value:to:))
-        try writer["RootDirectory"].write(value.rootDirectory, with: EFSClientTypes.RootDirectory.write(value:to:))
-        try writer["Tags"].writeList(value.tags, memberWritingClosure: EFSClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> EFSClientTypes.AccessPointDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EFSClientTypes.AccessPointDescription()
@@ -2353,14 +2339,6 @@ enum DescribeTagsOutputError {
 
 extension EFSClientTypes.Destination {
 
-    static func write(value: EFSClientTypes.Destination?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["FileSystemId"].write(value.fileSystemId)
-        try writer["LastReplicatedTimestamp"].writeTimestamp(value.lastReplicatedTimestamp, format: .epochSeconds)
-        try writer["Region"].write(value.region)
-        try writer["Status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> EFSClientTypes.Destination {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EFSClientTypes.Destination()
@@ -2415,16 +2393,6 @@ extension EFSClientTypes.DestinationToCreate {
         try writer["FileSystemId"].write(value.fileSystemId)
         try writer["KmsKeyId"].write(value.kmsKeyId)
         try writer["Region"].write(value.region)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EFSClientTypes.DestinationToCreate {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EFSClientTypes.DestinationToCreate()
-        value.region = try reader["Region"].readIfPresent()
-        value.availabilityZoneName = try reader["AvailabilityZoneName"].readIfPresent()
-        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
-        value.fileSystemId = try reader["FileSystemId"].readIfPresent()
-        return value
     }
 }
 
@@ -2516,28 +2484,6 @@ public struct FileSystemAlreadyExists: ClientRuntime.ModeledError, AWSClientRunt
 }
 
 extension EFSClientTypes.FileSystemDescription {
-
-    static func write(value: EFSClientTypes.FileSystemDescription?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AvailabilityZoneId"].write(value.availabilityZoneId)
-        try writer["AvailabilityZoneName"].write(value.availabilityZoneName)
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["CreationToken"].write(value.creationToken)
-        try writer["Encrypted"].write(value.encrypted)
-        try writer["FileSystemArn"].write(value.fileSystemArn)
-        try writer["FileSystemId"].write(value.fileSystemId)
-        try writer["FileSystemProtection"].write(value.fileSystemProtection, with: EFSClientTypes.FileSystemProtectionDescription.write(value:to:))
-        try writer["KmsKeyId"].write(value.kmsKeyId)
-        try writer["LifeCycleState"].write(value.lifeCycleState)
-        try writer["Name"].write(value.name)
-        try writer["NumberOfMountTargets"].write(value.numberOfMountTargets)
-        try writer["OwnerId"].write(value.ownerId)
-        try writer["PerformanceMode"].write(value.performanceMode)
-        try writer["ProvisionedThroughputInMibps"].write(value.provisionedThroughputInMibps)
-        try writer["SizeInBytes"].write(value.sizeInBytes, with: EFSClientTypes.FileSystemSize.write(value:to:))
-        try writer["Tags"].writeList(value.tags, memberWritingClosure: EFSClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ThroughputMode"].write(value.throughputMode)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> EFSClientTypes.FileSystemDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2791,11 +2737,6 @@ public struct FileSystemNotFound: ClientRuntime.ModeledError, AWSClientRuntime.A
 
 extension EFSClientTypes.FileSystemProtectionDescription {
 
-    static func write(value: EFSClientTypes.FileSystemProtectionDescription?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ReplicationOverwriteProtection"].write(value.replicationOverwriteProtection)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> EFSClientTypes.FileSystemProtectionDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EFSClientTypes.FileSystemProtectionDescription()
@@ -2830,15 +2771,6 @@ extension EFSClientTypes {
 }
 
 extension EFSClientTypes.FileSystemSize {
-
-    static func write(value: EFSClientTypes.FileSystemSize?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Timestamp"].writeTimestamp(value.timestamp, format: .epochSeconds)
-        try writer["Value"].write(value.value)
-        try writer["ValueInArchive"].write(value.valueInArchive)
-        try writer["ValueInIA"].write(value.valueInIA)
-        try writer["ValueInStandard"].write(value.valueInStandard)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> EFSClientTypes.FileSystemSize {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3438,20 +3370,6 @@ public struct MountTargetConflict: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 extension EFSClientTypes.MountTargetDescription {
-
-    static func write(value: EFSClientTypes.MountTargetDescription?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AvailabilityZoneId"].write(value.availabilityZoneId)
-        try writer["AvailabilityZoneName"].write(value.availabilityZoneName)
-        try writer["FileSystemId"].write(value.fileSystemId)
-        try writer["IpAddress"].write(value.ipAddress)
-        try writer["LifeCycleState"].write(value.lifeCycleState)
-        try writer["MountTargetId"].write(value.mountTargetId)
-        try writer["NetworkInterfaceId"].write(value.networkInterfaceId)
-        try writer["OwnerId"].write(value.ownerId)
-        try writer["SubnetId"].write(value.subnetId)
-        try writer["VpcId"].write(value.vpcId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> EFSClientTypes.MountTargetDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4140,16 +4058,6 @@ public struct ReplicationAlreadyExists: ClientRuntime.ModeledError, AWSClientRun
 
 extension EFSClientTypes.ReplicationConfigurationDescription {
 
-    static func write(value: EFSClientTypes.ReplicationConfigurationDescription?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["Destinations"].writeList(value.destinations, memberWritingClosure: EFSClientTypes.Destination.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["OriginalSourceFileSystemArn"].write(value.originalSourceFileSystemArn)
-        try writer["SourceFileSystemArn"].write(value.sourceFileSystemArn)
-        try writer["SourceFileSystemId"].write(value.sourceFileSystemId)
-        try writer["SourceFileSystemRegion"].write(value.sourceFileSystemRegion)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> EFSClientTypes.ReplicationConfigurationDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EFSClientTypes.ReplicationConfigurationDescription()
@@ -4355,12 +4263,6 @@ extension EFSClientTypes {
 }
 
 extension EFSClientTypes.ResourceIdPreference {
-
-    static func write(value: EFSClientTypes.ResourceIdPreference?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ResourceIdType"].write(value.resourceIdType)
-        try writer["Resources"].writeList(value.resources, memberWritingClosure: EFSClientTypes.Resource.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> EFSClientTypes.ResourceIdPreference {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

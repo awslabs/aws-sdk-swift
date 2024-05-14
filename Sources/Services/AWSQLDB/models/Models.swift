@@ -1028,21 +1028,6 @@ public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRu
 
 extension QLDBClientTypes.JournalKinesisStreamDescription {
 
-    static func write(value: QLDBClientTypes.JournalKinesisStreamDescription?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["ErrorCause"].write(value.errorCause)
-        try writer["ExclusiveEndTime"].writeTimestamp(value.exclusiveEndTime, format: .epochSeconds)
-        try writer["InclusiveStartTime"].writeTimestamp(value.inclusiveStartTime, format: .epochSeconds)
-        try writer["KinesisConfiguration"].write(value.kinesisConfiguration, with: QLDBClientTypes.KinesisConfiguration.write(value:to:))
-        try writer["LedgerName"].write(value.ledgerName)
-        try writer["RoleArn"].write(value.roleArn)
-        try writer["Status"].write(value.status)
-        try writer["StreamId"].write(value.streamId)
-        try writer["StreamName"].write(value.streamName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> QLDBClientTypes.JournalKinesisStreamDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QLDBClientTypes.JournalKinesisStreamDescription()
@@ -1124,19 +1109,6 @@ extension QLDBClientTypes {
 }
 
 extension QLDBClientTypes.JournalS3ExportDescription {
-
-    static func write(value: QLDBClientTypes.JournalS3ExportDescription?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ExclusiveEndTime"].writeTimestamp(value.exclusiveEndTime, format: .epochSeconds)
-        try writer["ExportCreationTime"].writeTimestamp(value.exportCreationTime, format: .epochSeconds)
-        try writer["ExportId"].write(value.exportId)
-        try writer["InclusiveStartTime"].writeTimestamp(value.inclusiveStartTime, format: .epochSeconds)
-        try writer["LedgerName"].write(value.ledgerName)
-        try writer["OutputFormat"].write(value.outputFormat)
-        try writer["RoleArn"].write(value.roleArn)
-        try writer["S3ExportConfiguration"].write(value.s3ExportConfiguration, with: QLDBClientTypes.S3ExportConfiguration.write(value:to:))
-        try writer["Status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QLDBClientTypes.JournalS3ExportDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1254,13 +1226,6 @@ extension QLDBClientTypes {
 
 extension QLDBClientTypes.LedgerEncryptionDescription {
 
-    static func write(value: QLDBClientTypes.LedgerEncryptionDescription?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EncryptionStatus"].write(value.encryptionStatus)
-        try writer["InaccessibleKmsKeyDateTime"].writeTimestamp(value.inaccessibleKmsKeyDateTime, format: .epochSeconds)
-        try writer["KmsKeyArn"].write(value.kmsKeyArn)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> QLDBClientTypes.LedgerEncryptionDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QLDBClientTypes.LedgerEncryptionDescription()
@@ -1340,13 +1305,6 @@ extension QLDBClientTypes {
 }
 
 extension QLDBClientTypes.LedgerSummary {
-
-    static func write(value: QLDBClientTypes.LedgerSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationDateTime"].writeTimestamp(value.creationDateTime, format: .epochSeconds)
-        try writer["Name"].write(value.name)
-        try writer["State"].write(value.state)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QLDBClientTypes.LedgerSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

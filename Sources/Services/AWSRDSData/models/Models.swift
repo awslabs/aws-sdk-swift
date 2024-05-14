@@ -354,24 +354,6 @@ enum BeginTransactionOutputError {
 
 extension RDSDataClientTypes.ColumnMetadata {
 
-    static func write(value: RDSDataClientTypes.ColumnMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arrayBaseColumnType"].write(value.arrayBaseColumnType)
-        try writer["isAutoIncrement"].write(value.isAutoIncrement)
-        try writer["isCaseSensitive"].write(value.isCaseSensitive)
-        try writer["isCurrency"].write(value.isCurrency)
-        try writer["isSigned"].write(value.isSigned)
-        try writer["label"].write(value.label)
-        try writer["name"].write(value.name)
-        try writer["nullable"].write(value.nullable)
-        try writer["precision"].write(value.precision)
-        try writer["scale"].write(value.scale)
-        try writer["schemaName"].write(value.schemaName)
-        try writer["tableName"].write(value.tableName)
-        try writer["type"].write(value.type)
-        try writer["typeName"].write(value.typeName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> RDSDataClientTypes.ColumnMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RDSDataClientTypes.ColumnMetadata()
@@ -1207,11 +1189,6 @@ public enum RDSDataClientTypes {}
 
 extension RDSDataClientTypes.Record {
 
-    static func write(value: RDSDataClientTypes.Record?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["values"].writeList(value.values, memberWritingClosure: RDSDataClientTypes.Value.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> RDSDataClientTypes.Record {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RDSDataClientTypes.Record()
@@ -1268,12 +1245,6 @@ extension RDSDataClientTypes {
 
 extension RDSDataClientTypes.ResultFrame {
 
-    static func write(value: RDSDataClientTypes.ResultFrame?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["records"].writeList(value.records, memberWritingClosure: RDSDataClientTypes.Record.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["resultSetMetadata"].write(value.resultSetMetadata, with: RDSDataClientTypes.ResultSetMetadata.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> RDSDataClientTypes.ResultFrame {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RDSDataClientTypes.ResultFrame()
@@ -1304,12 +1275,6 @@ extension RDSDataClientTypes {
 }
 
 extension RDSDataClientTypes.ResultSetMetadata {
-
-    static func write(value: RDSDataClientTypes.ResultSetMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["columnCount"].write(value.columnCount)
-        try writer["columnMetadata"].writeList(value.columnMetadata, memberWritingClosure: RDSDataClientTypes.ColumnMetadata.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> RDSDataClientTypes.ResultSetMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1346,14 +1311,6 @@ extension RDSDataClientTypes.ResultSetOptions {
         guard let value else { return }
         try writer["decimalReturnType"].write(value.decimalReturnType)
         try writer["longReturnType"].write(value.longReturnType)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RDSDataClientTypes.ResultSetOptions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSDataClientTypes.ResultSetOptions()
-        value.decimalReturnType = try reader["decimalReturnType"].readIfPresent()
-        value.longReturnType = try reader["longReturnType"].readIfPresent()
-        return value
     }
 }
 
@@ -1545,15 +1502,6 @@ extension RDSDataClientTypes.SqlParameter {
         try writer["typeHint"].write(value.typeHint)
         try writer["value"].write(value.value, with: RDSDataClientTypes.Field.write(value:to:))
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RDSDataClientTypes.SqlParameter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSDataClientTypes.SqlParameter()
-        value.name = try reader["name"].readIfPresent()
-        value.value = try reader["value"].readIfPresent(with: RDSDataClientTypes.Field.read(from:))
-        value.typeHint = try reader["typeHint"].readIfPresent()
-        return value
-    }
 }
 
 extension RDSDataClientTypes {
@@ -1593,12 +1541,6 @@ extension RDSDataClientTypes {
 }
 
 extension RDSDataClientTypes.SqlStatementResult {
-
-    static func write(value: RDSDataClientTypes.SqlStatementResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["numberOfRecordsUpdated"].write(value.numberOfRecordsUpdated)
-        try writer["resultFrame"].write(value.resultFrame, with: RDSDataClientTypes.ResultFrame.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> RDSDataClientTypes.SqlStatementResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1673,11 +1615,6 @@ public struct StatementTimeoutException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 extension RDSDataClientTypes.StructValue {
-
-    static func write(value: RDSDataClientTypes.StructValue?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["attributes"].writeList(value.attributes, memberWritingClosure: RDSDataClientTypes.Value.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> RDSDataClientTypes.StructValue {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1827,11 +1764,6 @@ public struct UnsupportedResultException: ClientRuntime.ModeledError, AWSClientR
 
 extension RDSDataClientTypes.UpdateResult {
 
-    static func write(value: RDSDataClientTypes.UpdateResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["generatedFields"].writeList(value.generatedFields, memberWritingClosure: RDSDataClientTypes.Field.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> RDSDataClientTypes.UpdateResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RDSDataClientTypes.UpdateResult()
@@ -1857,34 +1789,6 @@ extension RDSDataClientTypes {
 }
 
 extension RDSDataClientTypes.Value {
-
-    static func write(value: RDSDataClientTypes.Value?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .arrayvalues(arrayvalues):
-                try writer["arrayValues"].writeList(arrayvalues, memberWritingClosure: RDSDataClientTypes.Value.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-            case let .bigintvalue(bigintvalue):
-                try writer["bigIntValue"].write(bigintvalue)
-            case let .bitvalue(bitvalue):
-                try writer["bitValue"].write(bitvalue)
-            case let .blobvalue(blobvalue):
-                try writer["blobValue"].write(blobvalue)
-            case let .doublevalue(doublevalue):
-                try writer["doubleValue"].write(doublevalue)
-            case let .intvalue(intvalue):
-                try writer["intValue"].write(intvalue)
-            case let .isnull(isnull):
-                try writer["isNull"].write(isnull)
-            case let .realvalue(realvalue):
-                try writer["realValue"].write(realvalue)
-            case let .stringvalue(stringvalue):
-                try writer["stringValue"].write(stringvalue)
-            case let .structvalue(structvalue):
-                try writer["structValue"].write(structvalue, with: RDSDataClientTypes.StructValue.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> RDSDataClientTypes.Value {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

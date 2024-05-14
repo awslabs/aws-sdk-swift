@@ -52,16 +52,6 @@ extension WellArchitectedClientTypes.AccountJiraConfigurationInput {
         try writer["IssueManagementType"].write(value.issueManagementType)
         try writer["JiraProjectKey"].write(value.jiraProjectKey)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.AccountJiraConfigurationInput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WellArchitectedClientTypes.AccountJiraConfigurationInput()
-        value.issueManagementStatus = try reader["IssueManagementStatus"].readIfPresent()
-        value.issueManagementType = try reader["IssueManagementType"].readIfPresent()
-        value.jiraProjectKey = try reader["JiraProjectKey"].readIfPresent()
-        value.integrationStatus = try reader["IntegrationStatus"].readIfPresent()
-        return value
-    }
 }
 
 extension WellArchitectedClientTypes {
@@ -93,16 +83,6 @@ extension WellArchitectedClientTypes {
 }
 
 extension WellArchitectedClientTypes.AccountJiraConfigurationOutput {
-
-    static func write(value: WellArchitectedClientTypes.AccountJiraConfigurationOutput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["IntegrationStatus"].write(value.integrationStatus)
-        try writer["IssueManagementStatus"].write(value.issueManagementStatus)
-        try writer["IssueManagementType"].write(value.issueManagementType)
-        try writer["JiraProjectKey"].write(value.jiraProjectKey)
-        try writer["StatusMessage"].write(value.statusMessage)
-        try writer["Subdomain"].write(value.subdomain)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.AccountJiraConfigurationOutput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -215,12 +195,6 @@ extension WellArchitectedClientTypes {
 
 extension WellArchitectedClientTypes.AdditionalResources {
 
-    static func write(value: WellArchitectedClientTypes.AdditionalResources?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Content"].writeList(value.content, memberWritingClosure: WellArchitectedClientTypes.ChoiceContent.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.AdditionalResources {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WellArchitectedClientTypes.AdditionalResources()
@@ -251,25 +225,6 @@ extension WellArchitectedClientTypes {
 }
 
 extension WellArchitectedClientTypes.Answer {
-
-    static func write(value: WellArchitectedClientTypes.Answer?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ChoiceAnswers"].writeList(value.choiceAnswers, memberWritingClosure: WellArchitectedClientTypes.ChoiceAnswer.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Choices"].writeList(value.choices, memberWritingClosure: WellArchitectedClientTypes.Choice.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["HelpfulResourceDisplayText"].write(value.helpfulResourceDisplayText)
-        try writer["HelpfulResourceUrl"].write(value.helpfulResourceUrl)
-        try writer["ImprovementPlanUrl"].write(value.improvementPlanUrl)
-        try writer["IsApplicable"].write(value.isApplicable)
-        try writer["JiraConfiguration"].write(value.jiraConfiguration, with: WellArchitectedClientTypes.JiraConfiguration.write(value:to:))
-        try writer["Notes"].write(value.notes)
-        try writer["PillarId"].write(value.pillarId)
-        try writer["QuestionDescription"].write(value.questionDescription)
-        try writer["QuestionId"].write(value.questionId)
-        try writer["QuestionTitle"].write(value.questionTitle)
-        try writer["Reason"].write(value.reason)
-        try writer["Risk"].write(value.risk)
-        try writer["SelectedChoices"].writeList(value.selectedChoices, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.Answer {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -405,21 +360,6 @@ extension WellArchitectedClientTypes {
 }
 
 extension WellArchitectedClientTypes.AnswerSummary {
-
-    static func write(value: WellArchitectedClientTypes.AnswerSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ChoiceAnswerSummaries"].writeList(value.choiceAnswerSummaries, memberWritingClosure: WellArchitectedClientTypes.ChoiceAnswerSummary.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Choices"].writeList(value.choices, memberWritingClosure: WellArchitectedClientTypes.Choice.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["IsApplicable"].write(value.isApplicable)
-        try writer["JiraConfiguration"].write(value.jiraConfiguration, with: WellArchitectedClientTypes.JiraConfiguration.write(value:to:))
-        try writer["PillarId"].write(value.pillarId)
-        try writer["QuestionId"].write(value.questionId)
-        try writer["QuestionTitle"].write(value.questionTitle)
-        try writer["QuestionType"].write(value.questionType)
-        try writer["Reason"].write(value.reason)
-        try writer["Risk"].write(value.risk)
-        try writer["SelectedChoices"].writeList(value.selectedChoices, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.AnswerSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -632,12 +572,6 @@ enum AssociateProfilesOutputError {
 
 extension WellArchitectedClientTypes.BestPractice {
 
-    static func write(value: WellArchitectedClientTypes.BestPractice?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ChoiceId"].write(value.choiceId)
-        try writer["ChoiceTitle"].write(value.choiceTitle)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.BestPractice {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WellArchitectedClientTypes.BestPractice()
@@ -668,23 +602,6 @@ extension WellArchitectedClientTypes {
 }
 
 extension WellArchitectedClientTypes.CheckDetail {
-
-    static func write(value: WellArchitectedClientTypes.CheckDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccountId"].write(value.accountId)
-        try writer["ChoiceId"].write(value.choiceId)
-        try writer["Description"].write(value.description)
-        try writer["FlaggedResources"].write(value.flaggedResources)
-        try writer["Id"].write(value.id)
-        try writer["LensArn"].write(value.lensArn)
-        try writer["Name"].write(value.name)
-        try writer["PillarId"].write(value.pillarId)
-        try writer["Provider"].write(value.provider)
-        try writer["QuestionId"].write(value.questionId)
-        try writer["Reason"].write(value.reason)
-        try writer["Status"].write(value.status)
-        try writer["UpdatedAt"].writeTimestamp(value.updatedAt, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.CheckDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -874,21 +791,6 @@ extension WellArchitectedClientTypes {
 
 extension WellArchitectedClientTypes.CheckSummary {
 
-    static func write(value: WellArchitectedClientTypes.CheckSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccountSummary"].writeMap(value.accountSummary, valueWritingClosure: Swift.Int.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["ChoiceId"].write(value.choiceId)
-        try writer["Description"].write(value.description)
-        try writer["Id"].write(value.id)
-        try writer["LensArn"].write(value.lensArn)
-        try writer["Name"].write(value.name)
-        try writer["PillarId"].write(value.pillarId)
-        try writer["Provider"].write(value.provider)
-        try writer["QuestionId"].write(value.questionId)
-        try writer["Status"].write(value.status)
-        try writer["UpdatedAt"].writeTimestamp(value.updatedAt, format: .epochSeconds)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.CheckSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WellArchitectedClientTypes.CheckSummary()
@@ -965,16 +867,6 @@ extension WellArchitectedClientTypes {
 
 extension WellArchitectedClientTypes.Choice {
 
-    static func write(value: WellArchitectedClientTypes.Choice?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AdditionalResources"].writeList(value.additionalResources, memberWritingClosure: WellArchitectedClientTypes.AdditionalResources.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ChoiceId"].write(value.choiceId)
-        try writer["Description"].write(value.description)
-        try writer["HelpfulResource"].write(value.helpfulResource, with: WellArchitectedClientTypes.ChoiceContent.write(value:to:))
-        try writer["ImprovementPlan"].write(value.improvementPlan, with: WellArchitectedClientTypes.ChoiceContent.write(value:to:))
-        try writer["Title"].write(value.title)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.Choice {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WellArchitectedClientTypes.Choice()
@@ -1026,14 +918,6 @@ extension WellArchitectedClientTypes {
 
 extension WellArchitectedClientTypes.ChoiceAnswer {
 
-    static func write(value: WellArchitectedClientTypes.ChoiceAnswer?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ChoiceId"].write(value.choiceId)
-        try writer["Notes"].write(value.notes)
-        try writer["Reason"].write(value.reason)
-        try writer["Status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.ChoiceAnswer {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WellArchitectedClientTypes.ChoiceAnswer()
@@ -1075,13 +959,6 @@ extension WellArchitectedClientTypes {
 
 extension WellArchitectedClientTypes.ChoiceAnswerSummary {
 
-    static func write(value: WellArchitectedClientTypes.ChoiceAnswerSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ChoiceId"].write(value.choiceId)
-        try writer["Reason"].write(value.reason)
-        try writer["Status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.ChoiceAnswerSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WellArchitectedClientTypes.ChoiceAnswerSummary()
@@ -1118,12 +995,6 @@ extension WellArchitectedClientTypes {
 
 extension WellArchitectedClientTypes.ChoiceContent {
 
-    static func write(value: WellArchitectedClientTypes.ChoiceContent?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DisplayText"].write(value.displayText)
-        try writer["Url"].write(value.url)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.ChoiceContent {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WellArchitectedClientTypes.ChoiceContent()
@@ -1154,13 +1025,6 @@ extension WellArchitectedClientTypes {
 }
 
 extension WellArchitectedClientTypes.ChoiceImprovementPlan {
-
-    static func write(value: WellArchitectedClientTypes.ChoiceImprovementPlan?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ChoiceId"].write(value.choiceId)
-        try writer["DisplayText"].write(value.displayText)
-        try writer["ImprovementPlanUrl"].write(value.improvementPlanUrl)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.ChoiceImprovementPlan {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1276,15 +1140,6 @@ extension WellArchitectedClientTypes.ChoiceUpdate {
         try writer["Reason"].write(value.reason)
         try writer["Status"].write(value.status)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.ChoiceUpdate {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WellArchitectedClientTypes.ChoiceUpdate()
-        value.status = try reader["Status"].readIfPresent()
-        value.reason = try reader["Reason"].readIfPresent()
-        value.notes = try reader["Notes"].readIfPresent()
-        return value
-    }
 }
 
 extension WellArchitectedClientTypes {
@@ -1364,18 +1219,6 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 }
 
 extension WellArchitectedClientTypes.ConsolidatedReportMetric {
-
-    static func write(value: WellArchitectedClientTypes.ConsolidatedReportMetric?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Lenses"].writeList(value.lenses, memberWritingClosure: WellArchitectedClientTypes.LensMetric.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["LensesAppliedCount"].write(value.lensesAppliedCount)
-        try writer["MetricType"].write(value.metricType)
-        try writer["RiskCounts"].writeMap(value.riskCounts, valueWritingClosure: Swift.Int.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["UpdatedAt"].writeTimestamp(value.updatedAt, format: .epochSeconds)
-        try writer["WorkloadArn"].write(value.workloadArn)
-        try writer["WorkloadId"].write(value.workloadId)
-        try writer["WorkloadName"].write(value.workloadName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.ConsolidatedReportMetric {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4694,17 +4537,6 @@ extension WellArchitectedClientTypes {
 
 extension WellArchitectedClientTypes.ImprovementSummary {
 
-    static func write(value: WellArchitectedClientTypes.ImprovementSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ImprovementPlanUrl"].write(value.improvementPlanUrl)
-        try writer["ImprovementPlans"].writeList(value.improvementPlans, memberWritingClosure: WellArchitectedClientTypes.ChoiceImprovementPlan.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["JiraConfiguration"].write(value.jiraConfiguration, with: WellArchitectedClientTypes.JiraConfiguration.write(value:to:))
-        try writer["PillarId"].write(value.pillarId)
-        try writer["QuestionId"].write(value.questionId)
-        try writer["QuestionTitle"].write(value.questionTitle)
-        try writer["Risk"].write(value.risk)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.ImprovementSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WellArchitectedClientTypes.ImprovementSummary()
@@ -4914,12 +4746,6 @@ extension WellArchitectedClientTypes {
 
 extension WellArchitectedClientTypes.JiraConfiguration {
 
-    static func write(value: WellArchitectedClientTypes.JiraConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["JiraIssueUrl"].write(value.jiraIssueUrl)
-        try writer["LastSyncedTime"].writeTimestamp(value.lastSyncedTime, format: .epochSeconds)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.JiraConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WellArchitectedClientTypes.JiraConfiguration()
@@ -4982,17 +4808,6 @@ extension WellArchitectedClientTypes {
 
 extension WellArchitectedClientTypes.Lens {
 
-    static func write(value: WellArchitectedClientTypes.Lens?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Description"].write(value.description)
-        try writer["LensArn"].write(value.lensArn)
-        try writer["LensVersion"].write(value.lensVersion)
-        try writer["Name"].write(value.name)
-        try writer["Owner"].write(value.owner)
-        try writer["ShareInvitationId"].write(value.shareInvitationId)
-        try writer["Tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.Lens {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WellArchitectedClientTypes.Lens()
@@ -5049,13 +4864,6 @@ extension WellArchitectedClientTypes {
 
 extension WellArchitectedClientTypes.LensMetric {
 
-    static func write(value: WellArchitectedClientTypes.LensMetric?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["LensArn"].write(value.lensArn)
-        try writer["Pillars"].writeList(value.pillars, memberWritingClosure: WellArchitectedClientTypes.PillarMetric.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["RiskCounts"].writeMap(value.riskCounts, valueWritingClosure: Swift.Int.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.LensMetric {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WellArchitectedClientTypes.LensMetric()
@@ -5091,23 +4899,6 @@ extension WellArchitectedClientTypes {
 }
 
 extension WellArchitectedClientTypes.LensReview {
-
-    static func write(value: WellArchitectedClientTypes.LensReview?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["JiraConfiguration"].write(value.jiraConfiguration, with: WellArchitectedClientTypes.JiraSelectedQuestionConfiguration.write(value:to:))
-        try writer["LensAlias"].write(value.lensAlias)
-        try writer["LensArn"].write(value.lensArn)
-        try writer["LensName"].write(value.lensName)
-        try writer["LensStatus"].write(value.lensStatus)
-        try writer["LensVersion"].write(value.lensVersion)
-        try writer["NextToken"].write(value.nextToken)
-        try writer["Notes"].write(value.notes)
-        try writer["PillarReviewSummaries"].writeList(value.pillarReviewSummaries, memberWritingClosure: WellArchitectedClientTypes.PillarReviewSummary.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["PrioritizedRiskCounts"].writeMap(value.prioritizedRiskCounts, valueWritingClosure: Swift.Int.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["Profiles"].writeList(value.profiles, memberWritingClosure: WellArchitectedClientTypes.WorkloadProfile.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["RiskCounts"].writeMap(value.riskCounts, valueWritingClosure: Swift.Int.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["UpdatedAt"].writeTimestamp(value.updatedAt, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.LensReview {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5195,13 +4986,6 @@ extension WellArchitectedClientTypes {
 
 extension WellArchitectedClientTypes.LensReviewReport {
 
-    static func write(value: WellArchitectedClientTypes.LensReviewReport?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Base64String"].write(value.base64String)
-        try writer["LensAlias"].write(value.lensAlias)
-        try writer["LensArn"].write(value.lensArn)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.LensReviewReport {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WellArchitectedClientTypes.LensReviewReport()
@@ -5237,19 +5021,6 @@ extension WellArchitectedClientTypes {
 }
 
 extension WellArchitectedClientTypes.LensReviewSummary {
-
-    static func write(value: WellArchitectedClientTypes.LensReviewSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["LensAlias"].write(value.lensAlias)
-        try writer["LensArn"].write(value.lensArn)
-        try writer["LensName"].write(value.lensName)
-        try writer["LensStatus"].write(value.lensStatus)
-        try writer["LensVersion"].write(value.lensVersion)
-        try writer["PrioritizedRiskCounts"].writeMap(value.prioritizedRiskCounts, valueWritingClosure: Swift.Int.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["Profiles"].writeList(value.profiles, memberWritingClosure: WellArchitectedClientTypes.WorkloadProfile.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["RiskCounts"].writeMap(value.riskCounts, valueWritingClosure: Swift.Int.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["UpdatedAt"].writeTimestamp(value.updatedAt, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.LensReviewSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5316,14 +5087,6 @@ extension WellArchitectedClientTypes {
 }
 
 extension WellArchitectedClientTypes.LensShareSummary {
-
-    static func write(value: WellArchitectedClientTypes.LensShareSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ShareId"].write(value.shareId)
-        try writer["SharedWith"].write(value.sharedWith)
-        try writer["Status"].write(value.status)
-        try writer["StatusMessage"].write(value.statusMessage)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.LensShareSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5438,20 +5201,6 @@ extension WellArchitectedClientTypes {
 
 extension WellArchitectedClientTypes.LensSummary {
 
-    static func write(value: WellArchitectedClientTypes.LensSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["Description"].write(value.description)
-        try writer["LensAlias"].write(value.lensAlias)
-        try writer["LensArn"].write(value.lensArn)
-        try writer["LensName"].write(value.lensName)
-        try writer["LensStatus"].write(value.lensStatus)
-        try writer["LensType"].write(value.lensType)
-        try writer["LensVersion"].write(value.lensVersion)
-        try writer["Owner"].write(value.owner)
-        try writer["UpdatedAt"].writeTimestamp(value.updatedAt, format: .epochSeconds)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.LensSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WellArchitectedClientTypes.LensSummary()
@@ -5555,18 +5304,6 @@ extension WellArchitectedClientTypes {
 }
 
 extension WellArchitectedClientTypes.LensUpgradeSummary {
-
-    static func write(value: WellArchitectedClientTypes.LensUpgradeSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CurrentLensVersion"].write(value.currentLensVersion)
-        try writer["LatestLensVersion"].write(value.latestLensVersion)
-        try writer["LensAlias"].write(value.lensAlias)
-        try writer["LensArn"].write(value.lensArn)
-        try writer["ResourceArn"].write(value.resourceArn)
-        try writer["ResourceName"].write(value.resourceName)
-        try writer["WorkloadId"].write(value.workloadId)
-        try writer["WorkloadName"].write(value.workloadName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.LensUpgradeSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7706,14 +7443,6 @@ extension WellArchitectedClientTypes {
 
 extension WellArchitectedClientTypes.Milestone {
 
-    static func write(value: WellArchitectedClientTypes.Milestone?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MilestoneName"].write(value.milestoneName)
-        try writer["MilestoneNumber"].write(value.milestoneNumber)
-        try writer["RecordedAt"].writeTimestamp(value.recordedAt, format: .epochSeconds)
-        try writer["Workload"].write(value.workload, with: WellArchitectedClientTypes.Workload.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.Milestone {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WellArchitectedClientTypes.Milestone()
@@ -7755,14 +7484,6 @@ extension WellArchitectedClientTypes {
 
 extension WellArchitectedClientTypes.MilestoneSummary {
 
-    static func write(value: WellArchitectedClientTypes.MilestoneSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MilestoneName"].write(value.milestoneName)
-        try writer["MilestoneNumber"].write(value.milestoneNumber)
-        try writer["RecordedAt"].writeTimestamp(value.recordedAt, format: .epochSeconds)
-        try writer["WorkloadSummary"].write(value.workloadSummary, with: WellArchitectedClientTypes.WorkloadSummary.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.MilestoneSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WellArchitectedClientTypes.MilestoneSummary()
@@ -7803,12 +7524,6 @@ extension WellArchitectedClientTypes {
 }
 
 extension WellArchitectedClientTypes.NotificationSummary {
-
-    static func write(value: WellArchitectedClientTypes.NotificationSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["LensUpgradeSummary"].write(value.lensUpgradeSummary, with: WellArchitectedClientTypes.LensUpgradeSummary.write(value:to:))
-        try writer["Type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.NotificationSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7932,14 +7647,6 @@ extension WellArchitectedClientTypes {
 
 extension WellArchitectedClientTypes.PillarDifference {
 
-    static func write(value: WellArchitectedClientTypes.PillarDifference?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DifferenceStatus"].write(value.differenceStatus)
-        try writer["PillarId"].write(value.pillarId)
-        try writer["PillarName"].write(value.pillarName)
-        try writer["QuestionDifferences"].writeList(value.questionDifferences, memberWritingClosure: WellArchitectedClientTypes.QuestionDifference.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.PillarDifference {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WellArchitectedClientTypes.PillarDifference()
@@ -7981,13 +7688,6 @@ extension WellArchitectedClientTypes {
 
 extension WellArchitectedClientTypes.PillarMetric {
 
-    static func write(value: WellArchitectedClientTypes.PillarMetric?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["PillarId"].write(value.pillarId)
-        try writer["Questions"].writeList(value.questions, memberWritingClosure: WellArchitectedClientTypes.QuestionMetric.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["RiskCounts"].writeMap(value.riskCounts, valueWritingClosure: Swift.Int.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.PillarMetric {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WellArchitectedClientTypes.PillarMetric()
@@ -8023,15 +7723,6 @@ extension WellArchitectedClientTypes {
 }
 
 extension WellArchitectedClientTypes.PillarReviewSummary {
-
-    static func write(value: WellArchitectedClientTypes.PillarReviewSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Notes"].write(value.notes)
-        try writer["PillarId"].write(value.pillarId)
-        try writer["PillarName"].write(value.pillarName)
-        try writer["PrioritizedRiskCounts"].writeMap(value.prioritizedRiskCounts, valueWritingClosure: Swift.Int.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["RiskCounts"].writeMap(value.riskCounts, valueWritingClosure: Swift.Int.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.PillarReviewSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8078,20 +7769,6 @@ extension WellArchitectedClientTypes {
 }
 
 extension WellArchitectedClientTypes.Profile {
-
-    static func write(value: WellArchitectedClientTypes.Profile?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["Owner"].write(value.owner)
-        try writer["ProfileArn"].write(value.profileArn)
-        try writer["ProfileDescription"].write(value.profileDescription)
-        try writer["ProfileName"].write(value.profileName)
-        try writer["ProfileQuestions"].writeList(value.profileQuestions, memberWritingClosure: WellArchitectedClientTypes.ProfileQuestion.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ProfileVersion"].write(value.profileVersion)
-        try writer["ShareInvitationId"].write(value.shareInvitationId)
-        try writer["Tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["UpdatedAt"].writeTimestamp(value.updatedAt, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.Profile {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8164,13 +7841,6 @@ extension WellArchitectedClientTypes {
 
 extension WellArchitectedClientTypes.ProfileChoice {
 
-    static func write(value: WellArchitectedClientTypes.ProfileChoice?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ChoiceDescription"].write(value.choiceDescription)
-        try writer["ChoiceId"].write(value.choiceId)
-        try writer["ChoiceTitle"].write(value.choiceTitle)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.ProfileChoice {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WellArchitectedClientTypes.ProfileChoice()
@@ -8206,17 +7876,6 @@ extension WellArchitectedClientTypes {
 }
 
 extension WellArchitectedClientTypes.ProfileNotificationSummary {
-
-    static func write(value: WellArchitectedClientTypes.ProfileNotificationSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CurrentProfileVersion"].write(value.currentProfileVersion)
-        try writer["LatestProfileVersion"].write(value.latestProfileVersion)
-        try writer["ProfileArn"].write(value.profileArn)
-        try writer["ProfileName"].write(value.profileName)
-        try writer["Type"].write(value.type)
-        try writer["WorkloadId"].write(value.workloadId)
-        try writer["WorkloadName"].write(value.workloadName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.ProfileNotificationSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8334,17 +7993,6 @@ extension WellArchitectedClientTypes {
 
 extension WellArchitectedClientTypes.ProfileQuestion {
 
-    static func write(value: WellArchitectedClientTypes.ProfileQuestion?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MaxSelectedChoices"].write(value.maxSelectedChoices)
-        try writer["MinSelectedChoices"].write(value.minSelectedChoices)
-        try writer["QuestionChoices"].writeList(value.questionChoices, memberWritingClosure: WellArchitectedClientTypes.ProfileChoice.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["QuestionDescription"].write(value.questionDescription)
-        try writer["QuestionId"].write(value.questionId)
-        try writer["QuestionTitle"].write(value.questionTitle)
-        try writer["SelectedChoiceIds"].writeList(value.selectedChoiceIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.ProfileQuestion {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WellArchitectedClientTypes.ProfileQuestion()
@@ -8406,14 +8054,6 @@ extension WellArchitectedClientTypes.ProfileQuestionUpdate {
         try writer["QuestionId"].write(value.questionId)
         try writer["SelectedChoiceIds"].writeList(value.selectedChoiceIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.ProfileQuestionUpdate {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WellArchitectedClientTypes.ProfileQuestionUpdate()
-        value.questionId = try reader["QuestionId"].readIfPresent()
-        value.selectedChoiceIds = try reader["SelectedChoiceIds"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
 }
 
 extension WellArchitectedClientTypes {
@@ -8437,14 +8077,6 @@ extension WellArchitectedClientTypes {
 }
 
 extension WellArchitectedClientTypes.ProfileShareSummary {
-
-    static func write(value: WellArchitectedClientTypes.ProfileShareSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ShareId"].write(value.shareId)
-        try writer["SharedWith"].write(value.sharedWith)
-        try writer["Status"].write(value.status)
-        try writer["StatusMessage"].write(value.statusMessage)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.ProfileShareSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8486,17 +8118,6 @@ extension WellArchitectedClientTypes {
 }
 
 extension WellArchitectedClientTypes.ProfileSummary {
-
-    static func write(value: WellArchitectedClientTypes.ProfileSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["Owner"].write(value.owner)
-        try writer["ProfileArn"].write(value.profileArn)
-        try writer["ProfileDescription"].write(value.profileDescription)
-        try writer["ProfileName"].write(value.profileName)
-        try writer["ProfileVersion"].write(value.profileVersion)
-        try writer["UpdatedAt"].writeTimestamp(value.updatedAt, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.ProfileSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8554,14 +8175,6 @@ extension WellArchitectedClientTypes {
 
 extension WellArchitectedClientTypes.ProfileTemplate {
 
-    static func write(value: WellArchitectedClientTypes.ProfileTemplate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["TemplateName"].write(value.templateName)
-        try writer["TemplateQuestions"].writeList(value.templateQuestions, memberWritingClosure: WellArchitectedClientTypes.ProfileTemplateQuestion.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["UpdatedAt"].writeTimestamp(value.updatedAt, format: .epochSeconds)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.ProfileTemplate {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WellArchitectedClientTypes.ProfileTemplate()
@@ -8603,13 +8216,6 @@ extension WellArchitectedClientTypes {
 
 extension WellArchitectedClientTypes.ProfileTemplateChoice {
 
-    static func write(value: WellArchitectedClientTypes.ProfileTemplateChoice?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ChoiceDescription"].write(value.choiceDescription)
-        try writer["ChoiceId"].write(value.choiceId)
-        try writer["ChoiceTitle"].write(value.choiceTitle)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.ProfileTemplateChoice {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WellArchitectedClientTypes.ProfileTemplateChoice()
@@ -8645,16 +8251,6 @@ extension WellArchitectedClientTypes {
 }
 
 extension WellArchitectedClientTypes.ProfileTemplateQuestion {
-
-    static func write(value: WellArchitectedClientTypes.ProfileTemplateQuestion?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MaxSelectedChoices"].write(value.maxSelectedChoices)
-        try writer["MinSelectedChoices"].write(value.minSelectedChoices)
-        try writer["QuestionChoices"].writeList(value.questionChoices, memberWritingClosure: WellArchitectedClientTypes.ProfileTemplateChoice.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["QuestionDescription"].write(value.questionDescription)
-        try writer["QuestionId"].write(value.questionId)
-        try writer["QuestionTitle"].write(value.questionTitle)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.ProfileTemplateQuestion {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8737,13 +8333,6 @@ extension WellArchitectedClientTypes {
 
 extension WellArchitectedClientTypes.QuestionDifference {
 
-    static func write(value: WellArchitectedClientTypes.QuestionDifference?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DifferenceStatus"].write(value.differenceStatus)
-        try writer["QuestionId"].write(value.questionId)
-        try writer["QuestionTitle"].write(value.questionTitle)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.QuestionDifference {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WellArchitectedClientTypes.QuestionDifference()
@@ -8779,13 +8368,6 @@ extension WellArchitectedClientTypes {
 }
 
 extension WellArchitectedClientTypes.QuestionMetric {
-
-    static func write(value: WellArchitectedClientTypes.QuestionMetric?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BestPractices"].writeList(value.bestPractices, memberWritingClosure: WellArchitectedClientTypes.BestPractice.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["QuestionId"].write(value.questionId)
-        try writer["Risk"].write(value.risk)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.QuestionMetric {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8964,21 +8546,6 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
 extension WellArchitectedClientTypes.ReviewTemplate {
 
-    static func write(value: WellArchitectedClientTypes.ReviewTemplate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Description"].write(value.description)
-        try writer["Lenses"].writeList(value.lenses, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Notes"].write(value.notes)
-        try writer["Owner"].write(value.owner)
-        try writer["QuestionCounts"].writeMap(value.questionCounts, valueWritingClosure: Swift.Int.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["ShareInvitationId"].write(value.shareInvitationId)
-        try writer["Tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["TemplateArn"].write(value.templateArn)
-        try writer["TemplateName"].write(value.templateName)
-        try writer["UpdateStatus"].write(value.updateStatus)
-        try writer["UpdatedAt"].writeTimestamp(value.updatedAt, format: .epochSeconds)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.ReviewTemplate {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WellArchitectedClientTypes.ReviewTemplate()
@@ -9054,24 +8621,6 @@ extension WellArchitectedClientTypes {
 }
 
 extension WellArchitectedClientTypes.ReviewTemplateAnswer {
-
-    static func write(value: WellArchitectedClientTypes.ReviewTemplateAnswer?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AnswerStatus"].write(value.answerStatus)
-        try writer["ChoiceAnswers"].writeList(value.choiceAnswers, memberWritingClosure: WellArchitectedClientTypes.ChoiceAnswer.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Choices"].writeList(value.choices, memberWritingClosure: WellArchitectedClientTypes.Choice.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["HelpfulResourceDisplayText"].write(value.helpfulResourceDisplayText)
-        try writer["HelpfulResourceUrl"].write(value.helpfulResourceUrl)
-        try writer["ImprovementPlanUrl"].write(value.improvementPlanUrl)
-        try writer["IsApplicable"].write(value.isApplicable)
-        try writer["Notes"].write(value.notes)
-        try writer["PillarId"].write(value.pillarId)
-        try writer["QuestionDescription"].write(value.questionDescription)
-        try writer["QuestionId"].write(value.questionId)
-        try writer["QuestionTitle"].write(value.questionTitle)
-        try writer["Reason"].write(value.reason)
-        try writer["SelectedChoices"].writeList(value.selectedChoices, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.ReviewTemplateAnswer {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -9194,20 +8743,6 @@ extension WellArchitectedClientTypes {
 
 extension WellArchitectedClientTypes.ReviewTemplateAnswerSummary {
 
-    static func write(value: WellArchitectedClientTypes.ReviewTemplateAnswerSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AnswerStatus"].write(value.answerStatus)
-        try writer["ChoiceAnswerSummaries"].writeList(value.choiceAnswerSummaries, memberWritingClosure: WellArchitectedClientTypes.ChoiceAnswerSummary.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Choices"].writeList(value.choices, memberWritingClosure: WellArchitectedClientTypes.Choice.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["IsApplicable"].write(value.isApplicable)
-        try writer["PillarId"].write(value.pillarId)
-        try writer["QuestionId"].write(value.questionId)
-        try writer["QuestionTitle"].write(value.questionTitle)
-        try writer["QuestionType"].write(value.questionType)
-        try writer["Reason"].write(value.reason)
-        try writer["SelectedChoices"].writeList(value.selectedChoices, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.ReviewTemplateAnswerSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WellArchitectedClientTypes.ReviewTemplateAnswerSummary()
@@ -9278,20 +8813,6 @@ extension WellArchitectedClientTypes {
 }
 
 extension WellArchitectedClientTypes.ReviewTemplateLensReview {
-
-    static func write(value: WellArchitectedClientTypes.ReviewTemplateLensReview?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["LensAlias"].write(value.lensAlias)
-        try writer["LensArn"].write(value.lensArn)
-        try writer["LensName"].write(value.lensName)
-        try writer["LensStatus"].write(value.lensStatus)
-        try writer["LensVersion"].write(value.lensVersion)
-        try writer["NextToken"].write(value.nextToken)
-        try writer["Notes"].write(value.notes)
-        try writer["PillarReviewSummaries"].writeList(value.pillarReviewSummaries, memberWritingClosure: WellArchitectedClientTypes.ReviewTemplatePillarReviewSummary.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["QuestionCounts"].writeMap(value.questionCounts, valueWritingClosure: Swift.Int.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["UpdatedAt"].writeTimestamp(value.updatedAt, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.ReviewTemplateLensReview {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -9364,14 +8885,6 @@ extension WellArchitectedClientTypes {
 
 extension WellArchitectedClientTypes.ReviewTemplatePillarReviewSummary {
 
-    static func write(value: WellArchitectedClientTypes.ReviewTemplatePillarReviewSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Notes"].write(value.notes)
-        try writer["PillarId"].write(value.pillarId)
-        try writer["PillarName"].write(value.pillarName)
-        try writer["QuestionCounts"].writeMap(value.questionCounts, valueWritingClosure: Swift.Int.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.ReviewTemplatePillarReviewSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WellArchitectedClientTypes.ReviewTemplatePillarReviewSummary()
@@ -9412,17 +8925,6 @@ extension WellArchitectedClientTypes {
 }
 
 extension WellArchitectedClientTypes.ReviewTemplateSummary {
-
-    static func write(value: WellArchitectedClientTypes.ReviewTemplateSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Description"].write(value.description)
-        try writer["Lenses"].writeList(value.lenses, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Owner"].write(value.owner)
-        try writer["TemplateArn"].write(value.templateArn)
-        try writer["TemplateName"].write(value.templateName)
-        try writer["UpdateStatus"].write(value.updateStatus)
-        try writer["UpdatedAt"].writeTimestamp(value.updatedAt, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.ReviewTemplateSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -9648,17 +9150,6 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
 extension WellArchitectedClientTypes.ShareInvitation {
 
-    static func write(value: WellArchitectedClientTypes.ShareInvitation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["LensAlias"].write(value.lensAlias)
-        try writer["LensArn"].write(value.lensArn)
-        try writer["ProfileArn"].write(value.profileArn)
-        try writer["ShareInvitationId"].write(value.shareInvitationId)
-        try writer["ShareResourceType"].write(value.shareResourceType)
-        try writer["TemplateArn"].write(value.templateArn)
-        try writer["WorkloadId"].write(value.workloadId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.ShareInvitation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WellArchitectedClientTypes.ShareInvitation()
@@ -9745,23 +9236,6 @@ extension WellArchitectedClientTypes {
 }
 
 extension WellArchitectedClientTypes.ShareInvitationSummary {
-
-    static func write(value: WellArchitectedClientTypes.ShareInvitationSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["LensArn"].write(value.lensArn)
-        try writer["LensName"].write(value.lensName)
-        try writer["PermissionType"].write(value.permissionType)
-        try writer["ProfileArn"].write(value.profileArn)
-        try writer["ProfileName"].write(value.profileName)
-        try writer["ShareInvitationId"].write(value.shareInvitationId)
-        try writer["ShareResourceType"].write(value.shareResourceType)
-        try writer["SharedBy"].write(value.sharedBy)
-        try writer["SharedWith"].write(value.sharedWith)
-        try writer["TemplateArn"].write(value.templateArn)
-        try writer["TemplateName"].write(value.templateName)
-        try writer["WorkloadId"].write(value.workloadId)
-        try writer["WorkloadName"].write(value.workloadName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.ShareInvitationSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -9996,14 +9470,6 @@ enum TagResourceOutputError {
 }
 
 extension WellArchitectedClientTypes.TemplateShareSummary {
-
-    static func write(value: WellArchitectedClientTypes.TemplateShareSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ShareId"].write(value.shareId)
-        try writer["SharedWith"].write(value.sharedWith)
-        try writer["Status"].write(value.status)
-        try writer["StatusMessage"].write(value.statusMessage)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.TemplateShareSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -11643,12 +11109,6 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
 extension WellArchitectedClientTypes.ValidationExceptionField {
 
-    static func write(value: WellArchitectedClientTypes.ValidationExceptionField?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.message)
-        try writer["Name"].write(value.name)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.ValidationExceptionField {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WellArchitectedClientTypes.ValidationExceptionField()
@@ -11719,11 +11179,6 @@ extension WellArchitectedClientTypes {
 
 extension WellArchitectedClientTypes.VersionDifferences {
 
-    static func write(value: WellArchitectedClientTypes.VersionDifferences?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["PillarDifferences"].writeList(value.pillarDifferences, memberWritingClosure: WellArchitectedClientTypes.PillarDifference.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.VersionDifferences {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WellArchitectedClientTypes.VersionDifferences()
@@ -11751,38 +11206,6 @@ extension WellArchitectedClientTypes {
 public enum WellArchitectedClientTypes {}
 
 extension WellArchitectedClientTypes.Workload {
-
-    static func write(value: WellArchitectedClientTypes.Workload?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccountIds"].writeList(value.accountIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Applications"].writeList(value.applications, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ArchitecturalDesign"].write(value.architecturalDesign)
-        try writer["AwsRegions"].writeList(value.awsRegions, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Description"].write(value.description)
-        try writer["DiscoveryConfig"].write(value.discoveryConfig, with: WellArchitectedClientTypes.WorkloadDiscoveryConfig.write(value:to:))
-        try writer["Environment"].write(value.environment)
-        try writer["ImprovementStatus"].write(value.improvementStatus)
-        try writer["Industry"].write(value.industry)
-        try writer["IndustryType"].write(value.industryType)
-        try writer["IsReviewOwnerUpdateAcknowledged"].write(value.isReviewOwnerUpdateAcknowledged)
-        try writer["JiraConfiguration"].write(value.jiraConfiguration, with: WellArchitectedClientTypes.WorkloadJiraConfigurationOutput.write(value:to:))
-        try writer["Lenses"].writeList(value.lenses, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["NonAwsRegions"].writeList(value.nonAwsRegions, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Notes"].write(value.notes)
-        try writer["Owner"].write(value.owner)
-        try writer["PillarPriorities"].writeList(value.pillarPriorities, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["PrioritizedRiskCounts"].writeMap(value.prioritizedRiskCounts, valueWritingClosure: Swift.Int.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["Profiles"].writeList(value.profiles, memberWritingClosure: WellArchitectedClientTypes.WorkloadProfile.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ReviewOwner"].write(value.reviewOwner)
-        try writer["ReviewRestrictionDate"].writeTimestamp(value.reviewRestrictionDate, format: .epochSeconds)
-        try writer["RiskCounts"].writeMap(value.riskCounts, valueWritingClosure: Swift.Int.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["ShareInvitationId"].write(value.shareInvitationId)
-        try writer["Tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["UpdatedAt"].writeTimestamp(value.updatedAt, format: .epochSeconds)
-        try writer["WorkloadArn"].write(value.workloadArn)
-        try writer["WorkloadId"].write(value.workloadId)
-        try writer["WorkloadName"].write(value.workloadName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.Workload {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -12146,15 +11569,6 @@ extension WellArchitectedClientTypes.WorkloadJiraConfigurationInput {
         try writer["IssueManagementType"].write(value.issueManagementType)
         try writer["JiraProjectKey"].write(value.jiraProjectKey)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.WorkloadJiraConfigurationInput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WellArchitectedClientTypes.WorkloadJiraConfigurationInput()
-        value.issueManagementStatus = try reader["IssueManagementStatus"].readIfPresent()
-        value.issueManagementType = try reader["IssueManagementType"].readIfPresent()
-        value.jiraProjectKey = try reader["JiraProjectKey"].readIfPresent()
-        return value
-    }
 }
 
 extension WellArchitectedClientTypes {
@@ -12182,14 +11596,6 @@ extension WellArchitectedClientTypes {
 }
 
 extension WellArchitectedClientTypes.WorkloadJiraConfigurationOutput {
-
-    static func write(value: WellArchitectedClientTypes.WorkloadJiraConfigurationOutput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["IssueManagementStatus"].write(value.issueManagementStatus)
-        try writer["IssueManagementType"].write(value.issueManagementType)
-        try writer["JiraProjectKey"].write(value.jiraProjectKey)
-        try writer["StatusMessage"].write(value.statusMessage)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.WorkloadJiraConfigurationOutput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -12232,12 +11638,6 @@ extension WellArchitectedClientTypes {
 
 extension WellArchitectedClientTypes.WorkloadProfile {
 
-    static func write(value: WellArchitectedClientTypes.WorkloadProfile?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ProfileArn"].write(value.profileArn)
-        try writer["ProfileVersion"].write(value.profileVersion)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.WorkloadProfile {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WellArchitectedClientTypes.WorkloadProfile()
@@ -12268,17 +11668,6 @@ extension WellArchitectedClientTypes {
 }
 
 extension WellArchitectedClientTypes.WorkloadShare {
-
-    static func write(value: WellArchitectedClientTypes.WorkloadShare?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["PermissionType"].write(value.permissionType)
-        try writer["ShareId"].write(value.shareId)
-        try writer["SharedBy"].write(value.sharedBy)
-        try writer["SharedWith"].write(value.sharedWith)
-        try writer["Status"].write(value.status)
-        try writer["WorkloadId"].write(value.workloadId)
-        try writer["WorkloadName"].write(value.workloadName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.WorkloadShare {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -12336,15 +11725,6 @@ extension WellArchitectedClientTypes {
 
 extension WellArchitectedClientTypes.WorkloadShareSummary {
 
-    static func write(value: WellArchitectedClientTypes.WorkloadShareSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["PermissionType"].write(value.permissionType)
-        try writer["ShareId"].write(value.shareId)
-        try writer["SharedWith"].write(value.sharedWith)
-        try writer["Status"].write(value.status)
-        try writer["StatusMessage"].write(value.statusMessage)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.WorkloadShareSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WellArchitectedClientTypes.WorkloadShareSummary()
@@ -12390,20 +11770,6 @@ extension WellArchitectedClientTypes {
 }
 
 extension WellArchitectedClientTypes.WorkloadSummary {
-
-    static func write(value: WellArchitectedClientTypes.WorkloadSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ImprovementStatus"].write(value.improvementStatus)
-        try writer["Lenses"].writeList(value.lenses, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Owner"].write(value.owner)
-        try writer["PrioritizedRiskCounts"].writeMap(value.prioritizedRiskCounts, valueWritingClosure: Swift.Int.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["Profiles"].writeList(value.profiles, memberWritingClosure: WellArchitectedClientTypes.WorkloadProfile.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["RiskCounts"].writeMap(value.riskCounts, valueWritingClosure: Swift.Int.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["UpdatedAt"].writeTimestamp(value.updatedAt, format: .epochSeconds)
-        try writer["WorkloadArn"].write(value.workloadArn)
-        try writer["WorkloadId"].write(value.workloadId)
-        try writer["WorkloadName"].write(value.workloadName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.WorkloadSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

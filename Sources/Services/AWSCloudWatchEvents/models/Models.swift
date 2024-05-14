@@ -64,19 +64,6 @@ enum ActivateEventSourceOutputError {
 
 extension CloudWatchEventsClientTypes.ApiDestination {
 
-    static func write(value: CloudWatchEventsClientTypes.ApiDestination?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ApiDestinationArn"].write(value.apiDestinationArn)
-        try writer["ApiDestinationState"].write(value.apiDestinationState)
-        try writer["ConnectionArn"].write(value.connectionArn)
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["HttpMethod"].write(value.httpMethod)
-        try writer["InvocationEndpoint"].write(value.invocationEndpoint)
-        try writer["InvocationRateLimitPerSecond"].write(value.invocationRateLimitPerSecond)
-        try writer["LastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .epochSeconds)
-        try writer["Name"].write(value.name)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.ApiDestination {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudWatchEventsClientTypes.ApiDestination()
@@ -217,18 +204,6 @@ extension CloudWatchEventsClientTypes {
 }
 
 extension CloudWatchEventsClientTypes.Archive {
-
-    static func write(value: CloudWatchEventsClientTypes.Archive?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ArchiveName"].write(value.archiveName)
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["EventCount"].write(value.eventCount)
-        try writer["EventSourceArn"].write(value.eventSourceArn)
-        try writer["RetentionDays"].write(value.retentionDays)
-        try writer["SizeBytes"].write(value.sizeBytes)
-        try writer["State"].write(value.state)
-        try writer["StateReason"].write(value.stateReason)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.Archive {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -688,15 +663,6 @@ extension CloudWatchEventsClientTypes.Condition {
         try writer["Type"].write(value.type)
         try writer["Value"].write(value.value)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.Condition {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudWatchEventsClientTypes.Condition()
-        value.type = try reader["Type"].readIfPresent()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
-        return value
-    }
 }
 
 extension CloudWatchEventsClientTypes {
@@ -727,18 +693,6 @@ extension CloudWatchEventsClientTypes {
 }
 
 extension CloudWatchEventsClientTypes.Connection {
-
-    static func write(value: CloudWatchEventsClientTypes.Connection?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AuthorizationType"].write(value.authorizationType)
-        try writer["ConnectionArn"].write(value.connectionArn)
-        try writer["ConnectionState"].write(value.connectionState)
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["LastAuthorizedTime"].writeTimestamp(value.lastAuthorizedTime, format: .epochSeconds)
-        try writer["LastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .epochSeconds)
-        try writer["Name"].write(value.name)
-        try writer["StateReason"].write(value.stateReason)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.Connection {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -801,11 +755,6 @@ extension CloudWatchEventsClientTypes {
 
 extension CloudWatchEventsClientTypes.ConnectionApiKeyAuthResponseParameters {
 
-    static func write(value: CloudWatchEventsClientTypes.ConnectionApiKeyAuthResponseParameters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ApiKeyName"].write(value.apiKeyName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.ConnectionApiKeyAuthResponseParameters {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudWatchEventsClientTypes.ConnectionApiKeyAuthResponseParameters()
@@ -831,14 +780,6 @@ extension CloudWatchEventsClientTypes {
 }
 
 extension CloudWatchEventsClientTypes.ConnectionAuthResponseParameters {
-
-    static func write(value: CloudWatchEventsClientTypes.ConnectionAuthResponseParameters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ApiKeyAuthParameters"].write(value.apiKeyAuthParameters, with: CloudWatchEventsClientTypes.ConnectionApiKeyAuthResponseParameters.write(value:to:))
-        try writer["BasicAuthParameters"].write(value.basicAuthParameters, with: CloudWatchEventsClientTypes.ConnectionBasicAuthResponseParameters.write(value:to:))
-        try writer["InvocationHttpParameters"].write(value.invocationHttpParameters, with: CloudWatchEventsClientTypes.ConnectionHttpParameters.write(value:to:))
-        try writer["OAuthParameters"].write(value.oAuthParameters, with: CloudWatchEventsClientTypes.ConnectionOAuthResponseParameters.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.ConnectionAuthResponseParameters {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -913,11 +854,6 @@ extension CloudWatchEventsClientTypes {
 }
 
 extension CloudWatchEventsClientTypes.ConnectionBasicAuthResponseParameters {
-
-    static func write(value: CloudWatchEventsClientTypes.ConnectionBasicAuthResponseParameters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Username"].write(value.username)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.ConnectionBasicAuthResponseParameters {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1084,11 +1020,6 @@ extension CloudWatchEventsClientTypes {
 
 extension CloudWatchEventsClientTypes.ConnectionOAuthClientResponseParameters {
 
-    static func write(value: CloudWatchEventsClientTypes.ConnectionOAuthClientResponseParameters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ClientID"].write(value.clientID)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.ConnectionOAuthClientResponseParameters {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudWatchEventsClientTypes.ConnectionOAuthClientResponseParameters()
@@ -1147,14 +1078,6 @@ extension CloudWatchEventsClientTypes {
 }
 
 extension CloudWatchEventsClientTypes.ConnectionOAuthResponseParameters {
-
-    static func write(value: CloudWatchEventsClientTypes.ConnectionOAuthResponseParameters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AuthorizationEndpoint"].write(value.authorizationEndpoint)
-        try writer["ClientParameters"].write(value.clientParameters, with: CloudWatchEventsClientTypes.ConnectionOAuthClientResponseParameters.write(value:to:))
-        try writer["HttpMethod"].write(value.httpMethod)
-        try writer["OAuthHttpParameters"].write(value.oAuthHttpParameters, with: CloudWatchEventsClientTypes.ConnectionHttpParameters.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.ConnectionOAuthResponseParameters {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1519,14 +1442,6 @@ extension CloudWatchEventsClientTypes.CreateConnectionApiKeyAuthRequestParameter
         try writer["ApiKeyName"].write(value.apiKeyName)
         try writer["ApiKeyValue"].write(value.apiKeyValue)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.CreateConnectionApiKeyAuthRequestParameters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudWatchEventsClientTypes.CreateConnectionApiKeyAuthRequestParameters()
-        value.apiKeyName = try reader["ApiKeyName"].readIfPresent()
-        value.apiKeyValue = try reader["ApiKeyValue"].readIfPresent()
-        return value
-    }
 }
 
 extension CloudWatchEventsClientTypes {
@@ -1559,16 +1474,6 @@ extension CloudWatchEventsClientTypes.CreateConnectionAuthRequestParameters {
         try writer["BasicAuthParameters"].write(value.basicAuthParameters, with: CloudWatchEventsClientTypes.CreateConnectionBasicAuthRequestParameters.write(value:to:))
         try writer["InvocationHttpParameters"].write(value.invocationHttpParameters, with: CloudWatchEventsClientTypes.ConnectionHttpParameters.write(value:to:))
         try writer["OAuthParameters"].write(value.oAuthParameters, with: CloudWatchEventsClientTypes.CreateConnectionOAuthRequestParameters.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.CreateConnectionAuthRequestParameters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudWatchEventsClientTypes.CreateConnectionAuthRequestParameters()
-        value.basicAuthParameters = try reader["BasicAuthParameters"].readIfPresent(with: CloudWatchEventsClientTypes.CreateConnectionBasicAuthRequestParameters.read(from:))
-        value.oAuthParameters = try reader["OAuthParameters"].readIfPresent(with: CloudWatchEventsClientTypes.CreateConnectionOAuthRequestParameters.read(from:))
-        value.apiKeyAuthParameters = try reader["ApiKeyAuthParameters"].readIfPresent(with: CloudWatchEventsClientTypes.CreateConnectionApiKeyAuthRequestParameters.read(from:))
-        value.invocationHttpParameters = try reader["InvocationHttpParameters"].readIfPresent(with: CloudWatchEventsClientTypes.ConnectionHttpParameters.read(from:))
-        return value
     }
 }
 
@@ -1611,14 +1516,6 @@ extension CloudWatchEventsClientTypes.CreateConnectionBasicAuthRequestParameters
         guard let value else { return }
         try writer["Password"].write(value.password)
         try writer["Username"].write(value.username)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.CreateConnectionBasicAuthRequestParameters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudWatchEventsClientTypes.CreateConnectionBasicAuthRequestParameters()
-        value.username = try reader["Username"].readIfPresent()
-        value.password = try reader["Password"].readIfPresent()
-        return value
     }
 }
 
@@ -1701,14 +1598,6 @@ extension CloudWatchEventsClientTypes.CreateConnectionOAuthClientRequestParamete
         try writer["ClientID"].write(value.clientID)
         try writer["ClientSecret"].write(value.clientSecret)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.CreateConnectionOAuthClientRequestParameters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudWatchEventsClientTypes.CreateConnectionOAuthClientRequestParameters()
-        value.clientID = try reader["ClientID"].readIfPresent()
-        value.clientSecret = try reader["ClientSecret"].readIfPresent()
-        return value
-    }
 }
 
 extension CloudWatchEventsClientTypes {
@@ -1741,16 +1630,6 @@ extension CloudWatchEventsClientTypes.CreateConnectionOAuthRequestParameters {
         try writer["ClientParameters"].write(value.clientParameters, with: CloudWatchEventsClientTypes.CreateConnectionOAuthClientRequestParameters.write(value:to:))
         try writer["HttpMethod"].write(value.httpMethod)
         try writer["OAuthHttpParameters"].write(value.oAuthHttpParameters, with: CloudWatchEventsClientTypes.ConnectionHttpParameters.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.CreateConnectionOAuthRequestParameters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudWatchEventsClientTypes.CreateConnectionOAuthRequestParameters()
-        value.clientParameters = try reader["ClientParameters"].readIfPresent(with: CloudWatchEventsClientTypes.CreateConnectionOAuthClientRequestParameters.read(from:))
-        value.authorizationEndpoint = try reader["AuthorizationEndpoint"].readIfPresent()
-        value.httpMethod = try reader["HttpMethod"].readIfPresent()
-        value.oAuthHttpParameters = try reader["OAuthHttpParameters"].readIfPresent(with: CloudWatchEventsClientTypes.ConnectionHttpParameters.read(from:))
-        return value
     }
 }
 
@@ -3623,13 +3502,6 @@ enum EnableRuleOutputError {
 
 extension CloudWatchEventsClientTypes.EventBus {
 
-    static func write(value: CloudWatchEventsClientTypes.EventBus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["Name"].write(value.name)
-        try writer["Policy"].write(value.policy)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.EventBus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudWatchEventsClientTypes.EventBus()
@@ -3665,16 +3537,6 @@ extension CloudWatchEventsClientTypes {
 }
 
 extension CloudWatchEventsClientTypes.EventSource {
-
-    static func write(value: CloudWatchEventsClientTypes.EventSource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["CreatedBy"].write(value.createdBy)
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["ExpirationTime"].writeTimestamp(value.expirationTime, format: .epochSeconds)
-        try writer["Name"].write(value.name)
-        try writer["State"].write(value.state)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.EventSource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5233,12 +5095,6 @@ public struct OperationDisabledException: ClientRuntime.ModeledError, AWSClientR
 
 extension CloudWatchEventsClientTypes.PartnerEventSource {
 
-    static func write(value: CloudWatchEventsClientTypes.PartnerEventSource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["Name"].write(value.name)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.PartnerEventSource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudWatchEventsClientTypes.PartnerEventSource()
@@ -5269,14 +5125,6 @@ extension CloudWatchEventsClientTypes {
 }
 
 extension CloudWatchEventsClientTypes.PartnerEventSourceAccount {
-
-    static func write(value: CloudWatchEventsClientTypes.PartnerEventSourceAccount?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Account"].write(value.account)
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["ExpirationTime"].writeTimestamp(value.expirationTime, format: .epochSeconds)
-        try writer["State"].write(value.state)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.PartnerEventSourceAccount {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5601,19 +5449,6 @@ extension CloudWatchEventsClientTypes.PutEventsRequestEntry {
         try writer["Time"].writeTimestamp(value.time, format: .epochSeconds)
         try writer["TraceHeader"].write(value.traceHeader)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.PutEventsRequestEntry {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudWatchEventsClientTypes.PutEventsRequestEntry()
-        value.time = try reader["Time"].readTimestampIfPresent(format: .epochSeconds)
-        value.source = try reader["Source"].readIfPresent()
-        value.resources = try reader["Resources"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.detailType = try reader["DetailType"].readIfPresent()
-        value.detail = try reader["Detail"].readIfPresent()
-        value.eventBusName = try reader["EventBusName"].readIfPresent()
-        value.traceHeader = try reader["TraceHeader"].readIfPresent()
-        return value
-    }
 }
 
 extension CloudWatchEventsClientTypes {
@@ -5657,13 +5492,6 @@ extension CloudWatchEventsClientTypes {
 }
 
 extension CloudWatchEventsClientTypes.PutEventsResultEntry {
-
-    static func write(value: CloudWatchEventsClientTypes.PutEventsResultEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ErrorCode"].write(value.errorCode)
-        try writer["ErrorMessage"].write(value.errorMessage)
-        try writer["EventId"].write(value.eventId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.PutEventsResultEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5781,17 +5609,6 @@ extension CloudWatchEventsClientTypes.PutPartnerEventsRequestEntry {
         try writer["Source"].write(value.source)
         try writer["Time"].writeTimestamp(value.time, format: .epochSeconds)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.PutPartnerEventsRequestEntry {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudWatchEventsClientTypes.PutPartnerEventsRequestEntry()
-        value.time = try reader["Time"].readTimestampIfPresent(format: .epochSeconds)
-        value.source = try reader["Source"].readIfPresent()
-        value.resources = try reader["Resources"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.detailType = try reader["DetailType"].readIfPresent()
-        value.detail = try reader["Detail"].readIfPresent()
-        return value
-    }
 }
 
 extension CloudWatchEventsClientTypes {
@@ -5827,13 +5644,6 @@ extension CloudWatchEventsClientTypes {
 }
 
 extension CloudWatchEventsClientTypes.PutPartnerEventsResultEntry {
-
-    static func write(value: CloudWatchEventsClientTypes.PutPartnerEventsResultEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ErrorCode"].write(value.errorCode)
-        try writer["ErrorMessage"].write(value.errorMessage)
-        try writer["EventId"].write(value.eventId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.PutPartnerEventsResultEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6145,13 +5955,6 @@ enum PutTargetsOutputError {
 
 extension CloudWatchEventsClientTypes.PutTargetsResultEntry {
 
-    static func write(value: CloudWatchEventsClientTypes.PutTargetsResultEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ErrorCode"].write(value.errorCode)
-        try writer["ErrorMessage"].write(value.errorMessage)
-        try writer["TargetId"].write(value.targetId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.PutTargetsResultEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudWatchEventsClientTypes.PutTargetsResultEntry()
@@ -6407,13 +6210,6 @@ enum RemoveTargetsOutputError {
 
 extension CloudWatchEventsClientTypes.RemoveTargetsResultEntry {
 
-    static func write(value: CloudWatchEventsClientTypes.RemoveTargetsResultEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ErrorCode"].write(value.errorCode)
-        try writer["ErrorMessage"].write(value.errorMessage)
-        try writer["TargetId"].write(value.targetId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.RemoveTargetsResultEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudWatchEventsClientTypes.RemoveTargetsResultEntry()
@@ -6449,19 +6245,6 @@ extension CloudWatchEventsClientTypes {
 }
 
 extension CloudWatchEventsClientTypes.Replay {
-
-    static func write(value: CloudWatchEventsClientTypes.Replay?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EventEndTime"].writeTimestamp(value.eventEndTime, format: .epochSeconds)
-        try writer["EventLastReplayedTime"].writeTimestamp(value.eventLastReplayedTime, format: .epochSeconds)
-        try writer["EventSourceArn"].write(value.eventSourceArn)
-        try writer["EventStartTime"].writeTimestamp(value.eventStartTime, format: .epochSeconds)
-        try writer["ReplayEndTime"].writeTimestamp(value.replayEndTime, format: .epochSeconds)
-        try writer["ReplayName"].write(value.replayName)
-        try writer["ReplayStartTime"].writeTimestamp(value.replayStartTime, format: .epochSeconds)
-        try writer["State"].write(value.state)
-        try writer["StateReason"].write(value.stateReason)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.Replay {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6719,19 +6502,6 @@ extension CloudWatchEventsClientTypes {
 }
 
 extension CloudWatchEventsClientTypes.Rule {
-
-    static func write(value: CloudWatchEventsClientTypes.Rule?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["Description"].write(value.description)
-        try writer["EventBusName"].write(value.eventBusName)
-        try writer["EventPattern"].write(value.eventPattern)
-        try writer["ManagedBy"].write(value.managedBy)
-        try writer["Name"].write(value.name)
-        try writer["RoleArn"].write(value.roleArn)
-        try writer["ScheduleExpression"].write(value.scheduleExpression)
-        try writer["State"].write(value.state)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.Rule {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7709,14 +7479,6 @@ extension CloudWatchEventsClientTypes.UpdateConnectionApiKeyAuthRequestParameter
         try writer["ApiKeyName"].write(value.apiKeyName)
         try writer["ApiKeyValue"].write(value.apiKeyValue)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.UpdateConnectionApiKeyAuthRequestParameters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudWatchEventsClientTypes.UpdateConnectionApiKeyAuthRequestParameters()
-        value.apiKeyName = try reader["ApiKeyName"].readIfPresent()
-        value.apiKeyValue = try reader["ApiKeyValue"].readIfPresent()
-        return value
-    }
 }
 
 extension CloudWatchEventsClientTypes {
@@ -7747,16 +7509,6 @@ extension CloudWatchEventsClientTypes.UpdateConnectionAuthRequestParameters {
         try writer["BasicAuthParameters"].write(value.basicAuthParameters, with: CloudWatchEventsClientTypes.UpdateConnectionBasicAuthRequestParameters.write(value:to:))
         try writer["InvocationHttpParameters"].write(value.invocationHttpParameters, with: CloudWatchEventsClientTypes.ConnectionHttpParameters.write(value:to:))
         try writer["OAuthParameters"].write(value.oAuthParameters, with: CloudWatchEventsClientTypes.UpdateConnectionOAuthRequestParameters.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.UpdateConnectionAuthRequestParameters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudWatchEventsClientTypes.UpdateConnectionAuthRequestParameters()
-        value.basicAuthParameters = try reader["BasicAuthParameters"].readIfPresent(with: CloudWatchEventsClientTypes.UpdateConnectionBasicAuthRequestParameters.read(from:))
-        value.oAuthParameters = try reader["OAuthParameters"].readIfPresent(with: CloudWatchEventsClientTypes.UpdateConnectionOAuthRequestParameters.read(from:))
-        value.apiKeyAuthParameters = try reader["ApiKeyAuthParameters"].readIfPresent(with: CloudWatchEventsClientTypes.UpdateConnectionApiKeyAuthRequestParameters.read(from:))
-        value.invocationHttpParameters = try reader["InvocationHttpParameters"].readIfPresent(with: CloudWatchEventsClientTypes.ConnectionHttpParameters.read(from:))
-        return value
     }
 }
 
@@ -7799,14 +7551,6 @@ extension CloudWatchEventsClientTypes.UpdateConnectionBasicAuthRequestParameters
         guard let value else { return }
         try writer["Password"].write(value.password)
         try writer["Username"].write(value.username)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.UpdateConnectionBasicAuthRequestParameters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudWatchEventsClientTypes.UpdateConnectionBasicAuthRequestParameters()
-        value.username = try reader["Username"].readIfPresent()
-        value.password = try reader["Password"].readIfPresent()
-        return value
     }
 }
 
@@ -7885,14 +7629,6 @@ extension CloudWatchEventsClientTypes.UpdateConnectionOAuthClientRequestParamete
         try writer["ClientID"].write(value.clientID)
         try writer["ClientSecret"].write(value.clientSecret)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.UpdateConnectionOAuthClientRequestParameters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudWatchEventsClientTypes.UpdateConnectionOAuthClientRequestParameters()
-        value.clientID = try reader["ClientID"].readIfPresent()
-        value.clientSecret = try reader["ClientSecret"].readIfPresent()
-        return value
-    }
 }
 
 extension CloudWatchEventsClientTypes {
@@ -7923,16 +7659,6 @@ extension CloudWatchEventsClientTypes.UpdateConnectionOAuthRequestParameters {
         try writer["ClientParameters"].write(value.clientParameters, with: CloudWatchEventsClientTypes.UpdateConnectionOAuthClientRequestParameters.write(value:to:))
         try writer["HttpMethod"].write(value.httpMethod)
         try writer["OAuthHttpParameters"].write(value.oAuthHttpParameters, with: CloudWatchEventsClientTypes.ConnectionHttpParameters.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.UpdateConnectionOAuthRequestParameters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudWatchEventsClientTypes.UpdateConnectionOAuthRequestParameters()
-        value.clientParameters = try reader["ClientParameters"].readIfPresent(with: CloudWatchEventsClientTypes.UpdateConnectionOAuthClientRequestParameters.read(from:))
-        value.authorizationEndpoint = try reader["AuthorizationEndpoint"].readIfPresent()
-        value.httpMethod = try reader["HttpMethod"].readIfPresent()
-        value.oAuthHttpParameters = try reader["OAuthHttpParameters"].readIfPresent(with: CloudWatchEventsClientTypes.ConnectionHttpParameters.read(from:))
-        return value
     }
 }
 

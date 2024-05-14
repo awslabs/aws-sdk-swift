@@ -6,12 +6,6 @@ import SmithyReadWrite
 
 extension ServerlessApplicationRepositoryClientTypes.ApplicationDependencySummary {
 
-    static func write(value: ServerlessApplicationRepositoryClientTypes.ApplicationDependencySummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["applicationId"].write(value.applicationId)
-        try writer["semanticVersion"].write(value.semanticVersion)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ServerlessApplicationRepositoryClientTypes.ApplicationDependencySummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ServerlessApplicationRepositoryClientTypes.ApplicationDependencySummary()
@@ -95,18 +89,6 @@ extension ServerlessApplicationRepositoryClientTypes {
 }
 
 extension ServerlessApplicationRepositoryClientTypes.ApplicationSummary {
-
-    static func write(value: ServerlessApplicationRepositoryClientTypes.ApplicationSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["applicationId"].write(value.applicationId)
-        try writer["author"].write(value.author)
-        try writer["creationTime"].write(value.creationTime)
-        try writer["description"].write(value.description)
-        try writer["homePageUrl"].write(value.homePageUrl)
-        try writer["labels"].writeList(value.labels, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["name"].write(value.name)
-        try writer["spdxLicenseId"].write(value.spdxLicenseId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ServerlessApplicationRepositoryClientTypes.ApplicationSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1665,23 +1647,6 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
 extension ServerlessApplicationRepositoryClientTypes.ParameterDefinition {
 
-    static func write(value: ServerlessApplicationRepositoryClientTypes.ParameterDefinition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["allowedPattern"].write(value.allowedPattern)
-        try writer["allowedValues"].writeList(value.allowedValues, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["constraintDescription"].write(value.constraintDescription)
-        try writer["defaultValue"].write(value.defaultValue)
-        try writer["description"].write(value.description)
-        try writer["maxLength"].write(value.maxLength)
-        try writer["maxValue"].write(value.maxValue)
-        try writer["minLength"].write(value.minLength)
-        try writer["minValue"].write(value.minValue)
-        try writer["name"].write(value.name)
-        try writer["noEcho"].write(value.noEcho)
-        try writer["referencedByResources"].writeList(value.referencedByResources, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ServerlessApplicationRepositoryClientTypes.ParameterDefinition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ServerlessApplicationRepositoryClientTypes.ParameterDefinition()
@@ -1774,14 +1739,6 @@ extension ServerlessApplicationRepositoryClientTypes.ParameterValue {
         guard let value else { return }
         try writer["name"].write(value.name)
         try writer["value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ServerlessApplicationRepositoryClientTypes.ParameterValue {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ServerlessApplicationRepositoryClientTypes.ParameterValue()
-        value.name = try reader["name"].readIfPresent()
-        value.value = try reader["value"].readIfPresent()
-        return value
     }
 }
 
@@ -1892,14 +1849,6 @@ extension ServerlessApplicationRepositoryClientTypes.RollbackConfiguration {
         try writer["monitoringTimeInMinutes"].write(value.monitoringTimeInMinutes)
         try writer["rollbackTriggers"].writeList(value.rollbackTriggers, memberWritingClosure: ServerlessApplicationRepositoryClientTypes.RollbackTrigger.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ServerlessApplicationRepositoryClientTypes.RollbackConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ServerlessApplicationRepositoryClientTypes.RollbackConfiguration()
-        value.monitoringTimeInMinutes = try reader["monitoringTimeInMinutes"].readIfPresent()
-        value.rollbackTriggers = try reader["rollbackTriggers"].readListIfPresent(memberReadingClosure: ServerlessApplicationRepositoryClientTypes.RollbackTrigger.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
 }
 
 extension ServerlessApplicationRepositoryClientTypes {
@@ -1928,14 +1877,6 @@ extension ServerlessApplicationRepositoryClientTypes.RollbackTrigger {
         guard let value else { return }
         try writer["arn"].write(value.arn)
         try writer["type"].write(value.type)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ServerlessApplicationRepositoryClientTypes.RollbackTrigger {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ServerlessApplicationRepositoryClientTypes.RollbackTrigger()
-        value.arn = try reader["arn"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
-        return value
     }
 }
 
@@ -2002,14 +1943,6 @@ extension ServerlessApplicationRepositoryClientTypes.Tag {
         guard let value else { return }
         try writer["key"].write(value.key)
         try writer["value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ServerlessApplicationRepositoryClientTypes.Tag {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ServerlessApplicationRepositoryClientTypes.Tag()
-        value.key = try reader["key"].readIfPresent()
-        value.value = try reader["value"].readIfPresent()
-        return value
     }
 }
 
@@ -2309,19 +2242,6 @@ enum UpdateApplicationOutputError {
 
 extension ServerlessApplicationRepositoryClientTypes.Version {
 
-    static func write(value: ServerlessApplicationRepositoryClientTypes.Version?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["applicationId"].write(value.applicationId)
-        try writer["creationTime"].write(value.creationTime)
-        try writer["parameterDefinitions"].writeList(value.parameterDefinitions, memberWritingClosure: ServerlessApplicationRepositoryClientTypes.ParameterDefinition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["requiredCapabilities"].writeList(value.requiredCapabilities, memberWritingClosure: ServerlessApplicationRepositoryClientTypes.Capability.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["resourcesSupported"].write(value.resourcesSupported)
-        try writer["semanticVersion"].write(value.semanticVersion)
-        try writer["sourceCodeArchiveUrl"].write(value.sourceCodeArchiveUrl)
-        try writer["sourceCodeUrl"].write(value.sourceCodeUrl)
-        try writer["templateUrl"].write(value.templateUrl)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ServerlessApplicationRepositoryClientTypes.Version {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ServerlessApplicationRepositoryClientTypes.Version()
@@ -2394,14 +2314,6 @@ extension ServerlessApplicationRepositoryClientTypes {
 }
 
 extension ServerlessApplicationRepositoryClientTypes.VersionSummary {
-
-    static func write(value: ServerlessApplicationRepositoryClientTypes.VersionSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["applicationId"].write(value.applicationId)
-        try writer["creationTime"].write(value.creationTime)
-        try writer["semanticVersion"].write(value.semanticVersion)
-        try writer["sourceCodeUrl"].write(value.sourceCodeUrl)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ServerlessApplicationRepositoryClientTypes.VersionSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

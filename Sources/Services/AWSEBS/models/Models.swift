@@ -79,12 +79,6 @@ extension EBSClientTypes {
 
 extension EBSClientTypes.Block {
 
-    static func write(value: EBSClientTypes.Block?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BlockIndex"].write(value.blockIndex)
-        try writer["BlockToken"].write(value.blockToken)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> EBSClientTypes.Block {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EBSClientTypes.Block()
@@ -121,13 +115,6 @@ extension EBSClientTypes.ChangedBlock: Swift.CustomDebugStringConvertible {
 }
 
 extension EBSClientTypes.ChangedBlock {
-
-    static func write(value: EBSClientTypes.ChangedBlock?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BlockIndex"].write(value.blockIndex)
-        try writer["FirstBlockToken"].write(value.firstBlockToken)
-        try writer["SecondBlockToken"].write(value.secondBlockToken)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> EBSClientTypes.ChangedBlock {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

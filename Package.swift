@@ -97,6 +97,7 @@ func addCRTDependency(_ version: Version) {
 }
 
 func addDoccDependency() {
+    guard ProcessInfo.processInfo.environment["AWS_SWIFT_SDK_ENABLE_DOCC"] != nil else { return }
     package.dependencies += [
         .package(url: "https://github.com/apple/swift-docc-plugin", from: "1.0.0")
     ]

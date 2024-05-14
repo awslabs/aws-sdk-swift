@@ -42,19 +42,6 @@ extension SsmSapClientTypes {
 
 extension SsmSapClientTypes.Application {
 
-    static func write(value: SsmSapClientTypes.Application?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AppRegistryArn"].write(value.appRegistryArn)
-        try writer["Arn"].write(value.arn)
-        try writer["Components"].writeList(value.components, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["DiscoveryStatus"].write(value.discoveryStatus)
-        try writer["Id"].write(value.id)
-        try writer["LastUpdated"].writeTimestamp(value.lastUpdated, format: .epochSeconds)
-        try writer["Status"].write(value.status)
-        try writer["StatusMessage"].write(value.statusMessage)
-        try writer["Type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SsmSapClientTypes.Application {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SsmSapClientTypes.Application()
@@ -259,15 +246,6 @@ extension SsmSapClientTypes {
 
 extension SsmSapClientTypes.ApplicationSummary {
 
-    static func write(value: SsmSapClientTypes.ApplicationSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["DiscoveryStatus"].write(value.discoveryStatus)
-        try writer["Id"].write(value.id)
-        try writer["Tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["Type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SsmSapClientTypes.ApplicationSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SsmSapClientTypes.ApplicationSummary()
@@ -344,14 +322,6 @@ extension SsmSapClientTypes {
 
 extension SsmSapClientTypes.AssociatedHost {
 
-    static func write(value: SsmSapClientTypes.AssociatedHost?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Ec2InstanceId"].write(value.ec2InstanceId)
-        try writer["Hostname"].write(value.hostname)
-        try writer["IpAddresses"].writeList(value.ipAddresses, memberWritingClosure: SsmSapClientTypes.IpAddressMember.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["OsVersion"].write(value.osVersion)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SsmSapClientTypes.AssociatedHost {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SsmSapClientTypes.AssociatedHost()
@@ -397,14 +367,6 @@ extension SsmSapClientTypes.BackintConfig {
         guard let value else { return }
         try writer["BackintMode"].write(value.backintMode)
         try writer["EnsureNoBackupInProcess"].write(value.ensureNoBackupInProcess)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SsmSapClientTypes.BackintConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SsmSapClientTypes.BackintConfig()
-        value.backintMode = try reader["BackintMode"].readIfPresent()
-        value.ensureNoBackupInProcess = try reader["EnsureNoBackupInProcess"].readIfPresent()
-        return value
     }
 }
 
@@ -497,30 +459,6 @@ extension SsmSapClientTypes {
 }
 
 extension SsmSapClientTypes.Component {
-
-    static func write(value: SsmSapClientTypes.Component?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ApplicationId"].write(value.applicationId)
-        try writer["Arn"].write(value.arn)
-        try writer["AssociatedHost"].write(value.associatedHost, with: SsmSapClientTypes.AssociatedHost.write(value:to:))
-        try writer["ChildComponents"].writeList(value.childComponents, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ComponentId"].write(value.componentId)
-        try writer["ComponentType"].write(value.componentType)
-        try writer["DatabaseConnection"].write(value.databaseConnection, with: SsmSapClientTypes.DatabaseConnection.write(value:to:))
-        try writer["Databases"].writeList(value.databases, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["HdbVersion"].write(value.hdbVersion)
-        try writer["Hosts"].writeList(value.hosts, memberWritingClosure: SsmSapClientTypes.Host.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["LastUpdated"].writeTimestamp(value.lastUpdated, format: .epochSeconds)
-        try writer["ParentComponent"].write(value.parentComponent)
-        try writer["PrimaryHost"].write(value.primaryHost)
-        try writer["Resilience"].write(value.resilience, with: SsmSapClientTypes.Resilience.write(value:to:))
-        try writer["SapFeature"].write(value.sapFeature)
-        try writer["SapHostname"].write(value.sapHostname)
-        try writer["SapKernelVersion"].write(value.sapKernelVersion)
-        try writer["Sid"].write(value.sid)
-        try writer["Status"].write(value.status)
-        try writer["SystemNumber"].write(value.systemNumber)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SsmSapClientTypes.Component {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -704,15 +642,6 @@ extension SsmSapClientTypes {
 
 extension SsmSapClientTypes.ComponentSummary {
 
-    static func write(value: SsmSapClientTypes.ComponentSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ApplicationId"].write(value.applicationId)
-        try writer["Arn"].write(value.arn)
-        try writer["ComponentId"].write(value.componentId)
-        try writer["ComponentType"].write(value.componentType)
-        try writer["Tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SsmSapClientTypes.ComponentSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SsmSapClientTypes.ComponentSummary()
@@ -871,21 +800,6 @@ extension SsmSapClientTypes {
 
 extension SsmSapClientTypes.Database {
 
-    static func write(value: SsmSapClientTypes.Database?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ApplicationId"].write(value.applicationId)
-        try writer["Arn"].write(value.arn)
-        try writer["ComponentId"].write(value.componentId)
-        try writer["Credentials"].writeList(value.credentials, memberWritingClosure: SsmSapClientTypes.ApplicationCredential.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["DatabaseId"].write(value.databaseId)
-        try writer["DatabaseName"].write(value.databaseName)
-        try writer["DatabaseType"].write(value.databaseType)
-        try writer["LastUpdated"].writeTimestamp(value.lastUpdated, format: .epochSeconds)
-        try writer["PrimaryHost"].write(value.primaryHost)
-        try writer["SQLPort"].write(value.sqlPort)
-        try writer["Status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SsmSapClientTypes.Database {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SsmSapClientTypes.Database()
@@ -961,13 +875,6 @@ extension SsmSapClientTypes {
 }
 
 extension SsmSapClientTypes.DatabaseConnection {
-
-    static func write(value: SsmSapClientTypes.DatabaseConnection?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ConnectionIp"].write(value.connectionIp)
-        try writer["DatabaseArn"].write(value.databaseArn)
-        try writer["DatabaseConnectionMethod"].write(value.databaseConnectionMethod)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SsmSapClientTypes.DatabaseConnection {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1076,16 +983,6 @@ extension SsmSapClientTypes {
 }
 
 extension SsmSapClientTypes.DatabaseSummary {
-
-    static func write(value: SsmSapClientTypes.DatabaseSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ApplicationId"].write(value.applicationId)
-        try writer["Arn"].write(value.arn)
-        try writer["ComponentId"].write(value.componentId)
-        try writer["DatabaseId"].write(value.databaseId)
-        try writer["DatabaseType"].write(value.databaseType)
-        try writer["Tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SsmSapClientTypes.DatabaseSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1307,15 +1204,6 @@ extension SsmSapClientTypes.Filter {
         try writer["Name"].write(value.name)
         try writer["Operator"].write(value.`operator`)
         try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SsmSapClientTypes.Filter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SsmSapClientTypes.Filter()
-        value.name = try reader["Name"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
-        value.`operator` = try reader["Operator"].readIfPresent()
-        return value
     }
 }
 
@@ -1767,16 +1655,6 @@ enum GetResourcePermissionOutputError {
 
 extension SsmSapClientTypes.Host {
 
-    static func write(value: SsmSapClientTypes.Host?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EC2InstanceId"].write(value.ec2InstanceId)
-        try writer["HostIp"].write(value.hostIp)
-        try writer["HostName"].write(value.hostName)
-        try writer["HostRole"].write(value.hostRole)
-        try writer["InstanceId"].write(value.instanceId)
-        try writer["OsVersion"].write(value.osVersion)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SsmSapClientTypes.Host {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SsmSapClientTypes.Host()
@@ -1900,13 +1778,6 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 }
 
 extension SsmSapClientTypes.IpAddressMember {
-
-    static func write(value: SsmSapClientTypes.IpAddressMember?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AllocationType"].write(value.allocationType)
-        try writer["IpAddress"].write(value.ipAddress)
-        try writer["Primary"].write(value.primary)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SsmSapClientTypes.IpAddressMember {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2346,21 +2217,6 @@ enum ListTagsForResourceOutputError {
 
 extension SsmSapClientTypes.Operation {
 
-    static func write(value: SsmSapClientTypes.Operation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EndTime"].writeTimestamp(value.endTime, format: .epochSeconds)
-        try writer["Id"].write(value.id)
-        try writer["LastUpdatedTime"].writeTimestamp(value.lastUpdatedTime, format: .epochSeconds)
-        try writer["Properties"].writeMap(value.properties, valueWritingClosure: sparseFormOf(writingClosure: Swift.String.write(value:to:)), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["ResourceArn"].write(value.resourceArn)
-        try writer["ResourceId"].write(value.resourceId)
-        try writer["ResourceType"].write(value.resourceType)
-        try writer["StartTime"].writeTimestamp(value.startTime, format: .epochSeconds)
-        try writer["Status"].write(value.status)
-        try writer["StatusMessage"].write(value.statusMessage)
-        try writer["Type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SsmSapClientTypes.Operation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SsmSapClientTypes.Operation()
@@ -2765,15 +2621,6 @@ extension SsmSapClientTypes {
 }
 
 extension SsmSapClientTypes.Resilience {
-
-    static func write(value: SsmSapClientTypes.Resilience?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ClusterStatus"].write(value.clusterStatus)
-        try writer["EnqueueReplication"].write(value.enqueueReplication)
-        try writer["HsrOperationMode"].write(value.hsrOperationMode)
-        try writer["HsrReplicationMode"].write(value.hsrReplicationMode)
-        try writer["HsrTier"].write(value.hsrTier)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SsmSapClientTypes.Resilience {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

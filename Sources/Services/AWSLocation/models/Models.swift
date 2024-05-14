@@ -48,13 +48,6 @@ extension LocationClientTypes.ApiKeyFilter {
         guard let value else { return }
         try writer["KeyStatus"].write(value.keyStatus)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.ApiKeyFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LocationClientTypes.ApiKeyFilter()
-        value.keyStatus = try reader["KeyStatus"].readIfPresent()
-        return value
-    }
 }
 
 extension LocationClientTypes {
@@ -241,12 +234,6 @@ enum AssociateTrackerConsumerOutputError {
 
 extension LocationClientTypes.BatchDeleteDevicePositionHistoryError {
 
-    static func write(value: LocationClientTypes.BatchDeleteDevicePositionHistoryError?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DeviceId"].write(value.deviceId)
-        try writer["Error"].write(value.error, with: LocationClientTypes.BatchItemError.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.BatchDeleteDevicePositionHistoryError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LocationClientTypes.BatchDeleteDevicePositionHistoryError()
@@ -361,12 +348,6 @@ enum BatchDeleteDevicePositionHistoryOutputError {
 
 extension LocationClientTypes.BatchDeleteGeofenceError {
 
-    static func write(value: LocationClientTypes.BatchDeleteGeofenceError?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Error"].write(value.error, with: LocationClientTypes.BatchItemError.write(value:to:))
-        try writer["GeofenceId"].write(value.geofenceId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.BatchDeleteGeofenceError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LocationClientTypes.BatchDeleteGeofenceError()
@@ -478,13 +459,6 @@ enum BatchDeleteGeofenceOutputError {
 }
 
 extension LocationClientTypes.BatchEvaluateGeofencesError {
-
-    static func write(value: LocationClientTypes.BatchEvaluateGeofencesError?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DeviceId"].write(value.deviceId)
-        try writer["Error"].write(value.error, with: LocationClientTypes.BatchItemError.write(value:to:))
-        try writer["SampleTime"].writeTimestamp(value.sampleTime, format: .dateTime)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.BatchEvaluateGeofencesError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -603,12 +577,6 @@ enum BatchEvaluateGeofencesOutputError {
 }
 
 extension LocationClientTypes.BatchGetDevicePositionError {
-
-    static func write(value: LocationClientTypes.BatchGetDevicePositionError?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DeviceId"].write(value.deviceId)
-        try writer["Error"].write(value.error, with: LocationClientTypes.BatchItemError.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.BatchGetDevicePositionError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -730,12 +698,6 @@ enum BatchGetDevicePositionOutputError {
 
 extension LocationClientTypes.BatchItemError {
 
-    static func write(value: LocationClientTypes.BatchItemError?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Code"].write(value.code)
-        try writer["Message"].write(value.message)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.BatchItemError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LocationClientTypes.BatchItemError()
@@ -814,12 +776,6 @@ extension LocationClientTypes {
 }
 
 extension LocationClientTypes.BatchPutGeofenceError {
-
-    static func write(value: LocationClientTypes.BatchPutGeofenceError?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Error"].write(value.error, with: LocationClientTypes.BatchItemError.write(value:to:))
-        try writer["GeofenceId"].write(value.geofenceId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.BatchPutGeofenceError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -950,15 +906,6 @@ extension LocationClientTypes.BatchPutGeofenceRequestEntry {
         try writer["GeofenceProperties"].writeMap(value.geofenceProperties, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["Geometry"].write(value.geometry, with: LocationClientTypes.GeofenceGeometry.write(value:to:))
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.BatchPutGeofenceRequestEntry {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LocationClientTypes.BatchPutGeofenceRequestEntry()
-        value.geofenceId = try reader["GeofenceId"].readIfPresent()
-        value.geometry = try reader["Geometry"].readIfPresent(with: LocationClientTypes.GeofenceGeometry.read(from:))
-        value.geofenceProperties = try reader["GeofenceProperties"].readMapIfPresent(valueReadingClosure: Swift.String.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
 }
 
 extension LocationClientTypes {
@@ -988,13 +935,6 @@ extension LocationClientTypes {
 }
 
 extension LocationClientTypes.BatchPutGeofenceSuccess {
-
-    static func write(value: LocationClientTypes.BatchPutGeofenceSuccess?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreateTime"].writeTimestamp(value.createTime, format: .dateTime)
-        try writer["GeofenceId"].write(value.geofenceId)
-        try writer["UpdateTime"].writeTimestamp(value.updateTime, format: .dateTime)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.BatchPutGeofenceSuccess {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1034,13 +974,6 @@ extension LocationClientTypes {
 }
 
 extension LocationClientTypes.BatchUpdateDevicePositionError {
-
-    static func write(value: LocationClientTypes.BatchUpdateDevicePositionError?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DeviceId"].write(value.deviceId)
-        try writer["Error"].write(value.error, with: LocationClientTypes.BatchItemError.write(value:to:))
-        try writer["SampleTime"].writeTimestamp(value.sampleTime, format: .dateTime)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.BatchUpdateDevicePositionError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1164,14 +1097,6 @@ extension LocationClientTypes.CalculateRouteCarModeOptions {
         guard let value else { return }
         try writer["AvoidFerries"].write(value.avoidFerries)
         try writer["AvoidTolls"].write(value.avoidTolls)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.CalculateRouteCarModeOptions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LocationClientTypes.CalculateRouteCarModeOptions()
-        value.avoidFerries = try reader["AvoidFerries"].readIfPresent()
-        value.avoidTolls = try reader["AvoidTolls"].readIfPresent()
-        return value
     }
 }
 
@@ -1496,14 +1421,6 @@ enum CalculateRouteMatrixOutputError {
 
 extension LocationClientTypes.CalculateRouteMatrixSummary {
 
-    static func write(value: LocationClientTypes.CalculateRouteMatrixSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DataSource"].write(value.dataSource)
-        try writer["DistanceUnit"].write(value.distanceUnit)
-        try writer["ErrorCount"].write(value.errorCount)
-        try writer["RouteCount"].write(value.routeCount)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.CalculateRouteMatrixSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LocationClientTypes.CalculateRouteMatrixSummary()
@@ -1624,15 +1541,6 @@ extension LocationClientTypes.CalculateRouteSummary: Swift.CustomDebugStringConv
 
 extension LocationClientTypes.CalculateRouteSummary {
 
-    static func write(value: LocationClientTypes.CalculateRouteSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DataSource"].write(value.dataSource)
-        try writer["Distance"].write(value.distance)
-        try writer["DistanceUnit"].write(value.distanceUnit)
-        try writer["DurationSeconds"].write(value.durationSeconds)
-        try writer["RouteBBox"].writeList(value.routeBBox, memberWritingClosure: Swift.Double.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.CalculateRouteSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LocationClientTypes.CalculateRouteSummary()
@@ -1710,16 +1618,6 @@ extension LocationClientTypes.CalculateRouteTruckModeOptions {
         try writer["AvoidTolls"].write(value.avoidTolls)
         try writer["Dimensions"].write(value.dimensions, with: LocationClientTypes.TruckDimensions.write(value:to:))
         try writer["Weight"].write(value.weight, with: LocationClientTypes.TruckWeight.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.CalculateRouteTruckModeOptions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LocationClientTypes.CalculateRouteTruckModeOptions()
-        value.avoidFerries = try reader["AvoidFerries"].readIfPresent()
-        value.avoidTolls = try reader["AvoidTolls"].readIfPresent()
-        value.dimensions = try reader["Dimensions"].readIfPresent(with: LocationClientTypes.TruckDimensions.read(from:))
-        value.weight = try reader["Weight"].readIfPresent(with: LocationClientTypes.TruckWeight.read(from:))
-        return value
     }
 }
 
@@ -3785,16 +3683,6 @@ extension LocationClientTypes.DevicePosition: Swift.CustomDebugStringConvertible
 
 extension LocationClientTypes.DevicePosition {
 
-    static func write(value: LocationClientTypes.DevicePosition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Accuracy"].write(value.accuracy, with: LocationClientTypes.PositionalAccuracy.write(value:to:))
-        try writer["DeviceId"].write(value.deviceId)
-        try writer["Position"].writeList(value.position, memberWritingClosure: Swift.Double.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["PositionProperties"].writeMap(value.positionProperties, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["ReceivedTime"].writeTimestamp(value.receivedTime, format: .dateTime)
-        try writer["SampleTime"].writeTimestamp(value.sampleTime, format: .dateTime)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.DevicePosition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LocationClientTypes.DevicePosition()
@@ -3861,17 +3749,6 @@ extension LocationClientTypes.DevicePositionUpdate {
         try writer["Position"].writeList(value.position, memberWritingClosure: Swift.Double.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["PositionProperties"].writeMap(value.positionProperties, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["SampleTime"].writeTimestamp(value.sampleTime, format: .dateTime)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.DevicePositionUpdate {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LocationClientTypes.DevicePositionUpdate()
-        value.deviceId = try reader["DeviceId"].readIfPresent()
-        value.sampleTime = try reader["SampleTime"].readTimestampIfPresent(format: .dateTime)
-        value.position = try reader["Position"].readListIfPresent(memberReadingClosure: Swift.Double.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.accuracy = try reader["Accuracy"].readIfPresent(with: LocationClientTypes.PositionalAccuracy.read(from:))
-        value.positionProperties = try reader["PositionProperties"].readMapIfPresent(valueReadingClosure: Swift.String.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
     }
 }
 
@@ -5116,16 +4993,6 @@ extension LocationClientTypes.Leg: Swift.CustomDebugStringConvertible {
 
 extension LocationClientTypes.Leg {
 
-    static func write(value: LocationClientTypes.Leg?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Distance"].write(value.distance)
-        try writer["DurationSeconds"].write(value.durationSeconds)
-        try writer["EndPosition"].writeList(value.endPosition, memberWritingClosure: Swift.Double.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Geometry"].write(value.geometry, with: LocationClientTypes.LegGeometry.write(value:to:))
-        try writer["StartPosition"].writeList(value.startPosition, memberWritingClosure: Swift.Double.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Steps"].writeList(value.steps, memberWritingClosure: LocationClientTypes.Step.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.Leg {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LocationClientTypes.Leg()
@@ -5194,11 +5061,6 @@ extension LocationClientTypes {
 }
 
 extension LocationClientTypes.LegGeometry {
-
-    static func write(value: LocationClientTypes.LegGeometry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["LineString"].writeList(value.lineString, memberWritingClosure: listWritingClosure(memberWritingClosure: Swift.Double.write(value:to:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.LegGeometry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5324,15 +5186,6 @@ extension LocationClientTypes.ListDevicePositionsResponseEntry: Swift.CustomDebu
 }
 
 extension LocationClientTypes.ListDevicePositionsResponseEntry {
-
-    static func write(value: LocationClientTypes.ListDevicePositionsResponseEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Accuracy"].write(value.accuracy, with: LocationClientTypes.PositionalAccuracy.write(value:to:))
-        try writer["DeviceId"].write(value.deviceId)
-        try writer["Position"].writeList(value.position, memberWritingClosure: Swift.Double.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["PositionProperties"].writeMap(value.positionProperties, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["SampleTime"].writeTimestamp(value.sampleTime, format: .dateTime)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.ListDevicePositionsResponseEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5462,16 +5315,6 @@ enum ListGeofenceCollectionsOutputError {
 
 extension LocationClientTypes.ListGeofenceCollectionsResponseEntry {
 
-    static func write(value: LocationClientTypes.ListGeofenceCollectionsResponseEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CollectionName"].write(value.collectionName)
-        try writer["CreateTime"].writeTimestamp(value.createTime, format: .dateTime)
-        try writer["Description"].write(value.description)
-        try writer["PricingPlan"].write(value.pricingPlan)
-        try writer["PricingPlanDataSource"].write(value.pricingPlanDataSource)
-        try writer["UpdateTime"].writeTimestamp(value.updateTime, format: .dateTime)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.ListGeofenceCollectionsResponseEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LocationClientTypes.ListGeofenceCollectionsResponseEntry()
@@ -5533,16 +5376,6 @@ extension LocationClientTypes.ListGeofenceResponseEntry: Swift.CustomDebugString
 }
 
 extension LocationClientTypes.ListGeofenceResponseEntry {
-
-    static func write(value: LocationClientTypes.ListGeofenceResponseEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreateTime"].writeTimestamp(value.createTime, format: .dateTime)
-        try writer["GeofenceId"].write(value.geofenceId)
-        try writer["GeofenceProperties"].writeMap(value.geofenceProperties, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["Geometry"].write(value.geometry, with: LocationClientTypes.GeofenceGeometry.write(value:to:))
-        try writer["Status"].write(value.status)
-        try writer["UpdateTime"].writeTimestamp(value.updateTime, format: .dateTime)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.ListGeofenceResponseEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5782,16 +5615,6 @@ enum ListKeysOutputError {
 
 extension LocationClientTypes.ListKeysResponseEntry {
 
-    static func write(value: LocationClientTypes.ListKeysResponseEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreateTime"].writeTimestamp(value.createTime, format: .dateTime)
-        try writer["Description"].write(value.description)
-        try writer["ExpireTime"].writeTimestamp(value.expireTime, format: .dateTime)
-        try writer["KeyName"].write(value.keyName)
-        try writer["Restrictions"].write(value.restrictions, with: LocationClientTypes.ApiKeyRestrictions.write(value:to:))
-        try writer["UpdateTime"].writeTimestamp(value.updateTime, format: .dateTime)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.ListKeysResponseEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LocationClientTypes.ListKeysResponseEntry()
@@ -5926,16 +5749,6 @@ enum ListMapsOutputError {
 }
 
 extension LocationClientTypes.ListMapsResponseEntry {
-
-    static func write(value: LocationClientTypes.ListMapsResponseEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreateTime"].writeTimestamp(value.createTime, format: .dateTime)
-        try writer["DataSource"].write(value.dataSource)
-        try writer["Description"].write(value.description)
-        try writer["MapName"].write(value.mapName)
-        try writer["PricingPlan"].write(value.pricingPlan)
-        try writer["UpdateTime"].writeTimestamp(value.updateTime, format: .dateTime)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.ListMapsResponseEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6072,16 +5885,6 @@ enum ListPlaceIndexesOutputError {
 }
 
 extension LocationClientTypes.ListPlaceIndexesResponseEntry {
-
-    static func write(value: LocationClientTypes.ListPlaceIndexesResponseEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreateTime"].writeTimestamp(value.createTime, format: .dateTime)
-        try writer["DataSource"].write(value.dataSource)
-        try writer["Description"].write(value.description)
-        try writer["IndexName"].write(value.indexName)
-        try writer["PricingPlan"].write(value.pricingPlan)
-        try writer["UpdateTime"].writeTimestamp(value.updateTime, format: .dateTime)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.ListPlaceIndexesResponseEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6227,16 +6030,6 @@ enum ListRouteCalculatorsOutputError {
 }
 
 extension LocationClientTypes.ListRouteCalculatorsResponseEntry {
-
-    static func write(value: LocationClientTypes.ListRouteCalculatorsResponseEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CalculatorName"].write(value.calculatorName)
-        try writer["CreateTime"].writeTimestamp(value.createTime, format: .dateTime)
-        try writer["DataSource"].write(value.dataSource)
-        try writer["Description"].write(value.description)
-        try writer["PricingPlan"].write(value.pricingPlan)
-        try writer["UpdateTime"].writeTimestamp(value.updateTime, format: .dateTime)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.ListRouteCalculatorsResponseEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6544,16 +6337,6 @@ enum ListTrackersOutputError {
 
 extension LocationClientTypes.ListTrackersResponseEntry {
 
-    static func write(value: LocationClientTypes.ListTrackersResponseEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreateTime"].writeTimestamp(value.createTime, format: .dateTime)
-        try writer["Description"].write(value.description)
-        try writer["PricingPlan"].write(value.pricingPlan)
-        try writer["PricingPlanDataSource"].write(value.pricingPlanDataSource)
-        try writer["TrackerName"].write(value.trackerName)
-        try writer["UpdateTime"].writeTimestamp(value.updateTime, format: .dateTime)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.ListTrackersResponseEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LocationClientTypes.ListTrackersResponseEntry()
@@ -6705,14 +6488,6 @@ extension LocationClientTypes.MapConfigurationUpdate {
         try writer["CustomLayers"].writeList(value.customLayers, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["PoliticalView"].write(value.politicalView)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.MapConfigurationUpdate {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LocationClientTypes.MapConfigurationUpdate()
-        value.politicalView = try reader["PoliticalView"].readIfPresent()
-        value.customLayers = try reader["CustomLayers"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
 }
 
 extension LocationClientTypes {
@@ -6766,27 +6541,6 @@ extension LocationClientTypes {
 }
 
 extension LocationClientTypes.Place {
-
-    static func write(value: LocationClientTypes.Place?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AddressNumber"].write(value.addressNumber)
-        try writer["Categories"].writeList(value.categories, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Country"].write(value.country)
-        try writer["Geometry"].write(value.geometry, with: LocationClientTypes.PlaceGeometry.write(value:to:))
-        try writer["Interpolated"].write(value.interpolated)
-        try writer["Label"].write(value.label)
-        try writer["Municipality"].write(value.municipality)
-        try writer["Neighborhood"].write(value.neighborhood)
-        try writer["PostalCode"].write(value.postalCode)
-        try writer["Region"].write(value.region)
-        try writer["Street"].write(value.street)
-        try writer["SubMunicipality"].write(value.subMunicipality)
-        try writer["SubRegion"].write(value.subRegion)
-        try writer["SupplementalCategories"].writeList(value.supplementalCategories, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["TimeZone"].write(value.timeZone, with: LocationClientTypes.TimeZone.write(value:to:))
-        try writer["UnitNumber"].write(value.unitNumber)
-        try writer["UnitType"].write(value.unitType)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.Place {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6899,11 +6653,6 @@ extension LocationClientTypes.PlaceGeometry: Swift.CustomDebugStringConvertible 
 }
 
 extension LocationClientTypes.PlaceGeometry {
-
-    static func write(value: LocationClientTypes.PlaceGeometry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Point"].writeList(value.point, memberWritingClosure: Swift.Double.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.PlaceGeometry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7187,13 +6936,6 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
 extension LocationClientTypes.RouteMatrixEntry {
 
-    static func write(value: LocationClientTypes.RouteMatrixEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Distance"].write(value.distance)
-        try writer["DurationSeconds"].write(value.durationSeconds)
-        try writer["Error"].write(value.error, with: LocationClientTypes.RouteMatrixEntryError.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.RouteMatrixEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LocationClientTypes.RouteMatrixEntry()
@@ -7229,12 +6971,6 @@ extension LocationClientTypes {
 }
 
 extension LocationClientTypes.RouteMatrixEntryError {
-
-    static func write(value: LocationClientTypes.RouteMatrixEntryError?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Code"].write(value.code)
-        try writer["Message"].write(value.message)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.RouteMatrixEntryError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7337,13 +7073,6 @@ extension LocationClientTypes {
 
 extension LocationClientTypes.SearchForPositionResult {
 
-    static func write(value: LocationClientTypes.SearchForPositionResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Distance"].write(value.distance)
-        try writer["Place"].write(value.place, with: LocationClientTypes.Place.write(value:to:))
-        try writer["PlaceId"].write(value.placeId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.SearchForPositionResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LocationClientTypes.SearchForPositionResult()
@@ -7381,14 +7110,6 @@ extension LocationClientTypes {
 }
 
 extension LocationClientTypes.SearchForSuggestionsResult {
-
-    static func write(value: LocationClientTypes.SearchForSuggestionsResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Categories"].writeList(value.categories, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["PlaceId"].write(value.placeId)
-        try writer["SupplementalCategories"].writeList(value.supplementalCategories, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Text"].write(value.text)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.SearchForSuggestionsResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7441,14 +7162,6 @@ extension LocationClientTypes {
 }
 
 extension LocationClientTypes.SearchForTextResult {
-
-    static func write(value: LocationClientTypes.SearchForTextResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Distance"].write(value.distance)
-        try writer["Place"].write(value.place, with: LocationClientTypes.Place.write(value:to:))
-        try writer["PlaceId"].write(value.placeId)
-        try writer["Relevance"].write(value.relevance)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.SearchForTextResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7612,14 +7325,6 @@ extension LocationClientTypes.SearchPlaceIndexForPositionSummary: Swift.CustomDe
 }
 
 extension LocationClientTypes.SearchPlaceIndexForPositionSummary {
-
-    static func write(value: LocationClientTypes.SearchPlaceIndexForPositionSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DataSource"].write(value.dataSource)
-        try writer["Language"].write(value.language)
-        try writer["MaxResults"].write(value.maxResults)
-        try writer["Position"].writeList(value.position, memberWritingClosure: Swift.Double.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.SearchPlaceIndexForPositionSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7815,18 +7520,6 @@ extension LocationClientTypes.SearchPlaceIndexForSuggestionsSummary: Swift.Custo
 }
 
 extension LocationClientTypes.SearchPlaceIndexForSuggestionsSummary {
-
-    static func write(value: LocationClientTypes.SearchPlaceIndexForSuggestionsSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BiasPosition"].writeList(value.biasPosition, memberWritingClosure: Swift.Double.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["DataSource"].write(value.dataSource)
-        try writer["FilterBBox"].writeList(value.filterBBox, memberWritingClosure: Swift.Double.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["FilterCategories"].writeList(value.filterCategories, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["FilterCountries"].writeList(value.filterCountries, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Language"].write(value.language)
-        try writer["MaxResults"].write(value.maxResults)
-        try writer["Text"].write(value.text)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.SearchPlaceIndexForSuggestionsSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8043,19 +7736,6 @@ extension LocationClientTypes.SearchPlaceIndexForTextSummary: Swift.CustomDebugS
 
 extension LocationClientTypes.SearchPlaceIndexForTextSummary {
 
-    static func write(value: LocationClientTypes.SearchPlaceIndexForTextSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BiasPosition"].writeList(value.biasPosition, memberWritingClosure: Swift.Double.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["DataSource"].write(value.dataSource)
-        try writer["FilterBBox"].writeList(value.filterBBox, memberWritingClosure: Swift.Double.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["FilterCategories"].writeList(value.filterCategories, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["FilterCountries"].writeList(value.filterCountries, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Language"].write(value.language)
-        try writer["MaxResults"].write(value.maxResults)
-        try writer["ResultBBox"].writeList(value.resultBBox, memberWritingClosure: Swift.Double.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Text"].write(value.text)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.SearchPlaceIndexForTextSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LocationClientTypes.SearchPlaceIndexForTextSummary()
@@ -8208,15 +7888,6 @@ extension LocationClientTypes.Step: Swift.CustomDebugStringConvertible {
 }
 
 extension LocationClientTypes.Step {
-
-    static func write(value: LocationClientTypes.Step?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Distance"].write(value.distance)
-        try writer["DurationSeconds"].write(value.durationSeconds)
-        try writer["EndPosition"].writeList(value.endPosition, memberWritingClosure: Swift.Double.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["GeometryOffset"].write(value.geometryOffset)
-        try writer["StartPosition"].writeList(value.startPosition, memberWritingClosure: Swift.Double.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.Step {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8386,12 +8057,6 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
 extension LocationClientTypes.TimeZone {
 
-    static func write(value: LocationClientTypes.TimeZone?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["Offset"].write(value.offset)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.TimeZone {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LocationClientTypes.TimeZone()
@@ -8427,13 +8092,6 @@ extension LocationClientTypes.TrackingFilterGeometry {
     static func write(value: LocationClientTypes.TrackingFilterGeometry?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Polygon"].writeList(value.polygon, memberWritingClosure: listWritingClosure(memberWritingClosure: listWritingClosure(memberWritingClosure: Swift.Double.write(value:to:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.TrackingFilterGeometry {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LocationClientTypes.TrackingFilterGeometry()
-        value.polygon = try reader["Polygon"].readListIfPresent(memberReadingClosure: listReadingClosure(memberReadingClosure: listReadingClosure(memberReadingClosure: Swift.Double.read(from:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -8501,16 +8159,6 @@ extension LocationClientTypes.TruckDimensions {
         try writer["Unit"].write(value.unit)
         try writer["Width"].write(value.width)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.TruckDimensions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LocationClientTypes.TruckDimensions()
-        value.length = try reader["Length"].readIfPresent()
-        value.height = try reader["Height"].readIfPresent()
-        value.width = try reader["Width"].readIfPresent()
-        value.unit = try reader["Unit"].readIfPresent()
-        return value
-    }
 }
 
 extension LocationClientTypes {
@@ -8562,14 +8210,6 @@ extension LocationClientTypes.TruckWeight {
         guard let value else { return }
         try writer["Total"].write(value.total)
         try writer["Unit"].write(value.unit)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.TruckWeight {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LocationClientTypes.TruckWeight()
-        value.total = try reader["Total"].readIfPresent()
-        value.unit = try reader["Unit"].readIfPresent()
-        return value
     }
 }
 
@@ -9367,12 +9007,6 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 extension LocationClientTypes.ValidationExceptionField {
-
-    static func write(value: LocationClientTypes.ValidationExceptionField?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.message)
-        try writer["name"].write(value.name)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.ValidationExceptionField {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

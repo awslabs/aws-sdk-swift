@@ -655,13 +655,6 @@ enum GetSuiteRunReportOutputError {
 
 extension IotDeviceAdvisorClientTypes.GroupResult {
 
-    static func write(value: IotDeviceAdvisorClientTypes.GroupResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["groupId"].write(value.groupId)
-        try writer["groupName"].write(value.groupName)
-        try writer["tests"].writeList(value.tests, memberWritingClosure: IotDeviceAdvisorClientTypes.TestCaseRun.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IotDeviceAdvisorClientTypes.GroupResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IotDeviceAdvisorClientTypes.GroupResult()
@@ -1338,17 +1331,6 @@ extension IotDeviceAdvisorClientTypes {
 
 extension IotDeviceAdvisorClientTypes.SuiteDefinitionInformation {
 
-    static func write(value: IotDeviceAdvisorClientTypes.SuiteDefinitionInformation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["defaultDevices"].writeList(value.defaultDevices, memberWritingClosure: IotDeviceAdvisorClientTypes.DeviceUnderTest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["intendedForQualification"].write(value.intendedForQualification)
-        try writer["isLongDurationTest"].write(value.isLongDurationTest)
-        try writer["protocol"].write(value.`protocol`)
-        try writer["suiteDefinitionId"].write(value.suiteDefinitionId)
-        try writer["suiteDefinitionName"].write(value.suiteDefinitionName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IotDeviceAdvisorClientTypes.SuiteDefinitionInformation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IotDeviceAdvisorClientTypes.SuiteDefinitionInformation()
@@ -1448,20 +1430,6 @@ extension IotDeviceAdvisorClientTypes {
 }
 
 extension IotDeviceAdvisorClientTypes.SuiteRunInformation {
-
-    static func write(value: IotDeviceAdvisorClientTypes.SuiteRunInformation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["endAt"].writeTimestamp(value.endAt, format: .epochSeconds)
-        try writer["failed"].write(value.failed)
-        try writer["passed"].write(value.passed)
-        try writer["startedAt"].writeTimestamp(value.startedAt, format: .epochSeconds)
-        try writer["status"].write(value.status)
-        try writer["suiteDefinitionId"].write(value.suiteDefinitionId)
-        try writer["suiteDefinitionName"].write(value.suiteDefinitionName)
-        try writer["suiteDefinitionVersion"].write(value.suiteDefinitionVersion)
-        try writer["suiteRunId"].write(value.suiteRunId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IotDeviceAdvisorClientTypes.SuiteRunInformation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1649,20 +1617,6 @@ enum TagResourceOutputError {
 
 extension IotDeviceAdvisorClientTypes.TestCaseRun {
 
-    static func write(value: IotDeviceAdvisorClientTypes.TestCaseRun?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["endTime"].writeTimestamp(value.endTime, format: .epochSeconds)
-        try writer["failure"].write(value.failure)
-        try writer["logUrl"].write(value.logUrl)
-        try writer["startTime"].writeTimestamp(value.startTime, format: .epochSeconds)
-        try writer["status"].write(value.status)
-        try writer["testCaseDefinitionId"].write(value.testCaseDefinitionId)
-        try writer["testCaseDefinitionName"].write(value.testCaseDefinitionName)
-        try writer["testCaseRunId"].write(value.testCaseRunId)
-        try writer["testScenarios"].writeList(value.testScenarios, memberWritingClosure: IotDeviceAdvisorClientTypes.TestCaseScenario.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["warnings"].write(value.warnings)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IotDeviceAdvisorClientTypes.TestCaseRun {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IotDeviceAdvisorClientTypes.TestCaseRun()
@@ -1749,15 +1703,6 @@ extension IotDeviceAdvisorClientTypes {
 }
 
 extension IotDeviceAdvisorClientTypes.TestCaseScenario {
-
-    static func write(value: IotDeviceAdvisorClientTypes.TestCaseScenario?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["failure"].write(value.failure)
-        try writer["status"].write(value.status)
-        try writer["systemMessage"].write(value.systemMessage)
-        try writer["testCaseScenarioId"].write(value.testCaseScenarioId)
-        try writer["testCaseScenarioType"].write(value.testCaseScenarioType)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IotDeviceAdvisorClientTypes.TestCaseScenario {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1905,11 +1850,6 @@ extension IotDeviceAdvisorClientTypes {
 }
 
 extension IotDeviceAdvisorClientTypes.TestResult {
-
-    static func write(value: IotDeviceAdvisorClientTypes.TestResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["groups"].writeList(value.groups, memberWritingClosure: IotDeviceAdvisorClientTypes.GroupResult.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IotDeviceAdvisorClientTypes.TestResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

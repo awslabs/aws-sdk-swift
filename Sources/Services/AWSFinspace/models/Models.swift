@@ -2668,22 +2668,6 @@ extension FinspaceClientTypes {
 
 extension FinspaceClientTypes.Environment {
 
-    static func write(value: FinspaceClientTypes.Environment?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["awsAccountId"].write(value.awsAccountId)
-        try writer["dedicatedServiceAccountId"].write(value.dedicatedServiceAccountId)
-        try writer["description"].write(value.description)
-        try writer["environmentArn"].write(value.environmentArn)
-        try writer["environmentId"].write(value.environmentId)
-        try writer["environmentUrl"].write(value.environmentUrl)
-        try writer["federationMode"].write(value.federationMode)
-        try writer["federationParameters"].write(value.federationParameters, with: FinspaceClientTypes.FederationParameters.write(value:to:))
-        try writer["kmsKeyId"].write(value.kmsKeyId)
-        try writer["name"].write(value.name)
-        try writer["sageMakerStudioDomainUrl"].write(value.sageMakerStudioDomainUrl)
-        try writer["status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> FinspaceClientTypes.Environment {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FinspaceClientTypes.Environment()
@@ -2875,12 +2859,6 @@ extension FinspaceClientTypes {
 }
 
 extension FinspaceClientTypes.ErrorInfo {
-
-    static func write(value: FinspaceClientTypes.ErrorInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["errorMessage"].write(value.errorMessage)
-        try writer["errorType"].write(value.errorType)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> FinspaceClientTypes.ErrorInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4458,13 +4436,6 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
 
 extension FinspaceClientTypes.KxAttachedCluster {
 
-    static func write(value: FinspaceClientTypes.KxAttachedCluster?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["clusterName"].write(value.clusterName)
-        try writer["clusterStatus"].write(value.clusterStatus)
-        try writer["clusterType"].write(value.clusterType)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> FinspaceClientTypes.KxAttachedCluster {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FinspaceClientTypes.KxAttachedCluster()
@@ -4595,15 +4566,6 @@ extension FinspaceClientTypes {
 
 extension FinspaceClientTypes.KxChangesetListEntry {
 
-    static func write(value: FinspaceClientTypes.KxChangesetListEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["activeFromTimestamp"].writeTimestamp(value.activeFromTimestamp, format: .epochSeconds)
-        try writer["changesetId"].write(value.changesetId)
-        try writer["createdTimestamp"].writeTimestamp(value.createdTimestamp, format: .epochSeconds)
-        try writer["lastModifiedTimestamp"].writeTimestamp(value.lastModifiedTimestamp, format: .epochSeconds)
-        try writer["status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> FinspaceClientTypes.KxChangesetListEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FinspaceClientTypes.KxChangesetListEntry()
@@ -4657,23 +4619,6 @@ extension FinspaceClientTypes {
 }
 
 extension FinspaceClientTypes.KxCluster {
-
-    static func write(value: FinspaceClientTypes.KxCluster?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["availabilityZoneId"].write(value.availabilityZoneId)
-        try writer["azMode"].write(value.azMode)
-        try writer["clusterDescription"].write(value.clusterDescription)
-        try writer["clusterName"].write(value.clusterName)
-        try writer["clusterType"].write(value.clusterType)
-        try writer["createdTimestamp"].writeTimestamp(value.createdTimestamp, format: .epochSeconds)
-        try writer["executionRole"].write(value.executionRole)
-        try writer["initializationScript"].write(value.initializationScript)
-        try writer["lastModifiedTimestamp"].writeTimestamp(value.lastModifiedTimestamp, format: .epochSeconds)
-        try writer["releaseLabel"].write(value.releaseLabel)
-        try writer["status"].write(value.status)
-        try writer["statusReason"].write(value.statusReason)
-        try writer["volumes"].writeList(value.volumes, memberWritingClosure: FinspaceClientTypes.Volume.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> FinspaceClientTypes.KxCluster {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4794,13 +4739,6 @@ extension FinspaceClientTypes.KxClusterCodeDeploymentConfiguration {
     static func write(value: FinspaceClientTypes.KxClusterCodeDeploymentConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["deploymentStrategy"].write(value.deploymentStrategy)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FinspaceClientTypes.KxClusterCodeDeploymentConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FinspaceClientTypes.KxClusterCodeDeploymentConfiguration()
-        value.deploymentStrategy = try reader["deploymentStrategy"].readIfPresent()
-        return value
     }
 }
 
@@ -5089,13 +5027,6 @@ extension FinspaceClientTypes {
 
 extension FinspaceClientTypes.KxDatabaseListEntry {
 
-    static func write(value: FinspaceClientTypes.KxDatabaseListEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["createdTimestamp"].writeTimestamp(value.createdTimestamp, format: .epochSeconds)
-        try writer["databaseName"].write(value.databaseName)
-        try writer["lastModifiedTimestamp"].writeTimestamp(value.lastModifiedTimestamp, format: .epochSeconds)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> FinspaceClientTypes.KxDatabaseListEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FinspaceClientTypes.KxDatabaseListEntry()
@@ -5131,15 +5062,6 @@ extension FinspaceClientTypes {
 }
 
 extension FinspaceClientTypes.KxDataviewActiveVersion {
-
-    static func write(value: FinspaceClientTypes.KxDataviewActiveVersion?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["attachedClusters"].writeList(value.attachedClusters, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["changesetId"].write(value.changesetId)
-        try writer["createdTimestamp"].writeTimestamp(value.createdTimestamp, format: .epochSeconds)
-        try writer["segmentConfigurations"].writeList(value.segmentConfigurations, memberWritingClosure: FinspaceClientTypes.KxDataviewSegmentConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["versionId"].write(value.versionId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> FinspaceClientTypes.KxDataviewActiveVersion {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5235,25 +5157,6 @@ extension FinspaceClientTypes {
 }
 
 extension FinspaceClientTypes.KxDataviewListEntry {
-
-    static func write(value: FinspaceClientTypes.KxDataviewListEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["activeVersions"].writeList(value.activeVersions, memberWritingClosure: FinspaceClientTypes.KxDataviewActiveVersion.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["autoUpdate"].write(value.autoUpdate)
-        try writer["availabilityZoneId"].write(value.availabilityZoneId)
-        try writer["azMode"].write(value.azMode)
-        try writer["changesetId"].write(value.changesetId)
-        try writer["createdTimestamp"].writeTimestamp(value.createdTimestamp, format: .epochSeconds)
-        try writer["databaseName"].write(value.databaseName)
-        try writer["dataviewName"].write(value.dataviewName)
-        try writer["description"].write(value.description)
-        try writer["environmentId"].write(value.environmentId)
-        try writer["lastModifiedTimestamp"].writeTimestamp(value.lastModifiedTimestamp, format: .epochSeconds)
-        try writer["readWrite"].write(value.readWrite)
-        try writer["segmentConfigurations"].writeList(value.segmentConfigurations, memberWritingClosure: FinspaceClientTypes.KxDataviewSegmentConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["status"].write(value.status)
-        try writer["statusReason"].write(value.statusReason)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> FinspaceClientTypes.KxDataviewListEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5439,13 +5342,6 @@ extension FinspaceClientTypes.KxDeploymentConfiguration {
         guard let value else { return }
         try writer["deploymentStrategy"].write(value.deploymentStrategy)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FinspaceClientTypes.KxDeploymentConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FinspaceClientTypes.KxDeploymentConfiguration()
-        value.deploymentStrategy = try reader["deploymentStrategy"].readIfPresent()
-        return value
-    }
 }
 
 extension FinspaceClientTypes {
@@ -5500,27 +5396,6 @@ extension FinspaceClientTypes {
 }
 
 extension FinspaceClientTypes.KxEnvironment {
-
-    static func write(value: FinspaceClientTypes.KxEnvironment?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["availabilityZoneIds"].writeList(value.availabilityZoneIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["awsAccountId"].write(value.awsAccountId)
-        try writer["certificateAuthorityArn"].write(value.certificateAuthorityArn)
-        try writer["creationTimestamp"].writeTimestamp(value.creationTimestamp, format: .epochSeconds)
-        try writer["customDNSConfiguration"].writeList(value.customDNSConfiguration, memberWritingClosure: FinspaceClientTypes.CustomDNSServer.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["dedicatedServiceAccountId"].write(value.dedicatedServiceAccountId)
-        try writer["description"].write(value.description)
-        try writer["dnsStatus"].write(value.dnsStatus)
-        try writer["environmentArn"].write(value.environmentArn)
-        try writer["environmentId"].write(value.environmentId)
-        try writer["errorMessage"].write(value.errorMessage)
-        try writer["kmsKeyId"].write(value.kmsKeyId)
-        try writer["name"].write(value.name)
-        try writer["status"].write(value.status)
-        try writer["tgwStatus"].write(value.tgwStatus)
-        try writer["transitGatewayConfiguration"].write(value.transitGatewayConfiguration, with: FinspaceClientTypes.TransitGatewayConfiguration.write(value:to:))
-        try writer["updateTimestamp"].writeTimestamp(value.updateTimestamp, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> FinspaceClientTypes.KxEnvironment {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5716,14 +5591,6 @@ extension FinspaceClientTypes {
 
 extension FinspaceClientTypes.KxNode {
 
-    static func write(value: FinspaceClientTypes.KxNode?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["availabilityZoneId"].write(value.availabilityZoneId)
-        try writer["launchTime"].writeTimestamp(value.launchTime, format: .epochSeconds)
-        try writer["nodeId"].write(value.nodeId)
-        try writer["status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> FinspaceClientTypes.KxNode {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FinspaceClientTypes.KxNode()
@@ -5870,18 +5737,6 @@ extension FinspaceClientTypes {
 }
 
 extension FinspaceClientTypes.KxScalingGroup {
-
-    static func write(value: FinspaceClientTypes.KxScalingGroup?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["availabilityZoneId"].write(value.availabilityZoneId)
-        try writer["clusters"].writeList(value.clusters, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["createdTimestamp"].writeTimestamp(value.createdTimestamp, format: .epochSeconds)
-        try writer["hostType"].write(value.hostType)
-        try writer["lastModifiedTimestamp"].writeTimestamp(value.lastModifiedTimestamp, format: .epochSeconds)
-        try writer["scalingGroupName"].write(value.scalingGroupName)
-        try writer["status"].write(value.status)
-        try writer["statusReason"].write(value.statusReason)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> FinspaceClientTypes.KxScalingGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6056,15 +5911,6 @@ extension FinspaceClientTypes {
 
 extension FinspaceClientTypes.KxUser {
 
-    static func write(value: FinspaceClientTypes.KxUser?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["createTimestamp"].writeTimestamp(value.createTimestamp, format: .epochSeconds)
-        try writer["iamRole"].write(value.iamRole)
-        try writer["updateTimestamp"].writeTimestamp(value.updateTimestamp, format: .epochSeconds)
-        try writer["userArn"].write(value.userArn)
-        try writer["userName"].write(value.userName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> FinspaceClientTypes.KxUser {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FinspaceClientTypes.KxUser()
@@ -6110,19 +5956,6 @@ extension FinspaceClientTypes {
 }
 
 extension FinspaceClientTypes.KxVolume {
-
-    static func write(value: FinspaceClientTypes.KxVolume?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["availabilityZoneIds"].writeList(value.availabilityZoneIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["azMode"].write(value.azMode)
-        try writer["createdTimestamp"].writeTimestamp(value.createdTimestamp, format: .epochSeconds)
-        try writer["description"].write(value.description)
-        try writer["lastModifiedTimestamp"].writeTimestamp(value.lastModifiedTimestamp, format: .epochSeconds)
-        try writer["status"].write(value.status)
-        try writer["statusReason"].write(value.statusReason)
-        try writer["volumeName"].write(value.volumeName)
-        try writer["volumeType"].write(value.volumeType)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> FinspaceClientTypes.KxVolume {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7618,15 +7451,6 @@ extension FinspaceClientTypes.SuperuserParameters {
         try writer["emailAddress"].write(value.emailAddress)
         try writer["firstName"].write(value.firstName)
         try writer["lastName"].write(value.lastName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FinspaceClientTypes.SuperuserParameters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FinspaceClientTypes.SuperuserParameters()
-        value.emailAddress = try reader["emailAddress"].readIfPresent()
-        value.firstName = try reader["firstName"].readIfPresent()
-        value.lastName = try reader["lastName"].readIfPresent()
-        return value
     }
 }
 
@@ -9159,12 +8983,6 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 extension FinspaceClientTypes.Volume {
-
-    static func write(value: FinspaceClientTypes.Volume?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["volumeName"].write(value.volumeName)
-        try writer["volumeType"].write(value.volumeType)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> FinspaceClientTypes.Volume {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

@@ -133,20 +133,6 @@ enum AddDraftAppVersionResourceMappingsOutputError {
 
 extension ResiliencehubClientTypes.AlarmRecommendation {
 
-    static func write(value: ResiliencehubClientTypes.AlarmRecommendation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["appComponentName"].write(value.appComponentName)
-        try writer["appComponentNames"].writeList(value.appComponentNames, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["description"].write(value.description)
-        try writer["items"].writeList(value.items, memberWritingClosure: ResiliencehubClientTypes.RecommendationItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["name"].write(value.name)
-        try writer["prerequisite"].write(value.prerequisite)
-        try writer["recommendationId"].write(value.recommendationId)
-        try writer["recommendationStatus"].write(value.recommendationStatus)
-        try writer["referenceId"].write(value.referenceId)
-        try writer["type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ResiliencehubClientTypes.AlarmRecommendation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ResiliencehubClientTypes.AlarmRecommendation()
@@ -267,28 +253,6 @@ extension ResiliencehubClientTypes.App: Swift.CustomDebugStringConvertible {
 
 extension ResiliencehubClientTypes.App {
 
-    static func write(value: ResiliencehubClientTypes.App?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["appArn"].write(value.appArn)
-        try writer["assessmentSchedule"].write(value.assessmentSchedule)
-        try writer["complianceStatus"].write(value.complianceStatus)
-        try writer["creationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["description"].write(value.description)
-        try writer["driftStatus"].write(value.driftStatus)
-        try writer["eventSubscriptions"].writeList(value.eventSubscriptions, memberWritingClosure: ResiliencehubClientTypes.EventSubscription.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["lastAppComplianceEvaluationTime"].writeTimestamp(value.lastAppComplianceEvaluationTime, format: .epochSeconds)
-        try writer["lastDriftEvaluationTime"].writeTimestamp(value.lastDriftEvaluationTime, format: .epochSeconds)
-        try writer["lastResiliencyScoreEvaluationTime"].writeTimestamp(value.lastResiliencyScoreEvaluationTime, format: .epochSeconds)
-        try writer["name"].write(value.name)
-        try writer["permissionModel"].write(value.permissionModel, with: ResiliencehubClientTypes.PermissionModel.write(value:to:))
-        try writer["policyArn"].write(value.policyArn)
-        try writer["resiliencyScore"].write(value.resiliencyScore)
-        try writer["rpoInSecs"].write(value.rpoInSecs)
-        try writer["rtoInSecs"].write(value.rtoInSecs)
-        try writer["status"].write(value.status)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ResiliencehubClientTypes.App {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ResiliencehubClientTypes.App()
@@ -407,28 +371,6 @@ extension ResiliencehubClientTypes.AppAssessment: Swift.CustomDebugStringConvert
 }
 
 extension ResiliencehubClientTypes.AppAssessment {
-
-    static func write(value: ResiliencehubClientTypes.AppAssessment?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["appArn"].write(value.appArn)
-        try writer["appVersion"].write(value.appVersion)
-        try writer["assessmentArn"].write(value.assessmentArn)
-        try writer["assessmentName"].write(value.assessmentName)
-        try writer["assessmentStatus"].write(value.assessmentStatus)
-        try writer["compliance"].writeMap(value.compliance, valueWritingClosure: ResiliencehubClientTypes.DisruptionCompliance.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["complianceStatus"].write(value.complianceStatus)
-        try writer["cost"].write(value.cost, with: ResiliencehubClientTypes.Cost.write(value:to:))
-        try writer["driftStatus"].write(value.driftStatus)
-        try writer["endTime"].writeTimestamp(value.endTime, format: .epochSeconds)
-        try writer["invoker"].write(value.invoker)
-        try writer["message"].write(value.message)
-        try writer["policy"].write(value.policy, with: ResiliencehubClientTypes.ResiliencyPolicy.write(value:to:))
-        try writer["resiliencyScore"].write(value.resiliencyScore, with: ResiliencehubClientTypes.ResiliencyScore.write(value:to:))
-        try writer["resourceErrorsDetails"].write(value.resourceErrorsDetails, with: ResiliencehubClientTypes.ResourceErrorsDetails.write(value:to:))
-        try writer["startTime"].writeTimestamp(value.startTime, format: .epochSeconds)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["versionName"].write(value.versionName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ResiliencehubClientTypes.AppAssessment {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -574,24 +516,6 @@ extension ResiliencehubClientTypes {
 
 extension ResiliencehubClientTypes.AppAssessmentSummary {
 
-    static func write(value: ResiliencehubClientTypes.AppAssessmentSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["appArn"].write(value.appArn)
-        try writer["appVersion"].write(value.appVersion)
-        try writer["assessmentArn"].write(value.assessmentArn)
-        try writer["assessmentName"].write(value.assessmentName)
-        try writer["assessmentStatus"].write(value.assessmentStatus)
-        try writer["complianceStatus"].write(value.complianceStatus)
-        try writer["cost"].write(value.cost, with: ResiliencehubClientTypes.Cost.write(value:to:))
-        try writer["driftStatus"].write(value.driftStatus)
-        try writer["endTime"].writeTimestamp(value.endTime, format: .epochSeconds)
-        try writer["invoker"].write(value.invoker)
-        try writer["message"].write(value.message)
-        try writer["resiliencyScore"].write(value.resiliencyScore)
-        try writer["startTime"].writeTimestamp(value.startTime, format: .epochSeconds)
-        try writer["versionName"].write(value.versionName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ResiliencehubClientTypes.AppAssessmentSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ResiliencehubClientTypes.AppAssessmentSummary()
@@ -721,14 +645,6 @@ extension ResiliencehubClientTypes {
 
 extension ResiliencehubClientTypes.AppComponent {
 
-    static func write(value: ResiliencehubClientTypes.AppComponent?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["additionalInfo"].writeMap(value.additionalInfo, valueWritingClosure: listWritingClosure(memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["id"].write(value.id)
-        try writer["name"].write(value.name)
-        try writer["type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ResiliencehubClientTypes.AppComponent {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ResiliencehubClientTypes.AppComponent()
@@ -771,16 +687,6 @@ extension ResiliencehubClientTypes {
 }
 
 extension ResiliencehubClientTypes.AppComponentCompliance {
-
-    static func write(value: ResiliencehubClientTypes.AppComponentCompliance?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["appComponentName"].write(value.appComponentName)
-        try writer["compliance"].writeMap(value.compliance, valueWritingClosure: ResiliencehubClientTypes.DisruptionCompliance.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["cost"].write(value.cost, with: ResiliencehubClientTypes.Cost.write(value:to:))
-        try writer["message"].write(value.message)
-        try writer["resiliencyScore"].write(value.resiliencyScore, with: ResiliencehubClientTypes.ResiliencyScore.write(value:to:))
-        try writer["status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ResiliencehubClientTypes.AppComponentCompliance {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -866,16 +772,6 @@ extension ResiliencehubClientTypes {
 
 extension ResiliencehubClientTypes.AppInputSource {
 
-    static func write(value: ResiliencehubClientTypes.AppInputSource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["eksSourceClusterNamespace"].write(value.eksSourceClusterNamespace, with: ResiliencehubClientTypes.EksSourceClusterNamespace.write(value:to:))
-        try writer["importType"].write(value.importType)
-        try writer["resourceCount"].write(value.resourceCount)
-        try writer["sourceArn"].write(value.sourceArn)
-        try writer["sourceName"].write(value.sourceName)
-        try writer["terraformSource"].write(value.terraformSource, with: ResiliencehubClientTypes.TerraformSource.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ResiliencehubClientTypes.AppInputSource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ResiliencehubClientTypes.AppInputSource()
@@ -957,22 +853,6 @@ extension ResiliencehubClientTypes {
 }
 
 extension ResiliencehubClientTypes.AppSummary {
-
-    static func write(value: ResiliencehubClientTypes.AppSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["appArn"].write(value.appArn)
-        try writer["assessmentSchedule"].write(value.assessmentSchedule)
-        try writer["complianceStatus"].write(value.complianceStatus)
-        try writer["creationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["description"].write(value.description)
-        try writer["driftStatus"].write(value.driftStatus)
-        try writer["lastAppComplianceEvaluationTime"].writeTimestamp(value.lastAppComplianceEvaluationTime, format: .epochSeconds)
-        try writer["name"].write(value.name)
-        try writer["resiliencyScore"].write(value.resiliencyScore)
-        try writer["rpoInSecs"].write(value.rpoInSecs)
-        try writer["rtoInSecs"].write(value.rtoInSecs)
-        try writer["status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ResiliencehubClientTypes.AppSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1057,14 +937,6 @@ extension ResiliencehubClientTypes {
 }
 
 extension ResiliencehubClientTypes.AppVersionSummary {
-
-    static func write(value: ResiliencehubClientTypes.AppVersionSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["appVersion"].write(value.appVersion)
-        try writer["creationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["identifier"].write(value.identifier)
-        try writer["versionName"].write(value.versionName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ResiliencehubClientTypes.AppVersionSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1173,12 +1045,6 @@ extension ResiliencehubClientTypes {
 }
 
 extension ResiliencehubClientTypes.BatchUpdateRecommendationStatusFailedEntry {
-
-    static func write(value: ResiliencehubClientTypes.BatchUpdateRecommendationStatusFailedEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["entryId"].write(value.entryId)
-        try writer["errorMessage"].write(value.errorMessage)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ResiliencehubClientTypes.BatchUpdateRecommendationStatusFailedEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1302,15 +1168,6 @@ enum BatchUpdateRecommendationStatusOutputError {
 
 extension ResiliencehubClientTypes.BatchUpdateRecommendationStatusSuccessfulEntry {
 
-    static func write(value: ResiliencehubClientTypes.BatchUpdateRecommendationStatusSuccessfulEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["entryId"].write(value.entryId)
-        try writer["excludeReason"].write(value.excludeReason)
-        try writer["excluded"].write(value.excluded)
-        try writer["item"].write(value.item, with: ResiliencehubClientTypes.UpdateRecommendationStatusItem.write(value:to:))
-        try writer["referenceId"].write(value.referenceId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ResiliencehubClientTypes.BatchUpdateRecommendationStatusSuccessfulEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ResiliencehubClientTypes.BatchUpdateRecommendationStatusSuccessfulEntry()
@@ -1360,20 +1217,6 @@ extension ResiliencehubClientTypes {
 }
 
 extension ResiliencehubClientTypes.ComplianceDrift {
-
-    static func write(value: ResiliencehubClientTypes.ComplianceDrift?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["actualReferenceId"].write(value.actualReferenceId)
-        try writer["actualValue"].writeMap(value.actualValue, valueWritingClosure: ResiliencehubClientTypes.DisruptionCompliance.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["appId"].write(value.appId)
-        try writer["appVersion"].write(value.appVersion)
-        try writer["diffType"].write(value.diffType)
-        try writer["driftType"].write(value.driftType)
-        try writer["entityId"].write(value.entityId)
-        try writer["entityType"].write(value.entityType)
-        try writer["expectedReferenceId"].write(value.expectedReferenceId)
-        try writer["expectedValue"].writeMap(value.expectedValue, valueWritingClosure: ResiliencehubClientTypes.DisruptionCompliance.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ResiliencehubClientTypes.ComplianceDrift {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1476,13 +1319,6 @@ extension ResiliencehubClientTypes {
 
 extension ResiliencehubClientTypes.ComponentRecommendation {
 
-    static func write(value: ResiliencehubClientTypes.ComponentRecommendation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["appComponentName"].write(value.appComponentName)
-        try writer["configRecommendations"].writeList(value.configRecommendations, memberWritingClosure: ResiliencehubClientTypes.ConfigRecommendation.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["recommendationStatus"].write(value.recommendationStatus)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ResiliencehubClientTypes.ComponentRecommendation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ResiliencehubClientTypes.ComponentRecommendation()
@@ -1521,20 +1357,6 @@ extension ResiliencehubClientTypes {
 }
 
 extension ResiliencehubClientTypes.ConfigRecommendation {
-
-    static func write(value: ResiliencehubClientTypes.ConfigRecommendation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["appComponentName"].write(value.appComponentName)
-        try writer["compliance"].writeMap(value.compliance, valueWritingClosure: ResiliencehubClientTypes.DisruptionCompliance.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["cost"].write(value.cost, with: ResiliencehubClientTypes.Cost.write(value:to:))
-        try writer["description"].write(value.description)
-        try writer["haArchitecture"].write(value.haArchitecture)
-        try writer["name"].write(value.name)
-        try writer["optimizationType"].write(value.optimizationType)
-        try writer["recommendationCompliance"].writeMap(value.recommendationCompliance, valueWritingClosure: ResiliencehubClientTypes.RecommendationDisruptionCompliance.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["referenceId"].write(value.referenceId)
-        try writer["suggestedChanges"].writeList(value.suggestedChanges, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ResiliencehubClientTypes.ConfigRecommendation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1698,13 +1520,6 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 }
 
 extension ResiliencehubClientTypes.Cost {
-
-    static func write(value: ResiliencehubClientTypes.Cost?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["amount"].write(value.amount)
-        try writer["currency"].write(value.currency)
-        try writer["frequency"].write(value.frequency)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ResiliencehubClientTypes.Cost {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3917,20 +3732,6 @@ extension ResiliencehubClientTypes {
 }
 
 extension ResiliencehubClientTypes.DisruptionCompliance {
-
-    static func write(value: ResiliencehubClientTypes.DisruptionCompliance?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["achievableRpoInSecs"].write(value.achievableRpoInSecs)
-        try writer["achievableRtoInSecs"].write(value.achievableRtoInSecs)
-        try writer["complianceStatus"].write(value.complianceStatus)
-        try writer["currentRpoInSecs"].write(value.currentRpoInSecs)
-        try writer["currentRtoInSecs"].write(value.currentRtoInSecs)
-        try writer["message"].write(value.message)
-        try writer["rpoDescription"].write(value.rpoDescription)
-        try writer["rpoReferenceId"].write(value.rpoReferenceId)
-        try writer["rtoDescription"].write(value.rtoDescription)
-        try writer["rtoReferenceId"].write(value.rtoReferenceId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ResiliencehubClientTypes.DisruptionCompliance {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6478,19 +6279,6 @@ extension ResiliencehubClientTypes {
 
 extension ResiliencehubClientTypes.PhysicalResource {
 
-    static func write(value: ResiliencehubClientTypes.PhysicalResource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["additionalInfo"].writeMap(value.additionalInfo, valueWritingClosure: listWritingClosure(memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["appComponents"].writeList(value.appComponents, memberWritingClosure: ResiliencehubClientTypes.AppComponent.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["excluded"].write(value.excluded)
-        try writer["logicalResourceId"].write(value.logicalResourceId, with: ResiliencehubClientTypes.LogicalResourceId.write(value:to:))
-        try writer["parentResourceName"].write(value.parentResourceName)
-        try writer["physicalResourceId"].write(value.physicalResourceId, with: ResiliencehubClientTypes.PhysicalResourceId.write(value:to:))
-        try writer["resourceName"].write(value.resourceName)
-        try writer["resourceType"].write(value.resourceType)
-        try writer["sourceType"].write(value.sourceType)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ResiliencehubClientTypes.PhysicalResource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ResiliencehubClientTypes.PhysicalResource()
@@ -6943,15 +6731,6 @@ extension ResiliencehubClientTypes {
 
 extension ResiliencehubClientTypes.RecommendationDisruptionCompliance {
 
-    static func write(value: ResiliencehubClientTypes.RecommendationDisruptionCompliance?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["expectedComplianceStatus"].write(value.expectedComplianceStatus)
-        try writer["expectedRpoDescription"].write(value.expectedRpoDescription)
-        try writer["expectedRpoInSecs"].write(value.expectedRpoInSecs)
-        try writer["expectedRtoDescription"].write(value.expectedRtoDescription)
-        try writer["expectedRtoInSecs"].write(value.expectedRtoInSecs)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ResiliencehubClientTypes.RecommendationDisruptionCompliance {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ResiliencehubClientTypes.RecommendationDisruptionCompliance()
@@ -6998,16 +6777,6 @@ extension ResiliencehubClientTypes {
 }
 
 extension ResiliencehubClientTypes.RecommendationItem {
-
-    static func write(value: ResiliencehubClientTypes.RecommendationItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["alreadyImplemented"].write(value.alreadyImplemented)
-        try writer["excludeReason"].write(value.excludeReason)
-        try writer["excluded"].write(value.excluded)
-        try writer["resourceId"].write(value.resourceId)
-        try writer["targetAccountId"].write(value.targetAccountId)
-        try writer["targetRegion"].write(value.targetRegion)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ResiliencehubClientTypes.RecommendationItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7100,24 +6869,6 @@ extension ResiliencehubClientTypes.RecommendationTemplate: Swift.CustomDebugStri
 }
 
 extension ResiliencehubClientTypes.RecommendationTemplate {
-
-    static func write(value: ResiliencehubClientTypes.RecommendationTemplate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["appArn"].write(value.appArn)
-        try writer["assessmentArn"].write(value.assessmentArn)
-        try writer["endTime"].writeTimestamp(value.endTime, format: .epochSeconds)
-        try writer["format"].write(value.format)
-        try writer["message"].write(value.message)
-        try writer["name"].write(value.name)
-        try writer["needsReplacements"].write(value.needsReplacements)
-        try writer["recommendationIds"].writeList(value.recommendationIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["recommendationTemplateArn"].write(value.recommendationTemplateArn)
-        try writer["recommendationTypes"].writeList(value.recommendationTypes, memberWritingClosure: ResiliencehubClientTypes.RenderRecommendationType.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["startTime"].writeTimestamp(value.startTime, format: .epochSeconds)
-        try writer["status"].write(value.status)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["templatesLocation"].write(value.templatesLocation, with: ResiliencehubClientTypes.S3Location.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ResiliencehubClientTypes.RecommendationTemplate {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7398,19 +7149,6 @@ extension ResiliencehubClientTypes.ResiliencyPolicy: Swift.CustomDebugStringConv
 
 extension ResiliencehubClientTypes.ResiliencyPolicy {
 
-    static func write(value: ResiliencehubClientTypes.ResiliencyPolicy?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["creationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["dataLocationConstraint"].write(value.dataLocationConstraint)
-        try writer["estimatedCostTier"].write(value.estimatedCostTier)
-        try writer["policy"].writeMap(value.policy, valueWritingClosure: ResiliencehubClientTypes.FailurePolicy.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["policyArn"].write(value.policyArn)
-        try writer["policyDescription"].write(value.policyDescription)
-        try writer["policyName"].write(value.policyName)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["tier"].write(value.tier)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ResiliencehubClientTypes.ResiliencyPolicy {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ResiliencehubClientTypes.ResiliencyPolicy()
@@ -7518,13 +7256,6 @@ extension ResiliencehubClientTypes {
 }
 
 extension ResiliencehubClientTypes.ResiliencyScore {
-
-    static func write(value: ResiliencehubClientTypes.ResiliencyScore?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["componentScore"].writeMap(value.componentScore, valueWritingClosure: ResiliencehubClientTypes.ScoringComponentResiliencyScore.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["disruptionScore"].writeMap(value.disruptionScore, valueWritingClosure: Swift.Double.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["score"].write(value.score)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ResiliencehubClientTypes.ResiliencyScore {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7696,13 +7427,6 @@ enum ResolveAppVersionResourcesOutputError {
 
 extension ResiliencehubClientTypes.ResourceError {
 
-    static func write(value: ResiliencehubClientTypes.ResourceError?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["logicalResourceId"].write(value.logicalResourceId)
-        try writer["physicalResourceId"].write(value.physicalResourceId)
-        try writer["reason"].write(value.reason)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ResiliencehubClientTypes.ResourceError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ResiliencehubClientTypes.ResourceError()
@@ -7738,12 +7462,6 @@ extension ResiliencehubClientTypes {
 }
 
 extension ResiliencehubClientTypes.ResourceErrorsDetails {
-
-    static func write(value: ResiliencehubClientTypes.ResourceErrorsDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["hasMoreErrors"].write(value.hasMoreErrors)
-        try writer["resourceErrors"].writeList(value.resourceErrors, memberWritingClosure: ResiliencehubClientTypes.ResourceError.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ResiliencehubClientTypes.ResourceErrorsDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8072,12 +7790,6 @@ extension ResiliencehubClientTypes {
 
 extension ResiliencehubClientTypes.S3Location {
 
-    static func write(value: ResiliencehubClientTypes.S3Location?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["bucket"].write(value.bucket)
-        try writer["prefix"].write(value.`prefix`)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ResiliencehubClientTypes.S3Location {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ResiliencehubClientTypes.S3Location()
@@ -8108,14 +7820,6 @@ extension ResiliencehubClientTypes {
 }
 
 extension ResiliencehubClientTypes.ScoringComponentResiliencyScore {
-
-    static func write(value: ResiliencehubClientTypes.ScoringComponentResiliencyScore?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["excludedCount"].write(value.excludedCount)
-        try writer["outstandingCount"].write(value.outstandingCount)
-        try writer["possibleScore"].write(value.possibleScore)
-        try writer["score"].write(value.score)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ResiliencehubClientTypes.ScoringComponentResiliencyScore {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8194,19 +7898,6 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 }
 
 extension ResiliencehubClientTypes.SopRecommendation {
-
-    static func write(value: ResiliencehubClientTypes.SopRecommendation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["appComponentName"].write(value.appComponentName)
-        try writer["description"].write(value.description)
-        try writer["items"].writeList(value.items, memberWritingClosure: ResiliencehubClientTypes.RecommendationItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["name"].write(value.name)
-        try writer["prerequisite"].write(value.prerequisite)
-        try writer["recommendationId"].write(value.recommendationId)
-        try writer["recommendationStatus"].write(value.recommendationStatus)
-        try writer["referenceId"].write(value.referenceId)
-        try writer["serviceType"].write(value.serviceType)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ResiliencehubClientTypes.SopRecommendation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8537,22 +8228,6 @@ extension ResiliencehubClientTypes {
 
 extension ResiliencehubClientTypes.TestRecommendation {
 
-    static func write(value: ResiliencehubClientTypes.TestRecommendation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["appComponentName"].write(value.appComponentName)
-        try writer["dependsOnAlarms"].writeList(value.dependsOnAlarms, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["description"].write(value.description)
-        try writer["intent"].write(value.intent)
-        try writer["items"].writeList(value.items, memberWritingClosure: ResiliencehubClientTypes.RecommendationItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["name"].write(value.name)
-        try writer["prerequisite"].write(value.prerequisite)
-        try writer["recommendationId"].write(value.recommendationId)
-        try writer["recommendationStatus"].write(value.recommendationStatus)
-        try writer["referenceId"].write(value.referenceId)
-        try writer["risk"].write(value.risk)
-        try writer["type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ResiliencehubClientTypes.TestRecommendation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ResiliencehubClientTypes.TestRecommendation()
@@ -8745,14 +8420,6 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 extension ResiliencehubClientTypes.UnsupportedResource {
-
-    static func write(value: ResiliencehubClientTypes.UnsupportedResource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["logicalResourceId"].write(value.logicalResourceId, with: ResiliencehubClientTypes.LogicalResourceId.write(value:to:))
-        try writer["physicalResourceId"].write(value.physicalResourceId, with: ResiliencehubClientTypes.PhysicalResourceId.write(value:to:))
-        try writer["resourceType"].write(value.resourceType)
-        try writer["unsupportedResourceStatus"].write(value.unsupportedResourceStatus)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ResiliencehubClientTypes.UnsupportedResource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -9350,17 +9017,6 @@ extension ResiliencehubClientTypes.UpdateRecommendationStatusRequestEntry {
         try writer["excluded"].write(value.excluded)
         try writer["item"].write(value.item, with: ResiliencehubClientTypes.UpdateRecommendationStatusItem.write(value:to:))
         try writer["referenceId"].write(value.referenceId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ResiliencehubClientTypes.UpdateRecommendationStatusRequestEntry {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ResiliencehubClientTypes.UpdateRecommendationStatusRequestEntry()
-        value.entryId = try reader["entryId"].readIfPresent()
-        value.referenceId = try reader["referenceId"].readIfPresent()
-        value.item = try reader["item"].readIfPresent(with: ResiliencehubClientTypes.UpdateRecommendationStatusItem.read(from:))
-        value.excluded = try reader["excluded"].readIfPresent()
-        value.excludeReason = try reader["excludeReason"].readIfPresent()
-        return value
     }
 }
 

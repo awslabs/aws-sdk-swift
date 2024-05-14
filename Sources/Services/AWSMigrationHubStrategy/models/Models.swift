@@ -44,18 +44,6 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
 extension MigrationHubStrategyClientTypes.AnalysisStatusUnion {
 
-    static func write(value: MigrationHubStrategyClientTypes.AnalysisStatusUnion?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .runtimeanalysisstatus(runtimeanalysisstatus):
-                try writer["runtimeAnalysisStatus"].write(runtimeanalysisstatus)
-            case let .srccodeordbanalysisstatus(srccodeordbanalysisstatus):
-                try writer["srcCodeOrDbAnalysisStatus"].write(srccodeordbanalysisstatus)
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.AnalysisStatusUnion {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
@@ -120,14 +108,6 @@ extension MigrationHubStrategyClientTypes {
 
 extension MigrationHubStrategyClientTypes.AnalyzableServerSummary {
 
-    static func write(value: MigrationHubStrategyClientTypes.AnalyzableServerSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["hostname"].write(value.hostname)
-        try writer["ipAddress"].write(value.ipAddress)
-        try writer["source"].write(value.source)
-        try writer["vmId"].write(value.vmId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.AnalyzableServerSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MigrationHubStrategyClientTypes.AnalyzableServerSummary()
@@ -169,20 +149,6 @@ extension MigrationHubStrategyClientTypes {
 
 extension MigrationHubStrategyClientTypes.AnalyzerNameUnion {
 
-    static func write(value: MigrationHubStrategyClientTypes.AnalyzerNameUnion?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .binaryanalyzername(binaryanalyzername):
-                try writer["binaryAnalyzerName"].write(binaryanalyzername)
-            case let .runtimeanalyzername(runtimeanalyzername):
-                try writer["runTimeAnalyzerName"].write(runtimeanalyzername)
-            case let .sourcecodeanalyzername(sourcecodeanalyzername):
-                try writer["sourceCodeAnalyzerName"].write(sourcecodeanalyzername)
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.AnalyzerNameUnion {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
@@ -214,14 +180,6 @@ extension MigrationHubStrategyClientTypes {
 }
 
 extension MigrationHubStrategyClientTypes.AntipatternReportResult {
-
-    static func write(value: MigrationHubStrategyClientTypes.AntipatternReportResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["analyzerName"].write(value.analyzerName, with: MigrationHubStrategyClientTypes.AnalyzerNameUnion.write(value:to:))
-        try writer["antiPatternReportS3Object"].write(value.antiPatternReportS3Object, with: MigrationHubStrategyClientTypes.S3Object.write(value:to:))
-        try writer["antipatternReportStatus"].write(value.antipatternReportStatus)
-        try writer["antipatternReportStatusMessage"].write(value.antipatternReportStatusMessage)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.AntipatternReportResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -296,12 +254,6 @@ extension MigrationHubStrategyClientTypes {
 }
 
 extension MigrationHubStrategyClientTypes.AntipatternSeveritySummary {
-
-    static func write(value: MigrationHubStrategyClientTypes.AntipatternSeveritySummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["count"].write(value.count)
-        try writer["severity"].write(value.severity)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.AntipatternSeveritySummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -424,11 +376,6 @@ extension MigrationHubStrategyClientTypes {
 
 extension MigrationHubStrategyClientTypes.AppUnitError {
 
-    static func write(value: MigrationHubStrategyClientTypes.AppUnitError?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["appUnitErrorCategory"].write(value.appUnitErrorCategory)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.AppUnitError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MigrationHubStrategyClientTypes.AppUnitError()
@@ -541,33 +488,6 @@ extension MigrationHubStrategyClientTypes {
 }
 
 extension MigrationHubStrategyClientTypes.ApplicationComponentDetail {
-
-    static func write(value: MigrationHubStrategyClientTypes.ApplicationComponentDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["analysisStatus"].write(value.analysisStatus)
-        try writer["antipatternReportS3Object"].write(value.antipatternReportS3Object, with: MigrationHubStrategyClientTypes.S3Object.write(value:to:))
-        try writer["antipatternReportStatus"].write(value.antipatternReportStatus)
-        try writer["antipatternReportStatusMessage"].write(value.antipatternReportStatusMessage)
-        try writer["appType"].write(value.appType)
-        try writer["appUnitError"].write(value.appUnitError, with: MigrationHubStrategyClientTypes.AppUnitError.write(value:to:))
-        try writer["associatedServerId"].write(value.associatedServerId)
-        try writer["databaseConfigDetail"].write(value.databaseConfigDetail, with: MigrationHubStrategyClientTypes.DatabaseConfigDetail.write(value:to:))
-        try writer["id"].write(value.id)
-        try writer["inclusionStatus"].write(value.inclusionStatus)
-        try writer["lastAnalyzedTimestamp"].writeTimestamp(value.lastAnalyzedTimestamp, format: .epochSeconds)
-        try writer["listAntipatternSeveritySummary"].writeList(value.listAntipatternSeveritySummary, memberWritingClosure: MigrationHubStrategyClientTypes.AntipatternSeveritySummary.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["moreServerAssociationExists"].write(value.moreServerAssociationExists)
-        try writer["name"].write(value.name)
-        try writer["osDriver"].write(value.osDriver)
-        try writer["osVersion"].write(value.osVersion)
-        try writer["recommendationSet"].write(value.recommendationSet, with: MigrationHubStrategyClientTypes.RecommendationSet.write(value:to:))
-        try writer["resourceSubType"].write(value.resourceSubType)
-        try writer["resultList"].writeList(value.resultList, memberWritingClosure: MigrationHubStrategyClientTypes.Result.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["runtimeStatus"].write(value.runtimeStatus)
-        try writer["runtimeStatusMessage"].write(value.runtimeStatusMessage)
-        try writer["sourceCodeRepositories"].writeList(value.sourceCodeRepositories, memberWritingClosure: MigrationHubStrategyClientTypes.SourceCodeRepository.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["statusMessage"].write(value.statusMessage)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.ApplicationComponentDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -705,12 +625,6 @@ extension MigrationHubStrategyClientTypes {
 
 extension MigrationHubStrategyClientTypes.ApplicationComponentStatusSummary {
 
-    static func write(value: MigrationHubStrategyClientTypes.ApplicationComponentStatusSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["count"].write(value.count)
-        try writer["srcCodeOrDbAnalysisStatus"].write(value.srcCodeOrDbAnalysisStatus)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.ApplicationComponentStatusSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MigrationHubStrategyClientTypes.ApplicationComponentStatusSummary()
@@ -741,13 +655,6 @@ extension MigrationHubStrategyClientTypes {
 }
 
 extension MigrationHubStrategyClientTypes.ApplicationComponentStrategy {
-
-    static func write(value: MigrationHubStrategyClientTypes.ApplicationComponentStrategy?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["isPreferred"].write(value.isPreferred)
-        try writer["recommendation"].write(value.recommendation, with: MigrationHubStrategyClientTypes.RecommendationSet.write(value:to:))
-        try writer["status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.ApplicationComponentStrategy {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -784,12 +691,6 @@ extension MigrationHubStrategyClientTypes {
 }
 
 extension MigrationHubStrategyClientTypes.ApplicationComponentSummary {
-
-    static func write(value: MigrationHubStrategyClientTypes.ApplicationComponentSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["appType"].write(value.appType)
-        try writer["count"].write(value.count)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.ApplicationComponentSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -955,21 +856,6 @@ extension MigrationHubStrategyClientTypes {
 
 extension MigrationHubStrategyClientTypes.AssessmentSummary {
 
-    static func write(value: MigrationHubStrategyClientTypes.AssessmentSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["antipatternReportS3Object"].write(value.antipatternReportS3Object, with: MigrationHubStrategyClientTypes.S3Object.write(value:to:))
-        try writer["antipatternReportStatus"].write(value.antipatternReportStatus)
-        try writer["antipatternReportStatusMessage"].write(value.antipatternReportStatusMessage)
-        try writer["lastAnalyzedTimestamp"].writeTimestamp(value.lastAnalyzedTimestamp, format: .epochSeconds)
-        try writer["listAntipatternSeveritySummary"].writeList(value.listAntipatternSeveritySummary, memberWritingClosure: MigrationHubStrategyClientTypes.AntipatternSeveritySummary.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["listApplicationComponentStatusSummary"].writeList(value.listApplicationComponentStatusSummary, memberWritingClosure: MigrationHubStrategyClientTypes.ApplicationComponentStatusSummary.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["listApplicationComponentStrategySummary"].writeList(value.listApplicationComponentStrategySummary, memberWritingClosure: MigrationHubStrategyClientTypes.StrategySummary.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["listApplicationComponentSummary"].writeList(value.listApplicationComponentSummary, memberWritingClosure: MigrationHubStrategyClientTypes.ApplicationComponentSummary.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["listServerStatusSummary"].writeList(value.listServerStatusSummary, memberWritingClosure: MigrationHubStrategyClientTypes.ServerStatusSummary.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["listServerStrategySummary"].writeList(value.listServerStrategySummary, memberWritingClosure: MigrationHubStrategyClientTypes.StrategySummary.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["listServerSummary"].writeList(value.listServerSummary, memberWritingClosure: MigrationHubStrategyClientTypes.ServerSummary.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.AssessmentSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MigrationHubStrategyClientTypes.AssessmentSummary()
@@ -1091,12 +977,6 @@ extension MigrationHubStrategyClientTypes {
 }
 
 extension MigrationHubStrategyClientTypes.AssociatedApplication {
-
-    static func write(value: MigrationHubStrategyClientTypes.AssociatedApplication?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["id"].write(value.id)
-        try writer["name"].write(value.name)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.AssociatedApplication {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1306,18 +1186,6 @@ extension MigrationHubStrategyClientTypes {
 
 extension MigrationHubStrategyClientTypes.Collector {
 
-    static func write(value: MigrationHubStrategyClientTypes.Collector?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["collectorHealth"].write(value.collectorHealth)
-        try writer["collectorId"].write(value.collectorId)
-        try writer["collectorVersion"].write(value.collectorVersion)
-        try writer["configurationSummary"].write(value.configurationSummary, with: MigrationHubStrategyClientTypes.ConfigurationSummary.write(value:to:))
-        try writer["hostName"].write(value.hostName)
-        try writer["ipAddress"].write(value.ipAddress)
-        try writer["lastActivityTimeStamp"].write(value.lastActivityTimeStamp)
-        try writer["registeredTimeStamp"].write(value.registeredTimeStamp)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.Collector {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MigrationHubStrategyClientTypes.Collector()
@@ -1445,15 +1313,6 @@ extension MigrationHubStrategyClientTypes {
 
 extension MigrationHubStrategyClientTypes.ConfigurationSummary {
 
-    static func write(value: MigrationHubStrategyClientTypes.ConfigurationSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ipAddressBasedRemoteInfoList"].writeList(value.ipAddressBasedRemoteInfoList, memberWritingClosure: MigrationHubStrategyClientTypes.IPAddressBasedRemoteInfo.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["pipelineInfoList"].writeList(value.pipelineInfoList, memberWritingClosure: MigrationHubStrategyClientTypes.PipelineInfo.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["remoteSourceCodeAnalysisServerInfo"].write(value.remoteSourceCodeAnalysisServerInfo, with: MigrationHubStrategyClientTypes.RemoteSourceCodeAnalysisServerInfo.write(value:to:))
-        try writer["vcenterBasedRemoteInfoList"].writeList(value.vcenterBasedRemoteInfoList, memberWritingClosure: MigrationHubStrategyClientTypes.VcenterBasedRemoteInfo.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["versionControlInfoList"].writeList(value.versionControlInfoList, memberWritingClosure: MigrationHubStrategyClientTypes.VersionControlInfo.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.ConfigurationSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MigrationHubStrategyClientTypes.ConfigurationSummary()
@@ -1537,18 +1396,6 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 }
 
 extension MigrationHubStrategyClientTypes.DataCollectionDetails {
-
-    static func write(value: MigrationHubStrategyClientTypes.DataCollectionDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["completionTime"].writeTimestamp(value.completionTime, format: .epochSeconds)
-        try writer["failed"].write(value.failed)
-        try writer["inProgress"].write(value.inProgress)
-        try writer["servers"].write(value.servers)
-        try writer["startTime"].writeTimestamp(value.startTime, format: .epochSeconds)
-        try writer["status"].write(value.status)
-        try writer["statusMessage"].write(value.statusMessage)
-        try writer["success"].write(value.success)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.DataCollectionDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1646,11 +1493,6 @@ extension MigrationHubStrategyClientTypes {
 }
 
 extension MigrationHubStrategyClientTypes.DatabaseConfigDetail {
-
-    static func write(value: MigrationHubStrategyClientTypes.DatabaseConfigDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["secretName"].write(value.secretName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.DatabaseConfigDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2573,14 +2415,6 @@ extension MigrationHubStrategyClientTypes.Group {
         try writer["name"].write(value.name)
         try writer["value"].write(value.value)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.Group {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MigrationHubStrategyClientTypes.Group()
-        value.name = try reader["name"].readIfPresent()
-        value.value = try reader["value"].readIfPresent()
-        return value
-    }
 }
 
 extension MigrationHubStrategyClientTypes {
@@ -2779,13 +2613,6 @@ extension MigrationHubStrategyClientTypes {
 
 extension MigrationHubStrategyClientTypes.IPAddressBasedRemoteInfo {
 
-    static func write(value: MigrationHubStrategyClientTypes.IPAddressBasedRemoteInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["authType"].write(value.authType)
-        try writer["ipAddressConfigurationTimeStamp"].write(value.ipAddressConfigurationTimeStamp)
-        try writer["osType"].write(value.osType)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.IPAddressBasedRemoteInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MigrationHubStrategyClientTypes.IPAddressBasedRemoteInfo()
@@ -2821,21 +2648,6 @@ extension MigrationHubStrategyClientTypes {
 }
 
 extension MigrationHubStrategyClientTypes.ImportFileTaskInformation {
-
-    static func write(value: MigrationHubStrategyClientTypes.ImportFileTaskInformation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["completionTime"].writeTimestamp(value.completionTime, format: .epochSeconds)
-        try writer["id"].write(value.id)
-        try writer["importName"].write(value.importName)
-        try writer["inputS3Bucket"].write(value.inputS3Bucket)
-        try writer["inputS3Key"].write(value.inputS3Key)
-        try writer["numberOfRecordsFailed"].write(value.numberOfRecordsFailed)
-        try writer["numberOfRecordsSuccess"].write(value.numberOfRecordsSuccess)
-        try writer["startTime"].writeTimestamp(value.startTime, format: .epochSeconds)
-        try writer["status"].write(value.status)
-        try writer["statusReportS3Bucket"].write(value.statusReportS3Bucket)
-        try writer["statusReportS3Key"].write(value.statusReportS3Key)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.ImportFileTaskInformation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3527,14 +3339,6 @@ public enum MigrationHubStrategyClientTypes {}
 
 extension MigrationHubStrategyClientTypes.NetworkInfo {
 
-    static func write(value: MigrationHubStrategyClientTypes.NetworkInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["interfaceName"].write(value.interfaceName)
-        try writer["ipAddress"].write(value.ipAddress)
-        try writer["macAddress"].write(value.macAddress)
-        try writer["netMask"].write(value.netMask)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.NetworkInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MigrationHubStrategyClientTypes.NetworkInfo()
@@ -3686,12 +3490,6 @@ extension MigrationHubStrategyClientTypes {
 
 extension MigrationHubStrategyClientTypes.OSInfo {
 
-    static func write(value: MigrationHubStrategyClientTypes.OSInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["type"].write(value.type)
-        try writer["version"].write(value.version)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.OSInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MigrationHubStrategyClientTypes.OSInfo()
@@ -3782,12 +3580,6 @@ extension MigrationHubStrategyClientTypes {
 }
 
 extension MigrationHubStrategyClientTypes.PipelineInfo {
-
-    static func write(value: MigrationHubStrategyClientTypes.PipelineInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["pipelineConfigurationTimeStamp"].write(value.pipelineConfigurationTimeStamp)
-        try writer["pipelineType"].write(value.pipelineType)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.PipelineInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3950,16 +3742,6 @@ enum PutPortfolioPreferencesOutputError {
 
 extension MigrationHubStrategyClientTypes.RecommendationReportDetails {
 
-    static func write(value: MigrationHubStrategyClientTypes.RecommendationReportDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["completionTime"].writeTimestamp(value.completionTime, format: .epochSeconds)
-        try writer["s3Bucket"].write(value.s3Bucket)
-        try writer["s3Keys"].writeList(value.s3Keys, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["startTime"].writeTimestamp(value.startTime, format: .epochSeconds)
-        try writer["status"].write(value.status)
-        try writer["statusMessage"].write(value.statusMessage)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.RecommendationReportDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MigrationHubStrategyClientTypes.RecommendationReportDetails()
@@ -4044,13 +3826,6 @@ extension MigrationHubStrategyClientTypes {
 
 extension MigrationHubStrategyClientTypes.RecommendationSet {
 
-    static func write(value: MigrationHubStrategyClientTypes.RecommendationSet?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["strategy"].write(value.strategy)
-        try writer["targetDestination"].write(value.targetDestination)
-        try writer["transformationTool"].write(value.transformationTool, with: MigrationHubStrategyClientTypes.TransformationTool.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.RecommendationSet {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MigrationHubStrategyClientTypes.RecommendationSet()
@@ -4086,11 +3861,6 @@ extension MigrationHubStrategyClientTypes {
 }
 
 extension MigrationHubStrategyClientTypes.RemoteSourceCodeAnalysisServerInfo {
-
-    static func write(value: MigrationHubStrategyClientTypes.RemoteSourceCodeAnalysisServerInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["remoteSourceCodeAnalysisServerConfigurationTimestamp"].write(value.remoteSourceCodeAnalysisServerConfigurationTimestamp)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.RemoteSourceCodeAnalysisServerInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4187,14 +3957,6 @@ extension MigrationHubStrategyClientTypes {
 }
 
 extension MigrationHubStrategyClientTypes.Result {
-
-    static func write(value: MigrationHubStrategyClientTypes.Result?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["analysisStatus"].write(value.analysisStatus, with: MigrationHubStrategyClientTypes.AnalysisStatusUnion.write(value:to:))
-        try writer["analysisType"].write(value.analysisType)
-        try writer["antipatternReportResultList"].writeList(value.antipatternReportResultList, memberWritingClosure: MigrationHubStrategyClientTypes.AntipatternReportResult.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["statusMessage"].write(value.statusMessage)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.Result {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4357,12 +4119,6 @@ extension MigrationHubStrategyClientTypes {
 
 extension MigrationHubStrategyClientTypes.S3Object {
 
-    static func write(value: MigrationHubStrategyClientTypes.S3Object?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["s3Bucket"].write(value.s3Bucket)
-        try writer["s3key"].write(value.s3key)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.S3Object {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MigrationHubStrategyClientTypes.S3Object()
@@ -4507,24 +4263,6 @@ extension MigrationHubStrategyClientTypes {
 
 extension MigrationHubStrategyClientTypes.ServerDetail {
 
-    static func write(value: MigrationHubStrategyClientTypes.ServerDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["antipatternReportS3Object"].write(value.antipatternReportS3Object, with: MigrationHubStrategyClientTypes.S3Object.write(value:to:))
-        try writer["antipatternReportStatus"].write(value.antipatternReportStatus)
-        try writer["antipatternReportStatusMessage"].write(value.antipatternReportStatusMessage)
-        try writer["applicationComponentStrategySummary"].writeList(value.applicationComponentStrategySummary, memberWritingClosure: MigrationHubStrategyClientTypes.StrategySummary.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["dataCollectionStatus"].write(value.dataCollectionStatus)
-        try writer["id"].write(value.id)
-        try writer["lastAnalyzedTimestamp"].writeTimestamp(value.lastAnalyzedTimestamp, format: .epochSeconds)
-        try writer["listAntipatternSeveritySummary"].writeList(value.listAntipatternSeveritySummary, memberWritingClosure: MigrationHubStrategyClientTypes.AntipatternSeveritySummary.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["name"].write(value.name)
-        try writer["recommendationSet"].write(value.recommendationSet, with: MigrationHubStrategyClientTypes.RecommendationSet.write(value:to:))
-        try writer["serverError"].write(value.serverError, with: MigrationHubStrategyClientTypes.ServerError.write(value:to:))
-        try writer["serverType"].write(value.serverType)
-        try writer["statusMessage"].write(value.statusMessage)
-        try writer["systemInfo"].write(value.systemInfo, with: MigrationHubStrategyClientTypes.SystemInfo.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.ServerDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MigrationHubStrategyClientTypes.ServerDetail()
@@ -4615,11 +4353,6 @@ extension MigrationHubStrategyClientTypes {
 }
 
 extension MigrationHubStrategyClientTypes.ServerError {
-
-    static func write(value: MigrationHubStrategyClientTypes.ServerError?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["serverErrorCategory"].write(value.serverErrorCategory)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.ServerError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4725,12 +4458,6 @@ extension MigrationHubStrategyClientTypes {
 
 extension MigrationHubStrategyClientTypes.ServerStatusSummary {
 
-    static func write(value: MigrationHubStrategyClientTypes.ServerStatusSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["count"].write(value.count)
-        try writer["runTimeAssessmentStatus"].write(value.runTimeAssessmentStatus)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.ServerStatusSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MigrationHubStrategyClientTypes.ServerStatusSummary()
@@ -4761,14 +4488,6 @@ extension MigrationHubStrategyClientTypes {
 }
 
 extension MigrationHubStrategyClientTypes.ServerStrategy {
-
-    static func write(value: MigrationHubStrategyClientTypes.ServerStrategy?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["isPreferred"].write(value.isPreferred)
-        try writer["numberOfApplicationComponents"].write(value.numberOfApplicationComponents)
-        try writer["recommendation"].write(value.recommendation, with: MigrationHubStrategyClientTypes.RecommendationSet.write(value:to:))
-        try writer["status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.ServerStrategy {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4810,12 +4529,6 @@ extension MigrationHubStrategyClientTypes {
 }
 
 extension MigrationHubStrategyClientTypes.ServerSummary {
-
-    static func write(value: MigrationHubStrategyClientTypes.ServerSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ServerOsType"].write(value.serverOsType)
-        try writer["count"].write(value.count)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.ServerSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4993,16 +4706,6 @@ extension MigrationHubStrategyClientTypes.SourceCode {
         try writer["sourceVersion"].write(value.sourceVersion)
         try writer["versionControl"].write(value.versionControl)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.SourceCode {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MigrationHubStrategyClientTypes.SourceCode()
-        value.versionControl = try reader["versionControl"].readIfPresent()
-        value.sourceVersion = try reader["sourceVersion"].readIfPresent()
-        value.location = try reader["location"].readIfPresent()
-        value.projectName = try reader["projectName"].readIfPresent()
-        return value
-    }
 }
 
 extension MigrationHubStrategyClientTypes {
@@ -5070,14 +4773,6 @@ extension MigrationHubStrategyClientTypes {
 }
 
 extension MigrationHubStrategyClientTypes.SourceCodeRepository {
-
-    static func write(value: MigrationHubStrategyClientTypes.SourceCodeRepository?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["branch"].write(value.branch)
-        try writer["projectName"].write(value.projectName)
-        try writer["repository"].write(value.repository)
-        try writer["versionControlType"].write(value.versionControlType)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.SourceCodeRepository {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5528,16 +5223,6 @@ extension MigrationHubStrategyClientTypes.StrategyOption {
         try writer["targetDestination"].write(value.targetDestination)
         try writer["toolName"].write(value.toolName)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.StrategyOption {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MigrationHubStrategyClientTypes.StrategyOption()
-        value.strategy = try reader["strategy"].readIfPresent()
-        value.toolName = try reader["toolName"].readIfPresent()
-        value.targetDestination = try reader["targetDestination"].readIfPresent()
-        value.isPreferred = try reader["isPreferred"].readIfPresent()
-        return value
-    }
 }
 
 extension MigrationHubStrategyClientTypes {
@@ -5606,12 +5291,6 @@ extension MigrationHubStrategyClientTypes {
 
 extension MigrationHubStrategyClientTypes.StrategySummary {
 
-    static func write(value: MigrationHubStrategyClientTypes.StrategySummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["count"].write(value.count)
-        try writer["strategy"].write(value.strategy)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.StrategySummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MigrationHubStrategyClientTypes.StrategySummary()
@@ -5642,14 +5321,6 @@ extension MigrationHubStrategyClientTypes {
 }
 
 extension MigrationHubStrategyClientTypes.SystemInfo {
-
-    static func write(value: MigrationHubStrategyClientTypes.SystemInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["cpuArchitecture"].write(value.cpuArchitecture)
-        try writer["fileSystemType"].write(value.fileSystemType)
-        try writer["networkInfoList"].writeList(value.networkInfoList, memberWritingClosure: MigrationHubStrategyClientTypes.NetworkInfo.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["osInfo"].write(value.osInfo, with: MigrationHubStrategyClientTypes.OSInfo.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.SystemInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5848,13 +5519,6 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 extension MigrationHubStrategyClientTypes.TransformationTool {
-
-    static func write(value: MigrationHubStrategyClientTypes.TransformationTool?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["description"].write(value.description)
-        try writer["name"].write(value.name)
-        try writer["tranformationToolInstallationLink"].write(value.tranformationToolInstallationLink)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.TransformationTool {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6137,12 +5801,6 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
 extension MigrationHubStrategyClientTypes.VcenterBasedRemoteInfo {
 
-    static func write(value: MigrationHubStrategyClientTypes.VcenterBasedRemoteInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["osType"].write(value.osType)
-        try writer["vcenterConfigurationTimeStamp"].write(value.vcenterConfigurationTimeStamp)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.VcenterBasedRemoteInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MigrationHubStrategyClientTypes.VcenterBasedRemoteInfo()
@@ -6206,12 +5864,6 @@ extension MigrationHubStrategyClientTypes {
 }
 
 extension MigrationHubStrategyClientTypes.VersionControlInfo {
-
-    static func write(value: MigrationHubStrategyClientTypes.VersionControlInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["versionControlConfigurationTimeStamp"].write(value.versionControlConfigurationTimeStamp)
-        try writer["versionControlType"].write(value.versionControlType)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.VersionControlInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

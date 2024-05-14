@@ -237,11 +237,6 @@ public struct AuthorizationException: ClientRuntime.ModeledError, AWSClientRunti
 
 extension LicenseManagerClientTypes.AutomatedDiscoveryInformation {
 
-    static func write(value: LicenseManagerClientTypes.AutomatedDiscoveryInformation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["LastRunTime"].writeTimestamp(value.lastRunTime, format: .epochSeconds)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LicenseManagerClientTypes.AutomatedDiscoveryInformation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LicenseManagerClientTypes.AutomatedDiscoveryInformation()
@@ -722,12 +717,6 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 }
 
 extension LicenseManagerClientTypes.ConsumedLicenseSummary {
-
-    static func write(value: LicenseManagerClientTypes.ConsumedLicenseSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ConsumedLicenses"].write(value.consumedLicenses)
-        try writer["ResourceType"].write(value.resourceType)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LicenseManagerClientTypes.ConsumedLicenseSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2530,14 +2519,6 @@ extension LicenseManagerClientTypes {
 
 extension LicenseManagerClientTypes.EntitlementUsage {
 
-    static func write(value: LicenseManagerClientTypes.EntitlementUsage?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ConsumedValue"].write(value.consumedValue)
-        try writer["MaxCount"].write(value.maxCount)
-        try writer["Name"].write(value.name)
-        try writer["Unit"].write(value.unit)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LicenseManagerClientTypes.EntitlementUsage {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LicenseManagerClientTypes.EntitlementUsage()
@@ -2709,14 +2690,6 @@ extension LicenseManagerClientTypes.Filter {
         guard let value else { return }
         try writer["Name"].write(value.name)
         try writer["Values"].writeList(value.values, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LicenseManagerClientTypes.Filter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LicenseManagerClientTypes.Filter()
-        value.name = try reader["Name"].readIfPresent()
-        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -3492,21 +3465,6 @@ enum GetServiceSettingsOutputError {
 
 extension LicenseManagerClientTypes.Grant {
 
-    static func write(value: LicenseManagerClientTypes.Grant?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["GrantArn"].write(value.grantArn)
-        try writer["GrantName"].write(value.grantName)
-        try writer["GrantStatus"].write(value.grantStatus)
-        try writer["GrantedOperations"].writeList(value.grantedOperations, memberWritingClosure: LicenseManagerClientTypes.AllowedOperation.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["GranteePrincipalArn"].write(value.granteePrincipalArn)
-        try writer["HomeRegion"].write(value.homeRegion)
-        try writer["LicenseArn"].write(value.licenseArn)
-        try writer["Options"].write(value.options, with: LicenseManagerClientTypes.Options.write(value:to:))
-        try writer["ParentArn"].write(value.parentArn)
-        try writer["StatusReason"].write(value.statusReason)
-        try writer["Version"].write(value.version)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LicenseManagerClientTypes.Grant {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LicenseManagerClientTypes.Grant()
@@ -3642,25 +3600,6 @@ extension LicenseManagerClientTypes {
 }
 
 extension LicenseManagerClientTypes.GrantedLicense {
-
-    static func write(value: LicenseManagerClientTypes.GrantedLicense?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Beneficiary"].write(value.beneficiary)
-        try writer["ConsumptionConfiguration"].write(value.consumptionConfiguration, with: LicenseManagerClientTypes.ConsumptionConfiguration.write(value:to:))
-        try writer["CreateTime"].write(value.createTime)
-        try writer["Entitlements"].writeList(value.entitlements, memberWritingClosure: LicenseManagerClientTypes.Entitlement.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["HomeRegion"].write(value.homeRegion)
-        try writer["Issuer"].write(value.issuer, with: LicenseManagerClientTypes.IssuerDetails.write(value:to:))
-        try writer["LicenseArn"].write(value.licenseArn)
-        try writer["LicenseMetadata"].writeList(value.licenseMetadata, memberWritingClosure: LicenseManagerClientTypes.Metadata.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["LicenseName"].write(value.licenseName)
-        try writer["ProductName"].write(value.productName)
-        try writer["ProductSKU"].write(value.productSKU)
-        try writer["ReceivedMetadata"].write(value.receivedMetadata, with: LicenseManagerClientTypes.ReceivedMetadata.write(value:to:))
-        try writer["Status"].write(value.status)
-        try writer["Validity"].write(value.validity, with: LicenseManagerClientTypes.DatetimeRange.write(value:to:))
-        try writer["Version"].write(value.version)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LicenseManagerClientTypes.GrantedLicense {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3838,15 +3777,6 @@ extension LicenseManagerClientTypes.InventoryFilter {
         try writer["Name"].write(value.name)
         try writer["Value"].write(value.value)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LicenseManagerClientTypes.InventoryFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LicenseManagerClientTypes.InventoryFilter()
-        value.name = try reader["Name"].readIfPresent()
-        value.condition = try reader["Condition"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
-        return value
-    }
 }
 
 extension LicenseManagerClientTypes {
@@ -3918,14 +3848,6 @@ extension LicenseManagerClientTypes.Issuer {
         try writer["Name"].write(value.name)
         try writer["SignKey"].write(value.signKey)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LicenseManagerClientTypes.Issuer {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LicenseManagerClientTypes.Issuer()
-        value.name = try reader["Name"].readIfPresent()
-        value.signKey = try reader["SignKey"].readIfPresent()
-        return value
-    }
 }
 
 extension LicenseManagerClientTypes {
@@ -3950,13 +3872,6 @@ extension LicenseManagerClientTypes {
 }
 
 extension LicenseManagerClientTypes.IssuerDetails {
-
-    static func write(value: LicenseManagerClientTypes.IssuerDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["KeyFingerprint"].write(value.keyFingerprint)
-        try writer["Name"].write(value.name)
-        try writer["SignKey"].write(value.signKey)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LicenseManagerClientTypes.IssuerDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3993,24 +3908,6 @@ extension LicenseManagerClientTypes {
 }
 
 extension LicenseManagerClientTypes.License {
-
-    static func write(value: LicenseManagerClientTypes.License?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Beneficiary"].write(value.beneficiary)
-        try writer["ConsumptionConfiguration"].write(value.consumptionConfiguration, with: LicenseManagerClientTypes.ConsumptionConfiguration.write(value:to:))
-        try writer["CreateTime"].write(value.createTime)
-        try writer["Entitlements"].writeList(value.entitlements, memberWritingClosure: LicenseManagerClientTypes.Entitlement.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["HomeRegion"].write(value.homeRegion)
-        try writer["Issuer"].write(value.issuer, with: LicenseManagerClientTypes.IssuerDetails.write(value:to:))
-        try writer["LicenseArn"].write(value.licenseArn)
-        try writer["LicenseMetadata"].writeList(value.licenseMetadata, memberWritingClosure: LicenseManagerClientTypes.Metadata.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["LicenseName"].write(value.licenseName)
-        try writer["ProductName"].write(value.productName)
-        try writer["ProductSKU"].write(value.productSKU)
-        try writer["Status"].write(value.status)
-        try writer["Validity"].write(value.validity, with: LicenseManagerClientTypes.DatetimeRange.write(value:to:))
-        try writer["Version"].write(value.version)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LicenseManagerClientTypes.License {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4102,26 +3999,6 @@ extension LicenseManagerClientTypes {
 }
 
 extension LicenseManagerClientTypes.LicenseConfiguration {
-
-    static func write(value: LicenseManagerClientTypes.LicenseConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AutomatedDiscoveryInformation"].write(value.automatedDiscoveryInformation, with: LicenseManagerClientTypes.AutomatedDiscoveryInformation.write(value:to:))
-        try writer["ConsumedLicenseSummaryList"].writeList(value.consumedLicenseSummaryList, memberWritingClosure: LicenseManagerClientTypes.ConsumedLicenseSummary.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ConsumedLicenses"].write(value.consumedLicenses)
-        try writer["Description"].write(value.description)
-        try writer["DisassociateWhenNotFound"].write(value.disassociateWhenNotFound)
-        try writer["LicenseConfigurationArn"].write(value.licenseConfigurationArn)
-        try writer["LicenseConfigurationId"].write(value.licenseConfigurationId)
-        try writer["LicenseCount"].write(value.licenseCount)
-        try writer["LicenseCountHardLimit"].write(value.licenseCountHardLimit)
-        try writer["LicenseCountingType"].write(value.licenseCountingType)
-        try writer["LicenseRules"].writeList(value.licenseRules, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ManagedResourceSummaryList"].writeList(value.managedResourceSummaryList, memberWritingClosure: LicenseManagerClientTypes.ManagedResourceSummary.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Name"].write(value.name)
-        try writer["OwnerAccountId"].write(value.ownerAccountId)
-        try writer["ProductInformationList"].writeList(value.productInformationList, memberWritingClosure: LicenseManagerClientTypes.ProductInformation.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LicenseManagerClientTypes.LicenseConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4224,15 +4101,6 @@ extension LicenseManagerClientTypes {
 
 extension LicenseManagerClientTypes.LicenseConfigurationAssociation {
 
-    static func write(value: LicenseManagerClientTypes.LicenseConfigurationAssociation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AmiAssociationScope"].write(value.amiAssociationScope)
-        try writer["AssociationTime"].writeTimestamp(value.associationTime, format: .epochSeconds)
-        try writer["ResourceArn"].write(value.resourceArn)
-        try writer["ResourceOwnerId"].write(value.resourceOwnerId)
-        try writer["ResourceType"].write(value.resourceType)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LicenseManagerClientTypes.LicenseConfigurationAssociation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LicenseManagerClientTypes.LicenseConfigurationAssociation()
@@ -4308,16 +4176,6 @@ extension LicenseManagerClientTypes {
 }
 
 extension LicenseManagerClientTypes.LicenseConfigurationUsage {
-
-    static func write(value: LicenseManagerClientTypes.LicenseConfigurationUsage?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AssociationTime"].writeTimestamp(value.associationTime, format: .epochSeconds)
-        try writer["ConsumedLicenses"].write(value.consumedLicenses)
-        try writer["ResourceArn"].write(value.resourceArn)
-        try writer["ResourceOwnerId"].write(value.resourceOwnerId)
-        try writer["ResourceStatus"].write(value.resourceStatus)
-        try writer["ResourceType"].write(value.resourceType)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LicenseManagerClientTypes.LicenseConfigurationUsage {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4400,19 +4258,6 @@ extension LicenseManagerClientTypes {
 }
 
 extension LicenseManagerClientTypes.LicenseConversionTask {
-
-    static func write(value: LicenseManagerClientTypes.LicenseConversionTask?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DestinationLicenseContext"].write(value.destinationLicenseContext, with: LicenseManagerClientTypes.LicenseConversionContext.write(value:to:))
-        try writer["EndTime"].writeTimestamp(value.endTime, format: .epochSeconds)
-        try writer["LicenseConversionTaskId"].write(value.licenseConversionTaskId)
-        try writer["LicenseConversionTime"].writeTimestamp(value.licenseConversionTime, format: .epochSeconds)
-        try writer["ResourceArn"].write(value.resourceArn)
-        try writer["SourceLicenseContext"].write(value.sourceLicenseContext, with: LicenseManagerClientTypes.LicenseConversionContext.write(value:to:))
-        try writer["StartTime"].writeTimestamp(value.startTime, format: .epochSeconds)
-        try writer["Status"].write(value.status)
-        try writer["StatusMessage"].write(value.statusMessage)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LicenseManagerClientTypes.LicenseConversionTask {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4581,18 +4426,6 @@ public enum LicenseManagerClientTypes {}
 
 extension LicenseManagerClientTypes.LicenseOperationFailure {
 
-    static func write(value: LicenseManagerClientTypes.LicenseOperationFailure?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ErrorMessage"].write(value.errorMessage)
-        try writer["FailureTime"].writeTimestamp(value.failureTime, format: .epochSeconds)
-        try writer["MetadataList"].writeList(value.metadataList, memberWritingClosure: LicenseManagerClientTypes.Metadata.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["OperationName"].write(value.operationName)
-        try writer["OperationRequestedBy"].write(value.operationRequestedBy)
-        try writer["ResourceArn"].write(value.resourceArn)
-        try writer["ResourceOwnerId"].write(value.resourceOwnerId)
-        try writer["ResourceType"].write(value.resourceType)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LicenseManagerClientTypes.LicenseOperationFailure {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LicenseManagerClientTypes.LicenseOperationFailure()
@@ -4736,11 +4569,6 @@ extension LicenseManagerClientTypes {
 }
 
 extension LicenseManagerClientTypes.LicenseUsage {
-
-    static func write(value: LicenseManagerClientTypes.LicenseUsage?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EntitlementUsages"].writeList(value.entitlementUsages, memberWritingClosure: LicenseManagerClientTypes.EntitlementUsage.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LicenseManagerClientTypes.LicenseUsage {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6358,12 +6186,6 @@ enum ListUsageForLicenseConfigurationOutputError {
 
 extension LicenseManagerClientTypes.ManagedResourceSummary {
 
-    static func write(value: LicenseManagerClientTypes.ManagedResourceSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AssociationCount"].write(value.associationCount)
-        try writer["ResourceType"].write(value.resourceType)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LicenseManagerClientTypes.ManagedResourceSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LicenseManagerClientTypes.ManagedResourceSummary()
@@ -6717,13 +6539,6 @@ public struct RateLimitExceededException: ClientRuntime.ModeledError, AWSClientR
 
 extension LicenseManagerClientTypes.ReceivedMetadata {
 
-    static func write(value: LicenseManagerClientTypes.ReceivedMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AllowedOperations"].writeList(value.allowedOperations, memberWritingClosure: LicenseManagerClientTypes.AllowedOperation.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ReceivedStatus"].write(value.receivedStatus)
-        try writer["ReceivedStatusReason"].write(value.receivedStatusReason)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LicenseManagerClientTypes.ReceivedMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LicenseManagerClientTypes.ReceivedMetadata()
@@ -7069,23 +6884,6 @@ extension LicenseManagerClientTypes {
 
 extension LicenseManagerClientTypes.ReportGenerator {
 
-    static func write(value: LicenseManagerClientTypes.ReportGenerator?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreateTime"].write(value.createTime)
-        try writer["Description"].write(value.description)
-        try writer["LastReportGenerationTime"].write(value.lastReportGenerationTime)
-        try writer["LastRunFailureReason"].write(value.lastRunFailureReason)
-        try writer["LastRunStatus"].write(value.lastRunStatus)
-        try writer["LicenseManagerReportGeneratorArn"].write(value.licenseManagerReportGeneratorArn)
-        try writer["ReportContext"].write(value.reportContext, with: LicenseManagerClientTypes.ReportContext.write(value:to:))
-        try writer["ReportCreatorAccount"].write(value.reportCreatorAccount)
-        try writer["ReportFrequency"].write(value.reportFrequency, with: LicenseManagerClientTypes.ReportFrequency.write(value:to:))
-        try writer["ReportGeneratorName"].write(value.reportGeneratorName)
-        try writer["ReportType"].writeList(value.reportType, memberWritingClosure: LicenseManagerClientTypes.ReportType.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["S3Location"].write(value.s3Location, with: LicenseManagerClientTypes.S3Location.write(value:to:))
-        try writer["Tags"].writeList(value.tags, memberWritingClosure: LicenseManagerClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LicenseManagerClientTypes.ReportGenerator {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LicenseManagerClientTypes.ReportGenerator()
@@ -7201,16 +6999,6 @@ extension LicenseManagerClientTypes {
 }
 
 extension LicenseManagerClientTypes.ResourceInventory {
-
-    static func write(value: LicenseManagerClientTypes.ResourceInventory?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Platform"].write(value.platform)
-        try writer["PlatformVersion"].write(value.platformVersion)
-        try writer["ResourceArn"].write(value.resourceArn)
-        try writer["ResourceId"].write(value.resourceId)
-        try writer["ResourceOwningAccountId"].write(value.resourceOwningAccountId)
-        try writer["ResourceType"].write(value.resourceType)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LicenseManagerClientTypes.ResourceInventory {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7375,12 +7163,6 @@ extension LicenseManagerClientTypes {
 }
 
 extension LicenseManagerClientTypes.S3Location {
-
-    static func write(value: LicenseManagerClientTypes.S3Location?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["bucket"].write(value.bucket)
-        try writer["keyPrefix"].write(value.keyPrefix)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LicenseManagerClientTypes.S3Location {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7550,17 +7332,6 @@ enum TagResourceOutputError {
 }
 
 extension LicenseManagerClientTypes.TokenData {
-
-    static func write(value: LicenseManagerClientTypes.TokenData?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ExpirationTime"].write(value.expirationTime)
-        try writer["LicenseArn"].write(value.licenseArn)
-        try writer["RoleArns"].writeList(value.roleArns, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Status"].write(value.status)
-        try writer["TokenId"].write(value.tokenId)
-        try writer["TokenProperties"].writeList(value.tokenProperties, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["TokenType"].write(value.tokenType)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LicenseManagerClientTypes.TokenData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

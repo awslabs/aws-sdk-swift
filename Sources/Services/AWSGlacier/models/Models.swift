@@ -1237,16 +1237,6 @@ extension DescribeVaultOutput {
 
 extension GlacierClientTypes.DescribeVaultOutput {
 
-    static func write(value: GlacierClientTypes.DescribeVaultOutput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationDate"].write(value.creationDate)
-        try writer["LastInventoryDate"].write(value.lastInventoryDate)
-        try writer["NumberOfArchives"].write(value.numberOfArchives)
-        try writer["SizeInBytes"].write(value.sizeInBytes)
-        try writer["VaultARN"].write(value.vaultARN)
-        try writer["VaultName"].write(value.vaultName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GlacierClientTypes.DescribeVaultOutput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GlacierClientTypes.DescribeVaultOutput()
@@ -1940,31 +1930,6 @@ public enum GlacierClientTypes {}
 
 extension GlacierClientTypes.GlacierJobDescription {
 
-    static func write(value: GlacierClientTypes.GlacierJobDescription?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Action"].write(value.action)
-        try writer["ArchiveId"].write(value.archiveId)
-        try writer["ArchiveSHA256TreeHash"].write(value.archiveSHA256TreeHash)
-        try writer["ArchiveSizeInBytes"].write(value.archiveSizeInBytes)
-        try writer["Completed"].write(value.completed)
-        try writer["CompletionDate"].write(value.completionDate)
-        try writer["CreationDate"].write(value.creationDate)
-        try writer["InventoryRetrievalParameters"].write(value.inventoryRetrievalParameters, with: GlacierClientTypes.InventoryRetrievalJobDescription.write(value:to:))
-        try writer["InventorySizeInBytes"].write(value.inventorySizeInBytes)
-        try writer["JobDescription"].write(value.jobDescription)
-        try writer["JobId"].write(value.jobId)
-        try writer["JobOutputPath"].write(value.jobOutputPath)
-        try writer["OutputLocation"].write(value.outputLocation, with: GlacierClientTypes.OutputLocation.write(value:to:))
-        try writer["RetrievalByteRange"].write(value.retrievalByteRange)
-        try writer["SHA256TreeHash"].write(value.sha256TreeHash)
-        try writer["SNSTopic"].write(value.snsTopic)
-        try writer["SelectParameters"].write(value.selectParameters, with: GlacierClientTypes.SelectParameters.write(value:to:))
-        try writer["StatusCode"].write(value.statusCode)
-        try writer["StatusMessage"].write(value.statusMessage)
-        try writer["Tier"].write(value.tier)
-        try writer["VaultARN"].write(value.vaultARN)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GlacierClientTypes.GlacierJobDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GlacierClientTypes.GlacierJobDescription()
@@ -2610,15 +2575,6 @@ public struct InvalidParameterValueException: ClientRuntime.ModeledError, AWSCli
 
 extension GlacierClientTypes.InventoryRetrievalJobDescription {
 
-    static func write(value: GlacierClientTypes.InventoryRetrievalJobDescription?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EndDate"].write(value.endDate)
-        try writer["Format"].write(value.format)
-        try writer["Limit"].write(value.limit)
-        try writer["Marker"].write(value.marker)
-        try writer["StartDate"].write(value.startDate)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GlacierClientTypes.InventoryRetrievalJobDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GlacierClientTypes.InventoryRetrievalJobDescription()
@@ -2672,16 +2628,6 @@ extension GlacierClientTypes.InventoryRetrievalJobInput {
         try writer["Marker"].write(value.marker)
         try writer["StartDate"].write(value.startDate)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlacierClientTypes.InventoryRetrievalJobInput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlacierClientTypes.InventoryRetrievalJobInput()
-        value.startDate = try reader["StartDate"].readIfPresent()
-        value.endDate = try reader["EndDate"].readIfPresent()
-        value.limit = try reader["Limit"].readIfPresent()
-        value.marker = try reader["Marker"].readIfPresent()
-        return value
-    }
 }
 
 extension GlacierClientTypes {
@@ -2726,22 +2672,6 @@ extension GlacierClientTypes.JobParameters {
         try writer["SelectParameters"].write(value.selectParameters, with: GlacierClientTypes.SelectParameters.write(value:to:))
         try writer["Tier"].write(value.tier)
         try writer["Type"].write(value.type)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlacierClientTypes.JobParameters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlacierClientTypes.JobParameters()
-        value.format = try reader["Format"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
-        value.archiveId = try reader["ArchiveId"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.snsTopic = try reader["SNSTopic"].readIfPresent()
-        value.retrievalByteRange = try reader["RetrievalByteRange"].readIfPresent()
-        value.tier = try reader["Tier"].readIfPresent()
-        value.inventoryRetrievalParameters = try reader["InventoryRetrievalParameters"].readIfPresent(with: GlacierClientTypes.InventoryRetrievalJobInput.read(from:))
-        value.selectParameters = try reader["SelectParameters"].readIfPresent(with: GlacierClientTypes.SelectParameters.read(from:))
-        value.outputLocation = try reader["OutputLocation"].readIfPresent(with: GlacierClientTypes.OutputLocation.read(from:))
-        return value
     }
 }
 
@@ -3547,12 +3477,6 @@ extension GlacierClientTypes {
 
 extension GlacierClientTypes.PartListElement {
 
-    static func write(value: GlacierClientTypes.PartListElement?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["RangeInBytes"].write(value.rangeInBytes)
-        try writer["SHA256TreeHash"].write(value.sha256TreeHash)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GlacierClientTypes.PartListElement {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GlacierClientTypes.PartListElement()
@@ -3670,13 +3594,6 @@ public struct PolicyEnforcedException: ClientRuntime.ModeledError, AWSClientRunt
 }
 
 extension GlacierClientTypes.ProvisionedCapacityDescription {
-
-    static func write(value: GlacierClientTypes.ProvisionedCapacityDescription?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CapacityId"].write(value.capacityId)
-        try writer["ExpirationDate"].write(value.expirationDate)
-        try writer["StartDate"].write(value.startDate)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GlacierClientTypes.ProvisionedCapacityDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4586,15 +4503,6 @@ enum UploadArchiveOutputError {
 
 extension GlacierClientTypes.UploadListElement {
 
-    static func write(value: GlacierClientTypes.UploadListElement?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ArchiveDescription"].write(value.archiveDescription)
-        try writer["CreationDate"].write(value.creationDate)
-        try writer["MultipartUploadId"].write(value.multipartUploadId)
-        try writer["PartSizeInBytes"].write(value.partSizeInBytes)
-        try writer["VaultARN"].write(value.vaultARN)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GlacierClientTypes.UploadListElement {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GlacierClientTypes.UploadListElement()
@@ -4791,13 +4699,6 @@ extension GlacierClientTypes.VaultLockPolicy {
     static func write(value: GlacierClientTypes.VaultLockPolicy?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Policy"].write(value.policy)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlacierClientTypes.VaultLockPolicy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlacierClientTypes.VaultLockPolicy()
-        value.policy = try reader["Policy"].readIfPresent()
-        return value
     }
 }
 

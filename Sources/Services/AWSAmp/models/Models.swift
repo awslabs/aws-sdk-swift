@@ -45,14 +45,6 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
 extension AmpClientTypes.AlertManagerDefinitionDescription {
 
-    static func write(value: AmpClientTypes.AlertManagerDefinitionDescription?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["data"].write(value.data)
-        try writer["modifiedAt"].writeTimestamp(value.modifiedAt, format: .epochSeconds)
-        try writer["status"].write(value.status, with: AmpClientTypes.AlertManagerDefinitionStatus.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.AlertManagerDefinitionDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AmpClientTypes.AlertManagerDefinitionDescription()
@@ -97,12 +89,6 @@ extension AmpClientTypes {
 }
 
 extension AmpClientTypes.AlertManagerDefinitionStatus {
-
-    static func write(value: AmpClientTypes.AlertManagerDefinitionStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["statusCode"].write(value.statusCode)
-        try writer["statusReason"].write(value.statusReason)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.AlertManagerDefinitionStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2067,15 +2053,6 @@ enum ListWorkspacesOutputError {
 
 extension AmpClientTypes.LoggingConfigurationMetadata {
 
-    static func write(value: AmpClientTypes.LoggingConfigurationMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["logGroupArn"].write(value.logGroupArn)
-        try writer["modifiedAt"].writeTimestamp(value.modifiedAt, format: .epochSeconds)
-        try writer["status"].write(value.status, with: AmpClientTypes.LoggingConfigurationStatus.write(value:to:))
-        try writer["workspace"].write(value.workspace)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.LoggingConfigurationMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AmpClientTypes.LoggingConfigurationMetadata()
@@ -2126,12 +2103,6 @@ extension AmpClientTypes {
 }
 
 extension AmpClientTypes.LoggingConfigurationStatus {
-
-    static func write(value: AmpClientTypes.LoggingConfigurationStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["statusCode"].write(value.statusCode)
-        try writer["statusReason"].write(value.statusReason)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.LoggingConfigurationStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2466,17 +2437,6 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
 extension AmpClientTypes.RuleGroupsNamespaceDescription {
 
-    static func write(value: AmpClientTypes.RuleGroupsNamespaceDescription?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["data"].write(value.data)
-        try writer["modifiedAt"].writeTimestamp(value.modifiedAt, format: .epochSeconds)
-        try writer["name"].write(value.name)
-        try writer["status"].write(value.status, with: AmpClientTypes.RuleGroupsNamespaceStatus.write(value:to:))
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.RuleGroupsNamespaceDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AmpClientTypes.RuleGroupsNamespaceDescription()
@@ -2538,12 +2498,6 @@ extension AmpClientTypes {
 }
 
 extension AmpClientTypes.RuleGroupsNamespaceStatus {
-
-    static func write(value: AmpClientTypes.RuleGroupsNamespaceStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["statusCode"].write(value.statusCode)
-        try writer["statusReason"].write(value.statusReason)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.RuleGroupsNamespaceStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2625,16 +2579,6 @@ extension AmpClientTypes {
 }
 
 extension AmpClientTypes.RuleGroupsNamespaceSummary {
-
-    static func write(value: AmpClientTypes.RuleGroupsNamespaceSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["modifiedAt"].writeTimestamp(value.modifiedAt, format: .epochSeconds)
-        try writer["name"].write(value.name)
-        try writer["status"].write(value.status, with: AmpClientTypes.RuleGroupsNamespaceStatus.write(value:to:))
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.RuleGroupsNamespaceSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2726,22 +2670,6 @@ extension AmpClientTypes {
 
 extension AmpClientTypes.ScraperDescription {
 
-    static func write(value: AmpClientTypes.ScraperDescription?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["alias"].write(value.alias)
-        try writer["arn"].write(value.arn)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["destination"].write(value.destination, with: AmpClientTypes.Destination.write(value:to:))
-        try writer["lastModifiedAt"].writeTimestamp(value.lastModifiedAt, format: .epochSeconds)
-        try writer["roleArn"].write(value.roleArn)
-        try writer["scrapeConfiguration"].write(value.scrapeConfiguration, with: AmpClientTypes.ScrapeConfiguration.write(value:to:))
-        try writer["scraperId"].write(value.scraperId)
-        try writer["source"].write(value.source, with: AmpClientTypes.Source.write(value:to:))
-        try writer["status"].write(value.status, with: AmpClientTypes.ScraperStatus.write(value:to:))
-        try writer["statusReason"].write(value.statusReason)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.ScraperDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AmpClientTypes.ScraperDescription()
@@ -2832,11 +2760,6 @@ extension AmpClientTypes {
 
 extension AmpClientTypes.ScraperStatus {
 
-    static func write(value: AmpClientTypes.ScraperStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["statusCode"].write(value.statusCode)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.ScraperStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AmpClientTypes.ScraperStatus()
@@ -2908,21 +2831,6 @@ extension AmpClientTypes {
 }
 
 extension AmpClientTypes.ScraperSummary {
-
-    static func write(value: AmpClientTypes.ScraperSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["alias"].write(value.alias)
-        try writer["arn"].write(value.arn)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["destination"].write(value.destination, with: AmpClientTypes.Destination.write(value:to:))
-        try writer["lastModifiedAt"].writeTimestamp(value.lastModifiedAt, format: .epochSeconds)
-        try writer["roleArn"].write(value.roleArn)
-        try writer["scraperId"].write(value.scraperId)
-        try writer["source"].write(value.source, with: AmpClientTypes.Source.write(value:to:))
-        try writer["status"].write(value.status, with: AmpClientTypes.ScraperStatus.write(value:to:))
-        try writer["statusReason"].write(value.statusReason)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.ScraperSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3511,12 +3419,6 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
 extension AmpClientTypes.ValidationExceptionField {
 
-    static func write(value: AmpClientTypes.ValidationExceptionField?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.message)
-        try writer["name"].write(value.name)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.ValidationExceptionField {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AmpClientTypes.ValidationExceptionField()
@@ -3587,18 +3489,6 @@ extension AmpClientTypes {
 
 extension AmpClientTypes.WorkspaceDescription {
 
-    static func write(value: AmpClientTypes.WorkspaceDescription?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["alias"].write(value.alias)
-        try writer["arn"].write(value.arn)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["kmsKeyArn"].write(value.kmsKeyArn)
-        try writer["prometheusEndpoint"].write(value.prometheusEndpoint)
-        try writer["status"].write(value.status, with: AmpClientTypes.WorkspaceStatus.write(value:to:))
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["workspaceId"].write(value.workspaceId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.WorkspaceDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AmpClientTypes.WorkspaceDescription()
@@ -3663,11 +3553,6 @@ extension AmpClientTypes {
 }
 
 extension AmpClientTypes.WorkspaceStatus {
-
-    static func write(value: AmpClientTypes.WorkspaceStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["statusCode"].write(value.statusCode)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.WorkspaceStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3740,17 +3625,6 @@ extension AmpClientTypes {
 }
 
 extension AmpClientTypes.WorkspaceSummary {
-
-    static func write(value: AmpClientTypes.WorkspaceSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["alias"].write(value.alias)
-        try writer["arn"].write(value.arn)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["kmsKeyArn"].write(value.kmsKeyArn)
-        try writer["status"].write(value.status, with: AmpClientTypes.WorkspaceStatus.write(value:to:))
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["workspaceId"].write(value.workspaceId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.WorkspaceSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

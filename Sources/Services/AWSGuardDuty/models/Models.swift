@@ -146,12 +146,6 @@ enum AcceptInvitationOutputError {
 
 extension GuardDutyClientTypes.AccessControlList {
 
-    static func write(value: GuardDutyClientTypes.AccessControlList?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["allowsPublicReadAccess"].write(value.allowsPublicReadAccess)
-        try writer["allowsPublicWriteAccess"].write(value.allowsPublicWriteAccess)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.AccessControlList {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GuardDutyClientTypes.AccessControlList()
@@ -226,14 +220,6 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
 extension GuardDutyClientTypes.AccessKeyDetails {
 
-    static func write(value: GuardDutyClientTypes.AccessKeyDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["accessKeyId"].write(value.accessKeyId)
-        try writer["principalId"].write(value.principalId)
-        try writer["userName"].write(value.userName)
-        try writer["userType"].write(value.userType)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.AccessKeyDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GuardDutyClientTypes.AccessKeyDetails()
@@ -285,14 +271,6 @@ extension GuardDutyClientTypes.AccountDetail {
         try writer["accountId"].write(value.accountId)
         try writer["email"].write(value.email)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.AccountDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.AccountDetail()
-        value.accountId = try reader["accountId"].readIfPresent()
-        value.email = try reader["email"].readIfPresent()
-        return value
-    }
 }
 
 extension GuardDutyClientTypes {
@@ -318,13 +296,6 @@ extension GuardDutyClientTypes {
 }
 
 extension GuardDutyClientTypes.AccountFreeTrialInfo {
-
-    static func write(value: GuardDutyClientTypes.AccountFreeTrialInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["accountId"].write(value.accountId)
-        try writer["dataSources"].write(value.dataSources, with: GuardDutyClientTypes.DataSourcesFreeTrial.write(value:to:))
-        try writer["features"].writeList(value.features, memberWritingClosure: GuardDutyClientTypes.FreeTrialFeatureConfigurationResult.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.AccountFreeTrialInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -363,11 +334,6 @@ extension GuardDutyClientTypes {
 
 extension GuardDutyClientTypes.AccountLevelPermissions {
 
-    static func write(value: GuardDutyClientTypes.AccountLevelPermissions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["blockPublicAccess"].write(value.blockPublicAccess, with: GuardDutyClientTypes.BlockPublicAccess.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.AccountLevelPermissions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GuardDutyClientTypes.AccountLevelPermissions()
@@ -393,20 +359,6 @@ extension GuardDutyClientTypes {
 }
 
 extension GuardDutyClientTypes.Action {
-
-    static func write(value: GuardDutyClientTypes.Action?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["actionType"].write(value.actionType)
-        try writer["awsApiCallAction"].write(value.awsApiCallAction, with: GuardDutyClientTypes.AwsApiCallAction.write(value:to:))
-        try writer["dnsRequestAction"].write(value.dnsRequestAction, with: GuardDutyClientTypes.DnsRequestAction.write(value:to:))
-        try writer["kubernetesApiCallAction"].write(value.kubernetesApiCallAction, with: GuardDutyClientTypes.KubernetesApiCallAction.write(value:to:))
-        try writer["kubernetesPermissionCheckedDetails"].write(value.kubernetesPermissionCheckedDetails, with: GuardDutyClientTypes.KubernetesPermissionCheckedDetails.write(value:to:))
-        try writer["kubernetesRoleBindingDetails"].write(value.kubernetesRoleBindingDetails, with: GuardDutyClientTypes.KubernetesRoleBindingDetails.write(value:to:))
-        try writer["kubernetesRoleDetails"].write(value.kubernetesRoleDetails, with: GuardDutyClientTypes.KubernetesRoleDetails.write(value:to:))
-        try writer["networkConnectionAction"].write(value.networkConnectionAction, with: GuardDutyClientTypes.NetworkConnectionAction.write(value:to:))
-        try writer["portProbeAction"].write(value.portProbeAction, with: GuardDutyClientTypes.PortProbeAction.write(value:to:))
-        try writer["rdsLoginAttemptAction"].write(value.rdsLoginAttemptAction, with: GuardDutyClientTypes.RdsLoginAttemptAction.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Action {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -479,12 +431,6 @@ extension GuardDutyClientTypes {
 
 extension GuardDutyClientTypes.AddonDetails {
 
-    static func write(value: GuardDutyClientTypes.AddonDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["addonStatus"].write(value.addonStatus)
-        try writer["addonVersion"].write(value.addonVersion)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.AddonDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GuardDutyClientTypes.AddonDetails()
@@ -515,12 +461,6 @@ extension GuardDutyClientTypes {
 }
 
 extension GuardDutyClientTypes.AdminAccount {
-
-    static func write(value: GuardDutyClientTypes.AdminAccount?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["adminAccountId"].write(value.adminAccountId)
-        try writer["adminStatus"].write(value.adminStatus)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.AdminAccount {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -583,14 +523,6 @@ extension GuardDutyClientTypes {
 
 extension GuardDutyClientTypes.Administrator {
 
-    static func write(value: GuardDutyClientTypes.Administrator?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["accountId"].write(value.accountId)
-        try writer["invitationId"].write(value.invitationId)
-        try writer["invitedAt"].write(value.invitedAt)
-        try writer["relationshipStatus"].write(value.relationshipStatus)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Administrator {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GuardDutyClientTypes.Administrator()
@@ -632,11 +564,6 @@ extension GuardDutyClientTypes {
 
 extension GuardDutyClientTypes.AgentDetails {
 
-    static func write(value: GuardDutyClientTypes.AgentDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["version"].write(value.version)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.AgentDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GuardDutyClientTypes.AgentDetails()
@@ -662,12 +589,6 @@ extension GuardDutyClientTypes {
 }
 
 extension GuardDutyClientTypes.Anomaly {
-
-    static func write(value: GuardDutyClientTypes.Anomaly?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["profiles"].writeMap(value.profiles, valueWritingClosure: mapWritingClosure(valueWritingClosure: listWritingClosure(memberWritingClosure: GuardDutyClientTypes.AnomalyObject.write(value:to:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["unusual"].write(value.unusual, with: GuardDutyClientTypes.AnomalyUnusual.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Anomaly {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -699,13 +620,6 @@ extension GuardDutyClientTypes {
 }
 
 extension GuardDutyClientTypes.AnomalyObject {
-
-    static func write(value: GuardDutyClientTypes.AnomalyObject?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["observations"].write(value.observations, with: GuardDutyClientTypes.Observations.write(value:to:))
-        try writer["profileSubtype"].write(value.profileSubtype)
-        try writer["profileType"].write(value.profileType)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.AnomalyObject {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -742,11 +656,6 @@ extension GuardDutyClientTypes {
 }
 
 extension GuardDutyClientTypes.AnomalyUnusual {
-
-    static func write(value: GuardDutyClientTypes.AnomalyUnusual?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["behavior"].writeMap(value.behavior, valueWritingClosure: mapWritingClosure(valueWritingClosure: GuardDutyClientTypes.AnomalyObject.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.AnomalyUnusual {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -870,19 +779,6 @@ extension GuardDutyClientTypes {
 
 extension GuardDutyClientTypes.AwsApiCallAction {
 
-    static func write(value: GuardDutyClientTypes.AwsApiCallAction?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["affectedResources"].writeMap(value.affectedResources, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["api"].write(value.api)
-        try writer["callerType"].write(value.callerType)
-        try writer["domainDetails"].write(value.domainDetails, with: GuardDutyClientTypes.DomainDetails.write(value:to:))
-        try writer["errorCode"].write(value.errorCode)
-        try writer["remoteAccountDetails"].write(value.remoteAccountDetails, with: GuardDutyClientTypes.RemoteAccountDetails.write(value:to:))
-        try writer["remoteIpDetails"].write(value.remoteIpDetails, with: GuardDutyClientTypes.RemoteIpDetails.write(value:to:))
-        try writer["serviceName"].write(value.serviceName)
-        try writer["userAgent"].write(value.userAgent)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.AwsApiCallAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GuardDutyClientTypes.AwsApiCallAction()
@@ -992,14 +888,6 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
 
 extension GuardDutyClientTypes.BlockPublicAccess {
 
-    static func write(value: GuardDutyClientTypes.BlockPublicAccess?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["blockPublicAcls"].write(value.blockPublicAcls)
-        try writer["blockPublicPolicy"].write(value.blockPublicPolicy)
-        try writer["ignorePublicAcls"].write(value.ignorePublicAcls)
-        try writer["restrictPublicBuckets"].write(value.restrictPublicBuckets)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.BlockPublicAccess {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GuardDutyClientTypes.BlockPublicAccess()
@@ -1041,13 +929,6 @@ extension GuardDutyClientTypes {
 
 extension GuardDutyClientTypes.BucketLevelPermissions {
 
-    static func write(value: GuardDutyClientTypes.BucketLevelPermissions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["accessControlList"].write(value.accessControlList, with: GuardDutyClientTypes.AccessControlList.write(value:to:))
-        try writer["blockPublicAccess"].write(value.blockPublicAccess, with: GuardDutyClientTypes.BlockPublicAccess.write(value:to:))
-        try writer["bucketPolicy"].write(value.bucketPolicy, with: GuardDutyClientTypes.BucketPolicy.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.BucketLevelPermissions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GuardDutyClientTypes.BucketLevelPermissions()
@@ -1084,12 +965,6 @@ extension GuardDutyClientTypes {
 
 extension GuardDutyClientTypes.BucketPolicy {
 
-    static func write(value: GuardDutyClientTypes.BucketPolicy?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["allowsPublicReadAccess"].write(value.allowsPublicReadAccess)
-        try writer["allowsPublicWriteAccess"].write(value.allowsPublicWriteAccess)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.BucketPolicy {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GuardDutyClientTypes.BucketPolicy()
@@ -1121,11 +996,6 @@ extension GuardDutyClientTypes {
 
 extension GuardDutyClientTypes.City {
 
-    static func write(value: GuardDutyClientTypes.City?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["cityName"].write(value.cityName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.City {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GuardDutyClientTypes.City()
@@ -1151,11 +1021,6 @@ extension GuardDutyClientTypes {
 }
 
 extension GuardDutyClientTypes.CloudTrailConfigurationResult {
-
-    static func write(value: GuardDutyClientTypes.CloudTrailConfigurationResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.CloudTrailConfigurationResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1330,17 +1195,6 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
 extension GuardDutyClientTypes.Container {
 
-    static func write(value: GuardDutyClientTypes.Container?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["containerRuntime"].write(value.containerRuntime)
-        try writer["id"].write(value.id)
-        try writer["image"].write(value.image)
-        try writer["imagePrefix"].write(value.imagePrefix)
-        try writer["name"].write(value.name)
-        try writer["securityContext"].write(value.securityContext, with: GuardDutyClientTypes.SecurityContext.write(value:to:))
-        try writer["volumeMounts"].writeList(value.volumeMounts, memberWritingClosure: GuardDutyClientTypes.VolumeMount.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Container {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GuardDutyClientTypes.Container()
@@ -1397,12 +1251,6 @@ extension GuardDutyClientTypes {
 
 extension GuardDutyClientTypes.ContainerInstanceDetails {
 
-    static func write(value: GuardDutyClientTypes.ContainerInstanceDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["compatibleContainerInstances"].write(value.compatibleContainerInstances)
-        try writer["coveredContainerInstances"].write(value.coveredContainerInstances)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.ContainerInstanceDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GuardDutyClientTypes.ContainerInstanceDetails()
@@ -1434,12 +1282,6 @@ extension GuardDutyClientTypes {
 
 extension GuardDutyClientTypes.Country {
 
-    static func write(value: GuardDutyClientTypes.Country?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["countryCode"].write(value.countryCode)
-        try writer["countryName"].write(value.countryName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Country {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GuardDutyClientTypes.Country()
@@ -1470,15 +1312,6 @@ extension GuardDutyClientTypes {
 }
 
 extension GuardDutyClientTypes.CoverageEc2InstanceDetails {
-
-    static func write(value: GuardDutyClientTypes.CoverageEc2InstanceDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["agentDetails"].write(value.agentDetails, with: GuardDutyClientTypes.AgentDetails.write(value:to:))
-        try writer["clusterArn"].write(value.clusterArn)
-        try writer["instanceId"].write(value.instanceId)
-        try writer["instanceType"].write(value.instanceType)
-        try writer["managementType"].write(value.managementType)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.CoverageEc2InstanceDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1533,13 +1366,6 @@ extension GuardDutyClientTypes {
 
 extension GuardDutyClientTypes.CoverageEcsClusterDetails {
 
-    static func write(value: GuardDutyClientTypes.CoverageEcsClusterDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["clusterName"].write(value.clusterName)
-        try writer["containerInstanceDetails"].write(value.containerInstanceDetails, with: GuardDutyClientTypes.ContainerInstanceDetails.write(value:to:))
-        try writer["fargateDetails"].write(value.fargateDetails, with: GuardDutyClientTypes.FargateDetails.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.CoverageEcsClusterDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GuardDutyClientTypes.CoverageEcsClusterDetails()
@@ -1575,15 +1401,6 @@ extension GuardDutyClientTypes {
 }
 
 extension GuardDutyClientTypes.CoverageEksClusterDetails {
-
-    static func write(value: GuardDutyClientTypes.CoverageEksClusterDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["addonDetails"].write(value.addonDetails, with: GuardDutyClientTypes.AddonDetails.write(value:to:))
-        try writer["clusterName"].write(value.clusterName)
-        try writer["compatibleNodes"].write(value.compatibleNodes)
-        try writer["coveredNodes"].write(value.coveredNodes)
-        try writer["managementType"].write(value.managementType)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.CoverageEksClusterDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1636,14 +1453,6 @@ extension GuardDutyClientTypes.CoverageFilterCondition {
         try writer["equals"].writeList(value.equals, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["notEquals"].writeList(value.notEquals, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.CoverageFilterCondition {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.CoverageFilterCondition()
-        value.equals = try reader["equals"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.notEquals = try reader["notEquals"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
 }
 
 extension GuardDutyClientTypes {
@@ -1672,13 +1481,6 @@ extension GuardDutyClientTypes.CoverageFilterCriteria {
         guard let value else { return }
         try writer["filterCriterion"].writeList(value.filterCriterion, memberWritingClosure: GuardDutyClientTypes.CoverageFilterCriterion.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.CoverageFilterCriteria {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.CoverageFilterCriteria()
-        value.filterCriterion = try reader["filterCriterion"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.CoverageFilterCriterion.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
 }
 
 extension GuardDutyClientTypes {
@@ -1703,14 +1505,6 @@ extension GuardDutyClientTypes.CoverageFilterCriterion {
         guard let value else { return }
         try writer["criterionKey"].write(value.criterionKey)
         try writer["filterCondition"].write(value.filterCondition, with: GuardDutyClientTypes.CoverageFilterCondition.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.CoverageFilterCriterion {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.CoverageFilterCriterion()
-        value.criterionKey = try reader["criterionKey"].readIfPresent()
-        value.filterCondition = try reader["filterCondition"].readIfPresent(with: GuardDutyClientTypes.CoverageFilterCondition.read(from:))
-        return value
     }
 }
 
@@ -1793,17 +1587,6 @@ extension GuardDutyClientTypes {
 
 extension GuardDutyClientTypes.CoverageResource {
 
-    static func write(value: GuardDutyClientTypes.CoverageResource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["accountId"].write(value.accountId)
-        try writer["coverageStatus"].write(value.coverageStatus)
-        try writer["detectorId"].write(value.detectorId)
-        try writer["issue"].write(value.issue)
-        try writer["resourceDetails"].write(value.resourceDetails, with: GuardDutyClientTypes.CoverageResourceDetails.write(value:to:))
-        try writer["resourceId"].write(value.resourceId)
-        try writer["updatedAt"].writeTimestamp(value.updatedAt, format: .epochSeconds)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.CoverageResource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GuardDutyClientTypes.CoverageResource()
@@ -1860,14 +1643,6 @@ extension GuardDutyClientTypes {
 
 extension GuardDutyClientTypes.CoverageResourceDetails {
 
-    static func write(value: GuardDutyClientTypes.CoverageResourceDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ec2InstanceDetails"].write(value.ec2InstanceDetails, with: GuardDutyClientTypes.CoverageEc2InstanceDetails.write(value:to:))
-        try writer["ecsClusterDetails"].write(value.ecsClusterDetails, with: GuardDutyClientTypes.CoverageEcsClusterDetails.write(value:to:))
-        try writer["eksClusterDetails"].write(value.eksClusterDetails, with: GuardDutyClientTypes.CoverageEksClusterDetails.write(value:to:))
-        try writer["resourceType"].write(value.resourceType)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.CoverageResourceDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GuardDutyClientTypes.CoverageResourceDetails()
@@ -1913,14 +1688,6 @@ extension GuardDutyClientTypes.CoverageSortCriteria {
         guard let value else { return }
         try writer["attributeName"].write(value.attributeName)
         try writer["orderBy"].write(value.orderBy)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.CoverageSortCriteria {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.CoverageSortCriteria()
-        value.attributeName = try reader["attributeName"].readIfPresent()
-        value.orderBy = try reader["orderBy"].readIfPresent()
-        return value
     }
 }
 
@@ -1996,12 +1763,6 @@ extension GuardDutyClientTypes {
 }
 
 extension GuardDutyClientTypes.CoverageStatistics {
-
-    static func write(value: GuardDutyClientTypes.CoverageStatistics?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["countByCoverageStatus"].writeMap(value.countByCoverageStatus, valueWritingClosure: Swift.Int.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["countByResourceType"].writeMap(value.countByResourceType, valueWritingClosure: Swift.Int.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.CoverageStatistics {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2976,11 +2737,6 @@ extension GuardDutyClientTypes {
 
 extension GuardDutyClientTypes.DNSLogsConfigurationResult {
 
-    static func write(value: GuardDutyClientTypes.DNSLogsConfigurationResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.DNSLogsConfigurationResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GuardDutyClientTypes.DNSLogsConfigurationResult()
@@ -3056,15 +2812,6 @@ extension GuardDutyClientTypes.DataSourceConfigurations {
         try writer["malwareProtection"].write(value.malwareProtection, with: GuardDutyClientTypes.MalwareProtectionConfiguration.write(value:to:))
         try writer["s3Logs"].write(value.s3Logs, with: GuardDutyClientTypes.S3LogsConfiguration.write(value:to:))
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.DataSourceConfigurations {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.DataSourceConfigurations()
-        value.s3Logs = try reader["s3Logs"].readIfPresent(with: GuardDutyClientTypes.S3LogsConfiguration.read(from:))
-        value.kubernetes = try reader["kubernetes"].readIfPresent(with: GuardDutyClientTypes.KubernetesConfiguration.read(from:))
-        value.malwareProtection = try reader["malwareProtection"].readIfPresent(with: GuardDutyClientTypes.MalwareProtectionConfiguration.read(from:))
-        return value
-    }
 }
 
 extension GuardDutyClientTypes {
@@ -3092,16 +2839,6 @@ extension GuardDutyClientTypes {
 }
 
 extension GuardDutyClientTypes.DataSourceConfigurationsResult {
-
-    static func write(value: GuardDutyClientTypes.DataSourceConfigurationsResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["cloudTrail"].write(value.cloudTrail, with: GuardDutyClientTypes.CloudTrailConfigurationResult.write(value:to:))
-        try writer["dnsLogs"].write(value.dnsLogs, with: GuardDutyClientTypes.DNSLogsConfigurationResult.write(value:to:))
-        try writer["flowLogs"].write(value.flowLogs, with: GuardDutyClientTypes.FlowLogsConfigurationResult.write(value:to:))
-        try writer["kubernetes"].write(value.kubernetes, with: GuardDutyClientTypes.KubernetesConfigurationResult.write(value:to:))
-        try writer["malwareProtection"].write(value.malwareProtection, with: GuardDutyClientTypes.MalwareProtectionConfigurationResult.write(value:to:))
-        try writer["s3Logs"].write(value.s3Logs, with: GuardDutyClientTypes.S3LogsConfigurationResult.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.DataSourceConfigurationsResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3158,11 +2895,6 @@ extension GuardDutyClientTypes {
 
 extension GuardDutyClientTypes.DataSourceFreeTrial {
 
-    static func write(value: GuardDutyClientTypes.DataSourceFreeTrial?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["freeTrialDaysRemaining"].write(value.freeTrialDaysRemaining)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.DataSourceFreeTrial {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GuardDutyClientTypes.DataSourceFreeTrial()
@@ -3218,16 +2950,6 @@ extension GuardDutyClientTypes {
 }
 
 extension GuardDutyClientTypes.DataSourcesFreeTrial {
-
-    static func write(value: GuardDutyClientTypes.DataSourcesFreeTrial?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["cloudTrail"].write(value.cloudTrail, with: GuardDutyClientTypes.DataSourceFreeTrial.write(value:to:))
-        try writer["dnsLogs"].write(value.dnsLogs, with: GuardDutyClientTypes.DataSourceFreeTrial.write(value:to:))
-        try writer["flowLogs"].write(value.flowLogs, with: GuardDutyClientTypes.DataSourceFreeTrial.write(value:to:))
-        try writer["kubernetes"].write(value.kubernetes, with: GuardDutyClientTypes.KubernetesDataSourceFreeTrial.write(value:to:))
-        try writer["malwareProtection"].write(value.malwareProtection, with: GuardDutyClientTypes.MalwareProtectionDataSourceFreeTrial.write(value:to:))
-        try writer["s3Logs"].write(value.s3Logs, with: GuardDutyClientTypes.DataSourceFreeTrial.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.DataSourcesFreeTrial {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3347,12 +3069,6 @@ enum DeclineInvitationsOutputError {
 }
 
 extension GuardDutyClientTypes.DefaultServerSideEncryption {
-
-    static func write(value: GuardDutyClientTypes.DefaultServerSideEncryption?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["encryptionType"].write(value.encryptionType)
-        try writer["kmsMasterKeyArn"].write(value.kmsMasterKeyArn)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.DefaultServerSideEncryption {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4121,13 +3837,6 @@ enum DescribePublishingDestinationOutputError {
 
 extension GuardDutyClientTypes.Destination {
 
-    static func write(value: GuardDutyClientTypes.Destination?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["destinationId"].write(value.destinationId)
-        try writer["destinationType"].write(value.destinationType)
-        try writer["status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Destination {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GuardDutyClientTypes.Destination()
@@ -4231,11 +3940,6 @@ extension GuardDutyClientTypes {
 
 extension GuardDutyClientTypes.Detection {
 
-    static func write(value: GuardDutyClientTypes.Detection?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["anomaly"].write(value.anomaly, with: GuardDutyClientTypes.Anomaly.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Detection {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GuardDutyClientTypes.Detection()
@@ -4267,14 +3971,6 @@ extension GuardDutyClientTypes.DetectorAdditionalConfiguration {
         try writer["name"].write(value.name)
         try writer["status"].write(value.status)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.DetectorAdditionalConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.DetectorAdditionalConfiguration()
-        value.name = try reader["name"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        return value
-    }
 }
 
 extension GuardDutyClientTypes {
@@ -4298,13 +3994,6 @@ extension GuardDutyClientTypes {
 }
 
 extension GuardDutyClientTypes.DetectorAdditionalConfigurationResult {
-
-    static func write(value: GuardDutyClientTypes.DetectorAdditionalConfigurationResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-        try writer["status"].write(value.status)
-        try writer["updatedAt"].writeTimestamp(value.updatedAt, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.DetectorAdditionalConfigurationResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4393,15 +4082,6 @@ extension GuardDutyClientTypes.DetectorFeatureConfiguration {
         try writer["name"].write(value.name)
         try writer["status"].write(value.status)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.DetectorFeatureConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.DetectorFeatureConfiguration()
-        value.name = try reader["name"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.additionalConfiguration = try reader["additionalConfiguration"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.DetectorAdditionalConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
 }
 
 extension GuardDutyClientTypes {
@@ -4429,14 +4109,6 @@ extension GuardDutyClientTypes {
 }
 
 extension GuardDutyClientTypes.DetectorFeatureConfigurationResult {
-
-    static func write(value: GuardDutyClientTypes.DetectorFeatureConfigurationResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["additionalConfiguration"].writeList(value.additionalConfiguration, memberWritingClosure: GuardDutyClientTypes.DetectorAdditionalConfigurationResult.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["name"].write(value.name)
-        try writer["status"].write(value.status)
-        try writer["updatedAt"].writeTimestamp(value.updatedAt, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.DetectorFeatureConfigurationResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4796,14 +4468,6 @@ enum DisassociateMembersOutputError {
 
 extension GuardDutyClientTypes.DnsRequestAction {
 
-    static func write(value: GuardDutyClientTypes.DnsRequestAction?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["blocked"].write(value.blocked)
-        try writer["domain"].write(value.domain)
-        try writer["domainWithSuffix"].write(value.domainWithSuffix)
-        try writer["protocol"].write(value.`protocol`)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.DnsRequestAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GuardDutyClientTypes.DnsRequestAction()
@@ -4844,11 +4508,6 @@ extension GuardDutyClientTypes {
 }
 
 extension GuardDutyClientTypes.DomainDetails {
-
-    static func write(value: GuardDutyClientTypes.DomainDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["domain"].write(value.domain)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.DomainDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4906,12 +4565,6 @@ extension GuardDutyClientTypes {
 
 extension GuardDutyClientTypes.EbsVolumeDetails {
 
-    static func write(value: GuardDutyClientTypes.EbsVolumeDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["scannedVolumeDetails"].writeList(value.scannedVolumeDetails, memberWritingClosure: GuardDutyClientTypes.VolumeDetail.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["skippedVolumeDetails"].writeList(value.skippedVolumeDetails, memberWritingClosure: GuardDutyClientTypes.VolumeDetail.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.EbsVolumeDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GuardDutyClientTypes.EbsVolumeDetails()
@@ -4942,17 +4595,6 @@ extension GuardDutyClientTypes {
 }
 
 extension GuardDutyClientTypes.EbsVolumeScanDetails {
-
-    static func write(value: GuardDutyClientTypes.EbsVolumeScanDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["scanCompletedAt"].writeTimestamp(value.scanCompletedAt, format: .epochSeconds)
-        try writer["scanDetections"].write(value.scanDetections, with: GuardDutyClientTypes.ScanDetections.write(value:to:))
-        try writer["scanId"].write(value.scanId)
-        try writer["scanStartedAt"].writeTimestamp(value.scanStartedAt, format: .epochSeconds)
-        try writer["scanType"].write(value.scanType)
-        try writer["sources"].writeList(value.sources, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["triggerFindingId"].write(value.triggerFindingId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.EbsVolumeScanDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5010,12 +4652,6 @@ extension GuardDutyClientTypes {
 
 extension GuardDutyClientTypes.EbsVolumesResult {
 
-    static func write(value: GuardDutyClientTypes.EbsVolumesResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["reason"].write(value.reason)
-        try writer["status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.EbsVolumesResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GuardDutyClientTypes.EbsVolumesResult()
@@ -5046,18 +4682,6 @@ extension GuardDutyClientTypes {
 }
 
 extension GuardDutyClientTypes.EcsClusterDetails {
-
-    static func write(value: GuardDutyClientTypes.EcsClusterDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["activeServicesCount"].write(value.activeServicesCount)
-        try writer["arn"].write(value.arn)
-        try writer["name"].write(value.name)
-        try writer["registeredContainerInstancesCount"].write(value.registeredContainerInstancesCount)
-        try writer["runningTasksCount"].write(value.runningTasksCount)
-        try writer["status"].write(value.status)
-        try writer["tags"].writeList(value.tags, memberWritingClosure: GuardDutyClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["taskDetails"].write(value.taskDetails, with: GuardDutyClientTypes.EcsTaskDetails.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.EcsClusterDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5119,20 +4743,6 @@ extension GuardDutyClientTypes {
 }
 
 extension GuardDutyClientTypes.EcsTaskDetails {
-
-    static func write(value: GuardDutyClientTypes.EcsTaskDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["containers"].writeList(value.containers, memberWritingClosure: GuardDutyClientTypes.Container.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["definitionArn"].write(value.definitionArn)
-        try writer["group"].write(value.group)
-        try writer["startedAt"].writeTimestamp(value.startedAt, format: .epochSeconds)
-        try writer["startedBy"].write(value.startedBy)
-        try writer["tags"].writeList(value.tags, memberWritingClosure: GuardDutyClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["createdAt"].writeTimestamp(value.taskCreatedAt, format: .epochSeconds)
-        try writer["version"].write(value.version)
-        try writer["volumes"].writeList(value.volumes, memberWritingClosure: GuardDutyClientTypes.Volume.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.EcsTaskDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5204,16 +4814,6 @@ extension GuardDutyClientTypes {
 }
 
 extension GuardDutyClientTypes.EksClusterDetails {
-
-    static func write(value: GuardDutyClientTypes.EksClusterDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["name"].write(value.name)
-        try writer["status"].write(value.status)
-        try writer["tags"].writeList(value.tags, memberWritingClosure: GuardDutyClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["vpcId"].write(value.vpcId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.EksClusterDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5321,11 +4921,6 @@ enum EnableOrganizationAdminAccountOutputError {
 
 extension GuardDutyClientTypes.Evidence {
 
-    static func write(value: GuardDutyClientTypes.Evidence?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["threatIntelligenceDetails"].writeList(value.threatIntelligenceDetails, memberWritingClosure: GuardDutyClientTypes.ThreatIntelligenceDetail.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Evidence {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GuardDutyClientTypes.Evidence()
@@ -5351,12 +4946,6 @@ extension GuardDutyClientTypes {
 }
 
 extension GuardDutyClientTypes.FargateDetails {
-
-    static func write(value: GuardDutyClientTypes.FargateDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["issues"].writeList(value.issues, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["managementType"].write(value.managementType)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.FargateDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5525,15 +5114,6 @@ extension GuardDutyClientTypes.FilterCondition {
         try writer["greaterThan"].write(value.greaterThan)
         try writer["lessThan"].write(value.lessThan)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.FilterCondition {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.FilterCondition()
-        value.equalsValue = try reader["equalsValue"].readIfPresent()
-        value.greaterThan = try reader["greaterThan"].readIfPresent()
-        value.lessThan = try reader["lessThan"].readIfPresent()
-        return value
-    }
 }
 
 extension GuardDutyClientTypes {
@@ -5566,13 +5146,6 @@ extension GuardDutyClientTypes.FilterCriteria {
         guard let value else { return }
         try writer["filterCriterion"].writeList(value.filterCriterion, memberWritingClosure: GuardDutyClientTypes.FilterCriterion.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.FilterCriteria {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.FilterCriteria()
-        value.filterCriterion = try reader["filterCriterion"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.FilterCriterion.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
 }
 
 extension GuardDutyClientTypes {
@@ -5598,14 +5171,6 @@ extension GuardDutyClientTypes.FilterCriterion {
         try writer["criterionKey"].write(value.criterionKey)
         try writer["filterCondition"].write(value.filterCondition, with: GuardDutyClientTypes.FilterCondition.write(value:to:))
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.FilterCriterion {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.FilterCriterion()
-        value.criterionKey = try reader["criterionKey"].readIfPresent()
-        value.filterCondition = try reader["filterCondition"].readIfPresent(with: GuardDutyClientTypes.FilterCondition.read(from:))
-        return value
-    }
 }
 
 extension GuardDutyClientTypes {
@@ -5629,25 +5194,6 @@ extension GuardDutyClientTypes {
 }
 
 extension GuardDutyClientTypes.Finding {
-
-    static func write(value: GuardDutyClientTypes.Finding?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["accountId"].write(value.accountId)
-        try writer["arn"].write(value.arn)
-        try writer["confidence"].write(value.confidence)
-        try writer["createdAt"].write(value.createdAt)
-        try writer["description"].write(value.description)
-        try writer["id"].write(value.id)
-        try writer["partition"].write(value.partition)
-        try writer["region"].write(value.region)
-        try writer["resource"].write(value.resource, with: GuardDutyClientTypes.Resource.write(value:to:))
-        try writer["schemaVersion"].write(value.schemaVersion)
-        try writer["service"].write(value.service, with: GuardDutyClientTypes.Service.write(value:to:))
-        try writer["severity"].write(value.severity)
-        try writer["title"].write(value.title)
-        try writer["type"].write(value.type)
-        try writer["updatedAt"].write(value.updatedAt)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Finding {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5846,11 +5392,6 @@ extension GuardDutyClientTypes {
 
 extension GuardDutyClientTypes.FindingStatistics {
 
-    static func write(value: GuardDutyClientTypes.FindingStatistics?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["countBySeverity"].writeMap(value.countBySeverity, valueWritingClosure: Swift.Int.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.FindingStatistics {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GuardDutyClientTypes.FindingStatistics()
@@ -5876,11 +5417,6 @@ extension GuardDutyClientTypes {
 }
 
 extension GuardDutyClientTypes.FlowLogsConfigurationResult {
-
-    static func write(value: GuardDutyClientTypes.FlowLogsConfigurationResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.FlowLogsConfigurationResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5908,12 +5444,6 @@ extension GuardDutyClientTypes {
 }
 
 extension GuardDutyClientTypes.FreeTrialFeatureConfigurationResult {
-
-    static func write(value: GuardDutyClientTypes.FreeTrialFeatureConfigurationResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["freeTrialDaysRemaining"].write(value.freeTrialDaysRemaining)
-        try writer["name"].write(value.name)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.FreeTrialFeatureConfigurationResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6002,12 +5532,6 @@ extension GuardDutyClientTypes {
 }
 
 extension GuardDutyClientTypes.GeoLocation {
-
-    static func write(value: GuardDutyClientTypes.GeoLocation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["lat"].write(value.lat)
-        try writer["lon"].write(value.lon)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.GeoLocation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7311,13 +6835,6 @@ public enum GuardDutyClientTypes {}
 
 extension GuardDutyClientTypes.HighestSeverityThreatDetails {
 
-    static func write(value: GuardDutyClientTypes.HighestSeverityThreatDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["count"].write(value.count)
-        try writer["severity"].write(value.severity)
-        try writer["threatName"].write(value.threatName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.HighestSeverityThreatDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GuardDutyClientTypes.HighestSeverityThreatDetails()
@@ -7354,11 +6871,6 @@ extension GuardDutyClientTypes {
 
 extension GuardDutyClientTypes.HostPath {
 
-    static func write(value: GuardDutyClientTypes.HostPath?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["path"].write(value.path)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.HostPath {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GuardDutyClientTypes.HostPath()
@@ -7384,12 +6896,6 @@ extension GuardDutyClientTypes {
 }
 
 extension GuardDutyClientTypes.IamInstanceProfile {
-
-    static func write(value: GuardDutyClientTypes.IamInstanceProfile?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["id"].write(value.id)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.IamInstanceProfile {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7422,12 +6928,6 @@ extension GuardDutyClientTypes {
 
 extension GuardDutyClientTypes.ImpersonatedUser {
 
-    static func write(value: GuardDutyClientTypes.ImpersonatedUser?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["groups"].writeList(value.groups, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["username"].write(value.username)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.ImpersonatedUser {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GuardDutyClientTypes.ImpersonatedUser()
@@ -7458,23 +6958,6 @@ extension GuardDutyClientTypes {
 }
 
 extension GuardDutyClientTypes.InstanceDetails {
-
-    static func write(value: GuardDutyClientTypes.InstanceDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["availabilityZone"].write(value.availabilityZone)
-        try writer["iamInstanceProfile"].write(value.iamInstanceProfile, with: GuardDutyClientTypes.IamInstanceProfile.write(value:to:))
-        try writer["imageDescription"].write(value.imageDescription)
-        try writer["imageId"].write(value.imageId)
-        try writer["instanceId"].write(value.instanceId)
-        try writer["instanceState"].write(value.instanceState)
-        try writer["instanceType"].write(value.instanceType)
-        try writer["launchTime"].write(value.launchTime)
-        try writer["networkInterfaces"].writeList(value.networkInterfaces, memberWritingClosure: GuardDutyClientTypes.NetworkInterface.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["outpostArn"].write(value.outpostArn)
-        try writer["platform"].write(value.platform)
-        try writer["productCodes"].writeList(value.productCodes, memberWritingClosure: GuardDutyClientTypes.ProductCode.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["tags"].writeList(value.tags, memberWritingClosure: GuardDutyClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.InstanceDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7604,14 +7087,6 @@ public struct InternalServerErrorException: ClientRuntime.ModeledError, AWSClien
 }
 
 extension GuardDutyClientTypes.Invitation {
-
-    static func write(value: GuardDutyClientTypes.Invitation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["accountId"].write(value.accountId)
-        try writer["invitationId"].write(value.invitationId)
-        try writer["invitedAt"].write(value.invitedAt)
-        try writer["relationshipStatus"].write(value.relationshipStatus)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Invitation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7827,21 +7302,6 @@ extension GuardDutyClientTypes {
 
 extension GuardDutyClientTypes.KubernetesApiCallAction {
 
-    static func write(value: GuardDutyClientTypes.KubernetesApiCallAction?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["namespace"].write(value.namespace)
-        try writer["parameters"].write(value.parameters)
-        try writer["remoteIpDetails"].write(value.remoteIpDetails, with: GuardDutyClientTypes.RemoteIpDetails.write(value:to:))
-        try writer["requestUri"].write(value.requestUri)
-        try writer["resource"].write(value.resource)
-        try writer["resourceName"].write(value.resourceName)
-        try writer["sourceIps"].writeList(value.sourceIps, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["statusCode"].write(value.statusCode)
-        try writer["subresource"].write(value.subresource)
-        try writer["userAgent"].write(value.userAgent)
-        try writer["verb"].write(value.verb)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.KubernetesApiCallAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GuardDutyClientTypes.KubernetesApiCallAction()
@@ -7922,13 +7382,6 @@ extension GuardDutyClientTypes.KubernetesAuditLogsConfiguration {
         guard let value else { return }
         try writer["enable"].write(value.enable)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.KubernetesAuditLogsConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.KubernetesAuditLogsConfiguration()
-        value.enable = try reader["enable"].readIfPresent()
-        return value
-    }
 }
 
 extension GuardDutyClientTypes {
@@ -7949,11 +7402,6 @@ extension GuardDutyClientTypes {
 }
 
 extension GuardDutyClientTypes.KubernetesAuditLogsConfigurationResult {
-
-    static func write(value: GuardDutyClientTypes.KubernetesAuditLogsConfigurationResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.KubernetesAuditLogsConfigurationResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7986,13 +7434,6 @@ extension GuardDutyClientTypes.KubernetesConfiguration {
         guard let value else { return }
         try writer["auditLogs"].write(value.auditLogs, with: GuardDutyClientTypes.KubernetesAuditLogsConfiguration.write(value:to:))
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.KubernetesConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.KubernetesConfiguration()
-        value.auditLogs = try reader["auditLogs"].readIfPresent(with: GuardDutyClientTypes.KubernetesAuditLogsConfiguration.read(from:))
-        return value
-    }
 }
 
 extension GuardDutyClientTypes {
@@ -8013,11 +7454,6 @@ extension GuardDutyClientTypes {
 }
 
 extension GuardDutyClientTypes.KubernetesConfigurationResult {
-
-    static func write(value: GuardDutyClientTypes.KubernetesConfigurationResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["auditLogs"].write(value.auditLogs, with: GuardDutyClientTypes.KubernetesAuditLogsConfigurationResult.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.KubernetesConfigurationResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8046,11 +7482,6 @@ extension GuardDutyClientTypes {
 
 extension GuardDutyClientTypes.KubernetesDataSourceFreeTrial {
 
-    static func write(value: GuardDutyClientTypes.KubernetesDataSourceFreeTrial?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["auditLogs"].write(value.auditLogs, with: GuardDutyClientTypes.DataSourceFreeTrial.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.KubernetesDataSourceFreeTrial {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GuardDutyClientTypes.KubernetesDataSourceFreeTrial()
@@ -8076,12 +7507,6 @@ extension GuardDutyClientTypes {
 }
 
 extension GuardDutyClientTypes.KubernetesDetails {
-
-    static func write(value: GuardDutyClientTypes.KubernetesDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["kubernetesUserDetails"].write(value.kubernetesUserDetails, with: GuardDutyClientTypes.KubernetesUserDetails.write(value:to:))
-        try writer["kubernetesWorkloadDetails"].write(value.kubernetesWorkloadDetails, with: GuardDutyClientTypes.KubernetesWorkloadDetails.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.KubernetesDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8113,14 +7538,6 @@ extension GuardDutyClientTypes {
 }
 
 extension GuardDutyClientTypes.KubernetesPermissionCheckedDetails {
-
-    static func write(value: GuardDutyClientTypes.KubernetesPermissionCheckedDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["allowed"].write(value.allowed)
-        try writer["namespace"].write(value.namespace)
-        try writer["resource"].write(value.resource)
-        try writer["verb"].write(value.verb)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.KubernetesPermissionCheckedDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8162,15 +7579,6 @@ extension GuardDutyClientTypes {
 }
 
 extension GuardDutyClientTypes.KubernetesRoleBindingDetails {
-
-    static func write(value: GuardDutyClientTypes.KubernetesRoleBindingDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["kind"].write(value.kind)
-        try writer["name"].write(value.name)
-        try writer["roleRefKind"].write(value.roleRefKind)
-        try writer["roleRefName"].write(value.roleRefName)
-        try writer["uid"].write(value.uid)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.KubernetesRoleBindingDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8218,13 +7626,6 @@ extension GuardDutyClientTypes {
 
 extension GuardDutyClientTypes.KubernetesRoleDetails {
 
-    static func write(value: GuardDutyClientTypes.KubernetesRoleDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["kind"].write(value.kind)
-        try writer["name"].write(value.name)
-        try writer["uid"].write(value.uid)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.KubernetesRoleDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GuardDutyClientTypes.KubernetesRoleDetails()
@@ -8260,15 +7661,6 @@ extension GuardDutyClientTypes {
 }
 
 extension GuardDutyClientTypes.KubernetesUserDetails {
-
-    static func write(value: GuardDutyClientTypes.KubernetesUserDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["groups"].writeList(value.groups, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["impersonatedUser"].write(value.impersonatedUser, with: GuardDutyClientTypes.ImpersonatedUser.write(value:to:))
-        try writer["sessionName"].writeList(value.sessionName, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["uid"].write(value.uid)
-        try writer["username"].write(value.username)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.KubernetesUserDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8315,20 +7707,6 @@ extension GuardDutyClientTypes {
 }
 
 extension GuardDutyClientTypes.KubernetesWorkloadDetails {
-
-    static func write(value: GuardDutyClientTypes.KubernetesWorkloadDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["containers"].writeList(value.containers, memberWritingClosure: GuardDutyClientTypes.Container.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["hostIPC"].write(value.hostIPC)
-        try writer["hostNetwork"].write(value.hostNetwork)
-        try writer["hostPID"].write(value.hostPID)
-        try writer["name"].write(value.name)
-        try writer["namespace"].write(value.namespace)
-        try writer["serviceAccountName"].write(value.serviceAccountName)
-        try writer["type"].write(value.type)
-        try writer["uid"].write(value.uid)
-        try writer["volumes"].writeList(value.volumes, memberWritingClosure: GuardDutyClientTypes.Volume.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.KubernetesWorkloadDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8401,19 +7779,6 @@ extension GuardDutyClientTypes {
 
 extension GuardDutyClientTypes.LambdaDetails {
 
-    static func write(value: GuardDutyClientTypes.LambdaDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["description"].write(value.description)
-        try writer["functionArn"].write(value.functionArn)
-        try writer["functionName"].write(value.functionName)
-        try writer["functionVersion"].write(value.functionVersion)
-        try writer["lastModifiedAt"].writeTimestamp(value.lastModifiedAt, format: .epochSeconds)
-        try writer["revisionId"].write(value.revisionId)
-        try writer["role"].write(value.role)
-        try writer["tags"].writeList(value.tags, memberWritingClosure: GuardDutyClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["vpcConfig"].write(value.vpcConfig, with: GuardDutyClientTypes.VpcConfig.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.LambdaDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GuardDutyClientTypes.LambdaDetails()
@@ -8479,19 +7844,6 @@ extension GuardDutyClientTypes {
 }
 
 extension GuardDutyClientTypes.LineageObject {
-
-    static func write(value: GuardDutyClientTypes.LineageObject?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["euid"].write(value.euid)
-        try writer["executablePath"].write(value.executablePath)
-        try writer["name"].write(value.name)
-        try writer["namespacePid"].write(value.namespacePid)
-        try writer["parentUuid"].write(value.parentUuid)
-        try writer["pid"].write(value.pid)
-        try writer["startTime"].writeTimestamp(value.startTime, format: .epochSeconds)
-        try writer["userId"].write(value.userId)
-        try writer["uuid"].write(value.uuid)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.LineageObject {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -9632,12 +8984,6 @@ extension GuardDutyClientTypes.LocalIpDetails: Swift.CustomDebugStringConvertibl
 
 extension GuardDutyClientTypes.LocalIpDetails {
 
-    static func write(value: GuardDutyClientTypes.LocalIpDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ipAddressV4"].write(value.ipAddressV4)
-        try writer["ipAddressV6"].write(value.ipAddressV6)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.LocalIpDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GuardDutyClientTypes.LocalIpDetails()
@@ -9669,12 +9015,6 @@ extension GuardDutyClientTypes {
 
 extension GuardDutyClientTypes.LocalPortDetails {
 
-    static func write(value: GuardDutyClientTypes.LocalPortDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["port"].write(value.port)
-        try writer["portName"].write(value.portName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.LocalPortDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GuardDutyClientTypes.LocalPortDetails()
@@ -9705,14 +9045,6 @@ extension GuardDutyClientTypes {
 }
 
 extension GuardDutyClientTypes.LoginAttribute {
-
-    static func write(value: GuardDutyClientTypes.LoginAttribute?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["application"].write(value.application)
-        try writer["failedLoginAttempts"].write(value.failedLoginAttempts)
-        try writer["successfulLoginAttempts"].write(value.successfulLoginAttempts)
-        try writer["user"].write(value.user)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.LoginAttribute {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -9759,13 +9091,6 @@ extension GuardDutyClientTypes.MalwareProtectionConfiguration {
         guard let value else { return }
         try writer["scanEc2InstanceWithFindings"].write(value.scanEc2InstanceWithFindings, with: GuardDutyClientTypes.ScanEc2InstanceWithFindings.write(value:to:))
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.MalwareProtectionConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.MalwareProtectionConfiguration()
-        value.scanEc2InstanceWithFindings = try reader["scanEc2InstanceWithFindings"].readIfPresent(with: GuardDutyClientTypes.ScanEc2InstanceWithFindings.read(from:))
-        return value
-    }
 }
 
 extension GuardDutyClientTypes {
@@ -9785,12 +9110,6 @@ extension GuardDutyClientTypes {
 }
 
 extension GuardDutyClientTypes.MalwareProtectionConfigurationResult {
-
-    static func write(value: GuardDutyClientTypes.MalwareProtectionConfigurationResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["scanEc2InstanceWithFindings"].write(value.scanEc2InstanceWithFindings, with: GuardDutyClientTypes.ScanEc2InstanceWithFindingsResult.write(value:to:))
-        try writer["serviceRole"].write(value.serviceRole)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.MalwareProtectionConfigurationResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -9822,11 +9141,6 @@ extension GuardDutyClientTypes {
 }
 
 extension GuardDutyClientTypes.MalwareProtectionDataSourceFreeTrial {
-
-    static func write(value: GuardDutyClientTypes.MalwareProtectionDataSourceFreeTrial?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["scanEc2InstanceWithFindings"].write(value.scanEc2InstanceWithFindings, with: GuardDutyClientTypes.DataSourceFreeTrial.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.MalwareProtectionDataSourceFreeTrial {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -9887,14 +9201,6 @@ extension GuardDutyClientTypes {
 
 extension GuardDutyClientTypes.Master {
 
-    static func write(value: GuardDutyClientTypes.Master?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["accountId"].write(value.accountId)
-        try writer["invitationId"].write(value.invitationId)
-        try writer["invitedAt"].write(value.invitedAt)
-        try writer["relationshipStatus"].write(value.relationshipStatus)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Master {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GuardDutyClientTypes.Master()
@@ -9940,18 +9246,6 @@ extension GuardDutyClientTypes.Member: Swift.CustomDebugStringConvertible {
 }
 
 extension GuardDutyClientTypes.Member {
-
-    static func write(value: GuardDutyClientTypes.Member?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["accountId"].write(value.accountId)
-        try writer["administratorId"].write(value.administratorId)
-        try writer["detectorId"].write(value.detectorId)
-        try writer["email"].write(value.email)
-        try writer["invitedAt"].write(value.invitedAt)
-        try writer["masterId"].write(value.masterId)
-        try writer["relationshipStatus"].write(value.relationshipStatus)
-        try writer["updatedAt"].write(value.updatedAt)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Member {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -10024,14 +9318,6 @@ extension GuardDutyClientTypes.MemberAdditionalConfiguration {
         try writer["name"].write(value.name)
         try writer["status"].write(value.status)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.MemberAdditionalConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.MemberAdditionalConfiguration()
-        value.name = try reader["name"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        return value
-    }
 }
 
 extension GuardDutyClientTypes {
@@ -10055,13 +9341,6 @@ extension GuardDutyClientTypes {
 }
 
 extension GuardDutyClientTypes.MemberAdditionalConfigurationResult {
-
-    static func write(value: GuardDutyClientTypes.MemberAdditionalConfigurationResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-        try writer["status"].write(value.status)
-        try writer["updatedAt"].writeTimestamp(value.updatedAt, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.MemberAdditionalConfigurationResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -10098,13 +9377,6 @@ extension GuardDutyClientTypes {
 }
 
 extension GuardDutyClientTypes.MemberDataSourceConfiguration {
-
-    static func write(value: GuardDutyClientTypes.MemberDataSourceConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["accountId"].write(value.accountId)
-        try writer["dataSources"].write(value.dataSources, with: GuardDutyClientTypes.DataSourceConfigurationsResult.write(value:to:))
-        try writer["features"].writeList(value.features, memberWritingClosure: GuardDutyClientTypes.MemberFeaturesConfigurationResult.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.MemberDataSourceConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -10150,15 +9422,6 @@ extension GuardDutyClientTypes.MemberFeaturesConfiguration {
         try writer["name"].write(value.name)
         try writer["status"].write(value.status)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.MemberFeaturesConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.MemberFeaturesConfiguration()
-        value.name = try reader["name"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.additionalConfiguration = try reader["additionalConfiguration"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.MemberAdditionalConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
 }
 
 extension GuardDutyClientTypes {
@@ -10186,14 +9449,6 @@ extension GuardDutyClientTypes {
 }
 
 extension GuardDutyClientTypes.MemberFeaturesConfigurationResult {
-
-    static func write(value: GuardDutyClientTypes.MemberFeaturesConfigurationResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["additionalConfiguration"].writeList(value.additionalConfiguration, memberWritingClosure: GuardDutyClientTypes.MemberAdditionalConfigurationResult.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["name"].write(value.name)
-        try writer["status"].write(value.status)
-        try writer["updatedAt"].writeTimestamp(value.updatedAt, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.MemberFeaturesConfigurationResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -10235,17 +9490,6 @@ extension GuardDutyClientTypes {
 }
 
 extension GuardDutyClientTypes.NetworkConnectionAction {
-
-    static func write(value: GuardDutyClientTypes.NetworkConnectionAction?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["blocked"].write(value.blocked)
-        try writer["connectionDirection"].write(value.connectionDirection)
-        try writer["localIpDetails"].write(value.localIpDetails, with: GuardDutyClientTypes.LocalIpDetails.write(value:to:))
-        try writer["localPortDetails"].write(value.localPortDetails, with: GuardDutyClientTypes.LocalPortDetails.write(value:to:))
-        try writer["protocol"].write(value.`protocol`)
-        try writer["remoteIpDetails"].write(value.remoteIpDetails, with: GuardDutyClientTypes.RemoteIpDetails.write(value:to:))
-        try writer["remotePortDetails"].write(value.remotePortDetails, with: GuardDutyClientTypes.RemotePortDetails.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.NetworkConnectionAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -10307,20 +9551,6 @@ extension GuardDutyClientTypes.NetworkInterface: Swift.CustomDebugStringConverti
 }
 
 extension GuardDutyClientTypes.NetworkInterface {
-
-    static func write(value: GuardDutyClientTypes.NetworkInterface?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ipv6Addresses"].writeList(value.ipv6Addresses, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["networkInterfaceId"].write(value.networkInterfaceId)
-        try writer["privateDnsName"].write(value.privateDnsName)
-        try writer["privateIpAddress"].write(value.privateIpAddress)
-        try writer["privateIpAddresses"].writeList(value.privateIpAddresses, memberWritingClosure: GuardDutyClientTypes.PrivateIpAddressDetails.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["publicDnsName"].write(value.publicDnsName)
-        try writer["publicIp"].write(value.publicIp)
-        try writer["securityGroups"].writeList(value.securityGroups, memberWritingClosure: GuardDutyClientTypes.SecurityGroup.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["subnetId"].write(value.subnetId)
-        try writer["vpcId"].write(value.vpcId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.NetworkInterface {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -10392,11 +9622,6 @@ extension GuardDutyClientTypes {
 }
 
 extension GuardDutyClientTypes.Observations {
-
-    static func write(value: GuardDutyClientTypes.Observations?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["text"].writeList(value.text, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Observations {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -10565,14 +9790,6 @@ extension GuardDutyClientTypes {
 
 extension GuardDutyClientTypes.Organization {
 
-    static func write(value: GuardDutyClientTypes.Organization?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["asn"].write(value.asn)
-        try writer["asnOrg"].write(value.asnOrg)
-        try writer["isp"].write(value.isp)
-        try writer["org"].write(value.org)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Organization {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GuardDutyClientTypes.Organization()
@@ -10619,14 +9836,6 @@ extension GuardDutyClientTypes.OrganizationAdditionalConfiguration {
         try writer["autoEnable"].write(value.autoEnable)
         try writer["name"].write(value.name)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.OrganizationAdditionalConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.OrganizationAdditionalConfiguration()
-        value.name = try reader["name"].readIfPresent()
-        value.autoEnable = try reader["autoEnable"].readIfPresent()
-        return value
-    }
 }
 
 extension GuardDutyClientTypes {
@@ -10656,12 +9865,6 @@ extension GuardDutyClientTypes {
 }
 
 extension GuardDutyClientTypes.OrganizationAdditionalConfigurationResult {
-
-    static func write(value: GuardDutyClientTypes.OrganizationAdditionalConfigurationResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["autoEnable"].write(value.autoEnable)
-        try writer["name"].write(value.name)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.OrganizationAdditionalConfigurationResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -10706,15 +9909,6 @@ extension GuardDutyClientTypes.OrganizationDataSourceConfigurations {
         try writer["malwareProtection"].write(value.malwareProtection, with: GuardDutyClientTypes.OrganizationMalwareProtectionConfiguration.write(value:to:))
         try writer["s3Logs"].write(value.s3Logs, with: GuardDutyClientTypes.OrganizationS3LogsConfiguration.write(value:to:))
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.OrganizationDataSourceConfigurations {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.OrganizationDataSourceConfigurations()
-        value.s3Logs = try reader["s3Logs"].readIfPresent(with: GuardDutyClientTypes.OrganizationS3LogsConfiguration.read(from:))
-        value.kubernetes = try reader["kubernetes"].readIfPresent(with: GuardDutyClientTypes.OrganizationKubernetesConfiguration.read(from:))
-        value.malwareProtection = try reader["malwareProtection"].readIfPresent(with: GuardDutyClientTypes.OrganizationMalwareProtectionConfiguration.read(from:))
-        return value
-    }
 }
 
 extension GuardDutyClientTypes {
@@ -10742,13 +9936,6 @@ extension GuardDutyClientTypes {
 }
 
 extension GuardDutyClientTypes.OrganizationDataSourceConfigurationsResult {
-
-    static func write(value: GuardDutyClientTypes.OrganizationDataSourceConfigurationsResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["kubernetes"].write(value.kubernetes, with: GuardDutyClientTypes.OrganizationKubernetesConfigurationResult.write(value:to:))
-        try writer["malwareProtection"].write(value.malwareProtection, with: GuardDutyClientTypes.OrganizationMalwareProtectionConfigurationResult.write(value:to:))
-        try writer["s3Logs"].write(value.s3Logs, with: GuardDutyClientTypes.OrganizationS3LogsConfigurationResult.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.OrganizationDataSourceConfigurationsResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -10787,12 +9974,6 @@ extension GuardDutyClientTypes {
 
 extension GuardDutyClientTypes.OrganizationDetails {
 
-    static func write(value: GuardDutyClientTypes.OrganizationDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["organizationStatistics"].write(value.organizationStatistics, with: GuardDutyClientTypes.OrganizationStatistics.write(value:to:))
-        try writer["updatedAt"].writeTimestamp(value.updatedAt, format: .epochSeconds)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.OrganizationDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GuardDutyClientTypes.OrganizationDetails()
@@ -10828,13 +10009,6 @@ extension GuardDutyClientTypes.OrganizationEbsVolumes {
         guard let value else { return }
         try writer["autoEnable"].write(value.autoEnable)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.OrganizationEbsVolumes {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.OrganizationEbsVolumes()
-        value.autoEnable = try reader["autoEnable"].readIfPresent()
-        return value
-    }
 }
 
 extension GuardDutyClientTypes {
@@ -10854,11 +10028,6 @@ extension GuardDutyClientTypes {
 }
 
 extension GuardDutyClientTypes.OrganizationEbsVolumesResult {
-
-    static func write(value: GuardDutyClientTypes.OrganizationEbsVolumesResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["autoEnable"].write(value.autoEnable)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.OrganizationEbsVolumesResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -10891,15 +10060,6 @@ extension GuardDutyClientTypes.OrganizationFeatureConfiguration {
         try writer["additionalConfiguration"].writeList(value.additionalConfiguration, memberWritingClosure: GuardDutyClientTypes.OrganizationAdditionalConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["autoEnable"].write(value.autoEnable)
         try writer["name"].write(value.name)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.OrganizationFeatureConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.OrganizationFeatureConfiguration()
-        value.name = try reader["name"].readIfPresent()
-        value.autoEnable = try reader["autoEnable"].readIfPresent()
-        value.additionalConfiguration = try reader["additionalConfiguration"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.OrganizationAdditionalConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -10934,13 +10094,6 @@ extension GuardDutyClientTypes {
 }
 
 extension GuardDutyClientTypes.OrganizationFeatureConfigurationResult {
-
-    static func write(value: GuardDutyClientTypes.OrganizationFeatureConfigurationResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["additionalConfiguration"].writeList(value.additionalConfiguration, memberWritingClosure: GuardDutyClientTypes.OrganizationAdditionalConfigurationResult.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["autoEnable"].write(value.autoEnable)
-        try writer["name"].write(value.name)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.OrganizationFeatureConfigurationResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -10984,13 +10137,6 @@ extension GuardDutyClientTypes {
 
 extension GuardDutyClientTypes.OrganizationFeatureStatistics {
 
-    static func write(value: GuardDutyClientTypes.OrganizationFeatureStatistics?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["additionalConfiguration"].writeList(value.additionalConfiguration, memberWritingClosure: GuardDutyClientTypes.OrganizationFeatureStatisticsAdditionalConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["enabledAccountsCount"].write(value.enabledAccountsCount)
-        try writer["name"].write(value.name)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.OrganizationFeatureStatistics {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GuardDutyClientTypes.OrganizationFeatureStatistics()
@@ -11027,12 +10173,6 @@ extension GuardDutyClientTypes {
 
 extension GuardDutyClientTypes.OrganizationFeatureStatisticsAdditionalConfiguration {
 
-    static func write(value: GuardDutyClientTypes.OrganizationFeatureStatisticsAdditionalConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["enabledAccountsCount"].write(value.enabledAccountsCount)
-        try writer["name"].write(value.name)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.OrganizationFeatureStatisticsAdditionalConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GuardDutyClientTypes.OrganizationFeatureStatisticsAdditionalConfiguration()
@@ -11068,13 +10208,6 @@ extension GuardDutyClientTypes.OrganizationKubernetesAuditLogsConfiguration {
         guard let value else { return }
         try writer["autoEnable"].write(value.autoEnable)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.OrganizationKubernetesAuditLogsConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.OrganizationKubernetesAuditLogsConfiguration()
-        value.autoEnable = try reader["autoEnable"].readIfPresent()
-        return value
-    }
 }
 
 extension GuardDutyClientTypes {
@@ -11095,11 +10228,6 @@ extension GuardDutyClientTypes {
 }
 
 extension GuardDutyClientTypes.OrganizationKubernetesAuditLogsConfigurationResult {
-
-    static func write(value: GuardDutyClientTypes.OrganizationKubernetesAuditLogsConfigurationResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["autoEnable"].write(value.autoEnable)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.OrganizationKubernetesAuditLogsConfigurationResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -11132,13 +10260,6 @@ extension GuardDutyClientTypes.OrganizationKubernetesConfiguration {
         guard let value else { return }
         try writer["auditLogs"].write(value.auditLogs, with: GuardDutyClientTypes.OrganizationKubernetesAuditLogsConfiguration.write(value:to:))
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.OrganizationKubernetesConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.OrganizationKubernetesConfiguration()
-        value.auditLogs = try reader["auditLogs"].readIfPresent(with: GuardDutyClientTypes.OrganizationKubernetesAuditLogsConfiguration.read(from:))
-        return value
-    }
 }
 
 extension GuardDutyClientTypes {
@@ -11159,11 +10280,6 @@ extension GuardDutyClientTypes {
 }
 
 extension GuardDutyClientTypes.OrganizationKubernetesConfigurationResult {
-
-    static func write(value: GuardDutyClientTypes.OrganizationKubernetesConfigurationResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["auditLogs"].write(value.auditLogs, with: GuardDutyClientTypes.OrganizationKubernetesAuditLogsConfigurationResult.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.OrganizationKubernetesConfigurationResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -11196,13 +10312,6 @@ extension GuardDutyClientTypes.OrganizationMalwareProtectionConfiguration {
         guard let value else { return }
         try writer["scanEc2InstanceWithFindings"].write(value.scanEc2InstanceWithFindings, with: GuardDutyClientTypes.OrganizationScanEc2InstanceWithFindings.write(value:to:))
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.OrganizationMalwareProtectionConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.OrganizationMalwareProtectionConfiguration()
-        value.scanEc2InstanceWithFindings = try reader["scanEc2InstanceWithFindings"].readIfPresent(with: GuardDutyClientTypes.OrganizationScanEc2InstanceWithFindings.read(from:))
-        return value
-    }
 }
 
 extension GuardDutyClientTypes {
@@ -11222,11 +10331,6 @@ extension GuardDutyClientTypes {
 }
 
 extension GuardDutyClientTypes.OrganizationMalwareProtectionConfigurationResult {
-
-    static func write(value: GuardDutyClientTypes.OrganizationMalwareProtectionConfigurationResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["scanEc2InstanceWithFindings"].write(value.scanEc2InstanceWithFindings, with: GuardDutyClientTypes.OrganizationScanEc2InstanceWithFindingsResult.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.OrganizationMalwareProtectionConfigurationResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -11258,13 +10362,6 @@ extension GuardDutyClientTypes.OrganizationS3LogsConfiguration {
         guard let value else { return }
         try writer["autoEnable"].write(value.autoEnable)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.OrganizationS3LogsConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.OrganizationS3LogsConfiguration()
-        value.autoEnable = try reader["autoEnable"].readIfPresent()
-        return value
-    }
 }
 
 extension GuardDutyClientTypes {
@@ -11285,11 +10382,6 @@ extension GuardDutyClientTypes {
 }
 
 extension GuardDutyClientTypes.OrganizationS3LogsConfigurationResult {
-
-    static func write(value: GuardDutyClientTypes.OrganizationS3LogsConfigurationResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["autoEnable"].write(value.autoEnable)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.OrganizationS3LogsConfigurationResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -11322,13 +10414,6 @@ extension GuardDutyClientTypes.OrganizationScanEc2InstanceWithFindings {
         guard let value else { return }
         try writer["ebsVolumes"].write(value.ebsVolumes, with: GuardDutyClientTypes.OrganizationEbsVolumes.write(value:to:))
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.OrganizationScanEc2InstanceWithFindings {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.OrganizationScanEc2InstanceWithFindings()
-        value.ebsVolumes = try reader["ebsVolumes"].readIfPresent(with: GuardDutyClientTypes.OrganizationEbsVolumes.read(from:))
-        return value
-    }
 }
 
 extension GuardDutyClientTypes {
@@ -11348,11 +10433,6 @@ extension GuardDutyClientTypes {
 }
 
 extension GuardDutyClientTypes.OrganizationScanEc2InstanceWithFindingsResult {
-
-    static func write(value: GuardDutyClientTypes.OrganizationScanEc2InstanceWithFindingsResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ebsVolumes"].write(value.ebsVolumes, with: GuardDutyClientTypes.OrganizationEbsVolumesResult.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.OrganizationScanEc2InstanceWithFindingsResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -11379,15 +10459,6 @@ extension GuardDutyClientTypes {
 }
 
 extension GuardDutyClientTypes.OrganizationStatistics {
-
-    static func write(value: GuardDutyClientTypes.OrganizationStatistics?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["activeAccountsCount"].write(value.activeAccountsCount)
-        try writer["countByFeature"].writeList(value.countByFeature, memberWritingClosure: GuardDutyClientTypes.OrganizationFeatureStatistics.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["enabledAccountsCount"].write(value.enabledAccountsCount)
-        try writer["memberAccountsCount"].write(value.memberAccountsCount)
-        try writer["totalAccountsCount"].write(value.totalAccountsCount)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.OrganizationStatistics {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -11435,11 +10506,6 @@ extension GuardDutyClientTypes {
 
 extension GuardDutyClientTypes.Owner {
 
-    static func write(value: GuardDutyClientTypes.Owner?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["id"].write(value.id)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Owner {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GuardDutyClientTypes.Owner()
@@ -11465,12 +10531,6 @@ extension GuardDutyClientTypes {
 }
 
 extension GuardDutyClientTypes.PermissionConfiguration {
-
-    static func write(value: GuardDutyClientTypes.PermissionConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["accountLevelPermissions"].write(value.accountLevelPermissions, with: GuardDutyClientTypes.AccountLevelPermissions.write(value:to:))
-        try writer["bucketLevelPermissions"].write(value.bucketLevelPermissions, with: GuardDutyClientTypes.BucketLevelPermissions.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.PermissionConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -11503,12 +10563,6 @@ extension GuardDutyClientTypes {
 
 extension GuardDutyClientTypes.PortProbeAction {
 
-    static func write(value: GuardDutyClientTypes.PortProbeAction?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["blocked"].write(value.blocked)
-        try writer["portProbeDetails"].writeList(value.portProbeDetails, memberWritingClosure: GuardDutyClientTypes.PortProbeDetail.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.PortProbeAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GuardDutyClientTypes.PortProbeAction()
@@ -11539,13 +10593,6 @@ extension GuardDutyClientTypes {
 }
 
 extension GuardDutyClientTypes.PortProbeDetail {
-
-    static func write(value: GuardDutyClientTypes.PortProbeDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["localIpDetails"].write(value.localIpDetails, with: GuardDutyClientTypes.LocalIpDetails.write(value:to:))
-        try writer["localPortDetails"].write(value.localPortDetails, with: GuardDutyClientTypes.LocalPortDetails.write(value:to:))
-        try writer["remoteIpDetails"].write(value.remoteIpDetails, with: GuardDutyClientTypes.RemoteIpDetails.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.PortProbeDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -11588,12 +10635,6 @@ extension GuardDutyClientTypes.PrivateIpAddressDetails: Swift.CustomDebugStringC
 
 extension GuardDutyClientTypes.PrivateIpAddressDetails {
 
-    static func write(value: GuardDutyClientTypes.PrivateIpAddressDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["privateDnsName"].write(value.privateDnsName)
-        try writer["privateIpAddress"].write(value.privateIpAddress)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.PrivateIpAddressDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GuardDutyClientTypes.PrivateIpAddressDetails()
@@ -11624,23 +10665,6 @@ extension GuardDutyClientTypes {
 }
 
 extension GuardDutyClientTypes.ProcessDetails {
-
-    static func write(value: GuardDutyClientTypes.ProcessDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["euid"].write(value.euid)
-        try writer["executablePath"].write(value.executablePath)
-        try writer["executableSha256"].write(value.executableSha256)
-        try writer["lineage"].writeList(value.lineage, memberWritingClosure: GuardDutyClientTypes.LineageObject.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["name"].write(value.name)
-        try writer["namespacePid"].write(value.namespacePid)
-        try writer["parentUuid"].write(value.parentUuid)
-        try writer["pid"].write(value.pid)
-        try writer["pwd"].write(value.pwd)
-        try writer["startTime"].writeTimestamp(value.startTime, format: .epochSeconds)
-        try writer["user"].write(value.user)
-        try writer["userId"].write(value.userId)
-        try writer["uuid"].write(value.uuid)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.ProcessDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -11727,12 +10751,6 @@ extension GuardDutyClientTypes {
 }
 
 extension GuardDutyClientTypes.ProductCode {
-
-    static func write(value: GuardDutyClientTypes.ProductCode?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["productCodeId"].write(value.code)
-        try writer["productCodeType"].write(value.productType)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.ProductCode {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -11828,12 +10846,6 @@ extension GuardDutyClientTypes {
 
 extension GuardDutyClientTypes.PublicAccess {
 
-    static func write(value: GuardDutyClientTypes.PublicAccess?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["effectivePermission"].write(value.effectivePermission)
-        try writer["permissionConfiguration"].write(value.permissionConfiguration, with: GuardDutyClientTypes.PermissionConfiguration.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.PublicAccess {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GuardDutyClientTypes.PublicAccess()
@@ -11901,16 +10913,6 @@ extension GuardDutyClientTypes {
 
 extension GuardDutyClientTypes.RdsDbInstanceDetails {
 
-    static func write(value: GuardDutyClientTypes.RdsDbInstanceDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["dbClusterIdentifier"].write(value.dbClusterIdentifier)
-        try writer["dbInstanceArn"].write(value.dbInstanceArn)
-        try writer["dbInstanceIdentifier"].write(value.dbInstanceIdentifier)
-        try writer["engine"].write(value.engine)
-        try writer["engineVersion"].write(value.engineVersion)
-        try writer["tags"].writeList(value.tags, memberWritingClosure: GuardDutyClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.RdsDbInstanceDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GuardDutyClientTypes.RdsDbInstanceDetails()
@@ -11962,15 +10964,6 @@ extension GuardDutyClientTypes {
 
 extension GuardDutyClientTypes.RdsDbUserDetails {
 
-    static func write(value: GuardDutyClientTypes.RdsDbUserDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["application"].write(value.application)
-        try writer["authMethod"].write(value.authMethod)
-        try writer["database"].write(value.database)
-        try writer["ssl"].write(value.ssl)
-        try writer["user"].write(value.user)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.RdsDbUserDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GuardDutyClientTypes.RdsDbUserDetails()
@@ -12017,12 +11010,6 @@ extension GuardDutyClientTypes {
 
 extension GuardDutyClientTypes.RdsLoginAttemptAction {
 
-    static func write(value: GuardDutyClientTypes.RdsLoginAttemptAction?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["LoginAttributes"].writeList(value.loginAttributes, memberWritingClosure: GuardDutyClientTypes.LoginAttribute.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["remoteIpDetails"].write(value.remoteIpDetails, with: GuardDutyClientTypes.RemoteIpDetails.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.RdsLoginAttemptAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GuardDutyClientTypes.RdsLoginAttemptAction()
@@ -12053,12 +11040,6 @@ extension GuardDutyClientTypes {
 }
 
 extension GuardDutyClientTypes.RemoteAccountDetails {
-
-    static func write(value: GuardDutyClientTypes.RemoteAccountDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["accountId"].write(value.accountId)
-        try writer["affiliated"].write(value.affiliated)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.RemoteAccountDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -12095,16 +11076,6 @@ extension GuardDutyClientTypes.RemoteIpDetails: Swift.CustomDebugStringConvertib
 }
 
 extension GuardDutyClientTypes.RemoteIpDetails {
-
-    static func write(value: GuardDutyClientTypes.RemoteIpDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["city"].write(value.city, with: GuardDutyClientTypes.City.write(value:to:))
-        try writer["country"].write(value.country, with: GuardDutyClientTypes.Country.write(value:to:))
-        try writer["geoLocation"].write(value.geoLocation, with: GuardDutyClientTypes.GeoLocation.write(value:to:))
-        try writer["ipAddressV4"].write(value.ipAddressV4)
-        try writer["ipAddressV6"].write(value.ipAddressV6)
-        try writer["organization"].write(value.organization, with: GuardDutyClientTypes.Organization.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.RemoteIpDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -12157,12 +11128,6 @@ extension GuardDutyClientTypes {
 
 extension GuardDutyClientTypes.RemotePortDetails {
 
-    static func write(value: GuardDutyClientTypes.RemotePortDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["port"].write(value.port)
-        try writer["portName"].write(value.portName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.RemotePortDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GuardDutyClientTypes.RemotePortDetails()
@@ -12193,22 +11158,6 @@ extension GuardDutyClientTypes {
 }
 
 extension GuardDutyClientTypes.Resource {
-
-    static func write(value: GuardDutyClientTypes.Resource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["accessKeyDetails"].write(value.accessKeyDetails, with: GuardDutyClientTypes.AccessKeyDetails.write(value:to:))
-        try writer["containerDetails"].write(value.containerDetails, with: GuardDutyClientTypes.Container.write(value:to:))
-        try writer["ebsVolumeDetails"].write(value.ebsVolumeDetails, with: GuardDutyClientTypes.EbsVolumeDetails.write(value:to:))
-        try writer["ecsClusterDetails"].write(value.ecsClusterDetails, with: GuardDutyClientTypes.EcsClusterDetails.write(value:to:))
-        try writer["eksClusterDetails"].write(value.eksClusterDetails, with: GuardDutyClientTypes.EksClusterDetails.write(value:to:))
-        try writer["instanceDetails"].write(value.instanceDetails, with: GuardDutyClientTypes.InstanceDetails.write(value:to:))
-        try writer["kubernetesDetails"].write(value.kubernetesDetails, with: GuardDutyClientTypes.KubernetesDetails.write(value:to:))
-        try writer["lambdaDetails"].write(value.lambdaDetails, with: GuardDutyClientTypes.LambdaDetails.write(value:to:))
-        try writer["rdsDbInstanceDetails"].write(value.rdsDbInstanceDetails, with: GuardDutyClientTypes.RdsDbInstanceDetails.write(value:to:))
-        try writer["rdsDbUserDetails"].write(value.rdsDbUserDetails, with: GuardDutyClientTypes.RdsDbUserDetails.write(value:to:))
-        try writer["resourceType"].write(value.resourceType)
-        try writer["s3BucketDetails"].writeList(value.s3BucketDetails, memberWritingClosure: GuardDutyClientTypes.S3BucketDetail.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Resource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -12291,11 +11240,6 @@ extension GuardDutyClientTypes {
 
 extension GuardDutyClientTypes.ResourceDetails {
 
-    static func write(value: GuardDutyClientTypes.ResourceDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["instanceArn"].write(value.instanceArn)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.ResourceDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GuardDutyClientTypes.ResourceDetails()
@@ -12354,35 +11298,6 @@ extension GuardDutyClientTypes {
 }
 
 extension GuardDutyClientTypes.RuntimeContext {
-
-    static func write(value: GuardDutyClientTypes.RuntimeContext?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["addressFamily"].write(value.addressFamily)
-        try writer["commandLineExample"].write(value.commandLineExample)
-        try writer["fileSystemType"].write(value.fileSystemType)
-        try writer["flags"].writeList(value.flags, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ianaProtocolNumber"].write(value.ianaProtocolNumber)
-        try writer["ldPreloadValue"].write(value.ldPreloadValue)
-        try writer["libraryPath"].write(value.libraryPath)
-        try writer["memoryRegions"].writeList(value.memoryRegions, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["modifiedAt"].writeTimestamp(value.modifiedAt, format: .epochSeconds)
-        try writer["modifyingProcess"].write(value.modifyingProcess, with: GuardDutyClientTypes.ProcessDetails.write(value:to:))
-        try writer["moduleFilePath"].write(value.moduleFilePath)
-        try writer["moduleName"].write(value.moduleName)
-        try writer["moduleSha256"].write(value.moduleSha256)
-        try writer["mountSource"].write(value.mountSource)
-        try writer["mountTarget"].write(value.mountTarget)
-        try writer["releaseAgentPath"].write(value.releaseAgentPath)
-        try writer["runcBinaryPath"].write(value.runcBinaryPath)
-        try writer["scriptPath"].write(value.scriptPath)
-        try writer["serviceName"].write(value.serviceName)
-        try writer["shellHistoryFilePath"].write(value.shellHistoryFilePath)
-        try writer["socketPath"].write(value.socketPath)
-        try writer["targetProcess"].write(value.targetProcess, with: GuardDutyClientTypes.ProcessDetails.write(value:to:))
-        try writer["threatFilePath"].write(value.threatFilePath)
-        try writer["toolCategory"].write(value.toolCategory)
-        try writer["toolName"].write(value.toolName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.RuntimeContext {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -12530,12 +11445,6 @@ extension GuardDutyClientTypes {
 
 extension GuardDutyClientTypes.RuntimeDetails {
 
-    static func write(value: GuardDutyClientTypes.RuntimeDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["context"].write(value.context, with: GuardDutyClientTypes.RuntimeContext.write(value:to:))
-        try writer["process"].write(value.process, with: GuardDutyClientTypes.ProcessDetails.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.RuntimeDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GuardDutyClientTypes.RuntimeDetails()
@@ -12566,18 +11475,6 @@ extension GuardDutyClientTypes {
 }
 
 extension GuardDutyClientTypes.S3BucketDetail {
-
-    static func write(value: GuardDutyClientTypes.S3BucketDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["defaultServerSideEncryption"].write(value.defaultServerSideEncryption, with: GuardDutyClientTypes.DefaultServerSideEncryption.write(value:to:))
-        try writer["name"].write(value.name)
-        try writer["owner"].write(value.owner, with: GuardDutyClientTypes.Owner.write(value:to:))
-        try writer["publicAccess"].write(value.publicAccess, with: GuardDutyClientTypes.PublicAccess.write(value:to:))
-        try writer["tags"].writeList(value.tags, memberWritingClosure: GuardDutyClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.S3BucketDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -12644,13 +11541,6 @@ extension GuardDutyClientTypes.S3LogsConfiguration {
         guard let value else { return }
         try writer["enable"].write(value.enable)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.S3LogsConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.S3LogsConfiguration()
-        value.enable = try reader["enable"].readIfPresent()
-        return value
-    }
 }
 
 extension GuardDutyClientTypes {
@@ -12671,11 +11561,6 @@ extension GuardDutyClientTypes {
 }
 
 extension GuardDutyClientTypes.S3LogsConfigurationResult {
-
-    static func write(value: GuardDutyClientTypes.S3LogsConfigurationResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.S3LogsConfigurationResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -12703,25 +11588,6 @@ extension GuardDutyClientTypes {
 }
 
 extension GuardDutyClientTypes.Scan {
-
-    static func write(value: GuardDutyClientTypes.Scan?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["accountId"].write(value.accountId)
-        try writer["adminDetectorId"].write(value.adminDetectorId)
-        try writer["attachedVolumes"].writeList(value.attachedVolumes, memberWritingClosure: GuardDutyClientTypes.VolumeDetail.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["detectorId"].write(value.detectorId)
-        try writer["failureReason"].write(value.failureReason)
-        try writer["fileCount"].write(value.fileCount)
-        try writer["resourceDetails"].write(value.resourceDetails, with: GuardDutyClientTypes.ResourceDetails.write(value:to:))
-        try writer["scanEndTime"].writeTimestamp(value.scanEndTime, format: .epochSeconds)
-        try writer["scanId"].write(value.scanId)
-        try writer["scanResultDetails"].write(value.scanResultDetails, with: GuardDutyClientTypes.ScanResultDetails.write(value:to:))
-        try writer["scanStartTime"].writeTimestamp(value.scanStartTime, format: .epochSeconds)
-        try writer["scanStatus"].write(value.scanStatus)
-        try writer["scanType"].write(value.scanType)
-        try writer["totalBytes"].write(value.totalBytes)
-        try writer["triggerDetails"].write(value.triggerDetails, with: GuardDutyClientTypes.TriggerDetails.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Scan {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -12917,14 +11783,6 @@ extension GuardDutyClientTypes {
 
 extension GuardDutyClientTypes.ScanDetections {
 
-    static func write(value: GuardDutyClientTypes.ScanDetections?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["highestSeverityThreatDetails"].write(value.highestSeverityThreatDetails, with: GuardDutyClientTypes.HighestSeverityThreatDetails.write(value:to:))
-        try writer["scannedItemCount"].write(value.scannedItemCount, with: GuardDutyClientTypes.ScannedItemCount.write(value:to:))
-        try writer["threatDetectedByName"].write(value.threatDetectedByName, with: GuardDutyClientTypes.ThreatDetectedByName.write(value:to:))
-        try writer["threatsDetectedItemCount"].write(value.threatsDetectedItemCount, with: GuardDutyClientTypes.ThreatsDetectedItemCount.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.ScanDetections {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GuardDutyClientTypes.ScanDetections()
@@ -12970,13 +11828,6 @@ extension GuardDutyClientTypes.ScanEc2InstanceWithFindings {
         guard let value else { return }
         try writer["ebsVolumes"].write(value.ebsVolumes)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.ScanEc2InstanceWithFindings {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.ScanEc2InstanceWithFindings()
-        value.ebsVolumes = try reader["ebsVolumes"].readIfPresent()
-        return value
-    }
 }
 
 extension GuardDutyClientTypes {
@@ -12996,11 +11847,6 @@ extension GuardDutyClientTypes {
 }
 
 extension GuardDutyClientTypes.ScanEc2InstanceWithFindingsResult {
-
-    static func write(value: GuardDutyClientTypes.ScanEc2InstanceWithFindingsResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ebsVolumes"].write(value.ebsVolumes, with: GuardDutyClientTypes.EbsVolumesResult.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.ScanEc2InstanceWithFindingsResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -13027,14 +11873,6 @@ extension GuardDutyClientTypes {
 }
 
 extension GuardDutyClientTypes.ScanFilePath {
-
-    static func write(value: GuardDutyClientTypes.ScanFilePath?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["fileName"].write(value.fileName)
-        try writer["filePath"].write(value.filePath)
-        try writer["hash"].write(value.hash)
-        try writer["volumeArn"].write(value.volumeArn)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.ScanFilePath {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -13144,11 +11982,6 @@ extension GuardDutyClientTypes {
 
 extension GuardDutyClientTypes.ScanResultDetails {
 
-    static func write(value: GuardDutyClientTypes.ScanResultDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["scanResult"].write(value.scanResult)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.ScanResultDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GuardDutyClientTypes.ScanResultDetails()
@@ -13210,14 +12043,6 @@ extension GuardDutyClientTypes {
 }
 
 extension GuardDutyClientTypes.ScanThreatName {
-
-    static func write(value: GuardDutyClientTypes.ScanThreatName?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["filePaths"].writeList(value.filePaths, memberWritingClosure: GuardDutyClientTypes.ScanFilePath.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["itemCount"].write(value.itemCount)
-        try writer["name"].write(value.name)
-        try writer["severity"].write(value.severity)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.ScanThreatName {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -13290,13 +12115,6 @@ extension GuardDutyClientTypes {
 
 extension GuardDutyClientTypes.ScannedItemCount {
 
-    static func write(value: GuardDutyClientTypes.ScannedItemCount?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["files"].write(value.files)
-        try writer["totalGb"].write(value.totalGb)
-        try writer["volumes"].write(value.volumes)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.ScannedItemCount {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GuardDutyClientTypes.ScannedItemCount()
@@ -13333,12 +12151,6 @@ extension GuardDutyClientTypes {
 
 extension GuardDutyClientTypes.SecurityContext {
 
-    static func write(value: GuardDutyClientTypes.SecurityContext?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["allowPrivilegeEscalation"].write(value.allowPrivilegeEscalation)
-        try writer["privileged"].write(value.privileged)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.SecurityContext {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GuardDutyClientTypes.SecurityContext()
@@ -13370,12 +12182,6 @@ extension GuardDutyClientTypes {
 
 extension GuardDutyClientTypes.SecurityGroup {
 
-    static func write(value: GuardDutyClientTypes.SecurityGroup?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["groupId"].write(value.groupId)
-        try writer["groupName"].write(value.groupName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.SecurityGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GuardDutyClientTypes.SecurityGroup()
@@ -13406,25 +12212,6 @@ extension GuardDutyClientTypes {
 }
 
 extension GuardDutyClientTypes.Service {
-
-    static func write(value: GuardDutyClientTypes.Service?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["action"].write(value.action, with: GuardDutyClientTypes.Action.write(value:to:))
-        try writer["additionalInfo"].write(value.additionalInfo, with: GuardDutyClientTypes.ServiceAdditionalInfo.write(value:to:))
-        try writer["archived"].write(value.archived)
-        try writer["count"].write(value.count)
-        try writer["detection"].write(value.detection, with: GuardDutyClientTypes.Detection.write(value:to:))
-        try writer["detectorId"].write(value.detectorId)
-        try writer["ebsVolumeScanDetails"].write(value.ebsVolumeScanDetails, with: GuardDutyClientTypes.EbsVolumeScanDetails.write(value:to:))
-        try writer["eventFirstSeen"].write(value.eventFirstSeen)
-        try writer["eventLastSeen"].write(value.eventLastSeen)
-        try writer["evidence"].write(value.evidence, with: GuardDutyClientTypes.Evidence.write(value:to:))
-        try writer["featureName"].write(value.featureName)
-        try writer["resourceRole"].write(value.resourceRole)
-        try writer["runtimeDetails"].write(value.runtimeDetails, with: GuardDutyClientTypes.RuntimeDetails.write(value:to:))
-        try writer["serviceName"].write(value.serviceName)
-        try writer["userFeedback"].write(value.userFeedback)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Service {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -13522,12 +12309,6 @@ extension GuardDutyClientTypes {
 
 extension GuardDutyClientTypes.ServiceAdditionalInfo {
 
-    static func write(value: GuardDutyClientTypes.ServiceAdditionalInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["type"].write(value.type)
-        try writer["value"].write(value.value)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.ServiceAdditionalInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GuardDutyClientTypes.ServiceAdditionalInfo()
@@ -13563,14 +12344,6 @@ extension GuardDutyClientTypes.SortCriteria {
         guard let value else { return }
         try writer["attributeName"].write(value.attributeName)
         try writer["orderBy"].write(value.orderBy)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.SortCriteria {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.SortCriteria()
-        value.attributeName = try reader["attributeName"].readIfPresent()
-        value.orderBy = try reader["orderBy"].readIfPresent()
-        return value
     }
 }
 
@@ -13816,12 +12589,6 @@ enum StopMonitoringMembersOutputError {
 
 extension GuardDutyClientTypes.Tag {
 
-    static func write(value: GuardDutyClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["key"].write(value.key)
-        try writer["value"].write(value.value)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GuardDutyClientTypes.Tag()
@@ -13916,14 +12683,6 @@ enum TagResourceOutputError {
 }
 
 extension GuardDutyClientTypes.ThreatDetectedByName {
-
-    static func write(value: GuardDutyClientTypes.ThreatDetectedByName?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["itemCount"].write(value.itemCount)
-        try writer["shortened"].write(value.shortened)
-        try writer["threatNames"].writeList(value.threatNames, memberWritingClosure: GuardDutyClientTypes.ScanThreatName.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["uniqueThreatNameCount"].write(value.uniqueThreatNameCount)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.ThreatDetectedByName {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -14053,13 +12812,6 @@ extension GuardDutyClientTypes {
 
 extension GuardDutyClientTypes.ThreatIntelligenceDetail {
 
-    static func write(value: GuardDutyClientTypes.ThreatIntelligenceDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["threatFileSha256"].write(value.threatFileSha256)
-        try writer["threatListName"].write(value.threatListName)
-        try writer["threatNames"].writeList(value.threatNames, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.ThreatIntelligenceDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GuardDutyClientTypes.ThreatIntelligenceDetail()
@@ -14096,11 +12848,6 @@ extension GuardDutyClientTypes {
 
 extension GuardDutyClientTypes.ThreatsDetectedItemCount {
 
-    static func write(value: GuardDutyClientTypes.ThreatsDetectedItemCount?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["files"].write(value.files)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.ThreatsDetectedItemCount {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GuardDutyClientTypes.ThreatsDetectedItemCount()
@@ -14126,12 +12873,6 @@ extension GuardDutyClientTypes {
 }
 
 extension GuardDutyClientTypes.Total {
-
-    static func write(value: GuardDutyClientTypes.Total?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["amount"].write(value.amount)
-        try writer["unit"].write(value.unit)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Total {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -14163,12 +12904,6 @@ extension GuardDutyClientTypes {
 }
 
 extension GuardDutyClientTypes.TriggerDetails {
-
-    static func write(value: GuardDutyClientTypes.TriggerDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["description"].write(value.description)
-        try writer["guardDutyFindingId"].write(value.guardDutyFindingId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.TriggerDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -14264,12 +12999,6 @@ enum UnarchiveFindingsOutputError {
 
 extension GuardDutyClientTypes.UnprocessedAccount {
 
-    static func write(value: GuardDutyClientTypes.UnprocessedAccount?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["accountId"].write(value.accountId)
-        try writer["result"].write(value.result)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.UnprocessedAccount {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GuardDutyClientTypes.UnprocessedAccount()
@@ -14302,11 +13031,6 @@ extension GuardDutyClientTypes {
 }
 
 extension GuardDutyClientTypes.UnprocessedDataSourcesResult {
-
-    static func write(value: GuardDutyClientTypes.UnprocessedDataSourcesResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["malwareProtection"].write(value.malwareProtection, with: GuardDutyClientTypes.MalwareProtectionConfigurationResult.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.UnprocessedDataSourcesResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -15125,12 +13849,6 @@ enum UpdateThreatIntelSetOutputError {
 
 extension GuardDutyClientTypes.UsageAccountResult {
 
-    static func write(value: GuardDutyClientTypes.UsageAccountResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["accountId"].write(value.accountId)
-        try writer["total"].write(value.total, with: GuardDutyClientTypes.Total.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.UsageAccountResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GuardDutyClientTypes.UsageAccountResult()
@@ -15169,16 +13887,6 @@ extension GuardDutyClientTypes.UsageCriteria {
         try writer["features"].writeList(value.features, memberWritingClosure: GuardDutyClientTypes.UsageFeature.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["resources"].writeList(value.resources, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.UsageCriteria {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.UsageCriteria()
-        value.accountIds = try reader["accountIds"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.dataSources = try reader["dataSources"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.DataSource.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.resources = try reader["resources"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.features = try reader["features"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.UsageFeature.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
 }
 
 extension GuardDutyClientTypes {
@@ -15211,12 +13919,6 @@ extension GuardDutyClientTypes {
 }
 
 extension GuardDutyClientTypes.UsageDataSourceResult {
-
-    static func write(value: GuardDutyClientTypes.UsageDataSourceResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["dataSource"].write(value.dataSource)
-        try writer["total"].write(value.total, with: GuardDutyClientTypes.Total.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.UsageDataSourceResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -15312,12 +14014,6 @@ extension GuardDutyClientTypes {
 
 extension GuardDutyClientTypes.UsageFeatureResult {
 
-    static func write(value: GuardDutyClientTypes.UsageFeatureResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["feature"].write(value.feature)
-        try writer["total"].write(value.total, with: GuardDutyClientTypes.Total.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.UsageFeatureResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GuardDutyClientTypes.UsageFeatureResult()
@@ -15348,12 +14044,6 @@ extension GuardDutyClientTypes {
 }
 
 extension GuardDutyClientTypes.UsageResourceResult {
-
-    static func write(value: GuardDutyClientTypes.UsageResourceResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["resource"].write(value.resource)
-        try writer["total"].write(value.total, with: GuardDutyClientTypes.Total.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.UsageResourceResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -15428,16 +14118,6 @@ extension GuardDutyClientTypes {
 
 extension GuardDutyClientTypes.UsageStatistics {
 
-    static func write(value: GuardDutyClientTypes.UsageStatistics?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["sumByAccount"].writeList(value.sumByAccount, memberWritingClosure: GuardDutyClientTypes.UsageAccountResult.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["sumByDataSource"].writeList(value.sumByDataSource, memberWritingClosure: GuardDutyClientTypes.UsageDataSourceResult.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["sumByFeature"].writeList(value.sumByFeature, memberWritingClosure: GuardDutyClientTypes.UsageFeatureResult.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["sumByResource"].writeList(value.sumByResource, memberWritingClosure: GuardDutyClientTypes.UsageResourceResult.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["topAccountsByFeature"].writeList(value.topAccountsByFeature, memberWritingClosure: GuardDutyClientTypes.UsageTopAccountsResult.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["topResources"].writeList(value.topResources, memberWritingClosure: GuardDutyClientTypes.UsageResourceResult.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.UsageStatistics {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GuardDutyClientTypes.UsageStatistics()
@@ -15489,12 +14169,6 @@ extension GuardDutyClientTypes {
 
 extension GuardDutyClientTypes.UsageTopAccountResult {
 
-    static func write(value: GuardDutyClientTypes.UsageTopAccountResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["accountId"].write(value.accountId)
-        try writer["total"].write(value.total, with: GuardDutyClientTypes.Total.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.UsageTopAccountResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GuardDutyClientTypes.UsageTopAccountResult()
@@ -15525,12 +14199,6 @@ extension GuardDutyClientTypes {
 }
 
 extension GuardDutyClientTypes.UsageTopAccountsResult {
-
-    static func write(value: GuardDutyClientTypes.UsageTopAccountsResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["accounts"].writeList(value.accounts, memberWritingClosure: GuardDutyClientTypes.UsageTopAccountResult.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["feature"].write(value.feature)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.UsageTopAccountsResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -15563,12 +14231,6 @@ extension GuardDutyClientTypes {
 
 extension GuardDutyClientTypes.Volume {
 
-    static func write(value: GuardDutyClientTypes.Volume?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["hostPath"].write(value.hostPath, with: GuardDutyClientTypes.HostPath.write(value:to:))
-        try writer["name"].write(value.name)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Volume {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GuardDutyClientTypes.Volume()
@@ -15599,17 +14261,6 @@ extension GuardDutyClientTypes {
 }
 
 extension GuardDutyClientTypes.VolumeDetail {
-
-    static func write(value: GuardDutyClientTypes.VolumeDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["deviceName"].write(value.deviceName)
-        try writer["encryptionType"].write(value.encryptionType)
-        try writer["kmsKeyArn"].write(value.kmsKeyArn)
-        try writer["snapshotArn"].write(value.snapshotArn)
-        try writer["volumeArn"].write(value.volumeArn)
-        try writer["volumeSizeInGB"].write(value.volumeSizeInGB)
-        try writer["volumeType"].write(value.volumeType)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.VolumeDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -15667,12 +14318,6 @@ extension GuardDutyClientTypes {
 
 extension GuardDutyClientTypes.VolumeMount {
 
-    static func write(value: GuardDutyClientTypes.VolumeMount?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["mountPath"].write(value.mountPath)
-        try writer["name"].write(value.name)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.VolumeMount {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GuardDutyClientTypes.VolumeMount()
@@ -15703,13 +14348,6 @@ extension GuardDutyClientTypes {
 }
 
 extension GuardDutyClientTypes.VpcConfig {
-
-    static func write(value: GuardDutyClientTypes.VpcConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["securityGroups"].writeList(value.securityGroups, memberWritingClosure: GuardDutyClientTypes.SecurityGroup.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["subnetIds"].writeList(value.subnetIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["vpcId"].write(value.vpcId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.VpcConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

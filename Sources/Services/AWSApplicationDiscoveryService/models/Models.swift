@@ -6,13 +6,6 @@ import SmithyReadWrite
 
 extension ApplicationDiscoveryClientTypes.AgentConfigurationStatus {
 
-    static func write(value: ApplicationDiscoveryClientTypes.AgentConfigurationStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["agentId"].write(value.agentId)
-        try writer["description"].write(value.description)
-        try writer["operationSucceeded"].write(value.operationSucceeded)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ApplicationDiscoveryClientTypes.AgentConfigurationStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ApplicationDiscoveryClientTypes.AgentConfigurationStatus()
@@ -48,20 +41,6 @@ extension ApplicationDiscoveryClientTypes {
 }
 
 extension ApplicationDiscoveryClientTypes.AgentInfo {
-
-    static func write(value: ApplicationDiscoveryClientTypes.AgentInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["agentId"].write(value.agentId)
-        try writer["agentNetworkInfoList"].writeList(value.agentNetworkInfoList, memberWritingClosure: ApplicationDiscoveryClientTypes.AgentNetworkInfo.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["agentType"].write(value.agentType)
-        try writer["collectionStatus"].write(value.collectionStatus)
-        try writer["connectorId"].write(value.connectorId)
-        try writer["health"].write(value.health)
-        try writer["hostName"].write(value.hostName)
-        try writer["lastHealthPingTime"].write(value.lastHealthPingTime)
-        try writer["registeredTime"].write(value.registeredTime)
-        try writer["version"].write(value.version)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ApplicationDiscoveryClientTypes.AgentInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -139,12 +118,6 @@ extension ApplicationDiscoveryClientTypes.AgentNetworkInfo: Swift.CustomDebugStr
 }
 
 extension ApplicationDiscoveryClientTypes.AgentNetworkInfo {
-
-    static func write(value: ApplicationDiscoveryClientTypes.AgentNetworkInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ipAddress"].write(value.ipAddress)
-        try writer["macAddress"].write(value.macAddress)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ApplicationDiscoveryClientTypes.AgentNetworkInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -322,13 +295,6 @@ public struct AuthorizationErrorException: ClientRuntime.ModeledError, AWSClient
 
 extension ApplicationDiscoveryClientTypes.BatchDeleteAgentError {
 
-    static func write(value: ApplicationDiscoveryClientTypes.BatchDeleteAgentError?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["agentId"].write(value.agentId)
-        try writer["errorCode"].write(value.errorCode)
-        try writer["errorMessage"].write(value.errorMessage)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ApplicationDiscoveryClientTypes.BatchDeleteAgentError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ApplicationDiscoveryClientTypes.BatchDeleteAgentError()
@@ -437,19 +403,6 @@ enum BatchDeleteAgentsOutputError {
 
 extension ApplicationDiscoveryClientTypes.BatchDeleteConfigurationTask {
 
-    static func write(value: ApplicationDiscoveryClientTypes.BatchDeleteConfigurationTask?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["configurationType"].write(value.configurationType)
-        try writer["deletedConfigurations"].writeList(value.deletedConfigurations, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["deletionWarnings"].writeList(value.deletionWarnings, memberWritingClosure: ApplicationDiscoveryClientTypes.DeletionWarning.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["endTime"].writeTimestamp(value.endTime, format: .epochSeconds)
-        try writer["failedConfigurations"].writeList(value.failedConfigurations, memberWritingClosure: ApplicationDiscoveryClientTypes.FailedConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["requestedConfigurations"].writeList(value.requestedConfigurations, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["startTime"].writeTimestamp(value.startTime, format: .epochSeconds)
-        try writer["status"].write(value.status)
-        try writer["taskId"].write(value.taskId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ApplicationDiscoveryClientTypes.BatchDeleteConfigurationTask {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ApplicationDiscoveryClientTypes.BatchDeleteConfigurationTask()
@@ -554,13 +507,6 @@ extension ApplicationDiscoveryClientTypes {
 }
 
 extension ApplicationDiscoveryClientTypes.BatchDeleteImportDataError {
-
-    static func write(value: ApplicationDiscoveryClientTypes.BatchDeleteImportDataError?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["errorCode"].write(value.errorCode)
-        try writer["errorDescription"].write(value.errorDescription)
-        try writer["importTaskId"].write(value.importTaskId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ApplicationDiscoveryClientTypes.BatchDeleteImportDataError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -742,15 +688,6 @@ extension ApplicationDiscoveryClientTypes {
 
 extension ApplicationDiscoveryClientTypes.ConfigurationTag {
 
-    static func write(value: ApplicationDiscoveryClientTypes.ConfigurationTag?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["configurationId"].write(value.configurationId)
-        try writer["configurationType"].write(value.configurationType)
-        try writer["key"].write(value.key)
-        try writer["timeOfCreation"].writeTimestamp(value.timeOfCreation, format: .epochSeconds)
-        try writer["value"].write(value.value)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ApplicationDiscoveryClientTypes.ConfigurationTag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ApplicationDiscoveryClientTypes.ConfigurationTag()
@@ -833,18 +770,6 @@ public struct ConflictErrorException: ClientRuntime.ModeledError, AWSClientRunti
 }
 
 extension ApplicationDiscoveryClientTypes.ContinuousExportDescription {
-
-    static func write(value: ApplicationDiscoveryClientTypes.ContinuousExportDescription?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["dataSource"].write(value.dataSource)
-        try writer["exportId"].write(value.exportId)
-        try writer["s3Bucket"].write(value.s3Bucket)
-        try writer["schemaStorageConfig"].writeMap(value.schemaStorageConfig, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["startTime"].writeTimestamp(value.startTime, format: .epochSeconds)
-        try writer["status"].write(value.status)
-        try writer["statusDetail"].write(value.statusDetail)
-        try writer["stopTime"].writeTimestamp(value.stopTime, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ApplicationDiscoveryClientTypes.ContinuousExportDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1138,17 +1063,6 @@ enum CreateTagsOutputError {
 
 extension ApplicationDiscoveryClientTypes.CustomerAgentInfo {
 
-    static func write(value: ApplicationDiscoveryClientTypes.CustomerAgentInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["activeAgents"].write(value.activeAgents)
-        try writer["blackListedAgents"].write(value.blackListedAgents)
-        try writer["healthyAgents"].write(value.healthyAgents)
-        try writer["shutdownAgents"].write(value.shutdownAgents)
-        try writer["totalAgents"].write(value.totalAgents)
-        try writer["unhealthyAgents"].write(value.unhealthyAgents)
-        try writer["unknownAgents"].write(value.unknownAgents)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ApplicationDiscoveryClientTypes.CustomerAgentInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ApplicationDiscoveryClientTypes.CustomerAgentInfo()
@@ -1211,17 +1125,6 @@ extension ApplicationDiscoveryClientTypes {
 }
 
 extension ApplicationDiscoveryClientTypes.CustomerAgentlessCollectorInfo {
-
-    static func write(value: ApplicationDiscoveryClientTypes.CustomerAgentlessCollectorInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["activeAgentlessCollectors"].write(value.activeAgentlessCollectors)
-        try writer["denyListedAgentlessCollectors"].write(value.denyListedAgentlessCollectors)
-        try writer["healthyAgentlessCollectors"].write(value.healthyAgentlessCollectors)
-        try writer["shutdownAgentlessCollectors"].write(value.shutdownAgentlessCollectors)
-        try writer["totalAgentlessCollectors"].write(value.totalAgentlessCollectors)
-        try writer["unhealthyAgentlessCollectors"].write(value.unhealthyAgentlessCollectors)
-        try writer["unknownAgentlessCollectors"].write(value.unknownAgentlessCollectors)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ApplicationDiscoveryClientTypes.CustomerAgentlessCollectorInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1286,17 +1189,6 @@ extension ApplicationDiscoveryClientTypes {
 
 extension ApplicationDiscoveryClientTypes.CustomerConnectorInfo {
 
-    static func write(value: ApplicationDiscoveryClientTypes.CustomerConnectorInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["activeConnectors"].write(value.activeConnectors)
-        try writer["blackListedConnectors"].write(value.blackListedConnectors)
-        try writer["healthyConnectors"].write(value.healthyConnectors)
-        try writer["shutdownConnectors"].write(value.shutdownConnectors)
-        try writer["totalConnectors"].write(value.totalConnectors)
-        try writer["unhealthyConnectors"].write(value.unhealthyConnectors)
-        try writer["unknownConnectors"].write(value.unknownConnectors)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ApplicationDiscoveryClientTypes.CustomerConnectorInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ApplicationDiscoveryClientTypes.CustomerConnectorInfo()
@@ -1359,17 +1251,6 @@ extension ApplicationDiscoveryClientTypes {
 }
 
 extension ApplicationDiscoveryClientTypes.CustomerMeCollectorInfo {
-
-    static func write(value: ApplicationDiscoveryClientTypes.CustomerMeCollectorInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["activeMeCollectors"].write(value.activeMeCollectors)
-        try writer["denyListedMeCollectors"].write(value.denyListedMeCollectors)
-        try writer["healthyMeCollectors"].write(value.healthyMeCollectors)
-        try writer["shutdownMeCollectors"].write(value.shutdownMeCollectors)
-        try writer["totalMeCollectors"].write(value.totalMeCollectors)
-        try writer["unhealthyMeCollectors"].write(value.unhealthyMeCollectors)
-        try writer["unknownMeCollectors"].write(value.unknownMeCollectors)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ApplicationDiscoveryClientTypes.CustomerMeCollectorInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1465,14 +1346,6 @@ extension ApplicationDiscoveryClientTypes.DeleteAgent {
         guard let value else { return }
         try writer["agentId"].write(value.agentId)
         try writer["force"].write(value.force)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationDiscoveryClientTypes.DeleteAgent {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ApplicationDiscoveryClientTypes.DeleteAgent()
-        value.agentId = try reader["agentId"].readIfPresent()
-        value.force = try reader["force"].readIfPresent() ?? false
-        return value
     }
 }
 
@@ -1680,13 +1553,6 @@ extension ApplicationDiscoveryClientTypes {
 }
 
 extension ApplicationDiscoveryClientTypes.DeletionWarning {
-
-    static func write(value: ApplicationDiscoveryClientTypes.DeletionWarning?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["configurationId"].write(value.configurationId)
-        try writer["warningCode"].write(value.warningCode)
-        try writer["warningText"].write(value.warningText)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ApplicationDiscoveryClientTypes.DeletionWarning {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2457,19 +2323,6 @@ extension ApplicationDiscoveryClientTypes.Ec2RecommendationsExportPreferences {
         try writer["reservedInstanceOptions"].write(value.reservedInstanceOptions, with: ApplicationDiscoveryClientTypes.ReservedInstanceOptions.write(value:to:))
         try writer["tenancy"].write(value.tenancy)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationDiscoveryClientTypes.Ec2RecommendationsExportPreferences {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ApplicationDiscoveryClientTypes.Ec2RecommendationsExportPreferences()
-        value.enabled = try reader["enabled"].readIfPresent() ?? false
-        value.cpuPerformanceMetricBasis = try reader["cpuPerformanceMetricBasis"].readIfPresent(with: ApplicationDiscoveryClientTypes.UsageMetricBasis.read(from:))
-        value.ramPerformanceMetricBasis = try reader["ramPerformanceMetricBasis"].readIfPresent(with: ApplicationDiscoveryClientTypes.UsageMetricBasis.read(from:))
-        value.tenancy = try reader["tenancy"].readIfPresent()
-        value.excludedInstanceTypes = try reader["excludedInstanceTypes"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.preferredRegion = try reader["preferredRegion"].readIfPresent()
-        value.reservedInstanceOptions = try reader["reservedInstanceOptions"].readIfPresent(with: ApplicationDiscoveryClientTypes.ReservedInstanceOptions.read(from:))
-        return value
-    }
 }
 
 extension ApplicationDiscoveryClientTypes {
@@ -2610,15 +2463,6 @@ extension ApplicationDiscoveryClientTypes.ExportFilter {
         try writer["name"].write(value.name)
         try writer["values"].writeList(value.values, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationDiscoveryClientTypes.ExportFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ApplicationDiscoveryClientTypes.ExportFilter()
-        value.name = try reader["name"].readIfPresent()
-        value.values = try reader["values"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.condition = try reader["condition"].readIfPresent()
-        return value
-    }
 }
 
 extension ApplicationDiscoveryClientTypes {
@@ -2649,18 +2493,6 @@ extension ApplicationDiscoveryClientTypes {
 }
 
 extension ApplicationDiscoveryClientTypes.ExportInfo {
-
-    static func write(value: ApplicationDiscoveryClientTypes.ExportInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["configurationsDownloadUrl"].write(value.configurationsDownloadUrl)
-        try writer["exportId"].write(value.exportId)
-        try writer["exportRequestTime"].writeTimestamp(value.exportRequestTime, format: .epochSeconds)
-        try writer["exportStatus"].write(value.exportStatus)
-        try writer["isTruncated"].write(value.isTruncated)
-        try writer["requestedEndTime"].writeTimestamp(value.requestedEndTime, format: .epochSeconds)
-        try writer["requestedStartTime"].writeTimestamp(value.requestedStartTime, format: .epochSeconds)
-        try writer["statusMessage"].write(value.statusMessage)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ApplicationDiscoveryClientTypes.ExportInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2736,17 +2568,6 @@ extension ApplicationDiscoveryClientTypes.ExportPreferences {
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationDiscoveryClientTypes.ExportPreferences {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "ec2RecommendationsPreferences":
-                return .ec2recommendationspreferences(try reader["ec2RecommendationsPreferences"].read(with: ApplicationDiscoveryClientTypes.Ec2RecommendationsExportPreferences.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
 }
 
 extension ApplicationDiscoveryClientTypes {
@@ -2794,13 +2615,6 @@ extension ApplicationDiscoveryClientTypes {
 
 extension ApplicationDiscoveryClientTypes.FailedConfiguration {
 
-    static func write(value: ApplicationDiscoveryClientTypes.FailedConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["configurationId"].write(value.configurationId)
-        try writer["errorMessage"].write(value.errorMessage)
-        try writer["errorStatusCode"].write(value.errorStatusCode)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ApplicationDiscoveryClientTypes.FailedConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ApplicationDiscoveryClientTypes.FailedConfiguration()
@@ -2842,15 +2656,6 @@ extension ApplicationDiscoveryClientTypes.Filter {
         try writer["condition"].write(value.condition)
         try writer["name"].write(value.name)
         try writer["values"].writeList(value.values, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationDiscoveryClientTypes.Filter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ApplicationDiscoveryClientTypes.Filter()
-        value.name = try reader["name"].readIfPresent()
-        value.values = try reader["values"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.condition = try reader["condition"].readIfPresent()
-        return value
     }
 }
 
@@ -3074,23 +2879,6 @@ extension ApplicationDiscoveryClientTypes {
 
 extension ApplicationDiscoveryClientTypes.ImportTask {
 
-    static func write(value: ApplicationDiscoveryClientTypes.ImportTask?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["applicationImportFailure"].write(value.applicationImportFailure)
-        try writer["applicationImportSuccess"].write(value.applicationImportSuccess)
-        try writer["clientRequestToken"].write(value.clientRequestToken)
-        try writer["errorsAndFailedEntriesZip"].write(value.errorsAndFailedEntriesZip)
-        try writer["importCompletionTime"].writeTimestamp(value.importCompletionTime, format: .epochSeconds)
-        try writer["importDeletedTime"].writeTimestamp(value.importDeletedTime, format: .epochSeconds)
-        try writer["importRequestTime"].writeTimestamp(value.importRequestTime, format: .epochSeconds)
-        try writer["importTaskId"].write(value.importTaskId)
-        try writer["importUrl"].write(value.importUrl)
-        try writer["name"].write(value.name)
-        try writer["serverImportFailure"].write(value.serverImportFailure)
-        try writer["serverImportSuccess"].write(value.serverImportSuccess)
-        try writer["status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ApplicationDiscoveryClientTypes.ImportTask {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ApplicationDiscoveryClientTypes.ImportTask()
@@ -3181,14 +2969,6 @@ extension ApplicationDiscoveryClientTypes.ImportTaskFilter {
         guard let value else { return }
         try writer["name"].write(value.name)
         try writer["values"].writeList(value.values, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationDiscoveryClientTypes.ImportTaskFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ApplicationDiscoveryClientTypes.ImportTaskFilter()
-        value.name = try reader["name"].readIfPresent()
-        value.values = try reader["values"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -3555,15 +3335,6 @@ enum ListServerNeighborsOutputError {
 
 extension ApplicationDiscoveryClientTypes.NeighborConnectionDetail {
 
-    static func write(value: ApplicationDiscoveryClientTypes.NeighborConnectionDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["connectionsCount"].write(value.connectionsCount)
-        try writer["destinationPort"].write(value.destinationPort)
-        try writer["destinationServerId"].write(value.destinationServerId)
-        try writer["sourceServerId"].write(value.sourceServerId)
-        try writer["transportProtocol"].write(value.transportProtocol)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ApplicationDiscoveryClientTypes.NeighborConnectionDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ApplicationDiscoveryClientTypes.NeighborConnectionDetail()
@@ -3685,14 +3456,6 @@ extension ApplicationDiscoveryClientTypes.OrderByElement {
         try writer["fieldName"].write(value.fieldName)
         try writer["sortOrder"].write(value.sortOrder)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationDiscoveryClientTypes.OrderByElement {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ApplicationDiscoveryClientTypes.OrderByElement()
-        value.fieldName = try reader["fieldName"].readIfPresent()
-        value.sortOrder = try reader["sortOrder"].readIfPresent()
-        return value
-    }
 }
 
 extension ApplicationDiscoveryClientTypes {
@@ -3786,15 +3549,6 @@ extension ApplicationDiscoveryClientTypes.ReservedInstanceOptions {
         try writer["offeringClass"].write(value.offeringClass)
         try writer["purchasingOption"].write(value.purchasingOption)
         try writer["termLength"].write(value.termLength)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationDiscoveryClientTypes.ReservedInstanceOptions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ApplicationDiscoveryClientTypes.ReservedInstanceOptions()
-        value.purchasingOption = try reader["purchasingOption"].readIfPresent()
-        value.offeringClass = try reader["offeringClass"].readIfPresent()
-        value.termLength = try reader["termLength"].readIfPresent()
-        return value
     }
 }
 
@@ -4497,14 +4251,6 @@ extension ApplicationDiscoveryClientTypes.Tag {
         try writer["key"].write(value.key)
         try writer["value"].write(value.value)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationDiscoveryClientTypes.Tag {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ApplicationDiscoveryClientTypes.Tag()
-        value.key = try reader["key"].readIfPresent()
-        value.value = try reader["value"].readIfPresent()
-        return value
-    }
 }
 
 extension ApplicationDiscoveryClientTypes {
@@ -4535,14 +4281,6 @@ extension ApplicationDiscoveryClientTypes.TagFilter {
         guard let value else { return }
         try writer["name"].write(value.name)
         try writer["values"].writeList(value.values, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationDiscoveryClientTypes.TagFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ApplicationDiscoveryClientTypes.TagFilter()
-        value.name = try reader["name"].readIfPresent()
-        value.values = try reader["values"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -4702,14 +4440,6 @@ extension ApplicationDiscoveryClientTypes.UsageMetricBasis {
         guard let value else { return }
         try writer["name"].write(value.name)
         try writer["percentageAdjust"].write(value.percentageAdjust)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationDiscoveryClientTypes.UsageMetricBasis {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ApplicationDiscoveryClientTypes.UsageMetricBasis()
-        value.name = try reader["name"].readIfPresent()
-        value.percentageAdjust = try reader["percentageAdjust"].readIfPresent()
-        return value
     }
 }
 

@@ -302,16 +302,6 @@ public struct ApplicationDoesNotExistException: ClientRuntime.ModeledError, AWSC
 
 extension CodeDeployClientTypes.ApplicationInfo {
 
-    static func write(value: CodeDeployClientTypes.ApplicationInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["applicationId"].write(value.applicationId)
-        try writer["applicationName"].write(value.applicationName)
-        try writer["computePlatform"].write(value.computePlatform)
-        try writer["createTime"].writeTimestamp(value.createTime, format: .epochSeconds)
-        try writer["gitHubAccountName"].write(value.gitHubAccountName)
-        try writer["linkedToGitHub"].write(value.linkedToGitHub)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.ApplicationInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeDeployClientTypes.ApplicationInfo()
@@ -579,13 +569,6 @@ extension CodeDeployClientTypes {
 }
 
 extension CodeDeployClientTypes.AutoScalingGroup {
-
-    static func write(value: CodeDeployClientTypes.AutoScalingGroup?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["hook"].write(value.hook)
-        try writer["name"].write(value.name)
-        try writer["terminationHook"].write(value.terminationHook)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.AutoScalingGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1387,17 +1370,6 @@ extension CodeDeployClientTypes {
 }
 
 extension CodeDeployClientTypes.CloudFormationTarget {
-
-    static func write(value: CodeDeployClientTypes.CloudFormationTarget?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["deploymentId"].write(value.deploymentId)
-        try writer["lastUpdatedAt"].writeTimestamp(value.lastUpdatedAt, format: .epochSeconds)
-        try writer["lifecycleEvents"].writeList(value.lifecycleEvents, memberWritingClosure: CodeDeployClientTypes.LifecycleEvent.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["resourceType"].write(value.resourceType)
-        try writer["status"].write(value.status)
-        try writer["targetId"].write(value.targetId)
-        try writer["targetVersionWeight"].write(value.targetVersionWeight)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.CloudFormationTarget {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2549,17 +2521,6 @@ public struct DeploymentConfigInUseException: ClientRuntime.ModeledError, AWSCli
 
 extension CodeDeployClientTypes.DeploymentConfigInfo {
 
-    static func write(value: CodeDeployClientTypes.DeploymentConfigInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["computePlatform"].write(value.computePlatform)
-        try writer["createTime"].writeTimestamp(value.createTime, format: .epochSeconds)
-        try writer["deploymentConfigId"].write(value.deploymentConfigId)
-        try writer["deploymentConfigName"].write(value.deploymentConfigName)
-        try writer["minimumHealthyHosts"].write(value.minimumHealthyHosts, with: CodeDeployClientTypes.MinimumHealthyHosts.write(value:to:))
-        try writer["trafficRoutingConfig"].write(value.trafficRoutingConfig, with: CodeDeployClientTypes.TrafficRoutingConfig.write(value:to:))
-        try writer["zonalConfig"].write(value.zonalConfig, with: CodeDeployClientTypes.ZonalConfig.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.DeploymentConfigInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeDeployClientTypes.DeploymentConfigInfo()
@@ -2854,33 +2815,6 @@ public struct DeploymentGroupDoesNotExistException: ClientRuntime.ModeledError, 
 
 extension CodeDeployClientTypes.DeploymentGroupInfo {
 
-    static func write(value: CodeDeployClientTypes.DeploymentGroupInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["alarmConfiguration"].write(value.alarmConfiguration, with: CodeDeployClientTypes.AlarmConfiguration.write(value:to:))
-        try writer["applicationName"].write(value.applicationName)
-        try writer["autoRollbackConfiguration"].write(value.autoRollbackConfiguration, with: CodeDeployClientTypes.AutoRollbackConfiguration.write(value:to:))
-        try writer["autoScalingGroups"].writeList(value.autoScalingGroups, memberWritingClosure: CodeDeployClientTypes.AutoScalingGroup.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["blueGreenDeploymentConfiguration"].write(value.blueGreenDeploymentConfiguration, with: CodeDeployClientTypes.BlueGreenDeploymentConfiguration.write(value:to:))
-        try writer["computePlatform"].write(value.computePlatform)
-        try writer["deploymentConfigName"].write(value.deploymentConfigName)
-        try writer["deploymentGroupId"].write(value.deploymentGroupId)
-        try writer["deploymentGroupName"].write(value.deploymentGroupName)
-        try writer["deploymentStyle"].write(value.deploymentStyle, with: CodeDeployClientTypes.DeploymentStyle.write(value:to:))
-        try writer["ec2TagFilters"].writeList(value.ec2TagFilters, memberWritingClosure: CodeDeployClientTypes.EC2TagFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ec2TagSet"].write(value.ec2TagSet, with: CodeDeployClientTypes.EC2TagSet.write(value:to:))
-        try writer["ecsServices"].writeList(value.ecsServices, memberWritingClosure: CodeDeployClientTypes.ECSService.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["lastAttemptedDeployment"].write(value.lastAttemptedDeployment, with: CodeDeployClientTypes.LastDeploymentInfo.write(value:to:))
-        try writer["lastSuccessfulDeployment"].write(value.lastSuccessfulDeployment, with: CodeDeployClientTypes.LastDeploymentInfo.write(value:to:))
-        try writer["loadBalancerInfo"].write(value.loadBalancerInfo, with: CodeDeployClientTypes.LoadBalancerInfo.write(value:to:))
-        try writer["onPremisesInstanceTagFilters"].writeList(value.onPremisesInstanceTagFilters, memberWritingClosure: CodeDeployClientTypes.TagFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["onPremisesTagSet"].write(value.onPremisesTagSet, with: CodeDeployClientTypes.OnPremisesTagSet.write(value:to:))
-        try writer["outdatedInstancesStrategy"].write(value.outdatedInstancesStrategy)
-        try writer["serviceRoleArn"].write(value.serviceRoleArn)
-        try writer["targetRevision"].write(value.targetRevision, with: CodeDeployClientTypes.RevisionLocation.write(value:to:))
-        try writer["terminationHookEnabled"].write(value.terminationHookEnabled)
-        try writer["triggerConfigurations"].writeList(value.triggerConfigurations, memberWritingClosure: CodeDeployClientTypes.TriggerConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.DeploymentGroupInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeDeployClientTypes.DeploymentGroupInfo()
@@ -3130,40 +3064,6 @@ public struct DeploymentIdRequiredException: ClientRuntime.ModeledError, AWSClie
 }
 
 extension CodeDeployClientTypes.DeploymentInfo {
-
-    static func write(value: CodeDeployClientTypes.DeploymentInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["additionalDeploymentStatusInfo"].write(value.additionalDeploymentStatusInfo)
-        try writer["applicationName"].write(value.applicationName)
-        try writer["autoRollbackConfiguration"].write(value.autoRollbackConfiguration, with: CodeDeployClientTypes.AutoRollbackConfiguration.write(value:to:))
-        try writer["blueGreenDeploymentConfiguration"].write(value.blueGreenDeploymentConfiguration, with: CodeDeployClientTypes.BlueGreenDeploymentConfiguration.write(value:to:))
-        try writer["completeTime"].writeTimestamp(value.completeTime, format: .epochSeconds)
-        try writer["computePlatform"].write(value.computePlatform)
-        try writer["createTime"].writeTimestamp(value.createTime, format: .epochSeconds)
-        try writer["creator"].write(value.creator)
-        try writer["deploymentConfigName"].write(value.deploymentConfigName)
-        try writer["deploymentGroupName"].write(value.deploymentGroupName)
-        try writer["deploymentId"].write(value.deploymentId)
-        try writer["deploymentOverview"].write(value.deploymentOverview, with: CodeDeployClientTypes.DeploymentOverview.write(value:to:))
-        try writer["deploymentStatusMessages"].writeList(value.deploymentStatusMessages, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["deploymentStyle"].write(value.deploymentStyle, with: CodeDeployClientTypes.DeploymentStyle.write(value:to:))
-        try writer["description"].write(value.description)
-        try writer["errorInformation"].write(value.errorInformation, with: CodeDeployClientTypes.ErrorInformation.write(value:to:))
-        try writer["externalId"].write(value.externalId)
-        try writer["fileExistsBehavior"].write(value.fileExistsBehavior)
-        try writer["ignoreApplicationStopFailures"].write(value.ignoreApplicationStopFailures)
-        try writer["instanceTerminationWaitTimeStarted"].write(value.instanceTerminationWaitTimeStarted)
-        try writer["loadBalancerInfo"].write(value.loadBalancerInfo, with: CodeDeployClientTypes.LoadBalancerInfo.write(value:to:))
-        try writer["overrideAlarmConfiguration"].write(value.overrideAlarmConfiguration, with: CodeDeployClientTypes.AlarmConfiguration.write(value:to:))
-        try writer["previousRevision"].write(value.previousRevision, with: CodeDeployClientTypes.RevisionLocation.write(value:to:))
-        try writer["relatedDeployments"].write(value.relatedDeployments, with: CodeDeployClientTypes.RelatedDeployments.write(value:to:))
-        try writer["revision"].write(value.revision, with: CodeDeployClientTypes.RevisionLocation.write(value:to:))
-        try writer["rollbackInfo"].write(value.rollbackInfo, with: CodeDeployClientTypes.RollbackInfo.write(value:to:))
-        try writer["startTime"].writeTimestamp(value.startTime, format: .epochSeconds)
-        try writer["status"].write(value.status)
-        try writer["targetInstances"].write(value.targetInstances, with: CodeDeployClientTypes.TargetInstances.write(value:to:))
-        try writer["updateOutdatedInstancesOnly"].write(value.updateOutdatedInstancesOnly)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.DeploymentInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3495,16 +3395,6 @@ extension CodeDeployClientTypes {
 
 extension CodeDeployClientTypes.DeploymentOverview {
 
-    static func write(value: CodeDeployClientTypes.DeploymentOverview?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Failed"].write(value.failed)
-        try writer["InProgress"].write(value.inProgress)
-        try writer["Pending"].write(value.pending)
-        try writer["Ready"].write(value.ready)
-        try writer["Skipped"].write(value.skipped)
-        try writer["Succeeded"].write(value.succeeded)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.DeploymentOverview {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeDeployClientTypes.DeploymentOverview()
@@ -3711,15 +3601,6 @@ extension CodeDeployClientTypes {
 }
 
 extension CodeDeployClientTypes.DeploymentTarget {
-
-    static func write(value: CodeDeployClientTypes.DeploymentTarget?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["cloudFormationTarget"].write(value.cloudFormationTarget, with: CodeDeployClientTypes.CloudFormationTarget.write(value:to:))
-        try writer["deploymentTargetType"].write(value.deploymentTargetType)
-        try writer["ecsTarget"].write(value.ecsTarget, with: CodeDeployClientTypes.ECSTarget.write(value:to:))
-        try writer["instanceTarget"].write(value.instanceTarget, with: CodeDeployClientTypes.InstanceTarget.write(value:to:))
-        try writer["lambdaTarget"].write(value.lambdaTarget, with: CodeDeployClientTypes.LambdaTarget.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.DeploymentTarget {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4071,14 +3952,6 @@ public struct DescriptionTooLongException: ClientRuntime.ModeledError, AWSClient
 
 extension CodeDeployClientTypes.Diagnostics {
 
-    static func write(value: CodeDeployClientTypes.Diagnostics?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["errorCode"].write(value.errorCode)
-        try writer["logTail"].write(value.logTail)
-        try writer["message"].write(value.message)
-        try writer["scriptName"].write(value.scriptName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.Diagnostics {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeDeployClientTypes.Diagnostics()
@@ -4320,17 +4193,6 @@ public struct ECSServiceMappingLimitExceededException: ClientRuntime.ModeledErro
 
 extension CodeDeployClientTypes.ECSTarget {
 
-    static func write(value: CodeDeployClientTypes.ECSTarget?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["deploymentId"].write(value.deploymentId)
-        try writer["lastUpdatedAt"].writeTimestamp(value.lastUpdatedAt, format: .epochSeconds)
-        try writer["lifecycleEvents"].writeList(value.lifecycleEvents, memberWritingClosure: CodeDeployClientTypes.LifecycleEvent.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["status"].write(value.status)
-        try writer["targetArn"].write(value.targetArn)
-        try writer["targetId"].write(value.targetId)
-        try writer["taskSetsInfo"].writeList(value.taskSetsInfo, memberWritingClosure: CodeDeployClientTypes.ECSTaskSet.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.ECSTarget {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeDeployClientTypes.ECSTarget()
@@ -4386,18 +4248,6 @@ extension CodeDeployClientTypes {
 }
 
 extension CodeDeployClientTypes.ECSTaskSet {
-
-    static func write(value: CodeDeployClientTypes.ECSTaskSet?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["desiredCount"].write(value.desiredCount)
-        try writer["identifer"].write(value.identifer)
-        try writer["pendingCount"].write(value.pendingCount)
-        try writer["runningCount"].write(value.runningCount)
-        try writer["status"].write(value.status)
-        try writer["targetGroup"].write(value.targetGroup, with: CodeDeployClientTypes.TargetGroupInfo.write(value:to:))
-        try writer["taskSetLabel"].write(value.taskSetLabel)
-        try writer["trafficWeight"].write(value.trafficWeight)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.ECSTaskSet {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4623,12 +4473,6 @@ extension CodeDeployClientTypes {
 
 extension CodeDeployClientTypes.ErrorInformation {
 
-    static func write(value: CodeDeployClientTypes.ErrorInformation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["code"].write(value.code)
-        try writer["message"].write(value.message)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.ErrorInformation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeDeployClientTypes.ErrorInformation()
@@ -4718,15 +4562,6 @@ extension CodeDeployClientTypes {
 }
 
 extension CodeDeployClientTypes.GenericRevisionInfo {
-
-    static func write(value: CodeDeployClientTypes.GenericRevisionInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["deploymentGroups"].writeList(value.deploymentGroups, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["description"].write(value.description)
-        try writer["firstUsedTime"].writeTimestamp(value.firstUsedTime, format: .epochSeconds)
-        try writer["lastUsedTime"].writeTimestamp(value.lastUsedTime, format: .epochSeconds)
-        try writer["registerTime"].writeTimestamp(value.registerTime, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.GenericRevisionInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5822,17 +5657,6 @@ public struct InstanceIdRequiredException: ClientRuntime.ModeledError, AWSClient
 
 extension CodeDeployClientTypes.InstanceInfo {
 
-    static func write(value: CodeDeployClientTypes.InstanceInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["deregisterTime"].writeTimestamp(value.deregisterTime, format: .epochSeconds)
-        try writer["iamSessionArn"].write(value.iamSessionArn)
-        try writer["iamUserArn"].write(value.iamUserArn)
-        try writer["instanceArn"].write(value.instanceArn)
-        try writer["instanceName"].write(value.instanceName)
-        try writer["registerTime"].writeTimestamp(value.registerTime, format: .epochSeconds)
-        try writer["tags"].writeList(value.tags, memberWritingClosure: CodeDeployClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.InstanceInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeDeployClientTypes.InstanceInfo()
@@ -6087,16 +5911,6 @@ extension CodeDeployClientTypes {
 
 extension CodeDeployClientTypes.InstanceSummary {
 
-    static func write(value: CodeDeployClientTypes.InstanceSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["deploymentId"].write(value.deploymentId)
-        try writer["instanceId"].write(value.instanceId)
-        try writer["instanceType"].write(value.instanceType)
-        try writer["lastUpdatedAt"].writeTimestamp(value.lastUpdatedAt, format: .epochSeconds)
-        try writer["lifecycleEvents"].writeList(value.lifecycleEvents, memberWritingClosure: CodeDeployClientTypes.LifecycleEvent.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.InstanceSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeDeployClientTypes.InstanceSummary()
@@ -6165,17 +5979,6 @@ extension CodeDeployClientTypes {
 }
 
 extension CodeDeployClientTypes.InstanceTarget {
-
-    static func write(value: CodeDeployClientTypes.InstanceTarget?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["deploymentId"].write(value.deploymentId)
-        try writer["instanceLabel"].write(value.instanceLabel)
-        try writer["lastUpdatedAt"].writeTimestamp(value.lastUpdatedAt, format: .epochSeconds)
-        try writer["lifecycleEvents"].writeList(value.lifecycleEvents, memberWritingClosure: CodeDeployClientTypes.LifecycleEvent.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["status"].write(value.status)
-        try writer["targetArn"].write(value.targetArn)
-        try writer["targetId"].write(value.targetId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.InstanceTarget {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8371,15 +8174,6 @@ public struct InvalidZonalDeploymentConfigurationException: ClientRuntime.Modele
 
 extension CodeDeployClientTypes.LambdaFunctionInfo {
 
-    static func write(value: CodeDeployClientTypes.LambdaFunctionInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["currentVersion"].write(value.currentVersion)
-        try writer["functionAlias"].write(value.functionAlias)
-        try writer["functionName"].write(value.functionName)
-        try writer["targetVersion"].write(value.targetVersion)
-        try writer["targetVersionWeight"].write(value.targetVersionWeight)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.LambdaFunctionInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeDeployClientTypes.LambdaFunctionInfo()
@@ -8425,17 +8219,6 @@ extension CodeDeployClientTypes {
 }
 
 extension CodeDeployClientTypes.LambdaTarget {
-
-    static func write(value: CodeDeployClientTypes.LambdaTarget?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["deploymentId"].write(value.deploymentId)
-        try writer["lambdaFunctionInfo"].write(value.lambdaFunctionInfo, with: CodeDeployClientTypes.LambdaFunctionInfo.write(value:to:))
-        try writer["lastUpdatedAt"].writeTimestamp(value.lastUpdatedAt, format: .epochSeconds)
-        try writer["lifecycleEvents"].writeList(value.lifecycleEvents, memberWritingClosure: CodeDeployClientTypes.LifecycleEvent.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["status"].write(value.status)
-        try writer["targetArn"].write(value.targetArn)
-        try writer["targetId"].write(value.targetId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.LambdaTarget {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8492,14 +8275,6 @@ extension CodeDeployClientTypes {
 }
 
 extension CodeDeployClientTypes.LastDeploymentInfo {
-
-    static func write(value: CodeDeployClientTypes.LastDeploymentInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["createTime"].writeTimestamp(value.createTime, format: .epochSeconds)
-        try writer["deploymentId"].write(value.deploymentId)
-        try writer["endTime"].writeTimestamp(value.endTime, format: .epochSeconds)
-        try writer["status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.LastDeploymentInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8583,15 +8358,6 @@ extension CodeDeployClientTypes {
 }
 
 extension CodeDeployClientTypes.LifecycleEvent {
-
-    static func write(value: CodeDeployClientTypes.LifecycleEvent?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["diagnostics"].write(value.diagnostics, with: CodeDeployClientTypes.Diagnostics.write(value:to:))
-        try writer["endTime"].writeTimestamp(value.endTime, format: .epochSeconds)
-        try writer["lifecycleEventName"].write(value.lifecycleEventName)
-        try writer["startTime"].writeTimestamp(value.startTime, format: .epochSeconds)
-        try writer["status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.LifecycleEvent {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -10342,12 +10108,6 @@ extension CodeDeployClientTypes {
 
 extension CodeDeployClientTypes.RelatedDeployments {
 
-    static func write(value: CodeDeployClientTypes.RelatedDeployments?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["autoUpdateOutdatedInstancesDeploymentIds"].writeList(value.autoUpdateOutdatedInstancesDeploymentIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["autoUpdateOutdatedInstancesRootDeploymentId"].write(value.autoUpdateOutdatedInstancesRootDeploymentId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.RelatedDeployments {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeDeployClientTypes.RelatedDeployments()
@@ -10560,12 +10320,6 @@ public struct RevisionDoesNotExistException: ClientRuntime.ModeledError, AWSClie
 
 extension CodeDeployClientTypes.RevisionInfo {
 
-    static func write(value: CodeDeployClientTypes.RevisionInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["genericRevisionInfo"].write(value.genericRevisionInfo, with: CodeDeployClientTypes.GenericRevisionInfo.write(value:to:))
-        try writer["revisionLocation"].write(value.revisionLocation, with: CodeDeployClientTypes.RevisionLocation.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.RevisionInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeDeployClientTypes.RevisionInfo()
@@ -10772,13 +10526,6 @@ public struct RoleRequiredException: ClientRuntime.ModeledError, AWSClientRuntim
 }
 
 extension CodeDeployClientTypes.RollbackInfo {
-
-    static func write(value: CodeDeployClientTypes.RollbackInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["rollbackDeploymentId"].write(value.rollbackDeploymentId)
-        try writer["rollbackMessage"].write(value.rollbackMessage)
-        try writer["rollbackTriggeringDeploymentId"].write(value.rollbackTriggeringDeploymentId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.RollbackInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -11724,14 +11471,6 @@ extension CodeDeployClientTypes.TimeRange {
         guard let value else { return }
         try writer["end"].writeTimestamp(value.end, format: .epochSeconds)
         try writer["start"].writeTimestamp(value.start, format: .epochSeconds)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.TimeRange {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeDeployClientTypes.TimeRange()
-        value.start = try reader["start"].readTimestampIfPresent(format: .epochSeconds)
-        value.end = try reader["end"].readTimestampIfPresent(format: .epochSeconds)
-        return value
     }
 }
 

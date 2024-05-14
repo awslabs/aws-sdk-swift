@@ -104,13 +104,6 @@ extension CodeartifactClientTypes {
 
 extension CodeartifactClientTypes.AssetSummary {
 
-    static func write(value: CodeartifactClientTypes.AssetSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["hashes"].writeMap(value.hashes, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["name"].write(value.name)
-        try writer["size"].write(value.size)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodeartifactClientTypes.AssetSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeartifactClientTypes.AssetSummary()
@@ -271,14 +264,6 @@ enum AssociateExternalConnectionOutputError {
 }
 
 extension CodeartifactClientTypes.AssociatedPackage {
-
-    static func write(value: CodeartifactClientTypes.AssociatedPackage?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["associationType"].write(value.associationType)
-        try writer["format"].write(value.format)
-        try writer["namespace"].write(value.namespace)
-        try writer["package"].write(value.package)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeartifactClientTypes.AssociatedPackage {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2564,19 +2549,6 @@ enum DisposePackageVersionsOutputError {
 
 extension CodeartifactClientTypes.DomainDescription {
 
-    static func write(value: CodeartifactClientTypes.DomainDescription?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["assetSizeBytes"].write(value.assetSizeBytes)
-        try writer["createdTime"].writeTimestamp(value.createdTime, format: .epochSeconds)
-        try writer["encryptionKey"].write(value.encryptionKey)
-        try writer["name"].write(value.name)
-        try writer["owner"].write(value.owner)
-        try writer["repositoryCount"].write(value.repositoryCount)
-        try writer["s3BucketArn"].write(value.s3BucketArn)
-        try writer["status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodeartifactClientTypes.DomainDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeartifactClientTypes.DomainDescription()
@@ -2643,12 +2615,6 @@ extension CodeartifactClientTypes {
 
 extension CodeartifactClientTypes.DomainEntryPoint {
 
-    static func write(value: CodeartifactClientTypes.DomainEntryPoint?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["externalConnectionName"].write(value.externalConnectionName)
-        try writer["repositoryName"].write(value.repositoryName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodeartifactClientTypes.DomainEntryPoint {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeartifactClientTypes.DomainEntryPoint()
@@ -2709,16 +2675,6 @@ extension CodeartifactClientTypes {
 }
 
 extension CodeartifactClientTypes.DomainSummary {
-
-    static func write(value: CodeartifactClientTypes.DomainSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["createdTime"].writeTimestamp(value.createdTime, format: .epochSeconds)
-        try writer["encryptionKey"].write(value.encryptionKey)
-        try writer["name"].write(value.name)
-        try writer["owner"].write(value.owner)
-        try writer["status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeartifactClientTypes.DomainSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3778,12 +3734,6 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 }
 
 extension CodeartifactClientTypes.LicenseInfo {
-
-    static func write(value: CodeartifactClientTypes.LicenseInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-        try writer["url"].write(value.url)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeartifactClientTypes.LicenseInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5452,14 +5402,6 @@ enum ListTagsForResourceOutputError {
 
 extension CodeartifactClientTypes.PackageDependency {
 
-    static func write(value: CodeartifactClientTypes.PackageDependency?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["dependencyType"].write(value.dependencyType)
-        try writer["namespace"].write(value.namespace)
-        try writer["package"].write(value.package)
-        try writer["versionRequirement"].write(value.versionRequirement)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodeartifactClientTypes.PackageDependency {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeartifactClientTypes.PackageDependency()
@@ -5516,14 +5458,6 @@ extension CodeartifactClientTypes {
 }
 
 extension CodeartifactClientTypes.PackageDescription {
-
-    static func write(value: CodeartifactClientTypes.PackageDescription?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["format"].write(value.format)
-        try writer["name"].write(value.name)
-        try writer["namespace"].write(value.namespace)
-        try writer["originConfiguration"].write(value.originConfiguration, with: CodeartifactClientTypes.PackageOriginConfiguration.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeartifactClientTypes.PackageDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5624,14 +5558,6 @@ extension CodeartifactClientTypes.PackageGroupAllowedRepository {
         try writer["originRestrictionType"].write(value.originRestrictionType)
         try writer["repositoryName"].write(value.repositoryName)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeartifactClientTypes.PackageGroupAllowedRepository {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeartifactClientTypes.PackageGroupAllowedRepository()
-        value.repositoryName = try reader["repositoryName"].readIfPresent()
-        value.originRestrictionType = try reader["originRestrictionType"].readIfPresent()
-        return value
-    }
 }
 
 extension CodeartifactClientTypes {
@@ -5716,19 +5642,6 @@ extension CodeartifactClientTypes {
 
 extension CodeartifactClientTypes.PackageGroupDescription {
 
-    static func write(value: CodeartifactClientTypes.PackageGroupDescription?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["contactInfo"].write(value.contactInfo)
-        try writer["createdTime"].writeTimestamp(value.createdTime, format: .epochSeconds)
-        try writer["description"].write(value.description)
-        try writer["domainName"].write(value.domainName)
-        try writer["domainOwner"].write(value.domainOwner)
-        try writer["originConfiguration"].write(value.originConfiguration, with: CodeartifactClientTypes.PackageGroupOriginConfiguration.write(value:to:))
-        try writer["parent"].write(value.parent, with: CodeartifactClientTypes.PackageGroupReference.write(value:to:))
-        try writer["pattern"].write(value.pattern)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodeartifactClientTypes.PackageGroupDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeartifactClientTypes.PackageGroupDescription()
@@ -5795,11 +5708,6 @@ extension CodeartifactClientTypes {
 
 extension CodeartifactClientTypes.PackageGroupOriginConfiguration {
 
-    static func write(value: CodeartifactClientTypes.PackageGroupOriginConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["restrictions"].writeMap(value.restrictions, valueWritingClosure: CodeartifactClientTypes.PackageGroupOriginRestriction.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodeartifactClientTypes.PackageGroupOriginConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeartifactClientTypes.PackageGroupOriginConfiguration()
@@ -5825,14 +5733,6 @@ extension CodeartifactClientTypes {
 }
 
 extension CodeartifactClientTypes.PackageGroupOriginRestriction {
-
-    static func write(value: CodeartifactClientTypes.PackageGroupOriginRestriction?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["effectiveMode"].write(value.effectiveMode)
-        try writer["inheritedFrom"].write(value.inheritedFrom, with: CodeartifactClientTypes.PackageGroupReference.write(value:to:))
-        try writer["mode"].write(value.mode)
-        try writer["repositoriesCount"].write(value.repositoriesCount)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeartifactClientTypes.PackageGroupOriginRestriction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5944,12 +5844,6 @@ extension CodeartifactClientTypes {
 
 extension CodeartifactClientTypes.PackageGroupReference {
 
-    static func write(value: CodeartifactClientTypes.PackageGroupReference?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["pattern"].write(value.pattern)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodeartifactClientTypes.PackageGroupReference {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeartifactClientTypes.PackageGroupReference()
@@ -5980,19 +5874,6 @@ extension CodeartifactClientTypes {
 }
 
 extension CodeartifactClientTypes.PackageGroupSummary {
-
-    static func write(value: CodeartifactClientTypes.PackageGroupSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["contactInfo"].write(value.contactInfo)
-        try writer["createdTime"].writeTimestamp(value.createdTime, format: .epochSeconds)
-        try writer["description"].write(value.description)
-        try writer["domainName"].write(value.domainName)
-        try writer["domainOwner"].write(value.domainOwner)
-        try writer["originConfiguration"].write(value.originConfiguration, with: CodeartifactClientTypes.PackageGroupOriginConfiguration.write(value:to:))
-        try writer["parent"].write(value.parent, with: CodeartifactClientTypes.PackageGroupReference.write(value:to:))
-        try writer["pattern"].write(value.pattern)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeartifactClientTypes.PackageGroupSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6060,11 +5941,6 @@ extension CodeartifactClientTypes {
 
 extension CodeartifactClientTypes.PackageOriginConfiguration {
 
-    static func write(value: CodeartifactClientTypes.PackageOriginConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["restrictions"].write(value.restrictions, with: CodeartifactClientTypes.PackageOriginRestrictions.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodeartifactClientTypes.PackageOriginConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeartifactClientTypes.PackageOriginConfiguration()
@@ -6130,14 +6006,6 @@ extension CodeartifactClientTypes {
 
 extension CodeartifactClientTypes.PackageSummary {
 
-    static func write(value: CodeartifactClientTypes.PackageSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["format"].write(value.format)
-        try writer["namespace"].write(value.namespace)
-        try writer["originConfiguration"].write(value.originConfiguration, with: CodeartifactClientTypes.PackageOriginConfiguration.write(value:to:))
-        try writer["package"].write(value.package)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodeartifactClientTypes.PackageSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeartifactClientTypes.PackageSummary()
@@ -6186,23 +6054,6 @@ extension CodeartifactClientTypes {
 }
 
 extension CodeartifactClientTypes.PackageVersionDescription {
-
-    static func write(value: CodeartifactClientTypes.PackageVersionDescription?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["displayName"].write(value.displayName)
-        try writer["format"].write(value.format)
-        try writer["homePage"].write(value.homePage)
-        try writer["licenses"].writeList(value.licenses, memberWritingClosure: CodeartifactClientTypes.LicenseInfo.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["namespace"].write(value.namespace)
-        try writer["origin"].write(value.origin, with: CodeartifactClientTypes.PackageVersionOrigin.write(value:to:))
-        try writer["packageName"].write(value.packageName)
-        try writer["publishedTime"].writeTimestamp(value.publishedTime, format: .epochSeconds)
-        try writer["revision"].write(value.revision)
-        try writer["sourceCodeRepository"].write(value.sourceCodeRepository)
-        try writer["status"].write(value.status)
-        try writer["summary"].write(value.summary)
-        try writer["version"].write(value.version)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeartifactClientTypes.PackageVersionDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6298,12 +6149,6 @@ extension CodeartifactClientTypes {
 
 extension CodeartifactClientTypes.PackageVersionError {
 
-    static func write(value: CodeartifactClientTypes.PackageVersionError?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["errorCode"].write(value.errorCode)
-        try writer["errorMessage"].write(value.errorMessage)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodeartifactClientTypes.PackageVersionError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeartifactClientTypes.PackageVersionError()
@@ -6388,12 +6233,6 @@ extension CodeartifactClientTypes {
 }
 
 extension CodeartifactClientTypes.PackageVersionOrigin {
-
-    static func write(value: CodeartifactClientTypes.PackageVersionOrigin?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["domainEntryPoint"].write(value.domainEntryPoint, with: CodeartifactClientTypes.DomainEntryPoint.write(value:to:))
-        try writer["originType"].write(value.originType)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeartifactClientTypes.PackageVersionOrigin {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6527,14 +6366,6 @@ extension CodeartifactClientTypes {
 }
 
 extension CodeartifactClientTypes.PackageVersionSummary {
-
-    static func write(value: CodeartifactClientTypes.PackageVersionSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["origin"].write(value.origin, with: CodeartifactClientTypes.PackageVersionOrigin.write(value:to:))
-        try writer["revision"].write(value.revision)
-        try writer["status"].write(value.status)
-        try writer["version"].write(value.version)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeartifactClientTypes.PackageVersionSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7144,19 +6975,6 @@ enum PutRepositoryPermissionsPolicyOutputError {
 
 extension CodeartifactClientTypes.RepositoryDescription {
 
-    static func write(value: CodeartifactClientTypes.RepositoryDescription?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["administratorAccount"].write(value.administratorAccount)
-        try writer["arn"].write(value.arn)
-        try writer["createdTime"].writeTimestamp(value.createdTime, format: .epochSeconds)
-        try writer["description"].write(value.description)
-        try writer["domainName"].write(value.domainName)
-        try writer["domainOwner"].write(value.domainOwner)
-        try writer["externalConnections"].writeList(value.externalConnections, memberWritingClosure: CodeartifactClientTypes.RepositoryExternalConnectionInfo.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["name"].write(value.name)
-        try writer["upstreams"].writeList(value.upstreams, memberWritingClosure: CodeartifactClientTypes.UpstreamRepositoryInfo.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodeartifactClientTypes.RepositoryDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeartifactClientTypes.RepositoryDescription()
@@ -7223,13 +7041,6 @@ extension CodeartifactClientTypes {
 
 extension CodeartifactClientTypes.RepositoryExternalConnectionInfo {
 
-    static func write(value: CodeartifactClientTypes.RepositoryExternalConnectionInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["externalConnectionName"].write(value.externalConnectionName)
-        try writer["packageFormat"].write(value.packageFormat)
-        try writer["status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodeartifactClientTypes.RepositoryExternalConnectionInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeartifactClientTypes.RepositoryExternalConnectionInfo()
@@ -7273,17 +7084,6 @@ extension CodeartifactClientTypes {
 }
 
 extension CodeartifactClientTypes.RepositorySummary {
-
-    static func write(value: CodeartifactClientTypes.RepositorySummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["administratorAccount"].write(value.administratorAccount)
-        try writer["arn"].write(value.arn)
-        try writer["createdTime"].writeTimestamp(value.createdTime, format: .epochSeconds)
-        try writer["description"].write(value.description)
-        try writer["domainName"].write(value.domainName)
-        try writer["domainOwner"].write(value.domainOwner)
-        try writer["name"].write(value.name)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeartifactClientTypes.RepositorySummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7388,13 +7188,6 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 extension CodeartifactClientTypes.ResourcePolicy {
-
-    static func write(value: CodeartifactClientTypes.ResourcePolicy?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["document"].write(value.document)
-        try writer["resourceArn"].write(value.resourceArn)
-        try writer["revision"].write(value.revision)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeartifactClientTypes.ResourcePolicy {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7518,12 +7311,6 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 }
 
 extension CodeartifactClientTypes.SuccessfulPackageVersionInfo {
-
-    static func write(value: CodeartifactClientTypes.SuccessfulPackageVersionInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["revision"].write(value.revision)
-        try writer["status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeartifactClientTypes.SuccessfulPackageVersionInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8311,13 +8098,6 @@ extension CodeartifactClientTypes.UpstreamRepository {
         guard let value else { return }
         try writer["repositoryName"].write(value.repositoryName)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeartifactClientTypes.UpstreamRepository {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeartifactClientTypes.UpstreamRepository()
-        value.repositoryName = try reader["repositoryName"].readIfPresent()
-        return value
-    }
 }
 
 extension CodeartifactClientTypes {
@@ -8338,11 +8118,6 @@ extension CodeartifactClientTypes {
 }
 
 extension CodeartifactClientTypes.UpstreamRepositoryInfo {
-
-    static func write(value: CodeartifactClientTypes.UpstreamRepositoryInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["repositoryName"].write(value.repositoryName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeartifactClientTypes.UpstreamRepositoryInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

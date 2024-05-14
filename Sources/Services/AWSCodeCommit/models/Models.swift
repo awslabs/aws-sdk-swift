@@ -44,12 +44,6 @@ public struct ActorDoesNotExistException: ClientRuntime.ModeledError, AWSClientR
 
 extension CodeCommitClientTypes.Approval {
 
-    static func write(value: CodeCommitClientTypes.Approval?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["approvalState"].write(value.approvalState)
-        try writer["userArn"].write(value.userArn)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.Approval {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeCommitClientTypes.Approval()
@@ -80,18 +74,6 @@ extension CodeCommitClientTypes {
 }
 
 extension CodeCommitClientTypes.ApprovalRule {
-
-    static func write(value: CodeCommitClientTypes.ApprovalRule?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["approvalRuleContent"].write(value.approvalRuleContent)
-        try writer["approvalRuleId"].write(value.approvalRuleId)
-        try writer["approvalRuleName"].write(value.approvalRuleName)
-        try writer["creationDate"].writeTimestamp(value.creationDate, format: .epochSeconds)
-        try writer["lastModifiedDate"].writeTimestamp(value.lastModifiedDate, format: .epochSeconds)
-        try writer["lastModifiedUser"].write(value.lastModifiedUser)
-        try writer["originApprovalRuleTemplate"].write(value.originApprovalRuleTemplate, with: CodeCommitClientTypes.OriginApprovalRuleTemplate.write(value:to:))
-        try writer["ruleContentSha256"].write(value.ruleContentSha256)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.ApprovalRule {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -230,13 +212,6 @@ public struct ApprovalRuleDoesNotExistException: ClientRuntime.ModeledError, AWS
 
 extension CodeCommitClientTypes.ApprovalRuleEventMetadata {
 
-    static func write(value: CodeCommitClientTypes.ApprovalRuleEventMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["approvalRuleContent"].write(value.approvalRuleContent)
-        try writer["approvalRuleId"].write(value.approvalRuleId)
-        try writer["approvalRuleName"].write(value.approvalRuleName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.ApprovalRuleEventMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeCommitClientTypes.ApprovalRuleEventMetadata()
@@ -349,12 +324,6 @@ public struct ApprovalRuleNameRequiredException: ClientRuntime.ModeledError, AWS
 
 extension CodeCommitClientTypes.ApprovalRuleOverriddenEventMetadata {
 
-    static func write(value: CodeCommitClientTypes.ApprovalRuleOverriddenEventMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["overrideStatus"].write(value.overrideStatus)
-        try writer["revisionId"].write(value.revisionId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.ApprovalRuleOverriddenEventMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeCommitClientTypes.ApprovalRuleOverriddenEventMetadata()
@@ -385,18 +354,6 @@ extension CodeCommitClientTypes {
 }
 
 extension CodeCommitClientTypes.ApprovalRuleTemplate {
-
-    static func write(value: CodeCommitClientTypes.ApprovalRuleTemplate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["approvalRuleTemplateContent"].write(value.approvalRuleTemplateContent)
-        try writer["approvalRuleTemplateDescription"].write(value.approvalRuleTemplateDescription)
-        try writer["approvalRuleTemplateId"].write(value.approvalRuleTemplateId)
-        try writer["approvalRuleTemplateName"].write(value.approvalRuleTemplateName)
-        try writer["creationDate"].writeTimestamp(value.creationDate, format: .epochSeconds)
-        try writer["lastModifiedDate"].writeTimestamp(value.lastModifiedDate, format: .epochSeconds)
-        try writer["lastModifiedUser"].write(value.lastModifiedUser)
-        try writer["ruleContentSha256"].write(value.ruleContentSha256)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.ApprovalRuleTemplate {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -679,12 +636,6 @@ extension CodeCommitClientTypes {
 
 extension CodeCommitClientTypes.ApprovalStateChangedEventMetadata {
 
-    static func write(value: CodeCommitClientTypes.ApprovalStateChangedEventMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["approvalStatus"].write(value.approvalStatus)
-        try writer["revisionId"].write(value.revisionId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.ApprovalStateChangedEventMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeCommitClientTypes.ApprovalStateChangedEventMetadata()
@@ -863,13 +814,6 @@ public struct AuthorDoesNotExistException: ClientRuntime.ModeledError, AWSClient
 
 extension CodeCommitClientTypes.BatchAssociateApprovalRuleTemplateWithRepositoriesError {
 
-    static func write(value: CodeCommitClientTypes.BatchAssociateApprovalRuleTemplateWithRepositoriesError?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["errorCode"].write(value.errorCode)
-        try writer["errorMessage"].write(value.errorMessage)
-        try writer["repositoryName"].write(value.repositoryName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.BatchAssociateApprovalRuleTemplateWithRepositoriesError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeCommitClientTypes.BatchAssociateApprovalRuleTemplateWithRepositoriesError()
@@ -993,13 +937,6 @@ enum BatchAssociateApprovalRuleTemplateWithRepositoriesOutputError {
 }
 
 extension CodeCommitClientTypes.BatchDescribeMergeConflictsError {
-
-    static func write(value: CodeCommitClientTypes.BatchDescribeMergeConflictsError?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["exceptionName"].write(value.exceptionName)
-        try writer["filePath"].write(value.filePath)
-        try writer["message"].write(value.message)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.BatchDescribeMergeConflictsError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1202,13 +1139,6 @@ enum BatchDescribeMergeConflictsOutputError {
 
 extension CodeCommitClientTypes.BatchDisassociateApprovalRuleTemplateFromRepositoriesError {
 
-    static func write(value: CodeCommitClientTypes.BatchDisassociateApprovalRuleTemplateFromRepositoriesError?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["errorCode"].write(value.errorCode)
-        try writer["errorMessage"].write(value.errorMessage)
-        try writer["repositoryName"].write(value.repositoryName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.BatchDisassociateApprovalRuleTemplateFromRepositoriesError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeCommitClientTypes.BatchDisassociateApprovalRuleTemplateFromRepositoriesError()
@@ -1333,13 +1263,6 @@ enum BatchDisassociateApprovalRuleTemplateFromRepositoriesOutputError {
 
 extension CodeCommitClientTypes.BatchGetCommitsError {
 
-    static func write(value: CodeCommitClientTypes.BatchGetCommitsError?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["commitId"].write(value.commitId)
-        try writer["errorCode"].write(value.errorCode)
-        try writer["errorMessage"].write(value.errorMessage)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.BatchGetCommitsError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeCommitClientTypes.BatchGetCommitsError()
@@ -1461,14 +1384,6 @@ enum BatchGetCommitsOutputError {
 }
 
 extension CodeCommitClientTypes.BatchGetRepositoriesError {
-
-    static func write(value: CodeCommitClientTypes.BatchGetRepositoriesError?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["errorCode"].write(value.errorCode)
-        try writer["errorMessage"].write(value.errorMessage)
-        try writer["repositoryId"].write(value.repositoryId)
-        try writer["repositoryName"].write(value.repositoryName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.BatchGetRepositoriesError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1752,13 +1667,6 @@ public struct BlobIdRequiredException: ClientRuntime.ModeledError, AWSClientRunt
 
 extension CodeCommitClientTypes.BlobMetadata {
 
-    static func write(value: CodeCommitClientTypes.BlobMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["blobId"].write(value.blobId)
-        try writer["mode"].write(value.mode)
-        try writer["path"].write(value.path)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.BlobMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeCommitClientTypes.BlobMetadata()
@@ -1840,12 +1748,6 @@ public struct BranchDoesNotExistException: ClientRuntime.ModeledError, AWSClient
 }
 
 extension CodeCommitClientTypes.BranchInfo {
-
-    static func write(value: CodeCommitClientTypes.BranchInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["branchName"].write(value.branchName)
-        try writer["commitId"].write(value.commitId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.BranchInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2140,20 +2042,6 @@ public struct ClientRequestTokenRequiredException: ClientRuntime.ModeledError, A
 public enum CodeCommitClientTypes {}
 
 extension CodeCommitClientTypes.Comment {
-
-    static func write(value: CodeCommitClientTypes.Comment?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["authorArn"].write(value.authorArn)
-        try writer["callerReactions"].writeList(value.callerReactions, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["clientRequestToken"].write(value.clientRequestToken)
-        try writer["commentId"].write(value.commentId)
-        try writer["content"].write(value.content)
-        try writer["creationDate"].writeTimestamp(value.creationDate, format: .epochSeconds)
-        try writer["deleted"].write(value.deleted)
-        try writer["inReplyTo"].write(value.inReplyTo)
-        try writer["lastModifiedDate"].writeTimestamp(value.lastModifiedDate, format: .epochSeconds)
-        try writer["reactionCounts"].writeMap(value.reactionCounts, valueWritingClosure: Swift.Int.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.Comment {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2454,17 +2342,6 @@ public struct CommentNotCreatedByCallerException: ClientRuntime.ModeledError, AW
 
 extension CodeCommitClientTypes.CommentsForComparedCommit {
 
-    static func write(value: CodeCommitClientTypes.CommentsForComparedCommit?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["afterBlobId"].write(value.afterBlobId)
-        try writer["afterCommitId"].write(value.afterCommitId)
-        try writer["beforeBlobId"].write(value.beforeBlobId)
-        try writer["beforeCommitId"].write(value.beforeCommitId)
-        try writer["comments"].writeList(value.comments, memberWritingClosure: CodeCommitClientTypes.Comment.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["location"].write(value.location, with: CodeCommitClientTypes.Location.write(value:to:))
-        try writer["repositoryName"].write(value.repositoryName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.CommentsForComparedCommit {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeCommitClientTypes.CommentsForComparedCommit()
@@ -2520,18 +2397,6 @@ extension CodeCommitClientTypes {
 }
 
 extension CodeCommitClientTypes.CommentsForPullRequest {
-
-    static func write(value: CodeCommitClientTypes.CommentsForPullRequest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["afterBlobId"].write(value.afterBlobId)
-        try writer["afterCommitId"].write(value.afterCommitId)
-        try writer["beforeBlobId"].write(value.beforeBlobId)
-        try writer["beforeCommitId"].write(value.beforeCommitId)
-        try writer["comments"].writeList(value.comments, memberWritingClosure: CodeCommitClientTypes.Comment.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["location"].write(value.location, with: CodeCommitClientTypes.Location.write(value:to:))
-        try writer["pullRequestId"].write(value.pullRequestId)
-        try writer["repositoryName"].write(value.repositoryName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.CommentsForPullRequest {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2593,17 +2458,6 @@ extension CodeCommitClientTypes {
 }
 
 extension CodeCommitClientTypes.Commit {
-
-    static func write(value: CodeCommitClientTypes.Commit?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["additionalData"].write(value.additionalData)
-        try writer["author"].write(value.author, with: CodeCommitClientTypes.UserInfo.write(value:to:))
-        try writer["commitId"].write(value.commitId)
-        try writer["committer"].write(value.committer, with: CodeCommitClientTypes.UserInfo.write(value:to:))
-        try writer["message"].write(value.message)
-        try writer["parents"].writeList(value.parents, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["treeId"].write(value.treeId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.Commit {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2965,12 +2819,6 @@ public struct ConcurrentReferenceUpdateException: ClientRuntime.ModeledError, AW
 
 extension CodeCommitClientTypes.Conflict {
 
-    static func write(value: CodeCommitClientTypes.Conflict?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["conflictMetadata"].write(value.conflictMetadata, with: CodeCommitClientTypes.ConflictMetadata.write(value:to:))
-        try writer["mergeHunks"].writeList(value.mergeHunks, memberWritingClosure: CodeCommitClientTypes.MergeHunk.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.Conflict {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeCommitClientTypes.Conflict()
@@ -3031,20 +2879,6 @@ extension CodeCommitClientTypes {
 }
 
 extension CodeCommitClientTypes.ConflictMetadata {
-
-    static func write(value: CodeCommitClientTypes.ConflictMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["contentConflict"].write(value.contentConflict)
-        try writer["fileModeConflict"].write(value.fileModeConflict)
-        try writer["fileModes"].write(value.fileModes, with: CodeCommitClientTypes.FileModes.write(value:to:))
-        try writer["filePath"].write(value.filePath)
-        try writer["fileSizes"].write(value.fileSizes, with: CodeCommitClientTypes.FileSizes.write(value:to:))
-        try writer["isBinaryFile"].write(value.isBinaryFile, with: CodeCommitClientTypes.IsBinaryFile.write(value:to:))
-        try writer["mergeOperations"].write(value.mergeOperations, with: CodeCommitClientTypes.MergeOperations.write(value:to:))
-        try writer["numberOfConflicts"].write(value.numberOfConflicts)
-        try writer["objectTypeConflict"].write(value.objectTypeConflict)
-        try writer["objectTypes"].write(value.objectTypes, with: CodeCommitClientTypes.ObjectTypes.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.ConflictMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3122,15 +2956,6 @@ extension CodeCommitClientTypes.ConflictResolution {
         try writer["deleteFiles"].writeList(value.deleteFiles, memberWritingClosure: CodeCommitClientTypes.DeleteFileEntry.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["replaceContents"].writeList(value.replaceContents, memberWritingClosure: CodeCommitClientTypes.ReplaceContentEntry.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["setFileModes"].writeList(value.setFileModes, memberWritingClosure: CodeCommitClientTypes.SetFileModeEntry.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.ConflictResolution {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeCommitClientTypes.ConflictResolution()
-        value.replaceContents = try reader["replaceContents"].readListIfPresent(memberReadingClosure: CodeCommitClientTypes.ReplaceContentEntry.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.deleteFiles = try reader["deleteFiles"].readListIfPresent(memberReadingClosure: CodeCommitClientTypes.DeleteFileEntry.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.setFileModes = try reader["setFileModes"].readListIfPresent(memberReadingClosure: CodeCommitClientTypes.SetFileModeEntry.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -4278,13 +4103,6 @@ extension CodeCommitClientTypes.DeleteFileEntry {
         guard let value else { return }
         try writer["filePath"].write(value.filePath)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.DeleteFileEntry {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeCommitClientTypes.DeleteFileEntry()
-        value.filePath = try reader["filePath"].readIfPresent()
-        return value
-    }
 }
 
 extension CodeCommitClientTypes {
@@ -4873,13 +4691,6 @@ enum DescribePullRequestEventsOutputError {
 
 extension CodeCommitClientTypes.Difference {
 
-    static func write(value: CodeCommitClientTypes.Difference?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["afterBlob"].write(value.afterBlob, with: CodeCommitClientTypes.BlobMetadata.write(value:to:))
-        try writer["beforeBlob"].write(value.beforeBlob, with: CodeCommitClientTypes.BlobMetadata.write(value:to:))
-        try writer["changeType"].write(value.changeType)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.Difference {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeCommitClientTypes.Difference()
@@ -5411,14 +5222,6 @@ enum EvaluatePullRequestApprovalRulesOutputError {
 
 extension CodeCommitClientTypes.Evaluation {
 
-    static func write(value: CodeCommitClientTypes.Evaluation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["approvalRulesNotSatisfied"].writeList(value.approvalRulesNotSatisfied, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["approvalRulesSatisfied"].writeList(value.approvalRulesSatisfied, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["approved"].write(value.approved)
-        try writer["overridden"].write(value.overridden)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.Evaluation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeCommitClientTypes.Evaluation()
@@ -5459,14 +5262,6 @@ extension CodeCommitClientTypes {
 }
 
 extension CodeCommitClientTypes.File {
-
-    static func write(value: CodeCommitClientTypes.File?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["absolutePath"].write(value.absolutePath)
-        try writer["blobId"].write(value.blobId)
-        try writer["fileMode"].write(value.fileMode)
-        try writer["relativePath"].write(value.relativePath)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.File {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5699,13 +5494,6 @@ public struct FileEntryRequiredException: ClientRuntime.ModeledError, AWSClientR
 
 extension CodeCommitClientTypes.FileMetadata {
 
-    static func write(value: CodeCommitClientTypes.FileMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["absolutePath"].write(value.absolutePath)
-        try writer["blobId"].write(value.blobId)
-        try writer["fileMode"].write(value.fileMode)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.FileMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeCommitClientTypes.FileMetadata()
@@ -5812,13 +5600,6 @@ extension CodeCommitClientTypes {
 }
 
 extension CodeCommitClientTypes.FileModes {
-
-    static func write(value: CodeCommitClientTypes.FileModes?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["base"].write(value.base)
-        try writer["destination"].write(value.destination)
-        try writer["source"].write(value.source)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.FileModes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5932,13 +5713,6 @@ public struct FilePathConflictsWithSubmodulePathException: ClientRuntime.Modeled
 
 extension CodeCommitClientTypes.FileSizes {
 
-    static func write(value: CodeCommitClientTypes.FileSizes?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["base"].write(value.base)
-        try writer["destination"].write(value.destination)
-        try writer["source"].write(value.source)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.FileSizes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeCommitClientTypes.FileSizes()
@@ -6013,14 +5787,6 @@ public struct FileTooLargeException: ClientRuntime.ModeledError, AWSClientRuntim
 
 extension CodeCommitClientTypes.FileVersion {
 
-    static func write(value: CodeCommitClientTypes.FileVersion?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["blobId"].write(value.blobId)
-        try writer["commit"].write(value.commit, with: CodeCommitClientTypes.Commit.write(value:to:))
-        try writer["path"].write(value.path)
-        try writer["revisionChildren"].writeList(value.revisionChildren, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.FileVersion {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeCommitClientTypes.FileVersion()
@@ -6061,13 +5827,6 @@ extension CodeCommitClientTypes {
 }
 
 extension CodeCommitClientTypes.Folder {
-
-    static func write(value: CodeCommitClientTypes.Folder?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["absolutePath"].write(value.absolutePath)
-        try writer["relativePath"].write(value.relativePath)
-        try writer["treeId"].write(value.treeId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.Folder {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -10464,13 +10223,6 @@ public struct InvalidTitleException: ClientRuntime.ModeledError, AWSClientRuntim
 
 extension CodeCommitClientTypes.IsBinaryFile {
 
-    static func write(value: CodeCommitClientTypes.IsBinaryFile?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["base"].write(value.base)
-        try writer["destination"].write(value.destination)
-        try writer["source"].write(value.source)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.IsBinaryFile {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeCommitClientTypes.IsBinaryFile()
@@ -12111,14 +11863,6 @@ enum MergeBranchesByThreeWayOutputError {
 
 extension CodeCommitClientTypes.MergeHunk {
 
-    static func write(value: CodeCommitClientTypes.MergeHunk?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["base"].write(value.base, with: CodeCommitClientTypes.MergeHunkDetail.write(value:to:))
-        try writer["destination"].write(value.destination, with: CodeCommitClientTypes.MergeHunkDetail.write(value:to:))
-        try writer["isConflict"].write(value.isConflict)
-        try writer["source"].write(value.source, with: CodeCommitClientTypes.MergeHunkDetail.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.MergeHunk {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeCommitClientTypes.MergeHunk()
@@ -12160,13 +11904,6 @@ extension CodeCommitClientTypes {
 
 extension CodeCommitClientTypes.MergeHunkDetail {
 
-    static func write(value: CodeCommitClientTypes.MergeHunkDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["endLine"].write(value.endLine)
-        try writer["hunkContent"].write(value.hunkContent)
-        try writer["startLine"].write(value.startLine)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.MergeHunkDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeCommitClientTypes.MergeHunkDetail()
@@ -12202,14 +11939,6 @@ extension CodeCommitClientTypes {
 }
 
 extension CodeCommitClientTypes.MergeMetadata {
-
-    static func write(value: CodeCommitClientTypes.MergeMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["isMerged"].write(value.isMerged)
-        try writer["mergeCommitId"].write(value.mergeCommitId)
-        try writer["mergeOption"].write(value.mergeOption)
-        try writer["mergedBy"].write(value.mergedBy)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.MergeMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -12251,12 +11980,6 @@ extension CodeCommitClientTypes {
 }
 
 extension CodeCommitClientTypes.MergeOperations {
-
-    static func write(value: CodeCommitClientTypes.MergeOperations?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["destination"].write(value.destination)
-        try writer["source"].write(value.source)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.MergeOperations {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -13017,13 +12740,6 @@ extension CodeCommitClientTypes {
 
 extension CodeCommitClientTypes.ObjectTypes {
 
-    static func write(value: CodeCommitClientTypes.ObjectTypes?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["base"].write(value.base)
-        try writer["destination"].write(value.destination)
-        try writer["source"].write(value.source)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.ObjectTypes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeCommitClientTypes.ObjectTypes()
@@ -13089,12 +12805,6 @@ extension CodeCommitClientTypes {
 }
 
 extension CodeCommitClientTypes.OriginApprovalRuleTemplate {
-
-    static func write(value: CodeCommitClientTypes.OriginApprovalRuleTemplate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["approvalRuleTemplateId"].write(value.approvalRuleTemplateId)
-        try writer["approvalRuleTemplateName"].write(value.approvalRuleTemplateName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.OriginApprovalRuleTemplate {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -13893,21 +13603,6 @@ enum PostCommentReplyOutputError {
 
 extension CodeCommitClientTypes.PullRequest {
 
-    static func write(value: CodeCommitClientTypes.PullRequest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["approvalRules"].writeList(value.approvalRules, memberWritingClosure: CodeCommitClientTypes.ApprovalRule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["authorArn"].write(value.authorArn)
-        try writer["clientRequestToken"].write(value.clientRequestToken)
-        try writer["creationDate"].writeTimestamp(value.creationDate, format: .epochSeconds)
-        try writer["description"].write(value.description)
-        try writer["lastActivityDate"].writeTimestamp(value.lastActivityDate, format: .epochSeconds)
-        try writer["pullRequestId"].write(value.pullRequestId)
-        try writer["pullRequestStatus"].write(value.pullRequestStatus)
-        try writer["pullRequestTargets"].writeList(value.pullRequestTargets, memberWritingClosure: CodeCommitClientTypes.PullRequestTarget.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["revisionId"].write(value.revisionId)
-        try writer["title"].write(value.title)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.PullRequest {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeCommitClientTypes.PullRequest()
@@ -14098,14 +13793,6 @@ public struct PullRequestCannotBeApprovedByAuthorException: ClientRuntime.Modele
 
 extension CodeCommitClientTypes.PullRequestCreatedEventMetadata {
 
-    static func write(value: CodeCommitClientTypes.PullRequestCreatedEventMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["destinationCommitId"].write(value.destinationCommitId)
-        try writer["mergeBase"].write(value.mergeBase)
-        try writer["repositoryName"].write(value.repositoryName)
-        try writer["sourceCommitId"].write(value.sourceCommitId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.PullRequestCreatedEventMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeCommitClientTypes.PullRequestCreatedEventMetadata()
@@ -14184,21 +13871,6 @@ public struct PullRequestDoesNotExistException: ClientRuntime.ModeledError, AWSC
 }
 
 extension CodeCommitClientTypes.PullRequestEvent {
-
-    static func write(value: CodeCommitClientTypes.PullRequestEvent?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["actorArn"].write(value.actorArn)
-        try writer["approvalRuleEventMetadata"].write(value.approvalRuleEventMetadata, with: CodeCommitClientTypes.ApprovalRuleEventMetadata.write(value:to:))
-        try writer["approvalRuleOverriddenEventMetadata"].write(value.approvalRuleOverriddenEventMetadata, with: CodeCommitClientTypes.ApprovalRuleOverriddenEventMetadata.write(value:to:))
-        try writer["approvalStateChangedEventMetadata"].write(value.approvalStateChangedEventMetadata, with: CodeCommitClientTypes.ApprovalStateChangedEventMetadata.write(value:to:))
-        try writer["eventDate"].writeTimestamp(value.eventDate, format: .epochSeconds)
-        try writer["pullRequestCreatedEventMetadata"].write(value.pullRequestCreatedEventMetadata, with: CodeCommitClientTypes.PullRequestCreatedEventMetadata.write(value:to:))
-        try writer["pullRequestEventType"].write(value.pullRequestEventType)
-        try writer["pullRequestId"].write(value.pullRequestId)
-        try writer["pullRequestMergedStateChangedEventMetadata"].write(value.pullRequestMergedStateChangedEventMetadata, with: CodeCommitClientTypes.PullRequestMergedStateChangedEventMetadata.write(value:to:))
-        try writer["pullRequestSourceReferenceUpdatedEventMetadata"].write(value.pullRequestSourceReferenceUpdatedEventMetadata, with: CodeCommitClientTypes.PullRequestSourceReferenceUpdatedEventMetadata.write(value:to:))
-        try writer["pullRequestStatusChangedEventMetadata"].write(value.pullRequestStatusChangedEventMetadata, with: CodeCommitClientTypes.PullRequestStatusChangedEventMetadata.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.PullRequestEvent {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -14365,13 +14037,6 @@ public struct PullRequestIdRequiredException: ClientRuntime.ModeledError, AWSCli
 
 extension CodeCommitClientTypes.PullRequestMergedStateChangedEventMetadata {
 
-    static func write(value: CodeCommitClientTypes.PullRequestMergedStateChangedEventMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["destinationReference"].write(value.destinationReference)
-        try writer["mergeMetadata"].write(value.mergeMetadata, with: CodeCommitClientTypes.MergeMetadata.write(value:to:))
-        try writer["repositoryName"].write(value.repositoryName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.PullRequestMergedStateChangedEventMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeCommitClientTypes.PullRequestMergedStateChangedEventMetadata()
@@ -14407,14 +14072,6 @@ extension CodeCommitClientTypes {
 }
 
 extension CodeCommitClientTypes.PullRequestSourceReferenceUpdatedEventMetadata {
-
-    static func write(value: CodeCommitClientTypes.PullRequestSourceReferenceUpdatedEventMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["afterCommitId"].write(value.afterCommitId)
-        try writer["beforeCommitId"].write(value.beforeCommitId)
-        try writer["mergeBase"].write(value.mergeBase)
-        try writer["repositoryName"].write(value.repositoryName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.PullRequestSourceReferenceUpdatedEventMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -14456,11 +14113,6 @@ extension CodeCommitClientTypes {
 }
 
 extension CodeCommitClientTypes.PullRequestStatusChangedEventMetadata {
-
-    static func write(value: CodeCommitClientTypes.PullRequestStatusChangedEventMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["pullRequestStatus"].write(value.pullRequestStatus)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.PullRequestStatusChangedEventMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -14555,17 +14207,6 @@ public struct PullRequestStatusRequiredException: ClientRuntime.ModeledError, AW
 }
 
 extension CodeCommitClientTypes.PullRequestTarget {
-
-    static func write(value: CodeCommitClientTypes.PullRequestTarget?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["destinationCommit"].write(value.destinationCommit)
-        try writer["destinationReference"].write(value.destinationReference)
-        try writer["mergeBase"].write(value.mergeBase)
-        try writer["mergeMetadata"].write(value.mergeMetadata, with: CodeCommitClientTypes.MergeMetadata.write(value:to:))
-        try writer["repositoryName"].write(value.repositoryName)
-        try writer["sourceCommit"].write(value.sourceCommit)
-        try writer["sourceReference"].write(value.sourceReference)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.PullRequestTarget {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -14695,16 +14336,6 @@ extension CodeCommitClientTypes.PutFileEntry {
         try writer["fileMode"].write(value.fileMode)
         try writer["filePath"].write(value.filePath)
         try writer["sourceFile"].write(value.sourceFile, with: CodeCommitClientTypes.SourceFileSpecifier.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.PutFileEntry {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeCommitClientTypes.PutFileEntry()
-        value.filePath = try reader["filePath"].readIfPresent()
-        value.fileMode = try reader["fileMode"].readIfPresent()
-        value.fileContent = try reader["fileContent"].readIfPresent()
-        value.sourceFile = try reader["sourceFile"].readIfPresent(with: CodeCommitClientTypes.SourceFileSpecifier.read(from:))
-        return value
     }
 }
 
@@ -15022,13 +14653,6 @@ enum PutRepositoryTriggersOutputError {
 
 extension CodeCommitClientTypes.ReactionForComment {
 
-    static func write(value: CodeCommitClientTypes.ReactionForComment?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["reaction"].write(value.reaction, with: CodeCommitClientTypes.ReactionValueFormats.write(value:to:))
-        try writer["reactionUsers"].writeList(value.reactionUsers, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["reactionsFromDeletedUsersCount"].write(value.reactionsFromDeletedUsersCount)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.ReactionForComment {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeCommitClientTypes.ReactionForComment()
@@ -15102,13 +14726,6 @@ public struct ReactionLimitExceededException: ClientRuntime.ModeledError, AWSCli
 }
 
 extension CodeCommitClientTypes.ReactionValueFormats {
-
-    static func write(value: CodeCommitClientTypes.ReactionValueFormats?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["emoji"].write(value.emoji)
-        try writer["shortCode"].write(value.shortCode)
-        try writer["unicode"].write(value.unicode)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.ReactionValueFormats {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -15335,16 +14952,6 @@ extension CodeCommitClientTypes.ReplaceContentEntry {
         try writer["filePath"].write(value.filePath)
         try writer["replacementType"].write(value.replacementType)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.ReplaceContentEntry {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeCommitClientTypes.ReplaceContentEntry()
-        value.filePath = try reader["filePath"].readIfPresent()
-        value.replacementType = try reader["replacementType"].readIfPresent()
-        value.content = try reader["content"].readIfPresent()
-        value.fileMode = try reader["fileMode"].readIfPresent()
-        return value
-    }
 }
 
 extension CodeCommitClientTypes {
@@ -15567,21 +15174,6 @@ public struct RepositoryLimitExceededException: ClientRuntime.ModeledError, AWSC
 
 extension CodeCommitClientTypes.RepositoryMetadata {
 
-    static func write(value: CodeCommitClientTypes.RepositoryMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["accountId"].write(value.accountId)
-        try writer["cloneUrlHttp"].write(value.cloneUrlHttp)
-        try writer["cloneUrlSsh"].write(value.cloneUrlSsh)
-        try writer["creationDate"].writeTimestamp(value.creationDate, format: .epochSeconds)
-        try writer["defaultBranch"].write(value.defaultBranch)
-        try writer["kmsKeyId"].write(value.kmsKeyId)
-        try writer["lastModifiedDate"].writeTimestamp(value.lastModifiedDate, format: .epochSeconds)
-        try writer["repositoryDescription"].write(value.repositoryDescription)
-        try writer["repositoryId"].write(value.repositoryId)
-        try writer["repositoryName"].write(value.repositoryName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.RepositoryMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeCommitClientTypes.RepositoryMetadata()
@@ -15695,12 +15287,6 @@ public struct RepositoryNameExistsException: ClientRuntime.ModeledError, AWSClie
 }
 
 extension CodeCommitClientTypes.RepositoryNameIdPair {
-
-    static func write(value: CodeCommitClientTypes.RepositoryNameIdPair?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["repositoryId"].write(value.repositoryId)
-        try writer["repositoryName"].write(value.repositoryName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.RepositoryNameIdPair {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -16055,12 +15641,6 @@ public struct RepositoryTriggerEventsListRequiredException: ClientRuntime.Modele
 
 extension CodeCommitClientTypes.RepositoryTriggerExecutionFailure {
 
-    static func write(value: CodeCommitClientTypes.RepositoryTriggerExecutionFailure?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["failureMessage"].write(value.failureMessage)
-        try writer["trigger"].write(value.trigger)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.RepositoryTriggerExecutionFailure {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeCommitClientTypes.RepositoryTriggerExecutionFailure()
@@ -16401,14 +15981,6 @@ extension CodeCommitClientTypes.SetFileModeEntry {
         try writer["fileMode"].write(value.fileMode)
         try writer["filePath"].write(value.filePath)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.SetFileModeEntry {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeCommitClientTypes.SetFileModeEntry()
-        value.filePath = try reader["filePath"].readIfPresent()
-        value.fileMode = try reader["fileMode"].readIfPresent()
-        return value
-    }
 }
 
 extension CodeCommitClientTypes {
@@ -16546,14 +16118,6 @@ extension CodeCommitClientTypes.SourceFileSpecifier {
         try writer["filePath"].write(value.filePath)
         try writer["isMove"].write(value.isMove)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.SourceFileSpecifier {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeCommitClientTypes.SourceFileSpecifier()
-        value.filePath = try reader["filePath"].readIfPresent()
-        value.isMove = try reader["isMove"].readIfPresent() ?? false
-        return value
-    }
 }
 
 extension CodeCommitClientTypes {
@@ -16578,13 +16142,6 @@ extension CodeCommitClientTypes {
 }
 
 extension CodeCommitClientTypes.SubModule {
-
-    static func write(value: CodeCommitClientTypes.SubModule?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["absolutePath"].write(value.absolutePath)
-        try writer["commitId"].write(value.commitId)
-        try writer["relativePath"].write(value.relativePath)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.SubModule {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -16621,14 +16178,6 @@ extension CodeCommitClientTypes {
 }
 
 extension CodeCommitClientTypes.SymbolicLink {
-
-    static func write(value: CodeCommitClientTypes.SymbolicLink?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["absolutePath"].write(value.absolutePath)
-        try writer["blobId"].write(value.blobId)
-        try writer["fileMode"].write(value.fileMode)
-        try writer["relativePath"].write(value.relativePath)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.SymbolicLink {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -16858,15 +16407,6 @@ extension CodeCommitClientTypes.Target {
         try writer["destinationReference"].write(value.destinationReference)
         try writer["repositoryName"].write(value.repositoryName)
         try writer["sourceReference"].write(value.sourceReference)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.Target {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeCommitClientTypes.Target()
-        value.repositoryName = try reader["repositoryName"].readIfPresent()
-        value.sourceReference = try reader["sourceReference"].readIfPresent()
-        value.destinationReference = try reader["destinationReference"].readIfPresent()
-        return value
     }
 }
 
@@ -18332,13 +17872,6 @@ enum UpdateRepositoryNameOutputError {
 }
 
 extension CodeCommitClientTypes.UserInfo {
-
-    static func write(value: CodeCommitClientTypes.UserInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["date"].write(value.date)
-        try writer["email"].write(value.email)
-        try writer["name"].write(value.name)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.UserInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

@@ -1324,21 +1324,6 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
 
 extension DLMClientTypes.LifecyclePolicy {
 
-    static func write(value: DLMClientTypes.LifecyclePolicy?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DateCreated"].writeTimestamp(value.dateCreated, format: .dateTime)
-        try writer["DateModified"].writeTimestamp(value.dateModified, format: .dateTime)
-        try writer["DefaultPolicy"].write(value.defaultPolicy)
-        try writer["Description"].write(value.description)
-        try writer["ExecutionRoleArn"].write(value.executionRoleArn)
-        try writer["PolicyArn"].write(value.policyArn)
-        try writer["PolicyDetails"].write(value.policyDetails, with: DLMClientTypes.PolicyDetails.write(value:to:))
-        try writer["PolicyId"].write(value.policyId)
-        try writer["State"].write(value.state)
-        try writer["StatusMessage"].write(value.statusMessage)
-        try writer["Tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DLMClientTypes.LifecyclePolicy {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DLMClientTypes.LifecyclePolicy()
@@ -1418,16 +1403,6 @@ extension DLMClientTypes {
 }
 
 extension DLMClientTypes.LifecyclePolicySummary {
-
-    static func write(value: DLMClientTypes.LifecyclePolicySummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DefaultPolicy"].write(value.defaultPolicy)
-        try writer["Description"].write(value.description)
-        try writer["PolicyId"].write(value.policyId)
-        try writer["PolicyType"].write(value.policyType)
-        try writer["State"].write(value.state)
-        try writer["Tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DLMClientTypes.LifecyclePolicySummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

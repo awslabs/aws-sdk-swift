@@ -61,15 +61,6 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
 extension CodeGuruSecurityClientTypes.AccountFindingsMetric {
 
-    static func write(value: CodeGuruSecurityClientTypes.AccountFindingsMetric?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["closedFindings"].write(value.closedFindings, with: CodeGuruSecurityClientTypes.FindingMetricsValuePerSeverity.write(value:to:))
-        try writer["date"].writeTimestamp(value.date, format: .epochSeconds)
-        try writer["meanTimeToClose"].write(value.meanTimeToClose, with: CodeGuruSecurityClientTypes.FindingMetricsValuePerSeverity.write(value:to:))
-        try writer["newFindings"].write(value.newFindings, with: CodeGuruSecurityClientTypes.FindingMetricsValuePerSeverity.write(value:to:))
-        try writer["openFindings"].write(value.openFindings, with: CodeGuruSecurityClientTypes.FindingMetricsValuePerSeverity.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruSecurityClientTypes.AccountFindingsMetric {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeGuruSecurityClientTypes.AccountFindingsMetric()
@@ -145,14 +136,6 @@ extension CodeGuruSecurityClientTypes {
 }
 
 extension CodeGuruSecurityClientTypes.BatchGetFindingsError {
-
-    static func write(value: CodeGuruSecurityClientTypes.BatchGetFindingsError?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["errorCode"].write(value.errorCode)
-        try writer["findingId"].write(value.findingId)
-        try writer["message"].write(value.message)
-        try writer["scanName"].write(value.scanName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruSecurityClientTypes.BatchGetFindingsError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -275,12 +258,6 @@ enum BatchGetFindingsOutputError {
 
 extension CodeGuruSecurityClientTypes.CategoryWithFindingNum {
 
-    static func write(value: CodeGuruSecurityClientTypes.CategoryWithFindingNum?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["categoryName"].write(value.categoryName)
-        try writer["findingNumber"].write(value.findingNumber)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruSecurityClientTypes.CategoryWithFindingNum {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeGuruSecurityClientTypes.CategoryWithFindingNum()
@@ -313,12 +290,6 @@ extension CodeGuruSecurityClientTypes {
 public enum CodeGuruSecurityClientTypes {}
 
 extension CodeGuruSecurityClientTypes.CodeLine {
-
-    static func write(value: CodeGuruSecurityClientTypes.CodeLine?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["content"].write(value.content)
-        try writer["number"].write(value.number)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruSecurityClientTypes.CodeLine {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -690,15 +661,6 @@ extension CodeGuruSecurityClientTypes {
 
 extension CodeGuruSecurityClientTypes.FilePath {
 
-    static func write(value: CodeGuruSecurityClientTypes.FilePath?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["codeSnippet"].writeList(value.codeSnippet, memberWritingClosure: CodeGuruSecurityClientTypes.CodeLine.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["endLine"].write(value.endLine)
-        try writer["name"].write(value.name)
-        try writer["path"].write(value.path)
-        try writer["startLine"].write(value.startLine)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruSecurityClientTypes.FilePath {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeGuruSecurityClientTypes.FilePath()
@@ -744,26 +706,6 @@ extension CodeGuruSecurityClientTypes {
 }
 
 extension CodeGuruSecurityClientTypes.Finding {
-
-    static func write(value: CodeGuruSecurityClientTypes.Finding?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["description"].write(value.description)
-        try writer["detectorId"].write(value.detectorId)
-        try writer["detectorName"].write(value.detectorName)
-        try writer["detectorTags"].writeList(value.detectorTags, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["generatorId"].write(value.generatorId)
-        try writer["id"].write(value.id)
-        try writer["remediation"].write(value.remediation, with: CodeGuruSecurityClientTypes.Remediation.write(value:to:))
-        try writer["resource"].write(value.resource, with: CodeGuruSecurityClientTypes.Resource.write(value:to:))
-        try writer["ruleId"].write(value.ruleId)
-        try writer["severity"].write(value.severity)
-        try writer["status"].write(value.status)
-        try writer["title"].write(value.title)
-        try writer["type"].write(value.type)
-        try writer["updatedAt"].writeTimestamp(value.updatedAt, format: .epochSeconds)
-        try writer["vulnerability"].write(value.vulnerability, with: CodeGuruSecurityClientTypes.Vulnerability.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruSecurityClientTypes.Finding {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -871,14 +813,6 @@ extension CodeGuruSecurityClientTypes.FindingIdentifier {
         try writer["findingId"].write(value.findingId)
         try writer["scanName"].write(value.scanName)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruSecurityClientTypes.FindingIdentifier {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeGuruSecurityClientTypes.FindingIdentifier()
-        value.scanName = try reader["scanName"].readIfPresent()
-        value.findingId = try reader["findingId"].readIfPresent()
-        return value
-    }
 }
 
 extension CodeGuruSecurityClientTypes {
@@ -904,15 +838,6 @@ extension CodeGuruSecurityClientTypes {
 }
 
 extension CodeGuruSecurityClientTypes.FindingMetricsValuePerSeverity {
-
-    static func write(value: CodeGuruSecurityClientTypes.FindingMetricsValuePerSeverity?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["critical"].write(value.critical)
-        try writer["high"].write(value.high)
-        try writer["info"].write(value.info)
-        try writer["low"].write(value.low)
-        try writer["medium"].write(value.medium)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruSecurityClientTypes.FindingMetricsValuePerSeverity {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1617,15 +1542,6 @@ enum ListTagsForResourceOutputError {
 
 extension CodeGuruSecurityClientTypes.MetricsSummary {
 
-    static func write(value: CodeGuruSecurityClientTypes.MetricsSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["categoriesWithMostFindings"].writeList(value.categoriesWithMostFindings, memberWritingClosure: CodeGuruSecurityClientTypes.CategoryWithFindingNum.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["date"].writeTimestamp(value.date, format: .epochSeconds)
-        try writer["openFindings"].write(value.openFindings, with: CodeGuruSecurityClientTypes.FindingMetricsValuePerSeverity.write(value:to:))
-        try writer["scansWithMostOpenCriticalFindings"].writeList(value.scansWithMostOpenCriticalFindings, memberWritingClosure: CodeGuruSecurityClientTypes.ScanNameWithFindingNum.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["scansWithMostOpenFindings"].writeList(value.scansWithMostOpenFindings, memberWritingClosure: CodeGuruSecurityClientTypes.ScanNameWithFindingNum.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruSecurityClientTypes.MetricsSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeGuruSecurityClientTypes.MetricsSummary()
@@ -1672,12 +1588,6 @@ extension CodeGuruSecurityClientTypes {
 
 extension CodeGuruSecurityClientTypes.Recommendation {
 
-    static func write(value: CodeGuruSecurityClientTypes.Recommendation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["text"].write(value.text)
-        try writer["url"].write(value.url)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruSecurityClientTypes.Recommendation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeGuruSecurityClientTypes.Recommendation()
@@ -1709,12 +1619,6 @@ extension CodeGuruSecurityClientTypes {
 
 extension CodeGuruSecurityClientTypes.Remediation {
 
-    static func write(value: CodeGuruSecurityClientTypes.Remediation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["recommendation"].write(value.recommendation, with: CodeGuruSecurityClientTypes.Recommendation.write(value:to:))
-        try writer["suggestedFixes"].writeList(value.suggestedFixes, memberWritingClosure: CodeGuruSecurityClientTypes.SuggestedFix.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruSecurityClientTypes.Remediation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeGuruSecurityClientTypes.Remediation()
@@ -1745,12 +1649,6 @@ extension CodeGuruSecurityClientTypes {
 }
 
 extension CodeGuruSecurityClientTypes.Resource {
-
-    static func write(value: CodeGuruSecurityClientTypes.Resource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["id"].write(value.id)
-        try writer["subResourceId"].write(value.subResourceId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruSecurityClientTypes.Resource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1874,12 +1772,6 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
 extension CodeGuruSecurityClientTypes.ScanNameWithFindingNum {
 
-    static func write(value: CodeGuruSecurityClientTypes.ScanNameWithFindingNum?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["findingNumber"].write(value.findingNumber)
-        try writer["scanName"].write(value.scanName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruSecurityClientTypes.ScanNameWithFindingNum {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeGuruSecurityClientTypes.ScanNameWithFindingNum()
@@ -1943,16 +1835,6 @@ extension CodeGuruSecurityClientTypes {
 }
 
 extension CodeGuruSecurityClientTypes.ScanSummary {
-
-    static func write(value: CodeGuruSecurityClientTypes.ScanSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["runId"].write(value.runId)
-        try writer["scanName"].write(value.scanName)
-        try writer["scanNameArn"].write(value.scanNameArn)
-        try writer["scanState"].write(value.scanState)
-        try writer["updatedAt"].writeTimestamp(value.updatedAt, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruSecurityClientTypes.ScanSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2110,12 +1992,6 @@ extension CodeGuruSecurityClientTypes {
 }
 
 extension CodeGuruSecurityClientTypes.SuggestedFix {
-
-    static func write(value: CodeGuruSecurityClientTypes.SuggestedFix?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["code"].write(value.code)
-        try writer["description"].write(value.description)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruSecurityClientTypes.SuggestedFix {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2476,12 +2352,6 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
 extension CodeGuruSecurityClientTypes.ValidationExceptionField {
 
-    static func write(value: CodeGuruSecurityClientTypes.ValidationExceptionField?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.message)
-        try writer["name"].write(value.name)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruSecurityClientTypes.ValidationExceptionField {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeGuruSecurityClientTypes.ValidationExceptionField()
@@ -2553,15 +2423,6 @@ extension CodeGuruSecurityClientTypes {
 }
 
 extension CodeGuruSecurityClientTypes.Vulnerability {
-
-    static func write(value: CodeGuruSecurityClientTypes.Vulnerability?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["filePath"].write(value.filePath, with: CodeGuruSecurityClientTypes.FilePath.write(value:to:))
-        try writer["id"].write(value.id)
-        try writer["itemCount"].write(value.itemCount)
-        try writer["referenceUrls"].writeList(value.referenceUrls, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["relatedVulnerabilities"].writeList(value.relatedVulnerabilities, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruSecurityClientTypes.Vulnerability {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

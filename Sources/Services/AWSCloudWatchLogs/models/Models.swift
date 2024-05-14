@@ -43,17 +43,6 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
 extension CloudWatchLogsClientTypes.AccountPolicy {
 
-    static func write(value: CloudWatchLogsClientTypes.AccountPolicy?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["accountId"].write(value.accountId)
-        try writer["lastUpdatedTime"].write(value.lastUpdatedTime)
-        try writer["policyDocument"].write(value.policyDocument)
-        try writer["policyName"].write(value.policyName)
-        try writer["policyType"].write(value.policyType)
-        try writer["scope"].write(value.scope)
-        try writer["selectionCriteria"].write(value.selectionCriteria)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchLogsClientTypes.AccountPolicy {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudWatchLogsClientTypes.AccountPolicy()
@@ -109,29 +98,6 @@ extension CloudWatchLogsClientTypes {
 }
 
 extension CloudWatchLogsClientTypes.Anomaly {
-
-    static func write(value: CloudWatchLogsClientTypes.Anomaly?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["active"].write(value.active)
-        try writer["anomalyDetectorArn"].write(value.anomalyDetectorArn)
-        try writer["anomalyId"].write(value.anomalyId)
-        try writer["description"].write(value.description)
-        try writer["firstSeen"].write(value.firstSeen)
-        try writer["histogram"].writeMap(value.histogram, valueWritingClosure: Swift.Int.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["isPatternLevelSuppression"].write(value.isPatternLevelSuppression)
-        try writer["lastSeen"].write(value.lastSeen)
-        try writer["logGroupArnList"].writeList(value.logGroupArnList, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["logSamples"].writeList(value.logSamples, memberWritingClosure: CloudWatchLogsClientTypes.LogEvent.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["patternId"].write(value.patternId)
-        try writer["patternRegex"].write(value.patternRegex)
-        try writer["patternString"].write(value.patternString)
-        try writer["patternTokens"].writeList(value.patternTokens, memberWritingClosure: CloudWatchLogsClientTypes.PatternToken.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["priority"].write(value.priority)
-        try writer["state"].write(value.state)
-        try writer["suppressed"].write(value.suppressed)
-        try writer["suppressedDate"].write(value.suppressedDate)
-        try writer["suppressedUntil"].write(value.suppressedUntil)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchLogsClientTypes.Anomaly {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -261,20 +227,6 @@ extension CloudWatchLogsClientTypes {
 }
 
 extension CloudWatchLogsClientTypes.AnomalyDetector {
-
-    static func write(value: CloudWatchLogsClientTypes.AnomalyDetector?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["anomalyDetectorArn"].write(value.anomalyDetectorArn)
-        try writer["anomalyDetectorStatus"].write(value.anomalyDetectorStatus)
-        try writer["anomalyVisibilityTime"].write(value.anomalyVisibilityTime)
-        try writer["creationTimeStamp"].write(value.creationTimeStamp)
-        try writer["detectorName"].write(value.detectorName)
-        try writer["evaluationFrequency"].write(value.evaluationFrequency)
-        try writer["filterPattern"].write(value.filterPattern)
-        try writer["kmsKeyId"].write(value.kmsKeyId)
-        try writer["lastModifiedTimeStamp"].write(value.lastModifiedTimeStamp)
-        try writer["logGroupArnList"].writeList(value.logGroupArnList, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchLogsClientTypes.AnomalyDetector {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1960,16 +1912,6 @@ enum DeleteSubscriptionFilterOutputError {
 
 extension CloudWatchLogsClientTypes.Delivery {
 
-    static func write(value: CloudWatchLogsClientTypes.Delivery?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["deliveryDestinationArn"].write(value.deliveryDestinationArn)
-        try writer["deliveryDestinationType"].write(value.deliveryDestinationType)
-        try writer["deliverySourceName"].write(value.deliverySourceName)
-        try writer["id"].write(value.id)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchLogsClientTypes.Delivery {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudWatchLogsClientTypes.Delivery()
@@ -2020,16 +1962,6 @@ extension CloudWatchLogsClientTypes {
 }
 
 extension CloudWatchLogsClientTypes.DeliveryDestination {
-
-    static func write(value: CloudWatchLogsClientTypes.DeliveryDestination?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["deliveryDestinationConfiguration"].write(value.deliveryDestinationConfiguration, with: CloudWatchLogsClientTypes.DeliveryDestinationConfiguration.write(value:to:))
-        try writer["deliveryDestinationType"].write(value.deliveryDestinationType)
-        try writer["name"].write(value.name)
-        try writer["outputFormat"].write(value.outputFormat)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchLogsClientTypes.DeliveryDestination {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2157,16 +2089,6 @@ extension CloudWatchLogsClientTypes {
 }
 
 extension CloudWatchLogsClientTypes.DeliverySource {
-
-    static func write(value: CloudWatchLogsClientTypes.DeliverySource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["logType"].write(value.logType)
-        try writer["name"].write(value.name)
-        try writer["resourceArns"].writeList(value.resourceArns, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["service"].write(value.service)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchLogsClientTypes.DeliverySource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3349,16 +3271,6 @@ enum DescribeSubscriptionFiltersOutputError {
 
 extension CloudWatchLogsClientTypes.Destination {
 
-    static func write(value: CloudWatchLogsClientTypes.Destination?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["accessPolicy"].write(value.accessPolicy)
-        try writer["arn"].write(value.arn)
-        try writer["creationTime"].write(value.creationTime)
-        try writer["destinationName"].write(value.destinationName)
-        try writer["roleArn"].write(value.roleArn)
-        try writer["targetArn"].write(value.targetArn)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchLogsClientTypes.Destination {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudWatchLogsClientTypes.Destination()
@@ -3551,19 +3463,6 @@ extension CloudWatchLogsClientTypes {
 
 extension CloudWatchLogsClientTypes.ExportTask {
 
-    static func write(value: CloudWatchLogsClientTypes.ExportTask?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["destination"].write(value.destination)
-        try writer["destinationPrefix"].write(value.destinationPrefix)
-        try writer["executionInfo"].write(value.executionInfo, with: CloudWatchLogsClientTypes.ExportTaskExecutionInfo.write(value:to:))
-        try writer["from"].write(value.from)
-        try writer["logGroupName"].write(value.logGroupName)
-        try writer["status"].write(value.status, with: CloudWatchLogsClientTypes.ExportTaskStatus.write(value:to:))
-        try writer["taskId"].write(value.taskId)
-        try writer["taskName"].write(value.taskName)
-        try writer["to"].write(value.to)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchLogsClientTypes.ExportTask {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudWatchLogsClientTypes.ExportTask()
@@ -3630,12 +3529,6 @@ extension CloudWatchLogsClientTypes {
 
 extension CloudWatchLogsClientTypes.ExportTaskExecutionInfo {
 
-    static func write(value: CloudWatchLogsClientTypes.ExportTaskExecutionInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["completionTime"].write(value.completionTime)
-        try writer["creationTime"].write(value.creationTime)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchLogsClientTypes.ExportTaskExecutionInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudWatchLogsClientTypes.ExportTaskExecutionInfo()
@@ -3666,12 +3559,6 @@ extension CloudWatchLogsClientTypes {
 }
 
 extension CloudWatchLogsClientTypes.ExportTaskStatus {
-
-    static func write(value: CloudWatchLogsClientTypes.ExportTaskStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["code"].write(value.code)
-        try writer["message"].write(value.message)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchLogsClientTypes.ExportTaskStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3873,15 +3760,6 @@ enum FilterLogEventsOutputError {
 }
 
 extension CloudWatchLogsClientTypes.FilteredLogEvent {
-
-    static func write(value: CloudWatchLogsClientTypes.FilteredLogEvent?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["eventId"].write(value.eventId)
-        try writer["ingestionTime"].write(value.ingestionTime)
-        try writer["logStreamName"].write(value.logStreamName)
-        try writer["message"].write(value.message)
-        try writer["timestamp"].write(value.timestamp)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchLogsClientTypes.FilteredLogEvent {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4780,14 +4658,6 @@ extension CloudWatchLogsClientTypes.InputLogEvent {
         try writer["message"].write(value.message)
         try writer["timestamp"].write(value.timestamp)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchLogsClientTypes.InputLogEvent {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudWatchLogsClientTypes.InputLogEvent()
-        value.timestamp = try reader["timestamp"].readIfPresent()
-        value.message = try reader["message"].readIfPresent()
-        return value
-    }
 }
 
 extension CloudWatchLogsClientTypes {
@@ -5274,15 +5144,6 @@ enum ListTagsLogGroupOutputError {
 
 extension CloudWatchLogsClientTypes.LiveTailSessionLogEvent {
 
-    static func write(value: CloudWatchLogsClientTypes.LiveTailSessionLogEvent?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ingestionTime"].write(value.ingestionTime)
-        try writer["logGroupIdentifier"].write(value.logGroupIdentifier)
-        try writer["logStreamName"].write(value.logStreamName)
-        try writer["message"].write(value.message)
-        try writer["timestamp"].write(value.timestamp)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchLogsClientTypes.LiveTailSessionLogEvent {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudWatchLogsClientTypes.LiveTailSessionLogEvent()
@@ -5329,11 +5190,6 @@ extension CloudWatchLogsClientTypes {
 
 extension CloudWatchLogsClientTypes.LiveTailSessionMetadata {
 
-    static func write(value: CloudWatchLogsClientTypes.LiveTailSessionMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["sampled"].write(value.sampled)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchLogsClientTypes.LiveTailSessionMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudWatchLogsClientTypes.LiveTailSessionMetadata()
@@ -5359,16 +5215,6 @@ extension CloudWatchLogsClientTypes {
 }
 
 extension CloudWatchLogsClientTypes.LiveTailSessionStart {
-
-    static func write(value: CloudWatchLogsClientTypes.LiveTailSessionStart?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["logEventFilterPattern"].write(value.logEventFilterPattern)
-        try writer["logGroupIdentifiers"].writeList(value.logGroupIdentifiers, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["logStreamNamePrefixes"].writeList(value.logStreamNamePrefixes, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["logStreamNames"].writeList(value.logStreamNames, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["requestId"].write(value.requestId)
-        try writer["sessionId"].write(value.sessionId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchLogsClientTypes.LiveTailSessionStart {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5421,12 +5267,6 @@ extension CloudWatchLogsClientTypes {
 
 extension CloudWatchLogsClientTypes.LiveTailSessionUpdate {
 
-    static func write(value: CloudWatchLogsClientTypes.LiveTailSessionUpdate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["sessionMetadata"].write(value.sessionMetadata, with: CloudWatchLogsClientTypes.LiveTailSessionMetadata.write(value:to:))
-        try writer["sessionResults"].writeList(value.sessionResults, memberWritingClosure: CloudWatchLogsClientTypes.LiveTailSessionLogEvent.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchLogsClientTypes.LiveTailSessionUpdate {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudWatchLogsClientTypes.LiveTailSessionUpdate()
@@ -5458,12 +5298,6 @@ extension CloudWatchLogsClientTypes {
 
 extension CloudWatchLogsClientTypes.LogEvent {
 
-    static func write(value: CloudWatchLogsClientTypes.LogEvent?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.message)
-        try writer["timestamp"].write(value.timestamp)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchLogsClientTypes.LogEvent {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudWatchLogsClientTypes.LogEvent()
@@ -5494,21 +5328,6 @@ extension CloudWatchLogsClientTypes {
 }
 
 extension CloudWatchLogsClientTypes.LogGroup {
-
-    static func write(value: CloudWatchLogsClientTypes.LogGroup?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["creationTime"].write(value.creationTime)
-        try writer["dataProtectionStatus"].write(value.dataProtectionStatus)
-        try writer["inheritedProperties"].writeList(value.inheritedProperties, memberWritingClosure: CloudWatchLogsClientTypes.InheritedProperty.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["kmsKeyId"].write(value.kmsKeyId)
-        try writer["logGroupArn"].write(value.logGroupArn)
-        try writer["logGroupClass"].write(value.logGroupClass)
-        try writer["logGroupName"].write(value.logGroupName)
-        try writer["metricFilterCount"].write(value.metricFilterCount)
-        try writer["retentionInDays"].write(value.retentionInDays)
-        try writer["storedBytes"].write(value.storedBytes)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchLogsClientTypes.LogGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5629,12 +5448,6 @@ extension CloudWatchLogsClientTypes {
 
 extension CloudWatchLogsClientTypes.LogGroupField {
 
-    static func write(value: CloudWatchLogsClientTypes.LogGroupField?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-        try writer["percent"].write(value.percent)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchLogsClientTypes.LogGroupField {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudWatchLogsClientTypes.LogGroupField()
@@ -5665,18 +5478,6 @@ extension CloudWatchLogsClientTypes {
 }
 
 extension CloudWatchLogsClientTypes.LogStream {
-
-    static func write(value: CloudWatchLogsClientTypes.LogStream?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["creationTime"].write(value.creationTime)
-        try writer["firstEventTimestamp"].write(value.firstEventTimestamp)
-        try writer["lastEventTimestamp"].write(value.lastEventTimestamp)
-        try writer["lastIngestionTime"].write(value.lastIngestionTime)
-        try writer["logStreamName"].write(value.logStreamName)
-        try writer["storedBytes"].write(value.storedBytes)
-        try writer["uploadSequenceToken"].write(value.uploadSequenceToken)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchLogsClientTypes.LogStream {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5782,15 +5583,6 @@ public struct MalformedQueryException: ClientRuntime.ModeledError, AWSClientRunt
 
 extension CloudWatchLogsClientTypes.MetricFilter {
 
-    static func write(value: CloudWatchLogsClientTypes.MetricFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["creationTime"].write(value.creationTime)
-        try writer["filterName"].write(value.filterName)
-        try writer["filterPattern"].write(value.filterPattern)
-        try writer["logGroupName"].write(value.logGroupName)
-        try writer["metricTransformations"].writeList(value.metricTransformations, memberWritingClosure: CloudWatchLogsClientTypes.MetricTransformation.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchLogsClientTypes.MetricFilter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudWatchLogsClientTypes.MetricFilter()
@@ -5836,13 +5628,6 @@ extension CloudWatchLogsClientTypes {
 }
 
 extension CloudWatchLogsClientTypes.MetricFilterMatchRecord {
-
-    static func write(value: CloudWatchLogsClientTypes.MetricFilterMatchRecord?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["eventMessage"].write(value.eventMessage)
-        try writer["eventNumber"].write(value.eventNumber)
-        try writer["extractedValues"].writeMap(value.extractedValues, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchLogsClientTypes.MetricFilterMatchRecord {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6050,13 +5835,6 @@ extension CloudWatchLogsClientTypes {
 
 extension CloudWatchLogsClientTypes.OutputLogEvent {
 
-    static func write(value: CloudWatchLogsClientTypes.OutputLogEvent?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ingestionTime"].write(value.ingestionTime)
-        try writer["message"].write(value.message)
-        try writer["timestamp"].write(value.timestamp)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchLogsClientTypes.OutputLogEvent {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudWatchLogsClientTypes.OutputLogEvent()
@@ -6092,14 +5870,6 @@ extension CloudWatchLogsClientTypes {
 }
 
 extension CloudWatchLogsClientTypes.PatternToken {
-
-    static func write(value: CloudWatchLogsClientTypes.PatternToken?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["dynamicTokenPosition"].write(value.dynamicTokenPosition)
-        try writer["enumerations"].writeMap(value.enumerations, valueWritingClosure: Swift.Int.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["isDynamic"].write(value.isDynamic)
-        try writer["tokenString"].write(value.tokenString)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchLogsClientTypes.PatternToken {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6141,11 +5911,6 @@ extension CloudWatchLogsClientTypes {
 }
 
 extension CloudWatchLogsClientTypes.Policy {
-
-    static func write(value: CloudWatchLogsClientTypes.Policy?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["deliveryDestinationPolicy"].write(value.deliveryDestinationPolicy)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchLogsClientTypes.Policy {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7309,12 +7074,6 @@ enum PutSubscriptionFilterOutputError {
 
 extension CloudWatchLogsClientTypes.QueryCompileError {
 
-    static func write(value: CloudWatchLogsClientTypes.QueryCompileError?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["location"].write(value.location, with: CloudWatchLogsClientTypes.QueryCompileErrorLocation.write(value:to:))
-        try writer["message"].write(value.message)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchLogsClientTypes.QueryCompileError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudWatchLogsClientTypes.QueryCompileError()
@@ -7346,12 +7105,6 @@ extension CloudWatchLogsClientTypes {
 
 extension CloudWatchLogsClientTypes.QueryCompileErrorLocation {
 
-    static func write(value: CloudWatchLogsClientTypes.QueryCompileErrorLocation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["endCharOffset"].write(value.endCharOffset)
-        try writer["startCharOffset"].write(value.startCharOffset)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchLogsClientTypes.QueryCompileErrorLocation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudWatchLogsClientTypes.QueryCompileErrorLocation()
@@ -7382,15 +7135,6 @@ extension CloudWatchLogsClientTypes {
 }
 
 extension CloudWatchLogsClientTypes.QueryDefinition {
-
-    static func write(value: CloudWatchLogsClientTypes.QueryDefinition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["lastModified"].write(value.lastModified)
-        try writer["logGroupNames"].writeList(value.logGroupNames, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["name"].write(value.name)
-        try writer["queryDefinitionId"].write(value.queryDefinitionId)
-        try writer["queryString"].write(value.queryString)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchLogsClientTypes.QueryDefinition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7438,15 +7182,6 @@ extension CloudWatchLogsClientTypes {
 
 extension CloudWatchLogsClientTypes.QueryInfo {
 
-    static func write(value: CloudWatchLogsClientTypes.QueryInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["createTime"].write(value.createTime)
-        try writer["logGroupName"].write(value.logGroupName)
-        try writer["queryId"].write(value.queryId)
-        try writer["queryString"].write(value.queryString)
-        try writer["status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchLogsClientTypes.QueryInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudWatchLogsClientTypes.QueryInfo()
@@ -7492,13 +7227,6 @@ extension CloudWatchLogsClientTypes {
 }
 
 extension CloudWatchLogsClientTypes.QueryStatistics {
-
-    static func write(value: CloudWatchLogsClientTypes.QueryStatistics?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["bytesScanned"].write(value.bytesScanned)
-        try writer["recordsMatched"].write(value.recordsMatched)
-        try writer["recordsScanned"].write(value.recordsScanned)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchLogsClientTypes.QueryStatistics {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7580,13 +7308,6 @@ extension CloudWatchLogsClientTypes {
 }
 
 extension CloudWatchLogsClientTypes.RejectedLogEventsInfo {
-
-    static func write(value: CloudWatchLogsClientTypes.RejectedLogEventsInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["expiredLogEventEndIndex"].write(value.expiredLogEventEndIndex)
-        try writer["tooNewLogEventStartIndex"].write(value.tooNewLogEventStartIndex)
-        try writer["tooOldLogEventEndIndex"].write(value.tooOldLogEventEndIndex)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchLogsClientTypes.RejectedLogEventsInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7698,13 +7419,6 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
 extension CloudWatchLogsClientTypes.ResourcePolicy {
 
-    static func write(value: CloudWatchLogsClientTypes.ResourcePolicy?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["lastUpdatedTime"].write(value.lastUpdatedTime)
-        try writer["policyDocument"].write(value.policyDocument)
-        try writer["policyName"].write(value.policyName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchLogsClientTypes.ResourcePolicy {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudWatchLogsClientTypes.ResourcePolicy()
@@ -7740,12 +7454,6 @@ extension CloudWatchLogsClientTypes {
 }
 
 extension CloudWatchLogsClientTypes.ResultField {
-
-    static func write(value: CloudWatchLogsClientTypes.ResultField?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["field"].write(value.field)
-        try writer["value"].write(value.value)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchLogsClientTypes.ResultField {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7804,12 +7512,6 @@ extension CloudWatchLogsClientTypes {
 }
 
 extension CloudWatchLogsClientTypes.SearchedLogStream {
-
-    static func write(value: CloudWatchLogsClientTypes.SearchedLogStream?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["logStreamName"].write(value.logStreamName)
-        try writer["searchedCompletely"].write(value.searchedCompletely)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchLogsClientTypes.SearchedLogStream {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7916,11 +7618,6 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
 
 extension SessionStreamingException {
 
-    static func write(value: SessionStreamingException?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.properties.message)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SessionStreamingException {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SessionStreamingException()
@@ -7954,11 +7651,6 @@ public struct SessionStreamingException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 extension SessionTimeoutException {
-
-    static func write(value: SessionTimeoutException?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.properties.message)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SessionTimeoutException {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8441,17 +8133,6 @@ enum StopQueryOutputError {
 
 extension CloudWatchLogsClientTypes.SubscriptionFilter {
 
-    static func write(value: CloudWatchLogsClientTypes.SubscriptionFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["creationTime"].write(value.creationTime)
-        try writer["destinationArn"].write(value.destinationArn)
-        try writer["distribution"].write(value.distribution)
-        try writer["filterName"].write(value.filterName)
-        try writer["filterPattern"].write(value.filterPattern)
-        try writer["logGroupName"].write(value.logGroupName)
-        try writer["roleArn"].write(value.roleArn)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchLogsClientTypes.SubscriptionFilter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudWatchLogsClientTypes.SubscriptionFilter()
@@ -8512,14 +8193,6 @@ extension CloudWatchLogsClientTypes.SuppressionPeriod {
         guard let value else { return }
         try writer["suppressionUnit"].write(value.suppressionUnit)
         try writer["value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchLogsClientTypes.SuppressionPeriod {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudWatchLogsClientTypes.SuppressionPeriod()
-        value.value = try reader["value"].readIfPresent() ?? 0
-        value.suppressionUnit = try reader["suppressionUnit"].readIfPresent()
-        return value
     }
 }
 

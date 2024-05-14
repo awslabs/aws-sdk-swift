@@ -12,15 +12,6 @@ extension CloudTrailDataClientTypes.AuditEvent {
         try writer["eventDataChecksum"].write(value.eventDataChecksum)
         try writer["id"].write(value.id)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudTrailDataClientTypes.AuditEvent {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudTrailDataClientTypes.AuditEvent()
-        value.id = try reader["id"].readIfPresent()
-        value.eventData = try reader["eventData"].readIfPresent()
-        value.eventDataChecksum = try reader["eventDataChecksum"].readIfPresent()
-        return value
-    }
 }
 
 extension CloudTrailDataClientTypes {
@@ -50,12 +41,6 @@ extension CloudTrailDataClientTypes {
 }
 
 extension CloudTrailDataClientTypes.AuditEventResultEntry {
-
-    static func write(value: CloudTrailDataClientTypes.AuditEventResultEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["eventID"].write(value.eventID)
-        try writer["id"].write(value.id)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CloudTrailDataClientTypes.AuditEventResultEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -381,13 +366,6 @@ enum PutAuditEventsOutputError {
 }
 
 extension CloudTrailDataClientTypes.ResultErrorEntry {
-
-    static func write(value: CloudTrailDataClientTypes.ResultErrorEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["errorCode"].write(value.errorCode)
-        try writer["errorMessage"].write(value.errorMessage)
-        try writer["id"].write(value.id)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CloudTrailDataClientTypes.ResultErrorEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

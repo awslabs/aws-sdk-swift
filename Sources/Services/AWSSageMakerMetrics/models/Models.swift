@@ -6,12 +6,6 @@ import SmithyReadWrite
 
 extension SageMakerMetricsClientTypes.BatchPutMetricsError {
 
-    static func write(value: SageMakerMetricsClientTypes.BatchPutMetricsError?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Code"].write(value.code)
-        try writer["MetricIndex"].write(value.metricIndex)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerMetricsClientTypes.BatchPutMetricsError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerMetricsClientTypes.BatchPutMetricsError()
@@ -164,16 +158,6 @@ extension SageMakerMetricsClientTypes.RawMetricData {
         try writer["Step"].write(value.step)
         try writer["Timestamp"].writeTimestamp(value.timestamp, format: .epochSeconds)
         try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerMetricsClientTypes.RawMetricData {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SageMakerMetricsClientTypes.RawMetricData()
-        value.metricName = try reader["MetricName"].readIfPresent()
-        value.timestamp = try reader["Timestamp"].readTimestampIfPresent(format: .epochSeconds)
-        value.step = try reader["Step"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
-        return value
     }
 }
 

@@ -44,16 +44,6 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
 extension ControlTowerClientTypes.BaselineOperation {
 
-    static func write(value: ControlTowerClientTypes.BaselineOperation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["endTime"].writeTimestamp(value.endTime, format: .dateTime)
-        try writer["operationIdentifier"].write(value.operationIdentifier)
-        try writer["operationType"].write(value.operationType)
-        try writer["startTime"].writeTimestamp(value.startTime, format: .dateTime)
-        try writer["status"].write(value.status)
-        try writer["statusMessage"].write(value.statusMessage)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ControlTowerClientTypes.BaselineOperation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ControlTowerClientTypes.BaselineOperation()
@@ -174,13 +164,6 @@ extension ControlTowerClientTypes {
 
 extension ControlTowerClientTypes.BaselineSummary {
 
-    static func write(value: ControlTowerClientTypes.BaselineSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["description"].write(value.description)
-        try writer["name"].write(value.name)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ControlTowerClientTypes.BaselineSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ControlTowerClientTypes.BaselineSummary()
@@ -256,15 +239,6 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 }
 
 extension ControlTowerClientTypes.ControlOperation {
-
-    static func write(value: ControlTowerClientTypes.ControlOperation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["endTime"].writeTimestamp(value.endTime, format: .dateTime)
-        try writer["operationType"].write(value.operationType)
-        try writer["startTime"].writeTimestamp(value.startTime, format: .dateTime)
-        try writer["status"].write(value.status)
-        try writer["statusMessage"].write(value.statusMessage)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ControlTowerClientTypes.ControlOperation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -728,11 +702,6 @@ extension ControlTowerClientTypes {
 
 extension ControlTowerClientTypes.DriftStatusSummary {
 
-    static func write(value: ControlTowerClientTypes.DriftStatusSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["driftStatus"].write(value.driftStatus)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ControlTowerClientTypes.DriftStatusSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ControlTowerClientTypes.DriftStatusSummary()
@@ -962,16 +931,6 @@ enum EnableControlOutputError {
 
 extension ControlTowerClientTypes.EnabledBaselineDetails {
 
-    static func write(value: ControlTowerClientTypes.EnabledBaselineDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["baselineIdentifier"].write(value.baselineIdentifier)
-        try writer["baselineVersion"].write(value.baselineVersion)
-        try writer["parameters"].writeList(value.parameters, memberWritingClosure: ControlTowerClientTypes.EnabledBaselineParameterSummary.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["statusSummary"].write(value.statusSummary, with: ControlTowerClientTypes.EnablementStatusSummary.write(value:to:))
-        try writer["targetIdentifier"].write(value.targetIdentifier)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ControlTowerClientTypes.EnabledBaselineDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ControlTowerClientTypes.EnabledBaselineDetails()
@@ -1032,14 +991,6 @@ extension ControlTowerClientTypes.EnabledBaselineFilter {
         try writer["baselineIdentifiers"].writeList(value.baselineIdentifiers, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["targetIdentifiers"].writeList(value.targetIdentifiers, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ControlTowerClientTypes.EnabledBaselineFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ControlTowerClientTypes.EnabledBaselineFilter()
-        value.targetIdentifiers = try reader["targetIdentifiers"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.baselineIdentifiers = try reader["baselineIdentifiers"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
 }
 
 extension ControlTowerClientTypes {
@@ -1069,14 +1020,6 @@ extension ControlTowerClientTypes.EnabledBaselineParameter {
         try writer["key"].write(value.key)
         try writer["value"].write(value.value)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ControlTowerClientTypes.EnabledBaselineParameter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ControlTowerClientTypes.EnabledBaselineParameter()
-        value.key = try reader["key"].readIfPresent()
-        value.value = try reader["value"].readIfPresent()
-        return value
-    }
 }
 
 extension ControlTowerClientTypes {
@@ -1102,12 +1045,6 @@ extension ControlTowerClientTypes {
 }
 
 extension ControlTowerClientTypes.EnabledBaselineParameterSummary {
-
-    static func write(value: ControlTowerClientTypes.EnabledBaselineParameterSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["key"].write(value.key)
-        try writer["value"].write(value.value)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ControlTowerClientTypes.EnabledBaselineParameterSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1141,15 +1078,6 @@ extension ControlTowerClientTypes {
 }
 
 extension ControlTowerClientTypes.EnabledBaselineSummary {
-
-    static func write(value: ControlTowerClientTypes.EnabledBaselineSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["baselineIdentifier"].write(value.baselineIdentifier)
-        try writer["baselineVersion"].write(value.baselineVersion)
-        try writer["statusSummary"].write(value.statusSummary, with: ControlTowerClientTypes.EnablementStatusSummary.write(value:to:))
-        try writer["targetIdentifier"].write(value.targetIdentifier)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ControlTowerClientTypes.EnabledBaselineSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1200,17 +1128,6 @@ extension ControlTowerClientTypes {
 }
 
 extension ControlTowerClientTypes.EnabledControlDetails {
-
-    static func write(value: ControlTowerClientTypes.EnabledControlDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["controlIdentifier"].write(value.controlIdentifier)
-        try writer["driftStatusSummary"].write(value.driftStatusSummary, with: ControlTowerClientTypes.DriftStatusSummary.write(value:to:))
-        try writer["parameters"].writeList(value.parameters, memberWritingClosure: ControlTowerClientTypes.EnabledControlParameterSummary.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["statusSummary"].write(value.statusSummary, with: ControlTowerClientTypes.EnablementStatusSummary.write(value:to:))
-        try writer["targetIdentifier"].write(value.targetIdentifier)
-        try writer["targetRegions"].writeList(value.targetRegions, memberWritingClosure: ControlTowerClientTypes.Region.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ControlTowerClientTypes.EnabledControlDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1273,14 +1190,6 @@ extension ControlTowerClientTypes.EnabledControlParameter {
         try writer["key"].write(value.key)
         try writer["value"].write(value.value)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ControlTowerClientTypes.EnabledControlParameter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ControlTowerClientTypes.EnabledControlParameter()
-        value.key = try reader["key"].readIfPresent()
-        value.value = try reader["value"].readIfPresent()
-        return value
-    }
 }
 
 extension ControlTowerClientTypes {
@@ -1306,12 +1215,6 @@ extension ControlTowerClientTypes {
 }
 
 extension ControlTowerClientTypes.EnabledControlParameterSummary {
-
-    static func write(value: ControlTowerClientTypes.EnabledControlParameterSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["key"].write(value.key)
-        try writer["value"].write(value.value)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ControlTowerClientTypes.EnabledControlParameterSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1345,15 +1248,6 @@ extension ControlTowerClientTypes {
 }
 
 extension ControlTowerClientTypes.EnabledControlSummary {
-
-    static func write(value: ControlTowerClientTypes.EnabledControlSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["controlIdentifier"].write(value.controlIdentifier)
-        try writer["driftStatusSummary"].write(value.driftStatusSummary, with: ControlTowerClientTypes.DriftStatusSummary.write(value:to:))
-        try writer["statusSummary"].write(value.statusSummary, with: ControlTowerClientTypes.EnablementStatusSummary.write(value:to:))
-        try writer["targetIdentifier"].write(value.targetIdentifier)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ControlTowerClientTypes.EnabledControlSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1433,12 +1327,6 @@ extension ControlTowerClientTypes {
 }
 
 extension ControlTowerClientTypes.EnablementStatusSummary {
-
-    static func write(value: ControlTowerClientTypes.EnablementStatusSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["lastOperationIdentifier"].write(value.lastOperationIdentifier)
-        try writer["status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ControlTowerClientTypes.EnablementStatusSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2022,16 +1910,6 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
 extension ControlTowerClientTypes.LandingZoneDetail {
 
-    static func write(value: ControlTowerClientTypes.LandingZoneDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["driftStatus"].write(value.driftStatus, with: ControlTowerClientTypes.LandingZoneDriftStatusSummary.write(value:to:))
-        try writer["latestAvailableVersion"].write(value.latestAvailableVersion)
-        try writer["manifest"].write(value.manifest)
-        try writer["status"].write(value.status)
-        try writer["version"].write(value.version)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ControlTowerClientTypes.LandingZoneDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ControlTowerClientTypes.LandingZoneDetail()
@@ -2115,11 +1993,6 @@ extension ControlTowerClientTypes {
 
 extension ControlTowerClientTypes.LandingZoneDriftStatusSummary {
 
-    static func write(value: ControlTowerClientTypes.LandingZoneDriftStatusSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ControlTowerClientTypes.LandingZoneDriftStatusSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ControlTowerClientTypes.LandingZoneDriftStatusSummary()
@@ -2149,15 +2022,6 @@ extension ControlTowerClientTypes {
 }
 
 extension ControlTowerClientTypes.LandingZoneOperationDetail {
-
-    static func write(value: ControlTowerClientTypes.LandingZoneOperationDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["endTime"].writeTimestamp(value.endTime, format: .dateTime)
-        try writer["operationType"].write(value.operationType)
-        try writer["startTime"].writeTimestamp(value.startTime, format: .dateTime)
-        try writer["status"].write(value.status)
-        try writer["statusMessage"].write(value.statusMessage)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ControlTowerClientTypes.LandingZoneOperationDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2320,11 +2184,6 @@ extension ControlTowerClientTypes {
 }
 
 extension ControlTowerClientTypes.LandingZoneSummary {
-
-    static func write(value: ControlTowerClientTypes.LandingZoneSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ControlTowerClientTypes.LandingZoneSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2743,11 +2602,6 @@ enum ListTagsForResourceOutputError {
 }
 
 extension ControlTowerClientTypes.Region {
-
-    static func write(value: ControlTowerClientTypes.Region?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ControlTowerClientTypes.Region {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

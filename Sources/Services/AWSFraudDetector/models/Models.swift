@@ -6,14 +6,6 @@ import SmithyReadWrite
 
 extension FraudDetectorClientTypes.ATIMetricDataPoint {
 
-    static func write(value: FraudDetectorClientTypes.ATIMetricDataPoint?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["adr"].write(value.adr)
-        try writer["atodr"].write(value.atodr)
-        try writer["cr"].write(value.cr)
-        try writer["threshold"].write(value.threshold)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.ATIMetricDataPoint {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FraudDetectorClientTypes.ATIMetricDataPoint()
@@ -55,11 +47,6 @@ extension FraudDetectorClientTypes {
 
 extension FraudDetectorClientTypes.ATIModelPerformance {
 
-    static func write(value: FraudDetectorClientTypes.ATIModelPerformance?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["asi"].write(value.asi)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.ATIModelPerformance {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FraudDetectorClientTypes.ATIModelPerformance()
@@ -85,12 +72,6 @@ extension FraudDetectorClientTypes {
 }
 
 extension FraudDetectorClientTypes.ATITrainingMetricsValue {
-
-    static func write(value: FraudDetectorClientTypes.ATITrainingMetricsValue?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["metricDataPoints"].writeList(value.metricDataPoints, memberWritingClosure: FraudDetectorClientTypes.ATIMetricDataPoint.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["modelPerformance"].write(value.modelPerformance, with: FraudDetectorClientTypes.ATIModelPerformance.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.ATITrainingMetricsValue {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -161,12 +142,6 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
 extension FraudDetectorClientTypes.AggregatedLogOddsMetric {
 
-    static func write(value: FraudDetectorClientTypes.AggregatedLogOddsMetric?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["aggregatedVariablesImportance"].write(value.aggregatedVariablesImportance)
-        try writer["variableNames"].writeList(value.variableNames, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.AggregatedLogOddsMetric {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FraudDetectorClientTypes.AggregatedLogOddsMetric()
@@ -199,13 +174,6 @@ extension FraudDetectorClientTypes {
 }
 
 extension FraudDetectorClientTypes.AggregatedVariablesImpactExplanation {
-
-    static func write(value: FraudDetectorClientTypes.AggregatedVariablesImpactExplanation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["eventVariableNames"].writeList(value.eventVariableNames, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["logOddsImpact"].write(value.logOddsImpact)
-        try writer["relativeImpact"].write(value.relativeImpact)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.AggregatedVariablesImpactExplanation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -247,11 +215,6 @@ extension FraudDetectorClientTypes {
 
 extension FraudDetectorClientTypes.AggregatedVariablesImportanceMetrics {
 
-    static func write(value: FraudDetectorClientTypes.AggregatedVariablesImportanceMetrics?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["logOddsMetrics"].writeList(value.logOddsMetrics, memberWritingClosure: FraudDetectorClientTypes.AggregatedLogOddsMetric.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.AggregatedVariablesImportanceMetrics {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FraudDetectorClientTypes.AggregatedVariablesImportanceMetrics()
@@ -277,16 +240,6 @@ extension FraudDetectorClientTypes {
 }
 
 extension FraudDetectorClientTypes.AllowDenyList {
-
-    static func write(value: FraudDetectorClientTypes.AllowDenyList?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["createdTime"].write(value.createdTime)
-        try writer["description"].write(value.description)
-        try writer["name"].write(value.name)
-        try writer["updatedTime"].write(value.updatedTime)
-        try writer["variableType"].write(value.variableType)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.AllowDenyList {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -381,13 +334,6 @@ extension FraudDetectorClientTypes {
 }
 
 extension FraudDetectorClientTypes.BatchCreateVariableError {
-
-    static func write(value: FraudDetectorClientTypes.BatchCreateVariableError?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["code"].write(value.code)
-        try writer["message"].write(value.message)
-        try writer["name"].write(value.name)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.BatchCreateVariableError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -499,13 +445,6 @@ enum BatchCreateVariableOutputError {
 
 extension FraudDetectorClientTypes.BatchGetVariableError {
 
-    static func write(value: FraudDetectorClientTypes.BatchGetVariableError?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["code"].write(value.code)
-        try writer["message"].write(value.message)
-        try writer["name"].write(value.name)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.BatchGetVariableError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FraudDetectorClientTypes.BatchGetVariableError()
@@ -616,23 +555,6 @@ enum BatchGetVariableOutputError {
 
 extension FraudDetectorClientTypes.BatchImport {
 
-    static func write(value: FraudDetectorClientTypes.BatchImport?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["completionTime"].write(value.completionTime)
-        try writer["eventTypeName"].write(value.eventTypeName)
-        try writer["failedRecordsCount"].write(value.failedRecordsCount)
-        try writer["failureReason"].write(value.failureReason)
-        try writer["iamRoleArn"].write(value.iamRoleArn)
-        try writer["inputPath"].write(value.inputPath)
-        try writer["jobId"].write(value.jobId)
-        try writer["outputPath"].write(value.outputPath)
-        try writer["processedRecordsCount"].write(value.processedRecordsCount)
-        try writer["startTime"].write(value.startTime)
-        try writer["status"].write(value.status)
-        try writer["totalRecordsCount"].write(value.totalRecordsCount)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.BatchImport {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FraudDetectorClientTypes.BatchImport()
@@ -718,25 +640,6 @@ extension FraudDetectorClientTypes {
 }
 
 extension FraudDetectorClientTypes.BatchPrediction {
-
-    static func write(value: FraudDetectorClientTypes.BatchPrediction?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["completionTime"].write(value.completionTime)
-        try writer["detectorName"].write(value.detectorName)
-        try writer["detectorVersion"].write(value.detectorVersion)
-        try writer["eventTypeName"].write(value.eventTypeName)
-        try writer["failureReason"].write(value.failureReason)
-        try writer["iamRoleArn"].write(value.iamRoleArn)
-        try writer["inputPath"].write(value.inputPath)
-        try writer["jobId"].write(value.jobId)
-        try writer["lastHeartbeatTime"].write(value.lastHeartbeatTime)
-        try writer["outputPath"].write(value.outputPath)
-        try writer["processedRecordsCount"].write(value.processedRecordsCount)
-        try writer["startTime"].write(value.startTime)
-        try writer["status"].write(value.status)
-        try writer["totalRecordsCount"].write(value.totalRecordsCount)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.BatchPrediction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1827,12 +1730,6 @@ extension FraudDetectorClientTypes {
 }
 
 extension FraudDetectorClientTypes.DataValidationMetrics {
-
-    static func write(value: FraudDetectorClientTypes.DataValidationMetrics?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["fieldLevelMessages"].writeList(value.fieldLevelMessages, memberWritingClosure: FraudDetectorClientTypes.FieldValidationMessage.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["fileLevelMessages"].writeList(value.fileLevelMessages, memberWritingClosure: FraudDetectorClientTypes.FileValidationMessage.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.DataValidationMetrics {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3032,16 +2929,6 @@ enum DescribeModelVersionsOutputError {
 
 extension FraudDetectorClientTypes.Detector {
 
-    static func write(value: FraudDetectorClientTypes.Detector?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["createdTime"].write(value.createdTime)
-        try writer["description"].write(value.description)
-        try writer["detectorId"].write(value.detectorId)
-        try writer["eventTypeName"].write(value.eventTypeName)
-        try writer["lastUpdatedTime"].write(value.lastUpdatedTime)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.Detector {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FraudDetectorClientTypes.Detector()
@@ -3125,14 +3012,6 @@ extension FraudDetectorClientTypes {
 }
 
 extension FraudDetectorClientTypes.DetectorVersionSummary {
-
-    static func write(value: FraudDetectorClientTypes.DetectorVersionSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["description"].write(value.description)
-        try writer["detectorVersionId"].write(value.detectorVersionId)
-        try writer["lastUpdatedTime"].write(value.lastUpdatedTime)
-        try writer["status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.DetectorVersionSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3220,15 +3099,6 @@ extension FraudDetectorClientTypes {
 
 extension FraudDetectorClientTypes.EntityType {
 
-    static func write(value: FraudDetectorClientTypes.EntityType?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["createdTime"].write(value.createdTime)
-        try writer["description"].write(value.description)
-        try writer["lastUpdatedTime"].write(value.lastUpdatedTime)
-        try writer["name"].write(value.name)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.EntityType {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FraudDetectorClientTypes.EntityType()
@@ -3280,14 +3150,6 @@ extension FraudDetectorClientTypes.EvaluatedExternalModel: Swift.CustomDebugStri
 
 extension FraudDetectorClientTypes.EvaluatedExternalModel {
 
-    static func write(value: FraudDetectorClientTypes.EvaluatedExternalModel?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["inputVariables"].writeMap(value.inputVariables, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["modelEndpoint"].write(value.modelEndpoint)
-        try writer["outputVariables"].writeMap(value.outputVariables, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["useEventVariables"].write(value.useEventVariables)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.EvaluatedExternalModel {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FraudDetectorClientTypes.EvaluatedExternalModel()
@@ -3328,14 +3190,6 @@ extension FraudDetectorClientTypes {
 }
 
 extension FraudDetectorClientTypes.EvaluatedModelVersion {
-
-    static func write(value: FraudDetectorClientTypes.EvaluatedModelVersion?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["evaluations"].writeList(value.evaluations, memberWritingClosure: FraudDetectorClientTypes.ModelVersionEvaluation.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["modelId"].write(value.modelId)
-        try writer["modelType"].write(value.modelType)
-        try writer["modelVersion"].write(value.modelVersion)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.EvaluatedModelVersion {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3382,17 +3236,6 @@ extension FraudDetectorClientTypes.EvaluatedRule: Swift.CustomDebugStringConvert
 }
 
 extension FraudDetectorClientTypes.EvaluatedRule {
-
-    static func write(value: FraudDetectorClientTypes.EvaluatedRule?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["evaluated"].write(value.evaluated)
-        try writer["expression"].write(value.expression)
-        try writer["expressionWithValues"].write(value.expressionWithValues)
-        try writer["matched"].write(value.matched)
-        try writer["outcomes"].writeList(value.outcomes, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ruleId"].write(value.ruleId)
-        try writer["ruleVersion"].write(value.ruleVersion)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.EvaluatedRule {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3449,17 +3292,6 @@ extension FraudDetectorClientTypes {
 }
 
 extension FraudDetectorClientTypes.Event {
-
-    static func write(value: FraudDetectorClientTypes.Event?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["currentLabel"].write(value.currentLabel)
-        try writer["entities"].writeList(value.entities, memberWritingClosure: FraudDetectorClientTypes.Entity.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["eventId"].write(value.eventId)
-        try writer["eventTimestamp"].write(value.eventTimestamp)
-        try writer["eventTypeName"].write(value.eventTypeName)
-        try writer["eventVariables"].writeMap(value.eventVariables, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["labelTimestamp"].write(value.labelTimestamp)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.Event {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3579,16 +3411,6 @@ extension FraudDetectorClientTypes {
 
 extension FraudDetectorClientTypes.EventPredictionSummary {
 
-    static func write(value: FraudDetectorClientTypes.EventPredictionSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["detectorId"].write(value.detectorId)
-        try writer["detectorVersionId"].write(value.detectorVersionId)
-        try writer["eventId"].write(value.eventId)
-        try writer["eventTimestamp"].write(value.eventTimestamp)
-        try writer["eventTypeName"].write(value.eventTypeName)
-        try writer["predictionTimestamp"].write(value.predictionTimestamp)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.EventPredictionSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FraudDetectorClientTypes.EventPredictionSummary()
@@ -3645,21 +3467,6 @@ extension FraudDetectorClientTypes.EventType: Swift.CustomDebugStringConvertible
 }
 
 extension FraudDetectorClientTypes.EventType {
-
-    static func write(value: FraudDetectorClientTypes.EventType?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["createdTime"].write(value.createdTime)
-        try writer["description"].write(value.description)
-        try writer["entityTypes"].writeList(value.entityTypes, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["eventIngestion"].write(value.eventIngestion)
-        try writer["eventOrchestration"].write(value.eventOrchestration, with: FraudDetectorClientTypes.EventOrchestration.write(value:to:))
-        try writer["eventVariables"].writeList(value.eventVariables, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ingestedEventStatistics"].write(value.ingestedEventStatistics, with: FraudDetectorClientTypes.IngestedEventStatistics.write(value:to:))
-        try writer["labels"].writeList(value.labels, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["lastUpdatedTime"].write(value.lastUpdatedTime)
-        try writer["name"].write(value.name)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.EventType {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3742,13 +3549,6 @@ extension FraudDetectorClientTypes.EventVariableSummary: Swift.CustomDebugString
 
 extension FraudDetectorClientTypes.EventVariableSummary {
 
-    static func write(value: FraudDetectorClientTypes.EventVariableSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-        try writer["source"].write(value.source)
-        try writer["value"].write(value.value)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.EventVariableSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FraudDetectorClientTypes.EventVariableSummary()
@@ -3824,19 +3624,6 @@ extension FraudDetectorClientTypes {
 
 extension FraudDetectorClientTypes.ExternalModel {
 
-    static func write(value: FraudDetectorClientTypes.ExternalModel?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["createdTime"].write(value.createdTime)
-        try writer["inputConfiguration"].write(value.inputConfiguration, with: FraudDetectorClientTypes.ModelInputConfiguration.write(value:to:))
-        try writer["invokeModelEndpointRoleArn"].write(value.invokeModelEndpointRoleArn)
-        try writer["lastUpdatedTime"].write(value.lastUpdatedTime)
-        try writer["modelEndpoint"].write(value.modelEndpoint)
-        try writer["modelEndpointStatus"].write(value.modelEndpointStatus)
-        try writer["modelSource"].write(value.modelSource)
-        try writer["outputConfiguration"].write(value.outputConfiguration, with: FraudDetectorClientTypes.ModelOutputConfiguration.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.ExternalModel {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FraudDetectorClientTypes.ExternalModel()
@@ -3903,12 +3690,6 @@ extension FraudDetectorClientTypes {
 
 extension FraudDetectorClientTypes.ExternalModelOutputs {
 
-    static func write(value: FraudDetectorClientTypes.ExternalModelOutputs?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["externalModel"].write(value.externalModel, with: FraudDetectorClientTypes.ExternalModelSummary.write(value:to:))
-        try writer["outputs"].writeMap(value.outputs, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.ExternalModelOutputs {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FraudDetectorClientTypes.ExternalModelOutputs()
@@ -3940,12 +3721,6 @@ extension FraudDetectorClientTypes {
 
 extension FraudDetectorClientTypes.ExternalModelSummary {
 
-    static func write(value: FraudDetectorClientTypes.ExternalModelSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["modelEndpoint"].write(value.modelEndpoint)
-        try writer["modelSource"].write(value.modelSource)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.ExternalModelSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FraudDetectorClientTypes.ExternalModelSummary()
@@ -3976,15 +3751,6 @@ extension FraudDetectorClientTypes {
 }
 
 extension FraudDetectorClientTypes.FieldValidationMessage {
-
-    static func write(value: FraudDetectorClientTypes.FieldValidationMessage?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["content"].write(value.content)
-        try writer["fieldName"].write(value.fieldName)
-        try writer["identifier"].write(value.identifier)
-        try writer["title"].write(value.title)
-        try writer["type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.FieldValidationMessage {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4032,13 +3798,6 @@ extension FraudDetectorClientTypes {
 
 extension FraudDetectorClientTypes.FileValidationMessage {
 
-    static func write(value: FraudDetectorClientTypes.FileValidationMessage?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["content"].write(value.content)
-        try writer["title"].write(value.title)
-        try writer["type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.FileValidationMessage {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FraudDetectorClientTypes.FileValidationMessage()
@@ -4078,13 +3837,6 @@ extension FraudDetectorClientTypes.FilterCondition {
     static func write(value: FraudDetectorClientTypes.FilterCondition?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.FilterCondition {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FraudDetectorClientTypes.FilterCondition()
-        value.value = try reader["value"].readIfPresent()
-        return value
     }
 }
 
@@ -5986,15 +5738,6 @@ enum GetVariablesOutputError {
 
 extension FraudDetectorClientTypes.IngestedEventStatistics {
 
-    static func write(value: FraudDetectorClientTypes.IngestedEventStatistics?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["eventDataSizeInBytes"].write(value.eventDataSizeInBytes)
-        try writer["lastUpdatedTime"].write(value.lastUpdatedTime)
-        try writer["leastRecentEvent"].write(value.leastRecentEvent)
-        try writer["mostRecentEvent"].write(value.mostRecentEvent)
-        try writer["numberOfEvents"].write(value.numberOfEvents)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.IngestedEventStatistics {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FraudDetectorClientTypes.IngestedEventStatistics()
@@ -6150,11 +5893,6 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
 extension FraudDetectorClientTypes.KMSKey {
 
-    static func write(value: FraudDetectorClientTypes.KMSKey?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["kmsEncryptionKeyArn"].write(value.kmsEncryptionKeyArn)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.KMSKey {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FraudDetectorClientTypes.KMSKey()
@@ -6180,15 +5918,6 @@ extension FraudDetectorClientTypes {
 }
 
 extension FraudDetectorClientTypes.Label {
-
-    static func write(value: FraudDetectorClientTypes.Label?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["createdTime"].write(value.createdTime)
-        try writer["description"].write(value.description)
-        try writer["lastUpdatedTime"].write(value.lastUpdatedTime)
-        try writer["name"].write(value.name)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.Label {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6531,13 +6260,6 @@ extension FraudDetectorClientTypes {
 
 extension FraudDetectorClientTypes.LogOddsMetric {
 
-    static func write(value: FraudDetectorClientTypes.LogOddsMetric?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["variableImportance"].write(value.variableImportance)
-        try writer["variableName"].write(value.variableName)
-        try writer["variableType"].write(value.variableType)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.LogOddsMetric {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FraudDetectorClientTypes.LogOddsMetric()
@@ -6576,14 +6298,6 @@ extension FraudDetectorClientTypes {
 }
 
 extension FraudDetectorClientTypes.MetricDataPoint {
-
-    static func write(value: FraudDetectorClientTypes.MetricDataPoint?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["fpr"].write(value.fpr)
-        try writer["precision"].write(value.precision)
-        try writer["threshold"].write(value.threshold)
-        try writer["tpr"].write(value.tpr)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.MetricDataPoint {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6625,17 +6339,6 @@ extension FraudDetectorClientTypes {
 }
 
 extension FraudDetectorClientTypes.Model {
-
-    static func write(value: FraudDetectorClientTypes.Model?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["createdTime"].write(value.createdTime)
-        try writer["description"].write(value.description)
-        try writer["eventTypeName"].write(value.eventTypeName)
-        try writer["lastUpdatedTime"].write(value.lastUpdatedTime)
-        try writer["modelId"].write(value.modelId)
-        try writer["modelType"].write(value.modelType)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.Model {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6697,14 +6400,6 @@ extension FraudDetectorClientTypes.ModelEndpointDataBlob {
         guard let value else { return }
         try writer["byteBuffer"].write(value.byteBuffer)
         try writer["contentType"].write(value.contentType)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.ModelEndpointDataBlob {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FraudDetectorClientTypes.ModelEndpointDataBlob()
-        value.byteBuffer = try reader["byteBuffer"].readIfPresent()
-        value.contentType = try reader["contentType"].readIfPresent()
-        return value
     }
 }
 
@@ -6920,12 +6615,6 @@ extension FraudDetectorClientTypes {
 
 extension FraudDetectorClientTypes.ModelScores {
 
-    static func write(value: FraudDetectorClientTypes.ModelScores?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["modelVersion"].write(value.modelVersion, with: FraudDetectorClientTypes.ModelVersion.write(value:to:))
-        try writer["scores"].writeMap(value.scores, valueWritingClosure: Swift.Float.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.ModelScores {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FraudDetectorClientTypes.ModelScores()
@@ -7069,23 +6758,6 @@ extension FraudDetectorClientTypes {
 
 extension FraudDetectorClientTypes.ModelVersionDetail {
 
-    static func write(value: FraudDetectorClientTypes.ModelVersionDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["createdTime"].write(value.createdTime)
-        try writer["externalEventsDetail"].write(value.externalEventsDetail, with: FraudDetectorClientTypes.ExternalEventsDetail.write(value:to:))
-        try writer["ingestedEventsDetail"].write(value.ingestedEventsDetail, with: FraudDetectorClientTypes.IngestedEventsDetail.write(value:to:))
-        try writer["lastUpdatedTime"].write(value.lastUpdatedTime)
-        try writer["modelId"].write(value.modelId)
-        try writer["modelType"].write(value.modelType)
-        try writer["modelVersionNumber"].write(value.modelVersionNumber)
-        try writer["status"].write(value.status)
-        try writer["trainingDataSchema"].write(value.trainingDataSchema, with: FraudDetectorClientTypes.TrainingDataSchema.write(value:to:))
-        try writer["trainingDataSource"].write(value.trainingDataSource)
-        try writer["trainingResult"].write(value.trainingResult, with: FraudDetectorClientTypes.TrainingResult.write(value:to:))
-        try writer["trainingResultV2"].write(value.trainingResultV2, with: FraudDetectorClientTypes.TrainingResultV2.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.ModelVersionDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FraudDetectorClientTypes.ModelVersionDetail()
@@ -7172,13 +6844,6 @@ extension FraudDetectorClientTypes {
 
 extension FraudDetectorClientTypes.ModelVersionEvaluation {
 
-    static func write(value: FraudDetectorClientTypes.ModelVersionEvaluation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["evaluationScore"].write(value.evaluationScore)
-        try writer["outputVariableName"].write(value.outputVariableName)
-        try writer["predictionExplanations"].write(value.predictionExplanations, with: FraudDetectorClientTypes.PredictionExplanations.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.ModelVersionEvaluation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FraudDetectorClientTypes.ModelVersionEvaluation()
@@ -7248,14 +6913,6 @@ extension FraudDetectorClientTypes {
 
 extension FraudDetectorClientTypes.OFIMetricDataPoint {
 
-    static func write(value: FraudDetectorClientTypes.OFIMetricDataPoint?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["fpr"].write(value.fpr)
-        try writer["precision"].write(value.precision)
-        try writer["threshold"].write(value.threshold)
-        try writer["tpr"].write(value.tpr)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.OFIMetricDataPoint {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FraudDetectorClientTypes.OFIMetricDataPoint()
@@ -7297,12 +6954,6 @@ extension FraudDetectorClientTypes {
 
 extension FraudDetectorClientTypes.OFIModelPerformance {
 
-    static func write(value: FraudDetectorClientTypes.OFIModelPerformance?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["auc"].write(value.auc)
-        try writer["uncertaintyRange"].write(value.uncertaintyRange, with: FraudDetectorClientTypes.UncertaintyRange.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.OFIModelPerformance {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FraudDetectorClientTypes.OFIModelPerformance()
@@ -7334,12 +6985,6 @@ extension FraudDetectorClientTypes {
 
 extension FraudDetectorClientTypes.OFITrainingMetricsValue {
 
-    static func write(value: FraudDetectorClientTypes.OFITrainingMetricsValue?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["metricDataPoints"].writeList(value.metricDataPoints, memberWritingClosure: FraudDetectorClientTypes.OFIMetricDataPoint.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["modelPerformance"].write(value.modelPerformance, with: FraudDetectorClientTypes.OFIModelPerformance.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.OFITrainingMetricsValue {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FraudDetectorClientTypes.OFITrainingMetricsValue()
@@ -7370,15 +7015,6 @@ extension FraudDetectorClientTypes {
 }
 
 extension FraudDetectorClientTypes.Outcome {
-
-    static func write(value: FraudDetectorClientTypes.Outcome?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["createdTime"].write(value.createdTime)
-        try writer["description"].write(value.description)
-        try writer["lastUpdatedTime"].write(value.lastUpdatedTime)
-        try writer["name"].write(value.name)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.Outcome {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7426,12 +7062,6 @@ extension FraudDetectorClientTypes {
 
 extension FraudDetectorClientTypes.PredictionExplanations {
 
-    static func write(value: FraudDetectorClientTypes.PredictionExplanations?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["aggregatedVariablesImpactExplanations"].writeList(value.aggregatedVariablesImpactExplanations, memberWritingClosure: FraudDetectorClientTypes.AggregatedVariablesImpactExplanation.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["variableImpactExplanations"].writeList(value.variableImpactExplanations, memberWritingClosure: FraudDetectorClientTypes.VariableImpactExplanation.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.PredictionExplanations {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FraudDetectorClientTypes.PredictionExplanations()
@@ -7467,14 +7097,6 @@ extension FraudDetectorClientTypes.PredictionTimeRange {
         guard let value else { return }
         try writer["endTime"].write(value.endTime)
         try writer["startTime"].write(value.startTime)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.PredictionTimeRange {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FraudDetectorClientTypes.PredictionTimeRange()
-        value.startTime = try reader["startTime"].readIfPresent()
-        value.endTime = try reader["endTime"].readIfPresent()
-        return value
     }
 }
 
@@ -8153,20 +7775,6 @@ extension FraudDetectorClientTypes.RuleDetail: Swift.CustomDebugStringConvertibl
 
 extension FraudDetectorClientTypes.RuleDetail {
 
-    static func write(value: FraudDetectorClientTypes.RuleDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["createdTime"].write(value.createdTime)
-        try writer["description"].write(value.description)
-        try writer["detectorId"].write(value.detectorId)
-        try writer["expression"].write(value.expression)
-        try writer["language"].write(value.language)
-        try writer["lastUpdatedTime"].write(value.lastUpdatedTime)
-        try writer["outcomes"].writeList(value.outcomes, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ruleId"].write(value.ruleId)
-        try writer["ruleVersion"].write(value.ruleVersion)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.RuleDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FraudDetectorClientTypes.RuleDetail()
@@ -8267,12 +7875,6 @@ extension FraudDetectorClientTypes {
 }
 
 extension FraudDetectorClientTypes.RuleResult {
-
-    static func write(value: FraudDetectorClientTypes.RuleResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["outcomes"].writeList(value.outcomes, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ruleId"].write(value.ruleId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.RuleResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8398,14 +8000,6 @@ enum SendEventOutputError {
 
 extension FraudDetectorClientTypes.TFIMetricDataPoint {
 
-    static func write(value: FraudDetectorClientTypes.TFIMetricDataPoint?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["fpr"].write(value.fpr)
-        try writer["precision"].write(value.precision)
-        try writer["threshold"].write(value.threshold)
-        try writer["tpr"].write(value.tpr)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.TFIMetricDataPoint {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FraudDetectorClientTypes.TFIMetricDataPoint()
@@ -8447,12 +8041,6 @@ extension FraudDetectorClientTypes {
 
 extension FraudDetectorClientTypes.TFIModelPerformance {
 
-    static func write(value: FraudDetectorClientTypes.TFIModelPerformance?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["auc"].write(value.auc)
-        try writer["uncertaintyRange"].write(value.uncertaintyRange, with: FraudDetectorClientTypes.UncertaintyRange.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.TFIModelPerformance {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FraudDetectorClientTypes.TFIModelPerformance()
@@ -8483,12 +8071,6 @@ extension FraudDetectorClientTypes {
 }
 
 extension FraudDetectorClientTypes.TFITrainingMetricsValue {
-
-    static func write(value: FraudDetectorClientTypes.TFITrainingMetricsValue?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["metricDataPoints"].writeList(value.metricDataPoints, memberWritingClosure: FraudDetectorClientTypes.TFIMetricDataPoint.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["modelPerformance"].write(value.modelPerformance, with: FraudDetectorClientTypes.TFIModelPerformance.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.TFITrainingMetricsValue {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8729,12 +8311,6 @@ extension FraudDetectorClientTypes {
 
 extension FraudDetectorClientTypes.TrainingMetrics {
 
-    static func write(value: FraudDetectorClientTypes.TrainingMetrics?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["auc"].write(value.auc)
-        try writer["metricDataPoints"].writeList(value.metricDataPoints, memberWritingClosure: FraudDetectorClientTypes.MetricDataPoint.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.TrainingMetrics {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FraudDetectorClientTypes.TrainingMetrics()
@@ -8765,13 +8341,6 @@ extension FraudDetectorClientTypes {
 }
 
 extension FraudDetectorClientTypes.TrainingMetricsV2 {
-
-    static func write(value: FraudDetectorClientTypes.TrainingMetricsV2?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ati"].write(value.ati, with: FraudDetectorClientTypes.ATITrainingMetricsValue.write(value:to:))
-        try writer["ofi"].write(value.ofi, with: FraudDetectorClientTypes.OFITrainingMetricsValue.write(value:to:))
-        try writer["tfi"].write(value.tfi, with: FraudDetectorClientTypes.TFITrainingMetricsValue.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.TrainingMetricsV2 {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8809,13 +8378,6 @@ extension FraudDetectorClientTypes {
 
 extension FraudDetectorClientTypes.TrainingResult {
 
-    static func write(value: FraudDetectorClientTypes.TrainingResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["dataValidationMetrics"].write(value.dataValidationMetrics, with: FraudDetectorClientTypes.DataValidationMetrics.write(value:to:))
-        try writer["trainingMetrics"].write(value.trainingMetrics, with: FraudDetectorClientTypes.TrainingMetrics.write(value:to:))
-        try writer["variableImportanceMetrics"].write(value.variableImportanceMetrics, with: FraudDetectorClientTypes.VariableImportanceMetrics.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.TrainingResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FraudDetectorClientTypes.TrainingResult()
@@ -8851,14 +8413,6 @@ extension FraudDetectorClientTypes {
 }
 
 extension FraudDetectorClientTypes.TrainingResultV2 {
-
-    static func write(value: FraudDetectorClientTypes.TrainingResultV2?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["aggregatedVariablesImportanceMetrics"].write(value.aggregatedVariablesImportanceMetrics, with: FraudDetectorClientTypes.AggregatedVariablesImportanceMetrics.write(value:to:))
-        try writer["dataValidationMetrics"].write(value.dataValidationMetrics, with: FraudDetectorClientTypes.DataValidationMetrics.write(value:to:))
-        try writer["trainingMetricsV2"].write(value.trainingMetricsV2, with: FraudDetectorClientTypes.TrainingMetricsV2.write(value:to:))
-        try writer["variableImportanceMetrics"].write(value.variableImportanceMetrics, with: FraudDetectorClientTypes.VariableImportanceMetrics.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.TrainingResultV2 {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8900,12 +8454,6 @@ extension FraudDetectorClientTypes {
 }
 
 extension FraudDetectorClientTypes.UncertaintyRange {
-
-    static func write(value: FraudDetectorClientTypes.UncertaintyRange?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["lowerBoundValue"].write(value.lowerBoundValue)
-        try writer["upperBoundValue"].write(value.upperBoundValue)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.UncertaintyRange {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -9975,19 +9523,6 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
 extension FraudDetectorClientTypes.Variable {
 
-    static func write(value: FraudDetectorClientTypes.Variable?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["createdTime"].write(value.createdTime)
-        try writer["dataSource"].write(value.dataSource)
-        try writer["dataType"].write(value.dataType)
-        try writer["defaultValue"].write(value.defaultValue)
-        try writer["description"].write(value.description)
-        try writer["lastUpdatedTime"].write(value.lastUpdatedTime)
-        try writer["name"].write(value.name)
-        try writer["variableType"].write(value.variableType)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.Variable {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FraudDetectorClientTypes.Variable()
@@ -10063,18 +9598,6 @@ extension FraudDetectorClientTypes.VariableEntry {
         try writer["name"].write(value.name)
         try writer["variableType"].write(value.variableType)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.VariableEntry {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FraudDetectorClientTypes.VariableEntry()
-        value.name = try reader["name"].readIfPresent()
-        value.dataType = try reader["dataType"].readIfPresent()
-        value.dataSource = try reader["dataSource"].readIfPresent()
-        value.defaultValue = try reader["defaultValue"].readIfPresent()
-        value.description = try reader["description"].readIfPresent()
-        value.variableType = try reader["variableType"].readIfPresent()
-        return value
-    }
 }
 
 extension FraudDetectorClientTypes {
@@ -10115,13 +9638,6 @@ extension FraudDetectorClientTypes {
 
 extension FraudDetectorClientTypes.VariableImpactExplanation {
 
-    static func write(value: FraudDetectorClientTypes.VariableImpactExplanation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["eventVariableName"].write(value.eventVariableName)
-        try writer["logOddsImpact"].write(value.logOddsImpact)
-        try writer["relativeImpact"].write(value.relativeImpact)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.VariableImpactExplanation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FraudDetectorClientTypes.VariableImpactExplanation()
@@ -10161,11 +9677,6 @@ extension FraudDetectorClientTypes {
 }
 
 extension FraudDetectorClientTypes.VariableImportanceMetrics {
-
-    static func write(value: FraudDetectorClientTypes.VariableImportanceMetrics?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["logOddsMetrics"].writeList(value.logOddsMetrics, memberWritingClosure: FraudDetectorClientTypes.LogOddsMetric.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.VariableImportanceMetrics {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

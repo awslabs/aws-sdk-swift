@@ -2678,20 +2678,6 @@ extension MigrationHubOrchestratorClientTypes {
 
 extension MigrationHubOrchestratorClientTypes.MigrationWorkflowSummary {
 
-    static func write(value: MigrationHubOrchestratorClientTypes.MigrationWorkflowSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["adsApplicationConfigurationName"].write(value.adsApplicationConfigurationName)
-        try writer["completedSteps"].write(value.completedSteps)
-        try writer["creationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["endTime"].writeTimestamp(value.endTime, format: .epochSeconds)
-        try writer["id"].write(value.id)
-        try writer["name"].write(value.name)
-        try writer["status"].write(value.status)
-        try writer["statusMessage"].write(value.statusMessage)
-        try writer["templateId"].write(value.templateId)
-        try writer["totalSteps"].write(value.totalSteps)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubOrchestratorClientTypes.MigrationWorkflowSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MigrationHubOrchestratorClientTypes.MigrationWorkflowSummary()
@@ -2896,16 +2882,6 @@ extension MigrationHubOrchestratorClientTypes {
 }
 
 extension MigrationHubOrchestratorClientTypes.PluginSummary {
-
-    static func write(value: MigrationHubOrchestratorClientTypes.PluginSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["hostname"].write(value.hostname)
-        try writer["ipAddress"].write(value.ipAddress)
-        try writer["pluginId"].write(value.pluginId)
-        try writer["registeredTime"].write(value.registeredTime)
-        try writer["status"].write(value.status)
-        try writer["version"].write(value.version)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubOrchestratorClientTypes.PluginSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3250,15 +3226,6 @@ extension MigrationHubOrchestratorClientTypes {
 
 extension MigrationHubOrchestratorClientTypes.StepAutomationConfiguration {
 
-    static func write(value: MigrationHubOrchestratorClientTypes.StepAutomationConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["command"].write(value.command, with: MigrationHubOrchestratorClientTypes.PlatformCommand.write(value:to:))
-        try writer["runEnvironment"].write(value.runEnvironment)
-        try writer["scriptLocationS3Bucket"].write(value.scriptLocationS3Bucket)
-        try writer["scriptLocationS3Key"].write(value.scriptLocationS3Key, with: MigrationHubOrchestratorClientTypes.PlatformScriptKey.write(value:to:))
-        try writer["targetType"].write(value.targetType)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubOrchestratorClientTypes.StepAutomationConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MigrationHubOrchestratorClientTypes.StepAutomationConfiguration()
@@ -3404,13 +3371,6 @@ extension MigrationHubOrchestratorClientTypes {
 }
 
 extension MigrationHubOrchestratorClientTypes.StepOutput {
-
-    static func write(value: MigrationHubOrchestratorClientTypes.StepOutput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["dataType"].write(value.dataType)
-        try writer["name"].write(value.name)
-        try writer["required"].write(value.`required`)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubOrchestratorClientTypes.StepOutput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3677,13 +3637,6 @@ extension MigrationHubOrchestratorClientTypes {
 
 extension MigrationHubOrchestratorClientTypes.TemplateInput {
 
-    static func write(value: MigrationHubOrchestratorClientTypes.TemplateInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["dataType"].write(value.dataType)
-        try writer["inputName"].write(value.inputName)
-        try writer["required"].write(value.`required`)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubOrchestratorClientTypes.TemplateInput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MigrationHubOrchestratorClientTypes.TemplateInput()
@@ -3727,17 +3680,6 @@ extension MigrationHubOrchestratorClientTypes.TemplateSource {
                 try writer["workflowId"].write(workflowid)
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubOrchestratorClientTypes.TemplateSource {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "workflowId":
-                return .workflowid(try reader["workflowId"].read())
-            default:
-                return .sdkUnknown(name ?? "")
         }
     }
 }
@@ -3793,14 +3735,6 @@ extension MigrationHubOrchestratorClientTypes {
 
 extension MigrationHubOrchestratorClientTypes.TemplateStepGroupSummary {
 
-    static func write(value: MigrationHubOrchestratorClientTypes.TemplateStepGroupSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["id"].write(value.id)
-        try writer["name"].write(value.name)
-        try writer["next"].writeList(value.next, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["previous"].writeList(value.previous, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubOrchestratorClientTypes.TemplateStepGroupSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MigrationHubOrchestratorClientTypes.TemplateStepGroupSummary()
@@ -3841,19 +3775,6 @@ extension MigrationHubOrchestratorClientTypes {
 }
 
 extension MigrationHubOrchestratorClientTypes.TemplateStepSummary {
-
-    static func write(value: MigrationHubOrchestratorClientTypes.TemplateStepSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["id"].write(value.id)
-        try writer["name"].write(value.name)
-        try writer["next"].writeList(value.next, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["owner"].write(value.owner)
-        try writer["previous"].writeList(value.previous, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["stepActionType"].write(value.stepActionType)
-        try writer["stepGroupId"].write(value.stepGroupId)
-        try writer["targetType"].write(value.targetType)
-        try writer["templateId"].write(value.templateId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubOrchestratorClientTypes.TemplateStepSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3920,14 +3841,6 @@ extension MigrationHubOrchestratorClientTypes {
 }
 
 extension MigrationHubOrchestratorClientTypes.TemplateSummary {
-
-    static func write(value: MigrationHubOrchestratorClientTypes.TemplateSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["description"].write(value.description)
-        try writer["id"].write(value.id)
-        try writer["name"].write(value.name)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubOrchestratorClientTypes.TemplateSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4007,12 +3920,6 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 extension MigrationHubOrchestratorClientTypes.Tool {
-
-    static func write(value: MigrationHubOrchestratorClientTypes.Tool?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-        try writer["url"].write(value.url)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubOrchestratorClientTypes.Tool {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4752,16 +4659,6 @@ extension MigrationHubOrchestratorClientTypes {
 
 extension MigrationHubOrchestratorClientTypes.WorkflowStepGroupSummary {
 
-    static func write(value: MigrationHubOrchestratorClientTypes.WorkflowStepGroupSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["id"].write(value.id)
-        try writer["name"].write(value.name)
-        try writer["next"].writeList(value.next, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["owner"].write(value.owner)
-        try writer["previous"].writeList(value.previous, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubOrchestratorClientTypes.WorkflowStepGroupSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MigrationHubOrchestratorClientTypes.WorkflowStepGroupSummary()
@@ -4907,23 +4804,6 @@ extension MigrationHubOrchestratorClientTypes {
 }
 
 extension MigrationHubOrchestratorClientTypes.WorkflowStepSummary {
-
-    static func write(value: MigrationHubOrchestratorClientTypes.WorkflowStepSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["description"].write(value.description)
-        try writer["name"].write(value.name)
-        try writer["next"].writeList(value.next, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["noOfSrvCompleted"].write(value.noOfSrvCompleted)
-        try writer["noOfSrvFailed"].write(value.noOfSrvFailed)
-        try writer["owner"].write(value.owner)
-        try writer["previous"].writeList(value.previous, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["scriptLocation"].write(value.scriptLocation)
-        try writer["status"].write(value.status)
-        try writer["statusMessage"].write(value.statusMessage)
-        try writer["stepActionType"].write(value.stepActionType)
-        try writer["stepId"].write(value.stepId)
-        try writer["totalNoOfSrv"].write(value.totalNoOfSrv)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubOrchestratorClientTypes.WorkflowStepSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

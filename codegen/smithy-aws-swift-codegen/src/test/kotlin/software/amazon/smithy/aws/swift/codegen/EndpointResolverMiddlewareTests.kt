@@ -7,11 +7,11 @@ package software.amazon.smithy.aws.swift.codegen
 
 import io.kotest.matchers.string.shouldContainOnlyOnce
 import org.junit.jupiter.api.Test
-import software.amazon.smithy.aws.swift.codegen.middleware.EndpointResolverMiddleware
 import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.swift.codegen.MiddlewareGenerator
 import software.amazon.smithy.swift.codegen.SwiftDependency
 import software.amazon.smithy.swift.codegen.SwiftWriter
+import software.amazon.smithy.swift.codegen.middleware.EndpointResolverMiddleware
 
 class EndpointResolverMiddlewareTests {
     @Test
@@ -32,9 +32,9 @@ public struct EndpointResolverMiddleware<OperationStackOutput>: ClientRuntime.Mi
 
     let endpointParams: EndpointParams
 
-    let authSchemeResolver: AWSClientRuntime.AuthSchemeResolver
+    let authSchemeResolver: ClientRuntime.EndpointsAuthSchemeResolver
 
-    public init(endpointResolver: EndpointResolver, endpointParams: EndpointParams, authSchemeResolver: AWSClientRuntime.AuthSchemeResolver = AWSClientRuntime.DefaultAuthSchemeResolver()) {
+    public init(endpointResolver: EndpointResolver, endpointParams: EndpointParams, authSchemeResolver: ClientRuntime.EndpointsAuthSchemeResolver = ClientRuntime.DefaultEndpointsAuthSchemeResolver()) {
         self.endpointResolver = endpointResolver
         self.endpointParams = endpointParams
         self.authSchemeResolver = authSchemeResolver

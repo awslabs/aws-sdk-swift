@@ -811,19 +811,6 @@ extension Cloud9ClientTypes.Environment: Swift.CustomDebugStringConvertible {
 
 extension Cloud9ClientTypes.Environment {
 
-    static func write(value: Cloud9ClientTypes.Environment?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["connectionType"].write(value.connectionType)
-        try writer["description"].write(value.description)
-        try writer["id"].write(value.id)
-        try writer["lifecycle"].write(value.lifecycle, with: Cloud9ClientTypes.EnvironmentLifecycle.write(value:to:))
-        try writer["managedCredentialsStatus"].write(value.managedCredentialsStatus)
-        try writer["name"].write(value.name)
-        try writer["ownerArn"].write(value.ownerArn)
-        try writer["type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> Cloud9ClientTypes.Environment {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Cloud9ClientTypes.Environment()
@@ -917,13 +904,6 @@ extension Cloud9ClientTypes {
 
 extension Cloud9ClientTypes.EnvironmentLifecycle {
 
-    static func write(value: Cloud9ClientTypes.EnvironmentLifecycle?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["failureResource"].write(value.failureResource)
-        try writer["reason"].write(value.reason)
-        try writer["status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> Cloud9ClientTypes.EnvironmentLifecycle {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Cloud9ClientTypes.EnvironmentLifecycle()
@@ -1008,15 +988,6 @@ extension Cloud9ClientTypes {
 }
 
 extension Cloud9ClientTypes.EnvironmentMember {
-
-    static func write(value: Cloud9ClientTypes.EnvironmentMember?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["environmentId"].write(value.environmentId)
-        try writer["lastAccess"].writeTimestamp(value.lastAccess, format: .epochSeconds)
-        try writer["permissions"].write(value.permissions)
-        try writer["userArn"].write(value.userArn)
-        try writer["userId"].write(value.userId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Cloud9ClientTypes.EnvironmentMember {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

@@ -352,16 +352,6 @@ public struct InternalServerError: ClientRuntime.ModeledError, AWSClientRuntime.
 
 extension MediaStoreDataClientTypes.Item {
 
-    static func write(value: MediaStoreDataClientTypes.Item?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ContentLength"].write(value.contentLength)
-        try writer["ContentType"].write(value.contentType)
-        try writer["ETag"].write(value.eTag)
-        try writer["LastModified"].writeTimestamp(value.lastModified, format: .epochSeconds)
-        try writer["Name"].write(value.name)
-        try writer["Type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MediaStoreDataClientTypes.Item {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaStoreDataClientTypes.Item()

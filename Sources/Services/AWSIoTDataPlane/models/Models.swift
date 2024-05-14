@@ -877,14 +877,6 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
 extension IoTDataPlaneClientTypes.RetainedMessageSummary {
 
-    static func write(value: IoTDataPlaneClientTypes.RetainedMessageSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["lastModifiedTime"].write(value.lastModifiedTime)
-        try writer["payloadSize"].write(value.payloadSize)
-        try writer["qos"].write(value.qos)
-        try writer["topic"].write(value.topic)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTDataPlaneClientTypes.RetainedMessageSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTDataPlaneClientTypes.RetainedMessageSummary()

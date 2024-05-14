@@ -42,16 +42,6 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
 extension BackupStorageClientTypes.BackupObject {
 
-    static func write(value: BackupStorageClientTypes.BackupObject?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ChunksCount"].write(value.chunksCount)
-        try writer["MetadataString"].write(value.metadataString)
-        try writer["Name"].write(value.name)
-        try writer["ObjectChecksum"].write(value.objectChecksum)
-        try writer["ObjectChecksumAlgorithm"].write(value.objectChecksumAlgorithm)
-        try writer["ObjectToken"].write(value.objectToken)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> BackupStorageClientTypes.BackupObject {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BackupStorageClientTypes.BackupObject()
@@ -108,15 +98,6 @@ extension BackupStorageClientTypes {
 public enum BackupStorageClientTypes {}
 
 extension BackupStorageClientTypes.Chunk {
-
-    static func write(value: BackupStorageClientTypes.Chunk?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Checksum"].write(value.checksum)
-        try writer["ChecksumAlgorithm"].write(value.checksumAlgorithm)
-        try writer["ChunkToken"].write(value.chunkToken)
-        try writer["Index"].write(value.index)
-        try writer["Length"].write(value.length)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> BackupStorageClientTypes.Chunk {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

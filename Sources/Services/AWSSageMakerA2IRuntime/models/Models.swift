@@ -233,13 +233,6 @@ extension SageMakerA2IRuntimeClientTypes.HumanLoopDataAttributes {
         guard let value else { return }
         try writer["ContentClassifiers"].writeList(value.contentClassifiers, memberWritingClosure: SageMakerA2IRuntimeClientTypes.ContentClassifier.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerA2IRuntimeClientTypes.HumanLoopDataAttributes {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SageMakerA2IRuntimeClientTypes.HumanLoopDataAttributes()
-        value.contentClassifiers = try reader["ContentClassifiers"].readListIfPresent(memberReadingClosure: SageMakerA2IRuntimeClientTypes.ContentClassifier.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
 }
 
 extension SageMakerA2IRuntimeClientTypes {
@@ -265,13 +258,6 @@ extension SageMakerA2IRuntimeClientTypes.HumanLoopInput {
         guard let value else { return }
         try writer["InputContent"].write(value.inputContent)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerA2IRuntimeClientTypes.HumanLoopInput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SageMakerA2IRuntimeClientTypes.HumanLoopInput()
-        value.inputContent = try reader["InputContent"].readIfPresent()
-        return value
-    }
 }
 
 extension SageMakerA2IRuntimeClientTypes {
@@ -292,11 +278,6 @@ extension SageMakerA2IRuntimeClientTypes {
 }
 
 extension SageMakerA2IRuntimeClientTypes.HumanLoopOutput {
-
-    static func write(value: SageMakerA2IRuntimeClientTypes.HumanLoopOutput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["OutputS3Uri"].write(value.outputS3Uri)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerA2IRuntimeClientTypes.HumanLoopOutput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -363,15 +344,6 @@ extension SageMakerA2IRuntimeClientTypes {
 }
 
 extension SageMakerA2IRuntimeClientTypes.HumanLoopSummary {
-
-    static func write(value: SageMakerA2IRuntimeClientTypes.HumanLoopSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .dateTime)
-        try writer["FailureReason"].write(value.failureReason)
-        try writer["FlowDefinitionArn"].write(value.flowDefinitionArn)
-        try writer["HumanLoopName"].write(value.humanLoopName)
-        try writer["HumanLoopStatus"].write(value.humanLoopStatus)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerA2IRuntimeClientTypes.HumanLoopSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

@@ -121,13 +121,6 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
 extension ProtonClientTypes.AccountSettings {
 
-    static func write(value: ProtonClientTypes.AccountSettings?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["pipelineCodebuildRoleArn"].write(value.pipelineCodebuildRoleArn)
-        try writer["pipelineProvisioningRepository"].write(value.pipelineProvisioningRepository, with: ProtonClientTypes.RepositoryBranch.write(value:to:))
-        try writer["pipelineServiceRoleArn"].write(value.pipelineServiceRoleArn)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.AccountSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ProtonClientTypes.AccountSettings()
@@ -515,12 +508,6 @@ enum CancelServicePipelineDeploymentOutputError {
 
 extension ProtonClientTypes.CompatibleEnvironmentTemplate {
 
-    static func write(value: ProtonClientTypes.CompatibleEnvironmentTemplate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["majorVersion"].write(value.majorVersion)
-        try writer["templateName"].write(value.templateName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.CompatibleEnvironmentTemplate {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ProtonClientTypes.CompatibleEnvironmentTemplate()
@@ -559,14 +546,6 @@ extension ProtonClientTypes.CompatibleEnvironmentTemplateInput {
         try writer["majorVersion"].write(value.majorVersion)
         try writer["templateName"].write(value.templateName)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.CompatibleEnvironmentTemplateInput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ProtonClientTypes.CompatibleEnvironmentTemplateInput()
-        value.templateName = try reader["templateName"].readIfPresent()
-        value.majorVersion = try reader["majorVersion"].readIfPresent()
-        return value
-    }
 }
 
 extension ProtonClientTypes {
@@ -597,26 +576,6 @@ extension ProtonClientTypes.Component: Swift.CustomDebugStringConvertible {
 }
 
 extension ProtonClientTypes.Component {
-
-    static func write(value: ProtonClientTypes.Component?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["deploymentStatus"].write(value.deploymentStatus)
-        try writer["deploymentStatusMessage"].write(value.deploymentStatusMessage)
-        try writer["description"].write(value.description)
-        try writer["environmentName"].write(value.environmentName)
-        try writer["lastAttemptedDeploymentId"].write(value.lastAttemptedDeploymentId)
-        try writer["lastClientRequestToken"].write(value.lastClientRequestToken)
-        try writer["lastDeploymentAttemptedAt"].writeTimestamp(value.lastDeploymentAttemptedAt, format: .epochSeconds)
-        try writer["lastDeploymentSucceededAt"].writeTimestamp(value.lastDeploymentSucceededAt, format: .epochSeconds)
-        try writer["lastModifiedAt"].writeTimestamp(value.lastModifiedAt, format: .epochSeconds)
-        try writer["lastSucceededDeploymentId"].write(value.lastSucceededDeploymentId)
-        try writer["name"].write(value.name)
-        try writer["serviceInstanceName"].write(value.serviceInstanceName)
-        try writer["serviceName"].write(value.serviceName)
-        try writer["serviceSpec"].write(value.serviceSpec)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.Component {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -760,14 +719,6 @@ extension ProtonClientTypes.ComponentState: Swift.CustomDebugStringConvertible {
 
 extension ProtonClientTypes.ComponentState {
 
-    static func write(value: ProtonClientTypes.ComponentState?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["serviceInstanceName"].write(value.serviceInstanceName)
-        try writer["serviceName"].write(value.serviceName)
-        try writer["serviceSpec"].write(value.serviceSpec)
-        try writer["templateFile"].write(value.templateFile)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.ComponentState {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ProtonClientTypes.ComponentState()
@@ -813,23 +764,6 @@ extension ProtonClientTypes.ComponentSummary: Swift.CustomDebugStringConvertible
 }
 
 extension ProtonClientTypes.ComponentSummary {
-
-    static func write(value: ProtonClientTypes.ComponentSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["deploymentStatus"].write(value.deploymentStatus)
-        try writer["deploymentStatusMessage"].write(value.deploymentStatusMessage)
-        try writer["environmentName"].write(value.environmentName)
-        try writer["lastAttemptedDeploymentId"].write(value.lastAttemptedDeploymentId)
-        try writer["lastDeploymentAttemptedAt"].writeTimestamp(value.lastDeploymentAttemptedAt, format: .epochSeconds)
-        try writer["lastDeploymentSucceededAt"].writeTimestamp(value.lastDeploymentSucceededAt, format: .epochSeconds)
-        try writer["lastModifiedAt"].writeTimestamp(value.lastModifiedAt, format: .epochSeconds)
-        try writer["lastSucceededDeploymentId"].write(value.lastSucceededDeploymentId)
-        try writer["name"].write(value.name)
-        try writer["serviceInstanceName"].write(value.serviceInstanceName)
-        try writer["serviceName"].write(value.serviceName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.ComponentSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -965,17 +899,6 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 }
 
 extension ProtonClientTypes.CountsSummary {
-
-    static func write(value: ProtonClientTypes.CountsSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["components"].write(value.components, with: ProtonClientTypes.ResourceCountsSummary.write(value:to:))
-        try writer["environmentTemplates"].write(value.environmentTemplates, with: ProtonClientTypes.ResourceCountsSummary.write(value:to:))
-        try writer["environments"].write(value.environments, with: ProtonClientTypes.ResourceCountsSummary.write(value:to:))
-        try writer["pipelines"].write(value.pipelines, with: ProtonClientTypes.ResourceCountsSummary.write(value:to:))
-        try writer["serviceInstances"].write(value.serviceInstances, with: ProtonClientTypes.ResourceCountsSummary.write(value:to:))
-        try writer["serviceTemplates"].write(value.serviceTemplates, with: ProtonClientTypes.ResourceCountsSummary.write(value:to:))
-        try writer["services"].write(value.services, with: ProtonClientTypes.ResourceCountsSummary.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.CountsSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3236,28 +3159,6 @@ extension ProtonClientTypes.Deployment: Swift.CustomDebugStringConvertible {
 
 extension ProtonClientTypes.Deployment {
 
-    static func write(value: ProtonClientTypes.Deployment?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["completedAt"].writeTimestamp(value.completedAt, format: .epochSeconds)
-        try writer["componentName"].write(value.componentName)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["deploymentStatus"].write(value.deploymentStatus)
-        try writer["deploymentStatusMessage"].write(value.deploymentStatusMessage)
-        try writer["environmentName"].write(value.environmentName)
-        try writer["id"].write(value.id)
-        try writer["initialState"].write(value.initialState, with: ProtonClientTypes.DeploymentState.write(value:to:))
-        try writer["lastAttemptedDeploymentId"].write(value.lastAttemptedDeploymentId)
-        try writer["lastModifiedAt"].writeTimestamp(value.lastModifiedAt, format: .epochSeconds)
-        try writer["lastSucceededDeploymentId"].write(value.lastSucceededDeploymentId)
-        try writer["serviceInstanceName"].write(value.serviceInstanceName)
-        try writer["serviceName"].write(value.serviceName)
-        try writer["targetArn"].write(value.targetArn)
-        try writer["targetResourceCreatedAt"].writeTimestamp(value.targetResourceCreatedAt, format: .epochSeconds)
-        try writer["targetResourceType"].write(value.targetResourceType)
-        try writer["targetState"].write(value.targetState, with: ProtonClientTypes.DeploymentState.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.Deployment {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ProtonClientTypes.Deployment()
@@ -3378,22 +3279,6 @@ extension ProtonClientTypes {
 
 extension ProtonClientTypes.DeploymentState {
 
-    static func write(value: ProtonClientTypes.DeploymentState?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .component(component):
-                try writer["component"].write(component, with: ProtonClientTypes.ComponentState.write(value:to:))
-            case let .environment(environment):
-                try writer["environment"].write(environment, with: ProtonClientTypes.EnvironmentState.write(value:to:))
-            case let .serviceinstance(serviceinstance):
-                try writer["serviceInstance"].write(serviceinstance, with: ProtonClientTypes.ServiceInstanceState.write(value:to:))
-            case let .servicepipeline(servicepipeline):
-                try writer["servicePipeline"].write(servicepipeline, with: ProtonClientTypes.ServicePipelineState.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.DeploymentState {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
@@ -3477,25 +3362,6 @@ extension ProtonClientTypes {
 }
 
 extension ProtonClientTypes.DeploymentSummary {
-
-    static func write(value: ProtonClientTypes.DeploymentSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["completedAt"].writeTimestamp(value.completedAt, format: .epochSeconds)
-        try writer["componentName"].write(value.componentName)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["deploymentStatus"].write(value.deploymentStatus)
-        try writer["environmentName"].write(value.environmentName)
-        try writer["id"].write(value.id)
-        try writer["lastAttemptedDeploymentId"].write(value.lastAttemptedDeploymentId)
-        try writer["lastModifiedAt"].writeTimestamp(value.lastModifiedAt, format: .epochSeconds)
-        try writer["lastSucceededDeploymentId"].write(value.lastSucceededDeploymentId)
-        try writer["serviceInstanceName"].write(value.serviceInstanceName)
-        try writer["serviceName"].write(value.serviceName)
-        try writer["targetArn"].write(value.targetArn)
-        try writer["targetResourceCreatedAt"].writeTimestamp(value.targetResourceCreatedAt, format: .epochSeconds)
-        try writer["targetResourceType"].write(value.targetResourceType)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.DeploymentSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3679,31 +3545,6 @@ extension ProtonClientTypes.Environment: Swift.CustomDebugStringConvertible {
 
 extension ProtonClientTypes.Environment {
 
-    static func write(value: ProtonClientTypes.Environment?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["codebuildRoleArn"].write(value.codebuildRoleArn)
-        try writer["componentRoleArn"].write(value.componentRoleArn)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["deploymentStatus"].write(value.deploymentStatus)
-        try writer["deploymentStatusMessage"].write(value.deploymentStatusMessage)
-        try writer["description"].write(value.description)
-        try writer["environmentAccountConnectionId"].write(value.environmentAccountConnectionId)
-        try writer["environmentAccountId"].write(value.environmentAccountId)
-        try writer["lastAttemptedDeploymentId"].write(value.lastAttemptedDeploymentId)
-        try writer["lastDeploymentAttemptedAt"].writeTimestamp(value.lastDeploymentAttemptedAt, format: .epochSeconds)
-        try writer["lastDeploymentSucceededAt"].writeTimestamp(value.lastDeploymentSucceededAt, format: .epochSeconds)
-        try writer["lastSucceededDeploymentId"].write(value.lastSucceededDeploymentId)
-        try writer["name"].write(value.name)
-        try writer["protonServiceRoleArn"].write(value.protonServiceRoleArn)
-        try writer["provisioning"].write(value.provisioning)
-        try writer["provisioningRepository"].write(value.provisioningRepository, with: ProtonClientTypes.RepositoryBranch.write(value:to:))
-        try writer["spec"].write(value.spec)
-        try writer["templateMajorVersion"].write(value.templateMajorVersion)
-        try writer["templateMinorVersion"].write(value.templateMinorVersion)
-        try writer["templateName"].write(value.templateName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.Environment {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ProtonClientTypes.Environment()
@@ -3838,21 +3679,6 @@ extension ProtonClientTypes {
 }
 
 extension ProtonClientTypes.EnvironmentAccountConnection {
-
-    static func write(value: ProtonClientTypes.EnvironmentAccountConnection?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["codebuildRoleArn"].write(value.codebuildRoleArn)
-        try writer["componentRoleArn"].write(value.componentRoleArn)
-        try writer["environmentAccountId"].write(value.environmentAccountId)
-        try writer["environmentName"].write(value.environmentName)
-        try writer["id"].write(value.id)
-        try writer["lastModifiedAt"].writeTimestamp(value.lastModifiedAt, format: .epochSeconds)
-        try writer["managementAccountId"].write(value.managementAccountId)
-        try writer["requestedAt"].writeTimestamp(value.requestedAt, format: .epochSeconds)
-        try writer["roleArn"].write(value.roleArn)
-        try writer["status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.EnvironmentAccountConnection {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4002,20 +3828,6 @@ extension ProtonClientTypes {
 
 extension ProtonClientTypes.EnvironmentAccountConnectionSummary {
 
-    static func write(value: ProtonClientTypes.EnvironmentAccountConnectionSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["componentRoleArn"].write(value.componentRoleArn)
-        try writer["environmentAccountId"].write(value.environmentAccountId)
-        try writer["environmentName"].write(value.environmentName)
-        try writer["id"].write(value.id)
-        try writer["lastModifiedAt"].writeTimestamp(value.lastModifiedAt, format: .epochSeconds)
-        try writer["managementAccountId"].write(value.managementAccountId)
-        try writer["requestedAt"].writeTimestamp(value.requestedAt, format: .epochSeconds)
-        try writer["roleArn"].write(value.roleArn)
-        try writer["status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.EnvironmentAccountConnectionSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ProtonClientTypes.EnvironmentAccountConnectionSummary()
@@ -4101,14 +3913,6 @@ extension ProtonClientTypes.EnvironmentState: Swift.CustomDebugStringConvertible
 
 extension ProtonClientTypes.EnvironmentState {
 
-    static func write(value: ProtonClientTypes.EnvironmentState?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["spec"].write(value.spec)
-        try writer["templateMajorVersion"].write(value.templateMajorVersion)
-        try writer["templateMinorVersion"].write(value.templateMinorVersion)
-        try writer["templateName"].write(value.templateName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.EnvironmentState {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ProtonClientTypes.EnvironmentState()
@@ -4157,28 +3961,6 @@ extension ProtonClientTypes.EnvironmentSummary: Swift.CustomDebugStringConvertib
 }
 
 extension ProtonClientTypes.EnvironmentSummary {
-
-    static func write(value: ProtonClientTypes.EnvironmentSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["componentRoleArn"].write(value.componentRoleArn)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["deploymentStatus"].write(value.deploymentStatus)
-        try writer["deploymentStatusMessage"].write(value.deploymentStatusMessage)
-        try writer["description"].write(value.description)
-        try writer["environmentAccountConnectionId"].write(value.environmentAccountConnectionId)
-        try writer["environmentAccountId"].write(value.environmentAccountId)
-        try writer["lastAttemptedDeploymentId"].write(value.lastAttemptedDeploymentId)
-        try writer["lastDeploymentAttemptedAt"].writeTimestamp(value.lastDeploymentAttemptedAt, format: .epochSeconds)
-        try writer["lastDeploymentSucceededAt"].writeTimestamp(value.lastDeploymentSucceededAt, format: .epochSeconds)
-        try writer["lastSucceededDeploymentId"].write(value.lastSucceededDeploymentId)
-        try writer["name"].write(value.name)
-        try writer["protonServiceRoleArn"].write(value.protonServiceRoleArn)
-        try writer["provisioning"].write(value.provisioning)
-        try writer["templateMajorVersion"].write(value.templateMajorVersion)
-        try writer["templateMinorVersion"].write(value.templateMinorVersion)
-        try writer["templateName"].write(value.templateName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.EnvironmentSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4305,19 +4087,6 @@ extension ProtonClientTypes.EnvironmentTemplate: Swift.CustomDebugStringConverti
 
 extension ProtonClientTypes.EnvironmentTemplate {
 
-    static func write(value: ProtonClientTypes.EnvironmentTemplate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["description"].write(value.description)
-        try writer["displayName"].write(value.displayName)
-        try writer["encryptionKey"].write(value.encryptionKey)
-        try writer["lastModifiedAt"].writeTimestamp(value.lastModifiedAt, format: .epochSeconds)
-        try writer["name"].write(value.name)
-        try writer["provisioning"].write(value.provisioning)
-        try writer["recommendedVersion"].write(value.recommendedVersion)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.EnvironmentTemplate {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ProtonClientTypes.EnvironmentTemplate()
@@ -4393,14 +4162,6 @@ extension ProtonClientTypes.EnvironmentTemplateFilter {
         try writer["majorVersion"].write(value.majorVersion)
         try writer["templateName"].write(value.templateName)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.EnvironmentTemplateFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ProtonClientTypes.EnvironmentTemplateFilter()
-        value.templateName = try reader["templateName"].readIfPresent()
-        value.majorVersion = try reader["majorVersion"].readIfPresent()
-        return value
-    }
 }
 
 extension ProtonClientTypes {
@@ -4431,18 +4192,6 @@ extension ProtonClientTypes.EnvironmentTemplateSummary: Swift.CustomDebugStringC
 }
 
 extension ProtonClientTypes.EnvironmentTemplateSummary {
-
-    static func write(value: ProtonClientTypes.EnvironmentTemplateSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["description"].write(value.description)
-        try writer["displayName"].write(value.displayName)
-        try writer["lastModifiedAt"].writeTimestamp(value.lastModifiedAt, format: .epochSeconds)
-        try writer["name"].write(value.name)
-        try writer["provisioning"].write(value.provisioning)
-        try writer["recommendedVersion"].write(value.recommendedVersion)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.EnvironmentTemplateSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4513,21 +4262,6 @@ extension ProtonClientTypes.EnvironmentTemplateVersion: Swift.CustomDebugStringC
 }
 
 extension ProtonClientTypes.EnvironmentTemplateVersion {
-
-    static func write(value: ProtonClientTypes.EnvironmentTemplateVersion?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["description"].write(value.description)
-        try writer["lastModifiedAt"].writeTimestamp(value.lastModifiedAt, format: .epochSeconds)
-        try writer["majorVersion"].write(value.majorVersion)
-        try writer["minorVersion"].write(value.minorVersion)
-        try writer["recommendedMinorVersion"].write(value.recommendedMinorVersion)
-        try writer["schema"].write(value.schema)
-        try writer["status"].write(value.status)
-        try writer["statusMessage"].write(value.statusMessage)
-        try writer["templateName"].write(value.templateName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.EnvironmentTemplateVersion {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4616,20 +4350,6 @@ extension ProtonClientTypes.EnvironmentTemplateVersionSummary: Swift.CustomDebug
 }
 
 extension ProtonClientTypes.EnvironmentTemplateVersionSummary {
-
-    static func write(value: ProtonClientTypes.EnvironmentTemplateVersionSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["description"].write(value.description)
-        try writer["lastModifiedAt"].writeTimestamp(value.lastModifiedAt, format: .epochSeconds)
-        try writer["majorVersion"].write(value.majorVersion)
-        try writer["minorVersion"].write(value.minorVersion)
-        try writer["recommendedMinorVersion"].write(value.recommendedMinorVersion)
-        try writer["status"].write(value.status)
-        try writer["statusMessage"].write(value.statusMessage)
-        try writer["templateName"].write(value.templateName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.EnvironmentTemplateVersionSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7431,14 +7151,6 @@ extension ProtonClientTypes.ListServiceInstancesFilter {
         try writer["key"].write(value.key)
         try writer["value"].write(value.value)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.ListServiceInstancesFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ProtonClientTypes.ListServiceInstancesFilter()
-        value.key = try reader["key"].readIfPresent()
-        value.value = try reader["value"].readIfPresent()
-        return value
-    }
 }
 
 extension ProtonClientTypes {
@@ -8292,13 +8004,6 @@ public enum ProtonClientTypes {}
 
 extension ProtonClientTypes.ProvisionedResource {
 
-    static func write(value: ProtonClientTypes.ProvisionedResource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["identifier"].write(value.identifier)
-        try writer["name"].write(value.name)
-        try writer["provisioningEngine"].write(value.provisioningEngine)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.ProvisionedResource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ProtonClientTypes.ProvisionedResource()
@@ -8465,15 +8170,6 @@ enum RejectEnvironmentAccountConnectionOutputError {
 
 extension ProtonClientTypes.Repository {
 
-    static func write(value: ProtonClientTypes.Repository?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["connectionArn"].write(value.connectionArn)
-        try writer["encryptionKey"].write(value.encryptionKey)
-        try writer["name"].write(value.name)
-        try writer["provider"].write(value.provider)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.Repository {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ProtonClientTypes.Repository()
@@ -8523,14 +8219,6 @@ extension ProtonClientTypes {
 }
 
 extension ProtonClientTypes.RepositoryBranch {
-
-    static func write(value: ProtonClientTypes.RepositoryBranch?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["branch"].write(value.branch)
-        try writer["name"].write(value.name)
-        try writer["provider"].write(value.provider)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.RepositoryBranch {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8582,15 +8270,6 @@ extension ProtonClientTypes.RepositoryBranchInput {
         try writer["branch"].write(value.branch)
         try writer["name"].write(value.name)
         try writer["provider"].write(value.provider)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.RepositoryBranchInput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ProtonClientTypes.RepositoryBranchInput()
-        value.provider = try reader["provider"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.branch = try reader["branch"].readIfPresent()
-        return value
     }
 }
 
@@ -8656,14 +8335,6 @@ extension ProtonClientTypes {
 
 extension ProtonClientTypes.RepositorySummary {
 
-    static func write(value: ProtonClientTypes.RepositorySummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["connectionArn"].write(value.connectionArn)
-        try writer["name"].write(value.name)
-        try writer["provider"].write(value.provider)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.RepositorySummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ProtonClientTypes.RepositorySummary()
@@ -8709,13 +8380,6 @@ extension ProtonClientTypes {
 
 extension ProtonClientTypes.RepositorySyncAttempt {
 
-    static func write(value: ProtonClientTypes.RepositorySyncAttempt?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["events"].writeList(value.events, memberWritingClosure: ProtonClientTypes.RepositorySyncEvent.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["startedAt"].writeTimestamp(value.startedAt, format: .epochSeconds)
-        try writer["status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.RepositorySyncAttempt {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ProtonClientTypes.RepositorySyncAttempt()
@@ -8754,14 +8418,6 @@ extension ProtonClientTypes {
 }
 
 extension ProtonClientTypes.RepositorySyncDefinition {
-
-    static func write(value: ProtonClientTypes.RepositorySyncDefinition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["branch"].write(value.branch)
-        try writer["directory"].write(value.directory)
-        try writer["parent"].write(value.parent)
-        try writer["target"].write(value.target)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.RepositorySyncDefinition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8807,14 +8463,6 @@ extension ProtonClientTypes {
 }
 
 extension ProtonClientTypes.RepositorySyncEvent {
-
-    static func write(value: ProtonClientTypes.RepositorySyncEvent?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["event"].write(value.event)
-        try writer["externalId"].write(value.externalId)
-        try writer["time"].writeTimestamp(value.time, format: .epochSeconds)
-        try writer["type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.RepositorySyncEvent {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8903,15 +8551,6 @@ extension ProtonClientTypes {
 }
 
 extension ProtonClientTypes.ResourceCountsSummary {
-
-    static func write(value: ProtonClientTypes.ResourceCountsSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["behindMajor"].write(value.behindMajor)
-        try writer["behindMinor"].write(value.behindMinor)
-        try writer["failed"].write(value.failed)
-        try writer["total"].write(value.total)
-        try writer["upToDate"].write(value.upToDate)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.ResourceCountsSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -9037,16 +8676,6 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
 extension ProtonClientTypes.ResourceSyncAttempt {
 
-    static func write(value: ProtonClientTypes.ResourceSyncAttempt?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["events"].writeList(value.events, memberWritingClosure: ProtonClientTypes.ResourceSyncEvent.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["initialRevision"].write(value.initialRevision, with: ProtonClientTypes.Revision.write(value:to:))
-        try writer["startedAt"].writeTimestamp(value.startedAt, format: .epochSeconds)
-        try writer["status"].write(value.status)
-        try writer["target"].write(value.target)
-        try writer["targetRevision"].write(value.targetRevision, with: ProtonClientTypes.Revision.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.ResourceSyncAttempt {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ProtonClientTypes.ResourceSyncAttempt()
@@ -9103,14 +8732,6 @@ extension ProtonClientTypes {
 }
 
 extension ProtonClientTypes.ResourceSyncEvent {
-
-    static func write(value: ProtonClientTypes.ResourceSyncEvent?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["event"].write(value.event)
-        try writer["externalId"].write(value.externalId)
-        try writer["time"].writeTimestamp(value.time, format: .epochSeconds)
-        try writer["type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.ResourceSyncEvent {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -9196,15 +8817,6 @@ extension ProtonClientTypes {
 
 extension ProtonClientTypes.Revision {
 
-    static func write(value: ProtonClientTypes.Revision?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["branch"].write(value.branch)
-        try writer["directory"].write(value.directory)
-        try writer["repositoryName"].write(value.repositoryName)
-        try writer["repositoryProvider"].write(value.repositoryProvider)
-        try writer["sha"].write(value.sha)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.Revision {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ProtonClientTypes.Revision()
@@ -9261,14 +8873,6 @@ extension ProtonClientTypes.S3ObjectSource {
         try writer["bucket"].write(value.bucket)
         try writer["key"].write(value.key)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.S3ObjectSource {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ProtonClientTypes.S3ObjectSource()
-        value.bucket = try reader["bucket"].readIfPresent()
-        value.key = try reader["key"].readIfPresent()
-        return value
-    }
 }
 
 extension ProtonClientTypes {
@@ -9299,23 +8903,6 @@ extension ProtonClientTypes.Service: Swift.CustomDebugStringConvertible {
 }
 
 extension ProtonClientTypes.Service {
-
-    static func write(value: ProtonClientTypes.Service?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["branchName"].write(value.branchName)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["description"].write(value.description)
-        try writer["lastModifiedAt"].writeTimestamp(value.lastModifiedAt, format: .epochSeconds)
-        try writer["name"].write(value.name)
-        try writer["pipeline"].write(value.pipeline, with: ProtonClientTypes.ServicePipeline.write(value:to:))
-        try writer["repositoryConnectionArn"].write(value.repositoryConnectionArn)
-        try writer["repositoryId"].write(value.repositoryId)
-        try writer["spec"].write(value.spec)
-        try writer["status"].write(value.status)
-        try writer["statusMessage"].write(value.statusMessage)
-        try writer["templateName"].write(value.templateName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.Service {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -9414,26 +9001,6 @@ extension ProtonClientTypes.ServiceInstance: Swift.CustomDebugStringConvertible 
 }
 
 extension ProtonClientTypes.ServiceInstance {
-
-    static func write(value: ProtonClientTypes.ServiceInstance?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["deploymentStatus"].write(value.deploymentStatus)
-        try writer["deploymentStatusMessage"].write(value.deploymentStatusMessage)
-        try writer["environmentName"].write(value.environmentName)
-        try writer["lastAttemptedDeploymentId"].write(value.lastAttemptedDeploymentId)
-        try writer["lastClientRequestToken"].write(value.lastClientRequestToken)
-        try writer["lastDeploymentAttemptedAt"].writeTimestamp(value.lastDeploymentAttemptedAt, format: .epochSeconds)
-        try writer["lastDeploymentSucceededAt"].writeTimestamp(value.lastDeploymentSucceededAt, format: .epochSeconds)
-        try writer["lastSucceededDeploymentId"].write(value.lastSucceededDeploymentId)
-        try writer["name"].write(value.name)
-        try writer["serviceName"].write(value.serviceName)
-        try writer["spec"].write(value.spec)
-        try writer["templateMajorVersion"].write(value.templateMajorVersion)
-        try writer["templateMinorVersion"].write(value.templateMinorVersion)
-        try writer["templateName"].write(value.templateName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.ServiceInstance {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -9552,17 +9119,6 @@ extension ProtonClientTypes.ServiceInstanceState: Swift.CustomDebugStringConvert
 
 extension ProtonClientTypes.ServiceInstanceState {
 
-    static func write(value: ProtonClientTypes.ServiceInstanceState?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["lastSuccessfulComponentDeploymentIds"].writeList(value.lastSuccessfulComponentDeploymentIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["lastSuccessfulEnvironmentDeploymentId"].write(value.lastSuccessfulEnvironmentDeploymentId)
-        try writer["lastSuccessfulServicePipelineDeploymentId"].write(value.lastSuccessfulServicePipelineDeploymentId)
-        try writer["spec"].write(value.spec)
-        try writer["templateMajorVersion"].write(value.templateMajorVersion)
-        try writer["templateMinorVersion"].write(value.templateMinorVersion)
-        try writer["templateName"].write(value.templateName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.ServiceInstanceState {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ProtonClientTypes.ServiceInstanceState()
@@ -9627,24 +9183,6 @@ extension ProtonClientTypes.ServiceInstanceSummary: Swift.CustomDebugStringConve
 }
 
 extension ProtonClientTypes.ServiceInstanceSummary {
-
-    static func write(value: ProtonClientTypes.ServiceInstanceSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["deploymentStatus"].write(value.deploymentStatus)
-        try writer["deploymentStatusMessage"].write(value.deploymentStatusMessage)
-        try writer["environmentName"].write(value.environmentName)
-        try writer["lastAttemptedDeploymentId"].write(value.lastAttemptedDeploymentId)
-        try writer["lastDeploymentAttemptedAt"].writeTimestamp(value.lastDeploymentAttemptedAt, format: .epochSeconds)
-        try writer["lastDeploymentSucceededAt"].writeTimestamp(value.lastDeploymentSucceededAt, format: .epochSeconds)
-        try writer["lastSucceededDeploymentId"].write(value.lastSucceededDeploymentId)
-        try writer["name"].write(value.name)
-        try writer["serviceName"].write(value.serviceName)
-        try writer["templateMajorVersion"].write(value.templateMajorVersion)
-        try writer["templateMinorVersion"].write(value.templateMinorVersion)
-        try writer["templateName"].write(value.templateName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.ServiceInstanceSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -9753,22 +9291,6 @@ extension ProtonClientTypes.ServicePipeline: Swift.CustomDebugStringConvertible 
 
 extension ProtonClientTypes.ServicePipeline {
 
-    static func write(value: ProtonClientTypes.ServicePipeline?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["deploymentStatus"].write(value.deploymentStatus)
-        try writer["deploymentStatusMessage"].write(value.deploymentStatusMessage)
-        try writer["lastAttemptedDeploymentId"].write(value.lastAttemptedDeploymentId)
-        try writer["lastDeploymentAttemptedAt"].writeTimestamp(value.lastDeploymentAttemptedAt, format: .epochSeconds)
-        try writer["lastDeploymentSucceededAt"].writeTimestamp(value.lastDeploymentSucceededAt, format: .epochSeconds)
-        try writer["lastSucceededDeploymentId"].write(value.lastSucceededDeploymentId)
-        try writer["spec"].write(value.spec)
-        try writer["templateMajorVersion"].write(value.templateMajorVersion)
-        try writer["templateMinorVersion"].write(value.templateMinorVersion)
-        try writer["templateName"].write(value.templateName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.ServicePipeline {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ProtonClientTypes.ServicePipeline()
@@ -9862,14 +9384,6 @@ extension ProtonClientTypes.ServicePipelineState: Swift.CustomDebugStringConvert
 }
 
 extension ProtonClientTypes.ServicePipelineState {
-
-    static func write(value: ProtonClientTypes.ServicePipelineState?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["spec"].write(value.spec)
-        try writer["templateMajorVersion"].write(value.templateMajorVersion)
-        try writer["templateMinorVersion"].write(value.templateMinorVersion)
-        try writer["templateName"].write(value.templateName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.ServicePipelineState {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -10029,18 +9543,6 @@ extension ProtonClientTypes.ServiceSummary: Swift.CustomDebugStringConvertible {
 
 extension ProtonClientTypes.ServiceSummary {
 
-    static func write(value: ProtonClientTypes.ServiceSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["description"].write(value.description)
-        try writer["lastModifiedAt"].writeTimestamp(value.lastModifiedAt, format: .epochSeconds)
-        try writer["name"].write(value.name)
-        try writer["status"].write(value.status)
-        try writer["statusMessage"].write(value.statusMessage)
-        try writer["templateName"].write(value.templateName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.ServiceSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ProtonClientTypes.ServiceSummary()
@@ -10108,13 +9610,6 @@ extension ProtonClientTypes {
 
 extension ProtonClientTypes.ServiceSyncBlockerSummary {
 
-    static func write(value: ProtonClientTypes.ServiceSyncBlockerSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["latestBlockers"].writeList(value.latestBlockers, memberWritingClosure: ProtonClientTypes.SyncBlocker.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["serviceInstanceName"].write(value.serviceInstanceName)
-        try writer["serviceName"].write(value.serviceName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.ServiceSyncBlockerSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ProtonClientTypes.ServiceSyncBlockerSummary()
@@ -10151,15 +9646,6 @@ extension ProtonClientTypes {
 }
 
 extension ProtonClientTypes.ServiceSyncConfig {
-
-    static func write(value: ProtonClientTypes.ServiceSyncConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["branch"].write(value.branch)
-        try writer["filePath"].write(value.filePath)
-        try writer["repositoryName"].write(value.repositoryName)
-        try writer["repositoryProvider"].write(value.repositoryProvider)
-        try writer["serviceName"].write(value.serviceName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.ServiceSyncConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -10216,19 +9702,6 @@ extension ProtonClientTypes.ServiceTemplate: Swift.CustomDebugStringConvertible 
 }
 
 extension ProtonClientTypes.ServiceTemplate {
-
-    static func write(value: ProtonClientTypes.ServiceTemplate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["description"].write(value.description)
-        try writer["displayName"].write(value.displayName)
-        try writer["encryptionKey"].write(value.encryptionKey)
-        try writer["lastModifiedAt"].writeTimestamp(value.lastModifiedAt, format: .epochSeconds)
-        try writer["name"].write(value.name)
-        try writer["pipelineProvisioning"].write(value.pipelineProvisioning)
-        try writer["recommendedVersion"].write(value.recommendedVersion)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.ServiceTemplate {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -10304,18 +9777,6 @@ extension ProtonClientTypes.ServiceTemplateSummary: Swift.CustomDebugStringConve
 }
 
 extension ProtonClientTypes.ServiceTemplateSummary {
-
-    static func write(value: ProtonClientTypes.ServiceTemplateSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["description"].write(value.description)
-        try writer["displayName"].write(value.displayName)
-        try writer["lastModifiedAt"].writeTimestamp(value.lastModifiedAt, format: .epochSeconds)
-        try writer["name"].write(value.name)
-        try writer["pipelineProvisioning"].write(value.pipelineProvisioning)
-        try writer["recommendedVersion"].write(value.recommendedVersion)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.ServiceTemplateSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -10413,23 +9874,6 @@ extension ProtonClientTypes.ServiceTemplateVersion: Swift.CustomDebugStringConve
 }
 
 extension ProtonClientTypes.ServiceTemplateVersion {
-
-    static func write(value: ProtonClientTypes.ServiceTemplateVersion?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["compatibleEnvironmentTemplates"].writeList(value.compatibleEnvironmentTemplates, memberWritingClosure: ProtonClientTypes.CompatibleEnvironmentTemplate.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["description"].write(value.description)
-        try writer["lastModifiedAt"].writeTimestamp(value.lastModifiedAt, format: .epochSeconds)
-        try writer["majorVersion"].write(value.majorVersion)
-        try writer["minorVersion"].write(value.minorVersion)
-        try writer["recommendedMinorVersion"].write(value.recommendedMinorVersion)
-        try writer["schema"].write(value.schema)
-        try writer["status"].write(value.status)
-        try writer["statusMessage"].write(value.statusMessage)
-        try writer["supportedComponentSources"].writeList(value.supportedComponentSources, memberWritingClosure: ProtonClientTypes.ServiceTemplateSupportedComponentSourceType.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["templateName"].write(value.templateName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.ServiceTemplateVersion {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -10529,20 +9973,6 @@ extension ProtonClientTypes.ServiceTemplateVersionSummary: Swift.CustomDebugStri
 }
 
 extension ProtonClientTypes.ServiceTemplateVersionSummary {
-
-    static func write(value: ProtonClientTypes.ServiceTemplateVersionSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["description"].write(value.description)
-        try writer["lastModifiedAt"].writeTimestamp(value.lastModifiedAt, format: .epochSeconds)
-        try writer["majorVersion"].write(value.majorVersion)
-        try writer["minorVersion"].write(value.minorVersion)
-        try writer["recommendedMinorVersion"].write(value.recommendedMinorVersion)
-        try writer["status"].write(value.status)
-        try writer["statusMessage"].write(value.statusMessage)
-        try writer["templateName"].write(value.templateName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.ServiceTemplateVersionSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -10652,18 +10082,6 @@ extension ProtonClientTypes {
 
 extension ProtonClientTypes.SyncBlocker {
 
-    static func write(value: ProtonClientTypes.SyncBlocker?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["contexts"].writeList(value.contexts, memberWritingClosure: ProtonClientTypes.SyncBlockerContext.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["createdReason"].write(value.createdReason)
-        try writer["id"].write(value.id)
-        try writer["resolvedAt"].writeTimestamp(value.resolvedAt, format: .epochSeconds)
-        try writer["resolvedReason"].write(value.resolvedReason)
-        try writer["status"].write(value.status)
-        try writer["type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.SyncBlocker {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ProtonClientTypes.SyncBlocker()
@@ -10729,12 +10147,6 @@ extension ProtonClientTypes {
 }
 
 extension ProtonClientTypes.SyncBlockerContext {
-
-    static func write(value: ProtonClientTypes.SyncBlockerContext?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["key"].write(value.key)
-        try writer["value"].write(value.value)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.SyncBlockerContext {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -10904,16 +10316,6 @@ enum TagResourceOutputError {
 
 extension ProtonClientTypes.TemplateSyncConfig {
 
-    static func write(value: ProtonClientTypes.TemplateSyncConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["branch"].write(value.branch)
-        try writer["repositoryName"].write(value.repositoryName)
-        try writer["repositoryProvider"].write(value.repositoryProvider)
-        try writer["subdirectory"].write(value.subdirectory)
-        try writer["templateName"].write(value.templateName)
-        try writer["templateType"].write(value.templateType)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.TemplateSyncConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ProtonClientTypes.TemplateSyncConfig()
@@ -11007,17 +10409,6 @@ extension ProtonClientTypes.TemplateVersionSourceInput {
                 try writer["s3"].write(s3, with: ProtonClientTypes.S3ObjectSource.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.TemplateVersionSourceInput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "s3":
-                return .s3(try reader["s3"].read(with: ProtonClientTypes.S3ObjectSource.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
         }
     }
 }

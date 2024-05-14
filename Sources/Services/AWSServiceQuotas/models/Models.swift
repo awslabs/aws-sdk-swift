@@ -366,12 +366,6 @@ extension ServiceQuotasClientTypes {
 
 extension ServiceQuotasClientTypes.ErrorReason {
 
-    static func write(value: ServiceQuotasClientTypes.ErrorReason?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ErrorCode"].write(value.errorCode)
-        try writer["ErrorMessage"].write(value.errorMessage)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ServiceQuotasClientTypes.ErrorReason {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ServiceQuotasClientTypes.ErrorReason()
@@ -1520,14 +1514,6 @@ enum ListTagsForResourceOutputError {
 
 extension ServiceQuotasClientTypes.MetricInfo {
 
-    static func write(value: ServiceQuotasClientTypes.MetricInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MetricDimensions"].writeMap(value.metricDimensions, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["MetricName"].write(value.metricName)
-        try writer["MetricNamespace"].write(value.metricNamespace)
-        try writer["MetricStatisticRecommendation"].write(value.metricStatisticRecommendation)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ServiceQuotasClientTypes.MetricInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ServiceQuotasClientTypes.MetricInfo()
@@ -1818,13 +1804,6 @@ enum PutServiceQuotaIncreaseRequestIntoTemplateOutputError {
 
 extension ServiceQuotasClientTypes.QuotaContextInfo {
 
-    static func write(value: ServiceQuotasClientTypes.QuotaContextInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ContextId"].write(value.contextId)
-        try writer["ContextScope"].write(value.contextScope)
-        try writer["ContextScopeType"].write(value.contextScopeType)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ServiceQuotasClientTypes.QuotaContextInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ServiceQuotasClientTypes.QuotaContextInfo()
@@ -1927,12 +1906,6 @@ public struct QuotaExceededException: ClientRuntime.ModeledError, AWSClientRunti
 }
 
 extension ServiceQuotasClientTypes.QuotaPeriod {
-
-    static func write(value: ServiceQuotasClientTypes.QuotaPeriod?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["PeriodUnit"].write(value.periodUnit)
-        try writer["PeriodValue"].write(value.periodValue)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ServiceQuotasClientTypes.QuotaPeriod {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2100,26 +2073,6 @@ extension ServiceQuotasClientTypes {
 }
 
 extension ServiceQuotasClientTypes.RequestedServiceQuotaChange {
-
-    static func write(value: ServiceQuotasClientTypes.RequestedServiceQuotaChange?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CaseId"].write(value.caseId)
-        try writer["Created"].writeTimestamp(value.created, format: .epochSeconds)
-        try writer["DesiredValue"].write(value.desiredValue)
-        try writer["GlobalQuota"].write(value.globalQuota)
-        try writer["Id"].write(value.id)
-        try writer["LastUpdated"].writeTimestamp(value.lastUpdated, format: .epochSeconds)
-        try writer["QuotaArn"].write(value.quotaArn)
-        try writer["QuotaCode"].write(value.quotaCode)
-        try writer["QuotaContext"].write(value.quotaContext, with: ServiceQuotasClientTypes.QuotaContextInfo.write(value:to:))
-        try writer["QuotaName"].write(value.quotaName)
-        try writer["QuotaRequestedAtLevel"].write(value.quotaRequestedAtLevel)
-        try writer["Requester"].write(value.requester)
-        try writer["ServiceCode"].write(value.serviceCode)
-        try writer["ServiceName"].write(value.serviceName)
-        try writer["Status"].write(value.status)
-        try writer["Unit"].write(value.unit)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ServiceQuotasClientTypes.RequestedServiceQuotaChange {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2296,12 +2249,6 @@ public struct ServiceException: ClientRuntime.ModeledError, AWSClientRuntime.AWS
 
 extension ServiceQuotasClientTypes.ServiceInfo {
 
-    static func write(value: ServiceQuotasClientTypes.ServiceInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ServiceCode"].write(value.serviceCode)
-        try writer["ServiceName"].write(value.serviceName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ServiceQuotasClientTypes.ServiceInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ServiceQuotasClientTypes.ServiceInfo()
@@ -2332,24 +2279,6 @@ extension ServiceQuotasClientTypes {
 }
 
 extension ServiceQuotasClientTypes.ServiceQuota {
-
-    static func write(value: ServiceQuotasClientTypes.ServiceQuota?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Adjustable"].write(value.adjustable)
-        try writer["ErrorReason"].write(value.errorReason, with: ServiceQuotasClientTypes.ErrorReason.write(value:to:))
-        try writer["GlobalQuota"].write(value.globalQuota)
-        try writer["Period"].write(value.period, with: ServiceQuotasClientTypes.QuotaPeriod.write(value:to:))
-        try writer["QuotaAppliedAtLevel"].write(value.quotaAppliedAtLevel)
-        try writer["QuotaArn"].write(value.quotaArn)
-        try writer["QuotaCode"].write(value.quotaCode)
-        try writer["QuotaContext"].write(value.quotaContext, with: ServiceQuotasClientTypes.QuotaContextInfo.write(value:to:))
-        try writer["QuotaName"].write(value.quotaName)
-        try writer["ServiceCode"].write(value.serviceCode)
-        try writer["ServiceName"].write(value.serviceName)
-        try writer["Unit"].write(value.unit)
-        try writer["UsageMetric"].write(value.usageMetric, with: ServiceQuotasClientTypes.MetricInfo.write(value:to:))
-        try writer["Value"].write(value.value)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ServiceQuotasClientTypes.ServiceQuota {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2441,18 +2370,6 @@ extension ServiceQuotasClientTypes {
 }
 
 extension ServiceQuotasClientTypes.ServiceQuotaIncreaseRequestInTemplate {
-
-    static func write(value: ServiceQuotasClientTypes.ServiceQuotaIncreaseRequestInTemplate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AwsRegion"].write(value.awsRegion)
-        try writer["DesiredValue"].write(value.desiredValue)
-        try writer["GlobalQuota"].write(value.globalQuota)
-        try writer["QuotaCode"].write(value.quotaCode)
-        try writer["QuotaName"].write(value.quotaName)
-        try writer["ServiceCode"].write(value.serviceCode)
-        try writer["ServiceName"].write(value.serviceName)
-        try writer["Unit"].write(value.unit)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ServiceQuotasClientTypes.ServiceQuotaIncreaseRequestInTemplate {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

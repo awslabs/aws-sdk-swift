@@ -229,17 +229,6 @@ extension OrganizationsClientTypes.Account: Swift.CustomDebugStringConvertible {
 
 extension OrganizationsClientTypes.Account {
 
-    static func write(value: OrganizationsClientTypes.Account?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["Email"].write(value.email)
-        try writer["Id"].write(value.id)
-        try writer["JoinedMethod"].write(value.joinedMethod)
-        try writer["JoinedTimestamp"].writeTimestamp(value.joinedTimestamp, format: .epochSeconds)
-        try writer["Name"].write(value.name)
-        try writer["Status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.Account {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OrganizationsClientTypes.Account()
@@ -767,12 +756,6 @@ enum CancelHandshakeOutputError {
 }
 
 extension OrganizationsClientTypes.Child {
-
-    static func write(value: OrganizationsClientTypes.Child?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Id"].write(value.id)
-        try writer["Type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.Child {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1482,18 +1465,6 @@ extension OrganizationsClientTypes.CreateAccountStatus: Swift.CustomDebugStringC
 
 extension OrganizationsClientTypes.CreateAccountStatus {
 
-    static func write(value: OrganizationsClientTypes.CreateAccountStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccountId"].write(value.accountId)
-        try writer["AccountName"].write(value.accountName)
-        try writer["CompletedTimestamp"].writeTimestamp(value.completedTimestamp, format: .epochSeconds)
-        try writer["FailureReason"].write(value.failureReason)
-        try writer["GovCloudAccountId"].write(value.govCloudAccountId)
-        try writer["Id"].write(value.id)
-        try writer["RequestedTimestamp"].writeTimestamp(value.requestedTimestamp, format: .epochSeconds)
-        try writer["State"].write(value.state)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.CreateAccountStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OrganizationsClientTypes.CreateAccountStatus()
@@ -2096,18 +2067,6 @@ extension OrganizationsClientTypes.DelegatedAdministrator: Swift.CustomDebugStri
 
 extension OrganizationsClientTypes.DelegatedAdministrator {
 
-    static func write(value: OrganizationsClientTypes.DelegatedAdministrator?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["DelegationEnabledDate"].writeTimestamp(value.delegationEnabledDate, format: .epochSeconds)
-        try writer["Email"].write(value.email)
-        try writer["Id"].write(value.id)
-        try writer["JoinedMethod"].write(value.joinedMethod)
-        try writer["JoinedTimestamp"].writeTimestamp(value.joinedTimestamp, format: .epochSeconds)
-        try writer["Name"].write(value.name)
-        try writer["Status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.DelegatedAdministrator {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OrganizationsClientTypes.DelegatedAdministrator()
@@ -2168,12 +2127,6 @@ extension OrganizationsClientTypes {
 }
 
 extension OrganizationsClientTypes.DelegatedService {
-
-    static func write(value: OrganizationsClientTypes.DelegatedService?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DelegationEnabledDate"].writeTimestamp(value.delegationEnabledDate, format: .epochSeconds)
-        try writer["ServicePrincipal"].write(value.servicePrincipal)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.DelegatedService {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3521,14 +3474,6 @@ public struct DuplicatePolicyException: ClientRuntime.ModeledError, AWSClientRun
 
 extension OrganizationsClientTypes.EffectivePolicy {
 
-    static func write(value: OrganizationsClientTypes.EffectivePolicy?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["LastUpdatedTimestamp"].writeTimestamp(value.lastUpdatedTimestamp, format: .epochSeconds)
-        try writer["PolicyContent"].write(value.policyContent)
-        try writer["PolicyType"].write(value.policyType)
-        try writer["TargetId"].write(value.targetId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.EffectivePolicy {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OrganizationsClientTypes.EffectivePolicy()
@@ -3856,12 +3801,6 @@ enum EnablePolicyTypeOutputError {
 
 extension OrganizationsClientTypes.EnabledServicePrincipal {
 
-    static func write(value: OrganizationsClientTypes.EnabledServicePrincipal?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DateEnabled"].writeTimestamp(value.dateEnabled, format: .epochSeconds)
-        try writer["ServicePrincipal"].write(value.servicePrincipal)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.EnabledServicePrincipal {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OrganizationsClientTypes.EnabledServicePrincipal()
@@ -3929,18 +3868,6 @@ public struct FinalizingOrganizationException: ClientRuntime.ModeledError, AWSCl
 }
 
 extension OrganizationsClientTypes.Handshake {
-
-    static func write(value: OrganizationsClientTypes.Handshake?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Action"].write(value.action)
-        try writer["Arn"].write(value.arn)
-        try writer["ExpirationTimestamp"].writeTimestamp(value.expirationTimestamp, format: .epochSeconds)
-        try writer["Id"].write(value.id)
-        try writer["Parties"].writeList(value.parties, memberWritingClosure: OrganizationsClientTypes.HandshakeParty.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["RequestedTimestamp"].writeTimestamp(value.requestedTimestamp, format: .epochSeconds)
-        try writer["Resources"].writeList(value.resources, memberWritingClosure: OrganizationsClientTypes.HandshakeResource.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["State"].write(value.state)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.Handshake {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4176,14 +4103,6 @@ extension OrganizationsClientTypes.HandshakeFilter {
         try writer["ActionType"].write(value.actionType)
         try writer["ParentHandshakeId"].write(value.parentHandshakeId)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.HandshakeFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OrganizationsClientTypes.HandshakeFilter()
-        value.actionType = try reader["ActionType"].readIfPresent()
-        value.parentHandshakeId = try reader["ParentHandshakeId"].readIfPresent()
-        return value
-    }
 }
 
 extension OrganizationsClientTypes {
@@ -4326,13 +4245,6 @@ extension OrganizationsClientTypes.HandshakeResource: Swift.CustomDebugStringCon
 }
 
 extension OrganizationsClientTypes.HandshakeResource {
-
-    static func write(value: OrganizationsClientTypes.HandshakeResource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Resources"].writeList(value.resources, memberWritingClosure: OrganizationsClientTypes.HandshakeResource.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Type"].write(value.type)
-        try writer["Value"].write(value.value)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.HandshakeResource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6450,17 +6362,6 @@ extension OrganizationsClientTypes.Organization: Swift.CustomDebugStringConverti
 
 extension OrganizationsClientTypes.Organization {
 
-    static func write(value: OrganizationsClientTypes.Organization?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["AvailablePolicyTypes"].writeList(value.availablePolicyTypes, memberWritingClosure: OrganizationsClientTypes.PolicyTypeSummary.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["FeatureSet"].write(value.featureSet)
-        try writer["Id"].write(value.id)
-        try writer["MasterAccountArn"].write(value.masterAccountArn)
-        try writer["MasterAccountEmail"].write(value.masterAccountEmail)
-        try writer["MasterAccountId"].write(value.masterAccountId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.Organization {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OrganizationsClientTypes.Organization()
@@ -6584,13 +6485,6 @@ public struct OrganizationNotEmptyException: ClientRuntime.ModeledError, AWSClie
 
 extension OrganizationsClientTypes.OrganizationalUnit {
 
-    static func write(value: OrganizationsClientTypes.OrganizationalUnit?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["Id"].write(value.id)
-        try writer["Name"].write(value.name)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.OrganizationalUnit {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OrganizationsClientTypes.OrganizationalUnit()
@@ -6703,12 +6597,6 @@ public enum OrganizationsClientTypes {}
 
 extension OrganizationsClientTypes.Parent {
 
-    static func write(value: OrganizationsClientTypes.Parent?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Id"].write(value.id)
-        try writer["Type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.Parent {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OrganizationsClientTypes.Parent()
@@ -6810,12 +6698,6 @@ extension OrganizationsClientTypes {
 }
 
 extension OrganizationsClientTypes.Policy {
-
-    static func write(value: OrganizationsClientTypes.Policy?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Content"].write(value.content)
-        try writer["PolicySummary"].write(value.policySummary, with: OrganizationsClientTypes.PolicySummary.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.Policy {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6996,16 +6878,6 @@ public struct PolicyNotFoundException: ClientRuntime.ModeledError, AWSClientRunt
 
 extension OrganizationsClientTypes.PolicySummary {
 
-    static func write(value: OrganizationsClientTypes.PolicySummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["AwsManaged"].write(value.awsManaged)
-        try writer["Description"].write(value.description)
-        try writer["Id"].write(value.id)
-        try writer["Name"].write(value.name)
-        try writer["Type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.PolicySummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OrganizationsClientTypes.PolicySummary()
@@ -7056,14 +6928,6 @@ extension OrganizationsClientTypes {
 }
 
 extension OrganizationsClientTypes.PolicyTargetSummary {
-
-    static func write(value: OrganizationsClientTypes.PolicyTargetSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["Name"].write(value.name)
-        try writer["TargetId"].write(value.targetId)
-        try writer["Type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.PolicyTargetSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7291,12 +7155,6 @@ extension OrganizationsClientTypes {
 }
 
 extension OrganizationsClientTypes.PolicyTypeSummary {
-
-    static func write(value: OrganizationsClientTypes.PolicyTypeSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Status"].write(value.status)
-        try writer["Type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.PolicyTypeSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7538,12 +7396,6 @@ enum RemoveAccountFromOrganizationOutputError {
 
 extension OrganizationsClientTypes.ResourcePolicy {
 
-    static func write(value: OrganizationsClientTypes.ResourcePolicy?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Content"].write(value.content)
-        try writer["ResourcePolicySummary"].write(value.resourcePolicySummary, with: OrganizationsClientTypes.ResourcePolicySummary.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.ResourcePolicy {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OrganizationsClientTypes.ResourcePolicy()
@@ -7612,12 +7464,6 @@ public struct ResourcePolicyNotFoundException: ClientRuntime.ModeledError, AWSCl
 
 extension OrganizationsClientTypes.ResourcePolicySummary {
 
-    static func write(value: OrganizationsClientTypes.ResourcePolicySummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["Id"].write(value.id)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.ResourcePolicySummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OrganizationsClientTypes.ResourcePolicySummary()
@@ -7648,14 +7494,6 @@ extension OrganizationsClientTypes {
 }
 
 extension OrganizationsClientTypes.Root {
-
-    static func write(value: OrganizationsClientTypes.Root?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["Id"].write(value.id)
-        try writer["Name"].write(value.name)
-        try writer["PolicyTypes"].writeList(value.policyTypes, memberWritingClosure: OrganizationsClientTypes.PolicyTypeSummary.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.Root {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

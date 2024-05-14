@@ -6,21 +6,6 @@ import SmithyReadWrite
 
 extension GlobalAcceleratorClientTypes.Accelerator {
 
-    static func write(value: GlobalAcceleratorClientTypes.Accelerator?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AcceleratorArn"].write(value.acceleratorArn)
-        try writer["CreatedTime"].writeTimestamp(value.createdTime, format: .epochSeconds)
-        try writer["DnsName"].write(value.dnsName)
-        try writer["DualStackDnsName"].write(value.dualStackDnsName)
-        try writer["Enabled"].write(value.enabled)
-        try writer["Events"].writeList(value.events, memberWritingClosure: GlobalAcceleratorClientTypes.AcceleratorEvent.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["IpAddressType"].write(value.ipAddressType)
-        try writer["IpSets"].writeList(value.ipSets, memberWritingClosure: GlobalAcceleratorClientTypes.IpSet.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["LastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .epochSeconds)
-        try writer["Name"].write(value.name)
-        try writer["Status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GlobalAcceleratorClientTypes.Accelerator {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GlobalAcceleratorClientTypes.Accelerator()
@@ -97,13 +82,6 @@ extension GlobalAcceleratorClientTypes {
 
 extension GlobalAcceleratorClientTypes.AcceleratorAttributes {
 
-    static func write(value: GlobalAcceleratorClientTypes.AcceleratorAttributes?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["FlowLogsEnabled"].write(value.flowLogsEnabled)
-        try writer["FlowLogsS3Bucket"].write(value.flowLogsS3Bucket)
-        try writer["FlowLogsS3Prefix"].write(value.flowLogsS3Prefix)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GlobalAcceleratorClientTypes.AcceleratorAttributes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GlobalAcceleratorClientTypes.AcceleratorAttributes()
@@ -139,12 +117,6 @@ extension GlobalAcceleratorClientTypes {
 }
 
 extension GlobalAcceleratorClientTypes.AcceleratorEvent {
-
-    static func write(value: GlobalAcceleratorClientTypes.AcceleratorEvent?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.message)
-        try writer["Timestamp"].writeTimestamp(value.timestamp, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GlobalAcceleratorClientTypes.AcceleratorEvent {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -704,16 +676,6 @@ public struct AssociatedListenerFoundException: ClientRuntime.ModeledError, AWSC
 
 extension GlobalAcceleratorClientTypes.Attachment {
 
-    static func write(value: GlobalAcceleratorClientTypes.Attachment?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AttachmentArn"].write(value.attachmentArn)
-        try writer["CreatedTime"].writeTimestamp(value.createdTime, format: .epochSeconds)
-        try writer["LastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .epochSeconds)
-        try writer["Name"].write(value.name)
-        try writer["Principals"].writeList(value.principals, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Resources"].writeList(value.resources, memberWritingClosure: GlobalAcceleratorClientTypes.Resource.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GlobalAcceleratorClientTypes.Attachment {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GlobalAcceleratorClientTypes.Attachment()
@@ -802,13 +764,6 @@ public struct AttachmentNotFoundException: ClientRuntime.ModeledError, AWSClient
 
 extension GlobalAcceleratorClientTypes.ByoipCidr {
 
-    static func write(value: GlobalAcceleratorClientTypes.ByoipCidr?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Cidr"].write(value.cidr)
-        try writer["Events"].writeList(value.events, memberWritingClosure: GlobalAcceleratorClientTypes.ByoipCidrEvent.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["State"].write(value.state)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GlobalAcceleratorClientTypes.ByoipCidr {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GlobalAcceleratorClientTypes.ByoipCidr()
@@ -866,12 +821,6 @@ extension GlobalAcceleratorClientTypes {
 }
 
 extension GlobalAcceleratorClientTypes.ByoipCidrEvent {
-
-    static func write(value: GlobalAcceleratorClientTypes.ByoipCidrEvent?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.message)
-        try writer["Timestamp"].writeTimestamp(value.timestamp, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GlobalAcceleratorClientTypes.ByoipCidrEvent {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1002,14 +951,6 @@ extension GlobalAcceleratorClientTypes.CidrAuthorizationContext {
         guard let value else { return }
         try writer["Message"].write(value.message)
         try writer["Signature"].write(value.signature)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlobalAcceleratorClientTypes.CidrAuthorizationContext {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlobalAcceleratorClientTypes.CidrAuthorizationContext()
-        value.message = try reader["Message"].readIfPresent()
-        value.signature = try reader["Signature"].readIfPresent()
-        return value
     }
 }
 
@@ -1774,13 +1715,6 @@ enum CreateListenerOutputError {
 
 extension GlobalAcceleratorClientTypes.CrossAccountResource {
 
-    static func write(value: GlobalAcceleratorClientTypes.CrossAccountResource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AttachmentArn"].write(value.attachmentArn)
-        try writer["Cidr"].write(value.cidr)
-        try writer["EndpointId"].write(value.endpointId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GlobalAcceleratorClientTypes.CrossAccountResource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GlobalAcceleratorClientTypes.CrossAccountResource()
@@ -1816,19 +1750,6 @@ extension GlobalAcceleratorClientTypes {
 }
 
 extension GlobalAcceleratorClientTypes.CustomRoutingAccelerator {
-
-    static func write(value: GlobalAcceleratorClientTypes.CustomRoutingAccelerator?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AcceleratorArn"].write(value.acceleratorArn)
-        try writer["CreatedTime"].writeTimestamp(value.createdTime, format: .epochSeconds)
-        try writer["DnsName"].write(value.dnsName)
-        try writer["Enabled"].write(value.enabled)
-        try writer["IpAddressType"].write(value.ipAddressType)
-        try writer["IpSets"].writeList(value.ipSets, memberWritingClosure: GlobalAcceleratorClientTypes.IpSet.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["LastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .epochSeconds)
-        try writer["Name"].write(value.name)
-        try writer["Status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GlobalAcceleratorClientTypes.CustomRoutingAccelerator {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1895,13 +1816,6 @@ extension GlobalAcceleratorClientTypes {
 }
 
 extension GlobalAcceleratorClientTypes.CustomRoutingAcceleratorAttributes {
-
-    static func write(value: GlobalAcceleratorClientTypes.CustomRoutingAcceleratorAttributes?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["FlowLogsEnabled"].write(value.flowLogsEnabled)
-        try writer["FlowLogsS3Bucket"].write(value.flowLogsS3Bucket)
-        try writer["FlowLogsS3Prefix"].write(value.flowLogsS3Prefix)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GlobalAcceleratorClientTypes.CustomRoutingAcceleratorAttributes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1975,15 +1889,6 @@ extension GlobalAcceleratorClientTypes.CustomRoutingDestinationConfiguration {
         try writer["Protocols"].writeList(value.protocols, memberWritingClosure: GlobalAcceleratorClientTypes.CustomRoutingProtocol.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ToPort"].write(value.toPort)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlobalAcceleratorClientTypes.CustomRoutingDestinationConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlobalAcceleratorClientTypes.CustomRoutingDestinationConfiguration()
-        value.fromPort = try reader["FromPort"].readIfPresent()
-        value.toPort = try reader["ToPort"].readIfPresent()
-        value.protocols = try reader["Protocols"].readListIfPresent(memberReadingClosure: GlobalAcceleratorClientTypes.CustomRoutingProtocol.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
 }
 
 extension GlobalAcceleratorClientTypes {
@@ -2014,13 +1919,6 @@ extension GlobalAcceleratorClientTypes {
 }
 
 extension GlobalAcceleratorClientTypes.CustomRoutingDestinationDescription {
-
-    static func write(value: GlobalAcceleratorClientTypes.CustomRoutingDestinationDescription?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["FromPort"].write(value.fromPort)
-        try writer["Protocols"].writeList(value.protocols, memberWritingClosure: GlobalAcceleratorClientTypes.ModelProtocol.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ToPort"].write(value.toPort)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GlobalAcceleratorClientTypes.CustomRoutingDestinationDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2093,14 +1991,6 @@ extension GlobalAcceleratorClientTypes.CustomRoutingEndpointConfiguration {
         try writer["AttachmentArn"].write(value.attachmentArn)
         try writer["EndpointId"].write(value.endpointId)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlobalAcceleratorClientTypes.CustomRoutingEndpointConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlobalAcceleratorClientTypes.CustomRoutingEndpointConfiguration()
-        value.endpointId = try reader["EndpointId"].readIfPresent()
-        value.attachmentArn = try reader["AttachmentArn"].readIfPresent()
-        return value
-    }
 }
 
 extension GlobalAcceleratorClientTypes {
@@ -2124,11 +2014,6 @@ extension GlobalAcceleratorClientTypes {
 }
 
 extension GlobalAcceleratorClientTypes.CustomRoutingEndpointDescription {
-
-    static func write(value: GlobalAcceleratorClientTypes.CustomRoutingEndpointDescription?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EndpointId"].write(value.endpointId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GlobalAcceleratorClientTypes.CustomRoutingEndpointDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2155,14 +2040,6 @@ extension GlobalAcceleratorClientTypes {
 }
 
 extension GlobalAcceleratorClientTypes.CustomRoutingEndpointGroup {
-
-    static func write(value: GlobalAcceleratorClientTypes.CustomRoutingEndpointGroup?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DestinationDescriptions"].writeList(value.destinationDescriptions, memberWritingClosure: GlobalAcceleratorClientTypes.CustomRoutingDestinationDescription.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["EndpointDescriptions"].writeList(value.endpointDescriptions, memberWritingClosure: GlobalAcceleratorClientTypes.CustomRoutingEndpointDescription.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["EndpointGroupArn"].write(value.endpointGroupArn)
-        try writer["EndpointGroupRegion"].write(value.endpointGroupRegion)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GlobalAcceleratorClientTypes.CustomRoutingEndpointGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2204,12 +2081,6 @@ extension GlobalAcceleratorClientTypes {
 }
 
 extension GlobalAcceleratorClientTypes.CustomRoutingListener {
-
-    static func write(value: GlobalAcceleratorClientTypes.CustomRoutingListener?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ListenerArn"].write(value.listenerArn)
-        try writer["PortRanges"].writeList(value.portRanges, memberWritingClosure: GlobalAcceleratorClientTypes.PortRange.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GlobalAcceleratorClientTypes.CustomRoutingListener {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3432,18 +3303,6 @@ enum DescribeListenerOutputError {
 
 extension GlobalAcceleratorClientTypes.DestinationPortMapping {
 
-    static func write(value: GlobalAcceleratorClientTypes.DestinationPortMapping?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AcceleratorArn"].write(value.acceleratorArn)
-        try writer["AcceleratorSocketAddresses"].writeList(value.acceleratorSocketAddresses, memberWritingClosure: GlobalAcceleratorClientTypes.SocketAddress.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["DestinationSocketAddress"].write(value.destinationSocketAddress, with: GlobalAcceleratorClientTypes.SocketAddress.write(value:to:))
-        try writer["DestinationTrafficState"].write(value.destinationTrafficState)
-        try writer["EndpointGroupArn"].write(value.endpointGroupArn)
-        try writer["EndpointGroupRegion"].write(value.endpointGroupRegion)
-        try writer["EndpointId"].write(value.endpointId)
-        try writer["IpAddressType"].write(value.ipAddressType)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GlobalAcceleratorClientTypes.DestinationPortMapping {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GlobalAcceleratorClientTypes.DestinationPortMapping()
@@ -3549,16 +3408,6 @@ extension GlobalAcceleratorClientTypes.EndpointConfiguration {
         try writer["EndpointId"].write(value.endpointId)
         try writer["Weight"].write(value.weight)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlobalAcceleratorClientTypes.EndpointConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlobalAcceleratorClientTypes.EndpointConfiguration()
-        value.endpointId = try reader["EndpointId"].readIfPresent()
-        value.weight = try reader["Weight"].readIfPresent()
-        value.clientIPPreservationEnabled = try reader["ClientIPPreservationEnabled"].readIfPresent()
-        value.attachmentArn = try reader["AttachmentArn"].readIfPresent()
-        return value
-    }
 }
 
 extension GlobalAcceleratorClientTypes {
@@ -3590,15 +3439,6 @@ extension GlobalAcceleratorClientTypes {
 }
 
 extension GlobalAcceleratorClientTypes.EndpointDescription {
-
-    static func write(value: GlobalAcceleratorClientTypes.EndpointDescription?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ClientIPPreservationEnabled"].write(value.clientIPPreservationEnabled)
-        try writer["EndpointId"].write(value.endpointId)
-        try writer["HealthReason"].write(value.healthReason)
-        try writer["HealthState"].write(value.healthState)
-        try writer["Weight"].write(value.weight)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GlobalAcceleratorClientTypes.EndpointDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3645,20 +3485,6 @@ extension GlobalAcceleratorClientTypes {
 }
 
 extension GlobalAcceleratorClientTypes.EndpointGroup {
-
-    static func write(value: GlobalAcceleratorClientTypes.EndpointGroup?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EndpointDescriptions"].writeList(value.endpointDescriptions, memberWritingClosure: GlobalAcceleratorClientTypes.EndpointDescription.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["EndpointGroupArn"].write(value.endpointGroupArn)
-        try writer["EndpointGroupRegion"].write(value.endpointGroupRegion)
-        try writer["HealthCheckIntervalSeconds"].write(value.healthCheckIntervalSeconds)
-        try writer["HealthCheckPath"].write(value.healthCheckPath)
-        try writer["HealthCheckPort"].write(value.healthCheckPort)
-        try writer["HealthCheckProtocol"].write(value.healthCheckProtocol)
-        try writer["PortOverrides"].writeList(value.portOverrides, memberWritingClosure: GlobalAcceleratorClientTypes.PortOverride.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ThresholdCount"].write(value.thresholdCount)
-        try writer["TrafficDialPercentage"].write(value.trafficDialPercentage)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GlobalAcceleratorClientTypes.EndpointGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3809,14 +3635,6 @@ extension GlobalAcceleratorClientTypes.EndpointIdentifier {
         guard let value else { return }
         try writer["ClientIPPreservationEnabled"].write(value.clientIPPreservationEnabled)
         try writer["EndpointId"].write(value.endpointId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlobalAcceleratorClientTypes.EndpointIdentifier {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlobalAcceleratorClientTypes.EndpointIdentifier()
-        value.endpointId = try reader["EndpointId"].readIfPresent()
-        value.clientIPPreservationEnabled = try reader["ClientIPPreservationEnabled"].readIfPresent()
-        return value
     }
 }
 
@@ -4192,13 +4010,6 @@ extension GlobalAcceleratorClientTypes {
 }
 
 extension GlobalAcceleratorClientTypes.IpSet {
-
-    static func write(value: GlobalAcceleratorClientTypes.IpSet?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["IpAddressFamily"].write(value.ipAddressFamily)
-        try writer["IpAddresses"].writeList(value.ipAddresses, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["IpFamily"].write(value.ipFamily)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GlobalAcceleratorClientTypes.IpSet {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5317,14 +5128,6 @@ enum ListTagsForResourceOutputError {
 
 extension GlobalAcceleratorClientTypes.Listener {
 
-    static func write(value: GlobalAcceleratorClientTypes.Listener?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ClientAffinity"].write(value.clientAffinity)
-        try writer["ListenerArn"].write(value.listenerArn)
-        try writer["PortRanges"].writeList(value.portRanges, memberWritingClosure: GlobalAcceleratorClientTypes.PortRange.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Protocol"].write(value.`protocol`)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GlobalAcceleratorClientTypes.Listener {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GlobalAcceleratorClientTypes.Listener()
@@ -5402,16 +5205,6 @@ public struct ListenerNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 extension GlobalAcceleratorClientTypes.PortMapping {
-
-    static func write(value: GlobalAcceleratorClientTypes.PortMapping?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AcceleratorPort"].write(value.acceleratorPort)
-        try writer["DestinationSocketAddress"].write(value.destinationSocketAddress, with: GlobalAcceleratorClientTypes.SocketAddress.write(value:to:))
-        try writer["DestinationTrafficState"].write(value.destinationTrafficState)
-        try writer["EndpointGroupArn"].write(value.endpointGroupArn)
-        try writer["EndpointId"].write(value.endpointId)
-        try writer["Protocols"].writeList(value.protocols, memberWritingClosure: GlobalAcceleratorClientTypes.CustomRoutingProtocol.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GlobalAcceleratorClientTypes.PortMapping {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5815,12 +5608,6 @@ extension GlobalAcceleratorClientTypes {
 }
 
 extension GlobalAcceleratorClientTypes.SocketAddress {
-
-    static func write(value: GlobalAcceleratorClientTypes.SocketAddress?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["IpAddress"].write(value.ipAddress)
-        try writer["Port"].write(value.port)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GlobalAcceleratorClientTypes.SocketAddress {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

@@ -5,6 +5,7 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
+import ClientRuntime
 import AwsCommonRuntimeKit
 import Foundation
 
@@ -52,7 +53,7 @@ public struct AWSSigningConfig {
 }
 
 extension AWSSigningConfig {
-    func toCRTType() throws -> SigningConfig {
+    public func toCRTType() throws -> SigningConfig {
         // Never include the Transfer-Encoding header in the signature,
         // since older versions of URLSession will modify this header's value
         // prior to sending a request.

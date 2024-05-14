@@ -169,15 +169,6 @@ extension OutpostsClientTypes {
 
 extension OutpostsClientTypes.AssetInfo {
 
-    static func write(value: OutpostsClientTypes.AssetInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AssetId"].write(value.assetId)
-        try writer["AssetLocation"].write(value.assetLocation, with: OutpostsClientTypes.AssetLocation.write(value:to:))
-        try writer["AssetType"].write(value.assetType)
-        try writer["ComputeAttributes"].write(value.computeAttributes, with: OutpostsClientTypes.ComputeAttributes.write(value:to:))
-        try writer["RackId"].write(value.rackId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> OutpostsClientTypes.AssetInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OutpostsClientTypes.AssetInfo()
@@ -223,11 +214,6 @@ extension OutpostsClientTypes {
 }
 
 extension OutpostsClientTypes.AssetLocation {
-
-    static func write(value: OutpostsClientTypes.AssetLocation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["RackElevation"].write(value.rackElevation)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> OutpostsClientTypes.AssetLocation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -429,12 +415,6 @@ enum CancelOrderOutputError {
 
 extension OutpostsClientTypes.CapacityTaskFailure {
 
-    static func write(value: OutpostsClientTypes.CapacityTaskFailure?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Reason"].write(value.reason)
-        try writer["Type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> OutpostsClientTypes.CapacityTaskFailure {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OutpostsClientTypes.CapacityTaskFailure()
@@ -533,17 +513,6 @@ extension OutpostsClientTypes {
 
 extension OutpostsClientTypes.CapacityTaskSummary {
 
-    static func write(value: OutpostsClientTypes.CapacityTaskSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CapacityTaskId"].write(value.capacityTaskId)
-        try writer["CapacityTaskStatus"].write(value.capacityTaskStatus)
-        try writer["CompletionDate"].writeTimestamp(value.completionDate, format: .epochSeconds)
-        try writer["CreationDate"].writeTimestamp(value.creationDate, format: .epochSeconds)
-        try writer["LastModifiedDate"].writeTimestamp(value.lastModifiedDate, format: .epochSeconds)
-        try writer["OrderId"].write(value.orderId)
-        try writer["OutpostId"].write(value.outpostId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> OutpostsClientTypes.CapacityTaskSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OutpostsClientTypes.CapacityTaskSummary()
@@ -599,17 +568,6 @@ extension OutpostsClientTypes {
 }
 
 extension OutpostsClientTypes.CatalogItem {
-
-    static func write(value: OutpostsClientTypes.CatalogItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CatalogItemId"].write(value.catalogItemId)
-        try writer["EC2Capacities"].writeList(value.ec2Capacities, memberWritingClosure: OutpostsClientTypes.EC2Capacity.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ItemStatus"].write(value.itemStatus)
-        try writer["PowerKva"].write(value.powerKva)
-        try writer["SupportedStorage"].writeList(value.supportedStorage, memberWritingClosure: OutpostsClientTypes.SupportedStorageEnum.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["SupportedUplinkGbps"].writeList(value.supportedUplinkGbps, memberWritingClosure: Swift.Int.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["WeightLbs"].write(value.weightLbs)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> OutpostsClientTypes.CatalogItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -760,13 +718,6 @@ extension OutpostsClientTypes {
 
 extension OutpostsClientTypes.ComputeAttributes {
 
-    static func write(value: OutpostsClientTypes.ComputeAttributes?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["HostId"].write(value.hostId)
-        try writer["InstanceFamilies"].writeList(value.instanceFamilies, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["State"].write(value.state)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> OutpostsClientTypes.ComputeAttributes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OutpostsClientTypes.ComputeAttributes()
@@ -855,16 +806,6 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 }
 
 extension OutpostsClientTypes.ConnectionDetails {
-
-    static func write(value: OutpostsClientTypes.ConnectionDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AllowedIps"].writeList(value.allowedIps, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ClientPublicKey"].write(value.clientPublicKey)
-        try writer["ClientTunnelAddress"].write(value.clientTunnelAddress)
-        try writer["ServerEndpoint"].write(value.serverEndpoint)
-        try writer["ServerPublicKey"].write(value.serverPublicKey)
-        try writer["ServerTunnelAddress"].write(value.serverTunnelAddress)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> OutpostsClientTypes.ConnectionDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1312,13 +1253,6 @@ enum DeleteSiteOutputError {
 }
 
 extension OutpostsClientTypes.EC2Capacity {
-
-    static func write(value: OutpostsClientTypes.EC2Capacity?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Family"].write(value.family)
-        try writer["MaxSize"].write(value.maxSize)
-        try writer["Quantity"].write(value.quantity)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> OutpostsClientTypes.EC2Capacity {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2171,11 +2105,6 @@ extension OutpostsClientTypes {
 
 extension OutpostsClientTypes.InstanceTypeItem {
 
-    static func write(value: OutpostsClientTypes.InstanceTypeItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["InstanceType"].write(value.instanceType)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> OutpostsClientTypes.InstanceTypeItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OutpostsClientTypes.InstanceTypeItem()
@@ -2239,18 +2168,6 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
 extension OutpostsClientTypes.LineItem {
 
-    static func write(value: OutpostsClientTypes.LineItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AssetInformationList"].writeList(value.assetInformationList, memberWritingClosure: OutpostsClientTypes.LineItemAssetInformation.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["CatalogItemId"].write(value.catalogItemId)
-        try writer["LineItemId"].write(value.lineItemId)
-        try writer["PreviousLineItemId"].write(value.previousLineItemId)
-        try writer["PreviousOrderId"].write(value.previousOrderId)
-        try writer["Quantity"].write(value.quantity)
-        try writer["ShipmentInformation"].write(value.shipmentInformation, with: OutpostsClientTypes.ShipmentInformation.write(value:to:))
-        try writer["Status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> OutpostsClientTypes.LineItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OutpostsClientTypes.LineItem()
@@ -2312,12 +2229,6 @@ extension OutpostsClientTypes {
 
 extension OutpostsClientTypes.LineItemAssetInformation {
 
-    static func write(value: OutpostsClientTypes.LineItemAssetInformation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AssetId"].write(value.assetId)
-        try writer["MacAddressList"].writeList(value.macAddressList, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> OutpostsClientTypes.LineItemAssetInformation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OutpostsClientTypes.LineItemAssetInformation()
@@ -2353,14 +2264,6 @@ extension OutpostsClientTypes.LineItemRequest {
         guard let value else { return }
         try writer["CatalogItemId"].write(value.catalogItemId)
         try writer["Quantity"].write(value.quantity)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OutpostsClientTypes.LineItemRequest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OutpostsClientTypes.LineItemRequest()
-        value.catalogItemId = try reader["CatalogItemId"].readIfPresent()
-        value.quantity = try reader["Quantity"].readIfPresent()
-        return value
     }
 }
 
@@ -3290,19 +3193,6 @@ extension OutpostsClientTypes {
 
 extension OutpostsClientTypes.Order {
 
-    static func write(value: OutpostsClientTypes.Order?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["LineItems"].writeList(value.lineItems, memberWritingClosure: OutpostsClientTypes.LineItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["OrderFulfilledDate"].writeTimestamp(value.orderFulfilledDate, format: .epochSeconds)
-        try writer["OrderId"].write(value.orderId)
-        try writer["OrderSubmissionDate"].writeTimestamp(value.orderSubmissionDate, format: .epochSeconds)
-        try writer["OrderType"].write(value.orderType)
-        try writer["OutpostId"].write(value.outpostId)
-        try writer["PaymentOption"].write(value.paymentOption)
-        try writer["PaymentTerm"].write(value.paymentTerm)
-        try writer["Status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> OutpostsClientTypes.Order {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OutpostsClientTypes.Order()
@@ -3436,17 +3326,6 @@ extension OutpostsClientTypes {
 
 extension OutpostsClientTypes.OrderSummary {
 
-    static func write(value: OutpostsClientTypes.OrderSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["LineItemCountsByStatus"].writeMap(value.lineItemCountsByStatus, valueWritingClosure: Swift.Int.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["OrderFulfilledDate"].writeTimestamp(value.orderFulfilledDate, format: .epochSeconds)
-        try writer["OrderId"].write(value.orderId)
-        try writer["OrderSubmissionDate"].writeTimestamp(value.orderSubmissionDate, format: .epochSeconds)
-        try writer["OrderType"].write(value.orderType)
-        try writer["OutpostId"].write(value.outpostId)
-        try writer["Status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> OutpostsClientTypes.OrderSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OutpostsClientTypes.OrderSummary()
@@ -3545,22 +3424,6 @@ extension OutpostsClientTypes {
 }
 
 extension OutpostsClientTypes.Outpost {
-
-    static func write(value: OutpostsClientTypes.Outpost?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AvailabilityZone"].write(value.availabilityZone)
-        try writer["AvailabilityZoneId"].write(value.availabilityZoneId)
-        try writer["Description"].write(value.description)
-        try writer["LifeCycleStatus"].write(value.lifeCycleStatus)
-        try writer["Name"].write(value.name)
-        try writer["OutpostArn"].write(value.outpostArn)
-        try writer["OutpostId"].write(value.outpostId)
-        try writer["OwnerId"].write(value.ownerId)
-        try writer["SiteArn"].write(value.siteArn)
-        try writer["SiteId"].write(value.siteId)
-        try writer["SupportedHardwareType"].write(value.supportedHardwareType)
-        try writer["Tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> OutpostsClientTypes.Outpost {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4025,12 +3888,6 @@ extension OutpostsClientTypes {
 
 extension OutpostsClientTypes.ShipmentInformation {
 
-    static func write(value: OutpostsClientTypes.ShipmentInformation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ShipmentCarrier"].write(value.shipmentCarrier)
-        try writer["ShipmentTrackingNumber"].write(value.shipmentTrackingNumber)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> OutpostsClientTypes.ShipmentInformation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OutpostsClientTypes.ShipmentInformation()
@@ -4061,21 +3918,6 @@ extension OutpostsClientTypes {
 }
 
 extension OutpostsClientTypes.Site {
-
-    static func write(value: OutpostsClientTypes.Site?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccountId"].write(value.accountId)
-        try writer["Description"].write(value.description)
-        try writer["Name"].write(value.name)
-        try writer["Notes"].write(value.notes)
-        try writer["OperatingAddressCity"].write(value.operatingAddressCity)
-        try writer["OperatingAddressCountryCode"].write(value.operatingAddressCountryCode)
-        try writer["OperatingAddressStateOrRegion"].write(value.operatingAddressStateOrRegion)
-        try writer["RackPhysicalProperties"].write(value.rackPhysicalProperties, with: OutpostsClientTypes.RackPhysicalProperties.write(value:to:))
-        try writer["SiteArn"].write(value.siteArn)
-        try writer["SiteId"].write(value.siteId)
-        try writer["Tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> OutpostsClientTypes.Site {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

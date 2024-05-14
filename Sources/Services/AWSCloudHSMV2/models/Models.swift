@@ -6,21 +6,6 @@ import SmithyReadWrite
 
 extension CloudHSMV2ClientTypes.Backup {
 
-    static func write(value: CloudHSMV2ClientTypes.Backup?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BackupId"].write(value.backupId)
-        try writer["BackupState"].write(value.backupState)
-        try writer["ClusterId"].write(value.clusterId)
-        try writer["CopyTimestamp"].writeTimestamp(value.copyTimestamp, format: .epochSeconds)
-        try writer["CreateTimestamp"].writeTimestamp(value.createTimestamp, format: .epochSeconds)
-        try writer["DeleteTimestamp"].writeTimestamp(value.deleteTimestamp, format: .epochSeconds)
-        try writer["NeverExpires"].write(value.neverExpires)
-        try writer["SourceBackup"].write(value.sourceBackup)
-        try writer["SourceCluster"].write(value.sourceCluster)
-        try writer["SourceRegion"].write(value.sourceRegion)
-        try writer["TagList"].writeList(value.tagList, memberWritingClosure: CloudHSMV2ClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CloudHSMV2ClientTypes.Backup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudHSMV2ClientTypes.Backup()
@@ -224,15 +209,6 @@ extension CloudHSMV2ClientTypes {
 }
 
 extension CloudHSMV2ClientTypes.Certificates {
-
-    static func write(value: CloudHSMV2ClientTypes.Certificates?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AwsHardwareCertificate"].write(value.awsHardwareCertificate)
-        try writer["ClusterCertificate"].write(value.clusterCertificate)
-        try writer["ClusterCsr"].write(value.clusterCsr)
-        try writer["HsmCertificate"].write(value.hsmCertificate)
-        try writer["ManufacturerHardwareCertificate"].write(value.manufacturerHardwareCertificate)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CloudHSMV2ClientTypes.Certificates {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -503,25 +479,6 @@ public struct CloudHsmTagException: ClientRuntime.ModeledError, AWSClientRuntime
 }
 
 extension CloudHSMV2ClientTypes.Cluster {
-
-    static func write(value: CloudHSMV2ClientTypes.Cluster?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BackupPolicy"].write(value.backupPolicy)
-        try writer["BackupRetentionPolicy"].write(value.backupRetentionPolicy, with: CloudHSMV2ClientTypes.BackupRetentionPolicy.write(value:to:))
-        try writer["Certificates"].write(value.certificates, with: CloudHSMV2ClientTypes.Certificates.write(value:to:))
-        try writer["ClusterId"].write(value.clusterId)
-        try writer["CreateTimestamp"].writeTimestamp(value.createTimestamp, format: .epochSeconds)
-        try writer["HsmType"].write(value.hsmType)
-        try writer["Hsms"].writeList(value.hsms, memberWritingClosure: CloudHSMV2ClientTypes.Hsm.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["PreCoPassword"].write(value.preCoPassword)
-        try writer["SecurityGroup"].write(value.securityGroup)
-        try writer["SourceBackupId"].write(value.sourceBackupId)
-        try writer["State"].write(value.state)
-        try writer["StateMessage"].write(value.stateMessage)
-        try writer["SubnetMapping"].writeMap(value.subnetMapping, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["TagList"].writeList(value.tagList, memberWritingClosure: CloudHSMV2ClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["VpcId"].write(value.vpcId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CloudHSMV2ClientTypes.Cluster {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1329,14 +1286,6 @@ enum DescribeClustersOutputError {
 
 extension CloudHSMV2ClientTypes.DestinationBackup {
 
-    static func write(value: CloudHSMV2ClientTypes.DestinationBackup?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreateTimestamp"].writeTimestamp(value.createTimestamp, format: .epochSeconds)
-        try writer["SourceBackup"].write(value.sourceBackup)
-        try writer["SourceCluster"].write(value.sourceCluster)
-        try writer["SourceRegion"].write(value.sourceRegion)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CloudHSMV2ClientTypes.DestinationBackup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudHSMV2ClientTypes.DestinationBackup()
@@ -1377,18 +1326,6 @@ extension CloudHSMV2ClientTypes {
 }
 
 extension CloudHSMV2ClientTypes.Hsm {
-
-    static func write(value: CloudHSMV2ClientTypes.Hsm?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AvailabilityZone"].write(value.availabilityZone)
-        try writer["ClusterId"].write(value.clusterId)
-        try writer["EniId"].write(value.eniId)
-        try writer["EniIp"].write(value.eniIp)
-        try writer["HsmId"].write(value.hsmId)
-        try writer["State"].write(value.state)
-        try writer["StateMessage"].write(value.stateMessage)
-        try writer["SubnetId"].write(value.subnetId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CloudHSMV2ClientTypes.Hsm {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

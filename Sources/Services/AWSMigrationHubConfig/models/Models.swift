@@ -376,14 +376,6 @@ enum GetHomeRegionOutputError {
 
 extension MigrationHubConfigClientTypes.HomeRegionControl {
 
-    static func write(value: MigrationHubConfigClientTypes.HomeRegionControl?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ControlId"].write(value.controlId)
-        try writer["HomeRegion"].write(value.homeRegion)
-        try writer["RequestedTime"].writeTimestamp(value.requestedTime, format: .epochSeconds)
-        try writer["Target"].write(value.target, with: MigrationHubConfigClientTypes.Target.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubConfigClientTypes.HomeRegionControl {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MigrationHubConfigClientTypes.HomeRegionControl()

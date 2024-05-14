@@ -44,12 +44,6 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
 extension DevOpsGuruClientTypes.AccountHealth {
 
-    static func write(value: DevOpsGuruClientTypes.AccountHealth?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccountId"].write(value.accountId)
-        try writer["Insight"].write(value.insight, with: DevOpsGuruClientTypes.AccountInsightHealth.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DevOpsGuruClientTypes.AccountHealth {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DevOpsGuruClientTypes.AccountHealth()
@@ -80,12 +74,6 @@ extension DevOpsGuruClientTypes {
 }
 
 extension DevOpsGuruClientTypes.AccountInsightHealth {
-
-    static func write(value: DevOpsGuruClientTypes.AccountInsightHealth?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["OpenProactiveInsights"].write(value.openProactiveInsights)
-        try writer["OpenReactiveInsights"].write(value.openReactiveInsights)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DevOpsGuruClientTypes.AccountInsightHealth {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -222,15 +210,6 @@ extension DevOpsGuruClientTypes {
 
 extension DevOpsGuruClientTypes.AnomalousLogGroup {
 
-    static func write(value: DevOpsGuruClientTypes.AnomalousLogGroup?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ImpactEndTime"].writeTimestamp(value.impactEndTime, format: .epochSeconds)
-        try writer["ImpactStartTime"].writeTimestamp(value.impactStartTime, format: .epochSeconds)
-        try writer["LogAnomalyShowcases"].writeList(value.logAnomalyShowcases, memberWritingClosure: DevOpsGuruClientTypes.LogAnomalyShowcase.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["LogGroupName"].write(value.logGroupName)
-        try writer["NumberOfLogLinesScanned"].write(value.numberOfLogLinesScanned)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DevOpsGuruClientTypes.AnomalousLogGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DevOpsGuruClientTypes.AnomalousLogGroup()
@@ -277,12 +256,6 @@ extension DevOpsGuruClientTypes {
 
 extension DevOpsGuruClientTypes.AnomalyReportedTimeRange {
 
-    static func write(value: DevOpsGuruClientTypes.AnomalyReportedTimeRange?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CloseTime"].writeTimestamp(value.closeTime, format: .epochSeconds)
-        try writer["OpenTime"].writeTimestamp(value.openTime, format: .epochSeconds)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DevOpsGuruClientTypes.AnomalyReportedTimeRange {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DevOpsGuruClientTypes.AnomalyReportedTimeRange()
@@ -314,12 +287,6 @@ extension DevOpsGuruClientTypes {
 }
 
 extension DevOpsGuruClientTypes.AnomalyResource {
-
-    static func write(value: DevOpsGuruClientTypes.AnomalyResource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["Type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DevOpsGuruClientTypes.AnomalyResource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -385,12 +352,6 @@ extension DevOpsGuruClientTypes {
 
 extension DevOpsGuruClientTypes.AnomalySourceDetails {
 
-    static func write(value: DevOpsGuruClientTypes.AnomalySourceDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CloudWatchMetrics"].writeList(value.cloudWatchMetrics, memberWritingClosure: DevOpsGuruClientTypes.CloudWatchMetricsDetail.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["PerformanceInsightsMetrics"].writeList(value.performanceInsightsMetrics, memberWritingClosure: DevOpsGuruClientTypes.PerformanceInsightsMetricsDetail.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DevOpsGuruClientTypes.AnomalySourceDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DevOpsGuruClientTypes.AnomalySourceDetails()
@@ -421,13 +382,6 @@ extension DevOpsGuruClientTypes {
 }
 
 extension DevOpsGuruClientTypes.AnomalySourceMetadata {
-
-    static func write(value: DevOpsGuruClientTypes.AnomalySourceMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Source"].write(value.source)
-        try writer["SourceResourceName"].write(value.sourceResourceName)
-        try writer["SourceResourceType"].write(value.sourceResourceType)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DevOpsGuruClientTypes.AnomalySourceMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -494,12 +448,6 @@ extension DevOpsGuruClientTypes {
 }
 
 extension DevOpsGuruClientTypes.AnomalyTimeRange {
-
-    static func write(value: DevOpsGuruClientTypes.AnomalyTimeRange?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EndTime"].writeTimestamp(value.endTime, format: .epochSeconds)
-        try writer["StartTime"].writeTimestamp(value.startTime, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DevOpsGuruClientTypes.AnomalyTimeRange {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -594,11 +542,6 @@ extension DevOpsGuruClientTypes {
 
 extension DevOpsGuruClientTypes.CloudFormationCollectionFilter {
 
-    static func write(value: DevOpsGuruClientTypes.CloudFormationCollectionFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["StackNames"].writeList(value.stackNames, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DevOpsGuruClientTypes.CloudFormationCollectionFilter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DevOpsGuruClientTypes.CloudFormationCollectionFilter()
@@ -655,13 +598,6 @@ extension DevOpsGuruClientTypes {
 }
 
 extension DevOpsGuruClientTypes.CloudFormationHealth {
-
-    static func write(value: DevOpsGuruClientTypes.CloudFormationHealth?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AnalyzedResourceCount"].write(value.analyzedResourceCount)
-        try writer["Insight"].write(value.insight, with: DevOpsGuruClientTypes.InsightHealth.write(value:to:))
-        try writer["StackName"].write(value.stackName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DevOpsGuruClientTypes.CloudFormationHealth {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -732,12 +668,6 @@ extension DevOpsGuruClientTypes {
 
 extension DevOpsGuruClientTypes.CloudWatchMetricsDataSummary {
 
-    static func write(value: DevOpsGuruClientTypes.CloudWatchMetricsDataSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["StatusCode"].write(value.statusCode)
-        try writer["TimestampMetricValuePairList"].writeList(value.timestampMetricValuePairList, memberWritingClosure: DevOpsGuruClientTypes.TimestampMetricValuePair.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DevOpsGuruClientTypes.CloudWatchMetricsDataSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DevOpsGuruClientTypes.CloudWatchMetricsDataSummary()
@@ -768,17 +698,6 @@ extension DevOpsGuruClientTypes {
 }
 
 extension DevOpsGuruClientTypes.CloudWatchMetricsDetail {
-
-    static func write(value: DevOpsGuruClientTypes.CloudWatchMetricsDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Dimensions"].writeList(value.dimensions, memberWritingClosure: DevOpsGuruClientTypes.CloudWatchMetricsDimension.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["MetricDataSummary"].write(value.metricDataSummary, with: DevOpsGuruClientTypes.CloudWatchMetricsDataSummary.write(value:to:))
-        try writer["MetricName"].write(value.metricName)
-        try writer["Namespace"].write(value.namespace)
-        try writer["Period"].write(value.period)
-        try writer["Stat"].write(value.stat)
-        try writer["Unit"].write(value.unit)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DevOpsGuruClientTypes.CloudWatchMetricsDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -835,12 +754,6 @@ extension DevOpsGuruClientTypes {
 }
 
 extension DevOpsGuruClientTypes.CloudWatchMetricsDimension {
-
-    static func write(value: DevOpsGuruClientTypes.CloudWatchMetricsDimension?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["Value"].write(value.value)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DevOpsGuruClientTypes.CloudWatchMetricsDimension {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1074,12 +987,6 @@ extension DevOpsGuruClientTypes {
 }
 
 extension DevOpsGuruClientTypes.CostEstimationTimeRange {
-
-    static func write(value: DevOpsGuruClientTypes.CostEstimationTimeRange?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EndTime"].writeTimestamp(value.endTime, format: .epochSeconds)
-        try writer["StartTime"].writeTimestamp(value.startTime, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DevOpsGuruClientTypes.CostEstimationTimeRange {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2086,14 +1993,6 @@ extension DevOpsGuruClientTypes.EndTimeRange {
         try writer["FromTime"].writeTimestamp(value.fromTime, format: .epochSeconds)
         try writer["ToTime"].writeTimestamp(value.toTime, format: .epochSeconds)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DevOpsGuruClientTypes.EndTimeRange {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DevOpsGuruClientTypes.EndTimeRange()
-        value.fromTime = try reader["FromTime"].readTimestampIfPresent(format: .epochSeconds)
-        value.toTime = try reader["ToTime"].readTimestampIfPresent(format: .epochSeconds)
-        return value
-    }
 }
 
 extension DevOpsGuruClientTypes {
@@ -2117,18 +2016,6 @@ extension DevOpsGuruClientTypes {
 }
 
 extension DevOpsGuruClientTypes.Event {
-
-    static func write(value: DevOpsGuruClientTypes.Event?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DataSource"].write(value.dataSource)
-        try writer["EventClass"].write(value.eventClass)
-        try writer["EventSource"].write(value.eventSource)
-        try writer["Id"].write(value.id)
-        try writer["Name"].write(value.name)
-        try writer["ResourceCollection"].write(value.resourceCollection, with: DevOpsGuruClientTypes.ResourceCollection.write(value:to:))
-        try writer["Resources"].writeList(value.resources, memberWritingClosure: DevOpsGuruClientTypes.EventResource.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Time"].writeTimestamp(value.time, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DevOpsGuruClientTypes.Event {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2260,13 +2147,6 @@ extension DevOpsGuruClientTypes {
 
 extension DevOpsGuruClientTypes.EventResource {
 
-    static func write(value: DevOpsGuruClientTypes.EventResource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["Name"].write(value.name)
-        try writer["Type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DevOpsGuruClientTypes.EventResource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DevOpsGuruClientTypes.EventResource()
@@ -2368,14 +2248,6 @@ extension DevOpsGuruClientTypes.EventTimeRange {
         guard let value else { return }
         try writer["FromTime"].writeTimestamp(value.fromTime, format: .epochSeconds)
         try writer["ToTime"].writeTimestamp(value.toTime, format: .epochSeconds)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DevOpsGuruClientTypes.EventTimeRange {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DevOpsGuruClientTypes.EventTimeRange()
-        value.fromTime = try reader["FromTime"].readTimestampIfPresent(format: .epochSeconds)
-        value.toTime = try reader["ToTime"].readTimestampIfPresent(format: .epochSeconds)
-        return value
     }
 }
 
@@ -2663,13 +2535,6 @@ extension DevOpsGuruClientTypes {
 
 extension DevOpsGuruClientTypes.InsightHealth {
 
-    static func write(value: DevOpsGuruClientTypes.InsightHealth?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MeanTimeToRecoverInMilliseconds"].write(value.meanTimeToRecoverInMilliseconds)
-        try writer["OpenProactiveInsights"].write(value.openProactiveInsights)
-        try writer["OpenReactiveInsights"].write(value.openReactiveInsights)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DevOpsGuruClientTypes.InsightHealth {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DevOpsGuruClientTypes.InsightHealth()
@@ -2768,12 +2633,6 @@ extension DevOpsGuruClientTypes {
 }
 
 extension DevOpsGuruClientTypes.InsightTimeRange {
-
-    static func write(value: DevOpsGuruClientTypes.InsightTimeRange?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EndTime"].writeTimestamp(value.endTime, format: .epochSeconds)
-        try writer["StartTime"].writeTimestamp(value.startTime, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DevOpsGuruClientTypes.InsightTimeRange {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2883,13 +2742,6 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
 extension DevOpsGuruClientTypes.KMSServerSideEncryptionIntegration {
 
-    static func write(value: DevOpsGuruClientTypes.KMSServerSideEncryptionIntegration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["KMSKeyId"].write(value.kmsKeyId)
-        try writer["OptInStatus"].write(value.optInStatus)
-        try writer["Type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DevOpsGuruClientTypes.KMSServerSideEncryptionIntegration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DevOpsGuruClientTypes.KMSServerSideEncryptionIntegration()
@@ -2932,15 +2784,6 @@ extension DevOpsGuruClientTypes.KMSServerSideEncryptionIntegrationConfig {
         try writer["OptInStatus"].write(value.optInStatus)
         try writer["Type"].write(value.type)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DevOpsGuruClientTypes.KMSServerSideEncryptionIntegrationConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DevOpsGuruClientTypes.KMSServerSideEncryptionIntegrationConfig()
-        value.kmsKeyId = try reader["KMSKeyId"].readIfPresent()
-        value.optInStatus = try reader["OptInStatus"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
-        return value
-    }
 }
 
 extension DevOpsGuruClientTypes {
@@ -2972,13 +2815,6 @@ extension DevOpsGuruClientTypes.ListAnomaliesForInsightFilters {
     static func write(value: DevOpsGuruClientTypes.ListAnomaliesForInsightFilters?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["ServiceCollection"].write(value.serviceCollection, with: DevOpsGuruClientTypes.ServiceCollection.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DevOpsGuruClientTypes.ListAnomaliesForInsightFilters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DevOpsGuruClientTypes.ListAnomaliesForInsightFilters()
-        value.serviceCollection = try reader["ServiceCollection"].readIfPresent(with: DevOpsGuruClientTypes.ServiceCollection.read(from:))
-        return value
     }
 }
 
@@ -3208,18 +3044,6 @@ extension DevOpsGuruClientTypes.ListEventsFilters {
         try writer["InsightId"].write(value.insightId)
         try writer["ResourceCollection"].write(value.resourceCollection, with: DevOpsGuruClientTypes.ResourceCollection.write(value:to:))
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DevOpsGuruClientTypes.ListEventsFilters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DevOpsGuruClientTypes.ListEventsFilters()
-        value.insightId = try reader["InsightId"].readIfPresent()
-        value.eventTimeRange = try reader["EventTimeRange"].readIfPresent(with: DevOpsGuruClientTypes.EventTimeRange.read(from:))
-        value.eventClass = try reader["EventClass"].readIfPresent()
-        value.eventSource = try reader["EventSource"].readIfPresent()
-        value.dataSource = try reader["DataSource"].readIfPresent()
-        value.resourceCollection = try reader["ResourceCollection"].readIfPresent(with: DevOpsGuruClientTypes.ResourceCollection.read(from:))
-        return value
-    }
 }
 
 extension DevOpsGuruClientTypes {
@@ -3356,14 +3180,6 @@ extension DevOpsGuruClientTypes.ListInsightsAnyStatusFilter {
         try writer["StartTimeRange"].write(value.startTimeRange, with: DevOpsGuruClientTypes.StartTimeRange.write(value:to:))
         try writer["Type"].write(value.type)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DevOpsGuruClientTypes.ListInsightsAnyStatusFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DevOpsGuruClientTypes.ListInsightsAnyStatusFilter()
-        value.type = try reader["Type"].readIfPresent()
-        value.startTimeRange = try reader["StartTimeRange"].readIfPresent(with: DevOpsGuruClientTypes.StartTimeRange.read(from:))
-        return value
-    }
 }
 
 extension DevOpsGuruClientTypes {
@@ -3394,14 +3210,6 @@ extension DevOpsGuruClientTypes.ListInsightsClosedStatusFilter {
         guard let value else { return }
         try writer["EndTimeRange"].write(value.endTimeRange, with: DevOpsGuruClientTypes.EndTimeRange.write(value:to:))
         try writer["Type"].write(value.type)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DevOpsGuruClientTypes.ListInsightsClosedStatusFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DevOpsGuruClientTypes.ListInsightsClosedStatusFilter()
-        value.type = try reader["Type"].readIfPresent()
-        value.endTimeRange = try reader["EndTimeRange"].readIfPresent(with: DevOpsGuruClientTypes.EndTimeRange.read(from:))
-        return value
     }
 }
 
@@ -3470,13 +3278,6 @@ extension DevOpsGuruClientTypes.ListInsightsOngoingStatusFilter {
     static func write(value: DevOpsGuruClientTypes.ListInsightsOngoingStatusFilter?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Type"].write(value.type)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DevOpsGuruClientTypes.ListInsightsOngoingStatusFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DevOpsGuruClientTypes.ListInsightsOngoingStatusFilter()
-        value.type = try reader["Type"].readIfPresent()
-        return value
     }
 }
 
@@ -3556,15 +3357,6 @@ extension DevOpsGuruClientTypes.ListInsightsStatusFilter {
         try writer["Closed"].write(value.closed, with: DevOpsGuruClientTypes.ListInsightsClosedStatusFilter.write(value:to:))
         try writer["Ongoing"].write(value.ongoing, with: DevOpsGuruClientTypes.ListInsightsOngoingStatusFilter.write(value:to:))
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DevOpsGuruClientTypes.ListInsightsStatusFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DevOpsGuruClientTypes.ListInsightsStatusFilter()
-        value.ongoing = try reader["Ongoing"].readIfPresent(with: DevOpsGuruClientTypes.ListInsightsOngoingStatusFilter.read(from:))
-        value.closed = try reader["Closed"].readIfPresent(with: DevOpsGuruClientTypes.ListInsightsClosedStatusFilter.read(from:))
-        value.any = try reader["Any"].readIfPresent(with: DevOpsGuruClientTypes.ListInsightsAnyStatusFilter.read(from:))
-        return value
-    }
 }
 
 extension DevOpsGuruClientTypes {
@@ -3597,14 +3389,6 @@ extension DevOpsGuruClientTypes.ListMonitoredResourcesFilters {
         guard let value else { return }
         try writer["ResourcePermission"].write(value.resourcePermission)
         try writer["ResourceTypeFilters"].writeList(value.resourceTypeFilters, memberWritingClosure: DevOpsGuruClientTypes.ResourceTypeFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DevOpsGuruClientTypes.ListMonitoredResourcesFilters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DevOpsGuruClientTypes.ListMonitoredResourcesFilters()
-        value.resourcePermission = try reader["ResourcePermission"].readIfPresent()
-        value.resourceTypeFilters = try reader["ResourceTypeFilters"].readListIfPresent(memberReadingClosure: DevOpsGuruClientTypes.ResourceTypeFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -4035,17 +3819,6 @@ extension DevOpsGuruClientTypes {
 
 extension DevOpsGuruClientTypes.LogAnomalyClass {
 
-    static func write(value: DevOpsGuruClientTypes.LogAnomalyClass?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Explanation"].write(value.explanation)
-        try writer["LogAnomalyToken"].write(value.logAnomalyToken)
-        try writer["LogAnomalyType"].write(value.logAnomalyType)
-        try writer["LogEventId"].write(value.logEventId)
-        try writer["LogEventTimestamp"].writeTimestamp(value.logEventTimestamp, format: .epochSeconds)
-        try writer["LogStreamName"].write(value.logStreamName)
-        try writer["NumberOfLogLinesOccurrences"].write(value.numberOfLogLinesOccurrences)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DevOpsGuruClientTypes.LogAnomalyClass {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DevOpsGuruClientTypes.LogAnomalyClass()
@@ -4101,11 +3874,6 @@ extension DevOpsGuruClientTypes {
 }
 
 extension DevOpsGuruClientTypes.LogAnomalyShowcase {
-
-    static func write(value: DevOpsGuruClientTypes.LogAnomalyShowcase?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["LogAnomalyClasses"].writeList(value.logAnomalyClasses, memberWritingClosure: DevOpsGuruClientTypes.LogAnomalyClass.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DevOpsGuruClientTypes.LogAnomalyShowcase {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4181,11 +3949,6 @@ extension DevOpsGuruClientTypes {
 
 extension DevOpsGuruClientTypes.LogsAnomalyDetectionIntegration {
 
-    static func write(value: DevOpsGuruClientTypes.LogsAnomalyDetectionIntegration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["OptInStatus"].write(value.optInStatus)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DevOpsGuruClientTypes.LogsAnomalyDetectionIntegration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DevOpsGuruClientTypes.LogsAnomalyDetectionIntegration()
@@ -4216,13 +3979,6 @@ extension DevOpsGuruClientTypes.LogsAnomalyDetectionIntegrationConfig {
         guard let value else { return }
         try writer["OptInStatus"].write(value.optInStatus)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DevOpsGuruClientTypes.LogsAnomalyDetectionIntegrationConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DevOpsGuruClientTypes.LogsAnomalyDetectionIntegrationConfig()
-        value.optInStatus = try reader["OptInStatus"].readIfPresent()
-        return value
-    }
 }
 
 extension DevOpsGuruClientTypes {
@@ -4242,15 +3998,6 @@ extension DevOpsGuruClientTypes {
 }
 
 extension DevOpsGuruClientTypes.MonitoredResourceIdentifier {
-
-    static func write(value: DevOpsGuruClientTypes.MonitoredResourceIdentifier?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["LastUpdated"].writeTimestamp(value.lastUpdated, format: .epochSeconds)
-        try writer["MonitoredResourceName"].write(value.monitoredResourceName)
-        try writer["ResourceCollection"].write(value.resourceCollection, with: DevOpsGuruClientTypes.ResourceCollection.write(value:to:))
-        try writer["ResourcePermission"].write(value.resourcePermission)
-        try writer["Type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DevOpsGuruClientTypes.MonitoredResourceIdentifier {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4297,12 +4044,6 @@ extension DevOpsGuruClientTypes {
 }
 
 extension DevOpsGuruClientTypes.NotificationChannel {
-
-    static func write(value: DevOpsGuruClientTypes.NotificationChannel?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Config"].write(value.config, with: DevOpsGuruClientTypes.NotificationChannelConfig.write(value:to:))
-        try writer["Id"].write(value.id)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DevOpsGuruClientTypes.NotificationChannel {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4449,11 +4190,6 @@ extension DevOpsGuruClientTypes {
 
 extension DevOpsGuruClientTypes.OpsCenterIntegration {
 
-    static func write(value: DevOpsGuruClientTypes.OpsCenterIntegration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["OptInStatus"].write(value.optInStatus)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DevOpsGuruClientTypes.OpsCenterIntegration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DevOpsGuruClientTypes.OpsCenterIntegration()
@@ -4483,13 +4219,6 @@ extension DevOpsGuruClientTypes.OpsCenterIntegrationConfig {
     static func write(value: DevOpsGuruClientTypes.OpsCenterIntegrationConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["OptInStatus"].write(value.optInStatus)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DevOpsGuruClientTypes.OpsCenterIntegrationConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DevOpsGuruClientTypes.OpsCenterIntegrationConfig()
-        value.optInStatus = try reader["OptInStatus"].readIfPresent()
-        return value
     }
 }
 
@@ -4577,13 +4306,6 @@ extension DevOpsGuruClientTypes {
 }
 
 extension DevOpsGuruClientTypes.PerformanceInsightsMetricDimensionGroup {
-
-    static func write(value: DevOpsGuruClientTypes.PerformanceInsightsMetricDimensionGroup?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Dimensions"].writeList(value.dimensions, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Group"].write(value.group)
-        try writer["Limit"].write(value.limit)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DevOpsGuruClientTypes.PerformanceInsightsMetricDimensionGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4677,13 +4399,6 @@ extension DevOpsGuruClientTypes {
 
 extension DevOpsGuruClientTypes.PerformanceInsightsMetricQuery {
 
-    static func write(value: DevOpsGuruClientTypes.PerformanceInsightsMetricQuery?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Filter"].writeMap(value.filter, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["GroupBy"].write(value.groupBy, with: DevOpsGuruClientTypes.PerformanceInsightsMetricDimensionGroup.write(value:to:))
-        try writer["Metric"].write(value.metric)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DevOpsGuruClientTypes.PerformanceInsightsMetricQuery {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DevOpsGuruClientTypes.PerformanceInsightsMetricQuery()
@@ -4734,16 +4449,6 @@ extension DevOpsGuruClientTypes {
 }
 
 extension DevOpsGuruClientTypes.PerformanceInsightsMetricsDetail {
-
-    static func write(value: DevOpsGuruClientTypes.PerformanceInsightsMetricsDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MetricDisplayName"].write(value.metricDisplayName)
-        try writer["MetricQuery"].write(value.metricQuery, with: DevOpsGuruClientTypes.PerformanceInsightsMetricQuery.write(value:to:))
-        try writer["ReferenceData"].writeList(value.referenceData, memberWritingClosure: DevOpsGuruClientTypes.PerformanceInsightsReferenceData.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["StatsAtAnomaly"].writeList(value.statsAtAnomaly, memberWritingClosure: DevOpsGuruClientTypes.PerformanceInsightsStat.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["StatsAtBaseline"].writeList(value.statsAtBaseline, memberWritingClosure: DevOpsGuruClientTypes.PerformanceInsightsStat.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Unit"].write(value.unit)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DevOpsGuruClientTypes.PerformanceInsightsMetricsDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4800,12 +4505,6 @@ extension DevOpsGuruClientTypes {
 
 extension DevOpsGuruClientTypes.PerformanceInsightsReferenceComparisonValues {
 
-    static func write(value: DevOpsGuruClientTypes.PerformanceInsightsReferenceComparisonValues?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ReferenceMetric"].write(value.referenceMetric, with: DevOpsGuruClientTypes.PerformanceInsightsReferenceMetric.write(value:to:))
-        try writer["ReferenceScalar"].write(value.referenceScalar, with: DevOpsGuruClientTypes.PerformanceInsightsReferenceScalar.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DevOpsGuruClientTypes.PerformanceInsightsReferenceComparisonValues {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DevOpsGuruClientTypes.PerformanceInsightsReferenceComparisonValues()
@@ -4836,12 +4535,6 @@ extension DevOpsGuruClientTypes {
 }
 
 extension DevOpsGuruClientTypes.PerformanceInsightsReferenceData {
-
-    static func write(value: DevOpsGuruClientTypes.PerformanceInsightsReferenceData?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ComparisonValues"].write(value.comparisonValues, with: DevOpsGuruClientTypes.PerformanceInsightsReferenceComparisonValues.write(value:to:))
-        try writer["Name"].write(value.name)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DevOpsGuruClientTypes.PerformanceInsightsReferenceData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4874,11 +4567,6 @@ extension DevOpsGuruClientTypes {
 
 extension DevOpsGuruClientTypes.PerformanceInsightsReferenceMetric {
 
-    static func write(value: DevOpsGuruClientTypes.PerformanceInsightsReferenceMetric?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MetricQuery"].write(value.metricQuery, with: DevOpsGuruClientTypes.PerformanceInsightsMetricQuery.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DevOpsGuruClientTypes.PerformanceInsightsReferenceMetric {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DevOpsGuruClientTypes.PerformanceInsightsReferenceMetric()
@@ -4905,11 +4593,6 @@ extension DevOpsGuruClientTypes {
 
 extension DevOpsGuruClientTypes.PerformanceInsightsReferenceScalar {
 
-    static func write(value: DevOpsGuruClientTypes.PerformanceInsightsReferenceScalar?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Value"].write(value.value)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DevOpsGuruClientTypes.PerformanceInsightsReferenceScalar {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DevOpsGuruClientTypes.PerformanceInsightsReferenceScalar()
@@ -4935,12 +4618,6 @@ extension DevOpsGuruClientTypes {
 }
 
 extension DevOpsGuruClientTypes.PerformanceInsightsStat {
-
-    static func write(value: DevOpsGuruClientTypes.PerformanceInsightsStat?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Type"].write(value.type)
-        try writer["Value"].write(value.value)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DevOpsGuruClientTypes.PerformanceInsightsStat {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4973,12 +4650,6 @@ extension DevOpsGuruClientTypes {
 
 extension DevOpsGuruClientTypes.PredictionTimeRange {
 
-    static func write(value: DevOpsGuruClientTypes.PredictionTimeRange?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EndTime"].writeTimestamp(value.endTime, format: .epochSeconds)
-        try writer["StartTime"].writeTimestamp(value.startTime, format: .epochSeconds)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DevOpsGuruClientTypes.PredictionTimeRange {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DevOpsGuruClientTypes.PredictionTimeRange()
@@ -5010,24 +4681,6 @@ extension DevOpsGuruClientTypes {
 }
 
 extension DevOpsGuruClientTypes.ProactiveAnomaly {
-
-    static func write(value: DevOpsGuruClientTypes.ProactiveAnomaly?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AnomalyReportedTimeRange"].write(value.anomalyReportedTimeRange, with: DevOpsGuruClientTypes.AnomalyReportedTimeRange.write(value:to:))
-        try writer["AnomalyResources"].writeList(value.anomalyResources, memberWritingClosure: DevOpsGuruClientTypes.AnomalyResource.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["AnomalyTimeRange"].write(value.anomalyTimeRange, with: DevOpsGuruClientTypes.AnomalyTimeRange.write(value:to:))
-        try writer["AssociatedInsightId"].write(value.associatedInsightId)
-        try writer["Description"].write(value.description)
-        try writer["Id"].write(value.id)
-        try writer["Limit"].write(value.limit)
-        try writer["PredictionTimeRange"].write(value.predictionTimeRange, with: DevOpsGuruClientTypes.PredictionTimeRange.write(value:to:))
-        try writer["ResourceCollection"].write(value.resourceCollection, with: DevOpsGuruClientTypes.ResourceCollection.write(value:to:))
-        try writer["Severity"].write(value.severity)
-        try writer["SourceDetails"].write(value.sourceDetails, with: DevOpsGuruClientTypes.AnomalySourceDetails.write(value:to:))
-        try writer["SourceMetadata"].write(value.sourceMetadata, with: DevOpsGuruClientTypes.AnomalySourceMetadata.write(value:to:))
-        try writer["Status"].write(value.status)
-        try writer["UpdateTime"].writeTimestamp(value.updateTime, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DevOpsGuruClientTypes.ProactiveAnomaly {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5120,24 +4773,6 @@ extension DevOpsGuruClientTypes {
 
 extension DevOpsGuruClientTypes.ProactiveAnomalySummary {
 
-    static func write(value: DevOpsGuruClientTypes.ProactiveAnomalySummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AnomalyReportedTimeRange"].write(value.anomalyReportedTimeRange, with: DevOpsGuruClientTypes.AnomalyReportedTimeRange.write(value:to:))
-        try writer["AnomalyResources"].writeList(value.anomalyResources, memberWritingClosure: DevOpsGuruClientTypes.AnomalyResource.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["AnomalyTimeRange"].write(value.anomalyTimeRange, with: DevOpsGuruClientTypes.AnomalyTimeRange.write(value:to:))
-        try writer["AssociatedInsightId"].write(value.associatedInsightId)
-        try writer["Description"].write(value.description)
-        try writer["Id"].write(value.id)
-        try writer["Limit"].write(value.limit)
-        try writer["PredictionTimeRange"].write(value.predictionTimeRange, with: DevOpsGuruClientTypes.PredictionTimeRange.write(value:to:))
-        try writer["ResourceCollection"].write(value.resourceCollection, with: DevOpsGuruClientTypes.ResourceCollection.write(value:to:))
-        try writer["Severity"].write(value.severity)
-        try writer["SourceDetails"].write(value.sourceDetails, with: DevOpsGuruClientTypes.AnomalySourceDetails.write(value:to:))
-        try writer["SourceMetadata"].write(value.sourceMetadata, with: DevOpsGuruClientTypes.AnomalySourceMetadata.write(value:to:))
-        try writer["Status"].write(value.status)
-        try writer["UpdateTime"].writeTimestamp(value.updateTime, format: .epochSeconds)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DevOpsGuruClientTypes.ProactiveAnomalySummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DevOpsGuruClientTypes.ProactiveAnomalySummary()
@@ -5229,19 +4864,6 @@ extension DevOpsGuruClientTypes {
 
 extension DevOpsGuruClientTypes.ProactiveInsight {
 
-    static func write(value: DevOpsGuruClientTypes.ProactiveInsight?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Description"].write(value.description)
-        try writer["Id"].write(value.id)
-        try writer["InsightTimeRange"].write(value.insightTimeRange, with: DevOpsGuruClientTypes.InsightTimeRange.write(value:to:))
-        try writer["Name"].write(value.name)
-        try writer["PredictionTimeRange"].write(value.predictionTimeRange, with: DevOpsGuruClientTypes.PredictionTimeRange.write(value:to:))
-        try writer["ResourceCollection"].write(value.resourceCollection, with: DevOpsGuruClientTypes.ResourceCollection.write(value:to:))
-        try writer["Severity"].write(value.severity)
-        try writer["SsmOpsItemId"].write(value.ssmOpsItemId)
-        try writer["Status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DevOpsGuruClientTypes.ProactiveInsight {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DevOpsGuruClientTypes.ProactiveInsight()
@@ -5308,19 +4930,6 @@ extension DevOpsGuruClientTypes {
 
 extension DevOpsGuruClientTypes.ProactiveInsightSummary {
 
-    static func write(value: DevOpsGuruClientTypes.ProactiveInsightSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AssociatedResourceArns"].writeList(value.associatedResourceArns, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Id"].write(value.id)
-        try writer["InsightTimeRange"].write(value.insightTimeRange, with: DevOpsGuruClientTypes.InsightTimeRange.write(value:to:))
-        try writer["Name"].write(value.name)
-        try writer["PredictionTimeRange"].write(value.predictionTimeRange, with: DevOpsGuruClientTypes.PredictionTimeRange.write(value:to:))
-        try writer["ResourceCollection"].write(value.resourceCollection, with: DevOpsGuruClientTypes.ResourceCollection.write(value:to:))
-        try writer["ServiceCollection"].write(value.serviceCollection, with: DevOpsGuruClientTypes.ServiceCollection.write(value:to:))
-        try writer["Severity"].write(value.severity)
-        try writer["Status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DevOpsGuruClientTypes.ProactiveInsightSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DevOpsGuruClientTypes.ProactiveInsightSummary()
@@ -5386,20 +4995,6 @@ extension DevOpsGuruClientTypes {
 }
 
 extension DevOpsGuruClientTypes.ProactiveOrganizationInsightSummary {
-
-    static func write(value: DevOpsGuruClientTypes.ProactiveOrganizationInsightSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccountId"].write(value.accountId)
-        try writer["Id"].write(value.id)
-        try writer["InsightTimeRange"].write(value.insightTimeRange, with: DevOpsGuruClientTypes.InsightTimeRange.write(value:to:))
-        try writer["Name"].write(value.name)
-        try writer["OrganizationalUnitId"].write(value.organizationalUnitId)
-        try writer["PredictionTimeRange"].write(value.predictionTimeRange, with: DevOpsGuruClientTypes.PredictionTimeRange.write(value:to:))
-        try writer["ResourceCollection"].write(value.resourceCollection, with: DevOpsGuruClientTypes.ResourceCollection.write(value:to:))
-        try writer["ServiceCollection"].write(value.serviceCollection, with: DevOpsGuruClientTypes.ServiceCollection.write(value:to:))
-        try writer["Severity"].write(value.severity)
-        try writer["Status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DevOpsGuruClientTypes.ProactiveOrganizationInsightSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5530,23 +5125,6 @@ enum PutFeedbackOutputError {
 
 extension DevOpsGuruClientTypes.ReactiveAnomaly {
 
-    static func write(value: DevOpsGuruClientTypes.ReactiveAnomaly?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AnomalyReportedTimeRange"].write(value.anomalyReportedTimeRange, with: DevOpsGuruClientTypes.AnomalyReportedTimeRange.write(value:to:))
-        try writer["AnomalyResources"].writeList(value.anomalyResources, memberWritingClosure: DevOpsGuruClientTypes.AnomalyResource.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["AnomalyTimeRange"].write(value.anomalyTimeRange, with: DevOpsGuruClientTypes.AnomalyTimeRange.write(value:to:))
-        try writer["AssociatedInsightId"].write(value.associatedInsightId)
-        try writer["CausalAnomalyId"].write(value.causalAnomalyId)
-        try writer["Description"].write(value.description)
-        try writer["Id"].write(value.id)
-        try writer["Name"].write(value.name)
-        try writer["ResourceCollection"].write(value.resourceCollection, with: DevOpsGuruClientTypes.ResourceCollection.write(value:to:))
-        try writer["Severity"].write(value.severity)
-        try writer["SourceDetails"].write(value.sourceDetails, with: DevOpsGuruClientTypes.AnomalySourceDetails.write(value:to:))
-        try writer["Status"].write(value.status)
-        try writer["Type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DevOpsGuruClientTypes.ReactiveAnomaly {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DevOpsGuruClientTypes.ReactiveAnomaly()
@@ -5636,23 +5214,6 @@ extension DevOpsGuruClientTypes {
 }
 
 extension DevOpsGuruClientTypes.ReactiveAnomalySummary {
-
-    static func write(value: DevOpsGuruClientTypes.ReactiveAnomalySummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AnomalyReportedTimeRange"].write(value.anomalyReportedTimeRange, with: DevOpsGuruClientTypes.AnomalyReportedTimeRange.write(value:to:))
-        try writer["AnomalyResources"].writeList(value.anomalyResources, memberWritingClosure: DevOpsGuruClientTypes.AnomalyResource.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["AnomalyTimeRange"].write(value.anomalyTimeRange, with: DevOpsGuruClientTypes.AnomalyTimeRange.write(value:to:))
-        try writer["AssociatedInsightId"].write(value.associatedInsightId)
-        try writer["CausalAnomalyId"].write(value.causalAnomalyId)
-        try writer["Description"].write(value.description)
-        try writer["Id"].write(value.id)
-        try writer["Name"].write(value.name)
-        try writer["ResourceCollection"].write(value.resourceCollection, with: DevOpsGuruClientTypes.ResourceCollection.write(value:to:))
-        try writer["Severity"].write(value.severity)
-        try writer["SourceDetails"].write(value.sourceDetails, with: DevOpsGuruClientTypes.AnomalySourceDetails.write(value:to:))
-        try writer["Status"].write(value.status)
-        try writer["Type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DevOpsGuruClientTypes.ReactiveAnomalySummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5744,18 +5305,6 @@ extension DevOpsGuruClientTypes {
 
 extension DevOpsGuruClientTypes.ReactiveInsight {
 
-    static func write(value: DevOpsGuruClientTypes.ReactiveInsight?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Description"].write(value.description)
-        try writer["Id"].write(value.id)
-        try writer["InsightTimeRange"].write(value.insightTimeRange, with: DevOpsGuruClientTypes.InsightTimeRange.write(value:to:))
-        try writer["Name"].write(value.name)
-        try writer["ResourceCollection"].write(value.resourceCollection, with: DevOpsGuruClientTypes.ResourceCollection.write(value:to:))
-        try writer["Severity"].write(value.severity)
-        try writer["SsmOpsItemId"].write(value.ssmOpsItemId)
-        try writer["Status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DevOpsGuruClientTypes.ReactiveInsight {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DevOpsGuruClientTypes.ReactiveInsight()
@@ -5817,18 +5366,6 @@ extension DevOpsGuruClientTypes {
 
 extension DevOpsGuruClientTypes.ReactiveInsightSummary {
 
-    static func write(value: DevOpsGuruClientTypes.ReactiveInsightSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AssociatedResourceArns"].writeList(value.associatedResourceArns, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Id"].write(value.id)
-        try writer["InsightTimeRange"].write(value.insightTimeRange, with: DevOpsGuruClientTypes.InsightTimeRange.write(value:to:))
-        try writer["Name"].write(value.name)
-        try writer["ResourceCollection"].write(value.resourceCollection, with: DevOpsGuruClientTypes.ResourceCollection.write(value:to:))
-        try writer["ServiceCollection"].write(value.serviceCollection, with: DevOpsGuruClientTypes.ServiceCollection.write(value:to:))
-        try writer["Severity"].write(value.severity)
-        try writer["Status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DevOpsGuruClientTypes.ReactiveInsightSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DevOpsGuruClientTypes.ReactiveInsightSummary()
@@ -5889,19 +5426,6 @@ extension DevOpsGuruClientTypes {
 }
 
 extension DevOpsGuruClientTypes.ReactiveOrganizationInsightSummary {
-
-    static func write(value: DevOpsGuruClientTypes.ReactiveOrganizationInsightSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccountId"].write(value.accountId)
-        try writer["Id"].write(value.id)
-        try writer["InsightTimeRange"].write(value.insightTimeRange, with: DevOpsGuruClientTypes.InsightTimeRange.write(value:to:))
-        try writer["Name"].write(value.name)
-        try writer["OrganizationalUnitId"].write(value.organizationalUnitId)
-        try writer["ResourceCollection"].write(value.resourceCollection, with: DevOpsGuruClientTypes.ResourceCollection.write(value:to:))
-        try writer["ServiceCollection"].write(value.serviceCollection, with: DevOpsGuruClientTypes.ServiceCollection.write(value:to:))
-        try writer["Severity"].write(value.severity)
-        try writer["Status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DevOpsGuruClientTypes.ReactiveOrganizationInsightSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5969,17 +5493,6 @@ extension DevOpsGuruClientTypes {
 
 extension DevOpsGuruClientTypes.Recommendation {
 
-    static func write(value: DevOpsGuruClientTypes.Recommendation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Category"].write(value.category)
-        try writer["Description"].write(value.description)
-        try writer["Link"].write(value.link)
-        try writer["Name"].write(value.name)
-        try writer["Reason"].write(value.reason)
-        try writer["RelatedAnomalies"].writeList(value.relatedAnomalies, memberWritingClosure: DevOpsGuruClientTypes.RecommendationRelatedAnomaly.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["RelatedEvents"].writeList(value.relatedEvents, memberWritingClosure: DevOpsGuruClientTypes.RecommendationRelatedEvent.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DevOpsGuruClientTypes.Recommendation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DevOpsGuruClientTypes.Recommendation()
@@ -6036,13 +5549,6 @@ extension DevOpsGuruClientTypes {
 
 extension DevOpsGuruClientTypes.RecommendationRelatedAnomaly {
 
-    static func write(value: DevOpsGuruClientTypes.RecommendationRelatedAnomaly?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AnomalyId"].write(value.anomalyId)
-        try writer["Resources"].writeList(value.resources, memberWritingClosure: DevOpsGuruClientTypes.RecommendationRelatedAnomalyResource.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["SourceDetails"].writeList(value.sourceDetails, memberWritingClosure: DevOpsGuruClientTypes.RecommendationRelatedAnomalySourceDetail.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DevOpsGuruClientTypes.RecommendationRelatedAnomaly {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DevOpsGuruClientTypes.RecommendationRelatedAnomaly()
@@ -6079,12 +5585,6 @@ extension DevOpsGuruClientTypes {
 
 extension DevOpsGuruClientTypes.RecommendationRelatedAnomalyResource {
 
-    static func write(value: DevOpsGuruClientTypes.RecommendationRelatedAnomalyResource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["Type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DevOpsGuruClientTypes.RecommendationRelatedAnomalyResource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DevOpsGuruClientTypes.RecommendationRelatedAnomalyResource()
@@ -6116,11 +5616,6 @@ extension DevOpsGuruClientTypes {
 
 extension DevOpsGuruClientTypes.RecommendationRelatedAnomalySourceDetail {
 
-    static func write(value: DevOpsGuruClientTypes.RecommendationRelatedAnomalySourceDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CloudWatchMetrics"].writeList(value.cloudWatchMetrics, memberWritingClosure: DevOpsGuruClientTypes.RecommendationRelatedCloudWatchMetricsSourceDetail.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DevOpsGuruClientTypes.RecommendationRelatedAnomalySourceDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DevOpsGuruClientTypes.RecommendationRelatedAnomalySourceDetail()
@@ -6146,12 +5641,6 @@ extension DevOpsGuruClientTypes {
 }
 
 extension DevOpsGuruClientTypes.RecommendationRelatedCloudWatchMetricsSourceDetail {
-
-    static func write(value: DevOpsGuruClientTypes.RecommendationRelatedCloudWatchMetricsSourceDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MetricName"].write(value.metricName)
-        try writer["Namespace"].write(value.namespace)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DevOpsGuruClientTypes.RecommendationRelatedCloudWatchMetricsSourceDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6184,12 +5673,6 @@ extension DevOpsGuruClientTypes {
 
 extension DevOpsGuruClientTypes.RecommendationRelatedEvent {
 
-    static func write(value: DevOpsGuruClientTypes.RecommendationRelatedEvent?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["Resources"].writeList(value.resources, memberWritingClosure: DevOpsGuruClientTypes.RecommendationRelatedEventResource.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DevOpsGuruClientTypes.RecommendationRelatedEvent {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DevOpsGuruClientTypes.RecommendationRelatedEvent()
@@ -6220,12 +5703,6 @@ extension DevOpsGuruClientTypes {
 }
 
 extension DevOpsGuruClientTypes.RecommendationRelatedEventResource {
-
-    static func write(value: DevOpsGuruClientTypes.RecommendationRelatedEventResource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["Type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DevOpsGuruClientTypes.RecommendationRelatedEventResource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6355,12 +5832,6 @@ extension DevOpsGuruClientTypes {
 }
 
 extension DevOpsGuruClientTypes.ResourceCollectionFilter {
-
-    static func write(value: DevOpsGuruClientTypes.ResourceCollectionFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CloudFormation"].write(value.cloudFormation, with: DevOpsGuruClientTypes.CloudFormationCollectionFilter.write(value:to:))
-        try writer["Tags"].writeList(value.tags, memberWritingClosure: DevOpsGuruClientTypes.TagCollectionFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DevOpsGuruClientTypes.ResourceCollectionFilter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6625,16 +6096,6 @@ extension DevOpsGuruClientTypes.SearchInsightsFilters {
         try writer["Severities"].writeList(value.severities, memberWritingClosure: DevOpsGuruClientTypes.InsightSeverity.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Statuses"].writeList(value.statuses, memberWritingClosure: DevOpsGuruClientTypes.InsightStatus.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DevOpsGuruClientTypes.SearchInsightsFilters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DevOpsGuruClientTypes.SearchInsightsFilters()
-        value.severities = try reader["Severities"].readListIfPresent(memberReadingClosure: DevOpsGuruClientTypes.InsightSeverity.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.statuses = try reader["Statuses"].readListIfPresent(memberReadingClosure: DevOpsGuruClientTypes.InsightStatus.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.resourceCollection = try reader["ResourceCollection"].readIfPresent(with: DevOpsGuruClientTypes.ResourceCollection.read(from:))
-        value.serviceCollection = try reader["ServiceCollection"].readIfPresent(with: DevOpsGuruClientTypes.ServiceCollection.read(from:))
-        return value
-    }
 }
 
 extension DevOpsGuruClientTypes {
@@ -6773,16 +6234,6 @@ extension DevOpsGuruClientTypes.SearchOrganizationInsightsFilters {
         try writer["ServiceCollection"].write(value.serviceCollection, with: DevOpsGuruClientTypes.ServiceCollection.write(value:to:))
         try writer["Severities"].writeList(value.severities, memberWritingClosure: DevOpsGuruClientTypes.InsightSeverity.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Statuses"].writeList(value.statuses, memberWritingClosure: DevOpsGuruClientTypes.InsightStatus.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DevOpsGuruClientTypes.SearchOrganizationInsightsFilters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DevOpsGuruClientTypes.SearchOrganizationInsightsFilters()
-        value.severities = try reader["Severities"].readListIfPresent(memberReadingClosure: DevOpsGuruClientTypes.InsightSeverity.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.statuses = try reader["Statuses"].readListIfPresent(memberReadingClosure: DevOpsGuruClientTypes.InsightStatus.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.resourceCollection = try reader["ResourceCollection"].readIfPresent(with: DevOpsGuruClientTypes.ResourceCollection.read(from:))
-        value.serviceCollection = try reader["ServiceCollection"].readIfPresent(with: DevOpsGuruClientTypes.ServiceCollection.read(from:))
-        return value
     }
 }
 
@@ -6983,13 +6434,6 @@ extension DevOpsGuruClientTypes {
 
 extension DevOpsGuruClientTypes.ServiceHealth {
 
-    static func write(value: DevOpsGuruClientTypes.ServiceHealth?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AnalyzedResourceCount"].write(value.analyzedResourceCount)
-        try writer["Insight"].write(value.insight, with: DevOpsGuruClientTypes.ServiceInsightHealth.write(value:to:))
-        try writer["ServiceName"].write(value.serviceName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DevOpsGuruClientTypes.ServiceHealth {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DevOpsGuruClientTypes.ServiceHealth()
@@ -7026,12 +6470,6 @@ extension DevOpsGuruClientTypes {
 
 extension DevOpsGuruClientTypes.ServiceInsightHealth {
 
-    static func write(value: DevOpsGuruClientTypes.ServiceInsightHealth?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["OpenProactiveInsights"].write(value.openProactiveInsights)
-        try writer["OpenReactiveInsights"].write(value.openReactiveInsights)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DevOpsGuruClientTypes.ServiceInsightHealth {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DevOpsGuruClientTypes.ServiceInsightHealth()
@@ -7062,13 +6500,6 @@ extension DevOpsGuruClientTypes {
 }
 
 extension DevOpsGuruClientTypes.ServiceIntegrationConfig {
-
-    static func write(value: DevOpsGuruClientTypes.ServiceIntegrationConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["KMSServerSideEncryption"].write(value.kmsServerSideEncryption, with: DevOpsGuruClientTypes.KMSServerSideEncryptionIntegration.write(value:to:))
-        try writer["LogsAnomalyDetection"].write(value.logsAnomalyDetection, with: DevOpsGuruClientTypes.LogsAnomalyDetectionIntegration.write(value:to:))
-        try writer["OpsCenter"].write(value.opsCenter, with: DevOpsGuruClientTypes.OpsCenterIntegration.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DevOpsGuruClientTypes.ServiceIntegrationConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7242,15 +6673,6 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
 extension DevOpsGuruClientTypes.ServiceResourceCost {
 
-    static func write(value: DevOpsGuruClientTypes.ServiceResourceCost?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Cost"].write(value.cost)
-        try writer["Count"].write(value.count)
-        try writer["State"].write(value.state)
-        try writer["Type"].write(value.type)
-        try writer["UnitCost"].write(value.unitCost)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DevOpsGuruClientTypes.ServiceResourceCost {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DevOpsGuruClientTypes.ServiceResourceCost()
@@ -7397,14 +6819,6 @@ extension DevOpsGuruClientTypes.StartTimeRange {
         try writer["FromTime"].writeTimestamp(value.fromTime, format: .epochSeconds)
         try writer["ToTime"].writeTimestamp(value.toTime, format: .epochSeconds)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DevOpsGuruClientTypes.StartTimeRange {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DevOpsGuruClientTypes.StartTimeRange()
-        value.fromTime = try reader["FromTime"].readTimestampIfPresent(format: .epochSeconds)
-        value.toTime = try reader["ToTime"].readTimestampIfPresent(format: .epochSeconds)
-        return value
-    }
 }
 
 extension DevOpsGuruClientTypes {
@@ -7474,12 +6888,6 @@ extension DevOpsGuruClientTypes {
 }
 
 extension DevOpsGuruClientTypes.TagCollectionFilter {
-
-    static func write(value: DevOpsGuruClientTypes.TagCollectionFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AppBoundaryKey"].write(value.appBoundaryKey)
-        try writer["TagValues"].writeList(value.tagValues, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DevOpsGuruClientTypes.TagCollectionFilter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7552,14 +6960,6 @@ extension DevOpsGuruClientTypes {
 }
 
 extension DevOpsGuruClientTypes.TagHealth {
-
-    static func write(value: DevOpsGuruClientTypes.TagHealth?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AnalyzedResourceCount"].write(value.analyzedResourceCount)
-        try writer["AppBoundaryKey"].write(value.appBoundaryKey)
-        try writer["Insight"].write(value.insight, with: DevOpsGuruClientTypes.InsightHealth.write(value:to:))
-        try writer["TagValue"].write(value.tagValue)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DevOpsGuruClientTypes.TagHealth {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7658,12 +7058,6 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
 extension DevOpsGuruClientTypes.TimestampMetricValuePair {
 
-    static func write(value: DevOpsGuruClientTypes.TimestampMetricValuePair?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MetricValue"].write(value.metricValue)
-        try writer["Timestamp"].writeTimestamp(value.timestamp, format: .epochSeconds)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DevOpsGuruClientTypes.TimestampMetricValuePair {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DevOpsGuruClientTypes.TimestampMetricValuePair()
@@ -7698,13 +7092,6 @@ extension DevOpsGuruClientTypes.UpdateCloudFormationCollectionFilter {
     static func write(value: DevOpsGuruClientTypes.UpdateCloudFormationCollectionFilter?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["StackNames"].writeList(value.stackNames, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DevOpsGuruClientTypes.UpdateCloudFormationCollectionFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DevOpsGuruClientTypes.UpdateCloudFormationCollectionFilter()
-        value.stackNames = try reader["StackNames"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -7817,14 +7204,6 @@ extension DevOpsGuruClientTypes.UpdateResourceCollectionFilter {
         try writer["CloudFormation"].write(value.cloudFormation, with: DevOpsGuruClientTypes.UpdateCloudFormationCollectionFilter.write(value:to:))
         try writer["Tags"].writeList(value.tags, memberWritingClosure: DevOpsGuruClientTypes.UpdateTagCollectionFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DevOpsGuruClientTypes.UpdateResourceCollectionFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DevOpsGuruClientTypes.UpdateResourceCollectionFilter()
-        value.cloudFormation = try reader["CloudFormation"].readIfPresent(with: DevOpsGuruClientTypes.UpdateCloudFormationCollectionFilter.read(from:))
-        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: DevOpsGuruClientTypes.UpdateTagCollectionFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
 }
 
 extension DevOpsGuruClientTypes {
@@ -7926,15 +7305,6 @@ extension DevOpsGuruClientTypes.UpdateServiceIntegrationConfig {
         try writer["LogsAnomalyDetection"].write(value.logsAnomalyDetection, with: DevOpsGuruClientTypes.LogsAnomalyDetectionIntegrationConfig.write(value:to:))
         try writer["OpsCenter"].write(value.opsCenter, with: DevOpsGuruClientTypes.OpsCenterIntegrationConfig.write(value:to:))
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DevOpsGuruClientTypes.UpdateServiceIntegrationConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DevOpsGuruClientTypes.UpdateServiceIntegrationConfig()
-        value.opsCenter = try reader["OpsCenter"].readIfPresent(with: DevOpsGuruClientTypes.OpsCenterIntegrationConfig.read(from:))
-        value.logsAnomalyDetection = try reader["LogsAnomalyDetection"].readIfPresent(with: DevOpsGuruClientTypes.LogsAnomalyDetectionIntegrationConfig.read(from:))
-        value.kmsServerSideEncryption = try reader["KMSServerSideEncryption"].readIfPresent(with: DevOpsGuruClientTypes.KMSServerSideEncryptionIntegrationConfig.read(from:))
-        return value
-    }
 }
 
 extension DevOpsGuruClientTypes {
@@ -8026,14 +7396,6 @@ extension DevOpsGuruClientTypes.UpdateTagCollectionFilter {
         try writer["AppBoundaryKey"].write(value.appBoundaryKey)
         try writer["TagValues"].writeList(value.tagValues, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DevOpsGuruClientTypes.UpdateTagCollectionFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DevOpsGuruClientTypes.UpdateTagCollectionFilter()
-        value.appBoundaryKey = try reader["AppBoundaryKey"].readIfPresent()
-        value.tagValues = try reader["TagValues"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
 }
 
 extension DevOpsGuruClientTypes {
@@ -8108,12 +7470,6 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 extension DevOpsGuruClientTypes.ValidationExceptionField {
-
-    static func write(value: DevOpsGuruClientTypes.ValidationExceptionField?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.message)
-        try writer["Name"].write(value.name)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DevOpsGuruClientTypes.ValidationExceptionField {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

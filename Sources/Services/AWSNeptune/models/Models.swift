@@ -378,11 +378,6 @@ public struct AuthorizationNotFoundFault: ClientRuntime.ModeledError, AWSClientR
 
 extension NeptuneClientTypes.AvailabilityZone {
 
-    static func write(value: NeptuneClientTypes.AvailabilityZone?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.AvailabilityZone {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = NeptuneClientTypes.AvailabilityZone()
@@ -447,12 +442,6 @@ public struct CertificateNotFoundFault: ClientRuntime.ModeledError, AWSClientRun
 
 extension NeptuneClientTypes.CharacterSet {
 
-    static func write(value: NeptuneClientTypes.CharacterSet?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["CharacterSetDescription"].write(value.characterSetDescription)
-        try writer["CharacterSetName"].write(value.characterSetName)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.CharacterSet {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = NeptuneClientTypes.CharacterSet()
@@ -489,14 +478,6 @@ extension NeptuneClientTypes.CloudwatchLogsExportConfiguration {
         try writer["DisableLogTypes"].writeList(value.disableLogTypes, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["EnableLogTypes"].writeList(value.enableLogTypes, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-
-    static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.CloudwatchLogsExportConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NeptuneClientTypes.CloudwatchLogsExportConfiguration()
-        value.enableLogTypes = try reader["EnableLogTypes"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.disableLogTypes = try reader["DisableLogTypes"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
 }
 
 extension NeptuneClientTypes {
@@ -520,18 +501,6 @@ extension NeptuneClientTypes {
 }
 
 extension NeptuneClientTypes.ClusterPendingModifiedValues {
-
-    static func write(value: NeptuneClientTypes.ClusterPendingModifiedValues?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["AllocatedStorage"].write(value.allocatedStorage)
-        try writer["BackupRetentionPeriod"].write(value.backupRetentionPeriod)
-        try writer["DBClusterIdentifier"].write(value.dbClusterIdentifier)
-        try writer["EngineVersion"].write(value.engineVersion)
-        try writer["IAMDatabaseAuthenticationEnabled"].write(value.iamDatabaseAuthenticationEnabled)
-        try writer["Iops"].write(value.iops)
-        try writer["PendingCloudwatchLogsExports"].write(value.pendingCloudwatchLogsExports, with: NeptuneClientTypes.PendingCloudwatchLogsExports.write(value:to:))
-        try writer["StorageType"].write(value.storageType)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.ClusterPendingModifiedValues {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2236,55 +2205,6 @@ enum CreateGlobalClusterOutputError {
 
 extension NeptuneClientTypes.DBCluster {
 
-    static func write(value: NeptuneClientTypes.DBCluster?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["AllocatedStorage"].write(value.allocatedStorage)
-        try writer["AssociatedRoles"].writeList(value.associatedRoles, memberWritingClosure: NeptuneClientTypes.DBClusterRole.write(value:to:), memberNodeInfo: "DBClusterRole", isFlattened: false)
-        try writer["AutomaticRestartTime"].writeTimestamp(value.automaticRestartTime, format: .dateTime)
-        try writer["AvailabilityZones"].writeList(value.availabilityZones, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "AvailabilityZone", isFlattened: false)
-        try writer["BackupRetentionPeriod"].write(value.backupRetentionPeriod)
-        try writer["CharacterSetName"].write(value.characterSetName)
-        try writer["CloneGroupId"].write(value.cloneGroupId)
-        try writer["ClusterCreateTime"].writeTimestamp(value.clusterCreateTime, format: .dateTime)
-        try writer["CopyTagsToSnapshot"].write(value.copyTagsToSnapshot)
-        try writer["CrossAccountClone"].write(value.crossAccountClone)
-        try writer["DBClusterArn"].write(value.dbClusterArn)
-        try writer["DBClusterIdentifier"].write(value.dbClusterIdentifier)
-        try writer["DBClusterMembers"].writeList(value.dbClusterMembers, memberWritingClosure: NeptuneClientTypes.DBClusterMember.write(value:to:), memberNodeInfo: "DBClusterMember", isFlattened: false)
-        try writer["DBClusterOptionGroupMemberships"].writeList(value.dbClusterOptionGroupMemberships, memberWritingClosure: NeptuneClientTypes.DBClusterOptionGroupStatus.write(value:to:), memberNodeInfo: "DBClusterOptionGroup", isFlattened: false)
-        try writer["DBClusterParameterGroup"].write(value.dbClusterParameterGroup)
-        try writer["DBSubnetGroup"].write(value.dbSubnetGroup)
-        try writer["DatabaseName"].write(value.databaseName)
-        try writer["DbClusterResourceId"].write(value.dbClusterResourceId)
-        try writer["DeletionProtection"].write(value.deletionProtection)
-        try writer["EarliestRestorableTime"].writeTimestamp(value.earliestRestorableTime, format: .dateTime)
-        try writer["EnabledCloudwatchLogsExports"].writeList(value.enabledCloudwatchLogsExports, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Endpoint"].write(value.endpoint)
-        try writer["Engine"].write(value.engine)
-        try writer["EngineVersion"].write(value.engineVersion)
-        try writer["GlobalClusterIdentifier"].write(value.globalClusterIdentifier)
-        try writer["HostedZoneId"].write(value.hostedZoneId)
-        try writer["IAMDatabaseAuthenticationEnabled"].write(value.iamDatabaseAuthenticationEnabled)
-        try writer["IOOptimizedNextAllowedModificationTime"].writeTimestamp(value.ioOptimizedNextAllowedModificationTime, format: .dateTime)
-        try writer["KmsKeyId"].write(value.kmsKeyId)
-        try writer["LatestRestorableTime"].writeTimestamp(value.latestRestorableTime, format: .dateTime)
-        try writer["MasterUsername"].write(value.masterUsername)
-        try writer["MultiAZ"].write(value.multiAZ)
-        try writer["PendingModifiedValues"].write(value.pendingModifiedValues, with: NeptuneClientTypes.ClusterPendingModifiedValues.write(value:to:))
-        try writer["PercentProgress"].write(value.percentProgress)
-        try writer["Port"].write(value.port)
-        try writer["PreferredBackupWindow"].write(value.preferredBackupWindow)
-        try writer["PreferredMaintenanceWindow"].write(value.preferredMaintenanceWindow)
-        try writer["ReadReplicaIdentifiers"].writeList(value.readReplicaIdentifiers, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "ReadReplicaIdentifier", isFlattened: false)
-        try writer["ReaderEndpoint"].write(value.readerEndpoint)
-        try writer["ReplicationSourceIdentifier"].write(value.replicationSourceIdentifier)
-        try writer["ServerlessV2ScalingConfiguration"].write(value.serverlessV2ScalingConfiguration, with: NeptuneClientTypes.ServerlessV2ScalingConfigurationInfo.write(value:to:))
-        try writer["Status"].write(value.status)
-        try writer["StorageEncrypted"].write(value.storageEncrypted)
-        try writer["StorageType"].write(value.storageType)
-        try writer["VpcSecurityGroups"].writeList(value.vpcSecurityGroups, memberWritingClosure: NeptuneClientTypes.VpcSecurityGroupMembership.write(value:to:), memberNodeInfo: "VpcSecurityGroupMembership", isFlattened: false)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.DBCluster {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = NeptuneClientTypes.DBCluster()
@@ -2569,20 +2489,6 @@ public struct DBClusterAlreadyExistsFault: ClientRuntime.ModeledError, AWSClient
 
 extension NeptuneClientTypes.DBClusterEndpoint {
 
-    static func write(value: NeptuneClientTypes.DBClusterEndpoint?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["CustomEndpointType"].write(value.customEndpointType)
-        try writer["DBClusterEndpointArn"].write(value.dbClusterEndpointArn)
-        try writer["DBClusterEndpointIdentifier"].write(value.dbClusterEndpointIdentifier)
-        try writer["DBClusterEndpointResourceIdentifier"].write(value.dbClusterEndpointResourceIdentifier)
-        try writer["DBClusterIdentifier"].write(value.dbClusterIdentifier)
-        try writer["Endpoint"].write(value.endpoint)
-        try writer["EndpointType"].write(value.endpointType)
-        try writer["ExcludedMembers"].writeList(value.excludedMembers, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["StaticMembers"].writeList(value.staticMembers, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Status"].write(value.status)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.DBClusterEndpoint {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = NeptuneClientTypes.DBClusterEndpoint()
@@ -2779,14 +2685,6 @@ public struct DBClusterEndpointQuotaExceededFault: ClientRuntime.ModeledError, A
 
 extension NeptuneClientTypes.DBClusterMember {
 
-    static func write(value: NeptuneClientTypes.DBClusterMember?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["DBClusterParameterGroupStatus"].write(value.dbClusterParameterGroupStatus)
-        try writer["DBInstanceIdentifier"].write(value.dbInstanceIdentifier)
-        try writer["IsClusterWriter"].write(value.isClusterWriter)
-        try writer["PromotionTier"].write(value.promotionTier)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.DBClusterMember {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = NeptuneClientTypes.DBClusterMember()
@@ -2866,12 +2764,6 @@ public struct DBClusterNotFoundFault: ClientRuntime.ModeledError, AWSClientRunti
 
 extension NeptuneClientTypes.DBClusterOptionGroupStatus {
 
-    static func write(value: NeptuneClientTypes.DBClusterOptionGroupStatus?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["DBClusterOptionGroupName"].write(value.dbClusterOptionGroupName)
-        try writer["Status"].write(value.status)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.DBClusterOptionGroupStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = NeptuneClientTypes.DBClusterOptionGroupStatus()
@@ -2902,14 +2794,6 @@ extension NeptuneClientTypes {
 }
 
 extension NeptuneClientTypes.DBClusterParameterGroup {
-
-    static func write(value: NeptuneClientTypes.DBClusterParameterGroup?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["DBClusterParameterGroupArn"].write(value.dbClusterParameterGroupArn)
-        try writer["DBClusterParameterGroupName"].write(value.dbClusterParameterGroupName)
-        try writer["DBParameterGroupFamily"].write(value.dbParameterGroupFamily)
-        try writer["Description"].write(value.description)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.DBClusterParameterGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3027,13 +2911,6 @@ public struct DBClusterQuotaExceededFault: ClientRuntime.ModeledError, AWSClient
 }
 
 extension NeptuneClientTypes.DBClusterRole {
-
-    static func write(value: NeptuneClientTypes.DBClusterRole?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["FeatureName"].write(value.featureName)
-        try writer["RoleArn"].write(value.roleArn)
-        try writer["Status"].write(value.status)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.DBClusterRole {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3190,31 +3067,6 @@ public struct DBClusterRoleQuotaExceededFault: ClientRuntime.ModeledError, AWSCl
 }
 
 extension NeptuneClientTypes.DBClusterSnapshot {
-
-    static func write(value: NeptuneClientTypes.DBClusterSnapshot?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["AllocatedStorage"].write(value.allocatedStorage)
-        try writer["AvailabilityZones"].writeList(value.availabilityZones, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "AvailabilityZone", isFlattened: false)
-        try writer["ClusterCreateTime"].writeTimestamp(value.clusterCreateTime, format: .dateTime)
-        try writer["DBClusterIdentifier"].write(value.dbClusterIdentifier)
-        try writer["DBClusterSnapshotArn"].write(value.dbClusterSnapshotArn)
-        try writer["DBClusterSnapshotIdentifier"].write(value.dbClusterSnapshotIdentifier)
-        try writer["Engine"].write(value.engine)
-        try writer["EngineVersion"].write(value.engineVersion)
-        try writer["IAMDatabaseAuthenticationEnabled"].write(value.iamDatabaseAuthenticationEnabled)
-        try writer["KmsKeyId"].write(value.kmsKeyId)
-        try writer["LicenseModel"].write(value.licenseModel)
-        try writer["MasterUsername"].write(value.masterUsername)
-        try writer["PercentProgress"].write(value.percentProgress)
-        try writer["Port"].write(value.port)
-        try writer["SnapshotCreateTime"].writeTimestamp(value.snapshotCreateTime, format: .dateTime)
-        try writer["SnapshotType"].write(value.snapshotType)
-        try writer["SourceDBClusterSnapshotArn"].write(value.sourceDBClusterSnapshotArn)
-        try writer["Status"].write(value.status)
-        try writer["StorageEncrypted"].write(value.storageEncrypted)
-        try writer["StorageType"].write(value.storageType)
-        try writer["VpcId"].write(value.vpcId)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.DBClusterSnapshot {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3380,12 +3232,6 @@ public struct DBClusterSnapshotAlreadyExistsFault: ClientRuntime.ModeledError, A
 
 extension NeptuneClientTypes.DBClusterSnapshotAttribute {
 
-    static func write(value: NeptuneClientTypes.DBClusterSnapshotAttribute?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["AttributeName"].write(value.attributeName)
-        try writer["AttributeValues"].writeList(value.attributeValues, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "AttributeValue", isFlattened: false)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.DBClusterSnapshotAttribute {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = NeptuneClientTypes.DBClusterSnapshotAttribute()
@@ -3416,12 +3262,6 @@ extension NeptuneClientTypes {
 }
 
 extension NeptuneClientTypes.DBClusterSnapshotAttributesResult {
-
-    static func write(value: NeptuneClientTypes.DBClusterSnapshotAttributesResult?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["DBClusterSnapshotAttributes"].writeList(value.dbClusterSnapshotAttributes, memberWritingClosure: NeptuneClientTypes.DBClusterSnapshotAttribute.write(value:to:), memberNodeInfo: "DBClusterSnapshotAttribute", isFlattened: false)
-        try writer["DBClusterSnapshotIdentifier"].write(value.dbClusterSnapshotIdentifier)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.DBClusterSnapshotAttributesResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3491,23 +3331,6 @@ public struct DBClusterSnapshotNotFoundFault: ClientRuntime.ModeledError, AWSCli
 }
 
 extension NeptuneClientTypes.DBEngineVersion {
-
-    static func write(value: NeptuneClientTypes.DBEngineVersion?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["DBEngineDescription"].write(value.dbEngineDescription)
-        try writer["DBEngineVersionDescription"].write(value.dbEngineVersionDescription)
-        try writer["DBParameterGroupFamily"].write(value.dbParameterGroupFamily)
-        try writer["DefaultCharacterSet"].write(value.defaultCharacterSet, with: NeptuneClientTypes.CharacterSet.write(value:to:))
-        try writer["Engine"].write(value.engine)
-        try writer["EngineVersion"].write(value.engineVersion)
-        try writer["ExportableLogTypes"].writeList(value.exportableLogTypes, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["SupportedCharacterSets"].writeList(value.supportedCharacterSets, memberWritingClosure: NeptuneClientTypes.CharacterSet.write(value:to:), memberNodeInfo: "CharacterSet", isFlattened: false)
-        try writer["SupportedTimezones"].writeList(value.supportedTimezones, memberWritingClosure: NeptuneClientTypes.Timezone.write(value:to:), memberNodeInfo: "Timezone", isFlattened: false)
-        try writer["SupportsGlobalDatabases"].write(value.supportsGlobalDatabases)
-        try writer["SupportsLogExportsToCloudwatchLogs"].write(value.supportsLogExportsToCloudwatchLogs)
-        try writer["SupportsReadReplica"].write(value.supportsReadReplica)
-        try writer["ValidUpgradeTarget"].writeList(value.validUpgradeTarget, memberWritingClosure: NeptuneClientTypes.UpgradeTarget.write(value:to:), memberNodeInfo: "UpgradeTarget", isFlattened: false)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.DBEngineVersion {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3594,63 +3417,6 @@ extension NeptuneClientTypes {
 }
 
 extension NeptuneClientTypes.DBInstance {
-
-    static func write(value: NeptuneClientTypes.DBInstance?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["AllocatedStorage"].write(value.allocatedStorage)
-        try writer["AutoMinorVersionUpgrade"].write(value.autoMinorVersionUpgrade)
-        try writer["AvailabilityZone"].write(value.availabilityZone)
-        try writer["BackupRetentionPeriod"].write(value.backupRetentionPeriod)
-        try writer["CACertificateIdentifier"].write(value.caCertificateIdentifier)
-        try writer["CharacterSetName"].write(value.characterSetName)
-        try writer["CopyTagsToSnapshot"].write(value.copyTagsToSnapshot)
-        try writer["DBClusterIdentifier"].write(value.dbClusterIdentifier)
-        try writer["DBInstanceArn"].write(value.dbInstanceArn)
-        try writer["DBInstanceClass"].write(value.dbInstanceClass)
-        try writer["DBInstanceIdentifier"].write(value.dbInstanceIdentifier)
-        try writer["DBInstanceStatus"].write(value.dbInstanceStatus)
-        try writer["DBName"].write(value.dbName)
-        try writer["DBParameterGroups"].writeList(value.dbParameterGroups, memberWritingClosure: NeptuneClientTypes.DBParameterGroupStatus.write(value:to:), memberNodeInfo: "DBParameterGroup", isFlattened: false)
-        try writer["DBSecurityGroups"].writeList(value.dbSecurityGroups, memberWritingClosure: NeptuneClientTypes.DBSecurityGroupMembership.write(value:to:), memberNodeInfo: "DBSecurityGroup", isFlattened: false)
-        try writer["DBSubnetGroup"].write(value.dbSubnetGroup, with: NeptuneClientTypes.DBSubnetGroup.write(value:to:))
-        try writer["DbInstancePort"].write(value.dbInstancePort)
-        try writer["DbiResourceId"].write(value.dbiResourceId)
-        try writer["DeletionProtection"].write(value.deletionProtection)
-        try writer["DomainMemberships"].writeList(value.domainMemberships, memberWritingClosure: NeptuneClientTypes.DomainMembership.write(value:to:), memberNodeInfo: "DomainMembership", isFlattened: false)
-        try writer["EnabledCloudwatchLogsExports"].writeList(value.enabledCloudwatchLogsExports, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Endpoint"].write(value.endpoint, with: NeptuneClientTypes.Endpoint.write(value:to:))
-        try writer["Engine"].write(value.engine)
-        try writer["EngineVersion"].write(value.engineVersion)
-        try writer["EnhancedMonitoringResourceArn"].write(value.enhancedMonitoringResourceArn)
-        try writer["IAMDatabaseAuthenticationEnabled"].write(value.iamDatabaseAuthenticationEnabled)
-        try writer["InstanceCreateTime"].writeTimestamp(value.instanceCreateTime, format: .dateTime)
-        try writer["Iops"].write(value.iops)
-        try writer["KmsKeyId"].write(value.kmsKeyId)
-        try writer["LatestRestorableTime"].writeTimestamp(value.latestRestorableTime, format: .dateTime)
-        try writer["LicenseModel"].write(value.licenseModel)
-        try writer["MasterUsername"].write(value.masterUsername)
-        try writer["MonitoringInterval"].write(value.monitoringInterval)
-        try writer["MonitoringRoleArn"].write(value.monitoringRoleArn)
-        try writer["MultiAZ"].write(value.multiAZ)
-        try writer["OptionGroupMemberships"].writeList(value.optionGroupMemberships, memberWritingClosure: NeptuneClientTypes.OptionGroupMembership.write(value:to:), memberNodeInfo: "OptionGroupMembership", isFlattened: false)
-        try writer["PendingModifiedValues"].write(value.pendingModifiedValues, with: NeptuneClientTypes.PendingModifiedValues.write(value:to:))
-        try writer["PerformanceInsightsEnabled"].write(value.performanceInsightsEnabled)
-        try writer["PerformanceInsightsKMSKeyId"].write(value.performanceInsightsKMSKeyId)
-        try writer["PreferredBackupWindow"].write(value.preferredBackupWindow)
-        try writer["PreferredMaintenanceWindow"].write(value.preferredMaintenanceWindow)
-        try writer["PromotionTier"].write(value.promotionTier)
-        try writer["PubliclyAccessible"].write(value.publiclyAccessible)
-        try writer["ReadReplicaDBClusterIdentifiers"].writeList(value.readReplicaDBClusterIdentifiers, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "ReadReplicaDBClusterIdentifier", isFlattened: false)
-        try writer["ReadReplicaDBInstanceIdentifiers"].writeList(value.readReplicaDBInstanceIdentifiers, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "ReadReplicaDBInstanceIdentifier", isFlattened: false)
-        try writer["ReadReplicaSourceDBInstanceIdentifier"].write(value.readReplicaSourceDBInstanceIdentifier)
-        try writer["SecondaryAvailabilityZone"].write(value.secondaryAvailabilityZone)
-        try writer["StatusInfos"].writeList(value.statusInfos, memberWritingClosure: NeptuneClientTypes.DBInstanceStatusInfo.write(value:to:), memberNodeInfo: "DBInstanceStatusInfo", isFlattened: false)
-        try writer["StorageEncrypted"].write(value.storageEncrypted)
-        try writer["StorageType"].write(value.storageType)
-        try writer["TdeCredentialArn"].write(value.tdeCredentialArn)
-        try writer["Timezone"].write(value.timezone)
-        try writer["VpcSecurityGroups"].writeList(value.vpcSecurityGroups, memberWritingClosure: NeptuneClientTypes.VpcSecurityGroupMembership.write(value:to:), memberNodeInfo: "VpcSecurityGroupMembership", isFlattened: false)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.DBInstance {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4015,14 +3781,6 @@ public struct DBInstanceNotFoundFault: ClientRuntime.ModeledError, AWSClientRunt
 
 extension NeptuneClientTypes.DBInstanceStatusInfo {
 
-    static func write(value: NeptuneClientTypes.DBInstanceStatusInfo?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.message)
-        try writer["Normal"].write(value.normal)
-        try writer["Status"].write(value.status)
-        try writer["StatusType"].write(value.statusType)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.DBInstanceStatusInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = NeptuneClientTypes.DBInstanceStatusInfo()
@@ -4063,14 +3821,6 @@ extension NeptuneClientTypes {
 }
 
 extension NeptuneClientTypes.DBParameterGroup {
-
-    static func write(value: NeptuneClientTypes.DBParameterGroup?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["DBParameterGroupArn"].write(value.dbParameterGroupArn)
-        try writer["DBParameterGroupFamily"].write(value.dbParameterGroupFamily)
-        try writer["DBParameterGroupName"].write(value.dbParameterGroupName)
-        try writer["Description"].write(value.description)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.DBParameterGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4227,12 +3977,6 @@ public struct DBParameterGroupQuotaExceededFault: ClientRuntime.ModeledError, AW
 
 extension NeptuneClientTypes.DBParameterGroupStatus {
 
-    static func write(value: NeptuneClientTypes.DBParameterGroupStatus?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["DBParameterGroupName"].write(value.dbParameterGroupName)
-        try writer["ParameterApplyStatus"].write(value.parameterApplyStatus)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.DBParameterGroupStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = NeptuneClientTypes.DBParameterGroupStatus()
@@ -4271,12 +4015,6 @@ extension NeptuneClientTypes {
 }
 
 extension NeptuneClientTypes.DBSecurityGroupMembership {
-
-    static func write(value: NeptuneClientTypes.DBSecurityGroupMembership?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["DBSecurityGroupName"].write(value.dbSecurityGroupName)
-        try writer["Status"].write(value.status)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.DBSecurityGroupMembership {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4422,16 +4160,6 @@ public struct DBSnapshotNotFoundFault: ClientRuntime.ModeledError, AWSClientRunt
 }
 
 extension NeptuneClientTypes.DBSubnetGroup {
-
-    static func write(value: NeptuneClientTypes.DBSubnetGroup?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["DBSubnetGroupArn"].write(value.dbSubnetGroupArn)
-        try writer["DBSubnetGroupDescription"].write(value.dbSubnetGroupDescription)
-        try writer["DBSubnetGroupName"].write(value.dbSubnetGroupName)
-        try writer["SubnetGroupStatus"].write(value.subnetGroupStatus)
-        try writer["Subnets"].writeList(value.subnets, memberWritingClosure: NeptuneClientTypes.Subnet.write(value:to:), memberNodeInfo: "Subnet", isFlattened: false)
-        try writer["VpcId"].write(value.vpcId)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.DBSubnetGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7250,14 +6978,6 @@ enum DescribeValidDBInstanceModificationsOutputError {
 
 extension NeptuneClientTypes.DomainMembership {
 
-    static func write(value: NeptuneClientTypes.DomainMembership?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Domain"].write(value.domain)
-        try writer["FQDN"].write(value.fqdn)
-        try writer["IAMRoleName"].write(value.iamRoleName)
-        try writer["Status"].write(value.status)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.DomainMembership {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = NeptuneClientTypes.DomainMembership()
@@ -7337,12 +7057,6 @@ public struct DomainNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.
 
 extension NeptuneClientTypes.DoubleRange {
 
-    static func write(value: NeptuneClientTypes.DoubleRange?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["From"].write(value.from)
-        try writer["To"].write(value.to)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.DoubleRange {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = NeptuneClientTypes.DoubleRange()
@@ -7373,13 +7087,6 @@ extension NeptuneClientTypes {
 }
 
 extension NeptuneClientTypes.Endpoint {
-
-    static func write(value: NeptuneClientTypes.Endpoint?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Address"].write(value.address)
-        try writer["HostedZoneId"].write(value.hostedZoneId)
-        try writer["Port"].write(value.port)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.Endpoint {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7417,13 +7124,6 @@ extension NeptuneClientTypes {
 
 extension NeptuneClientTypes.EngineDefaults {
 
-    static func write(value: NeptuneClientTypes.EngineDefaults?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["DBParameterGroupFamily"].write(value.dbParameterGroupFamily)
-        try writer["Marker"].write(value.marker)
-        try writer["Parameters"].writeList(value.parameters, memberWritingClosure: NeptuneClientTypes.Parameter.write(value:to:), memberNodeInfo: "Parameter", isFlattened: false)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.EngineDefaults {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = NeptuneClientTypes.EngineDefaults()
@@ -7459,16 +7159,6 @@ extension NeptuneClientTypes {
 }
 
 extension NeptuneClientTypes.Event {
-
-    static func write(value: NeptuneClientTypes.Event?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Date"].writeTimestamp(value.date, format: .dateTime)
-        try writer["EventCategories"].writeList(value.eventCategories, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "EventCategory", isFlattened: false)
-        try writer["Message"].write(value.message)
-        try writer["SourceArn"].write(value.sourceArn)
-        try writer["SourceIdentifier"].write(value.sourceIdentifier)
-        try writer["SourceType"].write(value.sourceType)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.Event {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7521,12 +7211,6 @@ extension NeptuneClientTypes {
 
 extension NeptuneClientTypes.EventCategoriesMap {
 
-    static func write(value: NeptuneClientTypes.EventCategoriesMap?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["EventCategories"].writeList(value.eventCategories, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "EventCategory", isFlattened: false)
-        try writer["SourceType"].write(value.sourceType)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.EventCategoriesMap {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = NeptuneClientTypes.EventCategoriesMap()
@@ -7557,20 +7241,6 @@ extension NeptuneClientTypes {
 }
 
 extension NeptuneClientTypes.EventSubscription {
-
-    static func write(value: NeptuneClientTypes.EventSubscription?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["CustSubscriptionId"].write(value.custSubscriptionId)
-        try writer["CustomerAwsId"].write(value.customerAwsId)
-        try writer["Enabled"].write(value.enabled)
-        try writer["EventCategoriesList"].writeList(value.eventCategoriesList, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "EventCategory", isFlattened: false)
-        try writer["EventSubscriptionArn"].write(value.eventSubscriptionArn)
-        try writer["SnsTopicArn"].write(value.snsTopicArn)
-        try writer["SourceIdsList"].writeList(value.sourceIdsList, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "SourceId", isFlattened: false)
-        try writer["SourceType"].write(value.sourceType)
-        try writer["Status"].write(value.status)
-        try writer["SubscriptionCreationTime"].write(value.subscriptionCreationTime)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.EventSubscription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7839,14 +7509,6 @@ extension NeptuneClientTypes.Filter {
         try writer["Name"].write(value.name)
         try writer["Values"].writeList(value.values, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "Value", isFlattened: false)
     }
-
-    static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.Filter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NeptuneClientTypes.Filter()
-        value.name = try reader["Name"].readIfPresent()
-        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "Value", isFlattened: false)
-        return value
-    }
 }
 
 extension NeptuneClientTypes {
@@ -7872,19 +7534,6 @@ extension NeptuneClientTypes {
 }
 
 extension NeptuneClientTypes.GlobalCluster {
-
-    static func write(value: NeptuneClientTypes.GlobalCluster?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["DeletionProtection"].write(value.deletionProtection)
-        try writer["Engine"].write(value.engine)
-        try writer["EngineVersion"].write(value.engineVersion)
-        try writer["GlobalClusterArn"].write(value.globalClusterArn)
-        try writer["GlobalClusterIdentifier"].write(value.globalClusterIdentifier)
-        try writer["GlobalClusterMembers"].writeList(value.globalClusterMembers, memberWritingClosure: NeptuneClientTypes.GlobalClusterMember.write(value:to:), memberNodeInfo: "GlobalClusterMember", isFlattened: false)
-        try writer["GlobalClusterResourceId"].write(value.globalClusterResourceId)
-        try writer["Status"].write(value.status)
-        try writer["StorageEncrypted"].write(value.storageEncrypted)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.GlobalCluster {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7989,13 +7638,6 @@ public struct GlobalClusterAlreadyExistsFault: ClientRuntime.ModeledError, AWSCl
 }
 
 extension NeptuneClientTypes.GlobalClusterMember {
-
-    static func write(value: NeptuneClientTypes.GlobalClusterMember?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["DBClusterArn"].write(value.dbClusterArn)
-        try writer["IsWriter"].write(value.isWriter)
-        try writer["Readers"].writeList(value.readers, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.GlobalClusterMember {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -10071,12 +9713,6 @@ public enum NeptuneClientTypes {}
 
 extension NeptuneClientTypes.OptionGroupMembership {
 
-    static func write(value: NeptuneClientTypes.OptionGroupMembership?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["OptionGroupName"].write(value.optionGroupName)
-        try writer["Status"].write(value.status)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.OptionGroupMembership {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = NeptuneClientTypes.OptionGroupMembership()
@@ -10145,31 +9781,6 @@ public struct OptionGroupNotFoundFault: ClientRuntime.ModeledError, AWSClientRun
 }
 
 extension NeptuneClientTypes.OrderableDBInstanceOption {
-
-    static func write(value: NeptuneClientTypes.OrderableDBInstanceOption?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["AvailabilityZones"].writeList(value.availabilityZones, memberWritingClosure: NeptuneClientTypes.AvailabilityZone.write(value:to:), memberNodeInfo: "AvailabilityZone", isFlattened: false)
-        try writer["DBInstanceClass"].write(value.dbInstanceClass)
-        try writer["Engine"].write(value.engine)
-        try writer["EngineVersion"].write(value.engineVersion)
-        try writer["LicenseModel"].write(value.licenseModel)
-        try writer["MaxIopsPerDbInstance"].write(value.maxIopsPerDbInstance)
-        try writer["MaxIopsPerGib"].write(value.maxIopsPerGib)
-        try writer["MaxStorageSize"].write(value.maxStorageSize)
-        try writer["MinIopsPerDbInstance"].write(value.minIopsPerDbInstance)
-        try writer["MinIopsPerGib"].write(value.minIopsPerGib)
-        try writer["MinStorageSize"].write(value.minStorageSize)
-        try writer["MultiAZCapable"].write(value.multiAZCapable)
-        try writer["ReadReplicaCapable"].write(value.readReplicaCapable)
-        try writer["StorageType"].write(value.storageType)
-        try writer["SupportsEnhancedMonitoring"].write(value.supportsEnhancedMonitoring)
-        try writer["SupportsGlobalDatabases"].write(value.supportsGlobalDatabases)
-        try writer["SupportsIAMDatabaseAuthentication"].write(value.supportsIAMDatabaseAuthentication)
-        try writer["SupportsIops"].write(value.supportsIops)
-        try writer["SupportsPerformanceInsights"].write(value.supportsPerformanceInsights)
-        try writer["SupportsStorageEncryption"].write(value.supportsStorageEncryption)
-        try writer["Vpc"].write(value.vpc)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.OrderableDBInstanceOption {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -10382,12 +9993,6 @@ extension NeptuneClientTypes {
 
 extension NeptuneClientTypes.PendingCloudwatchLogsExports {
 
-    static func write(value: NeptuneClientTypes.PendingCloudwatchLogsExports?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["LogTypesToDisable"].writeList(value.logTypesToDisable, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["LogTypesToEnable"].writeList(value.logTypesToEnable, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.PendingCloudwatchLogsExports {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = NeptuneClientTypes.PendingCloudwatchLogsExports()
@@ -10418,16 +10023,6 @@ extension NeptuneClientTypes {
 }
 
 extension NeptuneClientTypes.PendingMaintenanceAction {
-
-    static func write(value: NeptuneClientTypes.PendingMaintenanceAction?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Action"].write(value.action)
-        try writer["AutoAppliedAfterDate"].writeTimestamp(value.autoAppliedAfterDate, format: .dateTime)
-        try writer["CurrentApplyDate"].writeTimestamp(value.currentApplyDate, format: .dateTime)
-        try writer["Description"].write(value.description)
-        try writer["ForcedApplyDate"].writeTimestamp(value.forcedApplyDate, format: .dateTime)
-        try writer["OptInStatus"].write(value.optInStatus)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.PendingMaintenanceAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -10479,24 +10074,6 @@ extension NeptuneClientTypes {
 }
 
 extension NeptuneClientTypes.PendingModifiedValues {
-
-    static func write(value: NeptuneClientTypes.PendingModifiedValues?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["AllocatedStorage"].write(value.allocatedStorage)
-        try writer["BackupRetentionPeriod"].write(value.backupRetentionPeriod)
-        try writer["CACertificateIdentifier"].write(value.caCertificateIdentifier)
-        try writer["DBInstanceClass"].write(value.dbInstanceClass)
-        try writer["DBInstanceIdentifier"].write(value.dbInstanceIdentifier)
-        try writer["DBSubnetGroupName"].write(value.dbSubnetGroupName)
-        try writer["EngineVersion"].write(value.engineVersion)
-        try writer["Iops"].write(value.iops)
-        try writer["LicenseModel"].write(value.licenseModel)
-        try writer["MasterUserPassword"].write(value.masterUserPassword)
-        try writer["MultiAZ"].write(value.multiAZ)
-        try writer["PendingCloudwatchLogsExports"].write(value.pendingCloudwatchLogsExports, with: NeptuneClientTypes.PendingCloudwatchLogsExports.write(value:to:))
-        try writer["Port"].write(value.port)
-        try writer["StorageType"].write(value.storageType)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.PendingModifiedValues {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -10695,13 +10272,6 @@ public struct ProvisionedIopsNotAvailableInAZFault: ClientRuntime.ModeledError, 
 }
 
 extension NeptuneClientTypes.Range {
-
-    static func write(value: NeptuneClientTypes.Range?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["From"].write(value.from)
-        try writer["Step"].write(value.step)
-        try writer["To"].write(value.to)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.Range {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -11306,12 +10876,6 @@ public struct ResourceNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntim
 
 extension NeptuneClientTypes.ResourcePendingMaintenanceActions {
 
-    static func write(value: NeptuneClientTypes.ResourcePendingMaintenanceActions?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["PendingMaintenanceActionDetails"].writeList(value.pendingMaintenanceActionDetails, memberWritingClosure: NeptuneClientTypes.PendingMaintenanceAction.write(value:to:), memberNodeInfo: "PendingMaintenanceAction", isFlattened: false)
-        try writer["ResourceIdentifier"].write(value.resourceIdentifier)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.ResourcePendingMaintenanceActions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = NeptuneClientTypes.ResourcePendingMaintenanceActions()
@@ -11854,14 +11418,6 @@ extension NeptuneClientTypes.ServerlessV2ScalingConfiguration {
         try writer["MaxCapacity"].write(value.maxCapacity)
         try writer["MinCapacity"].write(value.minCapacity)
     }
-
-    static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.ServerlessV2ScalingConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NeptuneClientTypes.ServerlessV2ScalingConfiguration()
-        value.minCapacity = try reader["MinCapacity"].readIfPresent()
-        value.maxCapacity = try reader["MaxCapacity"].readIfPresent()
-        return value
-    }
 }
 
 extension NeptuneClientTypes {
@@ -11885,12 +11441,6 @@ extension NeptuneClientTypes {
 }
 
 extension NeptuneClientTypes.ServerlessV2ScalingConfigurationInfo {
-
-    static func write(value: NeptuneClientTypes.ServerlessV2ScalingConfigurationInfo?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["MaxCapacity"].write(value.maxCapacity)
-        try writer["MinCapacity"].write(value.minCapacity)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.ServerlessV2ScalingConfigurationInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -12295,13 +11845,6 @@ public struct StorageTypeNotSupportedFault: ClientRuntime.ModeledError, AWSClien
 
 extension NeptuneClientTypes.Subnet {
 
-    static func write(value: NeptuneClientTypes.Subnet?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["SubnetAvailabilityZone"].write(value.subnetAvailabilityZone, with: NeptuneClientTypes.AvailabilityZone.write(value:to:))
-        try writer["SubnetIdentifier"].write(value.subnetIdentifier)
-        try writer["SubnetStatus"].write(value.subnetStatus)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.Subnet {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = NeptuneClientTypes.Subnet()
@@ -12527,11 +12070,6 @@ extension NeptuneClientTypes {
 
 extension NeptuneClientTypes.Timezone {
 
-    static func write(value: NeptuneClientTypes.Timezone?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["TimezoneName"].write(value.timezoneName)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.Timezone {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = NeptuneClientTypes.Timezone()
@@ -12557,16 +12095,6 @@ extension NeptuneClientTypes {
 }
 
 extension NeptuneClientTypes.UpgradeTarget {
-
-    static func write(value: NeptuneClientTypes.UpgradeTarget?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["AutoUpgrade"].write(value.autoUpgrade)
-        try writer["Description"].write(value.description)
-        try writer["Engine"].write(value.engine)
-        try writer["EngineVersion"].write(value.engineVersion)
-        try writer["IsMajorVersionUpgrade"].write(value.isMajorVersionUpgrade)
-        try writer["SupportsGlobalDatabases"].write(value.supportsGlobalDatabases)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.UpgradeTarget {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -12619,11 +12147,6 @@ extension NeptuneClientTypes {
 
 extension NeptuneClientTypes.ValidDBInstanceModificationsMessage {
 
-    static func write(value: NeptuneClientTypes.ValidDBInstanceModificationsMessage?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Storage"].writeList(value.storage, memberWritingClosure: NeptuneClientTypes.ValidStorageOptions.write(value:to:), memberNodeInfo: "ValidStorageOptions", isFlattened: false)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.ValidDBInstanceModificationsMessage {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = NeptuneClientTypes.ValidDBInstanceModificationsMessage()
@@ -12649,14 +12172,6 @@ extension NeptuneClientTypes {
 }
 
 extension NeptuneClientTypes.ValidStorageOptions {
-
-    static func write(value: NeptuneClientTypes.ValidStorageOptions?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["IopsToStorageRatio"].writeList(value.iopsToStorageRatio, memberWritingClosure: NeptuneClientTypes.DoubleRange.write(value:to:), memberNodeInfo: "DoubleRange", isFlattened: false)
-        try writer["ProvisionedIops"].writeList(value.provisionedIops, memberWritingClosure: NeptuneClientTypes.Range.write(value:to:), memberNodeInfo: "Range", isFlattened: false)
-        try writer["StorageSize"].writeList(value.storageSize, memberWritingClosure: NeptuneClientTypes.Range.write(value:to:), memberNodeInfo: "Range", isFlattened: false)
-        try writer["StorageType"].write(value.storageType)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.ValidStorageOptions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -12698,12 +12213,6 @@ extension NeptuneClientTypes {
 }
 
 extension NeptuneClientTypes.VpcSecurityGroupMembership {
-
-    static func write(value: NeptuneClientTypes.VpcSecurityGroupMembership?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Status"].write(value.status)
-        try writer["VpcSecurityGroupId"].write(value.vpcSecurityGroupId)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.VpcSecurityGroupMembership {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

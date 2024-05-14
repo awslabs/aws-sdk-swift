@@ -44,12 +44,6 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
 extension ConnectContactLensClientTypes.Categories {
 
-    static func write(value: ConnectContactLensClientTypes.Categories?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MatchedCategories"].writeList(value.matchedCategories, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["MatchedDetails"].writeMap(value.matchedDetails, valueWritingClosure: ConnectContactLensClientTypes.CategoryDetails.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectContactLensClientTypes.Categories {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConnectContactLensClientTypes.Categories()
@@ -83,11 +77,6 @@ extension ConnectContactLensClientTypes {
 
 extension ConnectContactLensClientTypes.CategoryDetails {
 
-    static func write(value: ConnectContactLensClientTypes.CategoryDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["PointsOfInterest"].writeList(value.pointsOfInterest, memberWritingClosure: ConnectContactLensClientTypes.PointOfInterest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectContactLensClientTypes.CategoryDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConnectContactLensClientTypes.CategoryDetails()
@@ -114,12 +103,6 @@ extension ConnectContactLensClientTypes {
 }
 
 extension ConnectContactLensClientTypes.CharacterOffsets {
-
-    static func write(value: ConnectContactLensClientTypes.CharacterOffsets?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BeginOffsetChar"].write(value.beginOffsetChar)
-        try writer["EndOffsetChar"].write(value.endOffsetChar)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectContactLensClientTypes.CharacterOffsets {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -229,11 +212,6 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
 }
 
 extension ConnectContactLensClientTypes.IssueDetected {
-
-    static func write(value: ConnectContactLensClientTypes.IssueDetected?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CharacterOffsets"].write(value.characterOffsets, with: ConnectContactLensClientTypes.CharacterOffsets.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectContactLensClientTypes.IssueDetected {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -361,12 +339,6 @@ enum ListRealtimeContactAnalysisSegmentsOutputError {
 
 extension ConnectContactLensClientTypes.PointOfInterest {
 
-    static func write(value: ConnectContactLensClientTypes.PointOfInterest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BeginOffsetMillis"].write(value.beginOffsetMillis)
-        try writer["EndOffsetMillis"].write(value.endOffsetMillis)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectContactLensClientTypes.PointOfInterest {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConnectContactLensClientTypes.PointOfInterest()
@@ -399,12 +371,6 @@ extension ConnectContactLensClientTypes {
 }
 
 extension ConnectContactLensClientTypes.RealtimeContactAnalysisSegment {
-
-    static func write(value: ConnectContactLensClientTypes.RealtimeContactAnalysisSegment?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Categories"].write(value.categories, with: ConnectContactLensClientTypes.Categories.write(value:to:))
-        try writer["Transcript"].write(value.transcript, with: ConnectContactLensClientTypes.Transcript.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectContactLensClientTypes.RealtimeContactAnalysisSegment {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -544,18 +510,6 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 extension ConnectContactLensClientTypes.Transcript {
-
-    static func write(value: ConnectContactLensClientTypes.Transcript?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BeginOffsetMillis"].write(value.beginOffsetMillis)
-        try writer["Content"].write(value.content)
-        try writer["EndOffsetMillis"].write(value.endOffsetMillis)
-        try writer["Id"].write(value.id)
-        try writer["IssuesDetected"].writeList(value.issuesDetected, memberWritingClosure: ConnectContactLensClientTypes.IssueDetected.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ParticipantId"].write(value.participantId)
-        try writer["ParticipantRole"].write(value.participantRole)
-        try writer["Sentiment"].write(value.sentiment)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectContactLensClientTypes.Transcript {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

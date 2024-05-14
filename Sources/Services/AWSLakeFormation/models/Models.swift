@@ -133,16 +133,6 @@ extension LakeFormationClientTypes.AddObjectInput {
         try writer["Size"].write(value.size)
         try writer["Uri"].write(value.uri)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.AddObjectInput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LakeFormationClientTypes.AddObjectInput()
-        value.uri = try reader["Uri"].readIfPresent()
-        value.eTag = try reader["ETag"].readIfPresent()
-        value.size = try reader["Size"].readIfPresent() ?? 0
-        value.partitionValues = try reader["PartitionValues"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
 }
 
 extension LakeFormationClientTypes {
@@ -374,13 +364,6 @@ extension LakeFormationClientTypes.AuditContext {
         guard let value else { return }
         try writer["AdditionalAuditContext"].write(value.additionalAuditContext)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.AuditContext {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LakeFormationClientTypes.AuditContext()
-        value.additionalAuditContext = try reader["AdditionalAuditContext"].readIfPresent()
-        return value
-    }
 }
 
 extension LakeFormationClientTypes {
@@ -472,12 +455,6 @@ enum BatchGrantPermissionsOutputError {
 }
 
 extension LakeFormationClientTypes.BatchPermissionsFailureEntry {
-
-    static func write(value: LakeFormationClientTypes.BatchPermissionsFailureEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Error"].write(value.error, with: LakeFormationClientTypes.ErrorDetail.write(value:to:))
-        try writer["RequestEntry"].write(value.requestEntry, with: LakeFormationClientTypes.BatchPermissionsRequestEntry.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.BatchPermissionsFailureEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -719,12 +696,6 @@ extension LakeFormationClientTypes {
 }
 
 extension LakeFormationClientTypes.ColumnLFTag {
-
-    static func write(value: LakeFormationClientTypes.ColumnLFTag?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["LFTags"].writeList(value.lfTags, memberWritingClosure: LakeFormationClientTypes.LFTagPair.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Name"].write(value.name)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.ColumnLFTag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1864,15 +1835,6 @@ extension LakeFormationClientTypes.DeleteObjectInput {
         try writer["PartitionValues"].writeList(value.partitionValues, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Uri"].write(value.uri)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.DeleteObjectInput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LakeFormationClientTypes.DeleteObjectInput()
-        value.uri = try reader["Uri"].readIfPresent()
-        value.eTag = try reader["ETag"].readIfPresent()
-        value.partitionValues = try reader["PartitionValues"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
 }
 
 extension LakeFormationClientTypes {
@@ -2275,11 +2237,6 @@ enum DescribeTransactionOutputError {
 
 extension LakeFormationClientTypes.DetailsMap {
 
-    static func write(value: LakeFormationClientTypes.DetailsMap?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ResourceShare"].writeList(value.resourceShare, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.DetailsMap {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LakeFormationClientTypes.DetailsMap()
@@ -2374,12 +2331,6 @@ public struct EntityNotFoundException: ClientRuntime.ModeledError, AWSClientRunt
 
 extension LakeFormationClientTypes.ErrorDetail {
 
-    static func write(value: LakeFormationClientTypes.ErrorDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ErrorCode"].write(value.errorCode)
-        try writer["ErrorMessage"].write(value.errorMessage)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.ErrorDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LakeFormationClientTypes.ErrorDetail()
@@ -2410,13 +2361,6 @@ extension LakeFormationClientTypes {
 }
 
 extension LakeFormationClientTypes.ExecutionStatistics {
-
-    static func write(value: LakeFormationClientTypes.ExecutionStatistics?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AverageExecutionTimeMillis"].write(value.averageExecutionTimeMillis)
-        try writer["DataScannedBytes"].write(value.dataScannedBytes)
-        try writer["WorkUnitsExecutedCount"].write(value.workUnitsExecutedCount)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.ExecutionStatistics {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2628,15 +2572,6 @@ extension LakeFormationClientTypes.FilterCondition {
         try writer["ComparisonOperator"].write(value.comparisonOperator)
         try writer["Field"].write(value.field)
         try writer["StringValueList"].writeList(value.stringValueList, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.FilterCondition {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LakeFormationClientTypes.FilterCondition()
-        value.field = try reader["Field"].readIfPresent()
-        value.comparisonOperator = try reader["ComparisonOperator"].readIfPresent()
-        value.stringValueList = try reader["StringValueList"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -4018,12 +3953,6 @@ extension LakeFormationClientTypes {
 
 extension LakeFormationClientTypes.LFTagError {
 
-    static func write(value: LakeFormationClientTypes.LFTagError?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Error"].write(value.error, with: LakeFormationClientTypes.ErrorDetail.write(value:to:))
-        try writer["LFTag"].write(value.lfTag, with: LakeFormationClientTypes.LFTagPair.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.LFTagError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LakeFormationClientTypes.LFTagError()
@@ -4191,14 +4120,6 @@ extension LakeFormationClientTypes {
 public enum LakeFormationClientTypes {}
 
 extension LakeFormationClientTypes.LakeFormationOptInsInfo {
-
-    static func write(value: LakeFormationClientTypes.LakeFormationOptInsInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["LastModified"].writeTimestamp(value.lastModified, format: .epochSeconds)
-        try writer["LastUpdatedBy"].write(value.lastUpdatedBy)
-        try writer["Principal"].write(value.principal, with: LakeFormationClientTypes.DataLakePrincipal.write(value:to:))
-        try writer["Resource"].write(value.resource, with: LakeFormationClientTypes.Resource.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.LakeFormationOptInsInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4943,12 +4864,6 @@ extension LakeFormationClientTypes {
 
 extension LakeFormationClientTypes.PartitionObjects {
 
-    static func write(value: LakeFormationClientTypes.PartitionObjects?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Objects"].writeList(value.objects, memberWritingClosure: LakeFormationClientTypes.TableObject.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["PartitionValues"].writeList(value.partitionValues, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.PartitionObjects {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LakeFormationClientTypes.PartitionObjects()
@@ -4983,13 +4898,6 @@ extension LakeFormationClientTypes.PartitionValueList {
     static func write(value: LakeFormationClientTypes.PartitionValueList?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Values"].writeList(value.values, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.PartitionValueList {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LakeFormationClientTypes.PartitionValueList()
-        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -5149,14 +5057,6 @@ public struct PermissionTypeMismatchException: ClientRuntime.ModeledError, AWSCl
 
 extension LakeFormationClientTypes.PlanningStatistics {
 
-    static func write(value: LakeFormationClientTypes.PlanningStatistics?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EstimatedDataToScanBytes"].write(value.estimatedDataToScanBytes)
-        try writer["PlanningTimeMillis"].write(value.planningTimeMillis)
-        try writer["QueueTimeMillis"].write(value.queueTimeMillis)
-        try writer["WorkUnitsGeneratedCount"].write(value.workUnitsGeneratedCount)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.PlanningStatistics {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LakeFormationClientTypes.PlanningStatistics()
@@ -5234,17 +5134,6 @@ extension LakeFormationClientTypes {
 }
 
 extension LakeFormationClientTypes.PrincipalResourcePermissions {
-
-    static func write(value: LakeFormationClientTypes.PrincipalResourcePermissions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AdditionalDetails"].write(value.additionalDetails, with: LakeFormationClientTypes.DetailsMap.write(value:to:))
-        try writer["LastUpdated"].writeTimestamp(value.lastUpdated, format: .epochSeconds)
-        try writer["LastUpdatedBy"].write(value.lastUpdatedBy)
-        try writer["Permissions"].writeList(value.permissions, memberWritingClosure: LakeFormationClientTypes.Permission.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["PermissionsWithGrantOption"].writeList(value.permissionsWithGrantOption, memberWritingClosure: LakeFormationClientTypes.Permission.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Principal"].write(value.principal, with: LakeFormationClientTypes.DataLakePrincipal.write(value:to:))
-        try writer["Resource"].write(value.resource, with: LakeFormationClientTypes.Resource.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.PrincipalResourcePermissions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5370,17 +5259,6 @@ extension LakeFormationClientTypes.QueryPlanningContext {
         try writer["QueryParameters"].writeMap(value.queryParameters, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["TransactionId"].write(value.transactionId)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.QueryPlanningContext {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LakeFormationClientTypes.QueryPlanningContext()
-        value.catalogId = try reader["CatalogId"].readIfPresent()
-        value.databaseName = try reader["DatabaseName"].readIfPresent()
-        value.queryAsOfTime = try reader["QueryAsOfTime"].readTimestampIfPresent(format: .epochSeconds)
-        value.queryParameters = try reader["QueryParameters"].readMapIfPresent(valueReadingClosure: Swift.String.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.transactionId = try reader["TransactionId"].readIfPresent()
-        return value
-    }
 }
 
 extension LakeFormationClientTypes {
@@ -5425,17 +5303,6 @@ extension LakeFormationClientTypes.QuerySessionContext {
         try writer["QueryAuthorizationId"].write(value.queryAuthorizationId)
         try writer["QueryId"].write(value.queryId)
         try writer["QueryStartTime"].writeTimestamp(value.queryStartTime, format: .epochSeconds)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.QuerySessionContext {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LakeFormationClientTypes.QuerySessionContext()
-        value.queryId = try reader["QueryId"].readIfPresent()
-        value.queryStartTime = try reader["QueryStartTime"].readTimestampIfPresent(format: .epochSeconds)
-        value.clusterId = try reader["ClusterId"].readIfPresent()
-        value.queryAuthorizationId = try reader["QueryAuthorizationId"].readIfPresent()
-        value.additionalContext = try reader["AdditionalContext"].readMapIfPresent(valueReadingClosure: Swift.String.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
     }
 }
 
@@ -5747,15 +5614,6 @@ extension LakeFormationClientTypes {
 }
 
 extension LakeFormationClientTypes.ResourceInfo {
-
-    static func write(value: LakeFormationClientTypes.ResourceInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["HybridAccessEnabled"].write(value.hybridAccessEnabled)
-        try writer["LastModified"].writeTimestamp(value.lastModified, format: .epochSeconds)
-        try writer["ResourceArn"].write(value.resourceArn)
-        try writer["RoleArn"].write(value.roleArn)
-        try writer["WithFederation"].write(value.withFederation)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.ResourceInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6422,15 +6280,6 @@ public struct StatisticsNotReadyYetException: ClientRuntime.ModeledError, AWSCli
 
 extension LakeFormationClientTypes.StorageOptimizer {
 
-    static func write(value: LakeFormationClientTypes.StorageOptimizer?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Config"].writeMap(value.config, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["ErrorMessage"].write(value.errorMessage)
-        try writer["LastRunDetails"].write(value.lastRunDetails)
-        try writer["StorageOptimizerType"].write(value.storageOptimizerType)
-        try writer["Warnings"].write(value.warnings)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.StorageOptimizer {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LakeFormationClientTypes.StorageOptimizer()
@@ -6476,13 +6325,6 @@ extension LakeFormationClientTypes {
 }
 
 extension LakeFormationClientTypes.TableObject {
-
-    static func write(value: LakeFormationClientTypes.TableObject?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ETag"].write(value.eTag)
-        try writer["Size"].write(value.size)
-        try writer["Uri"].write(value.uri)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.TableObject {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6649,12 +6491,6 @@ extension LakeFormationClientTypes {
 
 extension LakeFormationClientTypes.TaggedDatabase {
 
-    static func write(value: LakeFormationClientTypes.TaggedDatabase?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Database"].write(value.database, with: LakeFormationClientTypes.DatabaseResource.write(value:to:))
-        try writer["LFTags"].writeList(value.lfTags, memberWritingClosure: LakeFormationClientTypes.LFTagPair.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.TaggedDatabase {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LakeFormationClientTypes.TaggedDatabase()
@@ -6685,14 +6521,6 @@ extension LakeFormationClientTypes {
 }
 
 extension LakeFormationClientTypes.TaggedTable {
-
-    static func write(value: LakeFormationClientTypes.TaggedTable?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["LFTagOnDatabase"].writeList(value.lfTagOnDatabase, memberWritingClosure: LakeFormationClientTypes.LFTagPair.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["LFTagsOnColumns"].writeList(value.lfTagsOnColumns, memberWritingClosure: LakeFormationClientTypes.ColumnLFTag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["LFTagsOnTable"].writeList(value.lfTagsOnTable, memberWritingClosure: LakeFormationClientTypes.LFTagPair.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Table"].write(value.table, with: LakeFormationClientTypes.TableResource.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.TaggedTable {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6886,14 +6714,6 @@ public struct TransactionCommittedException: ClientRuntime.ModeledError, AWSClie
 }
 
 extension LakeFormationClientTypes.TransactionDescription {
-
-    static func write(value: LakeFormationClientTypes.TransactionDescription?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["TransactionEndTime"].writeTimestamp(value.transactionEndTime, format: .epochSeconds)
-        try writer["TransactionId"].write(value.transactionId)
-        try writer["TransactionStartTime"].writeTimestamp(value.transactionStartTime, format: .epochSeconds)
-        try writer["TransactionStatus"].write(value.transactionStatus)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.TransactionDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7495,14 +7315,6 @@ extension LakeFormationClientTypes.VirtualObject {
         try writer["ETag"].write(value.eTag)
         try writer["Uri"].write(value.uri)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.VirtualObject {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LakeFormationClientTypes.VirtualObject()
-        value.uri = try reader["Uri"].readIfPresent()
-        value.eTag = try reader["ETag"].readIfPresent()
-        return value
-    }
 }
 
 extension LakeFormationClientTypes {
@@ -7527,13 +7339,6 @@ extension LakeFormationClientTypes {
 }
 
 extension LakeFormationClientTypes.WorkUnitRange {
-
-    static func write(value: LakeFormationClientTypes.WorkUnitRange?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["WorkUnitIdMax"].write(value.workUnitIdMax)
-        try writer["WorkUnitIdMin"].write(value.workUnitIdMin)
-        try writer["WorkUnitToken"].write(value.workUnitToken)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.WorkUnitRange {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7616,14 +7421,6 @@ extension LakeFormationClientTypes.WriteOperation {
         guard let value else { return }
         try writer["AddObject"].write(value.addObject, with: LakeFormationClientTypes.AddObjectInput.write(value:to:))
         try writer["DeleteObject"].write(value.deleteObject, with: LakeFormationClientTypes.DeleteObjectInput.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.WriteOperation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LakeFormationClientTypes.WriteOperation()
-        value.addObject = try reader["AddObject"].readIfPresent(with: LakeFormationClientTypes.AddObjectInput.read(from:))
-        value.deleteObject = try reader["DeleteObject"].readIfPresent(with: LakeFormationClientTypes.DeleteObjectInput.read(from:))
-        return value
     }
 }
 

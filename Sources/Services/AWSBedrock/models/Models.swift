@@ -801,16 +801,6 @@ enum CreateProvisionedModelThroughputOutputError {
 
 extension BedrockClientTypes.CustomModelSummary {
 
-    static func write(value: BedrockClientTypes.CustomModelSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["baseModelArn"].write(value.baseModelArn)
-        try writer["baseModelName"].write(value.baseModelName)
-        try writer["creationTime"].writeTimestamp(value.creationTime, format: .dateTime)
-        try writer["customizationType"].write(value.customizationType)
-        try writer["modelArn"].write(value.modelArn)
-        try writer["modelName"].write(value.modelName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.CustomModelSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockClientTypes.CustomModelSummary()
@@ -1491,17 +1481,6 @@ extension BedrockClientTypes {
 
 extension BedrockClientTypes.EvaluationSummary {
 
-    static func write(value: BedrockClientTypes.EvaluationSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["creationTime"].writeTimestamp(value.creationTime, format: .dateTime)
-        try writer["evaluationTaskTypes"].writeList(value.evaluationTaskTypes, memberWritingClosure: BedrockClientTypes.EvaluationTaskType.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["jobArn"].write(value.jobArn)
-        try writer["jobName"].write(value.jobName)
-        try writer["jobType"].write(value.jobType)
-        try writer["modelIdentifiers"].writeList(value.modelIdentifiers, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.EvaluationSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockClientTypes.EvaluationSummary()
@@ -1643,20 +1622,6 @@ extension BedrockClientTypes {
 
 extension BedrockClientTypes.FoundationModelDetails {
 
-    static func write(value: BedrockClientTypes.FoundationModelDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["customizationsSupported"].writeList(value.customizationsSupported, memberWritingClosure: BedrockClientTypes.ModelCustomization.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["inferenceTypesSupported"].writeList(value.inferenceTypesSupported, memberWritingClosure: BedrockClientTypes.InferenceType.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["inputModalities"].writeList(value.inputModalities, memberWritingClosure: BedrockClientTypes.ModelModality.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["modelArn"].write(value.modelArn)
-        try writer["modelId"].write(value.modelId)
-        try writer["modelLifecycle"].write(value.modelLifecycle, with: BedrockClientTypes.FoundationModelLifecycle.write(value:to:))
-        try writer["modelName"].write(value.modelName)
-        try writer["outputModalities"].writeList(value.outputModalities, memberWritingClosure: BedrockClientTypes.ModelModality.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["providerName"].write(value.providerName)
-        try writer["responseStreamingSupported"].write(value.responseStreamingSupported)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.FoundationModelDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockClientTypes.FoundationModelDetails()
@@ -1730,11 +1695,6 @@ extension BedrockClientTypes {
 
 extension BedrockClientTypes.FoundationModelLifecycle {
 
-    static func write(value: BedrockClientTypes.FoundationModelLifecycle?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.FoundationModelLifecycle {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockClientTypes.FoundationModelLifecycle()
@@ -1791,20 +1751,6 @@ extension BedrockClientTypes {
 }
 
 extension BedrockClientTypes.FoundationModelSummary {
-
-    static func write(value: BedrockClientTypes.FoundationModelSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["customizationsSupported"].writeList(value.customizationsSupported, memberWritingClosure: BedrockClientTypes.ModelCustomization.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["inferenceTypesSupported"].writeList(value.inferenceTypesSupported, memberWritingClosure: BedrockClientTypes.InferenceType.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["inputModalities"].writeList(value.inputModalities, memberWritingClosure: BedrockClientTypes.ModelModality.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["modelArn"].write(value.modelArn)
-        try writer["modelId"].write(value.modelId)
-        try writer["modelLifecycle"].write(value.modelLifecycle, with: BedrockClientTypes.FoundationModelLifecycle.write(value:to:))
-        try writer["modelName"].write(value.modelName)
-        try writer["outputModalities"].writeList(value.outputModalities, memberWritingClosure: BedrockClientTypes.ModelModality.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["providerName"].write(value.providerName)
-        try writer["responseStreamingSupported"].write(value.responseStreamingSupported)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.FoundationModelSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2762,13 +2708,6 @@ enum GetProvisionedModelThroughputOutputError {
 
 extension BedrockClientTypes.GuardrailContentFilter {
 
-    static func write(value: BedrockClientTypes.GuardrailContentFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["inputStrength"].write(value.inputStrength)
-        try writer["outputStrength"].write(value.outputStrength)
-        try writer["type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.GuardrailContentFilter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockClientTypes.GuardrailContentFilter()
@@ -2826,15 +2765,6 @@ extension BedrockClientTypes.GuardrailContentFilterConfig {
         try writer["inputStrength"].write(value.inputStrength)
         try writer["outputStrength"].write(value.outputStrength)
         try writer["type"].write(value.type)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.GuardrailContentFilterConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockClientTypes.GuardrailContentFilterConfig()
-        value.type = try reader["type"].readIfPresent()
-        value.inputStrength = try reader["inputStrength"].readIfPresent()
-        value.outputStrength = try reader["outputStrength"].readIfPresent()
-        return value
     }
 }
 
@@ -2924,11 +2854,6 @@ extension BedrockClientTypes {
 
 extension BedrockClientTypes.GuardrailContentPolicy {
 
-    static func write(value: BedrockClientTypes.GuardrailContentPolicy?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["filters"].writeList(value.filters, memberWritingClosure: BedrockClientTypes.GuardrailContentFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.GuardrailContentPolicy {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockClientTypes.GuardrailContentPolicy()
@@ -2960,13 +2885,6 @@ extension BedrockClientTypes.GuardrailContentPolicyConfig {
     static func write(value: BedrockClientTypes.GuardrailContentPolicyConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["filtersConfig"].writeList(value.filtersConfig, memberWritingClosure: BedrockClientTypes.GuardrailContentFilterConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.GuardrailContentPolicyConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockClientTypes.GuardrailContentPolicyConfig()
-        value.filtersConfig = try reader["filtersConfig"].readListIfPresent(memberReadingClosure: BedrockClientTypes.GuardrailContentFilterConfig.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -3029,11 +2947,6 @@ extension BedrockClientTypes {
 
 extension BedrockClientTypes.GuardrailManagedWords {
 
-    static func write(value: BedrockClientTypes.GuardrailManagedWords?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.GuardrailManagedWords {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockClientTypes.GuardrailManagedWords()
@@ -3064,13 +2977,6 @@ extension BedrockClientTypes.GuardrailManagedWordsConfig {
     static func write(value: BedrockClientTypes.GuardrailManagedWordsConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["type"].write(value.type)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.GuardrailManagedWordsConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockClientTypes.GuardrailManagedWordsConfig()
-        value.type = try reader["type"].readIfPresent()
-        return value
     }
 }
 
@@ -3120,12 +3026,6 @@ extension BedrockClientTypes {
 
 extension BedrockClientTypes.GuardrailPiiEntity {
 
-    static func write(value: BedrockClientTypes.GuardrailPiiEntity?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["action"].write(value.action)
-        try writer["type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.GuardrailPiiEntity {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockClientTypes.GuardrailPiiEntity()
@@ -3163,14 +3063,6 @@ extension BedrockClientTypes.GuardrailPiiEntityConfig {
         guard let value else { return }
         try writer["action"].write(value.action)
         try writer["type"].write(value.type)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.GuardrailPiiEntityConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockClientTypes.GuardrailPiiEntityConfig()
-        value.type = try reader["type"].readIfPresent()
-        value.action = try reader["action"].readIfPresent()
-        return value
     }
 }
 
@@ -3315,14 +3207,6 @@ extension BedrockClientTypes {
 
 extension BedrockClientTypes.GuardrailRegex {
 
-    static func write(value: BedrockClientTypes.GuardrailRegex?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["action"].write(value.action)
-        try writer["description"].write(value.description)
-        try writer["name"].write(value.name)
-        try writer["pattern"].write(value.pattern)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.GuardrailRegex {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockClientTypes.GuardrailRegex()
@@ -3373,16 +3257,6 @@ extension BedrockClientTypes.GuardrailRegexConfig {
         try writer["description"].write(value.description)
         try writer["name"].write(value.name)
         try writer["pattern"].write(value.pattern)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.GuardrailRegexConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockClientTypes.GuardrailRegexConfig()
-        value.name = try reader["name"].readIfPresent()
-        value.description = try reader["description"].readIfPresent()
-        value.pattern = try reader["pattern"].readIfPresent()
-        value.action = try reader["action"].readIfPresent()
-        return value
     }
 }
 
@@ -3449,12 +3323,6 @@ extension BedrockClientTypes {
 
 extension BedrockClientTypes.GuardrailSensitiveInformationPolicy {
 
-    static func write(value: BedrockClientTypes.GuardrailSensitiveInformationPolicy?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["piiEntities"].writeList(value.piiEntities, memberWritingClosure: BedrockClientTypes.GuardrailPiiEntity.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["regexes"].writeList(value.regexes, memberWritingClosure: BedrockClientTypes.GuardrailRegex.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.GuardrailSensitiveInformationPolicy {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockClientTypes.GuardrailSensitiveInformationPolicy()
@@ -3490,14 +3358,6 @@ extension BedrockClientTypes.GuardrailSensitiveInformationPolicyConfig {
         guard let value else { return }
         try writer["piiEntitiesConfig"].writeList(value.piiEntitiesConfig, memberWritingClosure: BedrockClientTypes.GuardrailPiiEntityConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["regexesConfig"].writeList(value.regexesConfig, memberWritingClosure: BedrockClientTypes.GuardrailRegexConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.GuardrailSensitiveInformationPolicyConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockClientTypes.GuardrailSensitiveInformationPolicyConfig()
-        value.piiEntitiesConfig = try reader["piiEntitiesConfig"].readListIfPresent(memberReadingClosure: BedrockClientTypes.GuardrailPiiEntityConfig.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.regexesConfig = try reader["regexesConfig"].readListIfPresent(memberReadingClosure: BedrockClientTypes.GuardrailRegexConfig.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -3569,18 +3429,6 @@ extension BedrockClientTypes.GuardrailSummary: Swift.CustomDebugStringConvertibl
 }
 
 extension BedrockClientTypes.GuardrailSummary {
-
-    static func write(value: BedrockClientTypes.GuardrailSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .dateTime)
-        try writer["description"].write(value.description)
-        try writer["id"].write(value.id)
-        try writer["name"].write(value.name)
-        try writer["status"].write(value.status)
-        try writer["updatedAt"].writeTimestamp(value.updatedAt, format: .dateTime)
-        try writer["version"].write(value.version)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.GuardrailSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3657,14 +3505,6 @@ extension BedrockClientTypes.GuardrailTopic: Swift.CustomDebugStringConvertible 
 
 extension BedrockClientTypes.GuardrailTopic {
 
-    static func write(value: BedrockClientTypes.GuardrailTopic?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["definition"].write(value.definition)
-        try writer["examples"].writeList(value.examples, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["name"].write(value.name)
-        try writer["type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.GuardrailTopic {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockClientTypes.GuardrailTopic()
@@ -3722,16 +3562,6 @@ extension BedrockClientTypes.GuardrailTopicConfig {
         try writer["name"].write(value.name)
         try writer["type"].write(value.type)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.GuardrailTopicConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockClientTypes.GuardrailTopicConfig()
-        value.name = try reader["name"].readIfPresent()
-        value.definition = try reader["definition"].readIfPresent()
-        value.examples = try reader["examples"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.type = try reader["type"].readIfPresent()
-        return value
-    }
 }
 
 extension BedrockClientTypes {
@@ -3771,11 +3601,6 @@ extension BedrockClientTypes {
 
 extension BedrockClientTypes.GuardrailTopicPolicy {
 
-    static func write(value: BedrockClientTypes.GuardrailTopicPolicy?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["topics"].writeList(value.topics, memberWritingClosure: BedrockClientTypes.GuardrailTopic.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.GuardrailTopicPolicy {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockClientTypes.GuardrailTopicPolicy()
@@ -3808,13 +3633,6 @@ extension BedrockClientTypes.GuardrailTopicPolicyConfig {
     static func write(value: BedrockClientTypes.GuardrailTopicPolicyConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["topicsConfig"].writeList(value.topicsConfig, memberWritingClosure: BedrockClientTypes.GuardrailTopicConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.GuardrailTopicPolicyConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockClientTypes.GuardrailTopicPolicyConfig()
-        value.topicsConfig = try reader["topicsConfig"].readListIfPresent(memberReadingClosure: BedrockClientTypes.GuardrailTopicConfig.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -3868,11 +3686,6 @@ extension BedrockClientTypes {
 
 extension BedrockClientTypes.GuardrailWord {
 
-    static func write(value: BedrockClientTypes.GuardrailWord?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["text"].write(value.text)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.GuardrailWord {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockClientTypes.GuardrailWord()
@@ -3904,13 +3717,6 @@ extension BedrockClientTypes.GuardrailWordConfig {
         guard let value else { return }
         try writer["text"].write(value.text)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.GuardrailWordConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockClientTypes.GuardrailWordConfig()
-        value.text = try reader["text"].readIfPresent()
-        return value
-    }
 }
 
 extension BedrockClientTypes {
@@ -3931,12 +3737,6 @@ extension BedrockClientTypes {
 }
 
 extension BedrockClientTypes.GuardrailWordPolicy {
-
-    static func write(value: BedrockClientTypes.GuardrailWordPolicy?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["managedWordLists"].writeList(value.managedWordLists, memberWritingClosure: BedrockClientTypes.GuardrailManagedWords.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["words"].writeList(value.words, memberWritingClosure: BedrockClientTypes.GuardrailWord.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.GuardrailWordPolicy {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3973,14 +3773,6 @@ extension BedrockClientTypes.GuardrailWordPolicyConfig {
         guard let value else { return }
         try writer["managedWordListsConfig"].writeList(value.managedWordListsConfig, memberWritingClosure: BedrockClientTypes.GuardrailManagedWordsConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["wordsConfig"].writeList(value.wordsConfig, memberWritingClosure: BedrockClientTypes.GuardrailWordConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.GuardrailWordPolicyConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockClientTypes.GuardrailWordPolicyConfig()
-        value.wordsConfig = try reader["wordsConfig"].readListIfPresent(memberReadingClosure: BedrockClientTypes.GuardrailWordConfig.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.managedWordListsConfig = try reader["managedWordListsConfig"].readListIfPresent(memberReadingClosure: BedrockClientTypes.GuardrailManagedWordsConfig.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -5143,20 +4935,6 @@ extension BedrockClientTypes {
 
 extension BedrockClientTypes.ModelCustomizationJobSummary {
 
-    static func write(value: BedrockClientTypes.ModelCustomizationJobSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["baseModelArn"].write(value.baseModelArn)
-        try writer["creationTime"].writeTimestamp(value.creationTime, format: .dateTime)
-        try writer["customModelArn"].write(value.customModelArn)
-        try writer["customModelName"].write(value.customModelName)
-        try writer["customizationType"].write(value.customizationType)
-        try writer["endTime"].writeTimestamp(value.endTime, format: .dateTime)
-        try writer["jobArn"].write(value.jobArn)
-        try writer["jobName"].write(value.jobName)
-        try writer["lastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .dateTime)
-        try writer["status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.ModelCustomizationJobSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockClientTypes.ModelCustomizationJobSummary()
@@ -5333,22 +5111,6 @@ extension BedrockClientTypes {
 }
 
 extension BedrockClientTypes.ProvisionedModelSummary {
-
-    static func write(value: BedrockClientTypes.ProvisionedModelSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["commitmentDuration"].write(value.commitmentDuration)
-        try writer["commitmentExpirationTime"].writeTimestamp(value.commitmentExpirationTime, format: .dateTime)
-        try writer["creationTime"].writeTimestamp(value.creationTime, format: .dateTime)
-        try writer["desiredModelArn"].write(value.desiredModelArn)
-        try writer["desiredModelUnits"].write(value.desiredModelUnits)
-        try writer["foundationModelArn"].write(value.foundationModelArn)
-        try writer["lastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .dateTime)
-        try writer["modelArn"].write(value.modelArn)
-        try writer["modelUnits"].write(value.modelUnits)
-        try writer["provisionedModelArn"].write(value.provisionedModelArn)
-        try writer["provisionedModelName"].write(value.provisionedModelName)
-        try writer["status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.ProvisionedModelSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6051,11 +5813,6 @@ extension BedrockClientTypes {
 
 extension BedrockClientTypes.TrainingMetrics {
 
-    static func write(value: BedrockClientTypes.TrainingMetrics?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["trainingLoss"].write(value.trainingLoss)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.TrainingMetrics {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockClientTypes.TrainingMetrics()
@@ -6466,11 +6223,6 @@ extension BedrockClientTypes {
 }
 
 extension BedrockClientTypes.ValidatorMetric {
-
-    static func write(value: BedrockClientTypes.ValidatorMetric?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["validationLoss"].write(value.validationLoss)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.ValidatorMetric {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

@@ -6,34 +6,6 @@ import SmithyReadWrite
 
 extension DynamoDBStreamsClientTypes.AttributeValue {
 
-    static func write(value: DynamoDBStreamsClientTypes.AttributeValue?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .b(b):
-                try writer["B"].write(b)
-            case let .bool(bool):
-                try writer["BOOL"].write(bool)
-            case let .bs(bs):
-                try writer["BS"].writeList(bs, memberWritingClosure: ClientRuntime.Data.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-            case let .l(l):
-                try writer["L"].writeList(l, memberWritingClosure: DynamoDBStreamsClientTypes.AttributeValue.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-            case let .m(m):
-                try writer["M"].writeMap(m, valueWritingClosure: DynamoDBStreamsClientTypes.AttributeValue.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-            case let .n(n):
-                try writer["N"].write(n)
-            case let .ns(ns):
-                try writer["NS"].writeList(ns, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-            case let .null(null):
-                try writer["NULL"].write(null)
-            case let .s(s):
-                try writer["S"].write(s)
-            case let .ss(ss):
-                try writer["SS"].writeList(ss, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBStreamsClientTypes.AttributeValue {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
@@ -390,12 +362,6 @@ enum GetShardIteratorOutputError {
 
 extension DynamoDBStreamsClientTypes.Identity {
 
-    static func write(value: DynamoDBStreamsClientTypes.Identity?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["PrincipalId"].write(value.principalId)
-        try writer["Type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBStreamsClientTypes.Identity {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DynamoDBStreamsClientTypes.Identity()
@@ -464,12 +430,6 @@ public struct InternalServerError: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 extension DynamoDBStreamsClientTypes.KeySchemaElement {
-
-    static func write(value: DynamoDBStreamsClientTypes.KeySchemaElement?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AttributeName"].write(value.attributeName)
-        try writer["KeyType"].write(value.keyType)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBStreamsClientTypes.KeySchemaElement {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -695,17 +655,6 @@ extension DynamoDBStreamsClientTypes {
 
 extension DynamoDBStreamsClientTypes.Record {
 
-    static func write(value: DynamoDBStreamsClientTypes.Record?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["awsRegion"].write(value.awsRegion)
-        try writer["dynamodb"].write(value.dynamodb, with: DynamoDBStreamsClientTypes.StreamRecord.write(value:to:))
-        try writer["eventID"].write(value.eventID)
-        try writer["eventName"].write(value.eventName)
-        try writer["eventSource"].write(value.eventSource)
-        try writer["eventVersion"].write(value.eventVersion)
-        try writer["userIdentity"].write(value.userIdentity, with: DynamoDBStreamsClientTypes.Identity.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBStreamsClientTypes.Record {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DynamoDBStreamsClientTypes.Record()
@@ -810,12 +759,6 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
 extension DynamoDBStreamsClientTypes.SequenceNumberRange {
 
-    static func write(value: DynamoDBStreamsClientTypes.SequenceNumberRange?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EndingSequenceNumber"].write(value.endingSequenceNumber)
-        try writer["StartingSequenceNumber"].write(value.startingSequenceNumber)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBStreamsClientTypes.SequenceNumberRange {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DynamoDBStreamsClientTypes.SequenceNumberRange()
@@ -846,13 +789,6 @@ extension DynamoDBStreamsClientTypes {
 }
 
 extension DynamoDBStreamsClientTypes.Shard {
-
-    static func write(value: DynamoDBStreamsClientTypes.Shard?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ParentShardId"].write(value.parentShardId)
-        try writer["SequenceNumberRange"].write(value.sequenceNumberRange, with: DynamoDBStreamsClientTypes.SequenceNumberRange.write(value:to:))
-        try writer["ShardId"].write(value.shardId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBStreamsClientTypes.Shard {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -926,13 +862,6 @@ extension DynamoDBStreamsClientTypes {
 
 extension DynamoDBStreamsClientTypes.Stream {
 
-    static func write(value: DynamoDBStreamsClientTypes.Stream?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["StreamArn"].write(value.streamArn)
-        try writer["StreamLabel"].write(value.streamLabel)
-        try writer["TableName"].write(value.tableName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBStreamsClientTypes.Stream {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DynamoDBStreamsClientTypes.Stream()
@@ -974,19 +903,6 @@ extension DynamoDBStreamsClientTypes {
 }
 
 extension DynamoDBStreamsClientTypes.StreamDescription {
-
-    static func write(value: DynamoDBStreamsClientTypes.StreamDescription?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationRequestDateTime"].writeTimestamp(value.creationRequestDateTime, format: .epochSeconds)
-        try writer["KeySchema"].writeList(value.keySchema, memberWritingClosure: DynamoDBStreamsClientTypes.KeySchemaElement.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["LastEvaluatedShardId"].write(value.lastEvaluatedShardId)
-        try writer["Shards"].writeList(value.shards, memberWritingClosure: DynamoDBStreamsClientTypes.Shard.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["StreamArn"].write(value.streamArn)
-        try writer["StreamLabel"].write(value.streamLabel)
-        try writer["StreamStatus"].write(value.streamStatus)
-        try writer["StreamViewType"].write(value.streamViewType)
-        try writer["TableName"].write(value.tableName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBStreamsClientTypes.StreamDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1075,17 +991,6 @@ extension DynamoDBStreamsClientTypes {
 }
 
 extension DynamoDBStreamsClientTypes.StreamRecord {
-
-    static func write(value: DynamoDBStreamsClientTypes.StreamRecord?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ApproximateCreationDateTime"].writeTimestamp(value.approximateCreationDateTime, format: .epochSeconds)
-        try writer["Keys"].writeMap(value.keys, valueWritingClosure: DynamoDBStreamsClientTypes.AttributeValue.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["NewImage"].writeMap(value.newImage, valueWritingClosure: DynamoDBStreamsClientTypes.AttributeValue.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["OldImage"].writeMap(value.oldImage, valueWritingClosure: DynamoDBStreamsClientTypes.AttributeValue.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["SequenceNumber"].write(value.sequenceNumber)
-        try writer["SizeBytes"].write(value.sizeBytes)
-        try writer["StreamViewType"].write(value.streamViewType)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBStreamsClientTypes.StreamRecord {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

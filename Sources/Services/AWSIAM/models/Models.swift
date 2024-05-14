@@ -37,16 +37,6 @@ extension IAMClientTypes {
 
 extension IAMClientTypes.AccessDetail {
 
-    static func write(value: IAMClientTypes.AccessDetail?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["EntityPath"].write(value.entityPath)
-        try writer["LastAuthenticatedTime"].writeTimestamp(value.lastAuthenticatedTime, format: .dateTime)
-        try writer["Region"].write(value.region)
-        try writer["ServiceName"].write(value.serviceName)
-        try writer["ServiceNamespace"].write(value.serviceNamespace)
-        try writer["TotalAuthenticatedEntities"].write(value.totalAuthenticatedEntities)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.AccessDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IAMClientTypes.AccessDetail()
@@ -105,15 +95,6 @@ extension IAMClientTypes.AccessKey: Swift.CustomDebugStringConvertible {
 
 extension IAMClientTypes.AccessKey {
 
-    static func write(value: IAMClientTypes.AccessKey?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["AccessKeyId"].write(value.accessKeyId)
-        try writer["CreateDate"].writeTimestamp(value.createDate, format: .dateTime)
-        try writer["SecretAccessKey"].write(value.secretAccessKey)
-        try writer["Status"].write(value.status)
-        try writer["UserName"].write(value.userName)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.AccessKey {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IAMClientTypes.AccessKey()
@@ -163,13 +144,6 @@ extension IAMClientTypes {
 }
 
 extension IAMClientTypes.AccessKeyLastUsed {
-
-    static func write(value: IAMClientTypes.AccessKeyLastUsed?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["LastUsedDate"].writeTimestamp(value.lastUsedDate, format: .dateTime)
-        try writer["Region"].write(value.region)
-        try writer["ServiceName"].write(value.serviceName)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.AccessKeyLastUsed {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -230,14 +204,6 @@ extension IAMClientTypes {
 }
 
 extension IAMClientTypes.AccessKeyMetadata {
-
-    static func write(value: IAMClientTypes.AccessKeyMetadata?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["AccessKeyId"].write(value.accessKeyId)
-        try writer["CreateDate"].writeTimestamp(value.createDate, format: .dateTime)
-        try writer["Status"].write(value.status)
-        try writer["UserName"].write(value.userName)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.AccessKeyMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -707,12 +673,6 @@ enum AttachUserPolicyOutputError {
 
 extension IAMClientTypes.AttachedPermissionsBoundary {
 
-    static func write(value: IAMClientTypes.AttachedPermissionsBoundary?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["PermissionsBoundaryArn"].write(value.permissionsBoundaryArn)
-        try writer["PermissionsBoundaryType"].write(value.permissionsBoundaryType)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.AttachedPermissionsBoundary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IAMClientTypes.AttachedPermissionsBoundary()
@@ -743,12 +703,6 @@ extension IAMClientTypes {
 }
 
 extension IAMClientTypes.AttachedPolicy {
-
-    static func write(value: IAMClientTypes.AttachedPolicy?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["PolicyArn"].write(value.policyArn)
-        try writer["PolicyName"].write(value.policyName)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.AttachedPolicy {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -895,15 +849,6 @@ extension IAMClientTypes.ContextEntry {
         try writer["ContextKeyName"].write(value.contextKeyName)
         try writer["ContextKeyType"].write(value.contextKeyType)
         try writer["ContextKeyValues"].writeList(value.contextKeyValues, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.ContextEntry {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IAMClientTypes.ContextEntry()
-        value.contextKeyName = try reader["ContextKeyName"].readIfPresent()
-        value.contextKeyValues = try reader["ContextKeyValues"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.contextKeyType = try reader["ContextKeyType"].readIfPresent()
-        return value
     }
 }
 
@@ -3806,12 +3751,6 @@ enum DeleteVirtualMFADeviceOutputError {
 
 extension IAMClientTypes.DeletionTaskFailureReasonType {
 
-    static func write(value: IAMClientTypes.DeletionTaskFailureReasonType?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Reason"].write(value.reason)
-        try writer["RoleUsageList"].writeList(value.roleUsageList, memberWritingClosure: IAMClientTypes.RoleUsageType.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.DeletionTaskFailureReasonType {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IAMClientTypes.DeletionTaskFailureReasonType()
@@ -4296,12 +4235,6 @@ public struct EntityAlreadyExistsException: ClientRuntime.ModeledError, AWSClien
 
 extension IAMClientTypes.EntityDetails {
 
-    static func write(value: IAMClientTypes.EntityDetails?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["EntityInfo"].write(value.entityInfo, with: IAMClientTypes.EntityInfo.write(value:to:))
-        try writer["LastAuthenticated"].writeTimestamp(value.lastAuthenticated, format: .dateTime)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.EntityDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IAMClientTypes.EntityDetails()
@@ -4333,15 +4266,6 @@ extension IAMClientTypes {
 }
 
 extension IAMClientTypes.EntityInfo {
-
-    static func write(value: IAMClientTypes.EntityInfo?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["Id"].write(value.id)
-        try writer["Name"].write(value.name)
-        try writer["Path"].write(value.path)
-        try writer["Type"].write(value.type)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.EntityInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4469,12 +4393,6 @@ extension IAMClientTypes {
 
 extension IAMClientTypes.ErrorDetails {
 
-    static func write(value: IAMClientTypes.ErrorDetails?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Code"].write(value.code)
-        try writer["Message"].write(value.message)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.ErrorDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IAMClientTypes.ErrorDetails()
@@ -4507,19 +4425,6 @@ extension IAMClientTypes {
 }
 
 extension IAMClientTypes.EvaluationResult {
-
-    static func write(value: IAMClientTypes.EvaluationResult?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["EvalActionName"].write(value.evalActionName)
-        try writer["EvalDecision"].write(value.evalDecision)
-        try writer["EvalDecisionDetails"].writeMap(value.evalDecisionDetails, valueWritingClosure: IAMClientTypes.PolicyEvaluationDecisionType.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["EvalResourceName"].write(value.evalResourceName)
-        try writer["MatchedStatements"].writeList(value.matchedStatements, memberWritingClosure: IAMClientTypes.Statement.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["MissingContextValues"].writeList(value.missingContextValues, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["OrganizationsDecisionDetail"].write(value.organizationsDecisionDetail, with: IAMClientTypes.OrganizationsDecisionDetail.write(value:to:))
-        try writer["PermissionsBoundaryDecisionDetail"].write(value.permissionsBoundaryDecisionDetail, with: IAMClientTypes.PermissionsBoundaryDecisionDetail.write(value:to:))
-        try writer["ResourceSpecificResults"].writeList(value.resourceSpecificResults, memberWritingClosure: IAMClientTypes.ResourceSpecificResult.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.EvaluationResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7016,15 +6921,6 @@ extension IAMClientTypes {
 
 extension IAMClientTypes.Group {
 
-    static func write(value: IAMClientTypes.Group?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["CreateDate"].writeTimestamp(value.createDate, format: .dateTime)
-        try writer["GroupId"].write(value.groupId)
-        try writer["GroupName"].write(value.groupName)
-        try writer["Path"].write(value.path)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.Group {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IAMClientTypes.Group()
@@ -7081,17 +6977,6 @@ extension IAMClientTypes {
 }
 
 extension IAMClientTypes.GroupDetail {
-
-    static func write(value: IAMClientTypes.GroupDetail?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["AttachedManagedPolicies"].writeList(value.attachedManagedPolicies, memberWritingClosure: IAMClientTypes.AttachedPolicy.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["CreateDate"].writeTimestamp(value.createDate, format: .dateTime)
-        try writer["GroupId"].write(value.groupId)
-        try writer["GroupName"].write(value.groupName)
-        try writer["GroupPolicyList"].writeList(value.groupPolicyList, memberWritingClosure: IAMClientTypes.PolicyDetail.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Path"].write(value.path)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.GroupDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7150,17 +7035,6 @@ extension IAMClientTypes {
 public enum IAMClientTypes {}
 
 extension IAMClientTypes.InstanceProfile {
-
-    static func write(value: IAMClientTypes.InstanceProfile?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["CreateDate"].writeTimestamp(value.createDate, format: .dateTime)
-        try writer["InstanceProfileId"].write(value.instanceProfileId)
-        try writer["InstanceProfileName"].write(value.instanceProfileName)
-        try writer["Path"].write(value.path)
-        try writer["Roles"].writeList(value.roles, memberWritingClosure: IAMClientTypes.Role.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Tags"].writeList(value.tags, memberWritingClosure: IAMClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.InstanceProfile {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8976,12 +8850,6 @@ enum ListOpenIDConnectProvidersOutputError {
 
 extension IAMClientTypes.ListPoliciesGrantingServiceAccessEntry {
 
-    static func write(value: IAMClientTypes.ListPoliciesGrantingServiceAccessEntry?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Policies"].writeList(value.policies, memberWritingClosure: IAMClientTypes.PolicyGrantingServiceAccess.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ServiceNamespace"].write(value.serviceNamespace)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.ListPoliciesGrantingServiceAccessEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IAMClientTypes.ListPoliciesGrantingServiceAccessEntry()
@@ -10599,13 +10467,6 @@ enum ListVirtualMFADevicesOutputError {
 
 extension IAMClientTypes.LoginProfile {
 
-    static func write(value: IAMClientTypes.LoginProfile?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["CreateDate"].writeTimestamp(value.createDate, format: .dateTime)
-        try writer["PasswordResetRequired"].write(value.passwordResetRequired)
-        try writer["UserName"].write(value.userName)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.LoginProfile {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IAMClientTypes.LoginProfile()
@@ -10643,13 +10504,6 @@ extension IAMClientTypes {
 }
 
 extension IAMClientTypes.MFADevice {
-
-    static func write(value: IAMClientTypes.MFADevice?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["EnableDate"].writeTimestamp(value.enableDate, format: .dateTime)
-        try writer["SerialNumber"].write(value.serialNumber)
-        try writer["UserName"].write(value.userName)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.MFADevice {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -10763,22 +10617,6 @@ public struct MalformedPolicyDocumentException: ClientRuntime.ModeledError, AWSC
 }
 
 extension IAMClientTypes.ManagedPolicyDetail {
-
-    static func write(value: IAMClientTypes.ManagedPolicyDetail?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["AttachmentCount"].write(value.attachmentCount)
-        try writer["CreateDate"].writeTimestamp(value.createDate, format: .dateTime)
-        try writer["DefaultVersionId"].write(value.defaultVersionId)
-        try writer["Description"].write(value.description)
-        try writer["IsAttachable"].write(value.isAttachable)
-        try writer["Path"].write(value.path)
-        try writer["PermissionsBoundaryUsageCount"].write(value.permissionsBoundaryUsageCount)
-        try writer["PolicyId"].write(value.policyId)
-        try writer["PolicyName"].write(value.policyName)
-        try writer["PolicyVersionList"].writeList(value.policyVersionList, memberWritingClosure: IAMClientTypes.PolicyVersion.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["UpdateDate"].writeTimestamp(value.updateDate, format: .dateTime)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.ManagedPolicyDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -10898,11 +10736,6 @@ public struct NoSuchEntityException: ClientRuntime.ModeledError, AWSClientRuntim
 
 extension IAMClientTypes.OpenIDConnectProviderListEntry {
 
-    static func write(value: IAMClientTypes.OpenIDConnectProviderListEntry?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.OpenIDConnectProviderListEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IAMClientTypes.OpenIDConnectProviderListEntry()
@@ -10966,11 +10799,6 @@ public struct OpenIdIdpCommunicationErrorException: ClientRuntime.ModeledError, 
 
 extension IAMClientTypes.OrganizationsDecisionDetail {
 
-    static func write(value: IAMClientTypes.OrganizationsDecisionDetail?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["AllowedByOrganizations"].write(value.allowedByOrganizations)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.OrganizationsDecisionDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IAMClientTypes.OrganizationsDecisionDetail()
@@ -10996,20 +10824,6 @@ extension IAMClientTypes {
 }
 
 extension IAMClientTypes.PasswordPolicy {
-
-    static func write(value: IAMClientTypes.PasswordPolicy?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["AllowUsersToChangePassword"].write(value.allowUsersToChangePassword)
-        try writer["ExpirePasswords"].write(value.expirePasswords)
-        try writer["HardExpiry"].write(value.hardExpiry)
-        try writer["MaxPasswordAge"].write(value.maxPasswordAge)
-        try writer["MinimumPasswordLength"].write(value.minimumPasswordLength)
-        try writer["PasswordReusePrevention"].write(value.passwordReusePrevention)
-        try writer["RequireLowercaseCharacters"].write(value.requireLowercaseCharacters)
-        try writer["RequireNumbers"].write(value.requireNumbers)
-        try writer["RequireSymbols"].write(value.requireSymbols)
-        try writer["RequireUppercaseCharacters"].write(value.requireUppercaseCharacters)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.PasswordPolicy {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -11146,11 +10960,6 @@ extension IAMClientTypes {
 
 extension IAMClientTypes.PermissionsBoundaryDecisionDetail {
 
-    static func write(value: IAMClientTypes.PermissionsBoundaryDecisionDetail?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["AllowedByPermissionsBoundary"].write(value.allowedByPermissionsBoundary)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.PermissionsBoundaryDecisionDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IAMClientTypes.PermissionsBoundaryDecisionDetail()
@@ -11176,22 +10985,6 @@ extension IAMClientTypes {
 }
 
 extension IAMClientTypes.Policy {
-
-    static func write(value: IAMClientTypes.Policy?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["AttachmentCount"].write(value.attachmentCount)
-        try writer["CreateDate"].writeTimestamp(value.createDate, format: .dateTime)
-        try writer["DefaultVersionId"].write(value.defaultVersionId)
-        try writer["Description"].write(value.description)
-        try writer["IsAttachable"].write(value.isAttachable)
-        try writer["Path"].write(value.path)
-        try writer["PermissionsBoundaryUsageCount"].write(value.permissionsBoundaryUsageCount)
-        try writer["PolicyId"].write(value.policyId)
-        try writer["PolicyName"].write(value.policyName)
-        try writer["Tags"].writeList(value.tags, memberWritingClosure: IAMClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["UpdateDate"].writeTimestamp(value.updateDate, format: .dateTime)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.Policy {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -11273,12 +11066,6 @@ extension IAMClientTypes {
 }
 
 extension IAMClientTypes.PolicyDetail {
-
-    static func write(value: IAMClientTypes.PolicyDetail?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["PolicyDocument"].write(value.policyDocument)
-        try writer["PolicyName"].write(value.policyName)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.PolicyDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -11381,15 +11168,6 @@ public struct PolicyEvaluationException: ClientRuntime.ModeledError, AWSClientRu
 
 extension IAMClientTypes.PolicyGrantingServiceAccess {
 
-    static func write(value: IAMClientTypes.PolicyGrantingServiceAccess?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["EntityName"].write(value.entityName)
-        try writer["EntityType"].write(value.entityType)
-        try writer["PolicyArn"].write(value.policyArn)
-        try writer["PolicyName"].write(value.policyName)
-        try writer["PolicyType"].write(value.policyType)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.PolicyGrantingServiceAccess {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IAMClientTypes.PolicyGrantingServiceAccess()
@@ -11437,12 +11215,6 @@ extension IAMClientTypes {
 }
 
 extension IAMClientTypes.PolicyGroup {
-
-    static func write(value: IAMClientTypes.PolicyGroup?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["GroupId"].write(value.groupId)
-        try writer["GroupName"].write(value.groupName)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.PolicyGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -11544,12 +11316,6 @@ extension IAMClientTypes {
 }
 
 extension IAMClientTypes.PolicyRole {
-
-    static func write(value: IAMClientTypes.PolicyRole?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["RoleId"].write(value.roleId)
-        try writer["RoleName"].write(value.roleName)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.PolicyRole {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -11721,12 +11487,6 @@ extension IAMClientTypes {
 
 extension IAMClientTypes.PolicyUser {
 
-    static func write(value: IAMClientTypes.PolicyUser?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["UserId"].write(value.userId)
-        try writer["UserName"].write(value.userName)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.PolicyUser {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IAMClientTypes.PolicyUser()
@@ -11757,14 +11517,6 @@ extension IAMClientTypes {
 }
 
 extension IAMClientTypes.PolicyVersion {
-
-    static func write(value: IAMClientTypes.PolicyVersion?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["CreateDate"].writeTimestamp(value.createDate, format: .dateTime)
-        try writer["Document"].write(value.document)
-        try writer["IsDefaultVersion"].write(value.isDefaultVersion)
-        try writer["VersionId"].write(value.versionId)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.PolicyVersion {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -11806,12 +11558,6 @@ extension IAMClientTypes {
 }
 
 extension IAMClientTypes.Position {
-
-    static func write(value: IAMClientTypes.Position?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Column"].write(value.column)
-        try writer["Line"].write(value.line)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.Position {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -12570,16 +12316,6 @@ enum ResetServiceSpecificCredentialOutputError {
 
 extension IAMClientTypes.ResourceSpecificResult {
 
-    static func write(value: IAMClientTypes.ResourceSpecificResult?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["EvalDecisionDetails"].writeMap(value.evalDecisionDetails, valueWritingClosure: IAMClientTypes.PolicyEvaluationDecisionType.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["EvalResourceDecision"].write(value.evalResourceDecision)
-        try writer["EvalResourceName"].write(value.evalResourceName)
-        try writer["MatchedStatements"].writeList(value.matchedStatements, memberWritingClosure: IAMClientTypes.Statement.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["MissingContextValues"].writeList(value.missingContextValues, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["PermissionsBoundaryDecisionDetail"].write(value.permissionsBoundaryDecisionDetail, with: IAMClientTypes.PermissionsBoundaryDecisionDetail.write(value:to:))
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.ResourceSpecificResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IAMClientTypes.ResourceSpecificResult()
@@ -12711,21 +12447,6 @@ enum ResyncMFADeviceOutputError {
 
 extension IAMClientTypes.Role {
 
-    static func write(value: IAMClientTypes.Role?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["AssumeRolePolicyDocument"].write(value.assumeRolePolicyDocument)
-        try writer["CreateDate"].writeTimestamp(value.createDate, format: .dateTime)
-        try writer["Description"].write(value.description)
-        try writer["MaxSessionDuration"].write(value.maxSessionDuration)
-        try writer["Path"].write(value.path)
-        try writer["PermissionsBoundary"].write(value.permissionsBoundary, with: IAMClientTypes.AttachedPermissionsBoundary.write(value:to:))
-        try writer["RoleId"].write(value.roleId)
-        try writer["RoleLastUsed"].write(value.roleLastUsed, with: IAMClientTypes.RoleLastUsed.write(value:to:))
-        try writer["RoleName"].write(value.roleName)
-        try writer["Tags"].writeList(value.tags, memberWritingClosure: IAMClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.Role {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IAMClientTypes.Role()
@@ -12806,22 +12527,6 @@ extension IAMClientTypes {
 }
 
 extension IAMClientTypes.RoleDetail {
-
-    static func write(value: IAMClientTypes.RoleDetail?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["AssumeRolePolicyDocument"].write(value.assumeRolePolicyDocument)
-        try writer["AttachedManagedPolicies"].writeList(value.attachedManagedPolicies, memberWritingClosure: IAMClientTypes.AttachedPolicy.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["CreateDate"].writeTimestamp(value.createDate, format: .dateTime)
-        try writer["InstanceProfileList"].writeList(value.instanceProfileList, memberWritingClosure: IAMClientTypes.InstanceProfile.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Path"].write(value.path)
-        try writer["PermissionsBoundary"].write(value.permissionsBoundary, with: IAMClientTypes.AttachedPermissionsBoundary.write(value:to:))
-        try writer["RoleId"].write(value.roleId)
-        try writer["RoleLastUsed"].write(value.roleLastUsed, with: IAMClientTypes.RoleLastUsed.write(value:to:))
-        try writer["RoleName"].write(value.roleName)
-        try writer["RolePolicyList"].writeList(value.rolePolicyList, memberWritingClosure: IAMClientTypes.PolicyDetail.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Tags"].writeList(value.tags, memberWritingClosure: IAMClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.RoleDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -12904,12 +12609,6 @@ extension IAMClientTypes {
 
 extension IAMClientTypes.RoleLastUsed {
 
-    static func write(value: IAMClientTypes.RoleLastUsed?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["LastUsedDate"].writeTimestamp(value.lastUsedDate, format: .dateTime)
-        try writer["Region"].write(value.region)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.RoleLastUsed {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IAMClientTypes.RoleLastUsed()
@@ -12941,12 +12640,6 @@ extension IAMClientTypes {
 
 extension IAMClientTypes.RoleUsageType {
 
-    static func write(value: IAMClientTypes.RoleUsageType?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Region"].write(value.region)
-        try writer["Resources"].writeList(value.resources, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.RoleUsageType {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IAMClientTypes.RoleUsageType()
@@ -12977,13 +12670,6 @@ extension IAMClientTypes {
 }
 
 extension IAMClientTypes.SAMLProviderListEntry {
-
-    static func write(value: IAMClientTypes.SAMLProviderListEntry?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["CreateDate"].writeTimestamp(value.createDate, format: .dateTime)
-        try writer["ValidUntil"].writeTimestamp(value.validUntil, format: .dateTime)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.SAMLProviderListEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -13020,16 +12706,6 @@ extension IAMClientTypes {
 }
 
 extension IAMClientTypes.SSHPublicKey {
-
-    static func write(value: IAMClientTypes.SSHPublicKey?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Fingerprint"].write(value.fingerprint)
-        try writer["SSHPublicKeyBody"].write(value.sshPublicKeyBody)
-        try writer["SSHPublicKeyId"].write(value.sshPublicKeyId)
-        try writer["Status"].write(value.status)
-        try writer["UploadDate"].writeTimestamp(value.uploadDate, format: .dateTime)
-        try writer["UserName"].write(value.userName)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.SSHPublicKey {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -13087,14 +12763,6 @@ extension IAMClientTypes {
 
 extension IAMClientTypes.SSHPublicKeyMetadata {
 
-    static func write(value: IAMClientTypes.SSHPublicKeyMetadata?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["SSHPublicKeyId"].write(value.sshPublicKeyId)
-        try writer["Status"].write(value.status)
-        try writer["UploadDate"].writeTimestamp(value.uploadDate, format: .dateTime)
-        try writer["UserName"].write(value.userName)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.SSHPublicKeyMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IAMClientTypes.SSHPublicKeyMetadata()
@@ -13140,14 +12808,6 @@ extension IAMClientTypes {
 
 extension IAMClientTypes.ServerCertificate {
 
-    static func write(value: IAMClientTypes.ServerCertificate?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["CertificateBody"].write(value.certificateBody)
-        try writer["CertificateChain"].write(value.certificateChain)
-        try writer["ServerCertificateMetadata"].write(value.serverCertificateMetadata, with: IAMClientTypes.ServerCertificateMetadata.write(value:to:))
-        try writer["Tags"].writeList(value.tags, memberWritingClosure: IAMClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.ServerCertificate {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IAMClientTypes.ServerCertificate()
@@ -13190,16 +12850,6 @@ extension IAMClientTypes {
 }
 
 extension IAMClientTypes.ServerCertificateMetadata {
-
-    static func write(value: IAMClientTypes.ServerCertificateMetadata?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["Expiration"].writeTimestamp(value.expiration, format: .dateTime)
-        try writer["Path"].write(value.path)
-        try writer["ServerCertificateId"].write(value.serverCertificateId)
-        try writer["ServerCertificateName"].write(value.serverCertificateName)
-        try writer["UploadDate"].writeTimestamp(value.uploadDate, format: .dateTime)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.ServerCertificateMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -13292,17 +12942,6 @@ public struct ServiceFailureException: ClientRuntime.ModeledError, AWSClientRunt
 }
 
 extension IAMClientTypes.ServiceLastAccessed {
-
-    static func write(value: IAMClientTypes.ServiceLastAccessed?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["LastAuthenticated"].writeTimestamp(value.lastAuthenticated, format: .dateTime)
-        try writer["LastAuthenticatedEntity"].write(value.lastAuthenticatedEntity)
-        try writer["LastAuthenticatedRegion"].write(value.lastAuthenticatedRegion)
-        try writer["ServiceName"].write(value.serviceName)
-        try writer["ServiceNamespace"].write(value.serviceNamespace)
-        try writer["TotalAuthenticatedEntities"].write(value.totalAuthenticatedEntities)
-        try writer["TrackedActionsLastAccessed"].writeList(value.trackedActionsLastAccessed, memberWritingClosure: IAMClientTypes.TrackedActionLastAccessed.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.ServiceLastAccessed {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -13404,17 +13043,6 @@ extension IAMClientTypes.ServiceSpecificCredential: Swift.CustomDebugStringConve
 
 extension IAMClientTypes.ServiceSpecificCredential {
 
-    static func write(value: IAMClientTypes.ServiceSpecificCredential?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["CreateDate"].writeTimestamp(value.createDate, format: .dateTime)
-        try writer["ServiceName"].write(value.serviceName)
-        try writer["ServicePassword"].write(value.servicePassword)
-        try writer["ServiceSpecificCredentialId"].write(value.serviceSpecificCredentialId)
-        try writer["ServiceUserName"].write(value.serviceUserName)
-        try writer["Status"].write(value.status)
-        try writer["UserName"].write(value.userName)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.ServiceSpecificCredential {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IAMClientTypes.ServiceSpecificCredential()
@@ -13477,16 +13105,6 @@ extension IAMClientTypes {
 }
 
 extension IAMClientTypes.ServiceSpecificCredentialMetadata {
-
-    static func write(value: IAMClientTypes.ServiceSpecificCredentialMetadata?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["CreateDate"].writeTimestamp(value.createDate, format: .dateTime)
-        try writer["ServiceName"].write(value.serviceName)
-        try writer["ServiceSpecificCredentialId"].write(value.serviceSpecificCredentialId)
-        try writer["ServiceUserName"].write(value.serviceUserName)
-        try writer["Status"].write(value.status)
-        try writer["UserName"].write(value.userName)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.ServiceSpecificCredentialMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -13665,15 +13283,6 @@ enum SetSecurityTokenServicePreferencesOutputError {
 }
 
 extension IAMClientTypes.SigningCertificate {
-
-    static func write(value: IAMClientTypes.SigningCertificate?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["CertificateBody"].write(value.certificateBody)
-        try writer["CertificateId"].write(value.certificateId)
-        try writer["Status"].write(value.status)
-        try writer["UploadDate"].writeTimestamp(value.uploadDate, format: .dateTime)
-        try writer["UserName"].write(value.userName)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.SigningCertificate {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -14086,14 +13695,6 @@ extension IAMClientTypes {
 }
 
 extension IAMClientTypes.Statement {
-
-    static func write(value: IAMClientTypes.Statement?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["EndPosition"].write(value.endPosition, with: IAMClientTypes.Position.write(value:to:))
-        try writer["SourcePolicyId"].write(value.sourcePolicyId)
-        try writer["SourcePolicyType"].write(value.sourcePolicyType)
-        try writer["StartPosition"].write(value.startPosition, with: IAMClientTypes.Position.write(value:to:))
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.Statement {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -14834,14 +14435,6 @@ enum TagUserOutputError {
 }
 
 extension IAMClientTypes.TrackedActionLastAccessed {
-
-    static func write(value: IAMClientTypes.TrackedActionLastAccessed?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["ActionName"].write(value.actionName)
-        try writer["LastAccessedEntity"].write(value.lastAccessedEntity)
-        try writer["LastAccessedRegion"].write(value.lastAccessedRegion)
-        try writer["LastAccessedTime"].writeTimestamp(value.lastAccessedTime, format: .dateTime)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.TrackedActionLastAccessed {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -16801,18 +16394,6 @@ enum UploadSigningCertificateOutputError {
 
 extension IAMClientTypes.User {
 
-    static func write(value: IAMClientTypes.User?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["CreateDate"].writeTimestamp(value.createDate, format: .dateTime)
-        try writer["PasswordLastUsed"].writeTimestamp(value.passwordLastUsed, format: .dateTime)
-        try writer["Path"].write(value.path)
-        try writer["PermissionsBoundary"].write(value.permissionsBoundary, with: IAMClientTypes.AttachedPermissionsBoundary.write(value:to:))
-        try writer["Tags"].writeList(value.tags, memberWritingClosure: IAMClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["UserId"].write(value.userId)
-        try writer["UserName"].write(value.userName)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.User {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IAMClientTypes.User()
@@ -16892,20 +16473,6 @@ extension IAMClientTypes {
 
 extension IAMClientTypes.UserDetail {
 
-    static func write(value: IAMClientTypes.UserDetail?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["AttachedManagedPolicies"].writeList(value.attachedManagedPolicies, memberWritingClosure: IAMClientTypes.AttachedPolicy.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["CreateDate"].writeTimestamp(value.createDate, format: .dateTime)
-        try writer["GroupList"].writeList(value.groupList, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Path"].write(value.path)
-        try writer["PermissionsBoundary"].write(value.permissionsBoundary, with: IAMClientTypes.AttachedPermissionsBoundary.write(value:to:))
-        try writer["Tags"].writeList(value.tags, memberWritingClosure: IAMClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["UserId"].write(value.userId)
-        try writer["UserName"].write(value.userName)
-        try writer["UserPolicyList"].writeList(value.userPolicyList, memberWritingClosure: IAMClientTypes.PolicyDetail.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.UserDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IAMClientTypes.UserDetail()
@@ -16981,16 +16548,6 @@ extension IAMClientTypes.VirtualMFADevice: Swift.CustomDebugStringConvertible {
 }
 
 extension IAMClientTypes.VirtualMFADevice {
-
-    static func write(value: IAMClientTypes.VirtualMFADevice?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Base32StringSeed"].write(value.base32StringSeed)
-        try writer["EnableDate"].writeTimestamp(value.enableDate, format: .dateTime)
-        try writer["QRCodePNG"].write(value.qrCodePNG)
-        try writer["SerialNumber"].write(value.serialNumber)
-        try writer["Tags"].writeList(value.tags, memberWritingClosure: IAMClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["User"].write(value.user, with: IAMClientTypes.User.write(value:to:))
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.VirtualMFADevice {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

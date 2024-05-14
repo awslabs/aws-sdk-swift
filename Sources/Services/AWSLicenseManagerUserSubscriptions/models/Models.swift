@@ -376,15 +376,6 @@ extension LicenseManagerUserSubscriptionsClientTypes.Filter {
         try writer["Operation"].write(value.operation)
         try writer["Value"].write(value.value)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LicenseManagerUserSubscriptionsClientTypes.Filter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LicenseManagerUserSubscriptionsClientTypes.Filter()
-        value.attribute = try reader["Attribute"].readIfPresent()
-        value.operation = try reader["Operation"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
-        return value
-    }
 }
 
 extension LicenseManagerUserSubscriptionsClientTypes {
@@ -447,15 +438,6 @@ extension LicenseManagerUserSubscriptionsClientTypes {
 
 extension LicenseManagerUserSubscriptionsClientTypes.IdentityProviderSummary {
 
-    static func write(value: LicenseManagerUserSubscriptionsClientTypes.IdentityProviderSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["FailureMessage"].write(value.failureMessage)
-        try writer["IdentityProvider"].write(value.identityProvider, with: LicenseManagerUserSubscriptionsClientTypes.IdentityProvider.write(value:to:))
-        try writer["Product"].write(value.product)
-        try writer["Settings"].write(value.settings, with: LicenseManagerUserSubscriptionsClientTypes.Settings.write(value:to:))
-        try writer["Status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LicenseManagerUserSubscriptionsClientTypes.IdentityProviderSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LicenseManagerUserSubscriptionsClientTypes.IdentityProviderSummary()
@@ -506,15 +488,6 @@ extension LicenseManagerUserSubscriptionsClientTypes {
 
 extension LicenseManagerUserSubscriptionsClientTypes.InstanceSummary {
 
-    static func write(value: LicenseManagerUserSubscriptionsClientTypes.InstanceSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["InstanceId"].write(value.instanceId)
-        try writer["LastStatusCheckDate"].write(value.lastStatusCheckDate)
-        try writer["Products"].writeList(value.products, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Status"].write(value.status)
-        try writer["StatusMessage"].write(value.statusMessage)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LicenseManagerUserSubscriptionsClientTypes.InstanceSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LicenseManagerUserSubscriptionsClientTypes.InstanceSummary()
@@ -563,18 +536,6 @@ extension LicenseManagerUserSubscriptionsClientTypes {
 }
 
 extension LicenseManagerUserSubscriptionsClientTypes.InstanceUserSummary {
-
-    static func write(value: LicenseManagerUserSubscriptionsClientTypes.InstanceUserSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AssociationDate"].write(value.associationDate)
-        try writer["DisassociationDate"].write(value.disassociationDate)
-        try writer["Domain"].write(value.domain)
-        try writer["IdentityProvider"].write(value.identityProvider, with: LicenseManagerUserSubscriptionsClientTypes.IdentityProvider.write(value:to:))
-        try writer["InstanceId"].write(value.instanceId)
-        try writer["Status"].write(value.status)
-        try writer["StatusMessage"].write(value.statusMessage)
-        try writer["Username"].write(value.username)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LicenseManagerUserSubscriptionsClientTypes.InstanceUserSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1043,18 +1004,6 @@ enum ListUserAssociationsOutputError {
 }
 
 extension LicenseManagerUserSubscriptionsClientTypes.ProductUserSummary {
-
-    static func write(value: LicenseManagerUserSubscriptionsClientTypes.ProductUserSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Domain"].write(value.domain)
-        try writer["IdentityProvider"].write(value.identityProvider, with: LicenseManagerUserSubscriptionsClientTypes.IdentityProvider.write(value:to:))
-        try writer["Product"].write(value.product)
-        try writer["Status"].write(value.status)
-        try writer["StatusMessage"].write(value.statusMessage)
-        try writer["SubscriptionEndDate"].write(value.subscriptionEndDate)
-        try writer["SubscriptionStartDate"].write(value.subscriptionStartDate)
-        try writer["Username"].write(value.username)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LicenseManagerUserSubscriptionsClientTypes.ProductUserSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1628,15 +1577,6 @@ extension LicenseManagerUserSubscriptionsClientTypes.UpdateSettings {
         try writer["AddSubnets"].writeList(value.addSubnets, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["RemoveSubnets"].writeList(value.removeSubnets, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["SecurityGroupId"].write(value.securityGroupId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LicenseManagerUserSubscriptionsClientTypes.UpdateSettings {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LicenseManagerUserSubscriptionsClientTypes.UpdateSettings()
-        value.addSubnets = try reader["AddSubnets"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.removeSubnets = try reader["RemoveSubnets"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.securityGroupId = try reader["SecurityGroupId"].readIfPresent()
-        return value
     }
 }
 

@@ -7,13 +7,6 @@ import SmithyXML
 
 extension RDSClientTypes.AccountQuota {
 
-    static func write(value: RDSClientTypes.AccountQuota?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["AccountQuotaName"].write(value.accountQuotaName)
-        try writer["Max"].write(value.max)
-        try writer["Used"].write(value.used)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.AccountQuota {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RDSClientTypes.AccountQuota()
@@ -902,11 +895,6 @@ extension RDSClientTypes {
 
 extension RDSClientTypes.AvailabilityZone {
 
-    static func write(value: RDSClientTypes.AvailabilityZone?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.AvailabilityZone {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RDSClientTypes.AvailabilityZone()
@@ -932,13 +920,6 @@ extension RDSClientTypes {
 }
 
 extension RDSClientTypes.AvailableProcessorFeature {
-
-    static func write(value: RDSClientTypes.AvailableProcessorFeature?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["AllowedValues"].write(value.allowedValues)
-        try writer["DefaultValue"].write(value.defaultValue)
-        try writer["Name"].write(value.name)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.AvailableProcessorFeature {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1149,21 +1130,6 @@ public struct BackupPolicyNotFoundFault: ClientRuntime.ModeledError, AWSClientRu
 
 extension RDSClientTypes.BlueGreenDeployment {
 
-    static func write(value: RDSClientTypes.BlueGreenDeployment?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["BlueGreenDeploymentIdentifier"].write(value.blueGreenDeploymentIdentifier)
-        try writer["BlueGreenDeploymentName"].write(value.blueGreenDeploymentName)
-        try writer["CreateTime"].writeTimestamp(value.createTime, format: .dateTime)
-        try writer["DeleteTime"].writeTimestamp(value.deleteTime, format: .dateTime)
-        try writer["Source"].write(value.source)
-        try writer["Status"].write(value.status)
-        try writer["StatusDetails"].write(value.statusDetails)
-        try writer["SwitchoverDetails"].writeList(value.switchoverDetails, memberWritingClosure: RDSClientTypes.SwitchoverDetail.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["TagList"].writeList(value.tagList, memberWritingClosure: RDSClientTypes.Tag.write(value:to:), memberNodeInfo: "Tag", isFlattened: false)
-        try writer["Target"].write(value.target)
-        try writer["Tasks"].writeList(value.tasks, memberWritingClosure: RDSClientTypes.BlueGreenDeploymentTask.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.BlueGreenDeployment {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RDSClientTypes.BlueGreenDeployment()
@@ -1327,12 +1293,6 @@ public struct BlueGreenDeploymentNotFoundFault: ClientRuntime.ModeledError, AWSC
 }
 
 extension RDSClientTypes.BlueGreenDeploymentTask {
-
-    static func write(value: RDSClientTypes.BlueGreenDeploymentTask?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["Status"].write(value.status)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.BlueGreenDeploymentTask {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1538,18 +1498,6 @@ enum CancelExportTaskOutputError {
 
 extension RDSClientTypes.Certificate {
 
-    static func write(value: RDSClientTypes.Certificate?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["CertificateArn"].write(value.certificateArn)
-        try writer["CertificateIdentifier"].write(value.certificateIdentifier)
-        try writer["CertificateType"].write(value.certificateType)
-        try writer["CustomerOverride"].write(value.customerOverride)
-        try writer["CustomerOverrideValidTill"].writeTimestamp(value.customerOverrideValidTill, format: .dateTime)
-        try writer["Thumbprint"].write(value.thumbprint)
-        try writer["ValidFrom"].writeTimestamp(value.validFrom, format: .dateTime)
-        try writer["ValidTill"].writeTimestamp(value.validTill, format: .dateTime)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.Certificate {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RDSClientTypes.Certificate()
@@ -1610,12 +1558,6 @@ extension RDSClientTypes {
 }
 
 extension RDSClientTypes.CertificateDetails {
-
-    static func write(value: RDSClientTypes.CertificateDetails?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["CAIdentifier"].write(value.caIdentifier)
-        try writer["ValidTill"].writeTimestamp(value.validTill, format: .dateTime)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.CertificateDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1684,12 +1626,6 @@ public struct CertificateNotFoundFault: ClientRuntime.ModeledError, AWSClientRun
 }
 
 extension RDSClientTypes.CharacterSet {
-
-    static func write(value: RDSClientTypes.CharacterSet?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["CharacterSetDescription"].write(value.characterSetDescription)
-        try writer["CharacterSetName"].write(value.characterSetName)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.CharacterSet {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1763,14 +1699,6 @@ extension RDSClientTypes.CloudwatchLogsExportConfiguration {
         try writer["DisableLogTypes"].writeList(value.disableLogTypes, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["EnableLogTypes"].writeList(value.enableLogTypes, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.CloudwatchLogsExportConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.CloudwatchLogsExportConfiguration()
-        value.enableLogTypes = try reader["EnableLogTypes"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.disableLogTypes = try reader["DisableLogTypes"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
 }
 
 extension RDSClientTypes {
@@ -1794,21 +1722,6 @@ extension RDSClientTypes {
 }
 
 extension RDSClientTypes.ClusterPendingModifiedValues {
-
-    static func write(value: RDSClientTypes.ClusterPendingModifiedValues?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["AllocatedStorage"].write(value.allocatedStorage)
-        try writer["BackupRetentionPeriod"].write(value.backupRetentionPeriod)
-        try writer["CertificateDetails"].write(value.certificateDetails, with: RDSClientTypes.CertificateDetails.write(value:to:))
-        try writer["DBClusterIdentifier"].write(value.dbClusterIdentifier)
-        try writer["EngineVersion"].write(value.engineVersion)
-        try writer["IAMDatabaseAuthenticationEnabled"].write(value.iamDatabaseAuthenticationEnabled)
-        try writer["Iops"].write(value.iops)
-        try writer["MasterUserPassword"].write(value.masterUserPassword)
-        try writer["PendingCloudwatchLogsExports"].write(value.pendingCloudwatchLogsExports, with: RDSClientTypes.PendingCloudwatchLogsExports.write(value:to:))
-        try writer["RdsCustomClusterConfiguration"].write(value.rdsCustomClusterConfiguration, with: RDSClientTypes.RdsCustomClusterConfiguration.write(value:to:))
-        try writer["StorageType"].write(value.storageType)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.ClusterPendingModifiedValues {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1894,17 +1807,6 @@ extension RDSClientTypes.ConnectionPoolConfiguration {
         try writer["MaxIdleConnectionsPercent"].write(value.maxIdleConnectionsPercent)
         try writer["SessionPinningFilters"].writeList(value.sessionPinningFilters, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.ConnectionPoolConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.ConnectionPoolConfiguration()
-        value.maxConnectionsPercent = try reader["MaxConnectionsPercent"].readIfPresent()
-        value.maxIdleConnectionsPercent = try reader["MaxIdleConnectionsPercent"].readIfPresent()
-        value.connectionBorrowTimeout = try reader["ConnectionBorrowTimeout"].readIfPresent()
-        value.sessionPinningFilters = try reader["SessionPinningFilters"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.initQuery = try reader["InitQuery"].readIfPresent()
-        return value
-    }
 }
 
 extension RDSClientTypes {
@@ -1946,15 +1848,6 @@ extension RDSClientTypes {
 }
 
 extension RDSClientTypes.ConnectionPoolConfigurationInfo {
-
-    static func write(value: RDSClientTypes.ConnectionPoolConfigurationInfo?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["ConnectionBorrowTimeout"].write(value.connectionBorrowTimeout)
-        try writer["InitQuery"].write(value.initQuery)
-        try writer["MaxConnectionsPercent"].write(value.maxConnectionsPercent)
-        try writer["MaxIdleConnectionsPercent"].write(value.maxIdleConnectionsPercent)
-        try writer["SessionPinningFilters"].writeList(value.sessionPinningFilters, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.ConnectionPoolConfigurationInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2001,12 +1894,6 @@ extension RDSClientTypes {
 }
 
 extension RDSClientTypes.ContextAttribute {
-
-    static func write(value: RDSClientTypes.ContextAttribute?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Key"].write(value.key)
-        try writer["Value"].write(value.value)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.ContextAttribute {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6579,12 +6466,6 @@ public struct CustomAvailabilityZoneNotFoundFault: ClientRuntime.ModeledError, A
 
 extension RDSClientTypes.CustomDBEngineVersionAMI {
 
-    static func write(value: RDSClientTypes.CustomDBEngineVersionAMI?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["ImageId"].write(value.imageId)
-        try writer["Status"].write(value.status)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.CustomDBEngineVersionAMI {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RDSClientTypes.CustomDBEngineVersionAMI()
@@ -6759,89 +6640,6 @@ extension RDSClientTypes {
 }
 
 extension RDSClientTypes.DBCluster {
-
-    static func write(value: RDSClientTypes.DBCluster?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["ActivityStreamKinesisStreamName"].write(value.activityStreamKinesisStreamName)
-        try writer["ActivityStreamKmsKeyId"].write(value.activityStreamKmsKeyId)
-        try writer["ActivityStreamMode"].write(value.activityStreamMode)
-        try writer["ActivityStreamStatus"].write(value.activityStreamStatus)
-        try writer["AllocatedStorage"].write(value.allocatedStorage)
-        try writer["AssociatedRoles"].writeList(value.associatedRoles, memberWritingClosure: RDSClientTypes.DBClusterRole.write(value:to:), memberNodeInfo: "DBClusterRole", isFlattened: false)
-        try writer["AutoMinorVersionUpgrade"].write(value.autoMinorVersionUpgrade)
-        try writer["AutomaticRestartTime"].writeTimestamp(value.automaticRestartTime, format: .dateTime)
-        try writer["AvailabilityZones"].writeList(value.availabilityZones, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "AvailabilityZone", isFlattened: false)
-        try writer["AwsBackupRecoveryPointArn"].write(value.awsBackupRecoveryPointArn)
-        try writer["BacktrackConsumedChangeRecords"].write(value.backtrackConsumedChangeRecords)
-        try writer["BacktrackWindow"].write(value.backtrackWindow)
-        try writer["BackupRetentionPeriod"].write(value.backupRetentionPeriod)
-        try writer["Capacity"].write(value.capacity)
-        try writer["CertificateDetails"].write(value.certificateDetails, with: RDSClientTypes.CertificateDetails.write(value:to:))
-        try writer["CharacterSetName"].write(value.characterSetName)
-        try writer["CloneGroupId"].write(value.cloneGroupId)
-        try writer["ClusterCreateTime"].writeTimestamp(value.clusterCreateTime, format: .dateTime)
-        try writer["CopyTagsToSnapshot"].write(value.copyTagsToSnapshot)
-        try writer["CrossAccountClone"].write(value.crossAccountClone)
-        try writer["CustomEndpoints"].writeList(value.customEndpoints, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["DBClusterArn"].write(value.dbClusterArn)
-        try writer["DBClusterIdentifier"].write(value.dbClusterIdentifier)
-        try writer["DBClusterInstanceClass"].write(value.dbClusterInstanceClass)
-        try writer["DBClusterMembers"].writeList(value.dbClusterMembers, memberWritingClosure: RDSClientTypes.DBClusterMember.write(value:to:), memberNodeInfo: "DBClusterMember", isFlattened: false)
-        try writer["DBClusterOptionGroupMemberships"].writeList(value.dbClusterOptionGroupMemberships, memberWritingClosure: RDSClientTypes.DBClusterOptionGroupStatus.write(value:to:), memberNodeInfo: "DBClusterOptionGroup", isFlattened: false)
-        try writer["DBClusterParameterGroup"].write(value.dbClusterParameterGroup)
-        try writer["DBSubnetGroup"].write(value.dbSubnetGroup)
-        try writer["DBSystemId"].write(value.dbSystemId)
-        try writer["DatabaseName"].write(value.databaseName)
-        try writer["DbClusterResourceId"].write(value.dbClusterResourceId)
-        try writer["DeletionProtection"].write(value.deletionProtection)
-        try writer["DomainMemberships"].writeList(value.domainMemberships, memberWritingClosure: RDSClientTypes.DomainMembership.write(value:to:), memberNodeInfo: "DomainMembership", isFlattened: false)
-        try writer["EarliestBacktrackTime"].writeTimestamp(value.earliestBacktrackTime, format: .dateTime)
-        try writer["EarliestRestorableTime"].writeTimestamp(value.earliestRestorableTime, format: .dateTime)
-        try writer["EnabledCloudwatchLogsExports"].writeList(value.enabledCloudwatchLogsExports, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Endpoint"].write(value.endpoint)
-        try writer["Engine"].write(value.engine)
-        try writer["EngineMode"].write(value.engineMode)
-        try writer["EngineVersion"].write(value.engineVersion)
-        try writer["GlobalWriteForwardingRequested"].write(value.globalWriteForwardingRequested)
-        try writer["GlobalWriteForwardingStatus"].write(value.globalWriteForwardingStatus)
-        try writer["HostedZoneId"].write(value.hostedZoneId)
-        try writer["HttpEndpointEnabled"].write(value.httpEndpointEnabled)
-        try writer["IAMDatabaseAuthenticationEnabled"].write(value.iamDatabaseAuthenticationEnabled)
-        try writer["IOOptimizedNextAllowedModificationTime"].writeTimestamp(value.ioOptimizedNextAllowedModificationTime, format: .dateTime)
-        try writer["Iops"].write(value.iops)
-        try writer["KmsKeyId"].write(value.kmsKeyId)
-        try writer["LatestRestorableTime"].writeTimestamp(value.latestRestorableTime, format: .dateTime)
-        try writer["LimitlessDatabase"].write(value.limitlessDatabase, with: RDSClientTypes.LimitlessDatabase.write(value:to:))
-        try writer["LocalWriteForwardingStatus"].write(value.localWriteForwardingStatus)
-        try writer["MasterUserSecret"].write(value.masterUserSecret, with: RDSClientTypes.MasterUserSecret.write(value:to:))
-        try writer["MasterUsername"].write(value.masterUsername)
-        try writer["MonitoringInterval"].write(value.monitoringInterval)
-        try writer["MonitoringRoleArn"].write(value.monitoringRoleArn)
-        try writer["MultiAZ"].write(value.multiAZ)
-        try writer["NetworkType"].write(value.networkType)
-        try writer["PendingModifiedValues"].write(value.pendingModifiedValues, with: RDSClientTypes.ClusterPendingModifiedValues.write(value:to:))
-        try writer["PercentProgress"].write(value.percentProgress)
-        try writer["PerformanceInsightsEnabled"].write(value.performanceInsightsEnabled)
-        try writer["PerformanceInsightsKMSKeyId"].write(value.performanceInsightsKMSKeyId)
-        try writer["PerformanceInsightsRetentionPeriod"].write(value.performanceInsightsRetentionPeriod)
-        try writer["Port"].write(value.port)
-        try writer["PreferredBackupWindow"].write(value.preferredBackupWindow)
-        try writer["PreferredMaintenanceWindow"].write(value.preferredMaintenanceWindow)
-        try writer["PubliclyAccessible"].write(value.publiclyAccessible)
-        try writer["RdsCustomClusterConfiguration"].write(value.rdsCustomClusterConfiguration, with: RDSClientTypes.RdsCustomClusterConfiguration.write(value:to:))
-        try writer["ReadReplicaIdentifiers"].writeList(value.readReplicaIdentifiers, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "ReadReplicaIdentifier", isFlattened: false)
-        try writer["ReaderEndpoint"].write(value.readerEndpoint)
-        try writer["ReplicationSourceIdentifier"].write(value.replicationSourceIdentifier)
-        try writer["ScalingConfigurationInfo"].write(value.scalingConfigurationInfo, with: RDSClientTypes.ScalingConfigurationInfo.write(value:to:))
-        try writer["ServerlessV2ScalingConfiguration"].write(value.serverlessV2ScalingConfiguration, with: RDSClientTypes.ServerlessV2ScalingConfigurationInfo.write(value:to:))
-        try writer["Status"].write(value.status)
-        try writer["StatusInfos"].writeList(value.statusInfos, memberWritingClosure: RDSClientTypes.DBClusterStatusInfo.write(value:to:), memberNodeInfo: "DBClusterStatusInfo", isFlattened: false)
-        try writer["StorageEncrypted"].write(value.storageEncrypted)
-        try writer["StorageThroughput"].write(value.storageThroughput)
-        try writer["StorageType"].write(value.storageType)
-        try writer["TagList"].writeList(value.tagList, memberWritingClosure: RDSClientTypes.Tag.write(value:to:), memberNodeInfo: "Tag", isFlattened: false)
-        try writer["VpcSecurityGroups"].writeList(value.vpcSecurityGroups, memberWritingClosure: RDSClientTypes.VpcSecurityGroupMembership.write(value:to:), memberNodeInfo: "VpcSecurityGroupMembership", isFlattened: false)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBCluster {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7305,35 +7103,6 @@ public struct DBClusterAlreadyExistsFault: ClientRuntime.ModeledError, AWSClient
 
 extension RDSClientTypes.DBClusterAutomatedBackup {
 
-    static func write(value: RDSClientTypes.DBClusterAutomatedBackup?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["AllocatedStorage"].write(value.allocatedStorage)
-        try writer["AvailabilityZones"].writeList(value.availabilityZones, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "AvailabilityZone", isFlattened: false)
-        try writer["AwsBackupRecoveryPointArn"].write(value.awsBackupRecoveryPointArn)
-        try writer["BackupRetentionPeriod"].write(value.backupRetentionPeriod)
-        try writer["ClusterCreateTime"].writeTimestamp(value.clusterCreateTime, format: .dateTime)
-        try writer["DBClusterArn"].write(value.dbClusterArn)
-        try writer["DBClusterAutomatedBackupsArn"].write(value.dbClusterAutomatedBackupsArn)
-        try writer["DBClusterIdentifier"].write(value.dbClusterIdentifier)
-        try writer["DbClusterResourceId"].write(value.dbClusterResourceId)
-        try writer["Engine"].write(value.engine)
-        try writer["EngineMode"].write(value.engineMode)
-        try writer["EngineVersion"].write(value.engineVersion)
-        try writer["IAMDatabaseAuthenticationEnabled"].write(value.iamDatabaseAuthenticationEnabled)
-        try writer["Iops"].write(value.iops)
-        try writer["KmsKeyId"].write(value.kmsKeyId)
-        try writer["LicenseModel"].write(value.licenseModel)
-        try writer["MasterUsername"].write(value.masterUsername)
-        try writer["Port"].write(value.port)
-        try writer["Region"].write(value.region)
-        try writer["RestoreWindow"].write(value.restoreWindow, with: RDSClientTypes.RestoreWindow.write(value:to:))
-        try writer["Status"].write(value.status)
-        try writer["StorageEncrypted"].write(value.storageEncrypted)
-        try writer["StorageThroughput"].write(value.storageThroughput)
-        try writer["StorageType"].write(value.storageType)
-        try writer["VpcId"].write(value.vpcId)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBClusterAutomatedBackup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RDSClientTypes.DBClusterAutomatedBackup()
@@ -7556,16 +7325,6 @@ public struct DBClusterAutomatedBackupQuotaExceededFault: ClientRuntime.ModeledE
 
 extension RDSClientTypes.DBClusterBacktrack {
 
-    static func write(value: RDSClientTypes.DBClusterBacktrack?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["BacktrackIdentifier"].write(value.backtrackIdentifier)
-        try writer["BacktrackRequestCreationTime"].writeTimestamp(value.backtrackRequestCreationTime, format: .dateTime)
-        try writer["BacktrackTo"].writeTimestamp(value.backtrackTo, format: .dateTime)
-        try writer["BacktrackedFrom"].writeTimestamp(value.backtrackedFrom, format: .dateTime)
-        try writer["DBClusterIdentifier"].write(value.dbClusterIdentifier)
-        try writer["Status"].write(value.status)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBClusterBacktrack {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RDSClientTypes.DBClusterBacktrack()
@@ -7661,20 +7420,6 @@ public struct DBClusterBacktrackNotFoundFault: ClientRuntime.ModeledError, AWSCl
 }
 
 extension RDSClientTypes.DBClusterEndpoint {
-
-    static func write(value: RDSClientTypes.DBClusterEndpoint?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["CustomEndpointType"].write(value.customEndpointType)
-        try writer["DBClusterEndpointArn"].write(value.dbClusterEndpointArn)
-        try writer["DBClusterEndpointIdentifier"].write(value.dbClusterEndpointIdentifier)
-        try writer["DBClusterEndpointResourceIdentifier"].write(value.dbClusterEndpointResourceIdentifier)
-        try writer["DBClusterIdentifier"].write(value.dbClusterIdentifier)
-        try writer["Endpoint"].write(value.endpoint)
-        try writer["EndpointType"].write(value.endpointType)
-        try writer["ExcludedMembers"].writeList(value.excludedMembers, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["StaticMembers"].writeList(value.staticMembers, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Status"].write(value.status)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBClusterEndpoint {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7869,14 +7614,6 @@ public struct DBClusterEndpointQuotaExceededFault: ClientRuntime.ModeledError, A
 
 extension RDSClientTypes.DBClusterMember {
 
-    static func write(value: RDSClientTypes.DBClusterMember?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["DBClusterParameterGroupStatus"].write(value.dbClusterParameterGroupStatus)
-        try writer["DBInstanceIdentifier"].write(value.dbInstanceIdentifier)
-        try writer["IsClusterWriter"].write(value.isClusterWriter)
-        try writer["PromotionTier"].write(value.promotionTier)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBClusterMember {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RDSClientTypes.DBClusterMember()
@@ -7955,12 +7692,6 @@ public struct DBClusterNotFoundFault: ClientRuntime.ModeledError, AWSClientRunti
 
 extension RDSClientTypes.DBClusterOptionGroupStatus {
 
-    static func write(value: RDSClientTypes.DBClusterOptionGroupStatus?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["DBClusterOptionGroupName"].write(value.dbClusterOptionGroupName)
-        try writer["Status"].write(value.status)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBClusterOptionGroupStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RDSClientTypes.DBClusterOptionGroupStatus()
@@ -7991,14 +7722,6 @@ extension RDSClientTypes {
 }
 
 extension RDSClientTypes.DBClusterParameterGroup {
-
-    static func write(value: RDSClientTypes.DBClusterParameterGroup?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["DBClusterParameterGroupArn"].write(value.dbClusterParameterGroupArn)
-        try writer["DBClusterParameterGroupName"].write(value.dbClusterParameterGroupName)
-        try writer["DBParameterGroupFamily"].write(value.dbParameterGroupFamily)
-        try writer["Description"].write(value.description)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBClusterParameterGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8114,13 +7837,6 @@ public struct DBClusterQuotaExceededFault: ClientRuntime.ModeledError, AWSClient
 }
 
 extension RDSClientTypes.DBClusterRole {
-
-    static func write(value: RDSClientTypes.DBClusterRole?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["FeatureName"].write(value.featureName)
-        try writer["RoleArn"].write(value.roleArn)
-        try writer["Status"].write(value.status)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBClusterRole {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8274,36 +7990,6 @@ public struct DBClusterRoleQuotaExceededFault: ClientRuntime.ModeledError, AWSCl
 }
 
 extension RDSClientTypes.DBClusterSnapshot {
-
-    static func write(value: RDSClientTypes.DBClusterSnapshot?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["AllocatedStorage"].write(value.allocatedStorage)
-        try writer["AvailabilityZones"].writeList(value.availabilityZones, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "AvailabilityZone", isFlattened: false)
-        try writer["ClusterCreateTime"].writeTimestamp(value.clusterCreateTime, format: .dateTime)
-        try writer["DBClusterIdentifier"].write(value.dbClusterIdentifier)
-        try writer["DBClusterSnapshotArn"].write(value.dbClusterSnapshotArn)
-        try writer["DBClusterSnapshotIdentifier"].write(value.dbClusterSnapshotIdentifier)
-        try writer["DBSystemId"].write(value.dbSystemId)
-        try writer["DbClusterResourceId"].write(value.dbClusterResourceId)
-        try writer["Engine"].write(value.engine)
-        try writer["EngineMode"].write(value.engineMode)
-        try writer["EngineVersion"].write(value.engineVersion)
-        try writer["IAMDatabaseAuthenticationEnabled"].write(value.iamDatabaseAuthenticationEnabled)
-        try writer["KmsKeyId"].write(value.kmsKeyId)
-        try writer["LicenseModel"].write(value.licenseModel)
-        try writer["MasterUsername"].write(value.masterUsername)
-        try writer["PercentProgress"].write(value.percentProgress)
-        try writer["Port"].write(value.port)
-        try writer["SnapshotCreateTime"].writeTimestamp(value.snapshotCreateTime, format: .dateTime)
-        try writer["SnapshotType"].write(value.snapshotType)
-        try writer["SourceDBClusterSnapshotArn"].write(value.sourceDBClusterSnapshotArn)
-        try writer["Status"].write(value.status)
-        try writer["StorageEncrypted"].write(value.storageEncrypted)
-        try writer["StorageThroughput"].write(value.storageThroughput)
-        try writer["StorageType"].write(value.storageType)
-        try writer["TagList"].writeList(value.tagList, memberWritingClosure: RDSClientTypes.Tag.write(value:to:), memberNodeInfo: "Tag", isFlattened: false)
-        try writer["VpcId"].write(value.vpcId)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBClusterSnapshot {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8499,12 +8185,6 @@ public struct DBClusterSnapshotAlreadyExistsFault: ClientRuntime.ModeledError, A
 
 extension RDSClientTypes.DBClusterSnapshotAttribute {
 
-    static func write(value: RDSClientTypes.DBClusterSnapshotAttribute?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["AttributeName"].write(value.attributeName)
-        try writer["AttributeValues"].writeList(value.attributeValues, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "AttributeValue", isFlattened: false)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBClusterSnapshotAttribute {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RDSClientTypes.DBClusterSnapshotAttribute()
@@ -8535,12 +8215,6 @@ extension RDSClientTypes {
 }
 
 extension RDSClientTypes.DBClusterSnapshotAttributesResult {
-
-    static func write(value: RDSClientTypes.DBClusterSnapshotAttributesResult?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["DBClusterSnapshotAttributes"].writeList(value.dbClusterSnapshotAttributes, memberWritingClosure: RDSClientTypes.DBClusterSnapshotAttribute.write(value:to:), memberNodeInfo: "DBClusterSnapshotAttribute", isFlattened: false)
-        try writer["DBClusterSnapshotIdentifier"].write(value.dbClusterSnapshotIdentifier)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBClusterSnapshotAttributesResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8610,14 +8284,6 @@ public struct DBClusterSnapshotNotFoundFault: ClientRuntime.ModeledError, AWSCli
 
 extension RDSClientTypes.DBClusterStatusInfo {
 
-    static func write(value: RDSClientTypes.DBClusterStatusInfo?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.message)
-        try writer["Normal"].write(value.normal)
-        try writer["Status"].write(value.status)
-        try writer["StatusType"].write(value.statusType)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBClusterStatusInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RDSClientTypes.DBClusterStatusInfo()
@@ -8658,44 +8324,6 @@ extension RDSClientTypes {
 }
 
 extension RDSClientTypes.DBEngineVersion {
-
-    static func write(value: RDSClientTypes.DBEngineVersion?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["CreateTime"].writeTimestamp(value.createTime, format: .dateTime)
-        try writer["CustomDBEngineVersionManifest"].write(value.customDBEngineVersionManifest)
-        try writer["DBEngineDescription"].write(value.dbEngineDescription)
-        try writer["DBEngineMediaType"].write(value.dbEngineMediaType)
-        try writer["DBEngineVersionArn"].write(value.dbEngineVersionArn)
-        try writer["DBEngineVersionDescription"].write(value.dbEngineVersionDescription)
-        try writer["DBParameterGroupFamily"].write(value.dbParameterGroupFamily)
-        try writer["DatabaseInstallationFilesS3BucketName"].write(value.databaseInstallationFilesS3BucketName)
-        try writer["DatabaseInstallationFilesS3Prefix"].write(value.databaseInstallationFilesS3Prefix)
-        try writer["DefaultCharacterSet"].write(value.defaultCharacterSet, with: RDSClientTypes.CharacterSet.write(value:to:))
-        try writer["Engine"].write(value.engine)
-        try writer["EngineVersion"].write(value.engineVersion)
-        try writer["ExportableLogTypes"].writeList(value.exportableLogTypes, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Image"].write(value.image, with: RDSClientTypes.CustomDBEngineVersionAMI.write(value:to:))
-        try writer["KMSKeyId"].write(value.kmsKeyId)
-        try writer["MajorEngineVersion"].write(value.majorEngineVersion)
-        try writer["Status"].write(value.status)
-        try writer["SupportedCACertificateIdentifiers"].writeList(value.supportedCACertificateIdentifiers, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["SupportedCharacterSets"].writeList(value.supportedCharacterSets, memberWritingClosure: RDSClientTypes.CharacterSet.write(value:to:), memberNodeInfo: "CharacterSet", isFlattened: false)
-        try writer["SupportedEngineModes"].writeList(value.supportedEngineModes, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["SupportedFeatureNames"].writeList(value.supportedFeatureNames, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["SupportedNcharCharacterSets"].writeList(value.supportedNcharCharacterSets, memberWritingClosure: RDSClientTypes.CharacterSet.write(value:to:), memberNodeInfo: "CharacterSet", isFlattened: false)
-        try writer["SupportedTimezones"].writeList(value.supportedTimezones, memberWritingClosure: RDSClientTypes.Timezone.write(value:to:), memberNodeInfo: "Timezone", isFlattened: false)
-        try writer["SupportsBabelfish"].write(value.supportsBabelfish)
-        try writer["SupportsCertificateRotationWithoutRestart"].write(value.supportsCertificateRotationWithoutRestart)
-        try writer["SupportsGlobalDatabases"].write(value.supportsGlobalDatabases)
-        try writer["SupportsIntegrations"].write(value.supportsIntegrations)
-        try writer["SupportsLimitlessDatabase"].write(value.supportsLimitlessDatabase)
-        try writer["SupportsLocalWriteForwarding"].write(value.supportsLocalWriteForwarding)
-        try writer["SupportsLogExportsToCloudwatchLogs"].write(value.supportsLogExportsToCloudwatchLogs)
-        try writer["SupportsParallelQuery"].write(value.supportsParallelQuery)
-        try writer["SupportsReadReplica"].write(value.supportsReadReplica)
-        try writer["TagList"].writeList(value.tagList, memberWritingClosure: RDSClientTypes.Tag.write(value:to:), memberNodeInfo: "Tag", isFlattened: false)
-        try writer["ValidUpgradeTarget"].writeList(value.validUpgradeTarget, memberWritingClosure: RDSClientTypes.UpgradeTarget.write(value:to:), memberNodeInfo: "UpgradeTarget", isFlattened: false)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBEngineVersion {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8887,95 +8515,6 @@ extension RDSClientTypes {
 }
 
 extension RDSClientTypes.DBInstance {
-
-    static func write(value: RDSClientTypes.DBInstance?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["ActivityStreamEngineNativeAuditFieldsIncluded"].write(value.activityStreamEngineNativeAuditFieldsIncluded)
-        try writer["ActivityStreamKinesisStreamName"].write(value.activityStreamKinesisStreamName)
-        try writer["ActivityStreamKmsKeyId"].write(value.activityStreamKmsKeyId)
-        try writer["ActivityStreamMode"].write(value.activityStreamMode)
-        try writer["ActivityStreamPolicyStatus"].write(value.activityStreamPolicyStatus)
-        try writer["ActivityStreamStatus"].write(value.activityStreamStatus)
-        try writer["AllocatedStorage"].write(value.allocatedStorage)
-        try writer["AssociatedRoles"].writeList(value.associatedRoles, memberWritingClosure: RDSClientTypes.DBInstanceRole.write(value:to:), memberNodeInfo: "DBInstanceRole", isFlattened: false)
-        try writer["AutoMinorVersionUpgrade"].write(value.autoMinorVersionUpgrade)
-        try writer["AutomaticRestartTime"].writeTimestamp(value.automaticRestartTime, format: .dateTime)
-        try writer["AutomationMode"].write(value.automationMode)
-        try writer["AvailabilityZone"].write(value.availabilityZone)
-        try writer["AwsBackupRecoveryPointArn"].write(value.awsBackupRecoveryPointArn)
-        try writer["BackupRetentionPeriod"].write(value.backupRetentionPeriod)
-        try writer["BackupTarget"].write(value.backupTarget)
-        try writer["CACertificateIdentifier"].write(value.caCertificateIdentifier)
-        try writer["CertificateDetails"].write(value.certificateDetails, with: RDSClientTypes.CertificateDetails.write(value:to:))
-        try writer["CharacterSetName"].write(value.characterSetName)
-        try writer["CopyTagsToSnapshot"].write(value.copyTagsToSnapshot)
-        try writer["CustomIamInstanceProfile"].write(value.customIamInstanceProfile)
-        try writer["CustomerOwnedIpEnabled"].write(value.customerOwnedIpEnabled)
-        try writer["DBClusterIdentifier"].write(value.dbClusterIdentifier)
-        try writer["DBInstanceArn"].write(value.dbInstanceArn)
-        try writer["DBInstanceAutomatedBackupsReplications"].writeList(value.dbInstanceAutomatedBackupsReplications, memberWritingClosure: RDSClientTypes.DBInstanceAutomatedBackupsReplication.write(value:to:), memberNodeInfo: "DBInstanceAutomatedBackupsReplication", isFlattened: false)
-        try writer["DBInstanceClass"].write(value.dbInstanceClass)
-        try writer["DBInstanceIdentifier"].write(value.dbInstanceIdentifier)
-        try writer["DBInstanceStatus"].write(value.dbInstanceStatus)
-        try writer["DBName"].write(value.dbName)
-        try writer["DBParameterGroups"].writeList(value.dbParameterGroups, memberWritingClosure: RDSClientTypes.DBParameterGroupStatus.write(value:to:), memberNodeInfo: "DBParameterGroup", isFlattened: false)
-        try writer["DBSecurityGroups"].writeList(value.dbSecurityGroups, memberWritingClosure: RDSClientTypes.DBSecurityGroupMembership.write(value:to:), memberNodeInfo: "DBSecurityGroup", isFlattened: false)
-        try writer["DBSubnetGroup"].write(value.dbSubnetGroup, with: RDSClientTypes.DBSubnetGroup.write(value:to:))
-        try writer["DBSystemId"].write(value.dbSystemId)
-        try writer["DbInstancePort"].write(value.dbInstancePort)
-        try writer["DbiResourceId"].write(value.dbiResourceId)
-        try writer["DedicatedLogVolume"].write(value.dedicatedLogVolume)
-        try writer["DeletionProtection"].write(value.deletionProtection)
-        try writer["DomainMemberships"].writeList(value.domainMemberships, memberWritingClosure: RDSClientTypes.DomainMembership.write(value:to:), memberNodeInfo: "DomainMembership", isFlattened: false)
-        try writer["EnabledCloudwatchLogsExports"].writeList(value.enabledCloudwatchLogsExports, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Endpoint"].write(value.endpoint, with: RDSClientTypes.Endpoint.write(value:to:))
-        try writer["Engine"].write(value.engine)
-        try writer["EngineVersion"].write(value.engineVersion)
-        try writer["EnhancedMonitoringResourceArn"].write(value.enhancedMonitoringResourceArn)
-        try writer["IAMDatabaseAuthenticationEnabled"].write(value.iamDatabaseAuthenticationEnabled)
-        try writer["InstanceCreateTime"].writeTimestamp(value.instanceCreateTime, format: .dateTime)
-        try writer["Iops"].write(value.iops)
-        try writer["IsStorageConfigUpgradeAvailable"].write(value.isStorageConfigUpgradeAvailable)
-        try writer["KmsKeyId"].write(value.kmsKeyId)
-        try writer["LatestRestorableTime"].writeTimestamp(value.latestRestorableTime, format: .dateTime)
-        try writer["LicenseModel"].write(value.licenseModel)
-        try writer["ListenerEndpoint"].write(value.listenerEndpoint, with: RDSClientTypes.Endpoint.write(value:to:))
-        try writer["MasterUserSecret"].write(value.masterUserSecret, with: RDSClientTypes.MasterUserSecret.write(value:to:))
-        try writer["MasterUsername"].write(value.masterUsername)
-        try writer["MaxAllocatedStorage"].write(value.maxAllocatedStorage)
-        try writer["MonitoringInterval"].write(value.monitoringInterval)
-        try writer["MonitoringRoleArn"].write(value.monitoringRoleArn)
-        try writer["MultiAZ"].write(value.multiAZ)
-        try writer["MultiTenant"].write(value.multiTenant)
-        try writer["NcharCharacterSetName"].write(value.ncharCharacterSetName)
-        try writer["NetworkType"].write(value.networkType)
-        try writer["OptionGroupMemberships"].writeList(value.optionGroupMemberships, memberWritingClosure: RDSClientTypes.OptionGroupMembership.write(value:to:), memberNodeInfo: "OptionGroupMembership", isFlattened: false)
-        try writer["PendingModifiedValues"].write(value.pendingModifiedValues, with: RDSClientTypes.PendingModifiedValues.write(value:to:))
-        try writer["PercentProgress"].write(value.percentProgress)
-        try writer["PerformanceInsightsEnabled"].write(value.performanceInsightsEnabled)
-        try writer["PerformanceInsightsKMSKeyId"].write(value.performanceInsightsKMSKeyId)
-        try writer["PerformanceInsightsRetentionPeriod"].write(value.performanceInsightsRetentionPeriod)
-        try writer["PreferredBackupWindow"].write(value.preferredBackupWindow)
-        try writer["PreferredMaintenanceWindow"].write(value.preferredMaintenanceWindow)
-        try writer["ProcessorFeatures"].writeList(value.processorFeatures, memberWritingClosure: RDSClientTypes.ProcessorFeature.write(value:to:), memberNodeInfo: "ProcessorFeature", isFlattened: false)
-        try writer["PromotionTier"].write(value.promotionTier)
-        try writer["PubliclyAccessible"].write(value.publiclyAccessible)
-        try writer["ReadReplicaDBClusterIdentifiers"].writeList(value.readReplicaDBClusterIdentifiers, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "ReadReplicaDBClusterIdentifier", isFlattened: false)
-        try writer["ReadReplicaDBInstanceIdentifiers"].writeList(value.readReplicaDBInstanceIdentifiers, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "ReadReplicaDBInstanceIdentifier", isFlattened: false)
-        try writer["ReadReplicaSourceDBClusterIdentifier"].write(value.readReplicaSourceDBClusterIdentifier)
-        try writer["ReadReplicaSourceDBInstanceIdentifier"].write(value.readReplicaSourceDBInstanceIdentifier)
-        try writer["ReplicaMode"].write(value.replicaMode)
-        try writer["ResumeFullAutomationModeTime"].writeTimestamp(value.resumeFullAutomationModeTime, format: .dateTime)
-        try writer["SecondaryAvailabilityZone"].write(value.secondaryAvailabilityZone)
-        try writer["StatusInfos"].writeList(value.statusInfos, memberWritingClosure: RDSClientTypes.DBInstanceStatusInfo.write(value:to:), memberNodeInfo: "DBInstanceStatusInfo", isFlattened: false)
-        try writer["StorageEncrypted"].write(value.storageEncrypted)
-        try writer["StorageThroughput"].write(value.storageThroughput)
-        try writer["StorageType"].write(value.storageType)
-        try writer["TagList"].writeList(value.tagList, memberWritingClosure: RDSClientTypes.Tag.write(value:to:), memberNodeInfo: "Tag", isFlattened: false)
-        try writer["TdeCredentialArn"].write(value.tdeCredentialArn)
-        try writer["Timezone"].write(value.timezone)
-        try writer["VpcSecurityGroups"].writeList(value.vpcSecurityGroups, memberWritingClosure: RDSClientTypes.VpcSecurityGroupMembership.write(value:to:), memberNodeInfo: "VpcSecurityGroupMembership", isFlattened: false)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBInstance {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -9478,41 +9017,6 @@ public struct DBInstanceAlreadyExistsFault: ClientRuntime.ModeledError, AWSClien
 
 extension RDSClientTypes.DBInstanceAutomatedBackup {
 
-    static func write(value: RDSClientTypes.DBInstanceAutomatedBackup?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["AllocatedStorage"].write(value.allocatedStorage)
-        try writer["AvailabilityZone"].write(value.availabilityZone)
-        try writer["AwsBackupRecoveryPointArn"].write(value.awsBackupRecoveryPointArn)
-        try writer["BackupRetentionPeriod"].write(value.backupRetentionPeriod)
-        try writer["BackupTarget"].write(value.backupTarget)
-        try writer["DBInstanceArn"].write(value.dbInstanceArn)
-        try writer["DBInstanceAutomatedBackupsArn"].write(value.dbInstanceAutomatedBackupsArn)
-        try writer["DBInstanceAutomatedBackupsReplications"].writeList(value.dbInstanceAutomatedBackupsReplications, memberWritingClosure: RDSClientTypes.DBInstanceAutomatedBackupsReplication.write(value:to:), memberNodeInfo: "DBInstanceAutomatedBackupsReplication", isFlattened: false)
-        try writer["DBInstanceIdentifier"].write(value.dbInstanceIdentifier)
-        try writer["DbiResourceId"].write(value.dbiResourceId)
-        try writer["DedicatedLogVolume"].write(value.dedicatedLogVolume)
-        try writer["Encrypted"].write(value.encrypted)
-        try writer["Engine"].write(value.engine)
-        try writer["EngineVersion"].write(value.engineVersion)
-        try writer["IAMDatabaseAuthenticationEnabled"].write(value.iamDatabaseAuthenticationEnabled)
-        try writer["InstanceCreateTime"].writeTimestamp(value.instanceCreateTime, format: .dateTime)
-        try writer["Iops"].write(value.iops)
-        try writer["KmsKeyId"].write(value.kmsKeyId)
-        try writer["LicenseModel"].write(value.licenseModel)
-        try writer["MasterUsername"].write(value.masterUsername)
-        try writer["MultiTenant"].write(value.multiTenant)
-        try writer["OptionGroupName"].write(value.optionGroupName)
-        try writer["Port"].write(value.port)
-        try writer["Region"].write(value.region)
-        try writer["RestoreWindow"].write(value.restoreWindow, with: RDSClientTypes.RestoreWindow.write(value:to:))
-        try writer["Status"].write(value.status)
-        try writer["StorageThroughput"].write(value.storageThroughput)
-        try writer["StorageType"].write(value.storageType)
-        try writer["TdeCredentialArn"].write(value.tdeCredentialArn)
-        try writer["Timezone"].write(value.timezone)
-        try writer["VpcId"].write(value.vpcId)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBInstanceAutomatedBackup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RDSClientTypes.DBInstanceAutomatedBackup()
@@ -9769,11 +9273,6 @@ public struct DBInstanceAutomatedBackupQuotaExceededFault: ClientRuntime.Modeled
 
 extension RDSClientTypes.DBInstanceAutomatedBackupsReplication {
 
-    static func write(value: RDSClientTypes.DBInstanceAutomatedBackupsReplication?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["DBInstanceAutomatedBackupsArn"].write(value.dbInstanceAutomatedBackupsArn)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBInstanceAutomatedBackupsReplication {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RDSClientTypes.DBInstanceAutomatedBackupsReplication()
@@ -9836,13 +9335,6 @@ public struct DBInstanceNotFoundFault: ClientRuntime.ModeledError, AWSClientRunt
 }
 
 extension RDSClientTypes.DBInstanceRole {
-
-    static func write(value: RDSClientTypes.DBInstanceRole?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["FeatureName"].write(value.featureName)
-        try writer["RoleArn"].write(value.roleArn)
-        try writer["Status"].write(value.status)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBInstanceRole {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -9997,14 +9489,6 @@ public struct DBInstanceRoleQuotaExceededFault: ClientRuntime.ModeledError, AWSC
 
 extension RDSClientTypes.DBInstanceStatusInfo {
 
-    static func write(value: RDSClientTypes.DBInstanceStatusInfo?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.message)
-        try writer["Normal"].write(value.normal)
-        try writer["Status"].write(value.status)
-        try writer["StatusType"].write(value.statusType)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBInstanceStatusInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RDSClientTypes.DBInstanceStatusInfo()
@@ -10082,14 +9566,6 @@ public struct DBLogFileNotFoundFault: ClientRuntime.ModeledError, AWSClientRunti
 }
 
 extension RDSClientTypes.DBParameterGroup {
-
-    static func write(value: RDSClientTypes.DBParameterGroup?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["DBParameterGroupArn"].write(value.dbParameterGroupArn)
-        try writer["DBParameterGroupFamily"].write(value.dbParameterGroupFamily)
-        try writer["DBParameterGroupName"].write(value.dbParameterGroupName)
-        try writer["Description"].write(value.description)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBParameterGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -10243,12 +9719,6 @@ public struct DBParameterGroupQuotaExceededFault: ClientRuntime.ModeledError, AW
 
 extension RDSClientTypes.DBParameterGroupStatus {
 
-    static func write(value: RDSClientTypes.DBParameterGroupStatus?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["DBParameterGroupName"].write(value.dbParameterGroupName)
-        try writer["ParameterApplyStatus"].write(value.parameterApplyStatus)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBParameterGroupStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RDSClientTypes.DBParameterGroupStatus()
@@ -10291,25 +9761,6 @@ extension RDSClientTypes {
 }
 
 extension RDSClientTypes.DBProxy {
-
-    static func write(value: RDSClientTypes.DBProxy?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Auth"].writeList(value.auth, memberWritingClosure: RDSClientTypes.UserAuthConfigInfo.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["CreatedDate"].writeTimestamp(value.createdDate, format: .dateTime)
-        try writer["DBProxyArn"].write(value.dbProxyArn)
-        try writer["DBProxyName"].write(value.dbProxyName)
-        try writer["DebugLogging"].write(value.debugLogging)
-        try writer["Endpoint"].write(value.endpoint)
-        try writer["EngineFamily"].write(value.engineFamily)
-        try writer["IdleClientTimeout"].write(value.idleClientTimeout)
-        try writer["RequireTLS"].write(value.requireTLS)
-        try writer["RoleArn"].write(value.roleArn)
-        try writer["Status"].write(value.status)
-        try writer["UpdatedDate"].writeTimestamp(value.updatedDate, format: .dateTime)
-        try writer["VpcId"].write(value.vpcId)
-        try writer["VpcSecurityGroupIds"].writeList(value.vpcSecurityGroupIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["VpcSubnetIds"].writeList(value.vpcSubnetIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBProxy {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -10443,21 +9894,6 @@ public struct DBProxyAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRu
 }
 
 extension RDSClientTypes.DBProxyEndpoint {
-
-    static func write(value: RDSClientTypes.DBProxyEndpoint?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedDate"].writeTimestamp(value.createdDate, format: .dateTime)
-        try writer["DBProxyEndpointArn"].write(value.dbProxyEndpointArn)
-        try writer["DBProxyEndpointName"].write(value.dbProxyEndpointName)
-        try writer["DBProxyName"].write(value.dbProxyName)
-        try writer["Endpoint"].write(value.endpoint)
-        try writer["IsDefault"].write(value.isDefault)
-        try writer["Status"].write(value.status)
-        try writer["TargetRole"].write(value.targetRole)
-        try writer["VpcId"].write(value.vpcId)
-        try writer["VpcSecurityGroupIds"].writeList(value.vpcSecurityGroupIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["VpcSubnetIds"].writeList(value.vpcSubnetIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBProxyEndpoint {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -10843,18 +10279,6 @@ extension RDSClientTypes {
 
 extension RDSClientTypes.DBProxyTarget {
 
-    static func write(value: RDSClientTypes.DBProxyTarget?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Endpoint"].write(value.endpoint)
-        try writer["Port"].write(value.port)
-        try writer["RdsResourceId"].write(value.rdsResourceId)
-        try writer["Role"].write(value.role)
-        try writer["TargetArn"].write(value.targetArn)
-        try writer["TargetHealth"].write(value.targetHealth, with: RDSClientTypes.TargetHealth.write(value:to:))
-        try writer["TrackedClusterId"].write(value.trackedClusterId)
-        try writer["Type"].write(value.type)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBProxyTarget {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RDSClientTypes.DBProxyTarget()
@@ -10952,18 +10376,6 @@ public struct DBProxyTargetAlreadyRegisteredFault: ClientRuntime.ModeledError, A
 }
 
 extension RDSClientTypes.DBProxyTargetGroup {
-
-    static func write(value: RDSClientTypes.DBProxyTargetGroup?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["ConnectionPoolConfig"].write(value.connectionPoolConfig, with: RDSClientTypes.ConnectionPoolConfigurationInfo.write(value:to:))
-        try writer["CreatedDate"].writeTimestamp(value.createdDate, format: .dateTime)
-        try writer["DBProxyName"].write(value.dbProxyName)
-        try writer["IsDefault"].write(value.isDefault)
-        try writer["Status"].write(value.status)
-        try writer["TargetGroupArn"].write(value.targetGroupArn)
-        try writer["TargetGroupName"].write(value.targetGroupName)
-        try writer["UpdatedDate"].writeTimestamp(value.updatedDate, format: .dateTime)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBProxyTargetGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -11099,30 +10511,6 @@ public struct DBProxyTargetNotFoundFault: ClientRuntime.ModeledError, AWSClientR
 }
 
 extension RDSClientTypes.DBRecommendation {
-
-    static func write(value: RDSClientTypes.DBRecommendation?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["AdditionalInfo"].write(value.additionalInfo)
-        try writer["Category"].write(value.category)
-        try writer["CreatedTime"].writeTimestamp(value.createdTime, format: .dateTime)
-        try writer["Description"].write(value.description)
-        try writer["Detection"].write(value.detection)
-        try writer["Impact"].write(value.impact)
-        try writer["IssueDetails"].write(value.issueDetails, with: RDSClientTypes.IssueDetails.write(value:to:))
-        try writer["Links"].writeList(value.links, memberWritingClosure: RDSClientTypes.DocLink.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Reason"].write(value.reason)
-        try writer["Recommendation"].write(value.recommendation)
-        try writer["RecommendationId"].write(value.recommendationId)
-        try writer["RecommendedActions"].writeList(value.recommendedActions, memberWritingClosure: RDSClientTypes.RecommendedAction.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ResourceArn"].write(value.resourceArn)
-        try writer["Severity"].write(value.severity)
-        try writer["Source"].write(value.source)
-        try writer["Status"].write(value.status)
-        try writer["TypeDetection"].write(value.typeDetection)
-        try writer["TypeId"].write(value.typeId)
-        try writer["TypeRecommendation"].write(value.typeRecommendation)
-        try writer["UpdatedTime"].writeTimestamp(value.updatedTime, format: .dateTime)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBRecommendation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -11273,17 +10661,6 @@ extension RDSClientTypes {
 
 extension RDSClientTypes.DBSecurityGroup {
 
-    static func write(value: RDSClientTypes.DBSecurityGroup?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["DBSecurityGroupArn"].write(value.dbSecurityGroupArn)
-        try writer["DBSecurityGroupDescription"].write(value.dbSecurityGroupDescription)
-        try writer["DBSecurityGroupName"].write(value.dbSecurityGroupName)
-        try writer["EC2SecurityGroups"].writeList(value.ec2SecurityGroups, memberWritingClosure: RDSClientTypes.EC2SecurityGroup.write(value:to:), memberNodeInfo: "EC2SecurityGroup", isFlattened: false)
-        try writer["IPRanges"].writeList(value.ipRanges, memberWritingClosure: RDSClientTypes.IPRange.write(value:to:), memberNodeInfo: "IPRange", isFlattened: false)
-        try writer["OwnerId"].write(value.ownerId)
-        try writer["VpcId"].write(value.vpcId)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBSecurityGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RDSClientTypes.DBSecurityGroup()
@@ -11376,12 +10753,6 @@ public struct DBSecurityGroupAlreadyExistsFault: ClientRuntime.ModeledError, AWS
 }
 
 extension RDSClientTypes.DBSecurityGroupMembership {
-
-    static func write(value: RDSClientTypes.DBSecurityGroupMembership?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["DBSecurityGroupName"].write(value.dbSecurityGroupName)
-        try writer["Status"].write(value.status)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBSecurityGroupMembership {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -11533,18 +10904,6 @@ public struct DBSecurityGroupQuotaExceededFault: ClientRuntime.ModeledError, AWS
 
 extension RDSClientTypes.DBShardGroup {
 
-    static func write(value: RDSClientTypes.DBShardGroup?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["ComputeRedundancy"].write(value.computeRedundancy)
-        try writer["DBClusterIdentifier"].write(value.dbClusterIdentifier)
-        try writer["DBShardGroupIdentifier"].write(value.dbShardGroupIdentifier)
-        try writer["DBShardGroupResourceId"].write(value.dbShardGroupResourceId)
-        try writer["Endpoint"].write(value.endpoint)
-        try writer["MaxACU"].write(value.maxACU)
-        try writer["PubliclyAccessible"].write(value.publiclyAccessible)
-        try writer["Status"].write(value.status)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBShardGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RDSClientTypes.DBShardGroup()
@@ -11684,46 +11043,6 @@ public struct DBShardGroupNotFoundFault: ClientRuntime.ModeledError, AWSClientRu
 }
 
 extension RDSClientTypes.DBSnapshot {
-
-    static func write(value: RDSClientTypes.DBSnapshot?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["AllocatedStorage"].write(value.allocatedStorage)
-        try writer["AvailabilityZone"].write(value.availabilityZone)
-        try writer["DBInstanceIdentifier"].write(value.dbInstanceIdentifier)
-        try writer["DBSnapshotArn"].write(value.dbSnapshotArn)
-        try writer["DBSnapshotIdentifier"].write(value.dbSnapshotIdentifier)
-        try writer["DBSystemId"].write(value.dbSystemId)
-        try writer["DbiResourceId"].write(value.dbiResourceId)
-        try writer["DedicatedLogVolume"].write(value.dedicatedLogVolume)
-        try writer["Encrypted"].write(value.encrypted)
-        try writer["Engine"].write(value.engine)
-        try writer["EngineVersion"].write(value.engineVersion)
-        try writer["IAMDatabaseAuthenticationEnabled"].write(value.iamDatabaseAuthenticationEnabled)
-        try writer["InstanceCreateTime"].writeTimestamp(value.instanceCreateTime, format: .dateTime)
-        try writer["Iops"].write(value.iops)
-        try writer["KmsKeyId"].write(value.kmsKeyId)
-        try writer["LicenseModel"].write(value.licenseModel)
-        try writer["MasterUsername"].write(value.masterUsername)
-        try writer["MultiTenant"].write(value.multiTenant)
-        try writer["OptionGroupName"].write(value.optionGroupName)
-        try writer["OriginalSnapshotCreateTime"].writeTimestamp(value.originalSnapshotCreateTime, format: .dateTime)
-        try writer["PercentProgress"].write(value.percentProgress)
-        try writer["Port"].write(value.port)
-        try writer["ProcessorFeatures"].writeList(value.processorFeatures, memberWritingClosure: RDSClientTypes.ProcessorFeature.write(value:to:), memberNodeInfo: "ProcessorFeature", isFlattened: false)
-        try writer["SnapshotCreateTime"].writeTimestamp(value.snapshotCreateTime, format: .dateTime)
-        try writer["SnapshotDatabaseTime"].writeTimestamp(value.snapshotDatabaseTime, format: .dateTime)
-        try writer["SnapshotTarget"].write(value.snapshotTarget)
-        try writer["SnapshotType"].write(value.snapshotType)
-        try writer["SourceDBSnapshotIdentifier"].write(value.sourceDBSnapshotIdentifier)
-        try writer["SourceRegion"].write(value.sourceRegion)
-        try writer["Status"].write(value.status)
-        try writer["StorageThroughput"].write(value.storageThroughput)
-        try writer["StorageType"].write(value.storageType)
-        try writer["TagList"].writeList(value.tagList, memberWritingClosure: RDSClientTypes.Tag.write(value:to:), memberNodeInfo: "Tag", isFlattened: false)
-        try writer["TdeCredentialArn"].write(value.tdeCredentialArn)
-        try writer["Timezone"].write(value.timezone)
-        try writer["VpcId"].write(value.vpcId)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBSnapshot {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -11963,12 +11282,6 @@ public struct DBSnapshotAlreadyExistsFault: ClientRuntime.ModeledError, AWSClien
 
 extension RDSClientTypes.DBSnapshotAttribute {
 
-    static func write(value: RDSClientTypes.DBSnapshotAttribute?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["AttributeName"].write(value.attributeName)
-        try writer["AttributeValues"].writeList(value.attributeValues, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "AttributeValue", isFlattened: false)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBSnapshotAttribute {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RDSClientTypes.DBSnapshotAttribute()
@@ -11999,12 +11312,6 @@ extension RDSClientTypes {
 }
 
 extension RDSClientTypes.DBSnapshotAttributesResult {
-
-    static func write(value: RDSClientTypes.DBSnapshotAttributesResult?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["DBSnapshotAttributes"].writeList(value.dbSnapshotAttributes, memberWritingClosure: RDSClientTypes.DBSnapshotAttribute.write(value:to:), memberNodeInfo: "DBSnapshotAttribute", isFlattened: false)
-        try writer["DBSnapshotIdentifier"].write(value.dbSnapshotIdentifier)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBSnapshotAttributesResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -12073,23 +11380,6 @@ public struct DBSnapshotNotFoundFault: ClientRuntime.ModeledError, AWSClientRunt
 }
 
 extension RDSClientTypes.DBSnapshotTenantDatabase {
-
-    static func write(value: RDSClientTypes.DBSnapshotTenantDatabase?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["CharacterSetName"].write(value.characterSetName)
-        try writer["DBInstanceIdentifier"].write(value.dbInstanceIdentifier)
-        try writer["DBSnapshotIdentifier"].write(value.dbSnapshotIdentifier)
-        try writer["DBSnapshotTenantDatabaseARN"].write(value.dbSnapshotTenantDatabaseARN)
-        try writer["DbiResourceId"].write(value.dbiResourceId)
-        try writer["EngineName"].write(value.engineName)
-        try writer["MasterUsername"].write(value.masterUsername)
-        try writer["NcharCharacterSetName"].write(value.ncharCharacterSetName)
-        try writer["SnapshotType"].write(value.snapshotType)
-        try writer["TagList"].writeList(value.tagList, memberWritingClosure: RDSClientTypes.Tag.write(value:to:), memberNodeInfo: "Tag", isFlattened: false)
-        try writer["TenantDBName"].write(value.tenantDBName)
-        try writer["TenantDatabaseCreateTime"].writeTimestamp(value.tenantDatabaseCreateTime, format: .dateTime)
-        try writer["TenantDatabaseResourceId"].write(value.tenantDatabaseResourceId)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBSnapshotTenantDatabase {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -12213,17 +11503,6 @@ public struct DBSnapshotTenantDatabaseNotFoundFault: ClientRuntime.ModeledError,
 }
 
 extension RDSClientTypes.DBSubnetGroup {
-
-    static func write(value: RDSClientTypes.DBSubnetGroup?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["DBSubnetGroupArn"].write(value.dbSubnetGroupArn)
-        try writer["DBSubnetGroupDescription"].write(value.dbSubnetGroupDescription)
-        try writer["DBSubnetGroupName"].write(value.dbSubnetGroupName)
-        try writer["SubnetGroupStatus"].write(value.subnetGroupStatus)
-        try writer["Subnets"].writeList(value.subnets, memberWritingClosure: RDSClientTypes.Subnet.write(value:to:), memberNodeInfo: "Subnet", isFlattened: false)
-        try writer["SupportedNetworkTypes"].writeList(value.supportedNetworkTypes, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["VpcId"].write(value.vpcId)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBSubnetGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -15954,13 +15233,6 @@ enum DescribeDBInstancesOutputError {
 
 extension RDSClientTypes.DescribeDBLogFilesDetails {
 
-    static func write(value: RDSClientTypes.DescribeDBLogFilesDetails?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["LastWritten"].write(value.lastWritten)
-        try writer["LogFileName"].write(value.logFileName)
-        try writer["Size"].write(value.size)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DescribeDBLogFilesDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RDSClientTypes.DescribeDBLogFilesDetails()
@@ -19340,12 +18612,6 @@ enum DisableHttpEndpointOutputError {
 
 extension RDSClientTypes.DocLink {
 
-    static func write(value: RDSClientTypes.DocLink?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Text"].write(value.text)
-        try writer["Url"].write(value.url)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DocLink {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RDSClientTypes.DocLink()
@@ -19376,17 +18642,6 @@ extension RDSClientTypes {
 }
 
 extension RDSClientTypes.DomainMembership {
-
-    static func write(value: RDSClientTypes.DomainMembership?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["AuthSecretArn"].write(value.authSecretArn)
-        try writer["DnsIps"].writeList(value.dnsIps, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Domain"].write(value.domain)
-        try writer["FQDN"].write(value.fqdn)
-        try writer["IAMRoleName"].write(value.iamRoleName)
-        try writer["OU"].write(value.ou)
-        try writer["Status"].write(value.status)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DomainMembership {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -19480,12 +18735,6 @@ public struct DomainNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 extension RDSClientTypes.DoubleRange {
-
-    static func write(value: RDSClientTypes.DoubleRange?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["From"].write(value.from)
-        try writer["To"].write(value.to)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DoubleRange {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -19624,14 +18873,6 @@ enum DownloadDBLogFilePortionOutputError {
 }
 
 extension RDSClientTypes.EC2SecurityGroup {
-
-    static func write(value: RDSClientTypes.EC2SecurityGroup?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["EC2SecurityGroupId"].write(value.ec2SecurityGroupId)
-        try writer["EC2SecurityGroupName"].write(value.ec2SecurityGroupName)
-        try writer["EC2SecurityGroupOwnerId"].write(value.ec2SecurityGroupOwnerId)
-        try writer["Status"].write(value.status)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.EC2SecurityGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -19791,13 +19032,6 @@ enum EnableHttpEndpointOutputError {
 
 extension RDSClientTypes.Endpoint {
 
-    static func write(value: RDSClientTypes.Endpoint?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Address"].write(value.address)
-        try writer["HostedZoneId"].write(value.hostedZoneId)
-        try writer["Port"].write(value.port)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.Endpoint {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RDSClientTypes.Endpoint()
@@ -19842,13 +19076,6 @@ extension RDSClientTypes {
 }
 
 extension RDSClientTypes.EngineDefaults {
-
-    static func write(value: RDSClientTypes.EngineDefaults?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["DBParameterGroupFamily"].write(value.dbParameterGroupFamily)
-        try writer["Marker"].write(value.marker)
-        try writer["Parameters"].writeList(value.parameters, memberWritingClosure: RDSClientTypes.Parameter.write(value:to:), memberNodeInfo: "Parameter", isFlattened: false)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.EngineDefaults {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -19919,16 +19146,6 @@ extension RDSClientTypes {
 
 extension RDSClientTypes.Event {
 
-    static func write(value: RDSClientTypes.Event?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Date"].writeTimestamp(value.date, format: .dateTime)
-        try writer["EventCategories"].writeList(value.eventCategories, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "EventCategory", isFlattened: false)
-        try writer["Message"].write(value.message)
-        try writer["SourceArn"].write(value.sourceArn)
-        try writer["SourceIdentifier"].write(value.sourceIdentifier)
-        try writer["SourceType"].write(value.sourceType)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.Event {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RDSClientTypes.Event()
@@ -19980,12 +19197,6 @@ extension RDSClientTypes {
 
 extension RDSClientTypes.EventCategoriesMap {
 
-    static func write(value: RDSClientTypes.EventCategoriesMap?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["EventCategories"].writeList(value.eventCategories, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "EventCategory", isFlattened: false)
-        try writer["SourceType"].write(value.sourceType)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.EventCategoriesMap {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RDSClientTypes.EventCategoriesMap()
@@ -20016,20 +19227,6 @@ extension RDSClientTypes {
 }
 
 extension RDSClientTypes.EventSubscription {
-
-    static func write(value: RDSClientTypes.EventSubscription?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["CustSubscriptionId"].write(value.custSubscriptionId)
-        try writer["CustomerAwsId"].write(value.customerAwsId)
-        try writer["Enabled"].write(value.enabled)
-        try writer["EventCategoriesList"].writeList(value.eventCategoriesList, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "EventCategory", isFlattened: false)
-        try writer["EventSubscriptionArn"].write(value.eventSubscriptionArn)
-        try writer["SnsTopicArn"].write(value.snsTopicArn)
-        try writer["SourceIdsList"].writeList(value.sourceIdsList, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "SourceId", isFlattened: false)
-        try writer["SourceType"].write(value.sourceType)
-        try writer["Status"].write(value.status)
-        try writer["SubscriptionCreationTime"].write(value.subscriptionCreationTime)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.EventSubscription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -20168,26 +19365,6 @@ extension RDSClientTypes {
 }
 
 extension RDSClientTypes.ExportTask {
-
-    static func write(value: RDSClientTypes.ExportTask?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["ExportOnly"].writeList(value.exportOnly, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ExportTaskIdentifier"].write(value.exportTaskIdentifier)
-        try writer["FailureCause"].write(value.failureCause)
-        try writer["IamRoleArn"].write(value.iamRoleArn)
-        try writer["KmsKeyId"].write(value.kmsKeyId)
-        try writer["PercentProgress"].write(value.percentProgress)
-        try writer["S3Bucket"].write(value.s3Bucket)
-        try writer["S3Prefix"].write(value.s3Prefix)
-        try writer["SnapshotTime"].writeTimestamp(value.snapshotTime, format: .dateTime)
-        try writer["SourceArn"].write(value.sourceArn)
-        try writer["SourceType"].write(value.sourceType)
-        try writer["Status"].write(value.status)
-        try writer["TaskEndTime"].writeTimestamp(value.taskEndTime, format: .dateTime)
-        try writer["TaskStartTime"].writeTimestamp(value.taskStartTime, format: .dateTime)
-        try writer["TotalExtractedDataInGB"].write(value.totalExtractedDataInGB)
-        try writer["WarningMessage"].write(value.warningMessage)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.ExportTask {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -20555,14 +19732,6 @@ enum FailoverGlobalClusterOutputError {
 
 extension RDSClientTypes.FailoverState {
 
-    static func write(value: RDSClientTypes.FailoverState?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["FromDbClusterArn"].write(value.fromDbClusterArn)
-        try writer["IsDataLossAllowed"].write(value.isDataLossAllowed)
-        try writer["Status"].write(value.status)
-        try writer["ToDbClusterArn"].write(value.toDbClusterArn)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.FailoverState {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RDSClientTypes.FailoverState()
@@ -20650,14 +19819,6 @@ extension RDSClientTypes.Filter {
         try writer["Name"].write(value.name)
         try writer["Values"].writeList(value.values, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "Value", isFlattened: false)
     }
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.Filter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.Filter()
-        value.name = try reader["Name"].readIfPresent()
-        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "Value", isFlattened: false)
-        return value
-    }
 }
 
 extension RDSClientTypes {
@@ -20697,21 +19858,6 @@ extension RDSClientTypes {
 }
 
 extension RDSClientTypes.GlobalCluster {
-
-    static func write(value: RDSClientTypes.GlobalCluster?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["DatabaseName"].write(value.databaseName)
-        try writer["DeletionProtection"].write(value.deletionProtection)
-        try writer["Engine"].write(value.engine)
-        try writer["EngineVersion"].write(value.engineVersion)
-        try writer["FailoverState"].write(value.failoverState, with: RDSClientTypes.FailoverState.write(value:to:))
-        try writer["GlobalClusterArn"].write(value.globalClusterArn)
-        try writer["GlobalClusterIdentifier"].write(value.globalClusterIdentifier)
-        try writer["GlobalClusterMembers"].writeList(value.globalClusterMembers, memberWritingClosure: RDSClientTypes.GlobalClusterMember.write(value:to:), memberNodeInfo: "GlobalClusterMember", isFlattened: false)
-        try writer["GlobalClusterResourceId"].write(value.globalClusterResourceId)
-        try writer["Status"].write(value.status)
-        try writer["StorageEncrypted"].write(value.storageEncrypted)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.GlobalCluster {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -20825,15 +19971,6 @@ public struct GlobalClusterAlreadyExistsFault: ClientRuntime.ModeledError, AWSCl
 }
 
 extension RDSClientTypes.GlobalClusterMember {
-
-    static func write(value: RDSClientTypes.GlobalClusterMember?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["DBClusterArn"].write(value.dbClusterArn)
-        try writer["GlobalWriteForwardingStatus"].write(value.globalWriteForwardingStatus)
-        try writer["IsWriter"].write(value.isWriter)
-        try writer["Readers"].writeList(value.readers, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["SynchronizationStatus"].write(value.synchronizationStatus)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.GlobalClusterMember {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -21017,12 +20154,6 @@ extension RDSClientTypes {
 }
 
 extension RDSClientTypes.IPRange {
-
-    static func write(value: RDSClientTypes.IPRange?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["CIDRIP"].write(value.cidrip)
-        try writer["Status"].write(value.status)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.IPRange {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -21314,22 +20445,6 @@ public struct InsufficientStorageClusterCapacityFault: ClientRuntime.ModeledErro
 
 extension RDSClientTypes.Integration {
 
-    static func write(value: RDSClientTypes.Integration?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["AdditionalEncryptionContext"].writeMap(value.additionalEncryptionContext, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["CreateTime"].writeTimestamp(value.createTime, format: .dateTime)
-        try writer["DataFilter"].write(value.dataFilter)
-        try writer["Description"].write(value.description)
-        try writer["Errors"].writeList(value.errors, memberWritingClosure: RDSClientTypes.IntegrationError.write(value:to:), memberNodeInfo: "IntegrationError", isFlattened: false)
-        try writer["IntegrationArn"].write(value.integrationArn)
-        try writer["IntegrationName"].write(value.integrationName)
-        try writer["KMSKeyId"].write(value.kmsKeyId)
-        try writer["SourceArn"].write(value.sourceArn)
-        try writer["Status"].write(value.status)
-        try writer["Tags"].writeList(value.tags, memberWritingClosure: RDSClientTypes.Tag.write(value:to:), memberNodeInfo: "Tag", isFlattened: false)
-        try writer["TargetArn"].write(value.targetArn)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.Integration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RDSClientTypes.Integration()
@@ -21484,12 +20599,6 @@ public struct IntegrationConflictOperationFault: ClientRuntime.ModeledError, AWS
 }
 
 extension RDSClientTypes.IntegrationError {
-
-    static func write(value: RDSClientTypes.IntegrationError?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["ErrorCode"].write(value.errorCode)
-        try writer["ErrorMessage"].write(value.errorMessage)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.IntegrationError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -22789,11 +21898,6 @@ public struct InvalidVPCNetworkStateFault: ClientRuntime.ModeledError, AWSClient
 
 extension RDSClientTypes.IssueDetails {
 
-    static func write(value: RDSClientTypes.IssueDetails?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["PerformanceIssueDetails"].write(value.performanceIssueDetails, with: RDSClientTypes.PerformanceIssueDetails.write(value:to:))
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.IssueDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RDSClientTypes.IssueDetails()
@@ -22856,12 +21960,6 @@ public struct KMSKeyNotAccessibleFault: ClientRuntime.ModeledError, AWSClientRun
 }
 
 extension RDSClientTypes.LimitlessDatabase {
-
-    static func write(value: RDSClientTypes.LimitlessDatabase?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["MinRequiredACU"].write(value.minRequiredACU)
-        try writer["Status"].write(value.status)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.LimitlessDatabase {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -23064,13 +22162,6 @@ extension RDSClientTypes {
 
 extension RDSClientTypes.MasterUserSecret {
 
-    static func write(value: RDSClientTypes.MasterUserSecret?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["KmsKeyId"].write(value.kmsKeyId)
-        try writer["SecretArn"].write(value.secretArn)
-        try writer["SecretStatus"].write(value.secretStatus)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.MasterUserSecret {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RDSClientTypes.MasterUserSecret()
@@ -23152,14 +22243,6 @@ public struct MaxDBShardGroupLimitReached: ClientRuntime.ModeledError, AWSClient
 
 extension RDSClientTypes.Metric {
 
-    static func write(value: RDSClientTypes.Metric?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["MetricQuery"].write(value.metricQuery, with: RDSClientTypes.MetricQuery.write(value:to:))
-        try writer["Name"].write(value.name)
-        try writer["References"].writeList(value.references, memberWritingClosure: RDSClientTypes.MetricReference.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["StatisticsDetails"].write(value.statisticsDetails)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.Metric {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RDSClientTypes.Metric()
@@ -23201,11 +22284,6 @@ extension RDSClientTypes {
 
 extension RDSClientTypes.MetricQuery {
 
-    static func write(value: RDSClientTypes.MetricQuery?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["PerformanceInsightsMetricQuery"].write(value.performanceInsightsMetricQuery, with: RDSClientTypes.PerformanceInsightsMetricQuery.write(value:to:))
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.MetricQuery {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RDSClientTypes.MetricQuery()
@@ -23231,12 +22309,6 @@ extension RDSClientTypes {
 }
 
 extension RDSClientTypes.MetricReference {
-
-    static func write(value: RDSClientTypes.MetricReference?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["ReferenceDetails"].write(value.referenceDetails, with: RDSClientTypes.ReferenceDetails.write(value:to:))
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.MetricReference {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -23268,12 +22340,6 @@ extension RDSClientTypes {
 }
 
 extension RDSClientTypes.MinimumEngineVersionPerAllowedValue {
-
-    static func write(value: RDSClientTypes.MinimumEngineVersionPerAllowedValue?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["AllowedValue"].write(value.allowedValue)
-        try writer["MinimumEngineVersion"].write(value.minimumEngineVersion)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.MinimumEngineVersionPerAllowedValue {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -26516,19 +25582,6 @@ public struct NetworkTypeNotSupported: ClientRuntime.ModeledError, AWSClientRunt
 
 extension RDSClientTypes.Option {
 
-    static func write(value: RDSClientTypes.Option?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["DBSecurityGroupMemberships"].writeList(value.dbSecurityGroupMemberships, memberWritingClosure: RDSClientTypes.DBSecurityGroupMembership.write(value:to:), memberNodeInfo: "DBSecurityGroup", isFlattened: false)
-        try writer["OptionDescription"].write(value.optionDescription)
-        try writer["OptionName"].write(value.optionName)
-        try writer["OptionSettings"].writeList(value.optionSettings, memberWritingClosure: RDSClientTypes.OptionSetting.write(value:to:), memberNodeInfo: "OptionSetting", isFlattened: false)
-        try writer["OptionVersion"].write(value.optionVersion)
-        try writer["Permanent"].write(value.permanent)
-        try writer["Persistent"].write(value.persistent)
-        try writer["Port"].write(value.port)
-        try writer["VpcSecurityGroupMemberships"].writeList(value.vpcSecurityGroupMemberships, memberWritingClosure: RDSClientTypes.VpcSecurityGroupMembership.write(value:to:), memberNodeInfo: "VpcSecurityGroupMembership", isFlattened: false)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.Option {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RDSClientTypes.Option()
@@ -26604,18 +25657,6 @@ extension RDSClientTypes.OptionConfiguration {
         try writer["Port"].write(value.port)
         try writer["VpcSecurityGroupMemberships"].writeList(value.vpcSecurityGroupMemberships, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "VpcSecurityGroupId", isFlattened: false)
     }
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.OptionConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.OptionConfiguration()
-        value.optionName = try reader["OptionName"].readIfPresent()
-        value.port = try reader["Port"].readIfPresent()
-        value.optionVersion = try reader["OptionVersion"].readIfPresent()
-        value.dbSecurityGroupMemberships = try reader["DBSecurityGroupMemberships"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "DBSecurityGroupName", isFlattened: false)
-        value.vpcSecurityGroupMemberships = try reader["VpcSecurityGroupMemberships"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "VpcSecurityGroupId", isFlattened: false)
-        value.optionSettings = try reader["OptionSettings"].readListIfPresent(memberReadingClosure: RDSClientTypes.OptionSetting.read(from:), memberNodeInfo: "OptionSetting", isFlattened: false)
-        return value
-    }
 }
 
 extension RDSClientTypes {
@@ -26656,21 +25697,6 @@ extension RDSClientTypes {
 }
 
 extension RDSClientTypes.OptionGroup {
-
-    static func write(value: RDSClientTypes.OptionGroup?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["AllowsVpcAndNonVpcInstanceMemberships"].write(value.allowsVpcAndNonVpcInstanceMemberships)
-        try writer["CopyTimestamp"].writeTimestamp(value.copyTimestamp, format: .dateTime)
-        try writer["EngineName"].write(value.engineName)
-        try writer["MajorEngineVersion"].write(value.majorEngineVersion)
-        try writer["OptionGroupArn"].write(value.optionGroupArn)
-        try writer["OptionGroupDescription"].write(value.optionGroupDescription)
-        try writer["OptionGroupName"].write(value.optionGroupName)
-        try writer["Options"].writeList(value.options, memberWritingClosure: RDSClientTypes.Option.write(value:to:), memberNodeInfo: "Option", isFlattened: false)
-        try writer["SourceAccountId"].write(value.sourceAccountId)
-        try writer["SourceOptionGroup"].write(value.sourceOptionGroup)
-        try writer["VpcId"].write(value.vpcId)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.OptionGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -26785,12 +25811,6 @@ public struct OptionGroupAlreadyExistsFault: ClientRuntime.ModeledError, AWSClie
 
 extension RDSClientTypes.OptionGroupMembership {
 
-    static func write(value: RDSClientTypes.OptionGroupMembership?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["OptionGroupName"].write(value.optionGroupName)
-        try writer["Status"].write(value.status)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.OptionGroupMembership {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RDSClientTypes.OptionGroupMembership()
@@ -26858,27 +25878,6 @@ public struct OptionGroupNotFoundFault: ClientRuntime.ModeledError, AWSClientRun
 }
 
 extension RDSClientTypes.OptionGroupOption {
-
-    static func write(value: RDSClientTypes.OptionGroupOption?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["CopyableCrossAccount"].write(value.copyableCrossAccount)
-        try writer["DefaultPort"].write(value.defaultPort)
-        try writer["Description"].write(value.description)
-        try writer["EngineName"].write(value.engineName)
-        try writer["MajorEngineVersion"].write(value.majorEngineVersion)
-        try writer["MinimumRequiredMinorEngineVersion"].write(value.minimumRequiredMinorEngineVersion)
-        try writer["Name"].write(value.name)
-        try writer["OptionGroupOptionSettings"].writeList(value.optionGroupOptionSettings, memberWritingClosure: RDSClientTypes.OptionGroupOptionSetting.write(value:to:), memberNodeInfo: "OptionGroupOptionSetting", isFlattened: false)
-        try writer["OptionGroupOptionVersions"].writeList(value.optionGroupOptionVersions, memberWritingClosure: RDSClientTypes.OptionVersion.write(value:to:), memberNodeInfo: "OptionVersion", isFlattened: false)
-        try writer["OptionsConflictsWith"].writeList(value.optionsConflictsWith, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "OptionConflictName", isFlattened: false)
-        try writer["OptionsDependedOn"].writeList(value.optionsDependedOn, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "OptionName", isFlattened: false)
-        try writer["Permanent"].write(value.permanent)
-        try writer["Persistent"].write(value.persistent)
-        try writer["PortRequired"].write(value.portRequired)
-        try writer["RequiresAutoMinorEngineVersionUpgrade"].write(value.requiresAutoMinorEngineVersionUpgrade)
-        try writer["SupportsOptionVersionDowngrade"].write(value.supportsOptionVersionDowngrade)
-        try writer["VpcOnly"].write(value.vpcOnly)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.OptionGroupOption {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -26985,18 +25984,6 @@ extension RDSClientTypes {
 }
 
 extension RDSClientTypes.OptionGroupOptionSetting {
-
-    static func write(value: RDSClientTypes.OptionGroupOptionSetting?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["AllowedValues"].write(value.allowedValues)
-        try writer["ApplyType"].write(value.applyType)
-        try writer["DefaultValue"].write(value.defaultValue)
-        try writer["IsModifiable"].write(value.isModifiable)
-        try writer["IsRequired"].write(value.isRequired)
-        try writer["MinimumEngineVersionPerAllowedValue"].writeList(value.minimumEngineVersionPerAllowedValue, memberWritingClosure: RDSClientTypes.MinimumEngineVersionPerAllowedValue.write(value:to:), memberNodeInfo: "MinimumEngineVersionPerAllowedValue", isFlattened: false)
-        try writer["SettingDescription"].write(value.settingDescription)
-        try writer["SettingName"].write(value.settingName)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.OptionGroupOptionSetting {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -27175,12 +26162,6 @@ extension RDSClientTypes {
 
 extension RDSClientTypes.OptionVersion {
 
-    static func write(value: RDSClientTypes.OptionVersion?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["IsDefault"].write(value.isDefault)
-        try writer["Version"].write(value.version)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.OptionVersion {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RDSClientTypes.OptionVersion()
@@ -27211,46 +26192,6 @@ extension RDSClientTypes {
 }
 
 extension RDSClientTypes.OrderableDBInstanceOption {
-
-    static func write(value: RDSClientTypes.OrderableDBInstanceOption?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["AvailabilityZoneGroup"].write(value.availabilityZoneGroup)
-        try writer["AvailabilityZones"].writeList(value.availabilityZones, memberWritingClosure: RDSClientTypes.AvailabilityZone.write(value:to:), memberNodeInfo: "AvailabilityZone", isFlattened: false)
-        try writer["AvailableProcessorFeatures"].writeList(value.availableProcessorFeatures, memberWritingClosure: RDSClientTypes.AvailableProcessorFeature.write(value:to:), memberNodeInfo: "AvailableProcessorFeature", isFlattened: false)
-        try writer["DBInstanceClass"].write(value.dbInstanceClass)
-        try writer["Engine"].write(value.engine)
-        try writer["EngineVersion"].write(value.engineVersion)
-        try writer["LicenseModel"].write(value.licenseModel)
-        try writer["MaxIopsPerDbInstance"].write(value.maxIopsPerDbInstance)
-        try writer["MaxIopsPerGib"].write(value.maxIopsPerGib)
-        try writer["MaxStorageSize"].write(value.maxStorageSize)
-        try writer["MaxStorageThroughputPerDbInstance"].write(value.maxStorageThroughputPerDbInstance)
-        try writer["MaxStorageThroughputPerIops"].write(value.maxStorageThroughputPerIops)
-        try writer["MinIopsPerDbInstance"].write(value.minIopsPerDbInstance)
-        try writer["MinIopsPerGib"].write(value.minIopsPerGib)
-        try writer["MinStorageSize"].write(value.minStorageSize)
-        try writer["MinStorageThroughputPerDbInstance"].write(value.minStorageThroughputPerDbInstance)
-        try writer["MinStorageThroughputPerIops"].write(value.minStorageThroughputPerIops)
-        try writer["MultiAZCapable"].write(value.multiAZCapable)
-        try writer["OutpostCapable"].write(value.outpostCapable)
-        try writer["ReadReplicaCapable"].write(value.readReplicaCapable)
-        try writer["StorageType"].write(value.storageType)
-        try writer["SupportedActivityStreamModes"].writeList(value.supportedActivityStreamModes, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["SupportedEngineModes"].writeList(value.supportedEngineModes, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["SupportedNetworkTypes"].writeList(value.supportedNetworkTypes, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["SupportsClusters"].write(value.supportsClusters)
-        try writer["SupportsDedicatedLogVolume"].write(value.supportsDedicatedLogVolume)
-        try writer["SupportsEnhancedMonitoring"].write(value.supportsEnhancedMonitoring)
-        try writer["SupportsGlobalDatabases"].write(value.supportsGlobalDatabases)
-        try writer["SupportsIAMDatabaseAuthentication"].write(value.supportsIAMDatabaseAuthentication)
-        try writer["SupportsIops"].write(value.supportsIops)
-        try writer["SupportsKerberosAuthentication"].write(value.supportsKerberosAuthentication)
-        try writer["SupportsPerformanceInsights"].write(value.supportsPerformanceInsights)
-        try writer["SupportsStorageAutoscaling"].write(value.supportsStorageAutoscaling)
-        try writer["SupportsStorageEncryption"].write(value.supportsStorageEncryption)
-        try writer["SupportsStorageThroughput"].write(value.supportsStorageThroughput)
-        try writer["Vpc"].write(value.vpc)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.OrderableDBInstanceOption {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -27453,11 +26394,6 @@ extension RDSClientTypes {
 
 extension RDSClientTypes.Outpost {
 
-    static func write(value: RDSClientTypes.Outpost?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.Outpost {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RDSClientTypes.Outpost()
@@ -27575,12 +26511,6 @@ extension RDSClientTypes {
 
 extension RDSClientTypes.PendingCloudwatchLogsExports {
 
-    static func write(value: RDSClientTypes.PendingCloudwatchLogsExports?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["LogTypesToDisable"].writeList(value.logTypesToDisable, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["LogTypesToEnable"].writeList(value.logTypesToEnable, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.PendingCloudwatchLogsExports {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RDSClientTypes.PendingCloudwatchLogsExports()
@@ -27611,16 +26541,6 @@ extension RDSClientTypes {
 }
 
 extension RDSClientTypes.PendingMaintenanceAction {
-
-    static func write(value: RDSClientTypes.PendingMaintenanceAction?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Action"].write(value.action)
-        try writer["AutoAppliedAfterDate"].writeTimestamp(value.autoAppliedAfterDate, format: .dateTime)
-        try writer["CurrentApplyDate"].writeTimestamp(value.currentApplyDate, format: .dateTime)
-        try writer["Description"].write(value.description)
-        try writer["ForcedApplyDate"].writeTimestamp(value.forcedApplyDate, format: .dateTime)
-        try writer["OptInStatus"].write(value.optInStatus)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.PendingMaintenanceAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -27672,32 +26592,6 @@ extension RDSClientTypes {
 }
 
 extension RDSClientTypes.PendingModifiedValues {
-
-    static func write(value: RDSClientTypes.PendingModifiedValues?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["AllocatedStorage"].write(value.allocatedStorage)
-        try writer["AutomationMode"].write(value.automationMode)
-        try writer["BackupRetentionPeriod"].write(value.backupRetentionPeriod)
-        try writer["CACertificateIdentifier"].write(value.caCertificateIdentifier)
-        try writer["DBInstanceClass"].write(value.dbInstanceClass)
-        try writer["DBInstanceIdentifier"].write(value.dbInstanceIdentifier)
-        try writer["DBSubnetGroupName"].write(value.dbSubnetGroupName)
-        try writer["DedicatedLogVolume"].write(value.dedicatedLogVolume)
-        try writer["Engine"].write(value.engine)
-        try writer["EngineVersion"].write(value.engineVersion)
-        try writer["IAMDatabaseAuthenticationEnabled"].write(value.iamDatabaseAuthenticationEnabled)
-        try writer["Iops"].write(value.iops)
-        try writer["LicenseModel"].write(value.licenseModel)
-        try writer["MasterUserPassword"].write(value.masterUserPassword)
-        try writer["MultiAZ"].write(value.multiAZ)
-        try writer["MultiTenant"].write(value.multiTenant)
-        try writer["PendingCloudwatchLogsExports"].write(value.pendingCloudwatchLogsExports, with: RDSClientTypes.PendingCloudwatchLogsExports.write(value:to:))
-        try writer["Port"].write(value.port)
-        try writer["ProcessorFeatures"].writeList(value.processorFeatures, memberWritingClosure: RDSClientTypes.ProcessorFeature.write(value:to:), memberNodeInfo: "ProcessorFeature", isFlattened: false)
-        try writer["ResumeFullAutomationModeTime"].writeTimestamp(value.resumeFullAutomationModeTime, format: .dateTime)
-        try writer["StorageThroughput"].write(value.storageThroughput)
-        try writer["StorageType"].write(value.storageType)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.PendingModifiedValues {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -27830,13 +26724,6 @@ extension RDSClientTypes {
 
 extension RDSClientTypes.PerformanceInsightsMetricDimensionGroup {
 
-    static func write(value: RDSClientTypes.PerformanceInsightsMetricDimensionGroup?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Dimensions"].writeList(value.dimensions, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Group"].write(value.group)
-        try writer["Limit"].write(value.limit)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.PerformanceInsightsMetricDimensionGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RDSClientTypes.PerformanceInsightsMetricDimensionGroup()
@@ -27884,12 +26771,6 @@ extension RDSClientTypes {
 
 extension RDSClientTypes.PerformanceInsightsMetricQuery {
 
-    static func write(value: RDSClientTypes.PerformanceInsightsMetricQuery?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["GroupBy"].write(value.groupBy, with: RDSClientTypes.PerformanceInsightsMetricDimensionGroup.write(value:to:))
-        try writer["Metric"].write(value.metric)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.PerformanceInsightsMetricQuery {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RDSClientTypes.PerformanceInsightsMetricQuery()
@@ -27931,14 +26812,6 @@ extension RDSClientTypes {
 }
 
 extension RDSClientTypes.PerformanceIssueDetails {
-
-    static func write(value: RDSClientTypes.PerformanceIssueDetails?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Analysis"].write(value.analysis)
-        try writer["EndTime"].writeTimestamp(value.endTime, format: .dateTime)
-        try writer["Metrics"].writeList(value.metrics, memberWritingClosure: RDSClientTypes.Metric.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["StartTime"].writeTimestamp(value.startTime, format: .dateTime)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.PerformanceIssueDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -28383,13 +27256,6 @@ public enum RDSClientTypes {}
 
 extension RDSClientTypes.Range {
 
-    static func write(value: RDSClientTypes.Range?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["From"].write(value.from)
-        try writer["Step"].write(value.step)
-        try writer["To"].write(value.to)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.Range {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RDSClientTypes.Range()
@@ -28728,19 +27594,6 @@ enum RebootDBShardGroupOutputError {
 
 extension RDSClientTypes.RecommendedAction {
 
-    static func write(value: RDSClientTypes.RecommendedAction?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["ActionId"].write(value.actionId)
-        try writer["ApplyModes"].writeList(value.applyModes, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ContextAttributes"].writeList(value.contextAttributes, memberWritingClosure: RDSClientTypes.ContextAttribute.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Description"].write(value.description)
-        try writer["IssueDetails"].write(value.issueDetails, with: RDSClientTypes.IssueDetails.write(value:to:))
-        try writer["Operation"].write(value.operation)
-        try writer["Parameters"].writeList(value.parameters, memberWritingClosure: RDSClientTypes.RecommendedActionParameter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Status"].write(value.status)
-        try writer["Title"].write(value.title)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.RecommendedAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RDSClientTypes.RecommendedAction()
@@ -28821,12 +27674,6 @@ extension RDSClientTypes {
 
 extension RDSClientTypes.RecommendedActionParameter {
 
-    static func write(value: RDSClientTypes.RecommendedActionParameter?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Key"].write(value.key)
-        try writer["Value"].write(value.value)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.RecommendedActionParameter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RDSClientTypes.RecommendedActionParameter()
@@ -28863,14 +27710,6 @@ extension RDSClientTypes.RecommendedActionUpdate {
         try writer["ActionId"].write(value.actionId)
         try writer["Status"].write(value.status)
     }
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.RecommendedActionUpdate {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.RecommendedActionUpdate()
-        value.actionId = try reader["ActionId"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        return value
-    }
 }
 
 extension RDSClientTypes {
@@ -28900,12 +27739,6 @@ extension RDSClientTypes {
 }
 
 extension RDSClientTypes.RecurringCharge {
-
-    static func write(value: RDSClientTypes.RecurringCharge?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["RecurringChargeAmount"].write(value.recurringChargeAmount)
-        try writer["RecurringChargeFrequency"].write(value.recurringChargeFrequency)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.RecurringCharge {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -28937,11 +27770,6 @@ extension RDSClientTypes {
 }
 
 extension RDSClientTypes.ReferenceDetails {
-
-    static func write(value: RDSClientTypes.ReferenceDetails?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["ScalarReferenceDetails"].write(value.scalarReferenceDetails, with: RDSClientTypes.ScalarReferenceDetails.write(value:to:))
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.ReferenceDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -29450,26 +28278,6 @@ extension RDSClientTypes {
 
 extension RDSClientTypes.ReservedDBInstance {
 
-    static func write(value: RDSClientTypes.ReservedDBInstance?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["CurrencyCode"].write(value.currencyCode)
-        try writer["DBInstanceClass"].write(value.dbInstanceClass)
-        try writer["DBInstanceCount"].write(value.dbInstanceCount)
-        try writer["Duration"].write(value.duration)
-        try writer["FixedPrice"].write(value.fixedPrice)
-        try writer["LeaseId"].write(value.leaseId)
-        try writer["MultiAZ"].write(value.multiAZ)
-        try writer["OfferingType"].write(value.offeringType)
-        try writer["ProductDescription"].write(value.productDescription)
-        try writer["RecurringCharges"].writeList(value.recurringCharges, memberWritingClosure: RDSClientTypes.RecurringCharge.write(value:to:), memberNodeInfo: "RecurringCharge", isFlattened: false)
-        try writer["ReservedDBInstanceArn"].write(value.reservedDBInstanceArn)
-        try writer["ReservedDBInstanceId"].write(value.reservedDBInstanceId)
-        try writer["ReservedDBInstancesOfferingId"].write(value.reservedDBInstancesOfferingId)
-        try writer["StartTime"].writeTimestamp(value.startTime, format: .dateTime)
-        try writer["State"].write(value.state)
-        try writer["UsagePrice"].write(value.usagePrice)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.ReservedDBInstance {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RDSClientTypes.ReservedDBInstance()
@@ -29681,20 +28489,6 @@ public struct ReservedDBInstanceQuotaExceededFault: ClientRuntime.ModeledError, 
 }
 
 extension RDSClientTypes.ReservedDBInstancesOffering {
-
-    static func write(value: RDSClientTypes.ReservedDBInstancesOffering?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["CurrencyCode"].write(value.currencyCode)
-        try writer["DBInstanceClass"].write(value.dbInstanceClass)
-        try writer["Duration"].write(value.duration)
-        try writer["FixedPrice"].write(value.fixedPrice)
-        try writer["MultiAZ"].write(value.multiAZ)
-        try writer["OfferingType"].write(value.offeringType)
-        try writer["ProductDescription"].write(value.productDescription)
-        try writer["RecurringCharges"].writeList(value.recurringCharges, memberWritingClosure: RDSClientTypes.RecurringCharge.write(value:to:), memberNodeInfo: "RecurringCharge", isFlattened: false)
-        try writer["ReservedDBInstancesOfferingId"].write(value.reservedDBInstancesOfferingId)
-        try writer["UsagePrice"].write(value.usagePrice)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.ReservedDBInstancesOffering {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -30013,12 +28807,6 @@ public struct ResourceNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntim
 }
 
 extension RDSClientTypes.ResourcePendingMaintenanceActions {
-
-    static func write(value: RDSClientTypes.ResourcePendingMaintenanceActions?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["PendingMaintenanceActionDetails"].writeList(value.pendingMaintenanceActionDetails, memberWritingClosure: RDSClientTypes.PendingMaintenanceAction.write(value:to:), memberNodeInfo: "PendingMaintenanceAction", isFlattened: false)
-        try writer["ResourceIdentifier"].write(value.resourceIdentifier)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.ResourcePendingMaintenanceActions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -32201,12 +30989,6 @@ enum RestoreDBInstanceToPointInTimeOutputError {
 
 extension RDSClientTypes.RestoreWindow {
 
-    static func write(value: RDSClientTypes.RestoreWindow?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["EarliestTime"].writeTimestamp(value.earliestTime, format: .dateTime)
-        try writer["LatestTime"].writeTimestamp(value.latestTime, format: .dateTime)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.RestoreWindow {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RDSClientTypes.RestoreWindow()
@@ -32440,11 +31222,6 @@ public struct SNSTopicArnNotFoundFault: ClientRuntime.ModeledError, AWSClientRun
 
 extension RDSClientTypes.ScalarReferenceDetails {
 
-    static func write(value: RDSClientTypes.ScalarReferenceDetails?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Value"].write(value.value)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.ScalarReferenceDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RDSClientTypes.ScalarReferenceDetails()
@@ -32479,18 +31256,6 @@ extension RDSClientTypes.ScalingConfiguration {
         try writer["SecondsBeforeTimeout"].write(value.secondsBeforeTimeout)
         try writer["SecondsUntilAutoPause"].write(value.secondsUntilAutoPause)
         try writer["TimeoutAction"].write(value.timeoutAction)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.ScalingConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.ScalingConfiguration()
-        value.minCapacity = try reader["MinCapacity"].readIfPresent()
-        value.maxCapacity = try reader["MaxCapacity"].readIfPresent()
-        value.autoPause = try reader["AutoPause"].readIfPresent()
-        value.secondsUntilAutoPause = try reader["SecondsUntilAutoPause"].readIfPresent()
-        value.timeoutAction = try reader["TimeoutAction"].readIfPresent()
-        value.secondsBeforeTimeout = try reader["SecondsBeforeTimeout"].readIfPresent()
-        return value
     }
 }
 
@@ -32531,16 +31296,6 @@ extension RDSClientTypes {
 }
 
 extension RDSClientTypes.ScalingConfigurationInfo {
-
-    static func write(value: RDSClientTypes.ScalingConfigurationInfo?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["AutoPause"].write(value.autoPause)
-        try writer["MaxCapacity"].write(value.maxCapacity)
-        try writer["MinCapacity"].write(value.minCapacity)
-        try writer["SecondsBeforeTimeout"].write(value.secondsBeforeTimeout)
-        try writer["SecondsUntilAutoPause"].write(value.secondsUntilAutoPause)
-        try writer["TimeoutAction"].write(value.timeoutAction)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.ScalingConfigurationInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -32598,14 +31353,6 @@ extension RDSClientTypes.ServerlessV2ScalingConfiguration {
         try writer["MaxCapacity"].write(value.maxCapacity)
         try writer["MinCapacity"].write(value.minCapacity)
     }
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.ServerlessV2ScalingConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.ServerlessV2ScalingConfiguration()
-        value.minCapacity = try reader["MinCapacity"].readIfPresent()
-        value.maxCapacity = try reader["MaxCapacity"].readIfPresent()
-        return value
-    }
 }
 
 extension RDSClientTypes {
@@ -32629,12 +31376,6 @@ extension RDSClientTypes {
 }
 
 extension RDSClientTypes.ServerlessV2ScalingConfigurationInfo {
-
-    static func write(value: RDSClientTypes.ServerlessV2ScalingConfigurationInfo?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["MaxCapacity"].write(value.maxCapacity)
-        try writer["MinCapacity"].write(value.minCapacity)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.ServerlessV2ScalingConfigurationInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -32851,14 +31592,6 @@ public struct SourceNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 extension RDSClientTypes.SourceRegion {
-
-    static func write(value: RDSClientTypes.SourceRegion?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Endpoint"].write(value.endpoint)
-        try writer["RegionName"].write(value.regionName)
-        try writer["Status"].write(value.status)
-        try writer["SupportsDBInstanceAutomatedBackupsReplication"].write(value.supportsDBInstanceAutomatedBackupsReplication)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.SourceRegion {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -33971,14 +32704,6 @@ public struct StorageTypeNotSupportedFault: ClientRuntime.ModeledError, AWSClien
 
 extension RDSClientTypes.Subnet {
 
-    static func write(value: RDSClientTypes.Subnet?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["SubnetAvailabilityZone"].write(value.subnetAvailabilityZone, with: RDSClientTypes.AvailabilityZone.write(value:to:))
-        try writer["SubnetIdentifier"].write(value.subnetIdentifier)
-        try writer["SubnetOutpost"].write(value.subnetOutpost, with: RDSClientTypes.Outpost.write(value:to:))
-        try writer["SubnetStatus"].write(value.subnetStatus)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.Subnet {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RDSClientTypes.Subnet()
@@ -34244,13 +32969,6 @@ enum SwitchoverBlueGreenDeploymentOutputError {
 
 extension RDSClientTypes.SwitchoverDetail {
 
-    static func write(value: RDSClientTypes.SwitchoverDetail?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["SourceMember"].write(value.sourceMember)
-        try writer["Status"].write(value.status)
-        try writer["TargetMember"].write(value.targetMember)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.SwitchoverDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RDSClientTypes.SwitchoverDetail()
@@ -34488,13 +33206,6 @@ extension RDSClientTypes {
 
 extension RDSClientTypes.TargetHealth {
 
-    static func write(value: RDSClientTypes.TargetHealth?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Description"].write(value.description)
-        try writer["Reason"].write(value.reason)
-        try writer["State"].write(value.state)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.TargetHealth {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RDSClientTypes.TargetHealth()
@@ -34669,23 +33380,6 @@ extension RDSClientTypes {
 
 extension RDSClientTypes.TenantDatabase {
 
-    static func write(value: RDSClientTypes.TenantDatabase?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["CharacterSetName"].write(value.characterSetName)
-        try writer["DBInstanceIdentifier"].write(value.dbInstanceIdentifier)
-        try writer["DbiResourceId"].write(value.dbiResourceId)
-        try writer["DeletionProtection"].write(value.deletionProtection)
-        try writer["MasterUsername"].write(value.masterUsername)
-        try writer["NcharCharacterSetName"].write(value.ncharCharacterSetName)
-        try writer["PendingModifiedValues"].write(value.pendingModifiedValues, with: RDSClientTypes.TenantDatabasePendingModifiedValues.write(value:to:))
-        try writer["Status"].write(value.status)
-        try writer["TagList"].writeList(value.tagList, memberWritingClosure: RDSClientTypes.Tag.write(value:to:), memberNodeInfo: "Tag", isFlattened: false)
-        try writer["TenantDBName"].write(value.tenantDBName)
-        try writer["TenantDatabaseARN"].write(value.tenantDatabaseARN)
-        try writer["TenantDatabaseCreateTime"].writeTimestamp(value.tenantDatabaseCreateTime, format: .dateTime)
-        try writer["TenantDatabaseResourceId"].write(value.tenantDatabaseResourceId)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.TenantDatabase {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RDSClientTypes.TenantDatabase()
@@ -34851,12 +33545,6 @@ extension RDSClientTypes.TenantDatabasePendingModifiedValues: Swift.CustomDebugS
 
 extension RDSClientTypes.TenantDatabasePendingModifiedValues {
 
-    static func write(value: RDSClientTypes.TenantDatabasePendingModifiedValues?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["MasterUserPassword"].write(value.masterUserPassword)
-        try writer["TenantDBName"].write(value.tenantDBName)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.TenantDatabasePendingModifiedValues {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RDSClientTypes.TenantDatabasePendingModifiedValues()
@@ -34925,11 +33613,6 @@ public struct TenantDatabaseQuotaExceededFault: ClientRuntime.ModeledError, AWSC
 
 extension RDSClientTypes.Timezone {
 
-    static func write(value: RDSClientTypes.Timezone?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["TimezoneName"].write(value.timezoneName)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.Timezone {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RDSClientTypes.Timezone()
@@ -34992,22 +33675,6 @@ public struct UnsupportedDBEngineVersionFault: ClientRuntime.ModeledError, AWSCl
 }
 
 extension RDSClientTypes.UpgradeTarget {
-
-    static func write(value: RDSClientTypes.UpgradeTarget?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["AutoUpgrade"].write(value.autoUpgrade)
-        try writer["Description"].write(value.description)
-        try writer["Engine"].write(value.engine)
-        try writer["EngineVersion"].write(value.engineVersion)
-        try writer["IsMajorVersionUpgrade"].write(value.isMajorVersionUpgrade)
-        try writer["SupportedEngineModes"].writeList(value.supportedEngineModes, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["SupportsBabelfish"].write(value.supportsBabelfish)
-        try writer["SupportsGlobalDatabases"].write(value.supportsGlobalDatabases)
-        try writer["SupportsIntegrations"].write(value.supportsIntegrations)
-        try writer["SupportsLimitlessDatabase"].write(value.supportsLimitlessDatabase)
-        try writer["SupportsLocalWriteForwarding"].write(value.supportsLocalWriteForwarding)
-        try writer["SupportsParallelQuery"].write(value.supportsParallelQuery)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.UpgradeTarget {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -35099,18 +33766,6 @@ extension RDSClientTypes.UserAuthConfig {
         try writer["SecretArn"].write(value.secretArn)
         try writer["UserName"].write(value.userName)
     }
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.UserAuthConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.UserAuthConfig()
-        value.description = try reader["Description"].readIfPresent()
-        value.userName = try reader["UserName"].readIfPresent()
-        value.authScheme = try reader["AuthScheme"].readIfPresent()
-        value.secretArn = try reader["SecretArn"].readIfPresent()
-        value.iamAuth = try reader["IAMAuth"].readIfPresent()
-        value.clientPasswordAuthType = try reader["ClientPasswordAuthType"].readIfPresent()
-        return value
-    }
 }
 
 extension RDSClientTypes {
@@ -35150,16 +33805,6 @@ extension RDSClientTypes {
 }
 
 extension RDSClientTypes.UserAuthConfigInfo {
-
-    static func write(value: RDSClientTypes.UserAuthConfigInfo?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["AuthScheme"].write(value.authScheme)
-        try writer["ClientPasswordAuthType"].write(value.clientPasswordAuthType)
-        try writer["Description"].write(value.description)
-        try writer["IAMAuth"].write(value.iamAuth)
-        try writer["SecretArn"].write(value.secretArn)
-        try writer["UserName"].write(value.userName)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.UserAuthConfigInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -35212,13 +33857,6 @@ extension RDSClientTypes {
 
 extension RDSClientTypes.ValidDBInstanceModificationsMessage {
 
-    static func write(value: RDSClientTypes.ValidDBInstanceModificationsMessage?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Storage"].writeList(value.storage, memberWritingClosure: RDSClientTypes.ValidStorageOptions.write(value:to:), memberNodeInfo: "ValidStorageOptions", isFlattened: false)
-        try writer["SupportsDedicatedLogVolume"].write(value.supportsDedicatedLogVolume)
-        try writer["ValidProcessorFeatures"].writeList(value.validProcessorFeatures, memberWritingClosure: RDSClientTypes.AvailableProcessorFeature.write(value:to:), memberNodeInfo: "AvailableProcessorFeature", isFlattened: false)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.ValidDBInstanceModificationsMessage {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RDSClientTypes.ValidDBInstanceModificationsMessage()
@@ -35254,17 +33892,6 @@ extension RDSClientTypes {
 }
 
 extension RDSClientTypes.ValidStorageOptions {
-
-    static func write(value: RDSClientTypes.ValidStorageOptions?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["IopsToStorageRatio"].writeList(value.iopsToStorageRatio, memberWritingClosure: RDSClientTypes.DoubleRange.write(value:to:), memberNodeInfo: "DoubleRange", isFlattened: false)
-        try writer["ProvisionedIops"].writeList(value.provisionedIops, memberWritingClosure: RDSClientTypes.Range.write(value:to:), memberNodeInfo: "Range", isFlattened: false)
-        try writer["ProvisionedStorageThroughput"].writeList(value.provisionedStorageThroughput, memberWritingClosure: RDSClientTypes.Range.write(value:to:), memberNodeInfo: "Range", isFlattened: false)
-        try writer["StorageSize"].writeList(value.storageSize, memberWritingClosure: RDSClientTypes.Range.write(value:to:), memberNodeInfo: "Range", isFlattened: false)
-        try writer["StorageThroughputToIopsRatio"].writeList(value.storageThroughputToIopsRatio, memberWritingClosure: RDSClientTypes.DoubleRange.write(value:to:), memberNodeInfo: "DoubleRange", isFlattened: false)
-        try writer["StorageType"].write(value.storageType)
-        try writer["SupportsStorageAutoscaling"].write(value.supportsStorageAutoscaling)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.ValidStorageOptions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -35321,12 +33948,6 @@ extension RDSClientTypes {
 }
 
 extension RDSClientTypes.VpcSecurityGroupMembership {
-
-    static func write(value: RDSClientTypes.VpcSecurityGroupMembership?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Status"].write(value.status)
-        try writer["VpcSecurityGroupId"].write(value.vpcSecurityGroupId)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.VpcSecurityGroupMembership {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

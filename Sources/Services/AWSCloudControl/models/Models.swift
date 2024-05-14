@@ -1297,20 +1297,6 @@ extension CloudControlClientTypes.ProgressEvent: Swift.CustomDebugStringConverti
 
 extension CloudControlClientTypes.ProgressEvent {
 
-    static func write(value: CloudControlClientTypes.ProgressEvent?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ErrorCode"].write(value.errorCode)
-        try writer["EventTime"].writeTimestamp(value.eventTime, format: .epochSeconds)
-        try writer["Identifier"].write(value.identifier)
-        try writer["Operation"].write(value.operation)
-        try writer["OperationStatus"].write(value.operationStatus)
-        try writer["RequestToken"].write(value.requestToken)
-        try writer["ResourceModel"].write(value.resourceModel)
-        try writer["RetryAfter"].writeTimestamp(value.retryAfter, format: .epochSeconds)
-        try writer["StatusMessage"].write(value.statusMessage)
-        try writer["TypeName"].write(value.typeName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CloudControlClientTypes.ProgressEvent {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudControlClientTypes.ProgressEvent()
@@ -1473,12 +1459,6 @@ extension CloudControlClientTypes.ResourceDescription: Swift.CustomDebugStringCo
 
 extension CloudControlClientTypes.ResourceDescription {
 
-    static func write(value: CloudControlClientTypes.ResourceDescription?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Identifier"].write(value.identifier)
-        try writer["Properties"].write(value.properties)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CloudControlClientTypes.ResourceDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudControlClientTypes.ResourceDescription()
@@ -1551,14 +1531,6 @@ extension CloudControlClientTypes.ResourceRequestStatusFilter {
         guard let value else { return }
         try writer["OperationStatuses"].writeList(value.operationStatuses, memberWritingClosure: CloudControlClientTypes.OperationStatus.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Operations"].writeList(value.operations, memberWritingClosure: CloudControlClientTypes.Operation.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudControlClientTypes.ResourceRequestStatusFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudControlClientTypes.ResourceRequestStatusFilter()
-        value.operations = try reader["Operations"].readListIfPresent(memberReadingClosure: CloudControlClientTypes.Operation.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.operationStatuses = try reader["OperationStatuses"].readListIfPresent(memberReadingClosure: CloudControlClientTypes.OperationStatus.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 

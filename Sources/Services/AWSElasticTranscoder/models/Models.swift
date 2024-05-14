@@ -685,23 +685,6 @@ extension ElasticTranscoderClientTypes.CreateJobOutput {
         try writer["ThumbnailPattern"].write(value.thumbnailPattern)
         try writer["Watermarks"].writeList(value.watermarks, memberWritingClosure: ElasticTranscoderClientTypes.JobWatermark.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ElasticTranscoderClientTypes.CreateJobOutput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElasticTranscoderClientTypes.CreateJobOutput()
-        value.key = try reader["Key"].readIfPresent()
-        value.thumbnailPattern = try reader["ThumbnailPattern"].readIfPresent()
-        value.thumbnailEncryption = try reader["ThumbnailEncryption"].readIfPresent(with: ElasticTranscoderClientTypes.Encryption.read(from:))
-        value.rotate = try reader["Rotate"].readIfPresent()
-        value.presetId = try reader["PresetId"].readIfPresent()
-        value.segmentDuration = try reader["SegmentDuration"].readIfPresent()
-        value.watermarks = try reader["Watermarks"].readListIfPresent(memberReadingClosure: ElasticTranscoderClientTypes.JobWatermark.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.albumArt = try reader["AlbumArt"].readIfPresent(with: ElasticTranscoderClientTypes.JobAlbumArt.read(from:))
-        value.composition = try reader["Composition"].readListIfPresent(memberReadingClosure: ElasticTranscoderClientTypes.Clip.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.captions = try reader["Captions"].readIfPresent(with: ElasticTranscoderClientTypes.Captions.read(from:))
-        value.encryption = try reader["Encryption"].readIfPresent(with: ElasticTranscoderClientTypes.Encryption.read(from:))
-        return value
-    }
 }
 
 extension ElasticTranscoderClientTypes {
@@ -818,17 +801,6 @@ extension ElasticTranscoderClientTypes.CreateJobPlaylist {
         try writer["Name"].write(value.name)
         try writer["OutputKeys"].writeList(value.outputKeys, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["PlayReadyDrm"].write(value.playReadyDrm, with: ElasticTranscoderClientTypes.PlayReadyDrm.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ElasticTranscoderClientTypes.CreateJobPlaylist {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElasticTranscoderClientTypes.CreateJobPlaylist()
-        value.name = try reader["Name"].readIfPresent()
-        value.format = try reader["Format"].readIfPresent()
-        value.outputKeys = try reader["OutputKeys"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.hlsContentProtection = try reader["HlsContentProtection"].readIfPresent(with: ElasticTranscoderClientTypes.HlsContentProtection.read(from:))
-        value.playReadyDrm = try reader["PlayReadyDrm"].readIfPresent(with: ElasticTranscoderClientTypes.PlayReadyDrm.read(from:))
-        return value
     }
 }
 
@@ -1597,22 +1569,6 @@ public struct InternalServiceException: ClientRuntime.ModeledError, AWSClientRun
 
 extension ElasticTranscoderClientTypes.Job {
 
-    static func write(value: ElasticTranscoderClientTypes.Job?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["Id"].write(value.id)
-        try writer["Input"].write(value.input, with: ElasticTranscoderClientTypes.JobInput.write(value:to:))
-        try writer["Inputs"].writeList(value.inputs, memberWritingClosure: ElasticTranscoderClientTypes.JobInput.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Output"].write(value.output, with: ElasticTranscoderClientTypes.JobOutput.write(value:to:))
-        try writer["OutputKeyPrefix"].write(value.outputKeyPrefix)
-        try writer["Outputs"].writeList(value.outputs, memberWritingClosure: ElasticTranscoderClientTypes.JobOutput.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["PipelineId"].write(value.pipelineId)
-        try writer["Playlists"].writeList(value.playlists, memberWritingClosure: ElasticTranscoderClientTypes.Playlist.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Status"].write(value.status)
-        try writer["Timing"].write(value.timing, with: ElasticTranscoderClientTypes.Timing.write(value:to:))
-        try writer["UserMetadata"].writeMap(value.userMetadata, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ElasticTranscoderClientTypes.Job {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ElasticTranscoderClientTypes.Job()
@@ -1838,31 +1794,6 @@ extension ElasticTranscoderClientTypes {
 }
 
 extension ElasticTranscoderClientTypes.JobOutput {
-
-    static func write(value: ElasticTranscoderClientTypes.JobOutput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AlbumArt"].write(value.albumArt, with: ElasticTranscoderClientTypes.JobAlbumArt.write(value:to:))
-        try writer["AppliedColorSpaceConversion"].write(value.appliedColorSpaceConversion)
-        try writer["Captions"].write(value.captions, with: ElasticTranscoderClientTypes.Captions.write(value:to:))
-        try writer["Composition"].writeList(value.composition, memberWritingClosure: ElasticTranscoderClientTypes.Clip.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Duration"].write(value.duration)
-        try writer["DurationMillis"].write(value.durationMillis)
-        try writer["Encryption"].write(value.encryption, with: ElasticTranscoderClientTypes.Encryption.write(value:to:))
-        try writer["FileSize"].write(value.fileSize)
-        try writer["FrameRate"].write(value.frameRate)
-        try writer["Height"].write(value.height)
-        try writer["Id"].write(value.id)
-        try writer["Key"].write(value.key)
-        try writer["PresetId"].write(value.presetId)
-        try writer["Rotate"].write(value.rotate)
-        try writer["SegmentDuration"].write(value.segmentDuration)
-        try writer["Status"].write(value.status)
-        try writer["StatusDetail"].write(value.statusDetail)
-        try writer["ThumbnailEncryption"].write(value.thumbnailEncryption, with: ElasticTranscoderClientTypes.Encryption.write(value:to:))
-        try writer["ThumbnailPattern"].write(value.thumbnailPattern)
-        try writer["Watermarks"].writeList(value.watermarks, memberWritingClosure: ElasticTranscoderClientTypes.JobWatermark.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Width"].write(value.width)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ElasticTranscoderClientTypes.JobOutput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2571,21 +2502,6 @@ extension ElasticTranscoderClientTypes {
 
 extension ElasticTranscoderClientTypes.Pipeline {
 
-    static func write(value: ElasticTranscoderClientTypes.Pipeline?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["AwsKmsKeyArn"].write(value.awsKmsKeyArn)
-        try writer["ContentConfig"].write(value.contentConfig, with: ElasticTranscoderClientTypes.PipelineOutputConfig.write(value:to:))
-        try writer["Id"].write(value.id)
-        try writer["InputBucket"].write(value.inputBucket)
-        try writer["Name"].write(value.name)
-        try writer["Notifications"].write(value.notifications, with: ElasticTranscoderClientTypes.Notifications.write(value:to:))
-        try writer["OutputBucket"].write(value.outputBucket)
-        try writer["Role"].write(value.role)
-        try writer["Status"].write(value.status)
-        try writer["ThumbnailConfig"].write(value.thumbnailConfig, with: ElasticTranscoderClientTypes.PipelineOutputConfig.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ElasticTranscoderClientTypes.Pipeline {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ElasticTranscoderClientTypes.Pipeline()
@@ -2859,17 +2775,6 @@ extension ElasticTranscoderClientTypes {
 
 extension ElasticTranscoderClientTypes.Playlist {
 
-    static func write(value: ElasticTranscoderClientTypes.Playlist?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Format"].write(value.format)
-        try writer["HlsContentProtection"].write(value.hlsContentProtection, with: ElasticTranscoderClientTypes.HlsContentProtection.write(value:to:))
-        try writer["Name"].write(value.name)
-        try writer["OutputKeys"].writeList(value.outputKeys, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["PlayReadyDrm"].write(value.playReadyDrm, with: ElasticTranscoderClientTypes.PlayReadyDrm.write(value:to:))
-        try writer["Status"].write(value.status)
-        try writer["StatusDetail"].write(value.statusDetail)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ElasticTranscoderClientTypes.Playlist {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ElasticTranscoderClientTypes.Playlist()
@@ -2937,19 +2842,6 @@ extension ElasticTranscoderClientTypes {
 }
 
 extension ElasticTranscoderClientTypes.Preset {
-
-    static func write(value: ElasticTranscoderClientTypes.Preset?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["Audio"].write(value.audio, with: ElasticTranscoderClientTypes.AudioParameters.write(value:to:))
-        try writer["Container"].write(value.container)
-        try writer["Description"].write(value.description)
-        try writer["Id"].write(value.id)
-        try writer["Name"].write(value.name)
-        try writer["Thumbnails"].write(value.thumbnails, with: ElasticTranscoderClientTypes.Thumbnails.write(value:to:))
-        try writer["Type"].write(value.type)
-        try writer["Video"].write(value.video, with: ElasticTranscoderClientTypes.VideoParameters.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ElasticTranscoderClientTypes.Preset {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3649,13 +3541,6 @@ extension ElasticTranscoderClientTypes {
 }
 
 extension ElasticTranscoderClientTypes.Timing {
-
-    static func write(value: ElasticTranscoderClientTypes.Timing?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["FinishTimeMillis"].write(value.finishTimeMillis)
-        try writer["StartTimeMillis"].write(value.startTimeMillis)
-        try writer["SubmitTimeMillis"].write(value.submitTimeMillis)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ElasticTranscoderClientTypes.Timing {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4372,12 +4257,6 @@ extension ElasticTranscoderClientTypes {
 }
 
 extension ElasticTranscoderClientTypes.Warning {
-
-    static func write(value: ElasticTranscoderClientTypes.Warning?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Code"].write(value.code)
-        try writer["Message"].write(value.message)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ElasticTranscoderClientTypes.Warning {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

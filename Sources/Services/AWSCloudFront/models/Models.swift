@@ -17,21 +17,6 @@ extension AccessDenied {
     }
 }
 
-extension AccessDenied {
-
-    static func write(value: AccessDenied?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> AccessDenied {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AccessDenied()
-        value.properties.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
 /// Access denied.
 public struct AccessDenied: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -57,13 +42,6 @@ public struct AccessDenied: ClientRuntime.ModeledError, AWSClientRuntime.AWSServ
 }
 
 extension CloudFrontClientTypes.ActiveTrustedKeyGroups {
-
-    static func write(value: CloudFrontClientTypes.ActiveTrustedKeyGroups?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Enabled"].write(value.enabled)
-        try writer["Items"].writeList(value.items, memberWritingClosure: CloudFrontClientTypes.KGKeyPairIds.write(value:to:), memberNodeInfo: "KeyGroup", isFlattened: false)
-        try writer["Quantity"].write(value.quantity)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ActiveTrustedKeyGroups {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -103,13 +81,6 @@ extension CloudFrontClientTypes {
 
 extension CloudFrontClientTypes.ActiveTrustedSigners {
 
-    static func write(value: CloudFrontClientTypes.ActiveTrustedSigners?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Enabled"].write(value.enabled)
-        try writer["Items"].writeList(value.items, memberWritingClosure: CloudFrontClientTypes.Signer.write(value:to:), memberNodeInfo: "Signer", isFlattened: false)
-        try writer["Quantity"].write(value.quantity)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ActiveTrustedSigners {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudFrontClientTypes.ActiveTrustedSigners()
@@ -147,12 +118,6 @@ extension CloudFrontClientTypes {
 }
 
 extension CloudFrontClientTypes.AliasICPRecordal {
-
-    static func write(value: CloudFrontClientTypes.AliasICPRecordal?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["CNAME"].write(value.cname)
-        try writer["ICPRecordalStatus"].write(value.icpRecordalStatus)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.AliasICPRecordal {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -373,21 +338,6 @@ extension BatchTooLarge {
     }
 }
 
-extension BatchTooLarge {
-
-    static func write(value: BatchTooLarge?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> BatchTooLarge {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BatchTooLarge()
-        value.properties.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
 /// Invalidation batch specified is too large.
 public struct BatchTooLarge: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -421,21 +371,6 @@ extension CNAMEAlreadyExists {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension CNAMEAlreadyExists {
-
-    static func write(value: CNAMEAlreadyExists?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CNAMEAlreadyExists {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CNAMEAlreadyExists()
-        value.properties.message = try reader["Message"].readIfPresent()
         return value
     }
 }
@@ -668,13 +603,6 @@ extension CloudFrontClientTypes {
 
 extension CloudFrontClientTypes.CachePolicy {
 
-    static func write(value: CloudFrontClientTypes.CachePolicy?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["CachePolicyConfig"].write(value.cachePolicyConfig, with: CloudFrontClientTypes.CachePolicyConfig.write(value:to:))
-        try writer["Id"].write(value.id)
-        try writer["LastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .dateTime)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.CachePolicy {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudFrontClientTypes.CachePolicy()
@@ -728,21 +656,6 @@ extension CachePolicyAlreadyExists {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension CachePolicyAlreadyExists {
-
-    static func write(value: CachePolicyAlreadyExists?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CachePolicyAlreadyExists {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CachePolicyAlreadyExists()
-        value.properties.message = try reader["Message"].readIfPresent()
         return value
     }
 }
@@ -1008,21 +921,6 @@ extension CachePolicyInUse {
     }
 }
 
-extension CachePolicyInUse {
-
-    static func write(value: CachePolicyInUse?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CachePolicyInUse {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CachePolicyInUse()
-        value.properties.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
 /// Cannot delete the cache policy because it is attached to one or more cache behaviors.
 public struct CachePolicyInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -1048,14 +946,6 @@ public struct CachePolicyInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWS
 }
 
 extension CloudFrontClientTypes.CachePolicyList {
-
-    static func write(value: CloudFrontClientTypes.CachePolicyList?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Items"].writeList(value.items, memberWritingClosure: CloudFrontClientTypes.CachePolicySummary.write(value:to:), memberNodeInfo: "CachePolicySummary", isFlattened: false)
-        try writer["MaxItems"].write(value.maxItems)
-        try writer["NextMarker"].write(value.nextMarker)
-        try writer["Quantity"].write(value.quantity)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.CachePolicyList {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1182,12 +1072,6 @@ extension CloudFrontClientTypes {
 
 extension CloudFrontClientTypes.CachePolicySummary {
 
-    static func write(value: CloudFrontClientTypes.CachePolicySummary?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["CachePolicy"].write(value.cachePolicy, with: CloudFrontClientTypes.CachePolicy.write(value:to:))
-        try writer["Type"].write(value.type)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.CachePolicySummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudFrontClientTypes.CachePolicySummary()
@@ -1308,21 +1192,6 @@ extension CannotChangeImmutablePublicKeyFields {
     }
 }
 
-extension CannotChangeImmutablePublicKeyFields {
-
-    static func write(value: CannotChangeImmutablePublicKeyFields?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CannotChangeImmutablePublicKeyFields {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CannotChangeImmutablePublicKeyFields()
-        value.properties.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
 /// You can't change the value of a public key.
 public struct CannotChangeImmutablePublicKeyFields: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -1356,21 +1225,6 @@ extension CannotDeleteEntityWhileInUse {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension CannotDeleteEntityWhileInUse {
-
-    static func write(value: CannotDeleteEntityWhileInUse?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CannotDeleteEntityWhileInUse {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CannotDeleteEntityWhileInUse()
-        value.properties.message = try reader["Message"].readIfPresent()
         return value
     }
 }
@@ -1436,13 +1290,6 @@ public enum CloudFrontClientTypes {}
 
 extension CloudFrontClientTypes.CloudFrontOriginAccessIdentity {
 
-    static func write(value: CloudFrontClientTypes.CloudFrontOriginAccessIdentity?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["CloudFrontOriginAccessIdentityConfig"].write(value.cloudFrontOriginAccessIdentityConfig, with: CloudFrontClientTypes.CloudFrontOriginAccessIdentityConfig.write(value:to:))
-        try writer["Id"].write(value.id)
-        try writer["S3CanonicalUserId"].write(value.s3CanonicalUserId)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.CloudFrontOriginAccessIdentity {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudFrontClientTypes.CloudFrontOriginAccessIdentity()
@@ -1488,21 +1335,6 @@ extension CloudFrontOriginAccessIdentityAlreadyExists {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension CloudFrontOriginAccessIdentityAlreadyExists {
-
-    static func write(value: CloudFrontOriginAccessIdentityAlreadyExists?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontOriginAccessIdentityAlreadyExists {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontOriginAccessIdentityAlreadyExists()
-        value.properties.message = try reader["Message"].readIfPresent()
         return value
     }
 }
@@ -1583,21 +1415,6 @@ extension CloudFrontOriginAccessIdentityInUse {
     }
 }
 
-extension CloudFrontOriginAccessIdentityInUse {
-
-    static func write(value: CloudFrontOriginAccessIdentityInUse?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontOriginAccessIdentityInUse {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontOriginAccessIdentityInUse()
-        value.properties.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
 /// The Origin Access Identity specified is already in use.
 public struct CloudFrontOriginAccessIdentityInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -1623,16 +1440,6 @@ public struct CloudFrontOriginAccessIdentityInUse: ClientRuntime.ModeledError, A
 }
 
 extension CloudFrontClientTypes.CloudFrontOriginAccessIdentityList {
-
-    static func write(value: CloudFrontClientTypes.CloudFrontOriginAccessIdentityList?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["IsTruncated"].write(value.isTruncated)
-        try writer["Items"].writeList(value.items, memberWritingClosure: CloudFrontClientTypes.CloudFrontOriginAccessIdentitySummary.write(value:to:), memberNodeInfo: "CloudFrontOriginAccessIdentitySummary", isFlattened: false)
-        try writer["Marker"].write(value.marker)
-        try writer["MaxItems"].write(value.maxItems)
-        try writer["NextMarker"].write(value.nextMarker)
-        try writer["Quantity"].write(value.quantity)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.CloudFrontOriginAccessIdentityList {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1689,13 +1496,6 @@ extension CloudFrontClientTypes {
 
 extension CloudFrontClientTypes.CloudFrontOriginAccessIdentitySummary {
 
-    static func write(value: CloudFrontClientTypes.CloudFrontOriginAccessIdentitySummary?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Comment"].write(value.comment)
-        try writer["Id"].write(value.id)
-        try writer["S3CanonicalUserId"].write(value.s3CanonicalUserId)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.CloudFrontOriginAccessIdentitySummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudFrontClientTypes.CloudFrontOriginAccessIdentitySummary()
@@ -1735,13 +1535,6 @@ extension CloudFrontClientTypes {
 
 extension CloudFrontClientTypes.ConflictingAlias {
 
-    static func write(value: CloudFrontClientTypes.ConflictingAlias?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["AccountId"].write(value.accountId)
-        try writer["Alias"].write(value.alias)
-        try writer["DistributionId"].write(value.distributionId)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ConflictingAlias {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudFrontClientTypes.ConflictingAlias()
@@ -1777,14 +1570,6 @@ extension CloudFrontClientTypes {
 }
 
 extension CloudFrontClientTypes.ConflictingAliasesList {
-
-    static func write(value: CloudFrontClientTypes.ConflictingAliasesList?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Items"].writeList(value.items, memberWritingClosure: CloudFrontClientTypes.ConflictingAlias.write(value:to:), memberNodeInfo: "ConflictingAlias", isFlattened: false)
-        try writer["MaxItems"].write(value.maxItems)
-        try writer["NextMarker"].write(value.nextMarker)
-        try writer["Quantity"].write(value.quantity)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ConflictingAliasesList {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1948,13 +1733,6 @@ extension CloudFrontClientTypes {
 
 extension CloudFrontClientTypes.ContinuousDeploymentPolicy {
 
-    static func write(value: CloudFrontClientTypes.ContinuousDeploymentPolicy?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["ContinuousDeploymentPolicyConfig"].write(value.continuousDeploymentPolicyConfig, with: CloudFrontClientTypes.ContinuousDeploymentPolicyConfig.write(value:to:))
-        try writer["Id"].write(value.id)
-        try writer["LastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .dateTime)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ContinuousDeploymentPolicy {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudFrontClientTypes.ContinuousDeploymentPolicy()
@@ -2001,21 +1779,6 @@ extension ContinuousDeploymentPolicyAlreadyExists {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension ContinuousDeploymentPolicyAlreadyExists {
-
-    static func write(value: ContinuousDeploymentPolicyAlreadyExists?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> ContinuousDeploymentPolicyAlreadyExists {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ContinuousDeploymentPolicyAlreadyExists()
-        value.properties.message = try reader["Message"].readIfPresent()
         return value
     }
 }
@@ -2102,21 +1865,6 @@ extension ContinuousDeploymentPolicyInUse {
     }
 }
 
-extension ContinuousDeploymentPolicyInUse {
-
-    static func write(value: ContinuousDeploymentPolicyInUse?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> ContinuousDeploymentPolicyInUse {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ContinuousDeploymentPolicyInUse()
-        value.properties.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
 /// You cannot delete a continuous deployment policy that is associated with a primary distribution.
 public struct ContinuousDeploymentPolicyInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -2142,14 +1890,6 @@ public struct ContinuousDeploymentPolicyInUse: ClientRuntime.ModeledError, AWSCl
 }
 
 extension CloudFrontClientTypes.ContinuousDeploymentPolicyList {
-
-    static func write(value: CloudFrontClientTypes.ContinuousDeploymentPolicyList?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Items"].writeList(value.items, memberWritingClosure: CloudFrontClientTypes.ContinuousDeploymentPolicySummary.write(value:to:), memberNodeInfo: "ContinuousDeploymentPolicySummary", isFlattened: false)
-        try writer["MaxItems"].write(value.maxItems)
-        try writer["NextMarker"].write(value.nextMarker)
-        try writer["Quantity"].write(value.quantity)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ContinuousDeploymentPolicyList {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2193,11 +1933,6 @@ extension CloudFrontClientTypes {
 }
 
 extension CloudFrontClientTypes.ContinuousDeploymentPolicySummary {
-
-    static func write(value: CloudFrontClientTypes.ContinuousDeploymentPolicySummary?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["ContinuousDeploymentPolicy"].write(value.continuousDeploymentPolicy, with: CloudFrontClientTypes.ContinuousDeploymentPolicy.write(value:to:))
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ContinuousDeploymentPolicySummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6021,20 +5756,6 @@ enum DescribeKeyValueStoreOutputError {
 
 extension CloudFrontClientTypes.Distribution {
 
-    static func write(value: CloudFrontClientTypes.Distribution?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["ARN"].write(value.arn)
-        try writer["ActiveTrustedKeyGroups"].write(value.activeTrustedKeyGroups, with: CloudFrontClientTypes.ActiveTrustedKeyGroups.write(value:to:))
-        try writer["ActiveTrustedSigners"].write(value.activeTrustedSigners, with: CloudFrontClientTypes.ActiveTrustedSigners.write(value:to:))
-        try writer["AliasICPRecordals"].writeList(value.aliasICPRecordals, memberWritingClosure: CloudFrontClientTypes.AliasICPRecordal.write(value:to:), memberNodeInfo: "AliasICPRecordal", isFlattened: false)
-        try writer["DistributionConfig"].write(value.distributionConfig, with: CloudFrontClientTypes.DistributionConfig.write(value:to:))
-        try writer["DomainName"].write(value.domainName)
-        try writer["Id"].write(value.id)
-        try writer["InProgressInvalidationBatches"].write(value.inProgressInvalidationBatches)
-        try writer["LastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .dateTime)
-        try writer["Status"].write(value.status)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.Distribution {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudFrontClientTypes.Distribution()
@@ -6120,21 +5841,6 @@ extension DistributionAlreadyExists {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension DistributionAlreadyExists {
-
-    static func write(value: DistributionAlreadyExists?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> DistributionAlreadyExists {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DistributionAlreadyExists()
-        value.properties.message = try reader["Message"].readIfPresent()
         return value
     }
 }
@@ -6333,14 +6039,6 @@ extension CloudFrontClientTypes.DistributionConfigWithTags {
         try writer["DistributionConfig"].write(value.distributionConfig, with: CloudFrontClientTypes.DistributionConfig.write(value:to:))
         try writer["Tags"].write(value.tags, with: CloudFrontClientTypes.Tags.write(value:to:))
     }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.DistributionConfigWithTags {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.DistributionConfigWithTags()
-        value.distributionConfig = try reader["DistributionConfig"].readIfPresent(with: CloudFrontClientTypes.DistributionConfig.read(from:))
-        value.tags = try reader["Tags"].readIfPresent(with: CloudFrontClientTypes.Tags.read(from:))
-        return value
-    }
 }
 
 extension CloudFrontClientTypes {
@@ -6366,16 +6064,6 @@ extension CloudFrontClientTypes {
 }
 
 extension CloudFrontClientTypes.DistributionIdList {
-
-    static func write(value: CloudFrontClientTypes.DistributionIdList?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["IsTruncated"].write(value.isTruncated)
-        try writer["Items"].writeList(value.items, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "DistributionId", isFlattened: false)
-        try writer["Marker"].write(value.marker)
-        try writer["MaxItems"].write(value.maxItems)
-        try writer["NextMarker"].write(value.nextMarker)
-        try writer["Quantity"].write(value.quantity)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.DistributionIdList {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6431,16 +6119,6 @@ extension CloudFrontClientTypes {
 }
 
 extension CloudFrontClientTypes.DistributionList {
-
-    static func write(value: CloudFrontClientTypes.DistributionList?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["IsTruncated"].write(value.isTruncated)
-        try writer["Items"].writeList(value.items, memberWritingClosure: CloudFrontClientTypes.DistributionSummary.write(value:to:), memberNodeInfo: "DistributionSummary", isFlattened: false)
-        try writer["Marker"].write(value.marker)
-        try writer["MaxItems"].write(value.maxItems)
-        try writer["NextMarker"].write(value.nextMarker)
-        try writer["Quantity"].write(value.quantity)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.DistributionList {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6508,21 +6186,6 @@ extension DistributionNotDisabled {
     }
 }
 
-extension DistributionNotDisabled {
-
-    static func write(value: DistributionNotDisabled?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> DistributionNotDisabled {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DistributionNotDisabled()
-        value.properties.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
 /// The specified CloudFront distribution is not disabled. You must disable the distribution before you can delete it.
 public struct DistributionNotDisabled: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -6548,31 +6211,6 @@ public struct DistributionNotDisabled: ClientRuntime.ModeledError, AWSClientRunt
 }
 
 extension CloudFrontClientTypes.DistributionSummary {
-
-    static func write(value: CloudFrontClientTypes.DistributionSummary?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["ARN"].write(value.arn)
-        try writer["AliasICPRecordals"].writeList(value.aliasICPRecordals, memberWritingClosure: CloudFrontClientTypes.AliasICPRecordal.write(value:to:), memberNodeInfo: "AliasICPRecordal", isFlattened: false)
-        try writer["Aliases"].write(value.aliases, with: CloudFrontClientTypes.Aliases.write(value:to:))
-        try writer["CacheBehaviors"].write(value.cacheBehaviors, with: CloudFrontClientTypes.CacheBehaviors.write(value:to:))
-        try writer["Comment"].write(value.comment)
-        try writer["CustomErrorResponses"].write(value.customErrorResponses, with: CloudFrontClientTypes.CustomErrorResponses.write(value:to:))
-        try writer["DefaultCacheBehavior"].write(value.defaultCacheBehavior, with: CloudFrontClientTypes.DefaultCacheBehavior.write(value:to:))
-        try writer["DomainName"].write(value.domainName)
-        try writer["Enabled"].write(value.enabled)
-        try writer["HttpVersion"].write(value.httpVersion)
-        try writer["Id"].write(value.id)
-        try writer["IsIPV6Enabled"].write(value.isIPV6Enabled)
-        try writer["LastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .dateTime)
-        try writer["OriginGroups"].write(value.originGroups, with: CloudFrontClientTypes.OriginGroups.write(value:to:))
-        try writer["Origins"].write(value.origins, with: CloudFrontClientTypes.Origins.write(value:to:))
-        try writer["PriceClass"].write(value.priceClass)
-        try writer["Restrictions"].write(value.restrictions, with: CloudFrontClientTypes.Restrictions.write(value:to:))
-        try writer["Staging"].write(value.staging)
-        try writer["Status"].write(value.status)
-        try writer["ViewerCertificate"].write(value.viewerCertificate, with: CloudFrontClientTypes.ViewerCertificate.write(value:to:))
-        try writer["WebACLId"].write(value.webACLId)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.DistributionSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6852,21 +6490,6 @@ extension EntityAlreadyExists {
     }
 }
 
-extension EntityAlreadyExists {
-
-    static func write(value: EntityAlreadyExists?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> EntityAlreadyExists {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EntityAlreadyExists()
-        value.properties.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
 /// The key value store entity already exists. You must provide a unique key value store entity.
 public struct EntityAlreadyExists: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -6900,21 +6523,6 @@ extension EntityLimitExceeded {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension EntityLimitExceeded {
-
-    static func write(value: EntityLimitExceeded?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> EntityLimitExceeded {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EntityLimitExceeded()
-        value.properties.message = try reader["Message"].readIfPresent()
         return value
     }
 }
@@ -6956,21 +6564,6 @@ extension EntityNotFound {
     }
 }
 
-extension EntityNotFound {
-
-    static func write(value: EntityNotFound?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> EntityNotFound {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EntityNotFound()
-        value.properties.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
 /// The key value store entity was not found.
 public struct EntityNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -7004,21 +6597,6 @@ extension EntitySizeLimitExceeded {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension EntitySizeLimitExceeded {
-
-    static func write(value: EntitySizeLimitExceeded?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> EntitySizeLimitExceeded {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EntitySizeLimitExceeded()
-        value.properties.message = try reader["Message"].readIfPresent()
         return value
     }
 }
@@ -7084,13 +6662,6 @@ extension CloudFrontClientTypes {
 }
 
 extension CloudFrontClientTypes.FieldLevelEncryption {
-
-    static func write(value: CloudFrontClientTypes.FieldLevelEncryption?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["FieldLevelEncryptionConfig"].write(value.fieldLevelEncryptionConfig, with: CloudFrontClientTypes.FieldLevelEncryptionConfig.write(value:to:))
-        try writer["Id"].write(value.id)
-        try writer["LastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .dateTime)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.FieldLevelEncryption {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7192,21 +6763,6 @@ extension FieldLevelEncryptionConfigAlreadyExists {
     }
 }
 
-extension FieldLevelEncryptionConfigAlreadyExists {
-
-    static func write(value: FieldLevelEncryptionConfigAlreadyExists?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> FieldLevelEncryptionConfigAlreadyExists {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FieldLevelEncryptionConfigAlreadyExists()
-        value.properties.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
 /// The specified configuration for field-level encryption already exists.
 public struct FieldLevelEncryptionConfigAlreadyExists: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -7244,21 +6800,6 @@ extension FieldLevelEncryptionConfigInUse {
     }
 }
 
-extension FieldLevelEncryptionConfigInUse {
-
-    static func write(value: FieldLevelEncryptionConfigInUse?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> FieldLevelEncryptionConfigInUse {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FieldLevelEncryptionConfigInUse()
-        value.properties.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
 /// The specified configuration for field-level encryption is in use.
 public struct FieldLevelEncryptionConfigInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -7284,14 +6825,6 @@ public struct FieldLevelEncryptionConfigInUse: ClientRuntime.ModeledError, AWSCl
 }
 
 extension CloudFrontClientTypes.FieldLevelEncryptionList {
-
-    static func write(value: CloudFrontClientTypes.FieldLevelEncryptionList?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Items"].writeList(value.items, memberWritingClosure: CloudFrontClientTypes.FieldLevelEncryptionSummary.write(value:to:), memberNodeInfo: "FieldLevelEncryptionSummary", isFlattened: false)
-        try writer["MaxItems"].write(value.maxItems)
-        try writer["NextMarker"].write(value.nextMarker)
-        try writer["Quantity"].write(value.quantity)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.FieldLevelEncryptionList {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7335,13 +6868,6 @@ extension CloudFrontClientTypes {
 }
 
 extension CloudFrontClientTypes.FieldLevelEncryptionProfile {
-
-    static func write(value: CloudFrontClientTypes.FieldLevelEncryptionProfile?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["FieldLevelEncryptionProfileConfig"].write(value.fieldLevelEncryptionProfileConfig, with: CloudFrontClientTypes.FieldLevelEncryptionProfileConfig.write(value:to:))
-        try writer["Id"].write(value.id)
-        try writer["LastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .dateTime)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.FieldLevelEncryptionProfile {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7389,21 +6915,6 @@ extension FieldLevelEncryptionProfileAlreadyExists {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension FieldLevelEncryptionProfileAlreadyExists {
-
-    static func write(value: FieldLevelEncryptionProfileAlreadyExists?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> FieldLevelEncryptionProfileAlreadyExists {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FieldLevelEncryptionProfileAlreadyExists()
-        value.properties.message = try reader["Message"].readIfPresent()
         return value
     }
 }
@@ -7497,21 +7008,6 @@ extension FieldLevelEncryptionProfileInUse {
     }
 }
 
-extension FieldLevelEncryptionProfileInUse {
-
-    static func write(value: FieldLevelEncryptionProfileInUse?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> FieldLevelEncryptionProfileInUse {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FieldLevelEncryptionProfileInUse()
-        value.properties.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
 /// The specified profile for field-level encryption is in use.
 public struct FieldLevelEncryptionProfileInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -7537,14 +7033,6 @@ public struct FieldLevelEncryptionProfileInUse: ClientRuntime.ModeledError, AWSC
 }
 
 extension CloudFrontClientTypes.FieldLevelEncryptionProfileList {
-
-    static func write(value: CloudFrontClientTypes.FieldLevelEncryptionProfileList?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Items"].writeList(value.items, memberWritingClosure: CloudFrontClientTypes.FieldLevelEncryptionProfileSummary.write(value:to:), memberNodeInfo: "FieldLevelEncryptionProfileSummary", isFlattened: false)
-        try writer["MaxItems"].write(value.maxItems)
-        try writer["NextMarker"].write(value.nextMarker)
-        try writer["Quantity"].write(value.quantity)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.FieldLevelEncryptionProfileList {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7600,21 +7088,6 @@ extension FieldLevelEncryptionProfileSizeExceeded {
     }
 }
 
-extension FieldLevelEncryptionProfileSizeExceeded {
-
-    static func write(value: FieldLevelEncryptionProfileSizeExceeded?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> FieldLevelEncryptionProfileSizeExceeded {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FieldLevelEncryptionProfileSizeExceeded()
-        value.properties.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
 /// The maximum size of a profile for field-level encryption was exceeded.
 public struct FieldLevelEncryptionProfileSizeExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -7640,15 +7113,6 @@ public struct FieldLevelEncryptionProfileSizeExceeded: ClientRuntime.ModeledErro
 }
 
 extension CloudFrontClientTypes.FieldLevelEncryptionProfileSummary {
-
-    static func write(value: CloudFrontClientTypes.FieldLevelEncryptionProfileSummary?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Comment"].write(value.comment)
-        try writer["EncryptionEntities"].write(value.encryptionEntities, with: CloudFrontClientTypes.EncryptionEntities.write(value:to:))
-        try writer["Id"].write(value.id)
-        try writer["LastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .dateTime)
-        try writer["Name"].write(value.name)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.FieldLevelEncryptionProfileSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7699,15 +7163,6 @@ extension CloudFrontClientTypes {
 }
 
 extension CloudFrontClientTypes.FieldLevelEncryptionSummary {
-
-    static func write(value: CloudFrontClientTypes.FieldLevelEncryptionSummary?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Comment"].write(value.comment)
-        try writer["ContentTypeProfileConfig"].write(value.contentTypeProfileConfig, with: CloudFrontClientTypes.ContentTypeProfileConfig.write(value:to:))
-        try writer["Id"].write(value.id)
-        try writer["LastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .dateTime)
-        try writer["QueryArgProfileConfig"].write(value.queryArgProfileConfig, with: CloudFrontClientTypes.QueryArgProfileConfig.write(value:to:))
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.FieldLevelEncryptionSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7914,21 +7369,6 @@ extension FunctionAlreadyExists {
     }
 }
 
-extension FunctionAlreadyExists {
-
-    static func write(value: FunctionAlreadyExists?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> FunctionAlreadyExists {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FunctionAlreadyExists()
-        value.properties.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
 /// A function with the same name already exists in this Amazon Web Services account. To create a function, you must provide a unique name. To update an existing function, use UpdateFunction.
 public struct FunctionAlreadyExists: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -8088,21 +7528,6 @@ extension FunctionInUse {
     }
 }
 
-extension FunctionInUse {
-
-    static func write(value: FunctionInUse?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> FunctionInUse {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FunctionInUse()
-        value.properties.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
 /// Cannot delete the function because it's attached to one or more cache behaviors.
 public struct FunctionInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -8128,14 +7553,6 @@ public struct FunctionInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWSSer
 }
 
 extension CloudFrontClientTypes.FunctionList {
-
-    static func write(value: CloudFrontClientTypes.FunctionList?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Items"].writeList(value.items, memberWritingClosure: CloudFrontClientTypes.FunctionSummary.write(value:to:), memberNodeInfo: "FunctionSummary", isFlattened: false)
-        try writer["MaxItems"].write(value.maxItems)
-        try writer["NextMarker"].write(value.nextMarker)
-        try writer["Quantity"].write(value.quantity)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.FunctionList {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8179,14 +7596,6 @@ extension CloudFrontClientTypes {
 }
 
 extension CloudFrontClientTypes.FunctionMetadata {
-
-    static func write(value: CloudFrontClientTypes.FunctionMetadata?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedTime"].writeTimestamp(value.createdTime, format: .dateTime)
-        try writer["FunctionARN"].write(value.functionARN)
-        try writer["LastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .dateTime)
-        try writer["Stage"].write(value.stage)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.FunctionMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8272,21 +7681,6 @@ extension FunctionSizeLimitExceeded {
     }
 }
 
-extension FunctionSizeLimitExceeded {
-
-    static func write(value: FunctionSizeLimitExceeded?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> FunctionSizeLimitExceeded {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FunctionSizeLimitExceeded()
-        value.properties.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
 /// The function is too large. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
 public struct FunctionSizeLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -8342,14 +7736,6 @@ extension CloudFrontClientTypes {
 }
 
 extension CloudFrontClientTypes.FunctionSummary {
-
-    static func write(value: CloudFrontClientTypes.FunctionSummary?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["FunctionConfig"].write(value.functionConfig, with: CloudFrontClientTypes.FunctionConfig.write(value:to:))
-        try writer["FunctionMetadata"].write(value.functionMetadata, with: CloudFrontClientTypes.FunctionMetadata.write(value:to:))
-        try writer["Name"].write(value.name)
-        try writer["Status"].write(value.status)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.FunctionSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -10576,21 +9962,6 @@ extension IllegalDelete {
     }
 }
 
-extension IllegalDelete {
-
-    static func write(value: IllegalDelete?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> IllegalDelete {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IllegalDelete()
-        value.properties.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
 /// You cannot delete a managed policy.
 public struct IllegalDelete: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -10624,21 +9995,6 @@ extension IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior {
-
-    static func write(value: IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior()
-        value.properties.message = try reader["Message"].readIfPresent()
         return value
     }
 }
@@ -10680,21 +10036,6 @@ extension IllegalOriginAccessConfiguration {
     }
 }
 
-extension IllegalOriginAccessConfiguration {
-
-    static func write(value: IllegalOriginAccessConfiguration?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> IllegalOriginAccessConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IllegalOriginAccessConfiguration()
-        value.properties.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
 /// An origin cannot contain both an origin access control (OAC) and an origin access identity (OAI).
 public struct IllegalOriginAccessConfiguration: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -10732,21 +10073,6 @@ extension IllegalUpdate {
     }
 }
 
-extension IllegalUpdate {
-
-    static func write(value: IllegalUpdate?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> IllegalUpdate {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IllegalUpdate()
-        value.properties.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
 /// The update contains modifications that are not allowed.
 public struct IllegalUpdate: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -10777,14 +10103,6 @@ extension CloudFrontClientTypes.ImportSource {
         guard let value else { return }
         try writer["SourceARN"].write(value.sourceARN)
         try writer["SourceType"].write(value.sourceType)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ImportSource {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.ImportSource()
-        value.sourceType = try reader["SourceType"].readIfPresent()
-        value.sourceARN = try reader["SourceARN"].readIfPresent()
-        return value
     }
 }
 
@@ -10850,21 +10168,6 @@ extension InconsistentQuantities {
     }
 }
 
-extension InconsistentQuantities {
-
-    static func write(value: InconsistentQuantities?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> InconsistentQuantities {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = InconsistentQuantities()
-        value.properties.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
 /// The value of Quantity and the size of Items don't match.
 public struct InconsistentQuantities: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -10898,21 +10201,6 @@ extension InvalidArgument {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidArgument {
-
-    static func write(value: InvalidArgument?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> InvalidArgument {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = InvalidArgument()
-        value.properties.message = try reader["Message"].readIfPresent()
         return value
     }
 }
@@ -10954,21 +10242,6 @@ extension InvalidDefaultRootObject {
     }
 }
 
-extension InvalidDefaultRootObject {
-
-    static func write(value: InvalidDefaultRootObject?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> InvalidDefaultRootObject {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = InvalidDefaultRootObject()
-        value.properties.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
 /// The default root object file name is too big or contains an invalid character.
 public struct InvalidDefaultRootObject: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -11002,21 +10275,6 @@ extension InvalidDomainNameForOriginAccessControl {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidDomainNameForOriginAccessControl {
-
-    static func write(value: InvalidDomainNameForOriginAccessControl?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> InvalidDomainNameForOriginAccessControl {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = InvalidDomainNameForOriginAccessControl()
-        value.properties.message = try reader["Message"].readIfPresent()
         return value
     }
 }
@@ -11058,21 +10316,6 @@ extension InvalidErrorCode {
     }
 }
 
-extension InvalidErrorCode {
-
-    static func write(value: InvalidErrorCode?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> InvalidErrorCode {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = InvalidErrorCode()
-        value.properties.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
 /// An invalid error code was specified.
 public struct InvalidErrorCode: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -11106,21 +10349,6 @@ extension InvalidForwardCookies {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidForwardCookies {
-
-    static func write(value: InvalidForwardCookies?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> InvalidForwardCookies {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = InvalidForwardCookies()
-        value.properties.message = try reader["Message"].readIfPresent()
         return value
     }
 }
@@ -11162,21 +10390,6 @@ extension InvalidFunctionAssociation {
     }
 }
 
-extension InvalidFunctionAssociation {
-
-    static func write(value: InvalidFunctionAssociation?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> InvalidFunctionAssociation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = InvalidFunctionAssociation()
-        value.properties.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
 /// A CloudFront function association is invalid.
 public struct InvalidFunctionAssociation: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -11210,21 +10423,6 @@ extension InvalidGeoRestrictionParameter {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidGeoRestrictionParameter {
-
-    static func write(value: InvalidGeoRestrictionParameter?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> InvalidGeoRestrictionParameter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = InvalidGeoRestrictionParameter()
-        value.properties.message = try reader["Message"].readIfPresent()
         return value
     }
 }
@@ -11266,21 +10464,6 @@ extension InvalidHeadersForS3Origin {
     }
 }
 
-extension InvalidHeadersForS3Origin {
-
-    static func write(value: InvalidHeadersForS3Origin?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> InvalidHeadersForS3Origin {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = InvalidHeadersForS3Origin()
-        value.properties.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
 /// The headers specified are not valid for an Amazon S3 origin.
 public struct InvalidHeadersForS3Origin: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -11314,21 +10497,6 @@ extension InvalidIfMatchVersion {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidIfMatchVersion {
-
-    static func write(value: InvalidIfMatchVersion?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> InvalidIfMatchVersion {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = InvalidIfMatchVersion()
-        value.properties.message = try reader["Message"].readIfPresent()
         return value
     }
 }
@@ -11370,21 +10538,6 @@ extension InvalidLambdaFunctionAssociation {
     }
 }
 
-extension InvalidLambdaFunctionAssociation {
-
-    static func write(value: InvalidLambdaFunctionAssociation?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> InvalidLambdaFunctionAssociation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = InvalidLambdaFunctionAssociation()
-        value.properties.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
 /// The specified Lambda@Edge function association is invalid.
 public struct InvalidLambdaFunctionAssociation: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -11418,21 +10571,6 @@ extension InvalidLocationCode {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidLocationCode {
-
-    static func write(value: InvalidLocationCode?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> InvalidLocationCode {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = InvalidLocationCode()
-        value.properties.message = try reader["Message"].readIfPresent()
         return value
     }
 }
@@ -11474,21 +10612,6 @@ extension InvalidMinimumProtocolVersion {
     }
 }
 
-extension InvalidMinimumProtocolVersion {
-
-    static func write(value: InvalidMinimumProtocolVersion?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> InvalidMinimumProtocolVersion {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = InvalidMinimumProtocolVersion()
-        value.properties.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
 /// The minimum protocol version specified is not valid.
 public struct InvalidMinimumProtocolVersion: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -11522,21 +10645,6 @@ extension InvalidOrigin {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidOrigin {
-
-    static func write(value: InvalidOrigin?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> InvalidOrigin {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = InvalidOrigin()
-        value.properties.message = try reader["Message"].readIfPresent()
         return value
     }
 }
@@ -11578,21 +10686,6 @@ extension InvalidOriginAccessControl {
     }
 }
 
-extension InvalidOriginAccessControl {
-
-    static func write(value: InvalidOriginAccessControl?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> InvalidOriginAccessControl {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = InvalidOriginAccessControl()
-        value.properties.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
 /// The origin access control is not valid.
 public struct InvalidOriginAccessControl: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -11626,21 +10719,6 @@ extension InvalidOriginAccessIdentity {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidOriginAccessIdentity {
-
-    static func write(value: InvalidOriginAccessIdentity?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> InvalidOriginAccessIdentity {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = InvalidOriginAccessIdentity()
-        value.properties.message = try reader["Message"].readIfPresent()
         return value
     }
 }
@@ -11682,21 +10760,6 @@ extension InvalidOriginKeepaliveTimeout {
     }
 }
 
-extension InvalidOriginKeepaliveTimeout {
-
-    static func write(value: InvalidOriginKeepaliveTimeout?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> InvalidOriginKeepaliveTimeout {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = InvalidOriginKeepaliveTimeout()
-        value.properties.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
 /// The keep alive timeout specified for the origin is not valid.
 public struct InvalidOriginKeepaliveTimeout: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -11730,21 +10793,6 @@ extension InvalidOriginReadTimeout {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidOriginReadTimeout {
-
-    static func write(value: InvalidOriginReadTimeout?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> InvalidOriginReadTimeout {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = InvalidOriginReadTimeout()
-        value.properties.message = try reader["Message"].readIfPresent()
         return value
     }
 }
@@ -11786,21 +10834,6 @@ extension InvalidProtocolSettings {
     }
 }
 
-extension InvalidProtocolSettings {
-
-    static func write(value: InvalidProtocolSettings?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> InvalidProtocolSettings {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = InvalidProtocolSettings()
-        value.properties.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
 /// You cannot specify SSLv3 as the minimum protocol version if you only want to support only clients that support Server Name Indication (SNI).
 public struct InvalidProtocolSettings: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -11834,21 +10867,6 @@ extension InvalidQueryStringParameters {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidQueryStringParameters {
-
-    static func write(value: InvalidQueryStringParameters?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> InvalidQueryStringParameters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = InvalidQueryStringParameters()
-        value.properties.message = try reader["Message"].readIfPresent()
         return value
     }
 }
@@ -11890,21 +10908,6 @@ extension InvalidRelativePath {
     }
 }
 
-extension InvalidRelativePath {
-
-    static func write(value: InvalidRelativePath?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> InvalidRelativePath {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = InvalidRelativePath()
-        value.properties.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
 /// The relative path is too big, is not URL-encoded, or does not begin with a slash (/).
 public struct InvalidRelativePath: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -11938,21 +10941,6 @@ extension InvalidRequiredProtocol {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidRequiredProtocol {
-
-    static func write(value: InvalidRequiredProtocol?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> InvalidRequiredProtocol {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = InvalidRequiredProtocol()
-        value.properties.message = try reader["Message"].readIfPresent()
         return value
     }
 }
@@ -11994,21 +10982,6 @@ extension InvalidResponseCode {
     }
 }
 
-extension InvalidResponseCode {
-
-    static func write(value: InvalidResponseCode?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> InvalidResponseCode {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = InvalidResponseCode()
-        value.properties.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
 /// A response code is not valid.
 public struct InvalidResponseCode: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -12042,21 +11015,6 @@ extension InvalidTTLOrder {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidTTLOrder {
-
-    static func write(value: InvalidTTLOrder?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> InvalidTTLOrder {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = InvalidTTLOrder()
-        value.properties.message = try reader["Message"].readIfPresent()
         return value
     }
 }
@@ -12098,21 +11056,6 @@ extension InvalidTagging {
     }
 }
 
-extension InvalidTagging {
-
-    static func write(value: InvalidTagging?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> InvalidTagging {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = InvalidTagging()
-        value.properties.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
 /// The tagging specified is not valid.
 public struct InvalidTagging: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -12146,21 +11089,6 @@ extension InvalidViewerCertificate {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidViewerCertificate {
-
-    static func write(value: InvalidViewerCertificate?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> InvalidViewerCertificate {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = InvalidViewerCertificate()
-        value.properties.message = try reader["Message"].readIfPresent()
         return value
     }
 }
@@ -12202,21 +11130,6 @@ extension InvalidWebACLId {
     }
 }
 
-extension InvalidWebACLId {
-
-    static func write(value: InvalidWebACLId?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> InvalidWebACLId {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = InvalidWebACLId()
-        value.properties.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
 /// A web ACL ID specified is not valid. To specify a web ACL created using the latest version of WAF, use the ACL ARN, for example arn:aws:wafv2:us-east-1:123456789012:global/webacl/ExampleWebACL/473e64fd-f30b-4765-81a0-62ad96dd167a. To specify a web ACL created using WAF Classic, use the ACL ID, for example 473e64fd-f30b-4765-81a0-62ad96dd167a.
 public struct InvalidWebACLId: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -12242,14 +11155,6 @@ public struct InvalidWebACLId: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
 }
 
 extension CloudFrontClientTypes.Invalidation {
-
-    static func write(value: CloudFrontClientTypes.Invalidation?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["CreateTime"].writeTimestamp(value.createTime, format: .dateTime)
-        try writer["Id"].write(value.id)
-        try writer["InvalidationBatch"].write(value.invalidationBatch, with: CloudFrontClientTypes.InvalidationBatch.write(value:to:))
-        try writer["Status"].write(value.status)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.Invalidation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -12335,16 +11240,6 @@ extension CloudFrontClientTypes {
 
 extension CloudFrontClientTypes.InvalidationList {
 
-    static func write(value: CloudFrontClientTypes.InvalidationList?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["IsTruncated"].write(value.isTruncated)
-        try writer["Items"].writeList(value.items, memberWritingClosure: CloudFrontClientTypes.InvalidationSummary.write(value:to:), memberNodeInfo: "InvalidationSummary", isFlattened: false)
-        try writer["Marker"].write(value.marker)
-        try writer["MaxItems"].write(value.maxItems)
-        try writer["NextMarker"].write(value.nextMarker)
-        try writer["Quantity"].write(value.quantity)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.InvalidationList {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudFrontClientTypes.InvalidationList()
@@ -12399,13 +11294,6 @@ extension CloudFrontClientTypes {
 }
 
 extension CloudFrontClientTypes.InvalidationSummary {
-
-    static func write(value: CloudFrontClientTypes.InvalidationSummary?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["CreateTime"].writeTimestamp(value.createTime, format: .dateTime)
-        try writer["Id"].write(value.id)
-        try writer["Status"].write(value.status)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.InvalidationSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -12479,12 +11367,6 @@ extension CloudFrontClientTypes {
 
 extension CloudFrontClientTypes.KGKeyPairIds {
 
-    static func write(value: CloudFrontClientTypes.KGKeyPairIds?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["KeyGroupId"].write(value.keyGroupId)
-        try writer["KeyPairIds"].write(value.keyPairIds, with: CloudFrontClientTypes.KeyPairIds.write(value:to:))
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.KGKeyPairIds {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudFrontClientTypes.KGKeyPairIds()
@@ -12515,13 +11397,6 @@ extension CloudFrontClientTypes {
 }
 
 extension CloudFrontClientTypes.KeyGroup {
-
-    static func write(value: CloudFrontClientTypes.KeyGroup?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Id"].write(value.id)
-        try writer["KeyGroupConfig"].write(value.keyGroupConfig, with: CloudFrontClientTypes.KeyGroupConfig.write(value:to:))
-        try writer["LastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .dateTime)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.KeyGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -12569,21 +11444,6 @@ extension KeyGroupAlreadyExists {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension KeyGroupAlreadyExists {
-
-    static func write(value: KeyGroupAlreadyExists?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> KeyGroupAlreadyExists {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KeyGroupAlreadyExists()
-        value.properties.message = try reader["Message"].readIfPresent()
         return value
     }
 }
@@ -12659,14 +11519,6 @@ extension CloudFrontClientTypes {
 
 extension CloudFrontClientTypes.KeyGroupList {
 
-    static func write(value: CloudFrontClientTypes.KeyGroupList?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Items"].writeList(value.items, memberWritingClosure: CloudFrontClientTypes.KeyGroupSummary.write(value:to:), memberNodeInfo: "KeyGroupSummary", isFlattened: false)
-        try writer["MaxItems"].write(value.maxItems)
-        try writer["NextMarker"].write(value.nextMarker)
-        try writer["Quantity"].write(value.quantity)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.KeyGroupList {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudFrontClientTypes.KeyGroupList()
@@ -12710,11 +11562,6 @@ extension CloudFrontClientTypes {
 
 extension CloudFrontClientTypes.KeyGroupSummary {
 
-    static func write(value: CloudFrontClientTypes.KeyGroupSummary?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["KeyGroup"].write(value.keyGroup, with: CloudFrontClientTypes.KeyGroup.write(value:to:))
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.KeyGroupSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudFrontClientTypes.KeyGroupSummary()
@@ -12741,12 +11588,6 @@ extension CloudFrontClientTypes {
 }
 
 extension CloudFrontClientTypes.KeyPairIds {
-
-    static func write(value: CloudFrontClientTypes.KeyPairIds?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Items"].writeList(value.items, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "KeyPairId", isFlattened: false)
-        try writer["Quantity"].write(value.quantity)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.KeyPairIds {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -12779,16 +11620,6 @@ extension CloudFrontClientTypes {
 }
 
 extension CloudFrontClientTypes.KeyValueStore {
-
-    static func write(value: CloudFrontClientTypes.KeyValueStore?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["ARN"].write(value.arn)
-        try writer["Comment"].write(value.comment)
-        try writer["Id"].write(value.id)
-        try writer["LastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .dateTime)
-        try writer["Name"].write(value.name)
-        try writer["Status"].write(value.status)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.KeyValueStore {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -12915,14 +11746,6 @@ extension CloudFrontClientTypes {
 }
 
 extension CloudFrontClientTypes.KeyValueStoreList {
-
-    static func write(value: CloudFrontClientTypes.KeyValueStoreList?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Items"].writeList(value.items, memberWritingClosure: CloudFrontClientTypes.KeyValueStore.write(value:to:), memberNodeInfo: "KeyValueStore", isFlattened: false)
-        try writer["MaxItems"].write(value.maxItems)
-        try writer["NextMarker"].write(value.nextMarker)
-        try writer["Quantity"].write(value.quantity)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.KeyValueStoreList {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -15259,21 +14082,6 @@ extension MissingBody {
     }
 }
 
-extension MissingBody {
-
-    static func write(value: MissingBody?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> MissingBody {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MissingBody()
-        value.properties.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
 /// This operation requires a body. Ensure that the body is present and the Content-Type header is set.
 public struct MissingBody: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -15342,21 +14150,6 @@ extension MonitoringSubscriptionAlreadyExists {
     }
 }
 
-extension MonitoringSubscriptionAlreadyExists {
-
-    static func write(value: MonitoringSubscriptionAlreadyExists?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> MonitoringSubscriptionAlreadyExists {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MonitoringSubscriptionAlreadyExists()
-        value.properties.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
 /// A monitoring subscription already exists for the specified distribution.
 public struct MonitoringSubscriptionAlreadyExists: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -15390,21 +14183,6 @@ extension NoSuchCachePolicy {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension NoSuchCachePolicy {
-
-    static func write(value: NoSuchCachePolicy?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> NoSuchCachePolicy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NoSuchCachePolicy()
-        value.properties.message = try reader["Message"].readIfPresent()
         return value
     }
 }
@@ -15446,21 +14224,6 @@ extension NoSuchCloudFrontOriginAccessIdentity {
     }
 }
 
-extension NoSuchCloudFrontOriginAccessIdentity {
-
-    static func write(value: NoSuchCloudFrontOriginAccessIdentity?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> NoSuchCloudFrontOriginAccessIdentity {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NoSuchCloudFrontOriginAccessIdentity()
-        value.properties.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
 /// The specified origin access identity does not exist.
 public struct NoSuchCloudFrontOriginAccessIdentity: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -15494,21 +14257,6 @@ extension NoSuchContinuousDeploymentPolicy {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension NoSuchContinuousDeploymentPolicy {
-
-    static func write(value: NoSuchContinuousDeploymentPolicy?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> NoSuchContinuousDeploymentPolicy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NoSuchContinuousDeploymentPolicy()
-        value.properties.message = try reader["Message"].readIfPresent()
         return value
     }
 }
@@ -15550,21 +14298,6 @@ extension NoSuchDistribution {
     }
 }
 
-extension NoSuchDistribution {
-
-    static func write(value: NoSuchDistribution?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> NoSuchDistribution {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NoSuchDistribution()
-        value.properties.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
 /// The specified distribution does not exist.
 public struct NoSuchDistribution: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -15598,21 +14331,6 @@ extension NoSuchFieldLevelEncryptionConfig {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension NoSuchFieldLevelEncryptionConfig {
-
-    static func write(value: NoSuchFieldLevelEncryptionConfig?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> NoSuchFieldLevelEncryptionConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NoSuchFieldLevelEncryptionConfig()
-        value.properties.message = try reader["Message"].readIfPresent()
         return value
     }
 }
@@ -15654,21 +14372,6 @@ extension NoSuchFieldLevelEncryptionProfile {
     }
 }
 
-extension NoSuchFieldLevelEncryptionProfile {
-
-    static func write(value: NoSuchFieldLevelEncryptionProfile?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> NoSuchFieldLevelEncryptionProfile {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NoSuchFieldLevelEncryptionProfile()
-        value.properties.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
 /// The specified profile for field-level encryption doesn't exist.
 public struct NoSuchFieldLevelEncryptionProfile: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -15702,21 +14405,6 @@ extension NoSuchFunctionExists {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension NoSuchFunctionExists {
-
-    static func write(value: NoSuchFunctionExists?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> NoSuchFunctionExists {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NoSuchFunctionExists()
-        value.properties.message = try reader["Message"].readIfPresent()
         return value
     }
 }
@@ -15758,21 +14446,6 @@ extension NoSuchInvalidation {
     }
 }
 
-extension NoSuchInvalidation {
-
-    static func write(value: NoSuchInvalidation?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> NoSuchInvalidation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NoSuchInvalidation()
-        value.properties.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
 /// The specified invalidation does not exist.
 public struct NoSuchInvalidation: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -15806,21 +14479,6 @@ extension NoSuchMonitoringSubscription {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension NoSuchMonitoringSubscription {
-
-    static func write(value: NoSuchMonitoringSubscription?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> NoSuchMonitoringSubscription {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NoSuchMonitoringSubscription()
-        value.properties.message = try reader["Message"].readIfPresent()
         return value
     }
 }
@@ -15862,21 +14520,6 @@ extension NoSuchOrigin {
     }
 }
 
-extension NoSuchOrigin {
-
-    static func write(value: NoSuchOrigin?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> NoSuchOrigin {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NoSuchOrigin()
-        value.properties.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
 /// No origin exists with the specified Origin Id.
 public struct NoSuchOrigin: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -15910,21 +14553,6 @@ extension NoSuchOriginAccessControl {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension NoSuchOriginAccessControl {
-
-    static func write(value: NoSuchOriginAccessControl?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> NoSuchOriginAccessControl {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NoSuchOriginAccessControl()
-        value.properties.message = try reader["Message"].readIfPresent()
         return value
     }
 }
@@ -15966,21 +14594,6 @@ extension NoSuchOriginRequestPolicy {
     }
 }
 
-extension NoSuchOriginRequestPolicy {
-
-    static func write(value: NoSuchOriginRequestPolicy?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> NoSuchOriginRequestPolicy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NoSuchOriginRequestPolicy()
-        value.properties.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
 /// The origin request policy does not exist.
 public struct NoSuchOriginRequestPolicy: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -16014,21 +14627,6 @@ extension NoSuchPublicKey {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension NoSuchPublicKey {
-
-    static func write(value: NoSuchPublicKey?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> NoSuchPublicKey {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NoSuchPublicKey()
-        value.properties.message = try reader["Message"].readIfPresent()
         return value
     }
 }
@@ -16070,21 +14668,6 @@ extension NoSuchRealtimeLogConfig {
     }
 }
 
-extension NoSuchRealtimeLogConfig {
-
-    static func write(value: NoSuchRealtimeLogConfig?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> NoSuchRealtimeLogConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NoSuchRealtimeLogConfig()
-        value.properties.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
 /// The real-time log configuration does not exist.
 public struct NoSuchRealtimeLogConfig: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -16118,21 +14701,6 @@ extension NoSuchResource {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension NoSuchResource {
-
-    static func write(value: NoSuchResource?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> NoSuchResource {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NoSuchResource()
-        value.properties.message = try reader["Message"].readIfPresent()
         return value
     }
 }
@@ -16174,21 +14742,6 @@ extension NoSuchResponseHeadersPolicy {
     }
 }
 
-extension NoSuchResponseHeadersPolicy {
-
-    static func write(value: NoSuchResponseHeadersPolicy?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> NoSuchResponseHeadersPolicy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NoSuchResponseHeadersPolicy()
-        value.properties.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
 /// The response headers policy does not exist.
 public struct NoSuchResponseHeadersPolicy: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -16222,21 +14775,6 @@ extension NoSuchStreamingDistribution {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension NoSuchStreamingDistribution {
-
-    static func write(value: NoSuchStreamingDistribution?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> NoSuchStreamingDistribution {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NoSuchStreamingDistribution()
-        value.properties.message = try reader["Message"].readIfPresent()
         return value
     }
 }
@@ -16374,12 +14912,6 @@ extension CloudFrontClientTypes {
 
 extension CloudFrontClientTypes.OriginAccessControl {
 
-    static func write(value: CloudFrontClientTypes.OriginAccessControl?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Id"].write(value.id)
-        try writer["OriginAccessControlConfig"].write(value.originAccessControlConfig, with: CloudFrontClientTypes.OriginAccessControlConfig.write(value:to:))
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.OriginAccessControl {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudFrontClientTypes.OriginAccessControl()
@@ -16419,21 +14951,6 @@ extension OriginAccessControlAlreadyExists {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension OriginAccessControlAlreadyExists {
-
-    static func write(value: OriginAccessControlAlreadyExists?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> OriginAccessControlAlreadyExists {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OriginAccessControlAlreadyExists()
-        value.properties.message = try reader["Message"].readIfPresent()
         return value
     }
 }
@@ -16540,21 +15057,6 @@ extension OriginAccessControlInUse {
     }
 }
 
-extension OriginAccessControlInUse {
-
-    static func write(value: OriginAccessControlInUse?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> OriginAccessControlInUse {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OriginAccessControlInUse()
-        value.properties.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
 /// Cannot delete the origin access control because it's in use by one or more distributions.
 public struct OriginAccessControlInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -16580,16 +15082,6 @@ public struct OriginAccessControlInUse: ClientRuntime.ModeledError, AWSClientRun
 }
 
 extension CloudFrontClientTypes.OriginAccessControlList {
-
-    static func write(value: CloudFrontClientTypes.OriginAccessControlList?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["IsTruncated"].write(value.isTruncated)
-        try writer["Items"].writeList(value.items, memberWritingClosure: CloudFrontClientTypes.OriginAccessControlSummary.write(value:to:), memberNodeInfo: "OriginAccessControlSummary", isFlattened: false)
-        try writer["Marker"].write(value.marker)
-        try writer["MaxItems"].write(value.maxItems)
-        try writer["NextMarker"].write(value.nextMarker)
-        try writer["Quantity"].write(value.quantity)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.OriginAccessControlList {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -16741,16 +15233,6 @@ extension CloudFrontClientTypes {
 }
 
 extension CloudFrontClientTypes.OriginAccessControlSummary {
-
-    static func write(value: CloudFrontClientTypes.OriginAccessControlSummary?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Description"].write(value.description)
-        try writer["Id"].write(value.id)
-        try writer["Name"].write(value.name)
-        try writer["OriginAccessControlOriginType"].write(value.originAccessControlOriginType)
-        try writer["SigningBehavior"].write(value.signingBehavior)
-        try writer["SigningProtocol"].write(value.signingProtocol)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.OriginAccessControlSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -17079,13 +15561,6 @@ extension CloudFrontClientTypes {
 
 extension CloudFrontClientTypes.OriginRequestPolicy {
 
-    static func write(value: CloudFrontClientTypes.OriginRequestPolicy?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Id"].write(value.id)
-        try writer["LastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .dateTime)
-        try writer["OriginRequestPolicyConfig"].write(value.originRequestPolicyConfig, with: CloudFrontClientTypes.OriginRequestPolicyConfig.write(value:to:))
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.OriginRequestPolicy {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudFrontClientTypes.OriginRequestPolicy()
@@ -17141,21 +15616,6 @@ extension OriginRequestPolicyAlreadyExists {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension OriginRequestPolicyAlreadyExists {
-
-    static func write(value: OriginRequestPolicyAlreadyExists?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> OriginRequestPolicyAlreadyExists {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OriginRequestPolicyAlreadyExists()
-        value.properties.message = try reader["Message"].readIfPresent()
         return value
     }
 }
@@ -17434,21 +15894,6 @@ extension OriginRequestPolicyInUse {
     }
 }
 
-extension OriginRequestPolicyInUse {
-
-    static func write(value: OriginRequestPolicyInUse?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> OriginRequestPolicyInUse {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OriginRequestPolicyInUse()
-        value.properties.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
 /// Cannot delete the origin request policy because it is attached to one or more cache behaviors.
 public struct OriginRequestPolicyInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -17474,14 +15919,6 @@ public struct OriginRequestPolicyInUse: ClientRuntime.ModeledError, AWSClientRun
 }
 
 extension CloudFrontClientTypes.OriginRequestPolicyList {
-
-    static func write(value: CloudFrontClientTypes.OriginRequestPolicyList?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Items"].writeList(value.items, memberWritingClosure: CloudFrontClientTypes.OriginRequestPolicySummary.write(value:to:), memberNodeInfo: "OriginRequestPolicySummary", isFlattened: false)
-        try writer["MaxItems"].write(value.maxItems)
-        try writer["NextMarker"].write(value.nextMarker)
-        try writer["Quantity"].write(value.quantity)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.OriginRequestPolicyList {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -17607,12 +16044,6 @@ extension CloudFrontClientTypes {
 }
 
 extension CloudFrontClientTypes.OriginRequestPolicySummary {
-
-    static func write(value: CloudFrontClientTypes.OriginRequestPolicySummary?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["OriginRequestPolicy"].write(value.originRequestPolicy, with: CloudFrontClientTypes.OriginRequestPolicy.write(value:to:))
-        try writer["Type"].write(value.type)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.OriginRequestPolicySummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -17919,21 +16350,6 @@ extension PreconditionFailed {
     }
 }
 
-extension PreconditionFailed {
-
-    static func write(value: PreconditionFailed?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> PreconditionFailed {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PreconditionFailed()
-        value.properties.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
 /// The precondition in one or more of the request fields evaluated to false.
 public struct PreconditionFailed: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -17993,13 +16409,6 @@ extension CloudFrontClientTypes {
 
 extension CloudFrontClientTypes.PublicKey {
 
-    static func write(value: CloudFrontClientTypes.PublicKey?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedTime"].writeTimestamp(value.createdTime, format: .dateTime)
-        try writer["Id"].write(value.id)
-        try writer["PublicKeyConfig"].write(value.publicKeyConfig, with: CloudFrontClientTypes.PublicKeyConfig.write(value:to:))
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.PublicKey {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudFrontClientTypes.PublicKey()
@@ -18046,21 +16455,6 @@ extension PublicKeyAlreadyExists {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension PublicKeyAlreadyExists {
-
-    static func write(value: PublicKeyAlreadyExists?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> PublicKeyAlreadyExists {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PublicKeyAlreadyExists()
-        value.properties.message = try reader["Message"].readIfPresent()
         return value
     }
 }
@@ -18154,21 +16548,6 @@ extension PublicKeyInUse {
     }
 }
 
-extension PublicKeyInUse {
-
-    static func write(value: PublicKeyInUse?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> PublicKeyInUse {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PublicKeyInUse()
-        value.properties.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
 /// The specified public key is in use.
 public struct PublicKeyInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -18194,14 +16573,6 @@ public struct PublicKeyInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWSSe
 }
 
 extension CloudFrontClientTypes.PublicKeyList {
-
-    static func write(value: CloudFrontClientTypes.PublicKeyList?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Items"].writeList(value.items, memberWritingClosure: CloudFrontClientTypes.PublicKeySummary.write(value:to:), memberNodeInfo: "PublicKeySummary", isFlattened: false)
-        try writer["MaxItems"].write(value.maxItems)
-        try writer["NextMarker"].write(value.nextMarker)
-        try writer["Quantity"].write(value.quantity)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.PublicKeyList {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -18245,15 +16616,6 @@ extension CloudFrontClientTypes {
 }
 
 extension CloudFrontClientTypes.PublicKeySummary {
-
-    static func write(value: CloudFrontClientTypes.PublicKeySummary?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Comment"].write(value.comment)
-        try writer["CreatedTime"].writeTimestamp(value.createdTime, format: .dateTime)
-        try writer["EncodedKey"].write(value.encodedKey)
-        try writer["Id"].write(value.id)
-        try writer["Name"].write(value.name)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.PublicKeySummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -18474,21 +16836,6 @@ extension QueryArgProfileEmpty {
     }
 }
 
-extension QueryArgProfileEmpty {
-
-    static func write(value: QueryArgProfileEmpty?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> QueryArgProfileEmpty {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QueryArgProfileEmpty()
-        value.properties.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
 /// No profile specified for the field-level encryption query argument.
 public struct QueryArgProfileEmpty: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -18629,15 +16976,6 @@ extension CloudFrontClientTypes {
 
 extension CloudFrontClientTypes.RealtimeLogConfig {
 
-    static func write(value: CloudFrontClientTypes.RealtimeLogConfig?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["ARN"].write(value.arn)
-        try writer["EndPoints"].writeList(value.endPoints, memberWritingClosure: CloudFrontClientTypes.EndPoint.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Fields"].writeList(value.fields, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "Field", isFlattened: false)
-        try writer["Name"].write(value.name)
-        try writer["SamplingRate"].write(value.samplingRate)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.RealtimeLogConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudFrontClientTypes.RealtimeLogConfig()
@@ -18700,21 +17038,6 @@ extension RealtimeLogConfigAlreadyExists {
     }
 }
 
-extension RealtimeLogConfigAlreadyExists {
-
-    static func write(value: RealtimeLogConfigAlreadyExists?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> RealtimeLogConfigAlreadyExists {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RealtimeLogConfigAlreadyExists()
-        value.properties.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
 /// A real-time log configuration with this name already exists. You must provide a unique name. To modify an existing real-time log configuration, use UpdateRealtimeLogConfig.
 public struct RealtimeLogConfigAlreadyExists: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -18748,21 +17071,6 @@ extension RealtimeLogConfigInUse {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension RealtimeLogConfigInUse {
-
-    static func write(value: RealtimeLogConfigInUse?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> RealtimeLogConfigInUse {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RealtimeLogConfigInUse()
-        value.properties.message = try reader["Message"].readIfPresent()
         return value
     }
 }
@@ -18804,21 +17112,6 @@ extension RealtimeLogConfigOwnerMismatch {
     }
 }
 
-extension RealtimeLogConfigOwnerMismatch {
-
-    static func write(value: RealtimeLogConfigOwnerMismatch?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> RealtimeLogConfigOwnerMismatch {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RealtimeLogConfigOwnerMismatch()
-        value.properties.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
 /// The specified real-time log configuration belongs to a different Amazon Web Services account.
 public struct RealtimeLogConfigOwnerMismatch: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -18844,15 +17137,6 @@ public struct RealtimeLogConfigOwnerMismatch: ClientRuntime.ModeledError, AWSCli
 }
 
 extension CloudFrontClientTypes.RealtimeLogConfigs {
-
-    static func write(value: CloudFrontClientTypes.RealtimeLogConfigs?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["IsTruncated"].write(value.isTruncated)
-        try writer["Items"].writeList(value.items, memberWritingClosure: CloudFrontClientTypes.RealtimeLogConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Marker"].write(value.marker)
-        try writer["MaxItems"].write(value.maxItems)
-        try writer["NextMarker"].write(value.nextMarker)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.RealtimeLogConfigs {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -19024,21 +17308,6 @@ extension ResourceInUse {
     }
 }
 
-extension ResourceInUse {
-
-    static func write(value: ResourceInUse?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> ResourceInUse {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ResourceInUse()
-        value.properties.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
 /// Cannot delete this resource because it is in use.
 public struct ResourceInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -19064,13 +17333,6 @@ public struct ResourceInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWSSer
 }
 
 extension CloudFrontClientTypes.ResponseHeadersPolicy {
-
-    static func write(value: CloudFrontClientTypes.ResponseHeadersPolicy?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Id"].write(value.id)
-        try writer["LastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .dateTime)
-        try writer["ResponseHeadersPolicyConfig"].write(value.responseHeadersPolicyConfig, with: CloudFrontClientTypes.ResponseHeadersPolicyConfig.write(value:to:))
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ResponseHeadersPolicy {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -19340,21 +17602,6 @@ extension ResponseHeadersPolicyAlreadyExists {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension ResponseHeadersPolicyAlreadyExists {
-
-    static func write(value: ResponseHeadersPolicyAlreadyExists?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> ResponseHeadersPolicyAlreadyExists {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ResponseHeadersPolicyAlreadyExists()
-        value.properties.message = try reader["Message"].readIfPresent()
         return value
     }
 }
@@ -19730,21 +17977,6 @@ extension ResponseHeadersPolicyInUse {
     }
 }
 
-extension ResponseHeadersPolicyInUse {
-
-    static func write(value: ResponseHeadersPolicyInUse?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> ResponseHeadersPolicyInUse {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ResponseHeadersPolicyInUse()
-        value.properties.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
 /// Cannot delete the response headers policy because it is attached to one or more cache behaviors in a CloudFront distribution.
 public struct ResponseHeadersPolicyInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -19770,14 +18002,6 @@ public struct ResponseHeadersPolicyInUse: ClientRuntime.ModeledError, AWSClientR
 }
 
 extension CloudFrontClientTypes.ResponseHeadersPolicyList {
-
-    static func write(value: CloudFrontClientTypes.ResponseHeadersPolicyList?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Items"].writeList(value.items, memberWritingClosure: CloudFrontClientTypes.ResponseHeadersPolicySummary.write(value:to:), memberNodeInfo: "ResponseHeadersPolicySummary", isFlattened: false)
-        try writer["MaxItems"].write(value.maxItems)
-        try writer["NextMarker"].write(value.nextMarker)
-        try writer["Quantity"].write(value.quantity)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ResponseHeadersPolicyList {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -20100,12 +18324,6 @@ extension CloudFrontClientTypes {
 
 extension CloudFrontClientTypes.ResponseHeadersPolicySummary {
 
-    static func write(value: CloudFrontClientTypes.ResponseHeadersPolicySummary?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["ResponseHeadersPolicy"].write(value.responseHeadersPolicy, with: CloudFrontClientTypes.ResponseHeadersPolicy.write(value:to:))
-        try writer["Type"].write(value.type)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ResponseHeadersPolicySummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudFrontClientTypes.ResponseHeadersPolicySummary()
@@ -20395,12 +18613,6 @@ extension CloudFrontClientTypes {
 
 extension CloudFrontClientTypes.Signer {
 
-    static func write(value: CloudFrontClientTypes.Signer?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["AwsAccountNumber"].write(value.awsAccountNumber)
-        try writer["KeyPairIds"].write(value.keyPairIds, with: CloudFrontClientTypes.KeyPairIds.write(value:to:))
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.Signer {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudFrontClientTypes.Signer()
@@ -20517,21 +18729,6 @@ extension StagingDistributionInUse {
     }
 }
 
-extension StagingDistributionInUse {
-
-    static func write(value: StagingDistributionInUse?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> StagingDistributionInUse {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = StagingDistributionInUse()
-        value.properties.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
 /// A continuous deployment policy for this staging distribution already exists.
 public struct StagingDistributionInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -20596,17 +18793,6 @@ extension CloudFrontClientTypes {
 }
 
 extension CloudFrontClientTypes.StreamingDistribution {
-
-    static func write(value: CloudFrontClientTypes.StreamingDistribution?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["ARN"].write(value.arn)
-        try writer["ActiveTrustedSigners"].write(value.activeTrustedSigners, with: CloudFrontClientTypes.ActiveTrustedSigners.write(value:to:))
-        try writer["DomainName"].write(value.domainName)
-        try writer["Id"].write(value.id)
-        try writer["LastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .dateTime)
-        try writer["Status"].write(value.status)
-        try writer["StreamingDistributionConfig"].write(value.streamingDistributionConfig, with: CloudFrontClientTypes.StreamingDistributionConfig.write(value:to:))
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.StreamingDistribution {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -20677,21 +18863,6 @@ extension StreamingDistributionAlreadyExists {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension StreamingDistributionAlreadyExists {
-
-    static func write(value: StreamingDistributionAlreadyExists?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> StreamingDistributionAlreadyExists {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = StreamingDistributionAlreadyExists()
-        value.properties.message = try reader["Message"].readIfPresent()
         return value
     }
 }
@@ -20805,14 +18976,6 @@ extension CloudFrontClientTypes.StreamingDistributionConfigWithTags {
         try writer["StreamingDistributionConfig"].write(value.streamingDistributionConfig, with: CloudFrontClientTypes.StreamingDistributionConfig.write(value:to:))
         try writer["Tags"].write(value.tags, with: CloudFrontClientTypes.Tags.write(value:to:))
     }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.StreamingDistributionConfigWithTags {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.StreamingDistributionConfigWithTags()
-        value.streamingDistributionConfig = try reader["StreamingDistributionConfig"].readIfPresent(with: CloudFrontClientTypes.StreamingDistributionConfig.read(from:))
-        value.tags = try reader["Tags"].readIfPresent(with: CloudFrontClientTypes.Tags.read(from:))
-        return value
-    }
 }
 
 extension CloudFrontClientTypes {
@@ -20838,16 +19001,6 @@ extension CloudFrontClientTypes {
 }
 
 extension CloudFrontClientTypes.StreamingDistributionList {
-
-    static func write(value: CloudFrontClientTypes.StreamingDistributionList?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["IsTruncated"].write(value.isTruncated)
-        try writer["Items"].writeList(value.items, memberWritingClosure: CloudFrontClientTypes.StreamingDistributionSummary.write(value:to:), memberNodeInfo: "StreamingDistributionSummary", isFlattened: false)
-        try writer["Marker"].write(value.marker)
-        try writer["MaxItems"].write(value.maxItems)
-        try writer["NextMarker"].write(value.nextMarker)
-        try writer["Quantity"].write(value.quantity)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.StreamingDistributionList {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -20915,21 +19068,6 @@ extension StreamingDistributionNotDisabled {
     }
 }
 
-extension StreamingDistributionNotDisabled {
-
-    static func write(value: StreamingDistributionNotDisabled?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> StreamingDistributionNotDisabled {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = StreamingDistributionNotDisabled()
-        value.properties.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
 /// The specified CloudFront distribution is not disabled. You must disable the distribution before you can delete it.
 public struct StreamingDistributionNotDisabled: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -20955,21 +19093,6 @@ public struct StreamingDistributionNotDisabled: ClientRuntime.ModeledError, AWSC
 }
 
 extension CloudFrontClientTypes.StreamingDistributionSummary {
-
-    static func write(value: CloudFrontClientTypes.StreamingDistributionSummary?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["ARN"].write(value.arn)
-        try writer["Aliases"].write(value.aliases, with: CloudFrontClientTypes.Aliases.write(value:to:))
-        try writer["Comment"].write(value.comment)
-        try writer["DomainName"].write(value.domainName)
-        try writer["Enabled"].write(value.enabled)
-        try writer["Id"].write(value.id)
-        try writer["LastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: .dateTime)
-        try writer["PriceClass"].write(value.priceClass)
-        try writer["S3Origin"].write(value.s3Origin, with: CloudFrontClientTypes.S3Origin.write(value:to:))
-        try writer["Status"].write(value.status)
-        try writer["TrustedSigners"].write(value.trustedSigners, with: CloudFrontClientTypes.TrustedSigners.write(value:to:))
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.StreamingDistributionSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -21146,13 +19269,6 @@ extension CloudFrontClientTypes.TagKeys {
         guard let value else { return }
         try writer["Items"].writeList(value.items, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "Key", isFlattened: false)
     }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.TagKeys {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.TagKeys()
-        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "Key", isFlattened: false)
-        return value
-    }
 }
 
 extension CloudFrontClientTypes {
@@ -21293,21 +19409,6 @@ extension TestFunctionFailed {
     }
 }
 
-extension TestFunctionFailed {
-
-    static func write(value: TestFunctionFailed?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> TestFunctionFailed {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TestFunctionFailed()
-        value.properties.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
 /// The CloudFront function failed.
 public struct TestFunctionFailed: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -21443,15 +19544,6 @@ extension CloudFrontClientTypes.TestResult: Swift.CustomDebugStringConvertible {
 
 extension CloudFrontClientTypes.TestResult {
 
-    static func write(value: CloudFrontClientTypes.TestResult?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["ComputeUtilization"].write(value.computeUtilization)
-        try writer["FunctionErrorMessage"].write(value.functionErrorMessage)
-        try writer["FunctionExecutionLogs"].writeList(value.functionExecutionLogs, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["FunctionOutput"].write(value.functionOutput)
-        try writer["FunctionSummary"].write(value.functionSummary, with: CloudFrontClientTypes.FunctionSummary.write(value:to:))
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.TestResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudFrontClientTypes.TestResult()
@@ -21509,21 +19601,6 @@ extension TooLongCSPInResponseHeadersPolicy {
     }
 }
 
-extension TooLongCSPInResponseHeadersPolicy {
-
-    static func write(value: TooLongCSPInResponseHeadersPolicy?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> TooLongCSPInResponseHeadersPolicy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TooLongCSPInResponseHeadersPolicy()
-        value.properties.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
 /// The length of the Content-Security-Policy header value in the response headers policy exceeds the maximum. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
 public struct TooLongCSPInResponseHeadersPolicy: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -21557,21 +19634,6 @@ extension TooManyCacheBehaviors {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension TooManyCacheBehaviors {
-
-    static func write(value: TooManyCacheBehaviors?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> TooManyCacheBehaviors {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TooManyCacheBehaviors()
-        value.properties.message = try reader["Message"].readIfPresent()
         return value
     }
 }
@@ -21613,21 +19675,6 @@ extension TooManyCachePolicies {
     }
 }
 
-extension TooManyCachePolicies {
-
-    static func write(value: TooManyCachePolicies?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> TooManyCachePolicies {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TooManyCachePolicies()
-        value.properties.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
 /// You have reached the maximum number of cache policies for this Amazon Web Services account. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
 public struct TooManyCachePolicies: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -21661,21 +19708,6 @@ extension TooManyCertificates {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension TooManyCertificates {
-
-    static func write(value: TooManyCertificates?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> TooManyCertificates {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TooManyCertificates()
-        value.properties.message = try reader["Message"].readIfPresent()
         return value
     }
 }
@@ -21717,21 +19749,6 @@ extension TooManyCloudFrontOriginAccessIdentities {
     }
 }
 
-extension TooManyCloudFrontOriginAccessIdentities {
-
-    static func write(value: TooManyCloudFrontOriginAccessIdentities?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> TooManyCloudFrontOriginAccessIdentities {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TooManyCloudFrontOriginAccessIdentities()
-        value.properties.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
 /// Processing your request would cause you to exceed the maximum number of origin access identities allowed.
 public struct TooManyCloudFrontOriginAccessIdentities: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -21765,21 +19782,6 @@ extension TooManyContinuousDeploymentPolicies {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension TooManyContinuousDeploymentPolicies {
-
-    static func write(value: TooManyContinuousDeploymentPolicies?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> TooManyContinuousDeploymentPolicies {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TooManyContinuousDeploymentPolicies()
-        value.properties.message = try reader["Message"].readIfPresent()
         return value
     }
 }
@@ -21821,21 +19823,6 @@ extension TooManyCookieNamesInWhiteList {
     }
 }
 
-extension TooManyCookieNamesInWhiteList {
-
-    static func write(value: TooManyCookieNamesInWhiteList?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> TooManyCookieNamesInWhiteList {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TooManyCookieNamesInWhiteList()
-        value.properties.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
 /// Your request contains more cookie names in the whitelist than are allowed per cache behavior.
 public struct TooManyCookieNamesInWhiteList: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -21869,21 +19856,6 @@ extension TooManyCookiesInCachePolicy {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension TooManyCookiesInCachePolicy {
-
-    static func write(value: TooManyCookiesInCachePolicy?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> TooManyCookiesInCachePolicy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TooManyCookiesInCachePolicy()
-        value.properties.message = try reader["Message"].readIfPresent()
         return value
     }
 }
@@ -21925,21 +19897,6 @@ extension TooManyCookiesInOriginRequestPolicy {
     }
 }
 
-extension TooManyCookiesInOriginRequestPolicy {
-
-    static func write(value: TooManyCookiesInOriginRequestPolicy?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> TooManyCookiesInOriginRequestPolicy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TooManyCookiesInOriginRequestPolicy()
-        value.properties.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
 /// The number of cookies in the origin request policy exceeds the maximum. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
 public struct TooManyCookiesInOriginRequestPolicy: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -21973,21 +19930,6 @@ extension TooManyCustomHeadersInResponseHeadersPolicy {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension TooManyCustomHeadersInResponseHeadersPolicy {
-
-    static func write(value: TooManyCustomHeadersInResponseHeadersPolicy?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> TooManyCustomHeadersInResponseHeadersPolicy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TooManyCustomHeadersInResponseHeadersPolicy()
-        value.properties.message = try reader["Message"].readIfPresent()
         return value
     }
 }
@@ -22029,21 +19971,6 @@ extension TooManyDistributionCNAMEs {
     }
 }
 
-extension TooManyDistributionCNAMEs {
-
-    static func write(value: TooManyDistributionCNAMEs?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> TooManyDistributionCNAMEs {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TooManyDistributionCNAMEs()
-        value.properties.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
 /// Your request contains more CNAMEs than are allowed per distribution.
 public struct TooManyDistributionCNAMEs: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -22077,21 +20004,6 @@ extension TooManyDistributions {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension TooManyDistributions {
-
-    static func write(value: TooManyDistributions?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> TooManyDistributions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TooManyDistributions()
-        value.properties.message = try reader["Message"].readIfPresent()
         return value
     }
 }
@@ -22133,21 +20045,6 @@ extension TooManyDistributionsAssociatedToCachePolicy {
     }
 }
 
-extension TooManyDistributionsAssociatedToCachePolicy {
-
-    static func write(value: TooManyDistributionsAssociatedToCachePolicy?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> TooManyDistributionsAssociatedToCachePolicy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TooManyDistributionsAssociatedToCachePolicy()
-        value.properties.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
 /// The maximum number of distributions have been associated with the specified cache policy. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
 public struct TooManyDistributionsAssociatedToCachePolicy: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -22181,21 +20078,6 @@ extension TooManyDistributionsAssociatedToFieldLevelEncryptionConfig {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension TooManyDistributionsAssociatedToFieldLevelEncryptionConfig {
-
-    static func write(value: TooManyDistributionsAssociatedToFieldLevelEncryptionConfig?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> TooManyDistributionsAssociatedToFieldLevelEncryptionConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TooManyDistributionsAssociatedToFieldLevelEncryptionConfig()
-        value.properties.message = try reader["Message"].readIfPresent()
         return value
     }
 }
@@ -22237,21 +20119,6 @@ extension TooManyDistributionsAssociatedToKeyGroup {
     }
 }
 
-extension TooManyDistributionsAssociatedToKeyGroup {
-
-    static func write(value: TooManyDistributionsAssociatedToKeyGroup?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> TooManyDistributionsAssociatedToKeyGroup {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TooManyDistributionsAssociatedToKeyGroup()
-        value.properties.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
 /// The number of distributions that reference this key group is more than the maximum allowed. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
 public struct TooManyDistributionsAssociatedToKeyGroup: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -22285,21 +20152,6 @@ extension TooManyDistributionsAssociatedToOriginAccessControl {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension TooManyDistributionsAssociatedToOriginAccessControl {
-
-    static func write(value: TooManyDistributionsAssociatedToOriginAccessControl?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> TooManyDistributionsAssociatedToOriginAccessControl {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TooManyDistributionsAssociatedToOriginAccessControl()
-        value.properties.message = try reader["Message"].readIfPresent()
         return value
     }
 }
@@ -22341,21 +20193,6 @@ extension TooManyDistributionsAssociatedToOriginRequestPolicy {
     }
 }
 
-extension TooManyDistributionsAssociatedToOriginRequestPolicy {
-
-    static func write(value: TooManyDistributionsAssociatedToOriginRequestPolicy?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> TooManyDistributionsAssociatedToOriginRequestPolicy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TooManyDistributionsAssociatedToOriginRequestPolicy()
-        value.properties.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
 /// The maximum number of distributions have been associated with the specified origin request policy. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
 public struct TooManyDistributionsAssociatedToOriginRequestPolicy: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -22389,21 +20226,6 @@ extension TooManyDistributionsAssociatedToResponseHeadersPolicy {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension TooManyDistributionsAssociatedToResponseHeadersPolicy {
-
-    static func write(value: TooManyDistributionsAssociatedToResponseHeadersPolicy?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> TooManyDistributionsAssociatedToResponseHeadersPolicy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TooManyDistributionsAssociatedToResponseHeadersPolicy()
-        value.properties.message = try reader["Message"].readIfPresent()
         return value
     }
 }
@@ -22445,21 +20267,6 @@ extension TooManyDistributionsWithFunctionAssociations {
     }
 }
 
-extension TooManyDistributionsWithFunctionAssociations {
-
-    static func write(value: TooManyDistributionsWithFunctionAssociations?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> TooManyDistributionsWithFunctionAssociations {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TooManyDistributionsWithFunctionAssociations()
-        value.properties.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
 /// You have reached the maximum number of distributions that are associated with a CloudFront function. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
 public struct TooManyDistributionsWithFunctionAssociations: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -22493,21 +20300,6 @@ extension TooManyDistributionsWithLambdaAssociations {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension TooManyDistributionsWithLambdaAssociations {
-
-    static func write(value: TooManyDistributionsWithLambdaAssociations?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> TooManyDistributionsWithLambdaAssociations {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TooManyDistributionsWithLambdaAssociations()
-        value.properties.message = try reader["Message"].readIfPresent()
         return value
     }
 }
@@ -22549,21 +20341,6 @@ extension TooManyDistributionsWithSingleFunctionARN {
     }
 }
 
-extension TooManyDistributionsWithSingleFunctionARN {
-
-    static func write(value: TooManyDistributionsWithSingleFunctionARN?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> TooManyDistributionsWithSingleFunctionARN {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TooManyDistributionsWithSingleFunctionARN()
-        value.properties.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
 /// The maximum number of distributions have been associated with the specified Lambda@Edge function.
 public struct TooManyDistributionsWithSingleFunctionARN: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -22597,21 +20374,6 @@ extension TooManyFieldLevelEncryptionConfigs {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension TooManyFieldLevelEncryptionConfigs {
-
-    static func write(value: TooManyFieldLevelEncryptionConfigs?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> TooManyFieldLevelEncryptionConfigs {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TooManyFieldLevelEncryptionConfigs()
-        value.properties.message = try reader["Message"].readIfPresent()
         return value
     }
 }
@@ -22653,21 +20415,6 @@ extension TooManyFieldLevelEncryptionContentTypeProfiles {
     }
 }
 
-extension TooManyFieldLevelEncryptionContentTypeProfiles {
-
-    static func write(value: TooManyFieldLevelEncryptionContentTypeProfiles?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> TooManyFieldLevelEncryptionContentTypeProfiles {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TooManyFieldLevelEncryptionContentTypeProfiles()
-        value.properties.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
 /// The maximum number of content type profiles for field-level encryption have been created.
 public struct TooManyFieldLevelEncryptionContentTypeProfiles: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -22701,21 +20448,6 @@ extension TooManyFieldLevelEncryptionEncryptionEntities {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension TooManyFieldLevelEncryptionEncryptionEntities {
-
-    static func write(value: TooManyFieldLevelEncryptionEncryptionEntities?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> TooManyFieldLevelEncryptionEncryptionEntities {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TooManyFieldLevelEncryptionEncryptionEntities()
-        value.properties.message = try reader["Message"].readIfPresent()
         return value
     }
 }
@@ -22757,21 +20489,6 @@ extension TooManyFieldLevelEncryptionFieldPatterns {
     }
 }
 
-extension TooManyFieldLevelEncryptionFieldPatterns {
-
-    static func write(value: TooManyFieldLevelEncryptionFieldPatterns?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> TooManyFieldLevelEncryptionFieldPatterns {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TooManyFieldLevelEncryptionFieldPatterns()
-        value.properties.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
 /// The maximum number of field patterns for field-level encryption have been created.
 public struct TooManyFieldLevelEncryptionFieldPatterns: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -22805,21 +20522,6 @@ extension TooManyFieldLevelEncryptionProfiles {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension TooManyFieldLevelEncryptionProfiles {
-
-    static func write(value: TooManyFieldLevelEncryptionProfiles?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> TooManyFieldLevelEncryptionProfiles {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TooManyFieldLevelEncryptionProfiles()
-        value.properties.message = try reader["Message"].readIfPresent()
         return value
     }
 }
@@ -22861,21 +20563,6 @@ extension TooManyFieldLevelEncryptionQueryArgProfiles {
     }
 }
 
-extension TooManyFieldLevelEncryptionQueryArgProfiles {
-
-    static func write(value: TooManyFieldLevelEncryptionQueryArgProfiles?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> TooManyFieldLevelEncryptionQueryArgProfiles {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TooManyFieldLevelEncryptionQueryArgProfiles()
-        value.properties.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
 /// The maximum number of query arg profiles for field-level encryption have been created.
 public struct TooManyFieldLevelEncryptionQueryArgProfiles: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -22909,21 +20596,6 @@ extension TooManyFunctionAssociations {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension TooManyFunctionAssociations {
-
-    static func write(value: TooManyFunctionAssociations?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> TooManyFunctionAssociations {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TooManyFunctionAssociations()
-        value.properties.message = try reader["Message"].readIfPresent()
         return value
     }
 }
@@ -22965,21 +20637,6 @@ extension TooManyFunctions {
     }
 }
 
-extension TooManyFunctions {
-
-    static func write(value: TooManyFunctions?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> TooManyFunctions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TooManyFunctions()
-        value.properties.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
 /// You have reached the maximum number of CloudFront functions for this Amazon Web Services account. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
 public struct TooManyFunctions: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -23013,21 +20670,6 @@ extension TooManyHeadersInCachePolicy {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension TooManyHeadersInCachePolicy {
-
-    static func write(value: TooManyHeadersInCachePolicy?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> TooManyHeadersInCachePolicy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TooManyHeadersInCachePolicy()
-        value.properties.message = try reader["Message"].readIfPresent()
         return value
     }
 }
@@ -23069,21 +20711,6 @@ extension TooManyHeadersInForwardedValues {
     }
 }
 
-extension TooManyHeadersInForwardedValues {
-
-    static func write(value: TooManyHeadersInForwardedValues?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> TooManyHeadersInForwardedValues {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TooManyHeadersInForwardedValues()
-        value.properties.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
 /// Your request contains too many headers in forwarded values.
 public struct TooManyHeadersInForwardedValues: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -23117,21 +20744,6 @@ extension TooManyHeadersInOriginRequestPolicy {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension TooManyHeadersInOriginRequestPolicy {
-
-    static func write(value: TooManyHeadersInOriginRequestPolicy?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> TooManyHeadersInOriginRequestPolicy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TooManyHeadersInOriginRequestPolicy()
-        value.properties.message = try reader["Message"].readIfPresent()
         return value
     }
 }
@@ -23173,21 +20785,6 @@ extension TooManyInvalidationsInProgress {
     }
 }
 
-extension TooManyInvalidationsInProgress {
-
-    static func write(value: TooManyInvalidationsInProgress?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> TooManyInvalidationsInProgress {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TooManyInvalidationsInProgress()
-        value.properties.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
 /// You have exceeded the maximum number of allowable InProgress invalidation batch requests, or invalidation objects.
 public struct TooManyInvalidationsInProgress: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -23221,21 +20818,6 @@ extension TooManyKeyGroups {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension TooManyKeyGroups {
-
-    static func write(value: TooManyKeyGroups?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> TooManyKeyGroups {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TooManyKeyGroups()
-        value.properties.message = try reader["Message"].readIfPresent()
         return value
     }
 }
@@ -23277,21 +20859,6 @@ extension TooManyKeyGroupsAssociatedToDistribution {
     }
 }
 
-extension TooManyKeyGroupsAssociatedToDistribution {
-
-    static func write(value: TooManyKeyGroupsAssociatedToDistribution?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> TooManyKeyGroupsAssociatedToDistribution {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TooManyKeyGroupsAssociatedToDistribution()
-        value.properties.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
 /// The number of key groups referenced by this distribution is more than the maximum allowed. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
 public struct TooManyKeyGroupsAssociatedToDistribution: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -23325,21 +20892,6 @@ extension TooManyLambdaFunctionAssociations {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension TooManyLambdaFunctionAssociations {
-
-    static func write(value: TooManyLambdaFunctionAssociations?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> TooManyLambdaFunctionAssociations {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TooManyLambdaFunctionAssociations()
-        value.properties.message = try reader["Message"].readIfPresent()
         return value
     }
 }
@@ -23381,21 +20933,6 @@ extension TooManyOriginAccessControls {
     }
 }
 
-extension TooManyOriginAccessControls {
-
-    static func write(value: TooManyOriginAccessControls?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> TooManyOriginAccessControls {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TooManyOriginAccessControls()
-        value.properties.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
 /// The number of origin access controls in your Amazon Web Services account exceeds the maximum allowed. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
 public struct TooManyOriginAccessControls: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -23429,21 +20966,6 @@ extension TooManyOriginCustomHeaders {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension TooManyOriginCustomHeaders {
-
-    static func write(value: TooManyOriginCustomHeaders?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> TooManyOriginCustomHeaders {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TooManyOriginCustomHeaders()
-        value.properties.message = try reader["Message"].readIfPresent()
         return value
     }
 }
@@ -23485,21 +21007,6 @@ extension TooManyOriginGroupsPerDistribution {
     }
 }
 
-extension TooManyOriginGroupsPerDistribution {
-
-    static func write(value: TooManyOriginGroupsPerDistribution?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> TooManyOriginGroupsPerDistribution {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TooManyOriginGroupsPerDistribution()
-        value.properties.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
 /// Processing your request would cause you to exceed the maximum number of origin groups allowed.
 public struct TooManyOriginGroupsPerDistribution: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -23533,21 +21040,6 @@ extension TooManyOriginRequestPolicies {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension TooManyOriginRequestPolicies {
-
-    static func write(value: TooManyOriginRequestPolicies?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> TooManyOriginRequestPolicies {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TooManyOriginRequestPolicies()
-        value.properties.message = try reader["Message"].readIfPresent()
         return value
     }
 }
@@ -23589,21 +21081,6 @@ extension TooManyOrigins {
     }
 }
 
-extension TooManyOrigins {
-
-    static func write(value: TooManyOrigins?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> TooManyOrigins {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TooManyOrigins()
-        value.properties.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
 /// You cannot create more origins for the distribution.
 public struct TooManyOrigins: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -23637,21 +21114,6 @@ extension TooManyPublicKeys {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension TooManyPublicKeys {
-
-    static func write(value: TooManyPublicKeys?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> TooManyPublicKeys {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TooManyPublicKeys()
-        value.properties.message = try reader["Message"].readIfPresent()
         return value
     }
 }
@@ -23693,21 +21155,6 @@ extension TooManyPublicKeysInKeyGroup {
     }
 }
 
-extension TooManyPublicKeysInKeyGroup {
-
-    static func write(value: TooManyPublicKeysInKeyGroup?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> TooManyPublicKeysInKeyGroup {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TooManyPublicKeysInKeyGroup()
-        value.properties.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
 /// The number of public keys in this key group is more than the maximum allowed. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
 public struct TooManyPublicKeysInKeyGroup: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -23741,21 +21188,6 @@ extension TooManyQueryStringParameters {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension TooManyQueryStringParameters {
-
-    static func write(value: TooManyQueryStringParameters?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> TooManyQueryStringParameters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TooManyQueryStringParameters()
-        value.properties.message = try reader["Message"].readIfPresent()
         return value
     }
 }
@@ -23797,21 +21229,6 @@ extension TooManyQueryStringsInCachePolicy {
     }
 }
 
-extension TooManyQueryStringsInCachePolicy {
-
-    static func write(value: TooManyQueryStringsInCachePolicy?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> TooManyQueryStringsInCachePolicy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TooManyQueryStringsInCachePolicy()
-        value.properties.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
 /// The number of query strings in the cache policy exceeds the maximum. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
 public struct TooManyQueryStringsInCachePolicy: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -23845,21 +21262,6 @@ extension TooManyQueryStringsInOriginRequestPolicy {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension TooManyQueryStringsInOriginRequestPolicy {
-
-    static func write(value: TooManyQueryStringsInOriginRequestPolicy?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> TooManyQueryStringsInOriginRequestPolicy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TooManyQueryStringsInOriginRequestPolicy()
-        value.properties.message = try reader["Message"].readIfPresent()
         return value
     }
 }
@@ -23901,21 +21303,6 @@ extension TooManyRealtimeLogConfigs {
     }
 }
 
-extension TooManyRealtimeLogConfigs {
-
-    static func write(value: TooManyRealtimeLogConfigs?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> TooManyRealtimeLogConfigs {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TooManyRealtimeLogConfigs()
-        value.properties.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
 /// You have reached the maximum number of real-time log configurations for this Amazon Web Services account. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
 public struct TooManyRealtimeLogConfigs: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -23949,21 +21336,6 @@ extension TooManyRemoveHeadersInResponseHeadersPolicy {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension TooManyRemoveHeadersInResponseHeadersPolicy {
-
-    static func write(value: TooManyRemoveHeadersInResponseHeadersPolicy?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> TooManyRemoveHeadersInResponseHeadersPolicy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TooManyRemoveHeadersInResponseHeadersPolicy()
-        value.properties.message = try reader["Message"].readIfPresent()
         return value
     }
 }
@@ -24005,21 +21377,6 @@ extension TooManyResponseHeadersPolicies {
     }
 }
 
-extension TooManyResponseHeadersPolicies {
-
-    static func write(value: TooManyResponseHeadersPolicies?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> TooManyResponseHeadersPolicies {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TooManyResponseHeadersPolicies()
-        value.properties.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
 /// You have reached the maximum number of response headers policies for this Amazon Web Services account. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
 public struct TooManyResponseHeadersPolicies: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -24053,21 +21410,6 @@ extension TooManyStreamingDistributionCNAMEs {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension TooManyStreamingDistributionCNAMEs {
-
-    static func write(value: TooManyStreamingDistributionCNAMEs?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> TooManyStreamingDistributionCNAMEs {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TooManyStreamingDistributionCNAMEs()
-        value.properties.message = try reader["Message"].readIfPresent()
         return value
     }
 }
@@ -24109,21 +21451,6 @@ extension TooManyStreamingDistributions {
     }
 }
 
-extension TooManyStreamingDistributions {
-
-    static func write(value: TooManyStreamingDistributions?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> TooManyStreamingDistributions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TooManyStreamingDistributions()
-        value.properties.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
 /// Processing your request would cause you to exceed the maximum number of streaming distributions allowed.
 public struct TooManyStreamingDistributions: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -24157,21 +21484,6 @@ extension TooManyTrustedSigners {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension TooManyTrustedSigners {
-
-    static func write(value: TooManyTrustedSigners?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> TooManyTrustedSigners {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TooManyTrustedSigners()
-        value.properties.message = try reader["Message"].readIfPresent()
         return value
     }
 }
@@ -24253,21 +21565,6 @@ extension TrustedKeyGroupDoesNotExist {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension TrustedKeyGroupDoesNotExist {
-
-    static func write(value: TrustedKeyGroupDoesNotExist?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> TrustedKeyGroupDoesNotExist {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TrustedKeyGroupDoesNotExist()
-        value.properties.message = try reader["Message"].readIfPresent()
         return value
     }
 }
@@ -24354,21 +21651,6 @@ extension TrustedSignerDoesNotExist {
     }
 }
 
-extension TrustedSignerDoesNotExist {
-
-    static func write(value: TrustedSignerDoesNotExist?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> TrustedSignerDoesNotExist {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TrustedSignerDoesNotExist()
-        value.properties.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
 /// One or more of your trusted signers don't exist.
 public struct TrustedSignerDoesNotExist: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -24447,21 +21729,6 @@ extension UnsupportedOperation {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension UnsupportedOperation {
-
-    static func write(value: UnsupportedOperation?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> UnsupportedOperation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = UnsupportedOperation()
-        value.properties.message = try reader["Message"].readIfPresent()
         return value
     }
 }

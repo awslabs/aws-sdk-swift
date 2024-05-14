@@ -519,14 +519,6 @@ extension CodestarnotificationsClientTypes {
 
 extension CodestarnotificationsClientTypes.EventTypeSummary {
 
-    static func write(value: CodestarnotificationsClientTypes.EventTypeSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EventTypeId"].write(value.eventTypeId)
-        try writer["EventTypeName"].write(value.eventTypeName)
-        try writer["ResourceType"].write(value.resourceType)
-        try writer["ServiceName"].write(value.serviceName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodestarnotificationsClientTypes.EventTypeSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodestarnotificationsClientTypes.EventTypeSummary()
@@ -646,14 +638,6 @@ extension CodestarnotificationsClientTypes.ListEventTypesFilter {
         guard let value else { return }
         try writer["Name"].write(value.name)
         try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodestarnotificationsClientTypes.ListEventTypesFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodestarnotificationsClientTypes.ListEventTypesFilter()
-        value.name = try reader["Name"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
-        return value
     }
 }
 
@@ -796,14 +780,6 @@ extension CodestarnotificationsClientTypes.ListNotificationRulesFilter {
         guard let value else { return }
         try writer["Name"].write(value.name)
         try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodestarnotificationsClientTypes.ListNotificationRulesFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodestarnotificationsClientTypes.ListNotificationRulesFilter()
-        value.name = try reader["Name"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
-        return value
     }
 }
 
@@ -1020,14 +996,6 @@ extension CodestarnotificationsClientTypes.ListTargetsFilter {
         try writer["Name"].write(value.name)
         try writer["Value"].write(value.value)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodestarnotificationsClientTypes.ListTargetsFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodestarnotificationsClientTypes.ListTargetsFilter()
-        value.name = try reader["Name"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
-        return value
-    }
 }
 
 extension CodestarnotificationsClientTypes {
@@ -1197,12 +1165,6 @@ extension CodestarnotificationsClientTypes {
 }
 
 extension CodestarnotificationsClientTypes.NotificationRuleSummary {
-
-    static func write(value: CodestarnotificationsClientTypes.NotificationRuleSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["Id"].write(value.id)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodestarnotificationsClientTypes.NotificationRuleSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1473,14 +1435,6 @@ extension CodestarnotificationsClientTypes.Target {
         try writer["TargetAddress"].write(value.targetAddress)
         try writer["TargetType"].write(value.targetType)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodestarnotificationsClientTypes.Target {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodestarnotificationsClientTypes.Target()
-        value.targetType = try reader["TargetType"].readIfPresent()
-        value.targetAddress = try reader["TargetAddress"].readIfPresent()
-        return value
-    }
 }
 
 extension CodestarnotificationsClientTypes {
@@ -1552,13 +1506,6 @@ extension CodestarnotificationsClientTypes.TargetSummary: Swift.CustomDebugStrin
 }
 
 extension CodestarnotificationsClientTypes.TargetSummary {
-
-    static func write(value: CodestarnotificationsClientTypes.TargetSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["TargetAddress"].write(value.targetAddress)
-        try writer["TargetStatus"].write(value.targetStatus)
-        try writer["TargetType"].write(value.targetType)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodestarnotificationsClientTypes.TargetSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

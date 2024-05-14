@@ -50,14 +50,6 @@ extension ConfigClientTypes {
 
 extension ConfigClientTypes.AggregateComplianceByConfigRule {
 
-    static func write(value: ConfigClientTypes.AggregateComplianceByConfigRule?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccountId"].write(value.accountId)
-        try writer["AwsRegion"].write(value.awsRegion)
-        try writer["Compliance"].write(value.compliance, with: ConfigClientTypes.Compliance.write(value:to:))
-        try writer["ConfigRuleName"].write(value.configRuleName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.AggregateComplianceByConfigRule {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConfigClientTypes.AggregateComplianceByConfigRule()
@@ -98,14 +90,6 @@ extension ConfigClientTypes {
 }
 
 extension ConfigClientTypes.AggregateComplianceByConformancePack {
-
-    static func write(value: ConfigClientTypes.AggregateComplianceByConformancePack?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccountId"].write(value.accountId)
-        try writer["AwsRegion"].write(value.awsRegion)
-        try writer["Compliance"].write(value.compliance, with: ConfigClientTypes.AggregateConformancePackCompliance.write(value:to:))
-        try writer["ConformancePackName"].write(value.conformancePackName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.AggregateComplianceByConformancePack {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -148,12 +132,6 @@ extension ConfigClientTypes {
 
 extension ConfigClientTypes.AggregateComplianceCount {
 
-    static func write(value: ConfigClientTypes.AggregateComplianceCount?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ComplianceSummary"].write(value.complianceSummary, with: ConfigClientTypes.ComplianceSummary.write(value:to:))
-        try writer["GroupName"].write(value.groupName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.AggregateComplianceCount {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConfigClientTypes.AggregateComplianceCount()
@@ -184,14 +162,6 @@ extension ConfigClientTypes {
 }
 
 extension ConfigClientTypes.AggregateConformancePackCompliance {
-
-    static func write(value: ConfigClientTypes.AggregateConformancePackCompliance?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ComplianceType"].write(value.complianceType)
-        try writer["CompliantRuleCount"].write(value.compliantRuleCount)
-        try writer["NonCompliantRuleCount"].write(value.nonCompliantRuleCount)
-        try writer["TotalRuleCount"].write(value.totalRuleCount)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.AggregateConformancePackCompliance {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -234,12 +204,6 @@ extension ConfigClientTypes {
 
 extension ConfigClientTypes.AggregateConformancePackComplianceCount {
 
-    static func write(value: ConfigClientTypes.AggregateConformancePackComplianceCount?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CompliantConformancePackCount"].write(value.compliantConformancePackCount)
-        try writer["NonCompliantConformancePackCount"].write(value.nonCompliantConformancePackCount)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.AggregateConformancePackComplianceCount {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConfigClientTypes.AggregateConformancePackComplianceCount()
@@ -278,16 +242,6 @@ extension ConfigClientTypes.AggregateConformancePackComplianceFilters {
         try writer["ComplianceType"].write(value.complianceType)
         try writer["ConformancePackName"].write(value.conformancePackName)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.AggregateConformancePackComplianceFilters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.AggregateConformancePackComplianceFilters()
-        value.conformancePackName = try reader["ConformancePackName"].readIfPresent()
-        value.complianceType = try reader["ComplianceType"].readIfPresent()
-        value.accountId = try reader["AccountId"].readIfPresent()
-        value.awsRegion = try reader["AwsRegion"].readIfPresent()
-        return value
-    }
 }
 
 extension ConfigClientTypes {
@@ -319,12 +273,6 @@ extension ConfigClientTypes {
 }
 
 extension ConfigClientTypes.AggregateConformancePackComplianceSummary {
-
-    static func write(value: ConfigClientTypes.AggregateConformancePackComplianceSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ComplianceSummary"].write(value.complianceSummary, with: ConfigClientTypes.AggregateConformancePackComplianceCount.write(value:to:))
-        try writer["GroupName"].write(value.groupName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.AggregateConformancePackComplianceSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -361,14 +309,6 @@ extension ConfigClientTypes.AggregateConformancePackComplianceSummaryFilters {
         guard let value else { return }
         try writer["AccountId"].write(value.accountId)
         try writer["AwsRegion"].write(value.awsRegion)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.AggregateConformancePackComplianceSummaryFilters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.AggregateConformancePackComplianceSummaryFilters()
-        value.accountId = try reader["AccountId"].readIfPresent()
-        value.awsRegion = try reader["AwsRegion"].readIfPresent()
-        return value
     }
 }
 
@@ -423,17 +363,6 @@ extension ConfigClientTypes {
 }
 
 extension ConfigClientTypes.AggregateEvaluationResult {
-
-    static func write(value: ConfigClientTypes.AggregateEvaluationResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccountId"].write(value.accountId)
-        try writer["Annotation"].write(value.annotation)
-        try writer["AwsRegion"].write(value.awsRegion)
-        try writer["ComplianceType"].write(value.complianceType)
-        try writer["ConfigRuleInvokedTime"].writeTimestamp(value.configRuleInvokedTime, format: .epochSeconds)
-        try writer["EvaluationResultIdentifier"].write(value.evaluationResultIdentifier, with: ConfigClientTypes.EvaluationResultIdentifier.write(value:to:))
-        try writer["ResultRecordedTime"].writeTimestamp(value.resultRecordedTime, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.AggregateEvaluationResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -549,17 +478,6 @@ extension ConfigClientTypes {
 }
 
 extension ConfigClientTypes.AggregatedSourceStatus {
-
-    static func write(value: ConfigClientTypes.AggregatedSourceStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AwsRegion"].write(value.awsRegion)
-        try writer["LastErrorCode"].write(value.lastErrorCode)
-        try writer["LastErrorMessage"].write(value.lastErrorMessage)
-        try writer["LastUpdateStatus"].write(value.lastUpdateStatus)
-        try writer["LastUpdateTime"].writeTimestamp(value.lastUpdateTime, format: .epochSeconds)
-        try writer["SourceId"].write(value.sourceId)
-        try writer["SourceType"].write(value.sourceType)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.AggregatedSourceStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -686,14 +604,6 @@ extension ConfigClientTypes {
 
 extension ConfigClientTypes.AggregationAuthorization {
 
-    static func write(value: ConfigClientTypes.AggregationAuthorization?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AggregationAuthorizationArn"].write(value.aggregationAuthorizationArn)
-        try writer["AuthorizedAccountId"].write(value.authorizedAccountId)
-        try writer["AuthorizedAwsRegion"].write(value.authorizedAwsRegion)
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.AggregationAuthorization {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConfigClientTypes.AggregationAuthorization()
@@ -734,26 +644,6 @@ extension ConfigClientTypes {
 }
 
 extension ConfigClientTypes.BaseConfigurationItem {
-
-    static func write(value: ConfigClientTypes.BaseConfigurationItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["accountId"].write(value.accountId)
-        try writer["arn"].write(value.arn)
-        try writer["availabilityZone"].write(value.availabilityZone)
-        try writer["awsRegion"].write(value.awsRegion)
-        try writer["configuration"].write(value.configuration)
-        try writer["configurationItemCaptureTime"].writeTimestamp(value.configurationItemCaptureTime, format: .epochSeconds)
-        try writer["configurationItemDeliveryTime"].writeTimestamp(value.configurationItemDeliveryTime, format: .epochSeconds)
-        try writer["configurationItemStatus"].write(value.configurationItemStatus)
-        try writer["configurationStateId"].write(value.configurationStateId)
-        try writer["recordingFrequency"].write(value.recordingFrequency)
-        try writer["resourceCreationTime"].writeTimestamp(value.resourceCreationTime, format: .epochSeconds)
-        try writer["resourceId"].write(value.resourceId)
-        try writer["resourceName"].write(value.resourceName)
-        try writer["resourceType"].write(value.resourceType)
-        try writer["supplementaryConfiguration"].writeMap(value.supplementaryConfiguration, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["version"].write(value.version)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.BaseConfigurationItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1046,12 +936,6 @@ extension ConfigClientTypes {
 
 extension ConfigClientTypes.Compliance {
 
-    static func write(value: ConfigClientTypes.Compliance?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ComplianceContributorCount"].write(value.complianceContributorCount, with: ConfigClientTypes.ComplianceContributorCount.write(value:to:))
-        try writer["ComplianceType"].write(value.complianceType)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.Compliance {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConfigClientTypes.Compliance()
@@ -1083,12 +967,6 @@ extension ConfigClientTypes {
 
 extension ConfigClientTypes.ComplianceByConfigRule {
 
-    static func write(value: ConfigClientTypes.ComplianceByConfigRule?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Compliance"].write(value.compliance, with: ConfigClientTypes.Compliance.write(value:to:))
-        try writer["ConfigRuleName"].write(value.configRuleName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ComplianceByConfigRule {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConfigClientTypes.ComplianceByConfigRule()
@@ -1119,13 +997,6 @@ extension ConfigClientTypes {
 }
 
 extension ConfigClientTypes.ComplianceByResource {
-
-    static func write(value: ConfigClientTypes.ComplianceByResource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Compliance"].write(value.compliance, with: ConfigClientTypes.Compliance.write(value:to:))
-        try writer["ResourceId"].write(value.resourceId)
-        try writer["ResourceType"].write(value.resourceType)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ComplianceByResource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1163,12 +1034,6 @@ extension ConfigClientTypes {
 
 extension ConfigClientTypes.ComplianceContributorCount {
 
-    static func write(value: ConfigClientTypes.ComplianceContributorCount?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CapExceeded"].write(value.capExceeded)
-        try writer["CappedCount"].write(value.cappedCount)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ComplianceContributorCount {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConfigClientTypes.ComplianceContributorCount()
@@ -1199,13 +1064,6 @@ extension ConfigClientTypes {
 }
 
 extension ConfigClientTypes.ComplianceSummary {
-
-    static func write(value: ConfigClientTypes.ComplianceSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ComplianceSummaryTimestamp"].writeTimestamp(value.complianceSummaryTimestamp, format: .epochSeconds)
-        try writer["CompliantResourceCount"].write(value.compliantResourceCount, with: ConfigClientTypes.ComplianceContributorCount.write(value:to:))
-        try writer["NonCompliantResourceCount"].write(value.nonCompliantResourceCount, with: ConfigClientTypes.ComplianceContributorCount.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ComplianceSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1242,12 +1100,6 @@ extension ConfigClientTypes {
 }
 
 extension ConfigClientTypes.ComplianceSummaryByResourceType {
-
-    static func write(value: ConfigClientTypes.ComplianceSummaryByResourceType?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ComplianceSummary"].write(value.complianceSummary, with: ConfigClientTypes.ComplianceSummary.write(value:to:))
-        try writer["ResourceType"].write(value.resourceType)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ComplianceSummaryByResourceType {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1317,16 +1169,6 @@ extension ConfigClientTypes {
 public enum ConfigClientTypes {}
 
 extension ConfigClientTypes.ConfigExportDeliveryInfo {
-
-    static func write(value: ConfigClientTypes.ConfigExportDeliveryInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["lastAttemptTime"].writeTimestamp(value.lastAttemptTime, format: .epochSeconds)
-        try writer["lastErrorCode"].write(value.lastErrorCode)
-        try writer["lastErrorMessage"].write(value.lastErrorMessage)
-        try writer["lastStatus"].write(value.lastStatus)
-        try writer["lastSuccessfulTime"].writeTimestamp(value.lastSuccessfulTime, format: .epochSeconds)
-        try writer["nextDeliveryTime"].writeTimestamp(value.nextDeliveryTime, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ConfigExportDeliveryInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1485,16 +1327,6 @@ extension ConfigClientTypes.ConfigRuleComplianceFilters {
         try writer["ComplianceType"].write(value.complianceType)
         try writer["ConfigRuleName"].write(value.configRuleName)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ConfigRuleComplianceFilters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.ConfigRuleComplianceFilters()
-        value.configRuleName = try reader["ConfigRuleName"].readIfPresent()
-        value.complianceType = try reader["ComplianceType"].readIfPresent()
-        value.accountId = try reader["AccountId"].readIfPresent()
-        value.awsRegion = try reader["AwsRegion"].readIfPresent()
-        return value
-    }
 }
 
 extension ConfigClientTypes {
@@ -1531,14 +1363,6 @@ extension ConfigClientTypes.ConfigRuleComplianceSummaryFilters {
         guard let value else { return }
         try writer["AccountId"].write(value.accountId)
         try writer["AwsRegion"].write(value.awsRegion)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ConfigRuleComplianceSummaryFilters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.ConfigRuleComplianceSummaryFilters()
-        value.accountId = try reader["AccountId"].readIfPresent()
-        value.awsRegion = try reader["AwsRegion"].readIfPresent()
-        return value
     }
 }
 
@@ -1593,25 +1417,6 @@ extension ConfigClientTypes {
 }
 
 extension ConfigClientTypes.ConfigRuleEvaluationStatus {
-
-    static func write(value: ConfigClientTypes.ConfigRuleEvaluationStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ConfigRuleArn"].write(value.configRuleArn)
-        try writer["ConfigRuleId"].write(value.configRuleId)
-        try writer["ConfigRuleName"].write(value.configRuleName)
-        try writer["FirstActivatedTime"].writeTimestamp(value.firstActivatedTime, format: .epochSeconds)
-        try writer["FirstEvaluationStarted"].write(value.firstEvaluationStarted)
-        try writer["LastDeactivatedTime"].writeTimestamp(value.lastDeactivatedTime, format: .epochSeconds)
-        try writer["LastDebugLogDeliveryStatus"].write(value.lastDebugLogDeliveryStatus)
-        try writer["LastDebugLogDeliveryStatusReason"].write(value.lastDebugLogDeliveryStatusReason)
-        try writer["LastDebugLogDeliveryTime"].writeTimestamp(value.lastDebugLogDeliveryTime, format: .epochSeconds)
-        try writer["LastErrorCode"].write(value.lastErrorCode)
-        try writer["LastErrorMessage"].write(value.lastErrorMessage)
-        try writer["LastFailedEvaluationTime"].writeTimestamp(value.lastFailedEvaluationTime, format: .epochSeconds)
-        try writer["LastFailedInvocationTime"].writeTimestamp(value.lastFailedInvocationTime, format: .epochSeconds)
-        try writer["LastSuccessfulEvaluationTime"].writeTimestamp(value.lastSuccessfulEvaluationTime, format: .epochSeconds)
-        try writer["LastSuccessfulInvocationTime"].writeTimestamp(value.lastSuccessfulInvocationTime, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ConfigRuleEvaluationStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1798,14 +1603,6 @@ extension ConfigClientTypes {
 
 extension ConfigClientTypes.ConfigStreamDeliveryInfo {
 
-    static func write(value: ConfigClientTypes.ConfigStreamDeliveryInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["lastErrorCode"].write(value.lastErrorCode)
-        try writer["lastErrorMessage"].write(value.lastErrorMessage)
-        try writer["lastStatus"].write(value.lastStatus)
-        try writer["lastStatusChangeTime"].writeTimestamp(value.lastStatusChangeTime, format: .epochSeconds)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ConfigStreamDeliveryInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConfigClientTypes.ConfigStreamDeliveryInfo()
@@ -1846,17 +1643,6 @@ extension ConfigClientTypes {
 }
 
 extension ConfigClientTypes.ConfigurationAggregator {
-
-    static func write(value: ConfigClientTypes.ConfigurationAggregator?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccountAggregationSources"].writeList(value.accountAggregationSources, memberWritingClosure: ConfigClientTypes.AccountAggregationSource.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ConfigurationAggregatorArn"].write(value.configurationAggregatorArn)
-        try writer["ConfigurationAggregatorName"].write(value.configurationAggregatorName)
-        try writer["CreatedBy"].write(value.createdBy)
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["LastUpdatedTime"].writeTimestamp(value.lastUpdatedTime, format: .epochSeconds)
-        try writer["OrganizationAggregationSource"].write(value.organizationAggregationSource, with: ConfigClientTypes.OrganizationAggregationSource.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ConfigurationAggregator {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1913,30 +1699,6 @@ extension ConfigClientTypes {
 }
 
 extension ConfigClientTypes.ConfigurationItem {
-
-    static func write(value: ConfigClientTypes.ConfigurationItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["accountId"].write(value.accountId)
-        try writer["arn"].write(value.arn)
-        try writer["availabilityZone"].write(value.availabilityZone)
-        try writer["awsRegion"].write(value.awsRegion)
-        try writer["configuration"].write(value.configuration)
-        try writer["configurationItemCaptureTime"].writeTimestamp(value.configurationItemCaptureTime, format: .epochSeconds)
-        try writer["configurationItemDeliveryTime"].writeTimestamp(value.configurationItemDeliveryTime, format: .epochSeconds)
-        try writer["configurationItemMD5Hash"].write(value.configurationItemMD5Hash)
-        try writer["configurationItemStatus"].write(value.configurationItemStatus)
-        try writer["configurationStateId"].write(value.configurationStateId)
-        try writer["recordingFrequency"].write(value.recordingFrequency)
-        try writer["relatedEvents"].writeList(value.relatedEvents, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["relationships"].writeList(value.relationships, memberWritingClosure: ConfigClientTypes.Relationship.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["resourceCreationTime"].writeTimestamp(value.resourceCreationTime, format: .epochSeconds)
-        try writer["resourceId"].write(value.resourceId)
-        try writer["resourceName"].write(value.resourceName)
-        try writer["resourceType"].write(value.resourceType)
-        try writer["supplementaryConfiguration"].writeMap(value.supplementaryConfiguration, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["version"].write(value.version)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ConfigurationItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2164,18 +1926,6 @@ extension ConfigClientTypes {
 
 extension ConfigClientTypes.ConfigurationRecorderStatus {
 
-    static func write(value: ConfigClientTypes.ConfigurationRecorderStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["lastErrorCode"].write(value.lastErrorCode)
-        try writer["lastErrorMessage"].write(value.lastErrorMessage)
-        try writer["lastStartTime"].writeTimestamp(value.lastStartTime, format: .epochSeconds)
-        try writer["lastStatus"].write(value.lastStatus)
-        try writer["lastStatusChangeTime"].writeTimestamp(value.lastStatusChangeTime, format: .epochSeconds)
-        try writer["lastStopTime"].writeTimestamp(value.lastStopTime, format: .epochSeconds)
-        try writer["name"].write(value.name)
-        try writer["recording"].write(value.recording)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ConfigurationRecorderStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConfigClientTypes.ConfigurationRecorderStatus()
@@ -2242,14 +1992,6 @@ extension ConfigClientTypes.ConformancePackComplianceFilters {
         try writer["ComplianceType"].write(value.complianceType)
         try writer["ConfigRuleNames"].writeList(value.configRuleNames, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ConformancePackComplianceFilters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.ConformancePackComplianceFilters()
-        value.configRuleNames = try reader["ConfigRuleNames"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.complianceType = try reader["ComplianceType"].readIfPresent()
-        return value
-    }
 }
 
 extension ConfigClientTypes {
@@ -2273,13 +2015,6 @@ extension ConfigClientTypes {
 }
 
 extension ConfigClientTypes.ConformancePackComplianceScore {
-
-    static func write(value: ConfigClientTypes.ConformancePackComplianceScore?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ConformancePackName"].write(value.conformancePackName)
-        try writer["LastUpdatedTime"].writeTimestamp(value.lastUpdatedTime, format: .epochSeconds)
-        try writer["Score"].write(value.score)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ConformancePackComplianceScore {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2321,13 +2056,6 @@ extension ConfigClientTypes.ConformancePackComplianceScoresFilters {
         guard let value else { return }
         try writer["ConformancePackNames"].writeList(value.conformancePackNames, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ConformancePackComplianceScoresFilters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.ConformancePackComplianceScoresFilters()
-        value.conformancePackNames = try reader["ConformancePackNames"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
 }
 
 extension ConfigClientTypes {
@@ -2348,12 +2076,6 @@ extension ConfigClientTypes {
 }
 
 extension ConfigClientTypes.ConformancePackComplianceSummary {
-
-    static func write(value: ConfigClientTypes.ConformancePackComplianceSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ConformancePackComplianceStatus"].write(value.conformancePackComplianceStatus)
-        try writer["ConformancePackName"].write(value.conformancePackName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ConformancePackComplianceSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2420,19 +2142,6 @@ extension ConfigClientTypes {
 }
 
 extension ConfigClientTypes.ConformancePackDetail {
-
-    static func write(value: ConfigClientTypes.ConformancePackDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ConformancePackArn"].write(value.conformancePackArn)
-        try writer["ConformancePackId"].write(value.conformancePackId)
-        try writer["ConformancePackInputParameters"].writeList(value.conformancePackInputParameters, memberWritingClosure: ConfigClientTypes.ConformancePackInputParameter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ConformancePackName"].write(value.conformancePackName)
-        try writer["CreatedBy"].write(value.createdBy)
-        try writer["DeliveryS3Bucket"].write(value.deliveryS3Bucket)
-        try writer["DeliveryS3KeyPrefix"].write(value.deliveryS3KeyPrefix)
-        try writer["LastUpdateRequestedTime"].writeTimestamp(value.lastUpdateRequestedTime, format: .epochSeconds)
-        try writer["TemplateSSMDocumentDetails"].write(value.templateSSMDocumentDetails, with: ConfigClientTypes.TemplateSSMDocumentDetails.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ConformancePackDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2510,16 +2219,6 @@ extension ConfigClientTypes.ConformancePackEvaluationFilters {
         try writer["ResourceIds"].writeList(value.resourceIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ResourceType"].write(value.resourceType)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ConformancePackEvaluationFilters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.ConformancePackEvaluationFilters()
-        value.configRuleNames = try reader["ConfigRuleNames"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.complianceType = try reader["ComplianceType"].readIfPresent()
-        value.resourceType = try reader["ResourceType"].readIfPresent()
-        value.resourceIds = try reader["ResourceIds"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
 }
 
 extension ConfigClientTypes {
@@ -2551,15 +2250,6 @@ extension ConfigClientTypes {
 }
 
 extension ConfigClientTypes.ConformancePackEvaluationResult {
-
-    static func write(value: ConfigClientTypes.ConformancePackEvaluationResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Annotation"].write(value.annotation)
-        try writer["ComplianceType"].write(value.complianceType)
-        try writer["ConfigRuleInvokedTime"].writeTimestamp(value.configRuleInvokedTime, format: .epochSeconds)
-        try writer["EvaluationResultIdentifier"].write(value.evaluationResultIdentifier, with: ConfigClientTypes.EvaluationResultIdentifier.write(value:to:))
-        try writer["ResultRecordedTime"].writeTimestamp(value.resultRecordedTime, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ConformancePackEvaluationResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2650,13 +2340,6 @@ extension ConfigClientTypes {
 
 extension ConfigClientTypes.ConformancePackRuleCompliance {
 
-    static func write(value: ConfigClientTypes.ConformancePackRuleCompliance?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ComplianceType"].write(value.complianceType)
-        try writer["ConfigRuleName"].write(value.configRuleName)
-        try writer["Controls"].writeList(value.controls, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ConformancePackRuleCompliance {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConfigClientTypes.ConformancePackRuleCompliance()
@@ -2731,18 +2414,6 @@ extension ConfigClientTypes {
 }
 
 extension ConfigClientTypes.ConformancePackStatusDetail {
-
-    static func write(value: ConfigClientTypes.ConformancePackStatusDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ConformancePackArn"].write(value.conformancePackArn)
-        try writer["ConformancePackId"].write(value.conformancePackId)
-        try writer["ConformancePackName"].write(value.conformancePackName)
-        try writer["ConformancePackState"].write(value.conformancePackState)
-        try writer["ConformancePackStatusReason"].write(value.conformancePackStatusReason)
-        try writer["LastUpdateCompletedTime"].writeTimestamp(value.lastUpdateCompletedTime, format: .epochSeconds)
-        try writer["LastUpdateRequestedTime"].writeTimestamp(value.lastUpdateRequestedTime, format: .epochSeconds)
-        try writer["StackArn"].write(value.stackArn)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ConformancePackStatusDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3905,14 +3576,6 @@ extension ConfigClientTypes {
 
 extension ConfigClientTypes.DeliveryChannelStatus {
 
-    static func write(value: ConfigClientTypes.DeliveryChannelStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["configHistoryDeliveryInfo"].write(value.configHistoryDeliveryInfo, with: ConfigClientTypes.ConfigExportDeliveryInfo.write(value:to:))
-        try writer["configSnapshotDeliveryInfo"].write(value.configSnapshotDeliveryInfo, with: ConfigClientTypes.ConfigExportDeliveryInfo.write(value:to:))
-        try writer["configStreamDeliveryInfo"].write(value.configStreamDeliveryInfo, with: ConfigClientTypes.ConfigStreamDeliveryInfo.write(value:to:))
-        try writer["name"].write(value.name)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.DeliveryChannelStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConfigClientTypes.DeliveryChannelStatus()
@@ -4506,13 +4169,6 @@ extension ConfigClientTypes.DescribeConfigRulesFilters {
     static func write(value: ConfigClientTypes.DescribeConfigRulesFilters?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["EvaluationMode"].write(value.evaluationMode)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.DescribeConfigRulesFilters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.DescribeConfigRulesFilters()
-        value.evaluationMode = try reader["EvaluationMode"].readIfPresent()
-        return value
     }
 }
 
@@ -6203,16 +5859,6 @@ extension ConfigClientTypes {
 
 extension ConfigClientTypes.EvaluationResult {
 
-    static func write(value: ConfigClientTypes.EvaluationResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Annotation"].write(value.annotation)
-        try writer["ComplianceType"].write(value.complianceType)
-        try writer["ConfigRuleInvokedTime"].writeTimestamp(value.configRuleInvokedTime, format: .epochSeconds)
-        try writer["EvaluationResultIdentifier"].write(value.evaluationResultIdentifier, with: ConfigClientTypes.EvaluationResultIdentifier.write(value:to:))
-        try writer["ResultRecordedTime"].writeTimestamp(value.resultRecordedTime, format: .epochSeconds)
-        try writer["ResultToken"].write(value.resultToken)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.EvaluationResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConfigClientTypes.EvaluationResult()
@@ -6264,13 +5910,6 @@ extension ConfigClientTypes {
 
 extension ConfigClientTypes.EvaluationResultIdentifier {
 
-    static func write(value: ConfigClientTypes.EvaluationResultIdentifier?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EvaluationResultQualifier"].write(value.evaluationResultQualifier, with: ConfigClientTypes.EvaluationResultQualifier.write(value:to:))
-        try writer["OrderingTimestamp"].writeTimestamp(value.orderingTimestamp, format: .epochSeconds)
-        try writer["ResourceEvaluationId"].write(value.resourceEvaluationId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.EvaluationResultIdentifier {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConfigClientTypes.EvaluationResultIdentifier()
@@ -6306,14 +5945,6 @@ extension ConfigClientTypes {
 }
 
 extension ConfigClientTypes.EvaluationResultQualifier {
-
-    static func write(value: ConfigClientTypes.EvaluationResultQualifier?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ConfigRuleName"].write(value.configRuleName)
-        try writer["EvaluationMode"].write(value.evaluationMode)
-        try writer["ResourceId"].write(value.resourceId)
-        try writer["ResourceType"].write(value.resourceType)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.EvaluationResultQualifier {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6355,12 +5986,6 @@ extension ConfigClientTypes {
 }
 
 extension ConfigClientTypes.EvaluationStatus {
-
-    static func write(value: ConfigClientTypes.EvaluationStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["FailureReason"].write(value.failureReason)
-        try writer["Status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.EvaluationStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6505,17 +6130,6 @@ extension ConfigClientTypes.ExternalEvaluation {
         try writer["ComplianceType"].write(value.complianceType)
         try writer["OrderingTimestamp"].writeTimestamp(value.orderingTimestamp, format: .epochSeconds)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ExternalEvaluation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.ExternalEvaluation()
-        value.complianceResourceType = try reader["ComplianceResourceType"].readIfPresent()
-        value.complianceResourceId = try reader["ComplianceResourceId"].readIfPresent()
-        value.complianceType = try reader["ComplianceType"].readIfPresent()
-        value.annotation = try reader["Annotation"].readIfPresent()
-        value.orderingTimestamp = try reader["OrderingTimestamp"].readTimestampIfPresent(format: .epochSeconds)
-        return value
-    }
 }
 
 extension ConfigClientTypes {
@@ -6556,12 +6170,6 @@ extension ConfigClientTypes {
 
 extension ConfigClientTypes.FailedDeleteRemediationExceptionsBatch {
 
-    static func write(value: ConfigClientTypes.FailedDeleteRemediationExceptionsBatch?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["FailedItems"].writeList(value.failedItems, memberWritingClosure: ConfigClientTypes.RemediationExceptionResourceKey.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["FailureMessage"].write(value.failureMessage)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.FailedDeleteRemediationExceptionsBatch {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConfigClientTypes.FailedDeleteRemediationExceptionsBatch()
@@ -6592,12 +6200,6 @@ extension ConfigClientTypes {
 }
 
 extension ConfigClientTypes.FailedRemediationBatch {
-
-    static func write(value: ConfigClientTypes.FailedRemediationBatch?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["FailedItems"].writeList(value.failedItems, memberWritingClosure: ConfigClientTypes.RemediationConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["FailureMessage"].write(value.failureMessage)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.FailedRemediationBatch {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6630,12 +6232,6 @@ extension ConfigClientTypes {
 
 extension ConfigClientTypes.FailedRemediationExceptionBatch {
 
-    static func write(value: ConfigClientTypes.FailedRemediationExceptionBatch?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["FailedItems"].writeList(value.failedItems, memberWritingClosure: ConfigClientTypes.RemediationException.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["FailureMessage"].write(value.failureMessage)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.FailedRemediationExceptionBatch {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConfigClientTypes.FailedRemediationExceptionBatch()
@@ -6666,11 +6262,6 @@ extension ConfigClientTypes {
 }
 
 extension ConfigClientTypes.FieldInfo {
-
-    static func write(value: ConfigClientTypes.FieldInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.FieldInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8344,12 +7935,6 @@ enum GetStoredQueryOutputError {
 
 extension ConfigClientTypes.GroupedResourceCount {
 
-    static func write(value: ConfigClientTypes.GroupedResourceCount?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["GroupName"].write(value.groupName)
-        try writer["ResourceCount"].write(value.resourceCount)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.GroupedResourceCount {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConfigClientTypes.GroupedResourceCount()
@@ -10018,16 +9603,6 @@ extension ConfigClientTypes {
 
 extension ConfigClientTypes.MemberAccountStatus {
 
-    static func write(value: ConfigClientTypes.MemberAccountStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccountId"].write(value.accountId)
-        try writer["ConfigRuleName"].write(value.configRuleName)
-        try writer["ErrorCode"].write(value.errorCode)
-        try writer["ErrorMessage"].write(value.errorMessage)
-        try writer["LastUpdateTime"].writeTimestamp(value.lastUpdateTime, format: .epochSeconds)
-        try writer["MemberAccountRuleStatus"].write(value.memberAccountRuleStatus)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.MemberAccountStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConfigClientTypes.MemberAccountStatus()
@@ -10875,17 +10450,6 @@ public struct OrganizationAllFeaturesNotEnabledException: ClientRuntime.ModeledE
 
 extension ConfigClientTypes.OrganizationConfigRule {
 
-    static func write(value: ConfigClientTypes.OrganizationConfigRule?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ExcludedAccounts"].writeList(value.excludedAccounts, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["LastUpdateTime"].writeTimestamp(value.lastUpdateTime, format: .epochSeconds)
-        try writer["OrganizationConfigRuleArn"].write(value.organizationConfigRuleArn)
-        try writer["OrganizationConfigRuleName"].write(value.organizationConfigRuleName)
-        try writer["OrganizationCustomPolicyRuleMetadata"].write(value.organizationCustomPolicyRuleMetadata, with: ConfigClientTypes.OrganizationCustomPolicyRuleMetadataNoPolicy.write(value:to:))
-        try writer["OrganizationCustomRuleMetadata"].write(value.organizationCustomRuleMetadata, with: ConfigClientTypes.OrganizationCustomRuleMetadata.write(value:to:))
-        try writer["OrganizationManagedRuleMetadata"].write(value.organizationManagedRuleMetadata, with: ConfigClientTypes.OrganizationManagedRuleMetadata.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.OrganizationConfigRule {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConfigClientTypes.OrganizationConfigRule()
@@ -10943,15 +10507,6 @@ extension ConfigClientTypes {
 }
 
 extension ConfigClientTypes.OrganizationConfigRuleStatus {
-
-    static func write(value: ConfigClientTypes.OrganizationConfigRuleStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ErrorCode"].write(value.errorCode)
-        try writer["ErrorMessage"].write(value.errorMessage)
-        try writer["LastUpdateTime"].writeTimestamp(value.lastUpdateTime, format: .epochSeconds)
-        try writer["OrganizationConfigRuleName"].write(value.organizationConfigRuleName)
-        try writer["OrganizationRuleStatus"].write(value.organizationRuleStatus)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.OrganizationConfigRuleStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -11082,17 +10637,6 @@ extension ConfigClientTypes {
 
 extension ConfigClientTypes.OrganizationConformancePack {
 
-    static func write(value: ConfigClientTypes.OrganizationConformancePack?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ConformancePackInputParameters"].writeList(value.conformancePackInputParameters, memberWritingClosure: ConfigClientTypes.ConformancePackInputParameter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["DeliveryS3Bucket"].write(value.deliveryS3Bucket)
-        try writer["DeliveryS3KeyPrefix"].write(value.deliveryS3KeyPrefix)
-        try writer["ExcludedAccounts"].writeList(value.excludedAccounts, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["LastUpdateTime"].writeTimestamp(value.lastUpdateTime, format: .epochSeconds)
-        try writer["OrganizationConformancePackArn"].write(value.organizationConformancePackArn)
-        try writer["OrganizationConformancePackName"].write(value.organizationConformancePackName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.OrganizationConformancePack {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConfigClientTypes.OrganizationConformancePack()
@@ -11151,16 +10695,6 @@ extension ConfigClientTypes {
 }
 
 extension ConfigClientTypes.OrganizationConformancePackDetailedStatus {
-
-    static func write(value: ConfigClientTypes.OrganizationConformancePackDetailedStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccountId"].write(value.accountId)
-        try writer["ConformancePackName"].write(value.conformancePackName)
-        try writer["ErrorCode"].write(value.errorCode)
-        try writer["ErrorMessage"].write(value.errorMessage)
-        try writer["LastUpdateTime"].writeTimestamp(value.lastUpdateTime, format: .epochSeconds)
-        try writer["Status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.OrganizationConformancePackDetailedStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -11233,15 +10767,6 @@ extension ConfigClientTypes {
 }
 
 extension ConfigClientTypes.OrganizationConformancePackStatus {
-
-    static func write(value: ConfigClientTypes.OrganizationConformancePackStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ErrorCode"].write(value.errorCode)
-        try writer["ErrorMessage"].write(value.errorMessage)
-        try writer["LastUpdateTime"].writeTimestamp(value.lastUpdateTime, format: .epochSeconds)
-        try writer["OrganizationConformancePackName"].write(value.organizationConformancePackName)
-        try writer["Status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.OrganizationConformancePackStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -11361,23 +10886,6 @@ extension ConfigClientTypes.OrganizationCustomPolicyRuleMetadata {
         try writer["TagKeyScope"].write(value.tagKeyScope)
         try writer["TagValueScope"].write(value.tagValueScope)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.OrganizationCustomPolicyRuleMetadata {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.OrganizationCustomPolicyRuleMetadata()
-        value.description = try reader["Description"].readIfPresent()
-        value.organizationConfigRuleTriggerTypes = try reader["OrganizationConfigRuleTriggerTypes"].readListIfPresent(memberReadingClosure: ConfigClientTypes.OrganizationConfigRuleTriggerTypeNoSN.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.inputParameters = try reader["InputParameters"].readIfPresent()
-        value.maximumExecutionFrequency = try reader["MaximumExecutionFrequency"].readIfPresent()
-        value.resourceTypesScope = try reader["ResourceTypesScope"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.resourceIdScope = try reader["ResourceIdScope"].readIfPresent()
-        value.tagKeyScope = try reader["TagKeyScope"].readIfPresent()
-        value.tagValueScope = try reader["TagValueScope"].readIfPresent()
-        value.policyRuntime = try reader["PolicyRuntime"].readIfPresent()
-        value.policyText = try reader["PolicyText"].readIfPresent()
-        value.debugLogDeliveryAccounts = try reader["DebugLogDeliveryAccounts"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
 }
 
 extension ConfigClientTypes {
@@ -11443,20 +10951,6 @@ extension ConfigClientTypes {
 }
 
 extension ConfigClientTypes.OrganizationCustomPolicyRuleMetadataNoPolicy {
-
-    static func write(value: ConfigClientTypes.OrganizationCustomPolicyRuleMetadataNoPolicy?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DebugLogDeliveryAccounts"].writeList(value.debugLogDeliveryAccounts, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Description"].write(value.description)
-        try writer["InputParameters"].write(value.inputParameters)
-        try writer["MaximumExecutionFrequency"].write(value.maximumExecutionFrequency)
-        try writer["OrganizationConfigRuleTriggerTypes"].writeList(value.organizationConfigRuleTriggerTypes, memberWritingClosure: ConfigClientTypes.OrganizationConfigRuleTriggerTypeNoSN.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["PolicyRuntime"].write(value.policyRuntime)
-        try writer["ResourceIdScope"].write(value.resourceIdScope)
-        try writer["ResourceTypesScope"].writeList(value.resourceTypesScope, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["TagKeyScope"].write(value.tagKeyScope)
-        try writer["TagValueScope"].write(value.tagValueScope)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.OrganizationCustomPolicyRuleMetadataNoPolicy {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -11750,14 +11244,6 @@ extension ConfigClientTypes.OrganizationResourceDetailedStatusFilters {
         try writer["AccountId"].write(value.accountId)
         try writer["Status"].write(value.status)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.OrganizationResourceDetailedStatusFilters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.OrganizationResourceDetailedStatusFilters()
-        value.accountId = try reader["AccountId"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        return value
-    }
 }
 
 extension ConfigClientTypes {
@@ -11972,12 +11458,6 @@ extension ConfigClientTypes {
 }
 
 extension ConfigClientTypes.PendingAggregationRequest {
-
-    static func write(value: ConfigClientTypes.PendingAggregationRequest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["RequesterAccountId"].write(value.requesterAccountId)
-        try writer["RequesterAwsRegion"].write(value.requesterAwsRegion)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.PendingAggregationRequest {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -13169,11 +12649,6 @@ enum PutStoredQueryOutputError {
 
 extension ConfigClientTypes.QueryInfo {
 
-    static func write(value: ConfigClientTypes.QueryInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["SelectFields"].writeList(value.selectFields, memberWritingClosure: ConfigClientTypes.FieldInfo.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.QueryInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConfigClientTypes.QueryInfo()
@@ -13571,14 +13046,6 @@ extension ConfigClientTypes {
 
 extension ConfigClientTypes.Relationship {
 
-    static func write(value: ConfigClientTypes.Relationship?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["relationshipName"].write(value.relationshipName)
-        try writer["resourceId"].write(value.resourceId)
-        try writer["resourceName"].write(value.resourceName)
-        try writer["resourceType"].write(value.resourceType)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.Relationship {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConfigClientTypes.Relationship()
@@ -13720,15 +13187,6 @@ extension ConfigClientTypes {
 
 extension ConfigClientTypes.RemediationException {
 
-    static func write(value: ConfigClientTypes.RemediationException?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ConfigRuleName"].write(value.configRuleName)
-        try writer["ExpirationTime"].writeTimestamp(value.expirationTime, format: .epochSeconds)
-        try writer["Message"].write(value.message)
-        try writer["ResourceId"].write(value.resourceId)
-        try writer["ResourceType"].write(value.resourceType)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.RemediationException {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConfigClientTypes.RemediationException()
@@ -13851,15 +13309,6 @@ extension ConfigClientTypes {
 
 extension ConfigClientTypes.RemediationExecutionStatus {
 
-    static func write(value: ConfigClientTypes.RemediationExecutionStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["InvocationTime"].writeTimestamp(value.invocationTime, format: .epochSeconds)
-        try writer["LastUpdatedTime"].writeTimestamp(value.lastUpdatedTime, format: .epochSeconds)
-        try writer["ResourceKey"].write(value.resourceKey, with: ConfigClientTypes.ResourceKey.write(value:to:))
-        try writer["State"].write(value.state)
-        try writer["StepDetails"].writeList(value.stepDetails, memberWritingClosure: ConfigClientTypes.RemediationExecutionStep.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.RemediationExecutionStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConfigClientTypes.RemediationExecutionStatus()
@@ -13905,15 +13354,6 @@ extension ConfigClientTypes {
 }
 
 extension ConfigClientTypes.RemediationExecutionStep {
-
-    static func write(value: ConfigClientTypes.RemediationExecutionStep?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ErrorMessage"].write(value.errorMessage)
-        try writer["Name"].write(value.name)
-        try writer["StartTime"].writeTimestamp(value.startTime, format: .epochSeconds)
-        try writer["State"].write(value.state)
-        try writer["StopTime"].writeTimestamp(value.stopTime, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.RemediationExecutionStep {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -14160,12 +13600,6 @@ extension ConfigClientTypes {
 
 extension ConfigClientTypes.ResourceCount {
 
-    static func write(value: ConfigClientTypes.ResourceCount?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["count"].write(value.count)
-        try writer["resourceType"].write(value.resourceType)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ResourceCount {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConfigClientTypes.ResourceCount()
@@ -14202,15 +13636,6 @@ extension ConfigClientTypes.ResourceCountFilters {
         try writer["AccountId"].write(value.accountId)
         try writer["Region"].write(value.region)
         try writer["ResourceType"].write(value.resourceType)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ResourceCountFilters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.ResourceCountFilters()
-        value.resourceType = try reader["ResourceType"].readIfPresent()
-        value.accountId = try reader["AccountId"].readIfPresent()
-        value.region = try reader["Region"].readIfPresent()
-        return value
     }
 }
 
@@ -14325,13 +13750,6 @@ extension ConfigClientTypes {
 
 extension ConfigClientTypes.ResourceEvaluation {
 
-    static func write(value: ConfigClientTypes.ResourceEvaluation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EvaluationMode"].write(value.evaluationMode)
-        try writer["EvaluationStartTimestamp"].writeTimestamp(value.evaluationStartTimestamp, format: .epochSeconds)
-        try writer["ResourceEvaluationId"].write(value.resourceEvaluationId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ResourceEvaluation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConfigClientTypes.ResourceEvaluation()
@@ -14373,15 +13791,6 @@ extension ConfigClientTypes.ResourceEvaluationFilters {
         try writer["EvaluationContextIdentifier"].write(value.evaluationContextIdentifier)
         try writer["EvaluationMode"].write(value.evaluationMode)
         try writer["TimeWindow"].write(value.timeWindow, with: ConfigClientTypes.TimeWindow.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ResourceEvaluationFilters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.ResourceEvaluationFilters()
-        value.evaluationMode = try reader["EvaluationMode"].readIfPresent()
-        value.timeWindow = try reader["TimeWindow"].readIfPresent(with: ConfigClientTypes.TimeWindow.read(from:))
-        value.evaluationContextIdentifier = try reader["EvaluationContextIdentifier"].readIfPresent()
-        return value
     }
 }
 
@@ -14451,16 +13860,6 @@ extension ConfigClientTypes.ResourceFilters {
         try writer["ResourceId"].write(value.resourceId)
         try writer["ResourceName"].write(value.resourceName)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ResourceFilters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.ResourceFilters()
-        value.accountId = try reader["AccountId"].readIfPresent()
-        value.resourceId = try reader["ResourceId"].readIfPresent()
-        value.resourceName = try reader["ResourceName"].readIfPresent()
-        value.region = try reader["Region"].readIfPresent()
-        return value
-    }
 }
 
 extension ConfigClientTypes {
@@ -14492,14 +13891,6 @@ extension ConfigClientTypes {
 }
 
 extension ConfigClientTypes.ResourceIdentifier {
-
-    static func write(value: ConfigClientTypes.ResourceIdentifier?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["resourceDeletionTime"].writeTimestamp(value.resourceDeletionTime, format: .epochSeconds)
-        try writer["resourceId"].write(value.resourceId)
-        try writer["resourceName"].write(value.resourceName)
-        try writer["resourceType"].write(value.resourceType)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ResourceIdentifier {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -16013,12 +15404,6 @@ extension ConfigClientTypes {
 
 extension ConfigClientTypes.RetentionConfiguration {
 
-    static func write(value: ConfigClientTypes.RetentionConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["RetentionPeriodInDays"].write(value.retentionPeriodInDays)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.RetentionConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConfigClientTypes.RetentionConfiguration()
@@ -16805,14 +16190,6 @@ extension ConfigClientTypes.StatusDetailFilters {
         try writer["AccountId"].write(value.accountId)
         try writer["MemberAccountRuleStatus"].write(value.memberAccountRuleStatus)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.StatusDetailFilters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.StatusDetailFilters()
-        value.accountId = try reader["AccountId"].readIfPresent()
-        value.memberAccountRuleStatus = try reader["MemberAccountRuleStatus"].readIfPresent()
-        return value
-    }
 }
 
 extension ConfigClientTypes {
@@ -16965,14 +16342,6 @@ extension ConfigClientTypes {
 }
 
 extension ConfigClientTypes.StoredQueryMetadata {
-
-    static func write(value: ConfigClientTypes.StoredQueryMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Description"].write(value.description)
-        try writer["QueryArn"].write(value.queryArn)
-        try writer["QueryId"].write(value.queryId)
-        try writer["QueryName"].write(value.queryName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.StoredQueryMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -17159,14 +16528,6 @@ extension ConfigClientTypes.TimeWindow {
         guard let value else { return }
         try writer["EndTime"].writeTimestamp(value.endTime, format: .epochSeconds)
         try writer["StartTime"].writeTimestamp(value.startTime, format: .epochSeconds)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.TimeWindow {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.TimeWindow()
-        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: .epochSeconds)
-        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: .epochSeconds)
-        return value
     }
 }
 

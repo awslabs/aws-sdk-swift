@@ -49,18 +49,6 @@ extension TrustedAdvisorClientTypes.AccountRecommendationLifecycleSummary: Swift
 
 extension TrustedAdvisorClientTypes.AccountRecommendationLifecycleSummary {
 
-    static func write(value: TrustedAdvisorClientTypes.AccountRecommendationLifecycleSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["accountId"].write(value.accountId)
-        try writer["accountRecommendationArn"].write(value.accountRecommendationArn)
-        try writer["lastUpdatedAt"].writeTimestamp(value.lastUpdatedAt, format: .dateTime)
-        try writer["lifecycleStage"].write(value.lifecycleStage)
-        try writer["updateReason"].write(value.updateReason)
-        try writer["updateReasonCode"].write(value.updateReasonCode)
-        try writer["updatedOnBehalfOf"].write(value.updatedOnBehalfOf)
-        try writer["updatedOnBehalfOfJobTitle"].write(value.updatedOnBehalfOfJobTitle)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> TrustedAdvisorClientTypes.AccountRecommendationLifecycleSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TrustedAdvisorClientTypes.AccountRecommendationLifecycleSummary()
@@ -192,18 +180,6 @@ enum BatchUpdateRecommendationResourceExclusionOutputError {
 }
 
 extension TrustedAdvisorClientTypes.CheckSummary {
-
-    static func write(value: TrustedAdvisorClientTypes.CheckSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["awsServices"].writeList(value.awsServices, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["description"].write(value.description)
-        try writer["id"].write(value.id)
-        try writer["metadata"].writeMap(value.metadata, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["name"].write(value.name)
-        try writer["pillars"].writeList(value.pillars, memberWritingClosure: TrustedAdvisorClientTypes.RecommendationPillar.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["source"].write(value.source)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> TrustedAdvisorClientTypes.CheckSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1282,31 +1258,6 @@ extension TrustedAdvisorClientTypes.OrganizationRecommendation: Swift.CustomDebu
 
 extension TrustedAdvisorClientTypes.OrganizationRecommendation {
 
-    static func write(value: TrustedAdvisorClientTypes.OrganizationRecommendation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["awsServices"].writeList(value.awsServices, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["checkArn"].write(value.checkArn)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .dateTime)
-        try writer["createdBy"].write(value.createdBy)
-        try writer["description"].write(value.description)
-        try writer["id"].write(value.id)
-        try writer["lastUpdatedAt"].writeTimestamp(value.lastUpdatedAt, format: .dateTime)
-        try writer["lifecycleStage"].write(value.lifecycleStage)
-        try writer["name"].write(value.name)
-        try writer["pillarSpecificAggregates"].write(value.pillarSpecificAggregates, with: TrustedAdvisorClientTypes.RecommendationPillarSpecificAggregates.write(value:to:))
-        try writer["pillars"].writeList(value.pillars, memberWritingClosure: TrustedAdvisorClientTypes.RecommendationPillar.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["resolvedAt"].writeTimestamp(value.resolvedAt, format: .dateTime)
-        try writer["resourcesAggregates"].write(value.resourcesAggregates, with: TrustedAdvisorClientTypes.RecommendationResourcesAggregates.write(value:to:))
-        try writer["source"].write(value.source)
-        try writer["status"].write(value.status)
-        try writer["type"].write(value.type)
-        try writer["updateReason"].write(value.updateReason)
-        try writer["updateReasonCode"].write(value.updateReasonCode)
-        try writer["updatedOnBehalfOf"].write(value.updatedOnBehalfOf)
-        try writer["updatedOnBehalfOfJobTitle"].write(value.updatedOnBehalfOfJobTitle)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> TrustedAdvisorClientTypes.OrganizationRecommendation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TrustedAdvisorClientTypes.OrganizationRecommendation()
@@ -1442,20 +1393,6 @@ extension TrustedAdvisorClientTypes {
 
 extension TrustedAdvisorClientTypes.OrganizationRecommendationResourceSummary {
 
-    static func write(value: TrustedAdvisorClientTypes.OrganizationRecommendationResourceSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["accountId"].write(value.accountId)
-        try writer["arn"].write(value.arn)
-        try writer["awsResourceId"].write(value.awsResourceId)
-        try writer["exclusionStatus"].write(value.exclusionStatus)
-        try writer["id"].write(value.id)
-        try writer["lastUpdatedAt"].writeTimestamp(value.lastUpdatedAt, format: .dateTime)
-        try writer["metadata"].writeMap(value.metadata, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["recommendationArn"].write(value.recommendationArn)
-        try writer["regionCode"].write(value.regionCode)
-        try writer["status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> TrustedAdvisorClientTypes.OrganizationRecommendationResourceSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TrustedAdvisorClientTypes.OrganizationRecommendationResourceSummary()
@@ -1534,24 +1471,6 @@ extension TrustedAdvisorClientTypes {
 }
 
 extension TrustedAdvisorClientTypes.OrganizationRecommendationSummary {
-
-    static func write(value: TrustedAdvisorClientTypes.OrganizationRecommendationSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["awsServices"].writeList(value.awsServices, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["checkArn"].write(value.checkArn)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .dateTime)
-        try writer["id"].write(value.id)
-        try writer["lastUpdatedAt"].writeTimestamp(value.lastUpdatedAt, format: .dateTime)
-        try writer["lifecycleStage"].write(value.lifecycleStage)
-        try writer["name"].write(value.name)
-        try writer["pillarSpecificAggregates"].write(value.pillarSpecificAggregates, with: TrustedAdvisorClientTypes.RecommendationPillarSpecificAggregates.write(value:to:))
-        try writer["pillars"].writeList(value.pillars, memberWritingClosure: TrustedAdvisorClientTypes.RecommendationPillar.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["resourcesAggregates"].write(value.resourcesAggregates, with: TrustedAdvisorClientTypes.RecommendationResourcesAggregates.write(value:to:))
-        try writer["source"].write(value.source)
-        try writer["status"].write(value.status)
-        try writer["type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> TrustedAdvisorClientTypes.OrganizationRecommendationSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1656,31 +1575,6 @@ extension TrustedAdvisorClientTypes.Recommendation: Swift.CustomDebugStringConve
 }
 
 extension TrustedAdvisorClientTypes.Recommendation {
-
-    static func write(value: TrustedAdvisorClientTypes.Recommendation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["awsServices"].writeList(value.awsServices, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["checkArn"].write(value.checkArn)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .dateTime)
-        try writer["createdBy"].write(value.createdBy)
-        try writer["description"].write(value.description)
-        try writer["id"].write(value.id)
-        try writer["lastUpdatedAt"].writeTimestamp(value.lastUpdatedAt, format: .dateTime)
-        try writer["lifecycleStage"].write(value.lifecycleStage)
-        try writer["name"].write(value.name)
-        try writer["pillarSpecificAggregates"].write(value.pillarSpecificAggregates, with: TrustedAdvisorClientTypes.RecommendationPillarSpecificAggregates.write(value:to:))
-        try writer["pillars"].writeList(value.pillars, memberWritingClosure: TrustedAdvisorClientTypes.RecommendationPillar.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["resolvedAt"].writeTimestamp(value.resolvedAt, format: .dateTime)
-        try writer["resourcesAggregates"].write(value.resourcesAggregates, with: TrustedAdvisorClientTypes.RecommendationResourcesAggregates.write(value:to:))
-        try writer["source"].write(value.source)
-        try writer["status"].write(value.status)
-        try writer["type"].write(value.type)
-        try writer["updateReason"].write(value.updateReason)
-        try writer["updateReasonCode"].write(value.updateReasonCode)
-        try writer["updatedOnBehalfOf"].write(value.updatedOnBehalfOf)
-        try writer["updatedOnBehalfOfJobTitle"].write(value.updatedOnBehalfOfJobTitle)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> TrustedAdvisorClientTypes.Recommendation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1816,12 +1710,6 @@ extension TrustedAdvisorClientTypes {
 }
 
 extension TrustedAdvisorClientTypes.RecommendationCostOptimizingAggregates {
-
-    static func write(value: TrustedAdvisorClientTypes.RecommendationCostOptimizingAggregates?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["estimatedMonthlySavings"].write(value.estimatedMonthlySavings)
-        try writer["estimatedPercentMonthlySavings"].write(value.estimatedPercentMonthlySavings)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> TrustedAdvisorClientTypes.RecommendationCostOptimizingAggregates {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1991,11 +1879,6 @@ extension TrustedAdvisorClientTypes {
 
 extension TrustedAdvisorClientTypes.RecommendationPillarSpecificAggregates {
 
-    static func write(value: TrustedAdvisorClientTypes.RecommendationPillarSpecificAggregates?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["costOptimizing"].write(value.costOptimizing, with: TrustedAdvisorClientTypes.RecommendationCostOptimizingAggregates.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> TrustedAdvisorClientTypes.RecommendationPillarSpecificAggregates {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TrustedAdvisorClientTypes.RecommendationPillarSpecificAggregates()
@@ -2027,14 +1910,6 @@ extension TrustedAdvisorClientTypes.RecommendationResourceExclusion {
         try writer["arn"].write(value.arn)
         try writer["isExcluded"].write(value.isExcluded)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TrustedAdvisorClientTypes.RecommendationResourceExclusion {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TrustedAdvisorClientTypes.RecommendationResourceExclusion()
-        value.arn = try reader["arn"].readIfPresent()
-        value.isExcluded = try reader["isExcluded"].readIfPresent()
-        return value
-    }
 }
 
 extension TrustedAdvisorClientTypes {
@@ -2060,19 +1935,6 @@ extension TrustedAdvisorClientTypes {
 }
 
 extension TrustedAdvisorClientTypes.RecommendationResourceSummary {
-
-    static func write(value: TrustedAdvisorClientTypes.RecommendationResourceSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["awsResourceId"].write(value.awsResourceId)
-        try writer["exclusionStatus"].write(value.exclusionStatus)
-        try writer["id"].write(value.id)
-        try writer["lastUpdatedAt"].writeTimestamp(value.lastUpdatedAt, format: .dateTime)
-        try writer["metadata"].writeMap(value.metadata, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["recommendationArn"].write(value.recommendationArn)
-        try writer["regionCode"].write(value.regionCode)
-        try writer["status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> TrustedAdvisorClientTypes.RecommendationResourceSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2147,13 +2009,6 @@ extension TrustedAdvisorClientTypes {
 }
 
 extension TrustedAdvisorClientTypes.RecommendationResourcesAggregates {
-
-    static func write(value: TrustedAdvisorClientTypes.RecommendationResourcesAggregates?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["errorCount"].write(value.errorCount)
-        try writer["okCount"].write(value.okCount)
-        try writer["warningCount"].write(value.warningCount)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> TrustedAdvisorClientTypes.RecommendationResourcesAggregates {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2289,24 +2144,6 @@ extension TrustedAdvisorClientTypes {
 }
 
 extension TrustedAdvisorClientTypes.RecommendationSummary {
-
-    static func write(value: TrustedAdvisorClientTypes.RecommendationSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["awsServices"].writeList(value.awsServices, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["checkArn"].write(value.checkArn)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .dateTime)
-        try writer["id"].write(value.id)
-        try writer["lastUpdatedAt"].writeTimestamp(value.lastUpdatedAt, format: .dateTime)
-        try writer["lifecycleStage"].write(value.lifecycleStage)
-        try writer["name"].write(value.name)
-        try writer["pillarSpecificAggregates"].write(value.pillarSpecificAggregates, with: TrustedAdvisorClientTypes.RecommendationPillarSpecificAggregates.write(value:to:))
-        try writer["pillars"].writeList(value.pillars, memberWritingClosure: TrustedAdvisorClientTypes.RecommendationPillar.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["resourcesAggregates"].write(value.resourcesAggregates, with: TrustedAdvisorClientTypes.RecommendationResourcesAggregates.write(value:to:))
-        try writer["source"].write(value.source)
-        try writer["status"].write(value.status)
-        try writer["type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> TrustedAdvisorClientTypes.RecommendationSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2792,13 +2629,6 @@ extension TrustedAdvisorClientTypes {
 }
 
 extension TrustedAdvisorClientTypes.UpdateRecommendationResourceExclusionError {
-
-    static func write(value: TrustedAdvisorClientTypes.UpdateRecommendationResourceExclusionError?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["errorCode"].write(value.errorCode)
-        try writer["errorMessage"].write(value.errorMessage)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> TrustedAdvisorClientTypes.UpdateRecommendationResourceExclusionError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

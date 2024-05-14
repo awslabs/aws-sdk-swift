@@ -37,18 +37,6 @@ extension ServiceCatalogAppRegistryClientTypes {
 
 extension ServiceCatalogAppRegistryClientTypes.Application {
 
-    static func write(value: ServiceCatalogAppRegistryClientTypes.Application?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["applicationTag"].writeMap(value.applicationTag, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["arn"].write(value.arn)
-        try writer["creationTime"].writeTimestamp(value.creationTime, format: .dateTime)
-        try writer["description"].write(value.description)
-        try writer["id"].write(value.id)
-        try writer["lastUpdateTime"].writeTimestamp(value.lastUpdateTime, format: .dateTime)
-        try writer["name"].write(value.name)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogAppRegistryClientTypes.Application {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ServiceCatalogAppRegistryClientTypes.Application()
@@ -110,16 +98,6 @@ extension ServiceCatalogAppRegistryClientTypes {
 
 extension ServiceCatalogAppRegistryClientTypes.ApplicationSummary {
 
-    static func write(value: ServiceCatalogAppRegistryClientTypes.ApplicationSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["creationTime"].writeTimestamp(value.creationTime, format: .dateTime)
-        try writer["description"].write(value.description)
-        try writer["id"].write(value.id)
-        try writer["lastUpdateTime"].writeTimestamp(value.lastUpdateTime, format: .dateTime)
-        try writer["name"].write(value.name)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogAppRegistryClientTypes.ApplicationSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ServiceCatalogAppRegistryClientTypes.ApplicationSummary()
@@ -170,14 +148,6 @@ extension ServiceCatalogAppRegistryClientTypes {
 }
 
 extension ServiceCatalogAppRegistryClientTypes.ApplicationTagResult {
-
-    static func write(value: ServiceCatalogAppRegistryClientTypes.ApplicationTagResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["applicationTagStatus"].write(value.applicationTagStatus)
-        try writer["errorMessage"].write(value.errorMessage)
-        try writer["nextToken"].write(value.nextToken)
-        try writer["resources"].writeList(value.resources, memberWritingClosure: ServiceCatalogAppRegistryClientTypes.ResourcesListItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogAppRegistryClientTypes.ApplicationTagResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -465,17 +435,6 @@ extension ServiceCatalogAppRegistryClientTypes {
 
 extension ServiceCatalogAppRegistryClientTypes.AttributeGroup {
 
-    static func write(value: ServiceCatalogAppRegistryClientTypes.AttributeGroup?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["creationTime"].writeTimestamp(value.creationTime, format: .dateTime)
-        try writer["description"].write(value.description)
-        try writer["id"].write(value.id)
-        try writer["lastUpdateTime"].writeTimestamp(value.lastUpdateTime, format: .dateTime)
-        try writer["name"].write(value.name)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogAppRegistryClientTypes.AttributeGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ServiceCatalogAppRegistryClientTypes.AttributeGroup()
@@ -532,14 +491,6 @@ extension ServiceCatalogAppRegistryClientTypes {
 
 extension ServiceCatalogAppRegistryClientTypes.AttributeGroupDetails {
 
-    static func write(value: ServiceCatalogAppRegistryClientTypes.AttributeGroupDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["createdBy"].write(value.createdBy)
-        try writer["id"].write(value.id)
-        try writer["name"].write(value.name)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogAppRegistryClientTypes.AttributeGroupDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ServiceCatalogAppRegistryClientTypes.AttributeGroupDetails()
@@ -580,17 +531,6 @@ extension ServiceCatalogAppRegistryClientTypes {
 }
 
 extension ServiceCatalogAppRegistryClientTypes.AttributeGroupSummary {
-
-    static func write(value: ServiceCatalogAppRegistryClientTypes.AttributeGroupSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["createdBy"].write(value.createdBy)
-        try writer["creationTime"].writeTimestamp(value.creationTime, format: .dateTime)
-        try writer["description"].write(value.description)
-        try writer["id"].write(value.id)
-        try writer["lastUpdateTime"].writeTimestamp(value.lastUpdateTime, format: .dateTime)
-        try writer["name"].write(value.name)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogAppRegistryClientTypes.AttributeGroupSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1535,12 +1475,6 @@ enum GetConfigurationOutputError {
 
 extension ServiceCatalogAppRegistryClientTypes.Integrations {
 
-    static func write(value: ServiceCatalogAppRegistryClientTypes.Integrations?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["applicationTagResourceGroup"].write(value.applicationTagResourceGroup, with: ServiceCatalogAppRegistryClientTypes.ResourceGroup.write(value:to:))
-        try writer["resourceGroup"].write(value.resourceGroup, with: ServiceCatalogAppRegistryClientTypes.ResourceGroup.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogAppRegistryClientTypes.Integrations {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ServiceCatalogAppRegistryClientTypes.Integrations()
@@ -2170,14 +2104,6 @@ enum PutConfigurationOutputError {
 
 extension ServiceCatalogAppRegistryClientTypes.Resource {
 
-    static func write(value: ServiceCatalogAppRegistryClientTypes.Resource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["associationTime"].writeTimestamp(value.associationTime, format: .dateTime)
-        try writer["integrations"].write(value.integrations, with: ServiceCatalogAppRegistryClientTypes.ResourceIntegrations.write(value:to:))
-        try writer["name"].write(value.name)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogAppRegistryClientTypes.Resource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ServiceCatalogAppRegistryClientTypes.Resource()
@@ -2219,11 +2145,6 @@ extension ServiceCatalogAppRegistryClientTypes {
 
 extension ServiceCatalogAppRegistryClientTypes.ResourceDetails {
 
-    static func write(value: ServiceCatalogAppRegistryClientTypes.ResourceDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["tagValue"].write(value.tagValue)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogAppRegistryClientTypes.ResourceDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ServiceCatalogAppRegistryClientTypes.ResourceDetails()
@@ -2249,13 +2170,6 @@ extension ServiceCatalogAppRegistryClientTypes {
 }
 
 extension ServiceCatalogAppRegistryClientTypes.ResourceGroup {
-
-    static func write(value: ServiceCatalogAppRegistryClientTypes.ResourceGroup?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["errorMessage"].write(value.errorMessage)
-        try writer["state"].write(value.state)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogAppRegistryClientTypes.ResourceGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2335,15 +2249,6 @@ extension ServiceCatalogAppRegistryClientTypes {
 
 extension ServiceCatalogAppRegistryClientTypes.ResourceInfo {
 
-    static func write(value: ServiceCatalogAppRegistryClientTypes.ResourceInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["name"].write(value.name)
-        try writer["options"].writeList(value.options, memberWritingClosure: ServiceCatalogAppRegistryClientTypes.AssociationOption.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["resourceDetails"].write(value.resourceDetails, with: ServiceCatalogAppRegistryClientTypes.ResourceDetails.write(value:to:))
-        try writer["resourceType"].write(value.resourceType)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogAppRegistryClientTypes.ResourceInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ServiceCatalogAppRegistryClientTypes.ResourceInfo()
@@ -2389,11 +2294,6 @@ extension ServiceCatalogAppRegistryClientTypes {
 }
 
 extension ServiceCatalogAppRegistryClientTypes.ResourceIntegrations {
-
-    static func write(value: ServiceCatalogAppRegistryClientTypes.ResourceIntegrations?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["resourceGroup"].write(value.resourceGroup, with: ServiceCatalogAppRegistryClientTypes.ResourceGroup.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogAppRegistryClientTypes.ResourceIntegrations {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2523,14 +2423,6 @@ extension ServiceCatalogAppRegistryClientTypes {
 }
 
 extension ServiceCatalogAppRegistryClientTypes.ResourcesListItem {
-
-    static func write(value: ServiceCatalogAppRegistryClientTypes.ResourcesListItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["errorMessage"].write(value.errorMessage)
-        try writer["resourceArn"].write(value.resourceArn)
-        try writer["resourceType"].write(value.resourceType)
-        try writer["status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogAppRegistryClientTypes.ResourcesListItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

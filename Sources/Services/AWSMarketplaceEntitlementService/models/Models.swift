@@ -6,15 +6,6 @@ import SmithyReadWrite
 
 extension MarketplaceEntitlementClientTypes.Entitlement {
 
-    static func write(value: MarketplaceEntitlementClientTypes.Entitlement?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CustomerIdentifier"].write(value.customerIdentifier)
-        try writer["Dimension"].write(value.dimension)
-        try writer["ExpirationDate"].writeTimestamp(value.expirationDate, format: .epochSeconds)
-        try writer["ProductCode"].write(value.productCode)
-        try writer["Value"].write(value.value, with: MarketplaceEntitlementClientTypes.EntitlementValue.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceEntitlementClientTypes.Entitlement {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MarketplaceEntitlementClientTypes.Entitlement()
@@ -60,14 +51,6 @@ extension MarketplaceEntitlementClientTypes {
 }
 
 extension MarketplaceEntitlementClientTypes.EntitlementValue {
-
-    static func write(value: MarketplaceEntitlementClientTypes.EntitlementValue?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BooleanValue"].write(value.booleanValue)
-        try writer["DoubleValue"].write(value.doubleValue)
-        try writer["IntegerValue"].write(value.integerValue)
-        try writer["StringValue"].write(value.stringValue)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceEntitlementClientTypes.EntitlementValue {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

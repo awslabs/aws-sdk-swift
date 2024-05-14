@@ -115,11 +115,6 @@ extension SimSpaceWeaverClientTypes {
 
 extension SimSpaceWeaverClientTypes.CloudWatchLogsLogGroup {
 
-    static func write(value: SimSpaceWeaverClientTypes.CloudWatchLogsLogGroup?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["LogGroupArn"].write(value.logGroupArn)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SimSpaceWeaverClientTypes.CloudWatchLogsLogGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SimSpaceWeaverClientTypes.CloudWatchLogsLogGroup()
@@ -675,12 +670,6 @@ enum DescribeSimulationOutputError {
 
 extension SimSpaceWeaverClientTypes.Domain {
 
-    static func write(value: SimSpaceWeaverClientTypes.Domain?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Lifecycle"].write(value.lifecycle)
-        try writer["Name"].write(value.name)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SimSpaceWeaverClientTypes.Domain {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SimSpaceWeaverClientTypes.Domain()
@@ -1072,12 +1061,6 @@ enum ListTagsForResourceOutputError {
 
 extension SimSpaceWeaverClientTypes.LiveSimulationState {
 
-    static func write(value: SimSpaceWeaverClientTypes.LiveSimulationState?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Clocks"].writeList(value.clocks, memberWritingClosure: SimSpaceWeaverClientTypes.SimulationClock.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Domains"].writeList(value.domains, memberWritingClosure: SimSpaceWeaverClientTypes.Domain.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SimSpaceWeaverClientTypes.LiveSimulationState {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SimSpaceWeaverClientTypes.LiveSimulationState()
@@ -1109,11 +1092,6 @@ extension SimSpaceWeaverClientTypes {
 
 extension SimSpaceWeaverClientTypes.LogDestination {
 
-    static func write(value: SimSpaceWeaverClientTypes.LogDestination?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CloudWatchLogsLogGroup"].write(value.cloudWatchLogsLogGroup, with: SimSpaceWeaverClientTypes.CloudWatchLogsLogGroup.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SimSpaceWeaverClientTypes.LogDestination {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SimSpaceWeaverClientTypes.LogDestination()
@@ -1139,11 +1117,6 @@ extension SimSpaceWeaverClientTypes {
 }
 
 extension SimSpaceWeaverClientTypes.LoggingConfiguration {
-
-    static func write(value: SimSpaceWeaverClientTypes.LoggingConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Destinations"].writeList(value.destinations, memberWritingClosure: SimSpaceWeaverClientTypes.LogDestination.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SimSpaceWeaverClientTypes.LoggingConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1212,14 +1185,6 @@ extension SimSpaceWeaverClientTypes.S3Destination {
         guard let value else { return }
         try writer["BucketName"].write(value.bucketName)
         try writer["ObjectKeyPrefix"].write(value.objectKeyPrefix)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SimSpaceWeaverClientTypes.S3Destination {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SimSpaceWeaverClientTypes.S3Destination()
-        value.bucketName = try reader["BucketName"].readIfPresent()
-        value.objectKeyPrefix = try reader["ObjectKeyPrefix"].readIfPresent()
-        return value
     }
 }
 
@@ -1324,12 +1289,6 @@ public enum SimSpaceWeaverClientTypes {}
 
 extension SimSpaceWeaverClientTypes.SimulationAppEndpointInfo {
 
-    static func write(value: SimSpaceWeaverClientTypes.SimulationAppEndpointInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Address"].write(value.address)
-        try writer["IngressPortMappings"].writeList(value.ingressPortMappings, memberWritingClosure: SimSpaceWeaverClientTypes.SimulationAppPortMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SimSpaceWeaverClientTypes.SimulationAppEndpointInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SimSpaceWeaverClientTypes.SimulationAppEndpointInfo()
@@ -1360,15 +1319,6 @@ extension SimSpaceWeaverClientTypes {
 }
 
 extension SimSpaceWeaverClientTypes.SimulationAppMetadata {
-
-    static func write(value: SimSpaceWeaverClientTypes.SimulationAppMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Domain"].write(value.domain)
-        try writer["Name"].write(value.name)
-        try writer["Simulation"].write(value.simulation)
-        try writer["Status"].write(value.status)
-        try writer["TargetStatus"].write(value.targetStatus)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SimSpaceWeaverClientTypes.SimulationAppMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1415,12 +1365,6 @@ extension SimSpaceWeaverClientTypes {
 }
 
 extension SimSpaceWeaverClientTypes.SimulationAppPortMapping {
-
-    static func write(value: SimSpaceWeaverClientTypes.SimulationAppPortMapping?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Actual"].write(value.actual)
-        try writer["Declared"].write(value.declared)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SimSpaceWeaverClientTypes.SimulationAppPortMapping {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1528,12 +1472,6 @@ extension SimSpaceWeaverClientTypes {
 
 extension SimSpaceWeaverClientTypes.SimulationClock {
 
-    static func write(value: SimSpaceWeaverClientTypes.SimulationClock?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Status"].write(value.status)
-        try writer["TargetStatus"].write(value.targetStatus)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SimSpaceWeaverClientTypes.SimulationClock {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SimSpaceWeaverClientTypes.SimulationClock()
@@ -1564,15 +1502,6 @@ extension SimSpaceWeaverClientTypes {
 }
 
 extension SimSpaceWeaverClientTypes.SimulationMetadata {
-
-    static func write(value: SimSpaceWeaverClientTypes.SimulationMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["Name"].write(value.name)
-        try writer["Status"].write(value.status)
-        try writer["TargetStatus"].write(value.targetStatus)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SimSpaceWeaverClientTypes.SimulationMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

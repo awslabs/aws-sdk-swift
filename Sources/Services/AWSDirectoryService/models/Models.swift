@@ -513,18 +513,6 @@ enum CancelSchemaExtensionOutputError {
 
 extension DirectoryClientTypes.Certificate {
 
-    static func write(value: DirectoryClientTypes.Certificate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CertificateId"].write(value.certificateId)
-        try writer["ClientCertAuthSettings"].write(value.clientCertAuthSettings, with: DirectoryClientTypes.ClientCertAuthSettings.write(value:to:))
-        try writer["CommonName"].write(value.commonName)
-        try writer["ExpiryDateTime"].writeTimestamp(value.expiryDateTime, format: .epochSeconds)
-        try writer["RegisteredDateTime"].writeTimestamp(value.registeredDateTime, format: .epochSeconds)
-        try writer["State"].write(value.state)
-        try writer["StateReason"].write(value.stateReason)
-        try writer["Type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.Certificate {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DirectoryClientTypes.Certificate()
@@ -715,15 +703,6 @@ public struct CertificateInUseException: ClientRuntime.ModeledError, AWSClientRu
 
 extension DirectoryClientTypes.CertificateInfo {
 
-    static func write(value: DirectoryClientTypes.CertificateInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CertificateId"].write(value.certificateId)
-        try writer["CommonName"].write(value.commonName)
-        try writer["ExpiryDateTime"].writeTimestamp(value.expiryDateTime, format: .epochSeconds)
-        try writer["State"].write(value.state)
-        try writer["Type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.CertificateInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DirectoryClientTypes.CertificateInfo()
@@ -884,13 +863,6 @@ extension DirectoryClientTypes {
 }
 
 extension DirectoryClientTypes.ClientAuthenticationSettingInfo {
-
-    static func write(value: DirectoryClientTypes.ClientAuthenticationSettingInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["LastUpdatedDateTime"].writeTimestamp(value.lastUpdatedDateTime, format: .epochSeconds)
-        try writer["Status"].write(value.status)
-        try writer["Type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.ClientAuthenticationSettingInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1062,13 +1034,6 @@ public struct ClientException: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
 
 extension DirectoryClientTypes.Computer {
 
-    static func write(value: DirectoryClientTypes.Computer?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ComputerAttributes"].writeList(value.computerAttributes, memberWritingClosure: DirectoryClientTypes.Attribute.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ComputerId"].write(value.computerId)
-        try writer["ComputerName"].write(value.computerName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.Computer {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DirectoryClientTypes.Computer()
@@ -1104,13 +1069,6 @@ extension DirectoryClientTypes {
 }
 
 extension DirectoryClientTypes.ConditionalForwarder {
-
-    static func write(value: DirectoryClientTypes.ConditionalForwarder?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DnsIpAddrs"].writeList(value.dnsIpAddrs, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["RemoteDomainName"].write(value.remoteDomainName)
-        try writer["ReplicationScope"].write(value.replicationScope)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.ConditionalForwarder {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3743,16 +3701,6 @@ extension DirectoryClientTypes.DirectoryConnectSettings {
         try writer["SubnetIds"].writeList(value.subnetIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["VpcId"].write(value.vpcId)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.DirectoryConnectSettings {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DirectoryClientTypes.DirectoryConnectSettings()
-        value.vpcId = try reader["VpcId"].readIfPresent()
-        value.subnetIds = try reader["SubnetIds"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.customerDnsIps = try reader["CustomerDnsIps"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.customerUserName = try reader["CustomerUserName"].readIfPresent()
-        return value
-    }
 }
 
 extension DirectoryClientTypes {
@@ -3794,16 +3742,6 @@ extension DirectoryClientTypes {
 }
 
 extension DirectoryClientTypes.DirectoryConnectSettingsDescription {
-
-    static func write(value: DirectoryClientTypes.DirectoryConnectSettingsDescription?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AvailabilityZones"].writeList(value.availabilityZones, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ConnectIps"].writeList(value.connectIps, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["CustomerUserName"].write(value.customerUserName)
-        try writer["SecurityGroupId"].write(value.securityGroupId)
-        try writer["SubnetIds"].writeList(value.subnetIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["VpcId"].write(value.vpcId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.DirectoryConnectSettingsDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3860,36 +3798,6 @@ extension DirectoryClientTypes.DirectoryDescription: Swift.CustomDebugStringConv
 }
 
 extension DirectoryClientTypes.DirectoryDescription {
-
-    static func write(value: DirectoryClientTypes.DirectoryDescription?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccessUrl"].write(value.accessUrl)
-        try writer["Alias"].write(value.alias)
-        try writer["ConnectSettings"].write(value.connectSettings, with: DirectoryClientTypes.DirectoryConnectSettingsDescription.write(value:to:))
-        try writer["Description"].write(value.description)
-        try writer["DesiredNumberOfDomainControllers"].write(value.desiredNumberOfDomainControllers)
-        try writer["DirectoryId"].write(value.directoryId)
-        try writer["DnsIpAddrs"].writeList(value.dnsIpAddrs, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Edition"].write(value.edition)
-        try writer["LaunchTime"].writeTimestamp(value.launchTime, format: .epochSeconds)
-        try writer["Name"].write(value.name)
-        try writer["OsVersion"].write(value.osVersion)
-        try writer["OwnerDirectoryDescription"].write(value.ownerDirectoryDescription, with: DirectoryClientTypes.OwnerDirectoryDescription.write(value:to:))
-        try writer["RadiusSettings"].write(value.radiusSettings, with: DirectoryClientTypes.RadiusSettings.write(value:to:))
-        try writer["RadiusStatus"].write(value.radiusStatus)
-        try writer["RegionsInfo"].write(value.regionsInfo, with: DirectoryClientTypes.RegionsInfo.write(value:to:))
-        try writer["ShareMethod"].write(value.shareMethod)
-        try writer["ShareNotes"].write(value.shareNotes)
-        try writer["ShareStatus"].write(value.shareStatus)
-        try writer["ShortName"].write(value.shortName)
-        try writer["Size"].write(value.size)
-        try writer["SsoEnabled"].write(value.ssoEnabled)
-        try writer["Stage"].write(value.stage)
-        try writer["StageLastUpdatedDateTime"].writeTimestamp(value.stageLastUpdatedDateTime, format: .epochSeconds)
-        try writer["StageReason"].write(value.stageReason)
-        try writer["Type"].write(value.type)
-        try writer["VpcSettings"].write(value.vpcSettings, with: DirectoryClientTypes.DirectoryVpcSettingsDescription.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.DirectoryDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4200,19 +4108,6 @@ public struct DirectoryLimitExceededException: ClientRuntime.ModeledError, AWSCl
 }
 
 extension DirectoryClientTypes.DirectoryLimits {
-
-    static func write(value: DirectoryClientTypes.DirectoryLimits?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CloudOnlyDirectoriesCurrentCount"].write(value.cloudOnlyDirectoriesCurrentCount)
-        try writer["CloudOnlyDirectoriesLimit"].write(value.cloudOnlyDirectoriesLimit)
-        try writer["CloudOnlyDirectoriesLimitReached"].write(value.cloudOnlyDirectoriesLimitReached)
-        try writer["CloudOnlyMicrosoftADCurrentCount"].write(value.cloudOnlyMicrosoftADCurrentCount)
-        try writer["CloudOnlyMicrosoftADLimit"].write(value.cloudOnlyMicrosoftADLimit)
-        try writer["CloudOnlyMicrosoftADLimitReached"].write(value.cloudOnlyMicrosoftADLimitReached)
-        try writer["ConnectedDirectoriesCurrentCount"].write(value.connectedDirectoriesCurrentCount)
-        try writer["ConnectedDirectoriesLimit"].write(value.connectedDirectoriesLimit)
-        try writer["ConnectedDirectoriesLimitReached"].write(value.connectedDirectoriesLimitReached)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.DirectoryLimits {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4528,14 +4423,6 @@ extension DirectoryClientTypes {
 
 extension DirectoryClientTypes.DirectoryVpcSettingsDescription {
 
-    static func write(value: DirectoryClientTypes.DirectoryVpcSettingsDescription?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AvailabilityZones"].writeList(value.availabilityZones, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["SecurityGroupId"].write(value.securityGroupId)
-        try writer["SubnetIds"].writeList(value.subnetIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["VpcId"].write(value.vpcId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.DirectoryVpcSettingsDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DirectoryClientTypes.DirectoryVpcSettingsDescription()
@@ -4840,20 +4727,6 @@ enum DisableSsoOutputError {
 }
 
 extension DirectoryClientTypes.DomainController {
-
-    static func write(value: DirectoryClientTypes.DomainController?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AvailabilityZone"].write(value.availabilityZone)
-        try writer["DirectoryId"].write(value.directoryId)
-        try writer["DnsIpAddr"].write(value.dnsIpAddr)
-        try writer["DomainControllerId"].write(value.domainControllerId)
-        try writer["LaunchTime"].writeTimestamp(value.launchTime, format: .epochSeconds)
-        try writer["Status"].write(value.status)
-        try writer["StatusLastUpdatedDateTime"].writeTimestamp(value.statusLastUpdatedDateTime, format: .epochSeconds)
-        try writer["StatusReason"].write(value.statusReason)
-        try writer["SubnetId"].write(value.subnetId)
-        try writer["VpcId"].write(value.vpcId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.DomainController {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5373,15 +5246,6 @@ public struct EntityDoesNotExistException: ClientRuntime.ModeledError, AWSClient
 }
 
 extension DirectoryClientTypes.EventTopic {
-
-    static func write(value: DirectoryClientTypes.EventTopic?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedDateTime"].writeTimestamp(value.createdDateTime, format: .epochSeconds)
-        try writer["DirectoryId"].write(value.directoryId)
-        try writer["Status"].write(value.status)
-        try writer["TopicArn"].write(value.topicArn)
-        try writer["TopicName"].write(value.topicName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.EventTopic {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5953,14 +5817,6 @@ extension DirectoryClientTypes.IpRoute {
         try writer["CidrIp"].write(value.cidrIp)
         try writer["Description"].write(value.description)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.IpRoute {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DirectoryClientTypes.IpRoute()
-        value.cidrIp = try reader["CidrIp"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        return value
-    }
 }
 
 extension DirectoryClientTypes {
@@ -5984,16 +5840,6 @@ extension DirectoryClientTypes {
 }
 
 extension DirectoryClientTypes.IpRouteInfo {
-
-    static func write(value: DirectoryClientTypes.IpRouteInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AddedDateTime"].writeTimestamp(value.addedDateTime, format: .epochSeconds)
-        try writer["CidrIp"].write(value.cidrIp)
-        try writer["Description"].write(value.description)
-        try writer["DirectoryId"].write(value.directoryId)
-        try writer["IpRouteStatusMsg"].write(value.ipRouteStatusMsg)
-        try writer["IpRouteStatusReason"].write(value.ipRouteStatusReason)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.IpRouteInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6130,13 +5976,6 @@ extension DirectoryClientTypes {
 }
 
 extension DirectoryClientTypes.LDAPSSettingInfo {
-
-    static func write(value: DirectoryClientTypes.LDAPSSettingInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["LDAPSStatus"].write(value.ldapsStatus)
-        try writer["LDAPSStatusReason"].write(value.ldapsStatusReason)
-        try writer["LastUpdatedDateTime"].writeTimestamp(value.lastUpdatedDateTime, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.LDAPSSettingInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6660,13 +6499,6 @@ enum ListTagsForResourceOutputError {
 
 extension DirectoryClientTypes.LogSubscription {
 
-    static func write(value: DirectoryClientTypes.LogSubscription?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DirectoryId"].write(value.directoryId)
-        try writer["LogGroupName"].write(value.logGroupName)
-        try writer["SubscriptionCreatedDateTime"].writeTimestamp(value.subscriptionCreatedDateTime, format: .epochSeconds)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.LogSubscription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DirectoryClientTypes.LogSubscription()
@@ -6849,16 +6681,6 @@ public struct OrganizationsException: ClientRuntime.ModeledError, AWSClientRunti
 }
 
 extension DirectoryClientTypes.OwnerDirectoryDescription {
-
-    static func write(value: DirectoryClientTypes.OwnerDirectoryDescription?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccountId"].write(value.accountId)
-        try writer["DirectoryId"].write(value.directoryId)
-        try writer["DnsIpAddrs"].writeList(value.dnsIpAddrs, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["RadiusSettings"].write(value.radiusSettings, with: DirectoryClientTypes.RadiusSettings.write(value:to:))
-        try writer["RadiusStatus"].write(value.radiusStatus)
-        try writer["VpcSettings"].write(value.vpcSettings, with: DirectoryClientTypes.DirectoryVpcSettingsDescription.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.OwnerDirectoryDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7058,19 +6880,6 @@ extension DirectoryClientTypes {
 
 extension DirectoryClientTypes.RegionDescription {
 
-    static func write(value: DirectoryClientTypes.RegionDescription?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DesiredNumberOfDomainControllers"].write(value.desiredNumberOfDomainControllers)
-        try writer["DirectoryId"].write(value.directoryId)
-        try writer["LastUpdatedDateTime"].writeTimestamp(value.lastUpdatedDateTime, format: .epochSeconds)
-        try writer["LaunchTime"].writeTimestamp(value.launchTime, format: .epochSeconds)
-        try writer["RegionName"].write(value.regionName)
-        try writer["RegionType"].write(value.regionType)
-        try writer["Status"].write(value.status)
-        try writer["StatusLastUpdatedDateTime"].writeTimestamp(value.statusLastUpdatedDateTime, format: .epochSeconds)
-        try writer["VpcSettings"].write(value.vpcSettings, with: DirectoryClientTypes.DirectoryVpcSettings.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.RegionDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DirectoryClientTypes.RegionDescription()
@@ -7209,12 +7018,6 @@ extension DirectoryClientTypes {
 }
 
 extension DirectoryClientTypes.RegionsInfo {
-
-    static func write(value: DirectoryClientTypes.RegionsInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AdditionalRegions"].writeList(value.additionalRegions, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["PrimaryRegion"].write(value.primaryRegion)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.RegionsInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7821,17 +7624,6 @@ enum RestoreFromSnapshotOutputError {
 
 extension DirectoryClientTypes.SchemaExtensionInfo {
 
-    static func write(value: DirectoryClientTypes.SchemaExtensionInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Description"].write(value.description)
-        try writer["DirectoryId"].write(value.directoryId)
-        try writer["EndDateTime"].writeTimestamp(value.endDateTime, format: .epochSeconds)
-        try writer["SchemaExtensionId"].write(value.schemaExtensionId)
-        try writer["SchemaExtensionStatus"].write(value.schemaExtensionStatus)
-        try writer["SchemaExtensionStatusReason"].write(value.schemaExtensionStatusReason)
-        try writer["StartDateTime"].writeTimestamp(value.startDateTime, format: .epochSeconds)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.SchemaExtensionInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DirectoryClientTypes.SchemaExtensionInfo()
@@ -8017,14 +7809,6 @@ extension DirectoryClientTypes.Setting {
         try writer["Name"].write(value.name)
         try writer["Value"].write(value.value)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.Setting {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DirectoryClientTypes.Setting()
-        value.name = try reader["Name"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
-        return value
-    }
 }
 
 extension DirectoryClientTypes {
@@ -8050,21 +7834,6 @@ extension DirectoryClientTypes {
 }
 
 extension DirectoryClientTypes.SettingEntry {
-
-    static func write(value: DirectoryClientTypes.SettingEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AllowedValues"].write(value.allowedValues)
-        try writer["AppliedValue"].write(value.appliedValue)
-        try writer["DataType"].write(value.dataType)
-        try writer["LastRequestedDateTime"].writeTimestamp(value.lastRequestedDateTime, format: .epochSeconds)
-        try writer["LastUpdatedDateTime"].writeTimestamp(value.lastUpdatedDateTime, format: .epochSeconds)
-        try writer["Name"].write(value.name)
-        try writer["RequestDetailedStatus"].writeMap(value.requestDetailedStatus, valueWritingClosure: DirectoryClientTypes.DirectoryConfigurationStatus.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["RequestStatus"].write(value.requestStatus)
-        try writer["RequestStatusMessage"].write(value.requestStatusMessage)
-        try writer["RequestedValue"].write(value.requestedValue)
-        try writer["Type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.SettingEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8368,14 +8137,6 @@ extension DirectoryClientTypes.ShareTarget {
         try writer["Id"].write(value.id)
         try writer["Type"].write(value.type)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.ShareTarget {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DirectoryClientTypes.ShareTarget()
-        value.id = try reader["Id"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
-        return value
-    }
 }
 
 extension DirectoryClientTypes {
@@ -8406,19 +8167,6 @@ extension DirectoryClientTypes.SharedDirectory: Swift.CustomDebugStringConvertib
 }
 
 extension DirectoryClientTypes.SharedDirectory {
-
-    static func write(value: DirectoryClientTypes.SharedDirectory?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedDateTime"].writeTimestamp(value.createdDateTime, format: .epochSeconds)
-        try writer["LastUpdatedDateTime"].writeTimestamp(value.lastUpdatedDateTime, format: .epochSeconds)
-        try writer["OwnerAccountId"].write(value.ownerAccountId)
-        try writer["OwnerDirectoryId"].write(value.ownerDirectoryId)
-        try writer["ShareMethod"].write(value.shareMethod)
-        try writer["ShareNotes"].write(value.shareNotes)
-        try writer["ShareStatus"].write(value.shareStatus)
-        try writer["SharedAccountId"].write(value.sharedAccountId)
-        try writer["SharedDirectoryId"].write(value.sharedDirectoryId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.SharedDirectory {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8485,16 +8233,6 @@ extension DirectoryClientTypes {
 }
 
 extension DirectoryClientTypes.Snapshot {
-
-    static func write(value: DirectoryClientTypes.Snapshot?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DirectoryId"].write(value.directoryId)
-        try writer["Name"].write(value.name)
-        try writer["SnapshotId"].write(value.snapshotId)
-        try writer["StartTime"].writeTimestamp(value.startTime, format: .epochSeconds)
-        try writer["Status"].write(value.status)
-        try writer["Type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.Snapshot {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8589,13 +8327,6 @@ public struct SnapshotLimitExceededException: ClientRuntime.ModeledError, AWSCli
 }
 
 extension DirectoryClientTypes.SnapshotLimits {
-
-    static func write(value: DirectoryClientTypes.SnapshotLimits?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ManualSnapshotsCurrentCount"].write(value.manualSnapshotsCurrentCount)
-        try writer["ManualSnapshotsLimit"].write(value.manualSnapshotsLimit)
-        try writer["ManualSnapshotsLimitReached"].write(value.manualSnapshotsLimitReached)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.SnapshotLimits {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8930,21 +8661,6 @@ extension DirectoryClientTypes {
 
 extension DirectoryClientTypes.Trust {
 
-    static func write(value: DirectoryClientTypes.Trust?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedDateTime"].writeTimestamp(value.createdDateTime, format: .epochSeconds)
-        try writer["DirectoryId"].write(value.directoryId)
-        try writer["LastUpdatedDateTime"].writeTimestamp(value.lastUpdatedDateTime, format: .epochSeconds)
-        try writer["RemoteDomainName"].write(value.remoteDomainName)
-        try writer["SelectiveAuth"].write(value.selectiveAuth)
-        try writer["StateLastUpdatedDateTime"].writeTimestamp(value.stateLastUpdatedDateTime, format: .epochSeconds)
-        try writer["TrustDirection"].write(value.trustDirection)
-        try writer["TrustId"].write(value.trustId)
-        try writer["TrustState"].write(value.trustState)
-        try writer["TrustStateReason"].write(value.trustStateReason)
-        try writer["TrustType"].write(value.trustType)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.Trust {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DirectoryClientTypes.Trust()
@@ -9222,14 +8938,6 @@ extension DirectoryClientTypes.UnshareTarget {
         try writer["Id"].write(value.id)
         try writer["Type"].write(value.type)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.UnshareTarget {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DirectoryClientTypes.UnshareTarget()
-        value.id = try reader["Id"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
-        return value
-    }
 }
 
 extension DirectoryClientTypes {
@@ -9492,18 +9200,6 @@ enum UpdateDirectorySetupOutputError {
 }
 
 extension DirectoryClientTypes.UpdateInfoEntry {
-
-    static func write(value: DirectoryClientTypes.UpdateInfoEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["InitiatedBy"].write(value.initiatedBy)
-        try writer["LastUpdatedDateTime"].writeTimestamp(value.lastUpdatedDateTime, format: .epochSeconds)
-        try writer["NewValue"].write(value.newValue, with: DirectoryClientTypes.UpdateValue.write(value:to:))
-        try writer["PreviousValue"].write(value.previousValue, with: DirectoryClientTypes.UpdateValue.write(value:to:))
-        try writer["Region"].write(value.region)
-        try writer["StartTime"].writeTimestamp(value.startTime, format: .epochSeconds)
-        try writer["Status"].write(value.status)
-        try writer["StatusReason"].write(value.statusReason)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.UpdateInfoEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -9914,11 +9610,6 @@ extension DirectoryClientTypes {
 }
 
 extension DirectoryClientTypes.UpdateValue {
-
-    static func write(value: DirectoryClientTypes.UpdateValue?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["OSUpdateSettings"].write(value.osUpdateSettings, with: DirectoryClientTypes.OSUpdateSettings.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.UpdateValue {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

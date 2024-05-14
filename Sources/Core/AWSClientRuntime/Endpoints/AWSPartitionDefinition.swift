@@ -10,7 +10,7 @@ import Foundation
 // Partition definitions are embedded as a static resource in this project, for now.
 // When Trebuchet integration is performed, partitions should be obtained from Trebuchet for every
 // build instead of being loaded from a static definition.
-public let partitionJSON = """
+public let awsPartitionJSON = """
 {
   "version": "1.1",
   "partitions": [

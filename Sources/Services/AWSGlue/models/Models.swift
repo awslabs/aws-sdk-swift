@@ -756,15 +756,6 @@ extension GlueClientTypes.AuditContext {
         try writer["AllColumnsRequested"].write(value.allColumnsRequested)
         try writer["RequestedColumns"].writeList(value.requestedColumns, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.AuditContext {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.AuditContext()
-        value.additionalAuditContext = try reader["AdditionalAuditContext"].readIfPresent()
-        value.requestedColumns = try reader["RequestedColumns"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.allColumnsRequested = try reader["AllColumnsRequested"].readIfPresent()
-        return value
-    }
 }
 
 extension GlueClientTypes {
@@ -792,12 +783,6 @@ extension GlueClientTypes {
 }
 
 extension GlueClientTypes.BackfillError {
-
-    static func write(value: GlueClientTypes.BackfillError?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Code"].write(value.code)
-        try writer["Partitions"].writeList(value.partitions, memberWritingClosure: GlueClientTypes.PartitionValueList.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.BackfillError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1908,16 +1893,6 @@ extension GlueClientTypes.BatchGetTableOptimizerEntry {
         try writer["tableName"].write(value.tableName)
         try writer["type"].write(value.type)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.BatchGetTableOptimizerEntry {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.BatchGetTableOptimizerEntry()
-        value.catalogId = try reader["catalogId"].readIfPresent()
-        value.databaseName = try reader["databaseName"].readIfPresent()
-        value.tableName = try reader["tableName"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
-        return value
-    }
 }
 
 extension GlueClientTypes {
@@ -1949,15 +1924,6 @@ extension GlueClientTypes {
 }
 
 extension GlueClientTypes.BatchGetTableOptimizerError {
-
-    static func write(value: GlueClientTypes.BatchGetTableOptimizerError?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["catalogId"].write(value.catalogId)
-        try writer["databaseName"].write(value.databaseName)
-        try writer["error"].write(value.error, with: GlueClientTypes.ErrorDetail.write(value:to:))
-        try writer["tableName"].write(value.tableName)
-        try writer["type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.BatchGetTableOptimizerError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2227,13 +2193,6 @@ enum BatchGetWorkflowsOutputError {
 
 extension GlueClientTypes.BatchStopJobRunError {
 
-    static func write(value: GlueClientTypes.BatchStopJobRunError?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ErrorDetail"].write(value.errorDetail, with: GlueClientTypes.ErrorDetail.write(value:to:))
-        try writer["JobName"].write(value.jobName)
-        try writer["JobRunId"].write(value.jobRunId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.BatchStopJobRunError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GlueClientTypes.BatchStopJobRunError()
@@ -2349,12 +2308,6 @@ enum BatchStopJobRunOutputError {
 
 extension GlueClientTypes.BatchStopJobRunSuccessfulSubmission {
 
-    static func write(value: GlueClientTypes.BatchStopJobRunSuccessfulSubmission?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["JobName"].write(value.jobName)
-        try writer["JobRunId"].write(value.jobRunId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.BatchStopJobRunSuccessfulSubmission {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GlueClientTypes.BatchStopJobRunSuccessfulSubmission()
@@ -2385,14 +2338,6 @@ extension GlueClientTypes {
 }
 
 extension GlueClientTypes.BatchTableOptimizer {
-
-    static func write(value: GlueClientTypes.BatchTableOptimizer?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["catalogId"].write(value.catalogId)
-        try writer["databaseName"].write(value.databaseName)
-        try writer["tableName"].write(value.tableName)
-        try writer["tableOptimizer"].write(value.tableOptimizer, with: GlueClientTypes.TableOptimizer.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.BatchTableOptimizer {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2434,12 +2379,6 @@ extension GlueClientTypes {
 }
 
 extension GlueClientTypes.BatchUpdatePartitionFailureEntry {
-
-    static func write(value: GlueClientTypes.BatchUpdatePartitionFailureEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ErrorDetail"].write(value.errorDetail, with: GlueClientTypes.ErrorDetail.write(value:to:))
-        try writer["PartitionValueList"].writeList(value.partitionValueList, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.BatchUpdatePartitionFailureEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2564,14 +2503,6 @@ extension GlueClientTypes.BatchUpdatePartitionRequestEntry {
         try writer["PartitionInput"].write(value.partitionInput, with: GlueClientTypes.PartitionInput.write(value:to:))
         try writer["PartitionValueList"].writeList(value.partitionValueList, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.BatchUpdatePartitionRequestEntry {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.BatchUpdatePartitionRequestEntry()
-        value.partitionValueList = try reader["PartitionValueList"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.partitionInput = try reader["PartitionInput"].readIfPresent(with: GlueClientTypes.PartitionInput.read(from:))
-        return value
-    }
 }
 
 extension GlueClientTypes {
@@ -2643,20 +2574,6 @@ extension GlueClientTypes {
 }
 
 extension GlueClientTypes.Blueprint {
-
-    static func write(value: GlueClientTypes.Blueprint?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BlueprintLocation"].write(value.blueprintLocation)
-        try writer["BlueprintServiceLocation"].write(value.blueprintServiceLocation)
-        try writer["CreatedOn"].writeTimestamp(value.createdOn, format: .epochSeconds)
-        try writer["Description"].write(value.description)
-        try writer["ErrorMessage"].write(value.errorMessage)
-        try writer["LastActiveDefinition"].write(value.lastActiveDefinition, with: GlueClientTypes.LastActiveDefinition.write(value:to:))
-        try writer["LastModifiedOn"].writeTimestamp(value.lastModifiedOn, format: .epochSeconds)
-        try writer["Name"].write(value.name)
-        try writer["ParameterSpec"].write(value.parameterSpec)
-        try writer["Status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.Blueprint {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2737,12 +2654,6 @@ extension GlueClientTypes {
 
 extension GlueClientTypes.BlueprintDetails {
 
-    static func write(value: GlueClientTypes.BlueprintDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BlueprintName"].write(value.blueprintName)
-        try writer["RunId"].write(value.runId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.BlueprintDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GlueClientTypes.BlueprintDetails()
@@ -2773,20 +2684,6 @@ extension GlueClientTypes {
 }
 
 extension GlueClientTypes.BlueprintRun {
-
-    static func write(value: GlueClientTypes.BlueprintRun?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BlueprintName"].write(value.blueprintName)
-        try writer["CompletedOn"].writeTimestamp(value.completedOn, format: .epochSeconds)
-        try writer["ErrorMessage"].write(value.errorMessage)
-        try writer["Parameters"].write(value.parameters)
-        try writer["RoleArn"].write(value.roleArn)
-        try writer["RollbackErrorMessage"].write(value.rollbackErrorMessage)
-        try writer["RunId"].write(value.runId)
-        try writer["StartedOn"].writeTimestamp(value.startedOn, format: .epochSeconds)
-        try writer["State"].write(value.state)
-        try writer["WorkflowName"].write(value.workflowName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.BlueprintRun {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3350,14 +3247,6 @@ extension GlueClientTypes.CatalogEntry {
         try writer["DatabaseName"].write(value.databaseName)
         try writer["TableName"].write(value.tableName)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.CatalogEntry {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.CatalogEntry()
-        value.databaseName = try reader["DatabaseName"].readIfPresent()
-        value.tableName = try reader["TableName"].readIfPresent()
-        return value
-    }
 }
 
 extension GlueClientTypes {
@@ -3441,13 +3330,6 @@ extension GlueClientTypes {
 }
 
 extension GlueClientTypes.CatalogImportStatus {
-
-    static func write(value: GlueClientTypes.CatalogImportStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ImportCompleted"].write(value.importCompleted)
-        try writer["ImportTime"].writeTimestamp(value.importTime, format: .epochSeconds)
-        try writer["ImportedBy"].write(value.importedBy)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.CatalogImportStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3843,14 +3725,6 @@ enum CheckSchemaVersionValidityOutputError {
 }
 
 extension GlueClientTypes.Classifier {
-
-    static func write(value: GlueClientTypes.Classifier?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CsvClassifier"].write(value.csvClassifier, with: GlueClientTypes.CsvClassifier.write(value:to:))
-        try writer["GrokClassifier"].write(value.grokClassifier, with: GlueClientTypes.GrokClassifier.write(value:to:))
-        try writer["JsonClassifier"].write(value.jsonClassifier, with: GlueClientTypes.JsonClassifier.write(value:to:))
-        try writer["XMLClassifier"].write(value.xmlClassifier, with: GlueClientTypes.XMLClassifier.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.Classifier {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4603,12 +4477,6 @@ extension GlueClientTypes {
 
 extension GlueClientTypes.ColumnError {
 
-    static func write(value: GlueClientTypes.ColumnError?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ColumnName"].write(value.columnName)
-        try writer["Error"].write(value.error, with: GlueClientTypes.ErrorDetail.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.ColumnError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GlueClientTypes.ColumnError()
@@ -4640,12 +4508,6 @@ extension GlueClientTypes {
 
 extension GlueClientTypes.ColumnImportance {
 
-    static func write(value: GlueClientTypes.ColumnImportance?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ColumnName"].write(value.columnName)
-        try writer["Importance"].write(value.importance)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.ColumnImportance {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GlueClientTypes.ColumnImportance()
@@ -4676,12 +4538,6 @@ extension GlueClientTypes {
 }
 
 extension GlueClientTypes.ColumnRowFilter {
-
-    static func write(value: GlueClientTypes.ColumnRowFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ColumnName"].write(value.columnName)
-        try writer["RowFilterExpression"].write(value.rowFilterExpression)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.ColumnRowFilter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4841,12 +4697,6 @@ extension GlueClientTypes {
 
 extension GlueClientTypes.ColumnStatisticsError {
 
-    static func write(value: GlueClientTypes.ColumnStatisticsError?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ColumnStatistics"].write(value.columnStatistics, with: GlueClientTypes.ColumnStatistics.write(value:to:))
-        try writer["Error"].write(value.error, with: GlueClientTypes.ErrorDetail.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.ColumnStatisticsError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GlueClientTypes.ColumnStatisticsError()
@@ -4954,28 +4804,6 @@ public struct ColumnStatisticsTaskNotRunningException: ClientRuntime.ModeledErro
 }
 
 extension GlueClientTypes.ColumnStatisticsTaskRun {
-
-    static func write(value: GlueClientTypes.ColumnStatisticsTaskRun?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CatalogID"].write(value.catalogID)
-        try writer["ColumnNameList"].writeList(value.columnNameList, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ColumnStatisticsTaskRunId"].write(value.columnStatisticsTaskRunId)
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["CustomerId"].write(value.customerId)
-        try writer["DPUSeconds"].write(value.dpuSeconds)
-        try writer["DatabaseName"].write(value.databaseName)
-        try writer["EndTime"].writeTimestamp(value.endTime, format: .epochSeconds)
-        try writer["ErrorMessage"].write(value.errorMessage)
-        try writer["LastUpdated"].writeTimestamp(value.lastUpdated, format: .epochSeconds)
-        try writer["NumberOfWorkers"].write(value.numberOfWorkers)
-        try writer["Role"].write(value.role)
-        try writer["SampleSize"].write(value.sampleSize)
-        try writer["SecurityConfiguration"].write(value.securityConfiguration)
-        try writer["StartTime"].writeTimestamp(value.startTime, format: .epochSeconds)
-        try writer["Status"].write(value.status)
-        try writer["TableName"].write(value.tableName)
-        try writer["WorkerType"].write(value.workerType)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.ColumnStatisticsTaskRun {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5533,14 +5361,6 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
 extension GlueClientTypes.ConfusionMatrix {
 
-    static func write(value: GlueClientTypes.ConfusionMatrix?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["NumFalseNegatives"].write(value.numFalseNegatives)
-        try writer["NumFalsePositives"].write(value.numFalsePositives)
-        try writer["NumTrueNegatives"].write(value.numTrueNegatives)
-        try writer["NumTruePositives"].write(value.numTruePositives)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.ConfusionMatrix {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GlueClientTypes.ConfusionMatrix()
@@ -5581,19 +5401,6 @@ extension GlueClientTypes {
 }
 
 extension GlueClientTypes.Connection {
-
-    static func write(value: GlueClientTypes.Connection?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ConnectionProperties"].writeMap(value.connectionProperties, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["ConnectionType"].write(value.connectionType)
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["Description"].write(value.description)
-        try writer["LastUpdatedBy"].write(value.lastUpdatedBy)
-        try writer["LastUpdatedTime"].writeTimestamp(value.lastUpdatedTime, format: .epochSeconds)
-        try writer["MatchCriteria"].writeList(value.matchCriteria, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Name"].write(value.name)
-        try writer["PhysicalConnectionRequirements"].write(value.physicalConnectionRequirements, with: GlueClientTypes.PhysicalConnectionRequirements.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.Connection {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5753,18 +5560,6 @@ extension GlueClientTypes.ConnectionInput {
         try writer["MatchCriteria"].writeList(value.matchCriteria, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Name"].write(value.name)
         try writer["PhysicalConnectionRequirements"].write(value.physicalConnectionRequirements, with: GlueClientTypes.PhysicalConnectionRequirements.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.ConnectionInput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.ConnectionInput()
-        value.name = try reader["Name"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.connectionType = try reader["ConnectionType"].readIfPresent()
-        value.matchCriteria = try reader["MatchCriteria"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.connectionProperties = try reader["ConnectionProperties"].readMapIfPresent(valueReadingClosure: Swift.String.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.physicalConnectionRequirements = try reader["PhysicalConnectionRequirements"].readIfPresent(with: GlueClientTypes.PhysicalConnectionRequirements.read(from:))
-        return value
     }
 }
 
@@ -6258,16 +6053,6 @@ extension GlueClientTypes {
 
 extension GlueClientTypes.Crawl {
 
-    static func write(value: GlueClientTypes.Crawl?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CompletedOn"].writeTimestamp(value.completedOn, format: .epochSeconds)
-        try writer["ErrorMessage"].write(value.errorMessage)
-        try writer["LogGroup"].write(value.logGroup)
-        try writer["LogStream"].write(value.logStream)
-        try writer["StartedOn"].writeTimestamp(value.startedOn, format: .epochSeconds)
-        try writer["State"].write(value.state)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.Crawl {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GlueClientTypes.Crawl()
@@ -6360,30 +6145,6 @@ extension GlueClientTypes {
 }
 
 extension GlueClientTypes.Crawler {
-
-    static func write(value: GlueClientTypes.Crawler?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Classifiers"].writeList(value.classifiers, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Configuration"].write(value.configuration)
-        try writer["CrawlElapsedTime"].write(value.crawlElapsedTime)
-        try writer["CrawlerSecurityConfiguration"].write(value.crawlerSecurityConfiguration)
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["DatabaseName"].write(value.databaseName)
-        try writer["Description"].write(value.description)
-        try writer["LakeFormationConfiguration"].write(value.lakeFormationConfiguration, with: GlueClientTypes.LakeFormationConfiguration.write(value:to:))
-        try writer["LastCrawl"].write(value.lastCrawl, with: GlueClientTypes.LastCrawlInfo.write(value:to:))
-        try writer["LastUpdated"].writeTimestamp(value.lastUpdated, format: .epochSeconds)
-        try writer["LineageConfiguration"].write(value.lineageConfiguration, with: GlueClientTypes.LineageConfiguration.write(value:to:))
-        try writer["Name"].write(value.name)
-        try writer["RecrawlPolicy"].write(value.recrawlPolicy, with: GlueClientTypes.RecrawlPolicy.write(value:to:))
-        try writer["Role"].write(value.role)
-        try writer["Schedule"].write(value.schedule, with: GlueClientTypes.Schedule.write(value:to:))
-        try writer["SchemaChangePolicy"].write(value.schemaChangePolicy, with: GlueClientTypes.SchemaChangePolicy.write(value:to:))
-        try writer["State"].write(value.state)
-        try writer["TablePrefix"].write(value.tablePrefix)
-        try writer["Targets"].write(value.targets, with: GlueClientTypes.CrawlerTargets.write(value:to:))
-        try writer["Version"].write(value.version)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.Crawler {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6505,20 +6266,6 @@ extension GlueClientTypes {
 }
 
 extension GlueClientTypes.CrawlerHistory {
-
-    static func write(value: GlueClientTypes.CrawlerHistory?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CrawlId"].write(value.crawlId)
-        try writer["DPUHour"].write(value.dpuHour)
-        try writer["EndTime"].writeTimestamp(value.endTime, format: .epochSeconds)
-        try writer["ErrorMessage"].write(value.errorMessage)
-        try writer["LogGroup"].write(value.logGroup)
-        try writer["LogStream"].write(value.logStream)
-        try writer["MessagePrefix"].write(value.messagePrefix)
-        try writer["StartTime"].writeTimestamp(value.startTime, format: .epochSeconds)
-        try writer["State"].write(value.state)
-        try writer["Summary"].write(value.summary)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.CrawlerHistory {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6657,18 +6404,6 @@ extension GlueClientTypes {
 
 extension GlueClientTypes.CrawlerMetrics {
 
-    static func write(value: GlueClientTypes.CrawlerMetrics?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CrawlerName"].write(value.crawlerName)
-        try writer["LastRuntimeSeconds"].write(value.lastRuntimeSeconds)
-        try writer["MedianRuntimeSeconds"].write(value.medianRuntimeSeconds)
-        try writer["StillEstimating"].write(value.stillEstimating)
-        try writer["TablesCreated"].write(value.tablesCreated)
-        try writer["TablesDeleted"].write(value.tablesDeleted)
-        try writer["TablesUpdated"].write(value.tablesUpdated)
-        try writer["TimeLeftSeconds"].write(value.timeLeftSeconds)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.CrawlerMetrics {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GlueClientTypes.CrawlerMetrics()
@@ -6729,11 +6464,6 @@ extension GlueClientTypes {
 }
 
 extension GlueClientTypes.CrawlerNodeDetails {
-
-    static func write(value: GlueClientTypes.CrawlerNodeDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Crawls"].writeList(value.crawls, memberWritingClosure: GlueClientTypes.Crawl.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.CrawlerNodeDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6986,15 +6716,6 @@ extension GlueClientTypes.CrawlsFilter {
         try writer["FieldName"].write(value.fieldName)
         try writer["FieldValue"].write(value.fieldValue)
         try writer["FilterOperator"].write(value.filterOperator)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.CrawlsFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.CrawlsFilter()
-        value.fieldName = try reader["FieldName"].readIfPresent()
-        value.filterOperator = try reader["FilterOperator"].readIfPresent()
-        value.fieldValue = try reader["FieldValue"].readIfPresent()
-        return value
     }
 }
 
@@ -7409,22 +7130,6 @@ extension GlueClientTypes.CreateCsvClassifierRequest {
         try writer["Name"].write(value.name)
         try writer["QuoteSymbol"].write(value.quoteSymbol)
         try writer["Serde"].write(value.serde)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.CreateCsvClassifierRequest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.CreateCsvClassifierRequest()
-        value.name = try reader["Name"].readIfPresent()
-        value.delimiter = try reader["Delimiter"].readIfPresent()
-        value.quoteSymbol = try reader["QuoteSymbol"].readIfPresent()
-        value.containsHeader = try reader["ContainsHeader"].readIfPresent()
-        value.header = try reader["Header"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.disableValueTrimming = try reader["DisableValueTrimming"].readIfPresent()
-        value.allowSingleColumn = try reader["AllowSingleColumn"].readIfPresent()
-        value.customDatatypeConfigured = try reader["CustomDatatypeConfigured"].readIfPresent()
-        value.customDatatypes = try reader["CustomDatatypes"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.serde = try reader["Serde"].readIfPresent()
-        return value
     }
 }
 
@@ -7993,16 +7698,6 @@ extension GlueClientTypes.CreateGrokClassifierRequest {
         try writer["GrokPattern"].write(value.grokPattern)
         try writer["Name"].write(value.name)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.CreateGrokClassifierRequest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.CreateGrokClassifierRequest()
-        value.classification = try reader["Classification"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.grokPattern = try reader["GrokPattern"].readIfPresent()
-        value.customPatterns = try reader["CustomPatterns"].readIfPresent()
-        return value
-    }
 }
 
 extension GlueClientTypes {
@@ -8243,14 +7938,6 @@ extension GlueClientTypes.CreateJsonClassifierRequest {
         guard let value else { return }
         try writer["JsonPath"].write(value.jsonPath)
         try writer["Name"].write(value.name)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.CreateJsonClassifierRequest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.CreateJsonClassifierRequest()
-        value.name = try reader["Name"].readIfPresent()
-        value.jsonPath = try reader["JsonPath"].readIfPresent()
-        return value
     }
 }
 
@@ -9656,15 +9343,6 @@ extension GlueClientTypes.CreateXMLClassifierRequest {
         try writer["Name"].write(value.name)
         try writer["RowTag"].write(value.rowTag)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.CreateXMLClassifierRequest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.CreateXMLClassifierRequest()
-        value.classification = try reader["Classification"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.rowTag = try reader["RowTag"].readIfPresent()
-        return value
-    }
 }
 
 extension GlueClientTypes {
@@ -9694,23 +9372,6 @@ extension GlueClientTypes {
 }
 
 extension GlueClientTypes.CsvClassifier {
-
-    static func write(value: GlueClientTypes.CsvClassifier?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AllowSingleColumn"].write(value.allowSingleColumn)
-        try writer["ContainsHeader"].write(value.containsHeader)
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["CustomDatatypeConfigured"].write(value.customDatatypeConfigured)
-        try writer["CustomDatatypes"].writeList(value.customDatatypes, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Delimiter"].write(value.delimiter)
-        try writer["DisableValueTrimming"].write(value.disableValueTrimming)
-        try writer["Header"].writeList(value.header, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["LastUpdated"].writeTimestamp(value.lastUpdated, format: .epochSeconds)
-        try writer["Name"].write(value.name)
-        try writer["QuoteSymbol"].write(value.quoteSymbol)
-        try writer["Serde"].write(value.serde)
-        try writer["Version"].write(value.version)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.CsvClassifier {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -9923,13 +9584,6 @@ extension GlueClientTypes {
 }
 
 extension GlueClientTypes.CustomEntityType {
-
-    static func write(value: GlueClientTypes.CustomEntityType?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ContextWords"].writeList(value.contextWords, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Name"].write(value.name)
-        try writer["RegexString"].write(value.regexString)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.CustomEntityType {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -10210,14 +9864,6 @@ extension GlueClientTypes {
 
 extension GlueClientTypes.DataQualityAnalyzerResult {
 
-    static func write(value: GlueClientTypes.DataQualityAnalyzerResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Description"].write(value.description)
-        try writer["EvaluatedMetrics"].writeMap(value.evaluatedMetrics, valueWritingClosure: Swift.Double.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["EvaluationMessage"].write(value.evaluationMessage)
-        try writer["Name"].write(value.name)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.DataQualityAnalyzerResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GlueClientTypes.DataQualityAnalyzerResult()
@@ -10296,14 +9942,6 @@ extension GlueClientTypes {
 
 extension GlueClientTypes.DataQualityMetricValues {
 
-    static func write(value: GlueClientTypes.DataQualityMetricValues?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ActualValue"].write(value.actualValue)
-        try writer["ExpectedValue"].write(value.expectedValue)
-        try writer["LowerLimit"].write(value.lowerLimit)
-        try writer["UpperLimit"].write(value.upperLimit)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.DataQualityMetricValues {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GlueClientTypes.DataQualityMetricValues()
@@ -10345,12 +9983,6 @@ extension GlueClientTypes {
 
 extension GlueClientTypes.DataQualityObservation {
 
-    static func write(value: GlueClientTypes.DataQualityObservation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Description"].write(value.description)
-        try writer["MetricBasedObservation"].write(value.metricBasedObservation, with: GlueClientTypes.MetricBasedObservation.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.DataQualityObservation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GlueClientTypes.DataQualityObservation()
@@ -10381,23 +10013,6 @@ extension GlueClientTypes {
 }
 
 extension GlueClientTypes.DataQualityResult {
-
-    static func write(value: GlueClientTypes.DataQualityResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AnalyzerResults"].writeList(value.analyzerResults, memberWritingClosure: GlueClientTypes.DataQualityAnalyzerResult.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["CompletedOn"].writeTimestamp(value.completedOn, format: .epochSeconds)
-        try writer["DataSource"].write(value.dataSource, with: GlueClientTypes.DataSource.write(value:to:))
-        try writer["EvaluationContext"].write(value.evaluationContext)
-        try writer["JobName"].write(value.jobName)
-        try writer["JobRunId"].write(value.jobRunId)
-        try writer["Observations"].writeList(value.observations, memberWritingClosure: GlueClientTypes.DataQualityObservation.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ResultId"].write(value.resultId)
-        try writer["RuleResults"].writeList(value.ruleResults, memberWritingClosure: GlueClientTypes.DataQualityRuleResult.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["RulesetEvaluationRunId"].write(value.rulesetEvaluationRunId)
-        try writer["RulesetName"].write(value.rulesetName)
-        try writer["Score"].write(value.score)
-        try writer["StartedOn"].writeTimestamp(value.startedOn, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.DataQualityResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -10485,15 +10100,6 @@ extension GlueClientTypes {
 
 extension GlueClientTypes.DataQualityResultDescription {
 
-    static func write(value: GlueClientTypes.DataQualityResultDescription?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DataSource"].write(value.dataSource, with: GlueClientTypes.DataSource.write(value:to:))
-        try writer["JobName"].write(value.jobName)
-        try writer["JobRunId"].write(value.jobRunId)
-        try writer["ResultId"].write(value.resultId)
-        try writer["StartedOn"].writeTimestamp(value.startedOn, format: .epochSeconds)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.DataQualityResultDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GlueClientTypes.DataQualityResultDescription()
@@ -10548,17 +10154,6 @@ extension GlueClientTypes.DataQualityResultFilterCriteria {
         try writer["StartedAfter"].writeTimestamp(value.startedAfter, format: .epochSeconds)
         try writer["StartedBefore"].writeTimestamp(value.startedBefore, format: .epochSeconds)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.DataQualityResultFilterCriteria {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.DataQualityResultFilterCriteria()
-        value.dataSource = try reader["DataSource"].readIfPresent(with: GlueClientTypes.DataSource.read(from:))
-        value.jobName = try reader["JobName"].readIfPresent()
-        value.jobRunId = try reader["JobRunId"].readIfPresent()
-        value.startedAfter = try reader["StartedAfter"].readTimestampIfPresent(format: .epochSeconds)
-        value.startedBefore = try reader["StartedBefore"].readTimestampIfPresent(format: .epochSeconds)
-        return value
-    }
 }
 
 extension GlueClientTypes {
@@ -10594,14 +10189,6 @@ extension GlueClientTypes {
 }
 
 extension GlueClientTypes.DataQualityRuleRecommendationRunDescription {
-
-    static func write(value: GlueClientTypes.DataQualityRuleRecommendationRunDescription?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DataSource"].write(value.dataSource, with: GlueClientTypes.DataSource.write(value:to:))
-        try writer["RunId"].write(value.runId)
-        try writer["StartedOn"].writeTimestamp(value.startedOn, format: .epochSeconds)
-        try writer["Status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.DataQualityRuleRecommendationRunDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -10650,15 +10237,6 @@ extension GlueClientTypes.DataQualityRuleRecommendationRunFilter {
         try writer["StartedAfter"].writeTimestamp(value.startedAfter, format: .epochSeconds)
         try writer["StartedBefore"].writeTimestamp(value.startedBefore, format: .epochSeconds)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.DataQualityRuleRecommendationRunFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.DataQualityRuleRecommendationRunFilter()
-        value.dataSource = try reader["DataSource"].readIfPresent(with: GlueClientTypes.DataSource.read(from:))
-        value.startedBefore = try reader["StartedBefore"].readTimestampIfPresent(format: .epochSeconds)
-        value.startedAfter = try reader["StartedAfter"].readTimestampIfPresent(format: .epochSeconds)
-        return value
-    }
 }
 
 extension GlueClientTypes {
@@ -10687,15 +10265,6 @@ extension GlueClientTypes {
 }
 
 extension GlueClientTypes.DataQualityRuleResult {
-
-    static func write(value: GlueClientTypes.DataQualityRuleResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Description"].write(value.description)
-        try writer["EvaluatedMetrics"].writeMap(value.evaluatedMetrics, valueWritingClosure: Swift.Double.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["EvaluationMessage"].write(value.evaluationMessage)
-        try writer["Name"].write(value.name)
-        try writer["Result"].write(value.result)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.DataQualityRuleResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -10776,14 +10345,6 @@ extension GlueClientTypes {
 
 extension GlueClientTypes.DataQualityRulesetEvaluationRunDescription {
 
-    static func write(value: GlueClientTypes.DataQualityRulesetEvaluationRunDescription?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DataSource"].write(value.dataSource, with: GlueClientTypes.DataSource.write(value:to:))
-        try writer["RunId"].write(value.runId)
-        try writer["StartedOn"].writeTimestamp(value.startedOn, format: .epochSeconds)
-        try writer["Status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.DataQualityRulesetEvaluationRunDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GlueClientTypes.DataQualityRulesetEvaluationRunDescription()
@@ -10831,15 +10392,6 @@ extension GlueClientTypes.DataQualityRulesetEvaluationRunFilter {
         try writer["StartedAfter"].writeTimestamp(value.startedAfter, format: .epochSeconds)
         try writer["StartedBefore"].writeTimestamp(value.startedBefore, format: .epochSeconds)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.DataQualityRulesetEvaluationRunFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.DataQualityRulesetEvaluationRunFilter()
-        value.dataSource = try reader["DataSource"].readIfPresent(with: GlueClientTypes.DataSource.read(from:))
-        value.startedBefore = try reader["StartedBefore"].readTimestampIfPresent(format: .epochSeconds)
-        value.startedAfter = try reader["StartedAfter"].readTimestampIfPresent(format: .epochSeconds)
-        return value
-    }
 }
 
 extension GlueClientTypes {
@@ -10878,19 +10430,6 @@ extension GlueClientTypes.DataQualityRulesetFilterCriteria {
         try writer["LastModifiedBefore"].writeTimestamp(value.lastModifiedBefore, format: .epochSeconds)
         try writer["Name"].write(value.name)
         try writer["TargetTable"].write(value.targetTable, with: GlueClientTypes.DataQualityTargetTable.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.DataQualityRulesetFilterCriteria {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.DataQualityRulesetFilterCriteria()
-        value.name = try reader["Name"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.createdBefore = try reader["CreatedBefore"].readTimestampIfPresent(format: .epochSeconds)
-        value.createdAfter = try reader["CreatedAfter"].readTimestampIfPresent(format: .epochSeconds)
-        value.lastModifiedBefore = try reader["LastModifiedBefore"].readTimestampIfPresent(format: .epochSeconds)
-        value.lastModifiedAfter = try reader["LastModifiedAfter"].readTimestampIfPresent(format: .epochSeconds)
-        value.targetTable = try reader["TargetTable"].readIfPresent(with: GlueClientTypes.DataQualityTargetTable.read(from:))
-        return value
     }
 }
 
@@ -10935,17 +10474,6 @@ extension GlueClientTypes {
 }
 
 extension GlueClientTypes.DataQualityRulesetListDetails {
-
-    static func write(value: GlueClientTypes.DataQualityRulesetListDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedOn"].writeTimestamp(value.createdOn, format: .epochSeconds)
-        try writer["Description"].write(value.description)
-        try writer["LastModifiedOn"].writeTimestamp(value.lastModifiedOn, format: .epochSeconds)
-        try writer["Name"].write(value.name)
-        try writer["RecommendationRunId"].write(value.recommendationRunId)
-        try writer["RuleCount"].write(value.ruleCount)
-        try writer["TargetTable"].write(value.targetTable, with: GlueClientTypes.DataQualityTargetTable.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.DataQualityRulesetListDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -11080,19 +10608,6 @@ extension GlueClientTypes {
 
 extension GlueClientTypes.Database {
 
-    static func write(value: GlueClientTypes.Database?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CatalogId"].write(value.catalogId)
-        try writer["CreateTableDefaultPermissions"].writeList(value.createTableDefaultPermissions, memberWritingClosure: GlueClientTypes.PrincipalPermissions.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["CreateTime"].writeTimestamp(value.createTime, format: .epochSeconds)
-        try writer["Description"].write(value.description)
-        try writer["FederatedDatabase"].write(value.federatedDatabase, with: GlueClientTypes.FederatedDatabase.write(value:to:))
-        try writer["LocationUri"].write(value.locationUri)
-        try writer["Name"].write(value.name)
-        try writer["Parameters"].writeMap(value.parameters, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["TargetDatabase"].write(value.targetDatabase, with: GlueClientTypes.DatabaseIdentifier.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.Database {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GlueClientTypes.Database()
@@ -11212,19 +10727,6 @@ extension GlueClientTypes.DatabaseInput {
         try writer["Name"].write(value.name)
         try writer["Parameters"].writeMap(value.parameters, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["TargetDatabase"].write(value.targetDatabase, with: GlueClientTypes.DatabaseIdentifier.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.DatabaseInput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.DatabaseInput()
-        value.name = try reader["Name"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.locationUri = try reader["LocationUri"].readIfPresent()
-        value.parameters = try reader["Parameters"].readMapIfPresent(valueReadingClosure: Swift.String.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.createTableDefaultPermissions = try reader["CreateTableDefaultPermissions"].readListIfPresent(memberReadingClosure: GlueClientTypes.PrincipalPermissions.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.targetDatabase = try reader["TargetDatabase"].readIfPresent(with: GlueClientTypes.DatabaseIdentifier.read(from:))
-        value.federatedDatabase = try reader["FederatedDatabase"].readIfPresent(with: GlueClientTypes.FederatedDatabase.read(from:))
-        return value
     }
 }
 
@@ -13355,35 +12857,6 @@ extension GlueClientTypes {
 
 extension GlueClientTypes.DevEndpoint {
 
-    static func write(value: GlueClientTypes.DevEndpoint?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arguments"].writeMap(value.arguments, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["AvailabilityZone"].write(value.availabilityZone)
-        try writer["CreatedTimestamp"].writeTimestamp(value.createdTimestamp, format: .epochSeconds)
-        try writer["EndpointName"].write(value.endpointName)
-        try writer["ExtraJarsS3Path"].write(value.extraJarsS3Path)
-        try writer["ExtraPythonLibsS3Path"].write(value.extraPythonLibsS3Path)
-        try writer["FailureReason"].write(value.failureReason)
-        try writer["GlueVersion"].write(value.glueVersion)
-        try writer["LastModifiedTimestamp"].writeTimestamp(value.lastModifiedTimestamp, format: .epochSeconds)
-        try writer["LastUpdateStatus"].write(value.lastUpdateStatus)
-        try writer["NumberOfNodes"].write(value.numberOfNodes)
-        try writer["NumberOfWorkers"].write(value.numberOfWorkers)
-        try writer["PrivateAddress"].write(value.privateAddress)
-        try writer["PublicAddress"].write(value.publicAddress)
-        try writer["PublicKey"].write(value.publicKey)
-        try writer["PublicKeys"].writeList(value.publicKeys, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["RoleArn"].write(value.roleArn)
-        try writer["SecurityConfiguration"].write(value.securityConfiguration)
-        try writer["SecurityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Status"].write(value.status)
-        try writer["SubnetId"].write(value.subnetId)
-        try writer["VpcId"].write(value.vpcId)
-        try writer["WorkerType"].write(value.workerType)
-        try writer["YarnEndpointAddress"].write(value.yarnEndpointAddress)
-        try writer["ZeppelinRemoteSparkInterpreterPort"].write(value.zeppelinRemoteSparkInterpreterPort)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.DevEndpoint {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GlueClientTypes.DevEndpoint()
@@ -13548,14 +13021,6 @@ extension GlueClientTypes.DevEndpointCustomLibraries {
         guard let value else { return }
         try writer["ExtraJarsS3Path"].write(value.extraJarsS3Path)
         try writer["ExtraPythonLibsS3Path"].write(value.extraPythonLibsS3Path)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.DevEndpointCustomLibraries {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.DevEndpointCustomLibraries()
-        value.extraPythonLibsS3Path = try reader["ExtraPythonLibsS3Path"].readIfPresent()
-        value.extraJarsS3Path = try reader["ExtraJarsS3Path"].readIfPresent()
-        return value
     }
 }
 
@@ -14168,12 +13633,6 @@ extension GlueClientTypes {
 
 extension GlueClientTypes.Edge {
 
-    static func write(value: GlueClientTypes.Edge?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DestinationId"].write(value.destinationId)
-        try writer["SourceId"].write(value.sourceId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.Edge {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GlueClientTypes.Edge()
@@ -14365,12 +13824,6 @@ public struct EntityNotFoundException: ClientRuntime.ModeledError, AWSClientRunt
 
 extension GlueClientTypes.ErrorDetail {
 
-    static func write(value: GlueClientTypes.ErrorDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ErrorCode"].write(value.errorCode)
-        try writer["ErrorMessage"].write(value.errorMessage)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.ErrorDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GlueClientTypes.ErrorDetail()
@@ -14401,12 +13854,6 @@ extension GlueClientTypes {
 }
 
 extension GlueClientTypes.ErrorDetails {
-
-    static func write(value: GlueClientTypes.ErrorDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ErrorCode"].write(value.errorCode)
-        try writer["ErrorMessage"].write(value.errorMessage)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.ErrorDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -14573,12 +14020,6 @@ extension GlueClientTypes {
 
 extension GlueClientTypes.EvaluationMetrics {
 
-    static func write(value: GlueClientTypes.EvaluationMetrics?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["FindMatchesMetrics"].write(value.findMatchesMetrics, with: GlueClientTypes.FindMatchesMetrics.write(value:to:))
-        try writer["TransformType"].write(value.transformType)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.EvaluationMetrics {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GlueClientTypes.EvaluationMetrics()
@@ -14743,11 +14184,6 @@ extension GlueClientTypes {
 
 extension GlueClientTypes.ExportLabelsTaskRunProperties {
 
-    static func write(value: GlueClientTypes.ExportLabelsTaskRunProperties?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["OutputS3Path"].write(value.outputS3Path)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.ExportLabelsTaskRunProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GlueClientTypes.ExportLabelsTaskRunProperties()
@@ -14853,13 +14289,6 @@ public struct FederatedResourceAlreadyExistsException: ClientRuntime.ModeledErro
 }
 
 extension GlueClientTypes.FederatedTable {
-
-    static func write(value: GlueClientTypes.FederatedTable?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ConnectionName"].write(value.connectionName)
-        try writer["DatabaseIdentifier"].write(value.databaseIdentifier)
-        try writer["Identifier"].write(value.identifier)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.FederatedTable {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -15392,16 +14821,6 @@ extension GlueClientTypes {
 
 extension GlueClientTypes.FindMatchesMetrics {
 
-    static func write(value: GlueClientTypes.FindMatchesMetrics?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AreaUnderPRCurve"].write(value.areaUnderPRCurve)
-        try writer["ColumnImportances"].writeList(value.columnImportances, memberWritingClosure: GlueClientTypes.ColumnImportance.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ConfusionMatrix"].write(value.confusionMatrix, with: GlueClientTypes.ConfusionMatrix.write(value:to:))
-        try writer["F1"].write(value.f1)
-        try writer["Precision"].write(value.precision)
-        try writer["Recall"].write(value.recall)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.FindMatchesMetrics {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GlueClientTypes.FindMatchesMetrics()
@@ -15501,13 +14920,6 @@ extension GlueClientTypes {
 }
 
 extension GlueClientTypes.FindMatchesTaskRunProperties {
-
-    static func write(value: GlueClientTypes.FindMatchesTaskRunProperties?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["JobId"].write(value.jobId)
-        try writer["JobName"].write(value.jobName)
-        try writer["JobRunId"].write(value.jobRunId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.FindMatchesTaskRunProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -16418,14 +15830,6 @@ extension GlueClientTypes.GetConnectionsFilter {
         guard let value else { return }
         try writer["ConnectionType"].write(value.connectionType)
         try writer["MatchCriteria"].writeList(value.matchCriteria, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.GetConnectionsFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.GetConnectionsFilter()
-        value.matchCriteria = try reader["MatchCriteria"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.connectionType = try reader["ConnectionType"].readIfPresent()
-        return value
     }
 }
 
@@ -21850,14 +21254,6 @@ public struct GlueEncryptionException: ClientRuntime.ModeledError, AWSClientRunt
 
 extension GlueClientTypes.GluePolicy {
 
-    static func write(value: GlueClientTypes.GluePolicy?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreateTime"].writeTimestamp(value.createTime, format: .epochSeconds)
-        try writer["PolicyHash"].write(value.policyHash)
-        try writer["PolicyInJson"].write(value.policyInJson)
-        try writer["UpdateTime"].writeTimestamp(value.updateTime, format: .epochSeconds)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.GluePolicy {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GlueClientTypes.GluePolicy()
@@ -22206,17 +21602,6 @@ extension GlueClientTypes {
 
 extension GlueClientTypes.GrokClassifier {
 
-    static func write(value: GlueClientTypes.GrokClassifier?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Classification"].write(value.classification)
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["CustomPatterns"].write(value.customPatterns)
-        try writer["GrokPattern"].write(value.grokPattern)
-        try writer["LastUpdated"].writeTimestamp(value.lastUpdated, format: .epochSeconds)
-        try writer["Name"].write(value.name)
-        try writer["Version"].write(value.version)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.GrokClassifier {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GlueClientTypes.GrokClassifier()
@@ -22365,14 +21750,6 @@ extension GlueClientTypes.IcebergInput {
         guard let value else { return }
         try writer["MetadataOperation"].write(value.metadataOperation)
         try writer["Version"].write(value.version)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.IcebergInput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.IcebergInput()
-        value.metadataOperation = try reader["MetadataOperation"].readIfPresent()
-        value.version = try reader["Version"].readIfPresent()
-        return value
     }
 }
 
@@ -22653,12 +22030,6 @@ enum ImportCatalogToGlueOutputError {
 }
 
 extension GlueClientTypes.ImportLabelsTaskRunProperties {
-
-    static func write(value: GlueClientTypes.ImportLabelsTaskRunProperties?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["InputS3Path"].write(value.inputS3Path)
-        try writer["Replace"].write(value.replace)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.ImportLabelsTaskRunProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -23303,33 +22674,6 @@ extension GlueClientTypes.Job: Swift.CustomDebugStringConvertible {
 
 extension GlueClientTypes.Job {
 
-    static func write(value: GlueClientTypes.Job?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AllocatedCapacity"].write(value.allocatedCapacity)
-        try writer["CodeGenConfigurationNodes"].writeMap(value.codeGenConfigurationNodes, valueWritingClosure: GlueClientTypes.CodeGenConfigurationNode.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["Command"].write(value.command, with: GlueClientTypes.JobCommand.write(value:to:))
-        try writer["Connections"].write(value.connections, with: GlueClientTypes.ConnectionsList.write(value:to:))
-        try writer["CreatedOn"].writeTimestamp(value.createdOn, format: .epochSeconds)
-        try writer["DefaultArguments"].writeMap(value.defaultArguments, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["Description"].write(value.description)
-        try writer["ExecutionClass"].write(value.executionClass)
-        try writer["ExecutionProperty"].write(value.executionProperty, with: GlueClientTypes.ExecutionProperty.write(value:to:))
-        try writer["GlueVersion"].write(value.glueVersion)
-        try writer["LastModifiedOn"].writeTimestamp(value.lastModifiedOn, format: .epochSeconds)
-        try writer["LogUri"].write(value.logUri)
-        try writer["MaxCapacity"].write(value.maxCapacity)
-        try writer["MaxRetries"].write(value.maxRetries)
-        try writer["Name"].write(value.name)
-        try writer["NonOverridableArguments"].writeMap(value.nonOverridableArguments, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["NotificationProperty"].write(value.notificationProperty, with: GlueClientTypes.NotificationProperty.write(value:to:))
-        try writer["NumberOfWorkers"].write(value.numberOfWorkers)
-        try writer["Role"].write(value.role)
-        try writer["SecurityConfiguration"].write(value.securityConfiguration)
-        try writer["SourceControlDetails"].write(value.sourceControlDetails, with: GlueClientTypes.SourceControlDetails.write(value:to:))
-        try writer["Timeout"].write(value.timeout)
-        try writer["WorkerType"].write(value.workerType)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.Job {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GlueClientTypes.Job()
@@ -23482,17 +22826,6 @@ extension GlueClientTypes {
 }
 
 extension GlueClientTypes.JobBookmarkEntry {
-
-    static func write(value: GlueClientTypes.JobBookmarkEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Attempt"].write(value.attempt)
-        try writer["JobBookmark"].write(value.jobBookmark)
-        try writer["JobName"].write(value.jobName)
-        try writer["PreviousRunId"].write(value.previousRunId)
-        try writer["Run"].write(value.run)
-        try writer["RunId"].write(value.runId)
-        try writer["Version"].write(value.version)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.JobBookmarkEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -23666,11 +22999,6 @@ extension GlueClientTypes {
 
 extension GlueClientTypes.JobNodeDetails {
 
-    static func write(value: GlueClientTypes.JobNodeDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["JobRuns"].writeList(value.jobRuns, memberWritingClosure: GlueClientTypes.JobRun.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.JobNodeDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GlueClientTypes.JobNodeDetails()
@@ -23696,34 +23024,6 @@ extension GlueClientTypes {
 }
 
 extension GlueClientTypes.JobRun {
-
-    static func write(value: GlueClientTypes.JobRun?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AllocatedCapacity"].write(value.allocatedCapacity)
-        try writer["Arguments"].writeMap(value.arguments, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["Attempt"].write(value.attempt)
-        try writer["CompletedOn"].writeTimestamp(value.completedOn, format: .epochSeconds)
-        try writer["DPUSeconds"].write(value.dpuSeconds)
-        try writer["ErrorMessage"].write(value.errorMessage)
-        try writer["ExecutionClass"].write(value.executionClass)
-        try writer["ExecutionTime"].write(value.executionTime)
-        try writer["GlueVersion"].write(value.glueVersion)
-        try writer["Id"].write(value.id)
-        try writer["JobName"].write(value.jobName)
-        try writer["JobRunState"].write(value.jobRunState)
-        try writer["LastModifiedOn"].writeTimestamp(value.lastModifiedOn, format: .epochSeconds)
-        try writer["LogGroupName"].write(value.logGroupName)
-        try writer["MaxCapacity"].write(value.maxCapacity)
-        try writer["NotificationProperty"].write(value.notificationProperty, with: GlueClientTypes.NotificationProperty.write(value:to:))
-        try writer["NumberOfWorkers"].write(value.numberOfWorkers)
-        try writer["PredecessorRuns"].writeList(value.predecessorRuns, memberWritingClosure: GlueClientTypes.Predecessor.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["PreviousRunId"].write(value.previousRunId)
-        try writer["SecurityConfiguration"].write(value.securityConfiguration)
-        try writer["StartedOn"].writeTimestamp(value.startedOn, format: .epochSeconds)
-        try writer["Timeout"].write(value.timeout)
-        try writer["TriggerName"].write(value.triggerName)
-        try writer["WorkerType"].write(value.workerType)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.JobRun {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -23961,32 +23261,6 @@ extension GlueClientTypes.JobUpdate {
         try writer["SourceControlDetails"].write(value.sourceControlDetails, with: GlueClientTypes.SourceControlDetails.write(value:to:))
         try writer["Timeout"].write(value.timeout)
         try writer["WorkerType"].write(value.workerType)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.JobUpdate {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.JobUpdate()
-        value.description = try reader["Description"].readIfPresent()
-        value.logUri = try reader["LogUri"].readIfPresent()
-        value.role = try reader["Role"].readIfPresent()
-        value.executionProperty = try reader["ExecutionProperty"].readIfPresent(with: GlueClientTypes.ExecutionProperty.read(from:))
-        value.command = try reader["Command"].readIfPresent(with: GlueClientTypes.JobCommand.read(from:))
-        value.defaultArguments = try reader["DefaultArguments"].readMapIfPresent(valueReadingClosure: Swift.String.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.nonOverridableArguments = try reader["NonOverridableArguments"].readMapIfPresent(valueReadingClosure: Swift.String.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.connections = try reader["Connections"].readIfPresent(with: GlueClientTypes.ConnectionsList.read(from:))
-        value.maxRetries = try reader["MaxRetries"].readIfPresent() ?? 0
-        value.allocatedCapacity = try reader["AllocatedCapacity"].readIfPresent() ?? 0
-        value.timeout = try reader["Timeout"].readIfPresent()
-        value.maxCapacity = try reader["MaxCapacity"].readIfPresent()
-        value.workerType = try reader["WorkerType"].readIfPresent()
-        value.numberOfWorkers = try reader["NumberOfWorkers"].readIfPresent()
-        value.securityConfiguration = try reader["SecurityConfiguration"].readIfPresent()
-        value.notificationProperty = try reader["NotificationProperty"].readIfPresent(with: GlueClientTypes.NotificationProperty.read(from:))
-        value.glueVersion = try reader["GlueVersion"].readIfPresent()
-        value.codeGenConfigurationNodes = try reader["CodeGenConfigurationNodes"].readMapIfPresent(valueReadingClosure: GlueClientTypes.CodeGenConfigurationNode.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.executionClass = try reader["ExecutionClass"].readIfPresent()
-        value.sourceControlDetails = try reader["SourceControlDetails"].readIfPresent(with: GlueClientTypes.SourceControlDetails.read(from:))
-        return value
     }
 }
 
@@ -24235,15 +23509,6 @@ extension GlueClientTypes {
 
 extension GlueClientTypes.JsonClassifier {
 
-    static func write(value: GlueClientTypes.JsonClassifier?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["JsonPath"].write(value.jsonPath)
-        try writer["LastUpdated"].writeTimestamp(value.lastUpdated, format: .epochSeconds)
-        try writer["Name"].write(value.name)
-        try writer["Version"].write(value.version)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.JsonClassifier {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GlueClientTypes.JsonClassifier()
@@ -24431,12 +23696,6 @@ extension GlueClientTypes {
 
 extension GlueClientTypes.KeySchemaElement {
 
-    static func write(value: GlueClientTypes.KeySchemaElement?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["Type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.KeySchemaElement {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GlueClientTypes.KeySchemaElement()
@@ -24621,11 +23880,6 @@ extension GlueClientTypes {
 
 extension GlueClientTypes.LabelingSetGenerationTaskRunProperties {
 
-    static func write(value: GlueClientTypes.LabelingSetGenerationTaskRunProperties?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["OutputS3Path"].write(value.outputS3Path)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.LabelingSetGenerationTaskRunProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GlueClientTypes.LabelingSetGenerationTaskRunProperties()
@@ -24719,15 +23973,6 @@ extension GlueClientTypes {
 
 extension GlueClientTypes.LastActiveDefinition {
 
-    static func write(value: GlueClientTypes.LastActiveDefinition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BlueprintLocation"].write(value.blueprintLocation)
-        try writer["BlueprintServiceLocation"].write(value.blueprintServiceLocation)
-        try writer["Description"].write(value.description)
-        try writer["LastModifiedOn"].writeTimestamp(value.lastModifiedOn, format: .epochSeconds)
-        try writer["ParameterSpec"].write(value.parameterSpec)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.LastActiveDefinition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GlueClientTypes.LastActiveDefinition()
@@ -24773,16 +24018,6 @@ extension GlueClientTypes {
 }
 
 extension GlueClientTypes.LastCrawlInfo {
-
-    static func write(value: GlueClientTypes.LastCrawlInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ErrorMessage"].write(value.errorMessage)
-        try writer["LogGroup"].write(value.logGroup)
-        try writer["LogStream"].write(value.logStream)
-        try writer["MessagePrefix"].write(value.messagePrefix)
-        try writer["StartTime"].writeTimestamp(value.startTime, format: .epochSeconds)
-        try writer["Status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.LastCrawlInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -26620,15 +25855,6 @@ extension GlueClientTypes.Location {
         try writer["Jdbc"].writeList(value.jdbc, memberWritingClosure: GlueClientTypes.CodeGenNodeArg.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["S3"].writeList(value.s3, memberWritingClosure: GlueClientTypes.CodeGenNodeArg.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.Location {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.Location()
-        value.jdbc = try reader["Jdbc"].readListIfPresent(memberReadingClosure: GlueClientTypes.CodeGenNodeArg.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.s3 = try reader["S3"].readListIfPresent(memberReadingClosure: GlueClientTypes.CodeGenNodeArg.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.dynamoDB = try reader["DynamoDB"].readListIfPresent(memberReadingClosure: GlueClientTypes.CodeGenNodeArg.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
 }
 
 extension GlueClientTypes {
@@ -26764,29 +25990,6 @@ extension GlueClientTypes {
 }
 
 extension GlueClientTypes.MLTransform {
-
-    static func write(value: GlueClientTypes.MLTransform?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedOn"].writeTimestamp(value.createdOn, format: .epochSeconds)
-        try writer["Description"].write(value.description)
-        try writer["EvaluationMetrics"].write(value.evaluationMetrics, with: GlueClientTypes.EvaluationMetrics.write(value:to:))
-        try writer["GlueVersion"].write(value.glueVersion)
-        try writer["InputRecordTables"].writeList(value.inputRecordTables, memberWritingClosure: GlueClientTypes.GlueTable.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["LabelCount"].write(value.labelCount)
-        try writer["LastModifiedOn"].writeTimestamp(value.lastModifiedOn, format: .epochSeconds)
-        try writer["MaxCapacity"].write(value.maxCapacity)
-        try writer["MaxRetries"].write(value.maxRetries)
-        try writer["Name"].write(value.name)
-        try writer["NumberOfWorkers"].write(value.numberOfWorkers)
-        try writer["Parameters"].write(value.parameters, with: GlueClientTypes.TransformParameters.write(value:to:))
-        try writer["Role"].write(value.role)
-        try writer["Schema"].writeList(value.schema, memberWritingClosure: GlueClientTypes.SchemaColumn.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Status"].write(value.status)
-        try writer["Timeout"].write(value.timeout)
-        try writer["TransformEncryption"].write(value.transformEncryption, with: GlueClientTypes.TransformEncryption.write(value:to:))
-        try writer["TransformId"].write(value.transformId)
-        try writer["WorkerType"].write(value.workerType)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.MLTransform {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -27221,13 +26424,6 @@ extension GlueClientTypes {
 
 extension GlueClientTypes.MetadataInfo {
 
-    static func write(value: GlueClientTypes.MetadataInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedTime"].write(value.createdTime)
-        try writer["MetadataValue"].write(value.metadataValue)
-        try writer["OtherMetadataValueList"].writeList(value.otherMetadataValueList, memberWritingClosure: GlueClientTypes.OtherMetadataValueListItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.MetadataInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GlueClientTypes.MetadataInfo()
@@ -27268,14 +26464,6 @@ extension GlueClientTypes.MetadataKeyValuePair {
         guard let value else { return }
         try writer["MetadataKey"].write(value.metadataKey)
         try writer["MetadataValue"].write(value.metadataValue)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.MetadataKeyValuePair {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.MetadataKeyValuePair()
-        value.metadataKey = try reader["MetadataKey"].readIfPresent()
-        value.metadataValue = try reader["MetadataValue"].readIfPresent()
-        return value
     }
 }
 
@@ -27327,13 +26515,6 @@ extension GlueClientTypes {
 }
 
 extension GlueClientTypes.MetricBasedObservation {
-
-    static func write(value: GlueClientTypes.MetricBasedObservation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MetricName"].write(value.metricName)
-        try writer["MetricValues"].write(value.metricValues, with: GlueClientTypes.DataQualityMetricValues.write(value:to:))
-        try writer["NewRules"].writeList(value.newRules, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.MetricBasedObservation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -27650,16 +26831,6 @@ public struct NoScheduleException: ClientRuntime.ModeledError, AWSClientRuntime.
 
 extension GlueClientTypes.Node {
 
-    static func write(value: GlueClientTypes.Node?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CrawlerDetails"].write(value.crawlerDetails, with: GlueClientTypes.CrawlerNodeDetails.write(value:to:))
-        try writer["JobDetails"].write(value.jobDetails, with: GlueClientTypes.JobNodeDetails.write(value:to:))
-        try writer["Name"].write(value.name)
-        try writer["TriggerDetails"].write(value.triggerDetails, with: GlueClientTypes.TriggerNodeDetails.write(value:to:))
-        try writer["Type"].write(value.type)
-        try writer["UniqueId"].write(value.uniqueId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.Node {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GlueClientTypes.Node()
@@ -27860,13 +27031,6 @@ extension GlueClientTypes.OpenTableFormatInput {
     static func write(value: GlueClientTypes.OpenTableFormatInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["IcebergInput"].write(value.icebergInput, with: GlueClientTypes.IcebergInput.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.OpenTableFormatInput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.OpenTableFormatInput()
-        value.icebergInput = try reader["IcebergInput"].readIfPresent(with: GlueClientTypes.IcebergInput.read(from:))
-        return value
     }
 }
 
@@ -28107,12 +27271,6 @@ extension GlueClientTypes {
 
 extension GlueClientTypes.OtherMetadataValueListItem {
 
-    static func write(value: GlueClientTypes.OtherMetadataValueListItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedTime"].write(value.createdTime)
-        try writer["MetadataValue"].write(value.metadataValue)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.OtherMetadataValueListItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GlueClientTypes.OtherMetadataValueListItem()
@@ -28305,19 +27463,6 @@ extension GlueClientTypes {
 
 extension GlueClientTypes.Partition {
 
-    static func write(value: GlueClientTypes.Partition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CatalogId"].write(value.catalogId)
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["DatabaseName"].write(value.databaseName)
-        try writer["LastAccessTime"].writeTimestamp(value.lastAccessTime, format: .epochSeconds)
-        try writer["LastAnalyzedTime"].writeTimestamp(value.lastAnalyzedTime, format: .epochSeconds)
-        try writer["Parameters"].writeMap(value.parameters, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["StorageDescriptor"].write(value.storageDescriptor, with: GlueClientTypes.StorageDescriptor.write(value:to:))
-        try writer["TableName"].write(value.tableName)
-        try writer["Values"].writeList(value.values, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.Partition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GlueClientTypes.Partition()
@@ -28384,12 +27529,6 @@ extension GlueClientTypes {
 
 extension GlueClientTypes.PartitionError {
 
-    static func write(value: GlueClientTypes.PartitionError?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ErrorDetail"].write(value.errorDetail, with: GlueClientTypes.ErrorDetail.write(value:to:))
-        try writer["PartitionValues"].writeList(value.partitionValues, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.PartitionError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GlueClientTypes.PartitionError()
@@ -28426,14 +27565,6 @@ extension GlueClientTypes.PartitionIndex {
         try writer["IndexName"].write(value.indexName)
         try writer["Keys"].writeList(value.keys, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.PartitionIndex {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.PartitionIndex()
-        value.keys = try reader["Keys"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.indexName = try reader["IndexName"].readIfPresent()
-        return value
-    }
 }
 
 extension GlueClientTypes {
@@ -28459,14 +27590,6 @@ extension GlueClientTypes {
 }
 
 extension GlueClientTypes.PartitionIndexDescriptor {
-
-    static func write(value: GlueClientTypes.PartitionIndexDescriptor?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BackfillErrors"].writeList(value.backfillErrors, memberWritingClosure: GlueClientTypes.BackfillError.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["IndexName"].write(value.indexName)
-        try writer["IndexStatus"].write(value.indexStatus)
-        try writer["Keys"].writeList(value.keys, memberWritingClosure: GlueClientTypes.KeySchemaElement.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.PartitionIndexDescriptor {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -28563,17 +27686,6 @@ extension GlueClientTypes.PartitionInput {
         try writer["Parameters"].writeMap(value.parameters, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["StorageDescriptor"].write(value.storageDescriptor, with: GlueClientTypes.StorageDescriptor.write(value:to:))
         try writer["Values"].writeList(value.values, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.PartitionInput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.PartitionInput()
-        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.lastAccessTime = try reader["LastAccessTime"].readTimestampIfPresent(format: .epochSeconds)
-        value.storageDescriptor = try reader["StorageDescriptor"].readIfPresent(with: GlueClientTypes.StorageDescriptor.read(from:))
-        value.parameters = try reader["Parameters"].readMapIfPresent(valueReadingClosure: Swift.String.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.lastAnalyzedTime = try reader["LastAnalyzedTime"].readTimestampIfPresent(format: .epochSeconds)
-        return value
     }
 }
 
@@ -28946,12 +28058,6 @@ extension GlueClientTypes {
 
 extension GlueClientTypes.Predecessor {
 
-    static func write(value: GlueClientTypes.Predecessor?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["JobName"].write(value.jobName)
-        try writer["RunId"].write(value.runId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.Predecessor {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GlueClientTypes.Predecessor()
@@ -29095,15 +28201,6 @@ extension GlueClientTypes.PropertyPredicate {
         try writer["Comparator"].write(value.comparator)
         try writer["Key"].write(value.key)
         try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.PropertyPredicate {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.PropertyPredicate()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
-        value.comparator = try reader["Comparator"].readIfPresent()
-        return value
     }
 }
 
@@ -29593,17 +28690,6 @@ extension GlueClientTypes.QuerySessionContext {
         try writer["QueryId"].write(value.queryId)
         try writer["QueryStartTime"].writeTimestamp(value.queryStartTime, format: .epochSeconds)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.QuerySessionContext {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.QuerySessionContext()
-        value.queryId = try reader["QueryId"].readIfPresent()
-        value.queryStartTime = try reader["QueryStartTime"].readTimestampIfPresent(format: .epochSeconds)
-        value.clusterId = try reader["ClusterId"].readIfPresent()
-        value.queryAuthorizationId = try reader["QueryAuthorizationId"].readIfPresent()
-        value.additionalContext = try reader["AdditionalContext"].readMapIfPresent(valueReadingClosure: Swift.String.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
 }
 
 extension GlueClientTypes {
@@ -30050,14 +29136,6 @@ extension GlueClientTypes.RegistryId {
         try writer["RegistryArn"].write(value.registryArn)
         try writer["RegistryName"].write(value.registryName)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.RegistryId {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.RegistryId()
-        value.registryName = try reader["RegistryName"].readIfPresent()
-        value.registryArn = try reader["RegistryArn"].readIfPresent()
-        return value
-    }
 }
 
 extension GlueClientTypes {
@@ -30081,16 +29159,6 @@ extension GlueClientTypes {
 }
 
 extension GlueClientTypes.RegistryListItem {
-
-    static func write(value: GlueClientTypes.RegistryListItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedTime"].write(value.createdTime)
-        try writer["Description"].write(value.description)
-        try writer["RegistryArn"].write(value.registryArn)
-        try writer["RegistryName"].write(value.registryName)
-        try writer["Status"].write(value.status)
-        try writer["UpdatedTime"].write(value.updatedTime)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.RegistryListItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -30730,14 +29798,6 @@ enum ResumeWorkflowRunOutputError {
 }
 
 extension GlueClientTypes.RunMetrics {
-
-    static func write(value: GlueClientTypes.RunMetrics?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["JobDurationInHour"].write(value.jobDurationInHour)
-        try writer["NumberOfBytesCompacted"].write(value.numberOfBytesCompacted)
-        try writer["NumberOfDpus"].write(value.numberOfDpus)
-        try writer["NumberOfFilesCompacted"].write(value.numberOfFilesCompacted)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.RunMetrics {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -32210,12 +31270,6 @@ extension GlueClientTypes {
 
 extension GlueClientTypes.Schedule {
 
-    static func write(value: GlueClientTypes.Schedule?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ScheduleExpression"].write(value.scheduleExpression)
-        try writer["State"].write(value.state)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.Schedule {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GlueClientTypes.Schedule()
@@ -32538,17 +31592,6 @@ extension GlueClientTypes {
 
 extension GlueClientTypes.SchemaListItem {
 
-    static func write(value: GlueClientTypes.SchemaListItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedTime"].write(value.createdTime)
-        try writer["Description"].write(value.description)
-        try writer["RegistryName"].write(value.registryName)
-        try writer["SchemaArn"].write(value.schemaArn)
-        try writer["SchemaName"].write(value.schemaName)
-        try writer["SchemaStatus"].write(value.schemaStatus)
-        try writer["UpdatedTime"].write(value.updatedTime)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.SchemaListItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GlueClientTypes.SchemaListItem()
@@ -32681,12 +31724,6 @@ extension GlueClientTypes {
 
 extension GlueClientTypes.SchemaVersionErrorItem {
 
-    static func write(value: GlueClientTypes.SchemaVersionErrorItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ErrorDetails"].write(value.errorDetails, with: GlueClientTypes.ErrorDetails.write(value:to:))
-        try writer["VersionNumber"].write(value.versionNumber)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.SchemaVersionErrorItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GlueClientTypes.SchemaVersionErrorItem()
@@ -32717,15 +31754,6 @@ extension GlueClientTypes {
 }
 
 extension GlueClientTypes.SchemaVersionListItem {
-
-    static func write(value: GlueClientTypes.SchemaVersionListItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedTime"].write(value.createdTime)
-        try writer["SchemaArn"].write(value.schemaArn)
-        try writer["SchemaVersionId"].write(value.schemaVersionId)
-        try writer["Status"].write(value.status)
-        try writer["VersionNumber"].write(value.versionNumber)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.SchemaVersionListItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -32777,14 +31805,6 @@ extension GlueClientTypes.SchemaVersionNumber {
         guard let value else { return }
         try writer["LatestVersion"].write(value.latestVersion)
         try writer["VersionNumber"].write(value.versionNumber)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.SchemaVersionNumber {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.SchemaVersionNumber()
-        value.latestVersion = try reader["LatestVersion"].readIfPresent() ?? false
-        value.versionNumber = try reader["VersionNumber"].readIfPresent()
-        return value
     }
 }
 
@@ -32952,13 +31972,6 @@ enum SearchTablesOutputError {
 
 extension GlueClientTypes.SecurityConfiguration {
 
-    static func write(value: GlueClientTypes.SecurityConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedTimeStamp"].writeTimestamp(value.createdTimeStamp, format: .epochSeconds)
-        try writer["EncryptionConfiguration"].write(value.encryptionConfiguration, with: GlueClientTypes.EncryptionConfiguration.write(value:to:))
-        try writer["Name"].write(value.name)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.SecurityConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GlueClientTypes.SecurityConfiguration()
@@ -32999,14 +32012,6 @@ extension GlueClientTypes.Segment {
         guard let value else { return }
         try writer["SegmentNumber"].write(value.segmentNumber)
         try writer["TotalSegments"].write(value.totalSegments)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.Segment {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.Segment()
-        value.segmentNumber = try reader["SegmentNumber"].readIfPresent() ?? 0
-        value.totalSegments = try reader["TotalSegments"].readIfPresent()
-        return value
     }
 }
 
@@ -33207,29 +32212,6 @@ extension GlueClientTypes {
 }
 
 extension GlueClientTypes.Session {
-
-    static func write(value: GlueClientTypes.Session?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Command"].write(value.command, with: GlueClientTypes.SessionCommand.write(value:to:))
-        try writer["CompletedOn"].writeTimestamp(value.completedOn, format: .epochSeconds)
-        try writer["Connections"].write(value.connections, with: GlueClientTypes.ConnectionsList.write(value:to:))
-        try writer["CreatedOn"].writeTimestamp(value.createdOn, format: .epochSeconds)
-        try writer["DPUSeconds"].write(value.dpuSeconds)
-        try writer["DefaultArguments"].writeMap(value.defaultArguments, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["Description"].write(value.description)
-        try writer["ErrorMessage"].write(value.errorMessage)
-        try writer["ExecutionTime"].write(value.executionTime)
-        try writer["GlueVersion"].write(value.glueVersion)
-        try writer["Id"].write(value.id)
-        try writer["IdleTimeout"].write(value.idleTimeout)
-        try writer["MaxCapacity"].write(value.maxCapacity)
-        try writer["NumberOfWorkers"].write(value.numberOfWorkers)
-        try writer["Progress"].write(value.progress)
-        try writer["Role"].write(value.role)
-        try writer["SecurityConfiguration"].write(value.securityConfiguration)
-        try writer["Status"].write(value.status)
-        try writer["WorkerType"].write(value.workerType)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.Session {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -33744,14 +32726,6 @@ extension GlueClientTypes.SortCriterion {
         guard let value else { return }
         try writer["FieldName"].write(value.fieldName)
         try writer["Sort"].write(value.sort)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.SortCriterion {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.SortCriterion()
-        value.fieldName = try reader["FieldName"].readIfPresent()
-        value.sort = try reader["Sort"].readIfPresent()
-        return value
     }
 }
 
@@ -35374,12 +34348,6 @@ enum StartWorkflowRunOutputError {
 
 extension GlueClientTypes.StartingEventBatchCondition {
 
-    static func write(value: GlueClientTypes.StartingEventBatchCondition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BatchSize"].write(value.batchSize)
-        try writer["BatchWindow"].write(value.batchWindow)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.StartingEventBatchCondition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GlueClientTypes.StartingEventBatchCondition()
@@ -35447,17 +34415,6 @@ extension GlueClientTypes {
 
 extension GlueClientTypes.Statement {
 
-    static func write(value: GlueClientTypes.Statement?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Code"].write(value.code)
-        try writer["CompletedOn"].write(value.completedOn)
-        try writer["Id"].write(value.id)
-        try writer["Output"].write(value.output, with: GlueClientTypes.StatementOutput.write(value:to:))
-        try writer["Progress"].write(value.progress)
-        try writer["StartedOn"].write(value.startedOn)
-        try writer["State"].write(value.state)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.Statement {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GlueClientTypes.Statement()
@@ -35514,16 +34471,6 @@ extension GlueClientTypes {
 
 extension GlueClientTypes.StatementOutput {
 
-    static func write(value: GlueClientTypes.StatementOutput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Data"].write(value.data, with: GlueClientTypes.StatementOutputData.write(value:to:))
-        try writer["ErrorName"].write(value.errorName)
-        try writer["ErrorValue"].write(value.errorValue)
-        try writer["ExecutionCount"].write(value.executionCount)
-        try writer["Status"].write(value.status)
-        try writer["Traceback"].writeList(value.traceback, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.StatementOutput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GlueClientTypes.StatementOutput()
@@ -35574,11 +34521,6 @@ extension GlueClientTypes {
 }
 
 extension GlueClientTypes.StatementOutputData {
-
-    static func write(value: GlueClientTypes.StatementOutputData?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["TextPlain"].write(value.textPlain)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.StatementOutputData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -36239,14 +35181,6 @@ extension GlueClientTypes.SupportedDialect {
         try writer["Dialect"].write(value.dialect)
         try writer["DialectVersion"].write(value.dialectVersion)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.SupportedDialect {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.SupportedDialect()
-        value.dialect = try reader["Dialect"].readIfPresent()
-        value.dialectVersion = try reader["DialectVersion"].readIfPresent()
-        return value
-    }
 }
 
 extension GlueClientTypes {
@@ -36270,33 +35204,6 @@ extension GlueClientTypes {
 }
 
 extension GlueClientTypes.Table {
-
-    static func write(value: GlueClientTypes.Table?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CatalogId"].write(value.catalogId)
-        try writer["CreateTime"].writeTimestamp(value.createTime, format: .epochSeconds)
-        try writer["CreatedBy"].write(value.createdBy)
-        try writer["DatabaseName"].write(value.databaseName)
-        try writer["Description"].write(value.description)
-        try writer["FederatedTable"].write(value.federatedTable, with: GlueClientTypes.FederatedTable.write(value:to:))
-        try writer["IsMultiDialectView"].write(value.isMultiDialectView)
-        try writer["IsRegisteredWithLakeFormation"].write(value.isRegisteredWithLakeFormation)
-        try writer["LastAccessTime"].writeTimestamp(value.lastAccessTime, format: .epochSeconds)
-        try writer["LastAnalyzedTime"].writeTimestamp(value.lastAnalyzedTime, format: .epochSeconds)
-        try writer["Name"].write(value.name)
-        try writer["Owner"].write(value.owner)
-        try writer["Parameters"].writeMap(value.parameters, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["PartitionKeys"].writeList(value.partitionKeys, memberWritingClosure: GlueClientTypes.Column.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Retention"].write(value.retention)
-        try writer["StorageDescriptor"].write(value.storageDescriptor, with: GlueClientTypes.StorageDescriptor.write(value:to:))
-        try writer["TableType"].write(value.tableType)
-        try writer["TargetTable"].write(value.targetTable, with: GlueClientTypes.TableIdentifier.write(value:to:))
-        try writer["UpdateTime"].writeTimestamp(value.updateTime, format: .epochSeconds)
-        try writer["VersionId"].write(value.versionId)
-        try writer["ViewDefinition"].write(value.viewDefinition, with: GlueClientTypes.ViewDefinition.write(value:to:))
-        try writer["ViewExpandedText"].write(value.viewExpandedText)
-        try writer["ViewOriginalText"].write(value.viewOriginalText)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.Table {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -36435,12 +35342,6 @@ extension GlueClientTypes {
 
 extension GlueClientTypes.TableError {
 
-    static func write(value: GlueClientTypes.TableError?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ErrorDetail"].write(value.errorDetail, with: GlueClientTypes.ErrorDetail.write(value:to:))
-        try writer["TableName"].write(value.tableName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.TableError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GlueClientTypes.TableError()
@@ -36537,25 +35438,6 @@ extension GlueClientTypes.TableInput {
         try writer["ViewExpandedText"].write(value.viewExpandedText)
         try writer["ViewOriginalText"].write(value.viewOriginalText)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.TableInput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.TableInput()
-        value.name = try reader["Name"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.owner = try reader["Owner"].readIfPresent()
-        value.lastAccessTime = try reader["LastAccessTime"].readTimestampIfPresent(format: .epochSeconds)
-        value.lastAnalyzedTime = try reader["LastAnalyzedTime"].readTimestampIfPresent(format: .epochSeconds)
-        value.retention = try reader["Retention"].readIfPresent() ?? 0
-        value.storageDescriptor = try reader["StorageDescriptor"].readIfPresent(with: GlueClientTypes.StorageDescriptor.read(from:))
-        value.partitionKeys = try reader["PartitionKeys"].readListIfPresent(memberReadingClosure: GlueClientTypes.Column.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.viewOriginalText = try reader["ViewOriginalText"].readIfPresent()
-        value.viewExpandedText = try reader["ViewExpandedText"].readIfPresent()
-        value.tableType = try reader["TableType"].readIfPresent()
-        value.parameters = try reader["Parameters"].readMapIfPresent(valueReadingClosure: Swift.String.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.targetTable = try reader["TargetTable"].readIfPresent(with: GlueClientTypes.TableIdentifier.read(from:))
-        return value
-    }
 }
 
 extension GlueClientTypes {
@@ -36624,13 +35506,6 @@ extension GlueClientTypes {
 }
 
 extension GlueClientTypes.TableOptimizer {
-
-    static func write(value: GlueClientTypes.TableOptimizer?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["configuration"].write(value.configuration, with: GlueClientTypes.TableOptimizerConfiguration.write(value:to:))
-        try writer["lastRun"].write(value.lastRun, with: GlueClientTypes.TableOptimizerRun.write(value:to:))
-        try writer["type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.TableOptimizer {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -36741,15 +35616,6 @@ extension GlueClientTypes {
 
 extension GlueClientTypes.TableOptimizerRun {
 
-    static func write(value: GlueClientTypes.TableOptimizerRun?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["endTimestamp"].writeTimestamp(value.endTimestamp, format: .epochSeconds)
-        try writer["error"].write(value.error)
-        try writer["eventType"].write(value.eventType)
-        try writer["metrics"].write(value.metrics, with: GlueClientTypes.RunMetrics.write(value:to:))
-        try writer["startTimestamp"].writeTimestamp(value.startTimestamp, format: .epochSeconds)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.TableOptimizerRun {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GlueClientTypes.TableOptimizerRun()
@@ -36823,12 +35689,6 @@ extension GlueClientTypes {
 
 extension GlueClientTypes.TableVersion {
 
-    static func write(value: GlueClientTypes.TableVersion?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Table"].write(value.table, with: GlueClientTypes.Table.write(value:to:))
-        try writer["VersionId"].write(value.versionId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.TableVersion {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GlueClientTypes.TableVersion()
@@ -36859,13 +35719,6 @@ extension GlueClientTypes {
 }
 
 extension GlueClientTypes.TableVersionError {
-
-    static func write(value: GlueClientTypes.TableVersionError?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ErrorDetail"].write(value.errorDetail, with: GlueClientTypes.ErrorDetail.write(value:to:))
-        try writer["TableName"].write(value.tableName)
-        try writer["VersionId"].write(value.versionId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.TableVersionError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -37011,20 +35864,6 @@ extension GlueClientTypes {
 
 extension GlueClientTypes.TaskRun {
 
-    static func write(value: GlueClientTypes.TaskRun?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CompletedOn"].writeTimestamp(value.completedOn, format: .epochSeconds)
-        try writer["ErrorString"].write(value.errorString)
-        try writer["ExecutionTime"].write(value.executionTime)
-        try writer["LastModifiedOn"].writeTimestamp(value.lastModifiedOn, format: .epochSeconds)
-        try writer["LogGroupName"].write(value.logGroupName)
-        try writer["Properties"].write(value.properties, with: GlueClientTypes.TaskRunProperties.write(value:to:))
-        try writer["StartedOn"].writeTimestamp(value.startedOn, format: .epochSeconds)
-        try writer["Status"].write(value.status)
-        try writer["TaskRunId"].write(value.taskRunId)
-        try writer["TransformId"].write(value.transformId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.TaskRun {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GlueClientTypes.TaskRun()
@@ -37103,16 +35942,6 @@ extension GlueClientTypes.TaskRunFilterCriteria {
         try writer["Status"].write(value.status)
         try writer["TaskRunType"].write(value.taskRunType)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.TaskRunFilterCriteria {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.TaskRunFilterCriteria()
-        value.taskRunType = try reader["TaskRunType"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.startedBefore = try reader["StartedBefore"].readTimestampIfPresent(format: .epochSeconds)
-        value.startedAfter = try reader["StartedAfter"].readTimestampIfPresent(format: .epochSeconds)
-        return value
-    }
 }
 
 extension GlueClientTypes {
@@ -37144,15 +35973,6 @@ extension GlueClientTypes {
 }
 
 extension GlueClientTypes.TaskRunProperties {
-
-    static func write(value: GlueClientTypes.TaskRunProperties?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ExportLabelsTaskRunProperties"].write(value.exportLabelsTaskRunProperties, with: GlueClientTypes.ExportLabelsTaskRunProperties.write(value:to:))
-        try writer["FindMatchesTaskRunProperties"].write(value.findMatchesTaskRunProperties, with: GlueClientTypes.FindMatchesTaskRunProperties.write(value:to:))
-        try writer["ImportLabelsTaskRunProperties"].write(value.importLabelsTaskRunProperties, with: GlueClientTypes.ImportLabelsTaskRunProperties.write(value:to:))
-        try writer["LabelingSetGenerationTaskRunProperties"].write(value.labelingSetGenerationTaskRunProperties, with: GlueClientTypes.LabelingSetGenerationTaskRunProperties.write(value:to:))
-        try writer["TaskType"].write(value.taskType)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.TaskRunProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -37237,14 +36057,6 @@ extension GlueClientTypes.TaskRunSortCriteria {
         guard let value else { return }
         try writer["Column"].write(value.column)
         try writer["SortDirection"].write(value.sortDirection)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.TaskRunSortCriteria {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.TaskRunSortCriteria()
-        value.column = try reader["Column"].readIfPresent()
-        value.sortDirection = try reader["SortDirection"].readIfPresent()
-        return value
     }
 }
 
@@ -37474,21 +36286,6 @@ extension GlueClientTypes.TransformFilterCriteria {
         try writer["Status"].write(value.status)
         try writer["TransformType"].write(value.transformType)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.TransformFilterCriteria {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.TransformFilterCriteria()
-        value.name = try reader["Name"].readIfPresent()
-        value.transformType = try reader["TransformType"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.glueVersion = try reader["GlueVersion"].readIfPresent()
-        value.createdBefore = try reader["CreatedBefore"].readTimestampIfPresent(format: .epochSeconds)
-        value.createdAfter = try reader["CreatedAfter"].readTimestampIfPresent(format: .epochSeconds)
-        value.lastModifiedBefore = try reader["LastModifiedBefore"].readTimestampIfPresent(format: .epochSeconds)
-        value.lastModifiedAfter = try reader["LastModifiedAfter"].readTimestampIfPresent(format: .epochSeconds)
-        value.schema = try reader["Schema"].readListIfPresent(memberReadingClosure: GlueClientTypes.SchemaColumn.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
 }
 
 extension GlueClientTypes {
@@ -37623,14 +36420,6 @@ extension GlueClientTypes.TransformSortCriteria {
         try writer["Column"].write(value.column)
         try writer["SortDirection"].write(value.sortDirection)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.TransformSortCriteria {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.TransformSortCriteria()
-        value.column = try reader["Column"].readIfPresent()
-        value.sortDirection = try reader["SortDirection"].readIfPresent()
-        return value
-    }
 }
 
 extension GlueClientTypes {
@@ -37717,20 +36506,6 @@ extension GlueClientTypes {
 
 extension GlueClientTypes.Trigger {
 
-    static func write(value: GlueClientTypes.Trigger?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Actions"].writeList(value.actions, memberWritingClosure: GlueClientTypes.Action.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Description"].write(value.description)
-        try writer["EventBatchingCondition"].write(value.eventBatchingCondition, with: GlueClientTypes.EventBatchingCondition.write(value:to:))
-        try writer["Id"].write(value.id)
-        try writer["Name"].write(value.name)
-        try writer["Predicate"].write(value.predicate, with: GlueClientTypes.Predicate.write(value:to:))
-        try writer["Schedule"].write(value.schedule)
-        try writer["State"].write(value.state)
-        try writer["Type"].write(value.type)
-        try writer["WorkflowName"].write(value.workflowName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.Trigger {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GlueClientTypes.Trigger()
@@ -37801,11 +36576,6 @@ extension GlueClientTypes {
 }
 
 extension GlueClientTypes.TriggerNodeDetails {
-
-    static func write(value: GlueClientTypes.TriggerNodeDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Trigger"].write(value.trigger, with: GlueClientTypes.Trigger.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.TriggerNodeDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -37926,18 +36696,6 @@ extension GlueClientTypes.TriggerUpdate {
         try writer["Predicate"].write(value.predicate, with: GlueClientTypes.Predicate.write(value:to:))
         try writer["Schedule"].write(value.schedule)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.TriggerUpdate {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.TriggerUpdate()
-        value.name = try reader["Name"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.schedule = try reader["Schedule"].readIfPresent()
-        value.actions = try reader["Actions"].readListIfPresent(memberReadingClosure: GlueClientTypes.Action.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.predicate = try reader["Predicate"].readIfPresent(with: GlueClientTypes.Predicate.read(from:))
-        value.eventBatchingCondition = try reader["EventBatchingCondition"].readIfPresent(with: GlueClientTypes.EventBatchingCondition.read(from:))
-        return value
-    }
 }
 
 extension GlueClientTypes {
@@ -37977,13 +36735,6 @@ extension GlueClientTypes {
 }
 
 extension GlueClientTypes.UnfilteredPartition {
-
-    static func write(value: GlueClientTypes.UnfilteredPartition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AuthorizedColumns"].writeList(value.authorizedColumns, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["IsRegisteredWithLakeFormation"].write(value.isRegisteredWithLakeFormation)
-        try writer["Partition"].write(value.partition, with: GlueClientTypes.Partition.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.UnfilteredPartition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -38820,22 +37571,6 @@ extension GlueClientTypes.UpdateCsvClassifierRequest {
         try writer["QuoteSymbol"].write(value.quoteSymbol)
         try writer["Serde"].write(value.serde)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.UpdateCsvClassifierRequest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.UpdateCsvClassifierRequest()
-        value.name = try reader["Name"].readIfPresent()
-        value.delimiter = try reader["Delimiter"].readIfPresent()
-        value.quoteSymbol = try reader["QuoteSymbol"].readIfPresent()
-        value.containsHeader = try reader["ContainsHeader"].readIfPresent()
-        value.header = try reader["Header"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.disableValueTrimming = try reader["DisableValueTrimming"].readIfPresent()
-        value.allowSingleColumn = try reader["AllowSingleColumn"].readIfPresent()
-        value.customDatatypeConfigured = try reader["CustomDatatypeConfigured"].readIfPresent()
-        value.customDatatypes = try reader["CustomDatatypes"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.serde = try reader["Serde"].readIfPresent()
-        return value
-    }
 }
 
 extension GlueClientTypes {
@@ -39160,16 +37895,6 @@ extension GlueClientTypes.UpdateGrokClassifierRequest {
         try writer["GrokPattern"].write(value.grokPattern)
         try writer["Name"].write(value.name)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.UpdateGrokClassifierRequest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.UpdateGrokClassifierRequest()
-        value.name = try reader["Name"].readIfPresent()
-        value.classification = try reader["Classification"].readIfPresent()
-        value.grokPattern = try reader["GrokPattern"].readIfPresent()
-        value.customPatterns = try reader["CustomPatterns"].readIfPresent()
-        return value
-    }
 }
 
 extension GlueClientTypes {
@@ -39394,14 +38119,6 @@ extension GlueClientTypes.UpdateJsonClassifierRequest {
         guard let value else { return }
         try writer["JsonPath"].write(value.jsonPath)
         try writer["Name"].write(value.name)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.UpdateJsonClassifierRequest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.UpdateJsonClassifierRequest()
-        value.name = try reader["Name"].readIfPresent()
-        value.jsonPath = try reader["JsonPath"].readIfPresent()
-        return value
     }
 }
 
@@ -40336,15 +39053,6 @@ extension GlueClientTypes.UpdateXMLClassifierRequest {
         try writer["Name"].write(value.name)
         try writer["RowTag"].write(value.rowTag)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.UpdateXMLClassifierRequest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.UpdateXMLClassifierRequest()
-        value.name = try reader["Name"].readIfPresent()
-        value.classification = try reader["Classification"].readIfPresent()
-        value.rowTag = try reader["RowTag"].readIfPresent()
-        return value
-    }
 }
 
 extension GlueClientTypes {
@@ -40417,18 +39125,6 @@ extension GlueClientTypes {
 
 extension GlueClientTypes.UserDefinedFunction {
 
-    static func write(value: GlueClientTypes.UserDefinedFunction?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CatalogId"].write(value.catalogId)
-        try writer["ClassName"].write(value.className)
-        try writer["CreateTime"].writeTimestamp(value.createTime, format: .epochSeconds)
-        try writer["DatabaseName"].write(value.databaseName)
-        try writer["FunctionName"].write(value.functionName)
-        try writer["OwnerName"].write(value.ownerName)
-        try writer["OwnerType"].write(value.ownerType)
-        try writer["ResourceUris"].writeList(value.resourceUris, memberWritingClosure: GlueClientTypes.ResourceUri.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.UserDefinedFunction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GlueClientTypes.UserDefinedFunction()
@@ -40497,17 +39193,6 @@ extension GlueClientTypes.UserDefinedFunctionInput {
         try writer["OwnerName"].write(value.ownerName)
         try writer["OwnerType"].write(value.ownerType)
         try writer["ResourceUris"].writeList(value.resourceUris, memberWritingClosure: GlueClientTypes.ResourceUri.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.UserDefinedFunctionInput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.UserDefinedFunctionInput()
-        value.functionName = try reader["FunctionName"].readIfPresent()
-        value.className = try reader["ClassName"].readIfPresent()
-        value.ownerName = try reader["OwnerName"].readIfPresent()
-        value.ownerType = try reader["OwnerType"].readIfPresent()
-        value.resourceUris = try reader["ResourceUris"].readListIfPresent(memberReadingClosure: GlueClientTypes.ResourceUri.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -40621,14 +39306,6 @@ public struct VersionMismatchException: ClientRuntime.ModeledError, AWSClientRun
 
 extension GlueClientTypes.ViewDefinition {
 
-    static func write(value: GlueClientTypes.ViewDefinition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Definer"].write(value.definer)
-        try writer["IsProtected"].write(value.isProtected)
-        try writer["Representations"].writeList(value.representations, memberWritingClosure: GlueClientTypes.ViewRepresentation.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["SubObjects"].writeList(value.subObjects, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.ViewDefinition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GlueClientTypes.ViewDefinition()
@@ -40702,15 +39379,6 @@ extension GlueClientTypes {
 }
 
 extension GlueClientTypes.ViewRepresentation {
-
-    static func write(value: GlueClientTypes.ViewRepresentation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Dialect"].write(value.dialect)
-        try writer["DialectVersion"].write(value.dialectVersion)
-        try writer["IsStale"].write(value.isStale)
-        try writer["ViewExpandedText"].write(value.viewExpandedText)
-        try writer["ViewOriginalText"].write(value.viewOriginalText)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.ViewRepresentation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -40805,19 +39473,6 @@ extension GlueClientTypes {
 
 extension GlueClientTypes.Workflow {
 
-    static func write(value: GlueClientTypes.Workflow?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BlueprintDetails"].write(value.blueprintDetails, with: GlueClientTypes.BlueprintDetails.write(value:to:))
-        try writer["CreatedOn"].writeTimestamp(value.createdOn, format: .epochSeconds)
-        try writer["DefaultRunProperties"].writeMap(value.defaultRunProperties, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["Description"].write(value.description)
-        try writer["Graph"].write(value.graph, with: GlueClientTypes.WorkflowGraph.write(value:to:))
-        try writer["LastModifiedOn"].writeTimestamp(value.lastModifiedOn, format: .epochSeconds)
-        try writer["LastRun"].write(value.lastRun, with: GlueClientTypes.WorkflowRun.write(value:to:))
-        try writer["MaxConcurrentRuns"].write(value.maxConcurrentRuns)
-        try writer["Name"].write(value.name)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.Workflow {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GlueClientTypes.Workflow()
@@ -40884,12 +39539,6 @@ extension GlueClientTypes {
 
 extension GlueClientTypes.WorkflowGraph {
 
-    static func write(value: GlueClientTypes.WorkflowGraph?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Edges"].writeList(value.edges, memberWritingClosure: GlueClientTypes.Edge.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Nodes"].writeList(value.nodes, memberWritingClosure: GlueClientTypes.Node.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.WorkflowGraph {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GlueClientTypes.WorkflowGraph()
@@ -40920,21 +39569,6 @@ extension GlueClientTypes {
 }
 
 extension GlueClientTypes.WorkflowRun {
-
-    static func write(value: GlueClientTypes.WorkflowRun?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CompletedOn"].writeTimestamp(value.completedOn, format: .epochSeconds)
-        try writer["ErrorMessage"].write(value.errorMessage)
-        try writer["Graph"].write(value.graph, with: GlueClientTypes.WorkflowGraph.write(value:to:))
-        try writer["Name"].write(value.name)
-        try writer["PreviousRunId"].write(value.previousRunId)
-        try writer["StartedOn"].writeTimestamp(value.startedOn, format: .epochSeconds)
-        try writer["StartingEventBatchCondition"].write(value.startingEventBatchCondition, with: GlueClientTypes.StartingEventBatchCondition.write(value:to:))
-        try writer["Statistics"].write(value.statistics, with: GlueClientTypes.WorkflowRunStatistics.write(value:to:))
-        try writer["Status"].write(value.status)
-        try writer["WorkflowRunId"].write(value.workflowRunId)
-        try writer["WorkflowRunProperties"].writeMap(value.workflowRunProperties, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.WorkflowRun {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -41011,18 +39645,6 @@ extension GlueClientTypes {
 }
 
 extension GlueClientTypes.WorkflowRunStatistics {
-
-    static func write(value: GlueClientTypes.WorkflowRunStatistics?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ErroredActions"].write(value.erroredActions)
-        try writer["FailedActions"].write(value.failedActions)
-        try writer["RunningActions"].write(value.runningActions)
-        try writer["StoppedActions"].write(value.stoppedActions)
-        try writer["SucceededActions"].write(value.succeededActions)
-        try writer["TimeoutActions"].write(value.timeoutActions)
-        try writer["TotalActions"].write(value.totalActions)
-        try writer["WaitingActions"].write(value.waitingActions)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.WorkflowRunStatistics {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -41123,16 +39745,6 @@ extension GlueClientTypes {
 }
 
 extension GlueClientTypes.XMLClassifier {
-
-    static func write(value: GlueClientTypes.XMLClassifier?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Classification"].write(value.classification)
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["LastUpdated"].writeTimestamp(value.lastUpdated, format: .epochSeconds)
-        try writer["Name"].write(value.name)
-        try writer["RowTag"].write(value.rowTag)
-        try writer["Version"].write(value.version)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.XMLClassifier {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

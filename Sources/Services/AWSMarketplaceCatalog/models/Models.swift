@@ -47,13 +47,6 @@ extension MarketplaceCatalogClientTypes.AmiProductEntityIdFilter {
         guard let value else { return }
         try writer["ValueList"].writeList(value.valueList, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.AmiProductEntityIdFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MarketplaceCatalogClientTypes.AmiProductEntityIdFilter()
-        value.valueList = try reader["ValueList"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
 }
 
 extension MarketplaceCatalogClientTypes {
@@ -80,16 +73,6 @@ extension MarketplaceCatalogClientTypes.AmiProductFilters {
         try writer["LastModifiedDate"].write(value.lastModifiedDate, with: MarketplaceCatalogClientTypes.AmiProductLastModifiedDateFilter.write(value:to:))
         try writer["ProductTitle"].write(value.productTitle, with: MarketplaceCatalogClientTypes.AmiProductTitleFilter.write(value:to:))
         try writer["Visibility"].write(value.visibility, with: MarketplaceCatalogClientTypes.AmiProductVisibilityFilter.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.AmiProductFilters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MarketplaceCatalogClientTypes.AmiProductFilters()
-        value.entityId = try reader["EntityId"].readIfPresent(with: MarketplaceCatalogClientTypes.AmiProductEntityIdFilter.read(from:))
-        value.lastModifiedDate = try reader["LastModifiedDate"].readIfPresent(with: MarketplaceCatalogClientTypes.AmiProductLastModifiedDateFilter.read(from:))
-        value.productTitle = try reader["ProductTitle"].readIfPresent(with: MarketplaceCatalogClientTypes.AmiProductTitleFilter.read(from:))
-        value.visibility = try reader["Visibility"].readIfPresent(with: MarketplaceCatalogClientTypes.AmiProductVisibilityFilter.read(from:))
-        return value
     }
 }
 
@@ -127,13 +110,6 @@ extension MarketplaceCatalogClientTypes.AmiProductLastModifiedDateFilter {
         guard let value else { return }
         try writer["DateRange"].write(value.dateRange, with: MarketplaceCatalogClientTypes.AmiProductLastModifiedDateFilterDateRange.write(value:to:))
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.AmiProductLastModifiedDateFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MarketplaceCatalogClientTypes.AmiProductLastModifiedDateFilter()
-        value.dateRange = try reader["DateRange"].readIfPresent(with: MarketplaceCatalogClientTypes.AmiProductLastModifiedDateFilterDateRange.read(from:))
-        return value
-    }
 }
 
 extension MarketplaceCatalogClientTypes {
@@ -158,14 +134,6 @@ extension MarketplaceCatalogClientTypes.AmiProductLastModifiedDateFilterDateRang
         guard let value else { return }
         try writer["AfterValue"].write(value.afterValue)
         try writer["BeforeValue"].write(value.beforeValue)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.AmiProductLastModifiedDateFilterDateRange {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MarketplaceCatalogClientTypes.AmiProductLastModifiedDateFilterDateRange()
-        value.afterValue = try reader["AfterValue"].readIfPresent()
-        value.beforeValue = try reader["BeforeValue"].readIfPresent()
-        return value
     }
 }
 
@@ -195,14 +163,6 @@ extension MarketplaceCatalogClientTypes.AmiProductSort {
         guard let value else { return }
         try writer["SortBy"].write(value.sortBy)
         try writer["SortOrder"].write(value.sortOrder)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.AmiProductSort {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MarketplaceCatalogClientTypes.AmiProductSort()
-        value.sortBy = try reader["SortBy"].readIfPresent()
-        value.sortOrder = try reader["SortOrder"].readIfPresent()
-        return value
     }
 }
 
@@ -264,12 +224,6 @@ extension MarketplaceCatalogClientTypes {
 
 extension MarketplaceCatalogClientTypes.AmiProductSummary {
 
-    static func write(value: MarketplaceCatalogClientTypes.AmiProductSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ProductTitle"].write(value.productTitle)
-        try writer["Visibility"].write(value.visibility)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.AmiProductSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MarketplaceCatalogClientTypes.AmiProductSummary()
@@ -306,14 +260,6 @@ extension MarketplaceCatalogClientTypes.AmiProductTitleFilter {
         try writer["ValueList"].writeList(value.valueList, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["WildCardValue"].write(value.wildCardValue)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.AmiProductTitleFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MarketplaceCatalogClientTypes.AmiProductTitleFilter()
-        value.valueList = try reader["ValueList"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.wildCardValue = try reader["WildCardValue"].readIfPresent()
-        return value
-    }
 }
 
 extension MarketplaceCatalogClientTypes {
@@ -341,13 +287,6 @@ extension MarketplaceCatalogClientTypes.AmiProductVisibilityFilter {
     static func write(value: MarketplaceCatalogClientTypes.AmiProductVisibilityFilter?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["ValueList"].writeList(value.valueList, memberWritingClosure: MarketplaceCatalogClientTypes.AmiProductVisibilityString.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.AmiProductVisibilityFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MarketplaceCatalogClientTypes.AmiProductVisibilityFilter()
-        value.valueList = try reader["ValueList"].readListIfPresent(memberReadingClosure: MarketplaceCatalogClientTypes.AmiProductVisibilityString.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -478,12 +417,6 @@ enum BatchDescribeEntitiesOutputError {
 }
 
 extension MarketplaceCatalogClientTypes.BatchDescribeErrorDetail {
-
-    static func write(value: MarketplaceCatalogClientTypes.BatchDescribeErrorDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ErrorCode"].write(value.errorCode)
-        try writer["ErrorMessage"].write(value.errorMessage)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.BatchDescribeErrorDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -618,18 +551,6 @@ extension MarketplaceCatalogClientTypes.Change {
         try writer["Entity"].write(value.entity, with: MarketplaceCatalogClientTypes.Entity.write(value:to:))
         try writer["EntityTags"].writeList(value.entityTags, memberWritingClosure: MarketplaceCatalogClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.Change {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MarketplaceCatalogClientTypes.Change()
-        value.changeType = try reader["ChangeType"].readIfPresent()
-        value.entity = try reader["Entity"].readIfPresent(with: MarketplaceCatalogClientTypes.Entity.read(from:))
-        value.entityTags = try reader["EntityTags"].readListIfPresent(memberReadingClosure: MarketplaceCatalogClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.details = try reader["Details"].readIfPresent()
-        value.detailsDocument = try reader["DetailsDocument"].readIfPresent()
-        value.changeName = try reader["ChangeName"].readIfPresent()
-        return value
-    }
 }
 
 extension MarketplaceCatalogClientTypes {
@@ -671,18 +592,6 @@ extension MarketplaceCatalogClientTypes {
 }
 
 extension MarketplaceCatalogClientTypes.ChangeSetSummaryListItem {
-
-    static func write(value: MarketplaceCatalogClientTypes.ChangeSetSummaryListItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ChangeSetArn"].write(value.changeSetArn)
-        try writer["ChangeSetId"].write(value.changeSetId)
-        try writer["ChangeSetName"].write(value.changeSetName)
-        try writer["EndTime"].write(value.endTime)
-        try writer["EntityIdList"].writeList(value.entityIdList, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["FailureCode"].write(value.failureCode)
-        try writer["StartTime"].write(value.startTime)
-        try writer["Status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.ChangeSetSummaryListItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -784,16 +693,6 @@ extension MarketplaceCatalogClientTypes {
 
 extension MarketplaceCatalogClientTypes.ChangeSummary {
 
-    static func write(value: MarketplaceCatalogClientTypes.ChangeSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ChangeName"].write(value.changeName)
-        try writer["ChangeType"].write(value.changeType)
-        try writer["Details"].write(value.details)
-        try writer["DetailsDocument"].write(value.detailsDocument)
-        try writer["Entity"].write(value.entity, with: MarketplaceCatalogClientTypes.Entity.write(value:to:))
-        try writer["ErrorDetailList"].writeList(value.errorDetailList, memberWritingClosure: MarketplaceCatalogClientTypes.ErrorDetail.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.ChangeSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MarketplaceCatalogClientTypes.ChangeSummary()
@@ -849,13 +748,6 @@ extension MarketplaceCatalogClientTypes.ContainerProductEntityIdFilter {
         guard let value else { return }
         try writer["ValueList"].writeList(value.valueList, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.ContainerProductEntityIdFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MarketplaceCatalogClientTypes.ContainerProductEntityIdFilter()
-        value.valueList = try reader["ValueList"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
 }
 
 extension MarketplaceCatalogClientTypes {
@@ -882,16 +774,6 @@ extension MarketplaceCatalogClientTypes.ContainerProductFilters {
         try writer["LastModifiedDate"].write(value.lastModifiedDate, with: MarketplaceCatalogClientTypes.ContainerProductLastModifiedDateFilter.write(value:to:))
         try writer["ProductTitle"].write(value.productTitle, with: MarketplaceCatalogClientTypes.ContainerProductTitleFilter.write(value:to:))
         try writer["Visibility"].write(value.visibility, with: MarketplaceCatalogClientTypes.ContainerProductVisibilityFilter.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.ContainerProductFilters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MarketplaceCatalogClientTypes.ContainerProductFilters()
-        value.entityId = try reader["EntityId"].readIfPresent(with: MarketplaceCatalogClientTypes.ContainerProductEntityIdFilter.read(from:))
-        value.lastModifiedDate = try reader["LastModifiedDate"].readIfPresent(with: MarketplaceCatalogClientTypes.ContainerProductLastModifiedDateFilter.read(from:))
-        value.productTitle = try reader["ProductTitle"].readIfPresent(with: MarketplaceCatalogClientTypes.ContainerProductTitleFilter.read(from:))
-        value.visibility = try reader["Visibility"].readIfPresent(with: MarketplaceCatalogClientTypes.ContainerProductVisibilityFilter.read(from:))
-        return value
     }
 }
 
@@ -929,13 +811,6 @@ extension MarketplaceCatalogClientTypes.ContainerProductLastModifiedDateFilter {
         guard let value else { return }
         try writer["DateRange"].write(value.dateRange, with: MarketplaceCatalogClientTypes.ContainerProductLastModifiedDateFilterDateRange.write(value:to:))
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.ContainerProductLastModifiedDateFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MarketplaceCatalogClientTypes.ContainerProductLastModifiedDateFilter()
-        value.dateRange = try reader["DateRange"].readIfPresent(with: MarketplaceCatalogClientTypes.ContainerProductLastModifiedDateFilterDateRange.read(from:))
-        return value
-    }
 }
 
 extension MarketplaceCatalogClientTypes {
@@ -960,14 +835,6 @@ extension MarketplaceCatalogClientTypes.ContainerProductLastModifiedDateFilterDa
         guard let value else { return }
         try writer["AfterValue"].write(value.afterValue)
         try writer["BeforeValue"].write(value.beforeValue)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.ContainerProductLastModifiedDateFilterDateRange {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MarketplaceCatalogClientTypes.ContainerProductLastModifiedDateFilterDateRange()
-        value.afterValue = try reader["AfterValue"].readIfPresent()
-        value.beforeValue = try reader["BeforeValue"].readIfPresent()
-        return value
     }
 }
 
@@ -997,14 +864,6 @@ extension MarketplaceCatalogClientTypes.ContainerProductSort {
         guard let value else { return }
         try writer["SortBy"].write(value.sortBy)
         try writer["SortOrder"].write(value.sortOrder)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.ContainerProductSort {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MarketplaceCatalogClientTypes.ContainerProductSort()
-        value.sortBy = try reader["SortBy"].readIfPresent()
-        value.sortOrder = try reader["SortOrder"].readIfPresent()
-        return value
     }
 }
 
@@ -1066,12 +925,6 @@ extension MarketplaceCatalogClientTypes {
 
 extension MarketplaceCatalogClientTypes.ContainerProductSummary {
 
-    static func write(value: MarketplaceCatalogClientTypes.ContainerProductSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ProductTitle"].write(value.productTitle)
-        try writer["Visibility"].write(value.visibility)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.ContainerProductSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MarketplaceCatalogClientTypes.ContainerProductSummary()
@@ -1108,14 +961,6 @@ extension MarketplaceCatalogClientTypes.ContainerProductTitleFilter {
         try writer["ValueList"].writeList(value.valueList, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["WildCardValue"].write(value.wildCardValue)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.ContainerProductTitleFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MarketplaceCatalogClientTypes.ContainerProductTitleFilter()
-        value.valueList = try reader["ValueList"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.wildCardValue = try reader["WildCardValue"].readIfPresent()
-        return value
-    }
 }
 
 extension MarketplaceCatalogClientTypes {
@@ -1143,13 +988,6 @@ extension MarketplaceCatalogClientTypes.ContainerProductVisibilityFilter {
     static func write(value: MarketplaceCatalogClientTypes.ContainerProductVisibilityFilter?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["ValueList"].writeList(value.valueList, memberWritingClosure: MarketplaceCatalogClientTypes.ContainerProductVisibilityString.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.ContainerProductVisibilityFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MarketplaceCatalogClientTypes.ContainerProductVisibilityFilter()
-        value.valueList = try reader["ValueList"].readListIfPresent(memberReadingClosure: MarketplaceCatalogClientTypes.ContainerProductVisibilityString.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -1211,13 +1049,6 @@ extension MarketplaceCatalogClientTypes.DataProductEntityIdFilter {
         guard let value else { return }
         try writer["ValueList"].writeList(value.valueList, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.DataProductEntityIdFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MarketplaceCatalogClientTypes.DataProductEntityIdFilter()
-        value.valueList = try reader["ValueList"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
 }
 
 extension MarketplaceCatalogClientTypes {
@@ -1244,16 +1075,6 @@ extension MarketplaceCatalogClientTypes.DataProductFilters {
         try writer["LastModifiedDate"].write(value.lastModifiedDate, with: MarketplaceCatalogClientTypes.DataProductLastModifiedDateFilter.write(value:to:))
         try writer["ProductTitle"].write(value.productTitle, with: MarketplaceCatalogClientTypes.DataProductTitleFilter.write(value:to:))
         try writer["Visibility"].write(value.visibility, with: MarketplaceCatalogClientTypes.DataProductVisibilityFilter.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.DataProductFilters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MarketplaceCatalogClientTypes.DataProductFilters()
-        value.entityId = try reader["EntityId"].readIfPresent(with: MarketplaceCatalogClientTypes.DataProductEntityIdFilter.read(from:))
-        value.productTitle = try reader["ProductTitle"].readIfPresent(with: MarketplaceCatalogClientTypes.DataProductTitleFilter.read(from:))
-        value.visibility = try reader["Visibility"].readIfPresent(with: MarketplaceCatalogClientTypes.DataProductVisibilityFilter.read(from:))
-        value.lastModifiedDate = try reader["LastModifiedDate"].readIfPresent(with: MarketplaceCatalogClientTypes.DataProductLastModifiedDateFilter.read(from:))
-        return value
     }
 }
 
@@ -1291,13 +1112,6 @@ extension MarketplaceCatalogClientTypes.DataProductLastModifiedDateFilter {
         guard let value else { return }
         try writer["DateRange"].write(value.dateRange, with: MarketplaceCatalogClientTypes.DataProductLastModifiedDateFilterDateRange.write(value:to:))
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.DataProductLastModifiedDateFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MarketplaceCatalogClientTypes.DataProductLastModifiedDateFilter()
-        value.dateRange = try reader["DateRange"].readIfPresent(with: MarketplaceCatalogClientTypes.DataProductLastModifiedDateFilterDateRange.read(from:))
-        return value
-    }
 }
 
 extension MarketplaceCatalogClientTypes {
@@ -1322,14 +1136,6 @@ extension MarketplaceCatalogClientTypes.DataProductLastModifiedDateFilterDateRan
         guard let value else { return }
         try writer["AfterValue"].write(value.afterValue)
         try writer["BeforeValue"].write(value.beforeValue)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.DataProductLastModifiedDateFilterDateRange {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MarketplaceCatalogClientTypes.DataProductLastModifiedDateFilterDateRange()
-        value.afterValue = try reader["AfterValue"].readIfPresent()
-        value.beforeValue = try reader["BeforeValue"].readIfPresent()
-        return value
     }
 }
 
@@ -1359,14 +1165,6 @@ extension MarketplaceCatalogClientTypes.DataProductSort {
         guard let value else { return }
         try writer["SortBy"].write(value.sortBy)
         try writer["SortOrder"].write(value.sortOrder)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.DataProductSort {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MarketplaceCatalogClientTypes.DataProductSort()
-        value.sortBy = try reader["SortBy"].readIfPresent()
-        value.sortOrder = try reader["SortOrder"].readIfPresent()
-        return value
     }
 }
 
@@ -1428,12 +1226,6 @@ extension MarketplaceCatalogClientTypes {
 
 extension MarketplaceCatalogClientTypes.DataProductSummary {
 
-    static func write(value: MarketplaceCatalogClientTypes.DataProductSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ProductTitle"].write(value.productTitle)
-        try writer["Visibility"].write(value.visibility)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.DataProductSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MarketplaceCatalogClientTypes.DataProductSummary()
@@ -1470,14 +1262,6 @@ extension MarketplaceCatalogClientTypes.DataProductTitleFilter {
         try writer["ValueList"].writeList(value.valueList, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["WildCardValue"].write(value.wildCardValue)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.DataProductTitleFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MarketplaceCatalogClientTypes.DataProductTitleFilter()
-        value.valueList = try reader["ValueList"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.wildCardValue = try reader["WildCardValue"].readIfPresent()
-        return value
-    }
 }
 
 extension MarketplaceCatalogClientTypes {
@@ -1505,13 +1289,6 @@ extension MarketplaceCatalogClientTypes.DataProductVisibilityFilter {
     static func write(value: MarketplaceCatalogClientTypes.DataProductVisibilityFilter?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["ValueList"].writeList(value.valueList, memberWritingClosure: MarketplaceCatalogClientTypes.DataProductVisibilityString.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.DataProductVisibilityFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MarketplaceCatalogClientTypes.DataProductVisibilityFilter()
-        value.valueList = try reader["ValueList"].readListIfPresent(memberReadingClosure: MarketplaceCatalogClientTypes.DataProductVisibilityString.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -1919,15 +1696,6 @@ extension MarketplaceCatalogClientTypes {
 
 extension MarketplaceCatalogClientTypes.EntityDetail {
 
-    static func write(value: MarketplaceCatalogClientTypes.EntityDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DetailsDocument"].write(value.detailsDocument)
-        try writer["EntityArn"].write(value.entityArn)
-        try writer["EntityIdentifier"].write(value.entityIdentifier)
-        try writer["EntityType"].write(value.entityType)
-        try writer["LastModifiedDate"].write(value.lastModifiedDate)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.EntityDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MarketplaceCatalogClientTypes.EntityDetail()
@@ -1979,14 +1747,6 @@ extension MarketplaceCatalogClientTypes.EntityRequest {
         try writer["Catalog"].write(value.catalog)
         try writer["EntityId"].write(value.entityId)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.EntityRequest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MarketplaceCatalogClientTypes.EntityRequest()
-        value.catalog = try reader["Catalog"].readIfPresent()
-        value.entityId = try reader["EntityId"].readIfPresent()
-        return value
-    }
 }
 
 extension MarketplaceCatalogClientTypes {
@@ -2012,22 +1772,6 @@ extension MarketplaceCatalogClientTypes {
 }
 
 extension MarketplaceCatalogClientTypes.EntitySummary {
-
-    static func write(value: MarketplaceCatalogClientTypes.EntitySummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AmiProductSummary"].write(value.amiProductSummary, with: MarketplaceCatalogClientTypes.AmiProductSummary.write(value:to:))
-        try writer["ContainerProductSummary"].write(value.containerProductSummary, with: MarketplaceCatalogClientTypes.ContainerProductSummary.write(value:to:))
-        try writer["DataProductSummary"].write(value.dataProductSummary, with: MarketplaceCatalogClientTypes.DataProductSummary.write(value:to:))
-        try writer["EntityArn"].write(value.entityArn)
-        try writer["EntityId"].write(value.entityId)
-        try writer["EntityType"].write(value.entityType)
-        try writer["LastModifiedDate"].write(value.lastModifiedDate)
-        try writer["Name"].write(value.name)
-        try writer["OfferSummary"].write(value.offerSummary, with: MarketplaceCatalogClientTypes.OfferSummary.write(value:to:))
-        try writer["ResaleAuthorizationSummary"].write(value.resaleAuthorizationSummary, with: MarketplaceCatalogClientTypes.ResaleAuthorizationSummary.write(value:to:))
-        try writer["SaaSProductSummary"].write(value.saaSProductSummary, with: MarketplaceCatalogClientTypes.SaaSProductSummary.write(value:to:))
-        try writer["Visibility"].write(value.visibility)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.EntitySummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2129,27 +1873,6 @@ extension MarketplaceCatalogClientTypes.EntityTypeFilters {
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.EntityTypeFilters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "DataProductFilters":
-                return .dataproductfilters(try reader["DataProductFilters"].read(with: MarketplaceCatalogClientTypes.DataProductFilters.read(from:)))
-            case "SaaSProductFilters":
-                return .saasproductfilters(try reader["SaaSProductFilters"].read(with: MarketplaceCatalogClientTypes.SaaSProductFilters.read(from:)))
-            case "AmiProductFilters":
-                return .amiproductfilters(try reader["AmiProductFilters"].read(with: MarketplaceCatalogClientTypes.AmiProductFilters.read(from:)))
-            case "OfferFilters":
-                return .offerfilters(try reader["OfferFilters"].read(with: MarketplaceCatalogClientTypes.OfferFilters.read(from:)))
-            case "ContainerProductFilters":
-                return .containerproductfilters(try reader["ContainerProductFilters"].read(with: MarketplaceCatalogClientTypes.ContainerProductFilters.read(from:)))
-            case "ResaleAuthorizationFilters":
-                return .resaleauthorizationfilters(try reader["ResaleAuthorizationFilters"].read(with: MarketplaceCatalogClientTypes.ResaleAuthorizationFilters.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
 }
 
 extension MarketplaceCatalogClientTypes {
@@ -2193,27 +1916,6 @@ extension MarketplaceCatalogClientTypes.EntityTypeSort {
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.EntityTypeSort {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "DataProductSort":
-                return .dataproductsort(try reader["DataProductSort"].read(with: MarketplaceCatalogClientTypes.DataProductSort.read(from:)))
-            case "SaaSProductSort":
-                return .saasproductsort(try reader["SaaSProductSort"].read(with: MarketplaceCatalogClientTypes.SaaSProductSort.read(from:)))
-            case "AmiProductSort":
-                return .amiproductsort(try reader["AmiProductSort"].read(with: MarketplaceCatalogClientTypes.AmiProductSort.read(from:)))
-            case "OfferSort":
-                return .offersort(try reader["OfferSort"].read(with: MarketplaceCatalogClientTypes.OfferSort.read(from:)))
-            case "ContainerProductSort":
-                return .containerproductsort(try reader["ContainerProductSort"].read(with: MarketplaceCatalogClientTypes.ContainerProductSort.read(from:)))
-            case "ResaleAuthorizationSort":
-                return .resaleauthorizationsort(try reader["ResaleAuthorizationSort"].read(with: MarketplaceCatalogClientTypes.ResaleAuthorizationSort.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
 }
 
 extension MarketplaceCatalogClientTypes {
@@ -2237,12 +1939,6 @@ extension MarketplaceCatalogClientTypes {
 }
 
 extension MarketplaceCatalogClientTypes.ErrorDetail {
-
-    static func write(value: MarketplaceCatalogClientTypes.ErrorDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ErrorCode"].write(value.errorCode)
-        try writer["ErrorMessage"].write(value.errorMessage)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.ErrorDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2309,14 +2005,6 @@ extension MarketplaceCatalogClientTypes.Filter {
         guard let value else { return }
         try writer["Name"].write(value.name)
         try writer["ValueList"].writeList(value.valueList, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.Filter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MarketplaceCatalogClientTypes.Filter()
-        value.name = try reader["Name"].readIfPresent()
-        value.valueList = try reader["ValueList"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -2790,13 +2478,6 @@ extension MarketplaceCatalogClientTypes.OfferAvailabilityEndDateFilter {
         guard let value else { return }
         try writer["DateRange"].write(value.dateRange, with: MarketplaceCatalogClientTypes.OfferAvailabilityEndDateFilterDateRange.write(value:to:))
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.OfferAvailabilityEndDateFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MarketplaceCatalogClientTypes.OfferAvailabilityEndDateFilter()
-        value.dateRange = try reader["DateRange"].readIfPresent(with: MarketplaceCatalogClientTypes.OfferAvailabilityEndDateFilterDateRange.read(from:))
-        return value
-    }
 }
 
 extension MarketplaceCatalogClientTypes {
@@ -2821,14 +2502,6 @@ extension MarketplaceCatalogClientTypes.OfferAvailabilityEndDateFilterDateRange 
         guard let value else { return }
         try writer["AfterValue"].write(value.afterValue)
         try writer["BeforeValue"].write(value.beforeValue)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.OfferAvailabilityEndDateFilterDateRange {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MarketplaceCatalogClientTypes.OfferAvailabilityEndDateFilterDateRange()
-        value.afterValue = try reader["AfterValue"].readIfPresent()
-        value.beforeValue = try reader["BeforeValue"].readIfPresent()
-        return value
     }
 }
 
@@ -2858,13 +2531,6 @@ extension MarketplaceCatalogClientTypes.OfferBuyerAccountsFilter {
         guard let value else { return }
         try writer["WildCardValue"].write(value.wildCardValue)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.OfferBuyerAccountsFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MarketplaceCatalogClientTypes.OfferBuyerAccountsFilter()
-        value.wildCardValue = try reader["WildCardValue"].readIfPresent()
-        return value
-    }
 }
 
 extension MarketplaceCatalogClientTypes {
@@ -2888,13 +2554,6 @@ extension MarketplaceCatalogClientTypes.OfferEntityIdFilter {
     static func write(value: MarketplaceCatalogClientTypes.OfferEntityIdFilter?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["ValueList"].writeList(value.valueList, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.OfferEntityIdFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MarketplaceCatalogClientTypes.OfferEntityIdFilter()
-        value.valueList = try reader["ValueList"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -2928,22 +2587,6 @@ extension MarketplaceCatalogClientTypes.OfferFilters {
         try writer["ResaleAuthorizationId"].write(value.resaleAuthorizationId, with: MarketplaceCatalogClientTypes.OfferResaleAuthorizationIdFilter.write(value:to:))
         try writer["State"].write(value.state, with: MarketplaceCatalogClientTypes.OfferStateFilter.write(value:to:))
         try writer["Targeting"].write(value.targeting, with: MarketplaceCatalogClientTypes.OfferTargetingFilter.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.OfferFilters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MarketplaceCatalogClientTypes.OfferFilters()
-        value.entityId = try reader["EntityId"].readIfPresent(with: MarketplaceCatalogClientTypes.OfferEntityIdFilter.read(from:))
-        value.name = try reader["Name"].readIfPresent(with: MarketplaceCatalogClientTypes.OfferNameFilter.read(from:))
-        value.productId = try reader["ProductId"].readIfPresent(with: MarketplaceCatalogClientTypes.OfferProductIdFilter.read(from:))
-        value.resaleAuthorizationId = try reader["ResaleAuthorizationId"].readIfPresent(with: MarketplaceCatalogClientTypes.OfferResaleAuthorizationIdFilter.read(from:))
-        value.releaseDate = try reader["ReleaseDate"].readIfPresent(with: MarketplaceCatalogClientTypes.OfferReleaseDateFilter.read(from:))
-        value.availabilityEndDate = try reader["AvailabilityEndDate"].readIfPresent(with: MarketplaceCatalogClientTypes.OfferAvailabilityEndDateFilter.read(from:))
-        value.buyerAccounts = try reader["BuyerAccounts"].readIfPresent(with: MarketplaceCatalogClientTypes.OfferBuyerAccountsFilter.read(from:))
-        value.state = try reader["State"].readIfPresent(with: MarketplaceCatalogClientTypes.OfferStateFilter.read(from:))
-        value.targeting = try reader["Targeting"].readIfPresent(with: MarketplaceCatalogClientTypes.OfferTargetingFilter.read(from:))
-        value.lastModifiedDate = try reader["LastModifiedDate"].readIfPresent(with: MarketplaceCatalogClientTypes.OfferLastModifiedDateFilter.read(from:))
-        return value
     }
 }
 
@@ -3005,13 +2648,6 @@ extension MarketplaceCatalogClientTypes.OfferLastModifiedDateFilter {
         guard let value else { return }
         try writer["DateRange"].write(value.dateRange, with: MarketplaceCatalogClientTypes.OfferLastModifiedDateFilterDateRange.write(value:to:))
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.OfferLastModifiedDateFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MarketplaceCatalogClientTypes.OfferLastModifiedDateFilter()
-        value.dateRange = try reader["DateRange"].readIfPresent(with: MarketplaceCatalogClientTypes.OfferLastModifiedDateFilterDateRange.read(from:))
-        return value
-    }
 }
 
 extension MarketplaceCatalogClientTypes {
@@ -3036,14 +2672,6 @@ extension MarketplaceCatalogClientTypes.OfferLastModifiedDateFilterDateRange {
         guard let value else { return }
         try writer["AfterValue"].write(value.afterValue)
         try writer["BeforeValue"].write(value.beforeValue)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.OfferLastModifiedDateFilterDateRange {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MarketplaceCatalogClientTypes.OfferLastModifiedDateFilterDateRange()
-        value.afterValue = try reader["AfterValue"].readIfPresent()
-        value.beforeValue = try reader["BeforeValue"].readIfPresent()
-        return value
     }
 }
 
@@ -3074,14 +2702,6 @@ extension MarketplaceCatalogClientTypes.OfferNameFilter {
         try writer["ValueList"].writeList(value.valueList, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["WildCardValue"].write(value.wildCardValue)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.OfferNameFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MarketplaceCatalogClientTypes.OfferNameFilter()
-        value.valueList = try reader["ValueList"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.wildCardValue = try reader["WildCardValue"].readIfPresent()
-        return value
-    }
 }
 
 extension MarketplaceCatalogClientTypes {
@@ -3110,13 +2730,6 @@ extension MarketplaceCatalogClientTypes.OfferProductIdFilter {
         guard let value else { return }
         try writer["ValueList"].writeList(value.valueList, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.OfferProductIdFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MarketplaceCatalogClientTypes.OfferProductIdFilter()
-        value.valueList = try reader["ValueList"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
 }
 
 extension MarketplaceCatalogClientTypes {
@@ -3140,13 +2753,6 @@ extension MarketplaceCatalogClientTypes.OfferReleaseDateFilter {
     static func write(value: MarketplaceCatalogClientTypes.OfferReleaseDateFilter?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["DateRange"].write(value.dateRange, with: MarketplaceCatalogClientTypes.OfferReleaseDateFilterDateRange.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.OfferReleaseDateFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MarketplaceCatalogClientTypes.OfferReleaseDateFilter()
-        value.dateRange = try reader["DateRange"].readIfPresent(with: MarketplaceCatalogClientTypes.OfferReleaseDateFilterDateRange.read(from:))
-        return value
     }
 }
 
@@ -3172,14 +2778,6 @@ extension MarketplaceCatalogClientTypes.OfferReleaseDateFilterDateRange {
         guard let value else { return }
         try writer["AfterValue"].write(value.afterValue)
         try writer["BeforeValue"].write(value.beforeValue)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.OfferReleaseDateFilterDateRange {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MarketplaceCatalogClientTypes.OfferReleaseDateFilterDateRange()
-        value.afterValue = try reader["AfterValue"].readIfPresent()
-        value.beforeValue = try reader["BeforeValue"].readIfPresent()
-        return value
     }
 }
 
@@ -3209,13 +2807,6 @@ extension MarketplaceCatalogClientTypes.OfferResaleAuthorizationIdFilter {
         guard let value else { return }
         try writer["ValueList"].writeList(value.valueList, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.OfferResaleAuthorizationIdFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MarketplaceCatalogClientTypes.OfferResaleAuthorizationIdFilter()
-        value.valueList = try reader["ValueList"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
 }
 
 extension MarketplaceCatalogClientTypes {
@@ -3240,14 +2831,6 @@ extension MarketplaceCatalogClientTypes.OfferSort {
         guard let value else { return }
         try writer["SortBy"].write(value.sortBy)
         try writer["SortOrder"].write(value.sortOrder)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.OfferSort {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MarketplaceCatalogClientTypes.OfferSort()
-        value.sortBy = try reader["SortBy"].readIfPresent()
-        value.sortOrder = try reader["SortOrder"].readIfPresent()
-        return value
     }
 }
 
@@ -3331,13 +2914,6 @@ extension MarketplaceCatalogClientTypes.OfferStateFilter {
         guard let value else { return }
         try writer["ValueList"].writeList(value.valueList, memberWritingClosure: MarketplaceCatalogClientTypes.OfferStateString.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.OfferStateFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MarketplaceCatalogClientTypes.OfferStateFilter()
-        value.valueList = try reader["ValueList"].readListIfPresent(memberReadingClosure: MarketplaceCatalogClientTypes.OfferStateString.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
 }
 
 extension MarketplaceCatalogClientTypes {
@@ -3387,18 +2963,6 @@ extension MarketplaceCatalogClientTypes {
 }
 
 extension MarketplaceCatalogClientTypes.OfferSummary {
-
-    static func write(value: MarketplaceCatalogClientTypes.OfferSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AvailabilityEndDate"].write(value.availabilityEndDate)
-        try writer["BuyerAccounts"].writeList(value.buyerAccounts, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Name"].write(value.name)
-        try writer["ProductId"].write(value.productId)
-        try writer["ReleaseDate"].write(value.releaseDate)
-        try writer["ResaleAuthorizationId"].write(value.resaleAuthorizationId)
-        try writer["State"].write(value.state)
-        try writer["Targeting"].writeList(value.targeting, memberWritingClosure: MarketplaceCatalogClientTypes.OfferTargetingString.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.OfferSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3464,13 +3028,6 @@ extension MarketplaceCatalogClientTypes.OfferTargetingFilter {
     static func write(value: MarketplaceCatalogClientTypes.OfferTargetingFilter?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["ValueList"].writeList(value.valueList, memberWritingClosure: MarketplaceCatalogClientTypes.OfferTargetingString.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.OfferTargetingFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MarketplaceCatalogClientTypes.OfferTargetingFilter()
-        value.valueList = try reader["ValueList"].readListIfPresent(memberReadingClosure: MarketplaceCatalogClientTypes.OfferTargetingString.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -3627,14 +3184,6 @@ extension MarketplaceCatalogClientTypes.ResaleAuthorizationAvailabilityEndDateFi
         try writer["DateRange"].write(value.dateRange, with: MarketplaceCatalogClientTypes.ResaleAuthorizationAvailabilityEndDateFilterDateRange.write(value:to:))
         try writer["ValueList"].writeList(value.valueList, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.ResaleAuthorizationAvailabilityEndDateFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MarketplaceCatalogClientTypes.ResaleAuthorizationAvailabilityEndDateFilter()
-        value.dateRange = try reader["DateRange"].readIfPresent(with: MarketplaceCatalogClientTypes.ResaleAuthorizationAvailabilityEndDateFilterDateRange.read(from:))
-        value.valueList = try reader["ValueList"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
 }
 
 extension MarketplaceCatalogClientTypes {
@@ -3663,14 +3212,6 @@ extension MarketplaceCatalogClientTypes.ResaleAuthorizationAvailabilityEndDateFi
         guard let value else { return }
         try writer["AfterValue"].write(value.afterValue)
         try writer["BeforeValue"].write(value.beforeValue)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.ResaleAuthorizationAvailabilityEndDateFilterDateRange {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MarketplaceCatalogClientTypes.ResaleAuthorizationAvailabilityEndDateFilterDateRange()
-        value.afterValue = try reader["AfterValue"].readIfPresent()
-        value.beforeValue = try reader["BeforeValue"].readIfPresent()
-        return value
     }
 }
 
@@ -3701,14 +3242,6 @@ extension MarketplaceCatalogClientTypes.ResaleAuthorizationCreatedDateFilter {
         try writer["DateRange"].write(value.dateRange, with: MarketplaceCatalogClientTypes.ResaleAuthorizationCreatedDateFilterDateRange.write(value:to:))
         try writer["ValueList"].writeList(value.valueList, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.ResaleAuthorizationCreatedDateFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MarketplaceCatalogClientTypes.ResaleAuthorizationCreatedDateFilter()
-        value.dateRange = try reader["DateRange"].readIfPresent(with: MarketplaceCatalogClientTypes.ResaleAuthorizationCreatedDateFilterDateRange.read(from:))
-        value.valueList = try reader["ValueList"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
 }
 
 extension MarketplaceCatalogClientTypes {
@@ -3738,14 +3271,6 @@ extension MarketplaceCatalogClientTypes.ResaleAuthorizationCreatedDateFilterDate
         try writer["AfterValue"].write(value.afterValue)
         try writer["BeforeValue"].write(value.beforeValue)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.ResaleAuthorizationCreatedDateFilterDateRange {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MarketplaceCatalogClientTypes.ResaleAuthorizationCreatedDateFilterDateRange()
-        value.afterValue = try reader["AfterValue"].readIfPresent()
-        value.beforeValue = try reader["BeforeValue"].readIfPresent()
-        return value
-    }
 }
 
 extension MarketplaceCatalogClientTypes {
@@ -3773,13 +3298,6 @@ extension MarketplaceCatalogClientTypes.ResaleAuthorizationEntityIdFilter {
     static func write(value: MarketplaceCatalogClientTypes.ResaleAuthorizationEntityIdFilter?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["ValueList"].writeList(value.valueList, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.ResaleAuthorizationEntityIdFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MarketplaceCatalogClientTypes.ResaleAuthorizationEntityIdFilter()
-        value.valueList = try reader["ValueList"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -3816,25 +3334,6 @@ extension MarketplaceCatalogClientTypes.ResaleAuthorizationFilters {
         try writer["ResellerAccountID"].write(value.resellerAccountID, with: MarketplaceCatalogClientTypes.ResaleAuthorizationResellerAccountIDFilter.write(value:to:))
         try writer["ResellerLegalName"].write(value.resellerLegalName, with: MarketplaceCatalogClientTypes.ResaleAuthorizationResellerLegalNameFilter.write(value:to:))
         try writer["Status"].write(value.status, with: MarketplaceCatalogClientTypes.ResaleAuthorizationStatusFilter.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.ResaleAuthorizationFilters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MarketplaceCatalogClientTypes.ResaleAuthorizationFilters()
-        value.entityId = try reader["EntityId"].readIfPresent(with: MarketplaceCatalogClientTypes.ResaleAuthorizationEntityIdFilter.read(from:))
-        value.name = try reader["Name"].readIfPresent(with: MarketplaceCatalogClientTypes.ResaleAuthorizationNameFilter.read(from:))
-        value.productId = try reader["ProductId"].readIfPresent(with: MarketplaceCatalogClientTypes.ResaleAuthorizationProductIdFilter.read(from:))
-        value.createdDate = try reader["CreatedDate"].readIfPresent(with: MarketplaceCatalogClientTypes.ResaleAuthorizationCreatedDateFilter.read(from:))
-        value.availabilityEndDate = try reader["AvailabilityEndDate"].readIfPresent(with: MarketplaceCatalogClientTypes.ResaleAuthorizationAvailabilityEndDateFilter.read(from:))
-        value.manufacturerAccountId = try reader["ManufacturerAccountId"].readIfPresent(with: MarketplaceCatalogClientTypes.ResaleAuthorizationManufacturerAccountIdFilter.read(from:))
-        value.productName = try reader["ProductName"].readIfPresent(with: MarketplaceCatalogClientTypes.ResaleAuthorizationProductNameFilter.read(from:))
-        value.manufacturerLegalName = try reader["ManufacturerLegalName"].readIfPresent(with: MarketplaceCatalogClientTypes.ResaleAuthorizationManufacturerLegalNameFilter.read(from:))
-        value.resellerAccountID = try reader["ResellerAccountID"].readIfPresent(with: MarketplaceCatalogClientTypes.ResaleAuthorizationResellerAccountIDFilter.read(from:))
-        value.resellerLegalName = try reader["ResellerLegalName"].readIfPresent(with: MarketplaceCatalogClientTypes.ResaleAuthorizationResellerLegalNameFilter.read(from:))
-        value.status = try reader["Status"].readIfPresent(with: MarketplaceCatalogClientTypes.ResaleAuthorizationStatusFilter.read(from:))
-        value.offerExtendedStatus = try reader["OfferExtendedStatus"].readIfPresent(with: MarketplaceCatalogClientTypes.ResaleAuthorizationOfferExtendedStatusFilter.read(from:))
-        value.lastModifiedDate = try reader["LastModifiedDate"].readIfPresent(with: MarketplaceCatalogClientTypes.ResaleAuthorizationLastModifiedDateFilter.read(from:))
-        return value
     }
 }
 
@@ -3908,13 +3407,6 @@ extension MarketplaceCatalogClientTypes.ResaleAuthorizationLastModifiedDateFilte
         guard let value else { return }
         try writer["DateRange"].write(value.dateRange, with: MarketplaceCatalogClientTypes.ResaleAuthorizationLastModifiedDateFilterDateRange.write(value:to:))
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.ResaleAuthorizationLastModifiedDateFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MarketplaceCatalogClientTypes.ResaleAuthorizationLastModifiedDateFilter()
-        value.dateRange = try reader["DateRange"].readIfPresent(with: MarketplaceCatalogClientTypes.ResaleAuthorizationLastModifiedDateFilterDateRange.read(from:))
-        return value
-    }
 }
 
 extension MarketplaceCatalogClientTypes {
@@ -3939,14 +3431,6 @@ extension MarketplaceCatalogClientTypes.ResaleAuthorizationLastModifiedDateFilte
         guard let value else { return }
         try writer["AfterValue"].write(value.afterValue)
         try writer["BeforeValue"].write(value.beforeValue)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.ResaleAuthorizationLastModifiedDateFilterDateRange {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MarketplaceCatalogClientTypes.ResaleAuthorizationLastModifiedDateFilterDateRange()
-        value.afterValue = try reader["AfterValue"].readIfPresent()
-        value.beforeValue = try reader["BeforeValue"].readIfPresent()
-        return value
     }
 }
 
@@ -3977,14 +3461,6 @@ extension MarketplaceCatalogClientTypes.ResaleAuthorizationManufacturerAccountId
         try writer["ValueList"].writeList(value.valueList, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["WildCardValue"].write(value.wildCardValue)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.ResaleAuthorizationManufacturerAccountIdFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MarketplaceCatalogClientTypes.ResaleAuthorizationManufacturerAccountIdFilter()
-        value.valueList = try reader["ValueList"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.wildCardValue = try reader["WildCardValue"].readIfPresent()
-        return value
-    }
 }
 
 extension MarketplaceCatalogClientTypes {
@@ -4013,14 +3489,6 @@ extension MarketplaceCatalogClientTypes.ResaleAuthorizationManufacturerLegalName
         guard let value else { return }
         try writer["ValueList"].writeList(value.valueList, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["WildCardValue"].write(value.wildCardValue)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.ResaleAuthorizationManufacturerLegalNameFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MarketplaceCatalogClientTypes.ResaleAuthorizationManufacturerLegalNameFilter()
-        value.valueList = try reader["ValueList"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.wildCardValue = try reader["WildCardValue"].readIfPresent()
-        return value
     }
 }
 
@@ -4051,14 +3519,6 @@ extension MarketplaceCatalogClientTypes.ResaleAuthorizationNameFilter {
         try writer["ValueList"].writeList(value.valueList, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["WildCardValue"].write(value.wildCardValue)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.ResaleAuthorizationNameFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MarketplaceCatalogClientTypes.ResaleAuthorizationNameFilter()
-        value.valueList = try reader["ValueList"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.wildCardValue = try reader["WildCardValue"].readIfPresent()
-        return value
-    }
 }
 
 extension MarketplaceCatalogClientTypes {
@@ -4087,13 +3547,6 @@ extension MarketplaceCatalogClientTypes.ResaleAuthorizationOfferExtendedStatusFi
         guard let value else { return }
         try writer["ValueList"].writeList(value.valueList, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.ResaleAuthorizationOfferExtendedStatusFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MarketplaceCatalogClientTypes.ResaleAuthorizationOfferExtendedStatusFilter()
-        value.valueList = try reader["ValueList"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
 }
 
 extension MarketplaceCatalogClientTypes {
@@ -4118,14 +3571,6 @@ extension MarketplaceCatalogClientTypes.ResaleAuthorizationProductIdFilter {
         guard let value else { return }
         try writer["ValueList"].writeList(value.valueList, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["WildCardValue"].write(value.wildCardValue)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.ResaleAuthorizationProductIdFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MarketplaceCatalogClientTypes.ResaleAuthorizationProductIdFilter()
-        value.valueList = try reader["ValueList"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.wildCardValue = try reader["WildCardValue"].readIfPresent()
-        return value
     }
 }
 
@@ -4156,14 +3601,6 @@ extension MarketplaceCatalogClientTypes.ResaleAuthorizationProductNameFilter {
         try writer["ValueList"].writeList(value.valueList, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["WildCardValue"].write(value.wildCardValue)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.ResaleAuthorizationProductNameFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MarketplaceCatalogClientTypes.ResaleAuthorizationProductNameFilter()
-        value.valueList = try reader["ValueList"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.wildCardValue = try reader["WildCardValue"].readIfPresent()
-        return value
-    }
 }
 
 extension MarketplaceCatalogClientTypes {
@@ -4192,14 +3629,6 @@ extension MarketplaceCatalogClientTypes.ResaleAuthorizationResellerAccountIDFilt
         guard let value else { return }
         try writer["ValueList"].writeList(value.valueList, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["WildCardValue"].write(value.wildCardValue)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.ResaleAuthorizationResellerAccountIDFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MarketplaceCatalogClientTypes.ResaleAuthorizationResellerAccountIDFilter()
-        value.valueList = try reader["ValueList"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.wildCardValue = try reader["WildCardValue"].readIfPresent()
-        return value
     }
 }
 
@@ -4230,14 +3659,6 @@ extension MarketplaceCatalogClientTypes.ResaleAuthorizationResellerLegalNameFilt
         try writer["ValueList"].writeList(value.valueList, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["WildCardValue"].write(value.wildCardValue)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.ResaleAuthorizationResellerLegalNameFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MarketplaceCatalogClientTypes.ResaleAuthorizationResellerLegalNameFilter()
-        value.valueList = try reader["ValueList"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.wildCardValue = try reader["WildCardValue"].readIfPresent()
-        return value
-    }
 }
 
 extension MarketplaceCatalogClientTypes {
@@ -4266,14 +3687,6 @@ extension MarketplaceCatalogClientTypes.ResaleAuthorizationSort {
         guard let value else { return }
         try writer["SortBy"].write(value.sortBy)
         try writer["SortOrder"].write(value.sortOrder)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.ResaleAuthorizationSort {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MarketplaceCatalogClientTypes.ResaleAuthorizationSort()
-        value.sortBy = try reader["SortBy"].readIfPresent()
-        value.sortOrder = try reader["SortOrder"].readIfPresent()
-        return value
     }
 }
 
@@ -4366,13 +3779,6 @@ extension MarketplaceCatalogClientTypes.ResaleAuthorizationStatusFilter {
         guard let value else { return }
         try writer["ValueList"].writeList(value.valueList, memberWritingClosure: MarketplaceCatalogClientTypes.ResaleAuthorizationStatusString.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.ResaleAuthorizationStatusFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MarketplaceCatalogClientTypes.ResaleAuthorizationStatusFilter()
-        value.valueList = try reader["ValueList"].readListIfPresent(memberReadingClosure: MarketplaceCatalogClientTypes.ResaleAuthorizationStatusString.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
 }
 
 extension MarketplaceCatalogClientTypes {
@@ -4425,21 +3831,6 @@ extension MarketplaceCatalogClientTypes {
 }
 
 extension MarketplaceCatalogClientTypes.ResaleAuthorizationSummary {
-
-    static func write(value: MarketplaceCatalogClientTypes.ResaleAuthorizationSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AvailabilityEndDate"].write(value.availabilityEndDate)
-        try writer["CreatedDate"].write(value.createdDate)
-        try writer["ManufacturerAccountId"].write(value.manufacturerAccountId)
-        try writer["ManufacturerLegalName"].write(value.manufacturerLegalName)
-        try writer["Name"].write(value.name)
-        try writer["OfferExtendedStatus"].write(value.offerExtendedStatus)
-        try writer["ProductId"].write(value.productId)
-        try writer["ProductName"].write(value.productName)
-        try writer["ResellerAccountID"].write(value.resellerAccountID)
-        try writer["ResellerLegalName"].write(value.resellerLegalName)
-        try writer["Status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.ResaleAuthorizationSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4632,13 +4023,6 @@ extension MarketplaceCatalogClientTypes.SaaSProductEntityIdFilter {
         guard let value else { return }
         try writer["ValueList"].writeList(value.valueList, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.SaaSProductEntityIdFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MarketplaceCatalogClientTypes.SaaSProductEntityIdFilter()
-        value.valueList = try reader["ValueList"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
 }
 
 extension MarketplaceCatalogClientTypes {
@@ -4665,16 +4049,6 @@ extension MarketplaceCatalogClientTypes.SaaSProductFilters {
         try writer["LastModifiedDate"].write(value.lastModifiedDate, with: MarketplaceCatalogClientTypes.SaaSProductLastModifiedDateFilter.write(value:to:))
         try writer["ProductTitle"].write(value.productTitle, with: MarketplaceCatalogClientTypes.SaaSProductTitleFilter.write(value:to:))
         try writer["Visibility"].write(value.visibility, with: MarketplaceCatalogClientTypes.SaaSProductVisibilityFilter.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.SaaSProductFilters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MarketplaceCatalogClientTypes.SaaSProductFilters()
-        value.entityId = try reader["EntityId"].readIfPresent(with: MarketplaceCatalogClientTypes.SaaSProductEntityIdFilter.read(from:))
-        value.productTitle = try reader["ProductTitle"].readIfPresent(with: MarketplaceCatalogClientTypes.SaaSProductTitleFilter.read(from:))
-        value.visibility = try reader["Visibility"].readIfPresent(with: MarketplaceCatalogClientTypes.SaaSProductVisibilityFilter.read(from:))
-        value.lastModifiedDate = try reader["LastModifiedDate"].readIfPresent(with: MarketplaceCatalogClientTypes.SaaSProductLastModifiedDateFilter.read(from:))
-        return value
     }
 }
 
@@ -4712,13 +4086,6 @@ extension MarketplaceCatalogClientTypes.SaaSProductLastModifiedDateFilter {
         guard let value else { return }
         try writer["DateRange"].write(value.dateRange, with: MarketplaceCatalogClientTypes.SaaSProductLastModifiedDateFilterDateRange.write(value:to:))
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.SaaSProductLastModifiedDateFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MarketplaceCatalogClientTypes.SaaSProductLastModifiedDateFilter()
-        value.dateRange = try reader["DateRange"].readIfPresent(with: MarketplaceCatalogClientTypes.SaaSProductLastModifiedDateFilterDateRange.read(from:))
-        return value
-    }
 }
 
 extension MarketplaceCatalogClientTypes {
@@ -4743,14 +4110,6 @@ extension MarketplaceCatalogClientTypes.SaaSProductLastModifiedDateFilterDateRan
         guard let value else { return }
         try writer["AfterValue"].write(value.afterValue)
         try writer["BeforeValue"].write(value.beforeValue)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.SaaSProductLastModifiedDateFilterDateRange {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MarketplaceCatalogClientTypes.SaaSProductLastModifiedDateFilterDateRange()
-        value.afterValue = try reader["AfterValue"].readIfPresent()
-        value.beforeValue = try reader["BeforeValue"].readIfPresent()
-        return value
     }
 }
 
@@ -4780,14 +4139,6 @@ extension MarketplaceCatalogClientTypes.SaaSProductSort {
         guard let value else { return }
         try writer["SortBy"].write(value.sortBy)
         try writer["SortOrder"].write(value.sortOrder)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.SaaSProductSort {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MarketplaceCatalogClientTypes.SaaSProductSort()
-        value.sortBy = try reader["SortBy"].readIfPresent()
-        value.sortOrder = try reader["SortOrder"].readIfPresent()
-        return value
     }
 }
 
@@ -4849,12 +4200,6 @@ extension MarketplaceCatalogClientTypes {
 
 extension MarketplaceCatalogClientTypes.SaaSProductSummary {
 
-    static func write(value: MarketplaceCatalogClientTypes.SaaSProductSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ProductTitle"].write(value.productTitle)
-        try writer["Visibility"].write(value.visibility)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.SaaSProductSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MarketplaceCatalogClientTypes.SaaSProductSummary()
@@ -4891,14 +4236,6 @@ extension MarketplaceCatalogClientTypes.SaaSProductTitleFilter {
         try writer["ValueList"].writeList(value.valueList, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["WildCardValue"].write(value.wildCardValue)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.SaaSProductTitleFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MarketplaceCatalogClientTypes.SaaSProductTitleFilter()
-        value.valueList = try reader["ValueList"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.wildCardValue = try reader["WildCardValue"].readIfPresent()
-        return value
-    }
 }
 
 extension MarketplaceCatalogClientTypes {
@@ -4926,13 +4263,6 @@ extension MarketplaceCatalogClientTypes.SaaSProductVisibilityFilter {
     static func write(value: MarketplaceCatalogClientTypes.SaaSProductVisibilityFilter?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["ValueList"].writeList(value.valueList, memberWritingClosure: MarketplaceCatalogClientTypes.SaaSProductVisibilityString.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.SaaSProductVisibilityFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MarketplaceCatalogClientTypes.SaaSProductVisibilityFilter()
-        value.valueList = try reader["ValueList"].readListIfPresent(memberReadingClosure: MarketplaceCatalogClientTypes.SaaSProductVisibilityString.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -5031,14 +4361,6 @@ extension MarketplaceCatalogClientTypes.Sort {
         guard let value else { return }
         try writer["SortBy"].write(value.sortBy)
         try writer["SortOrder"].write(value.sortOrder)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.Sort {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MarketplaceCatalogClientTypes.Sort()
-        value.sortBy = try reader["SortBy"].readIfPresent()
-        value.sortOrder = try reader["SortOrder"].readIfPresent()
-        return value
     }
 }
 

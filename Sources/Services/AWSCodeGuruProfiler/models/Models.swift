@@ -115,13 +115,6 @@ enum AddNotificationChannelsOutputError {
 
 extension CodeGuruProfilerClientTypes.AgentConfiguration {
 
-    static func write(value: CodeGuruProfilerClientTypes.AgentConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["agentParameters"].writeMap(value.agentParameters, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["periodInSeconds"].write(value.periodInSeconds)
-        try writer["shouldProfile"].write(value.shouldProfile)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruProfilerClientTypes.AgentConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeGuruProfilerClientTypes.AgentConfiguration()
@@ -246,12 +239,6 @@ extension CodeGuruProfilerClientTypes {
 
 extension CodeGuruProfilerClientTypes.AggregatedProfileTime {
 
-    static func write(value: CodeGuruProfilerClientTypes.AggregatedProfileTime?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["period"].write(value.period)
-        try writer["start"].writeTimestamp(value.start, format: .dateTime)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruProfilerClientTypes.AggregatedProfileTime {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeGuruProfilerClientTypes.AggregatedProfileTime()
@@ -325,13 +312,6 @@ extension CodeGuruProfilerClientTypes {
 
 extension CodeGuruProfilerClientTypes.Anomaly {
 
-    static func write(value: CodeGuruProfilerClientTypes.Anomaly?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["instances"].writeList(value.instances, memberWritingClosure: CodeGuruProfilerClientTypes.AnomalyInstance.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["metric"].write(value.metric, with: CodeGuruProfilerClientTypes.Metric.write(value:to:))
-        try writer["reason"].write(value.reason)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruProfilerClientTypes.Anomaly {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeGuruProfilerClientTypes.Anomaly()
@@ -370,14 +350,6 @@ extension CodeGuruProfilerClientTypes {
 }
 
 extension CodeGuruProfilerClientTypes.AnomalyInstance {
-
-    static func write(value: CodeGuruProfilerClientTypes.AnomalyInstance?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["endTime"].writeTimestamp(value.endTime, format: .dateTime)
-        try writer["id"].write(value.id)
-        try writer["startTime"].writeTimestamp(value.startTime, format: .dateTime)
-        try writer["userFeedback"].write(value.userFeedback, with: CodeGuruProfilerClientTypes.UserFeedback.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruProfilerClientTypes.AnomalyInstance {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1091,15 +1063,6 @@ extension CodeGuruProfilerClientTypes {
 
 extension CodeGuruProfilerClientTypes.FindingsReportSummary {
 
-    static func write(value: CodeGuruProfilerClientTypes.FindingsReportSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["id"].write(value.id)
-        try writer["profileEndTime"].writeTimestamp(value.profileEndTime, format: .dateTime)
-        try writer["profileStartTime"].writeTimestamp(value.profileStartTime, format: .dateTime)
-        try writer["profilingGroupName"].write(value.profilingGroupName)
-        try writer["totalNumberOfFindings"].write(value.totalNumberOfFindings)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruProfilerClientTypes.FindingsReportSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeGuruProfilerClientTypes.FindingsReportSummary()
@@ -1191,12 +1154,6 @@ extension CodeGuruProfilerClientTypes {
 }
 
 extension CodeGuruProfilerClientTypes.FrameMetricDatum {
-
-    static func write(value: CodeGuruProfilerClientTypes.FrameMetricDatum?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["frameMetric"].write(value.frameMetric, with: CodeGuruProfilerClientTypes.FrameMetric.write(value:to:))
-        try writer["values"].writeList(value.values, memberWritingClosure: Swift.Double.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruProfilerClientTypes.FrameMetricDatum {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2233,13 +2190,6 @@ enum ListTagsForResourceOutputError {
 
 extension CodeGuruProfilerClientTypes.Match {
 
-    static func write(value: CodeGuruProfilerClientTypes.Match?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["frameAddress"].write(value.frameAddress)
-        try writer["targetFramesIndex"].write(value.targetFramesIndex)
-        try writer["thresholdBreachValue"].write(value.thresholdBreachValue)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruProfilerClientTypes.Match {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeGuruProfilerClientTypes.Match()
@@ -2336,13 +2286,6 @@ extension CodeGuruProfilerClientTypes {
 
 extension CodeGuruProfilerClientTypes.Metric {
 
-    static func write(value: CodeGuruProfilerClientTypes.Metric?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["frameName"].write(value.frameName)
-        try writer["threadStates"].writeList(value.threadStates, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruProfilerClientTypes.Metric {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeGuruProfilerClientTypes.Metric()
@@ -2410,11 +2353,6 @@ extension CodeGuruProfilerClientTypes {
 
 extension CodeGuruProfilerClientTypes.NotificationConfiguration {
 
-    static func write(value: CodeGuruProfilerClientTypes.NotificationConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["channels"].writeList(value.channels, memberWritingClosure: CodeGuruProfilerClientTypes.Channel.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruProfilerClientTypes.NotificationConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeGuruProfilerClientTypes.NotificationConfiguration()
@@ -2472,17 +2410,6 @@ extension CodeGuruProfilerClientTypes {
 }
 
 extension CodeGuruProfilerClientTypes.Pattern {
-
-    static func write(value: CodeGuruProfilerClientTypes.Pattern?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["countersToAggregate"].writeList(value.countersToAggregate, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["description"].write(value.description)
-        try writer["id"].write(value.id)
-        try writer["name"].write(value.name)
-        try writer["resolutionSteps"].write(value.resolutionSteps)
-        try writer["targetFrames"].writeList(value.targetFrames, memberWritingClosure: listWritingClosure(memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
-        try writer["thresholdPercent"].write(value.thresholdPercent)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruProfilerClientTypes.Pattern {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2643,11 +2570,6 @@ enum PostAgentProfileOutputError {
 
 extension CodeGuruProfilerClientTypes.ProfileTime {
 
-    static func write(value: CodeGuruProfilerClientTypes.ProfileTime?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["start"].writeTimestamp(value.start, format: .dateTime)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruProfilerClientTypes.ProfileTime {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeGuruProfilerClientTypes.ProfileTime()
@@ -2673,18 +2595,6 @@ extension CodeGuruProfilerClientTypes {
 }
 
 extension CodeGuruProfilerClientTypes.ProfilingGroupDescription {
-
-    static func write(value: CodeGuruProfilerClientTypes.ProfilingGroupDescription?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["agentOrchestrationConfig"].write(value.agentOrchestrationConfig, with: CodeGuruProfilerClientTypes.AgentOrchestrationConfig.write(value:to:))
-        try writer["arn"].write(value.arn)
-        try writer["computePlatform"].write(value.computePlatform)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .dateTime)
-        try writer["name"].write(value.name)
-        try writer["profilingStatus"].write(value.profilingStatus, with: CodeGuruProfilerClientTypes.ProfilingStatus.write(value:to:))
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["updatedAt"].writeTimestamp(value.updatedAt, format: .dateTime)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruProfilerClientTypes.ProfilingGroupDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2746,13 +2656,6 @@ extension CodeGuruProfilerClientTypes {
 }
 
 extension CodeGuruProfilerClientTypes.ProfilingStatus {
-
-    static func write(value: CodeGuruProfilerClientTypes.ProfilingStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["latestAgentOrchestratedAt"].writeTimestamp(value.latestAgentOrchestratedAt, format: .dateTime)
-        try writer["latestAgentProfileReportedAt"].writeTimestamp(value.latestAgentProfileReportedAt, format: .dateTime)
-        try writer["latestAggregatedProfile"].write(value.latestAggregatedProfile, with: CodeGuruProfilerClientTypes.AggregatedProfileTime.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruProfilerClientTypes.ProfilingStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2889,16 +2792,6 @@ enum PutPermissionOutputError {
 }
 
 extension CodeGuruProfilerClientTypes.Recommendation {
-
-    static func write(value: CodeGuruProfilerClientTypes.Recommendation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["allMatchesCount"].write(value.allMatchesCount)
-        try writer["allMatchesSum"].write(value.allMatchesSum)
-        try writer["endTime"].writeTimestamp(value.endTime, format: .dateTime)
-        try writer["pattern"].write(value.pattern, with: CodeGuruProfilerClientTypes.Pattern.write(value:to:))
-        try writer["startTime"].writeTimestamp(value.startTime, format: .dateTime)
-        try writer["topMatches"].writeList(value.topMatches, memberWritingClosure: CodeGuruProfilerClientTypes.Match.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruProfilerClientTypes.Recommendation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3390,11 +3283,6 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
 extension CodeGuruProfilerClientTypes.TimestampStructure {
 
-    static func write(value: CodeGuruProfilerClientTypes.TimestampStructure?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["value"].writeTimestamp(value.value, format: .dateTime)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruProfilerClientTypes.TimestampStructure {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeGuruProfilerClientTypes.TimestampStructure()
@@ -3574,11 +3462,6 @@ enum UpdateProfilingGroupOutputError {
 }
 
 extension CodeGuruProfilerClientTypes.UserFeedback {
-
-    static func write(value: CodeGuruProfilerClientTypes.UserFeedback?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruProfilerClientTypes.UserFeedback {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

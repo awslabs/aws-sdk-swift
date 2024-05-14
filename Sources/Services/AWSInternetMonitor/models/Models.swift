@@ -43,13 +43,6 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
 extension InternetMonitorClientTypes.AvailabilityMeasurement {
 
-    static func write(value: InternetMonitorClientTypes.AvailabilityMeasurement?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ExperienceScore"].write(value.experienceScore)
-        try writer["PercentOfClientLocationImpacted"].write(value.percentOfClientLocationImpacted)
-        try writer["PercentOfTotalTrafficImpacted"].write(value.percentOfTotalTrafficImpacted)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> InternetMonitorClientTypes.AvailabilityMeasurement {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = InternetMonitorClientTypes.AvailabilityMeasurement()
@@ -122,18 +115,6 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 extension InternetMonitorClientTypes.ClientLocation {
-
-    static func write(value: InternetMonitorClientTypes.ClientLocation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ASName"].write(value.asName)
-        try writer["ASNumber"].write(value.asNumber)
-        try writer["City"].write(value.city)
-        try writer["Country"].write(value.country)
-        try writer["Latitude"].write(value.latitude)
-        try writer["Longitude"].write(value.longitude)
-        try writer["Metro"].write(value.metro)
-        try writer["Subdivision"].write(value.subdivision)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> InternetMonitorClientTypes.ClientLocation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -409,15 +390,6 @@ extension InternetMonitorClientTypes.FilterParameter {
         try writer["Field"].write(value.field)
         try writer["Operator"].write(value.`operator`)
         try writer["Values"].writeList(value.values, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> InternetMonitorClientTypes.FilterParameter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = InternetMonitorClientTypes.FilterParameter()
-        value.field = try reader["Field"].readIfPresent()
-        value.`operator` = try reader["Operator"].readIfPresent()
-        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -1021,21 +993,6 @@ enum GetQueryStatusOutputError {
 
 extension InternetMonitorClientTypes.HealthEvent {
 
-    static func write(value: InternetMonitorClientTypes.HealthEvent?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedAt"].writeTimestamp(value.createdAt, format: .dateTime)
-        try writer["EndedAt"].writeTimestamp(value.endedAt, format: .dateTime)
-        try writer["EventArn"].write(value.eventArn)
-        try writer["EventId"].write(value.eventId)
-        try writer["HealthScoreThreshold"].write(value.healthScoreThreshold)
-        try writer["ImpactType"].write(value.impactType)
-        try writer["ImpactedLocations"].writeList(value.impactedLocations, memberWritingClosure: InternetMonitorClientTypes.ImpactedLocation.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["LastUpdatedAt"].writeTimestamp(value.lastUpdatedAt, format: .dateTime)
-        try writer["PercentOfTotalTrafficImpacted"].write(value.percentOfTotalTrafficImpacted)
-        try writer["StartedAt"].writeTimestamp(value.startedAt, format: .dateTime)
-        try writer["Status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> InternetMonitorClientTypes.HealthEvent {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = InternetMonitorClientTypes.HealthEvent()
@@ -1233,25 +1190,6 @@ extension InternetMonitorClientTypes {
 }
 
 extension InternetMonitorClientTypes.ImpactedLocation {
-
-    static func write(value: InternetMonitorClientTypes.ImpactedLocation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ASName"].write(value.asName)
-        try writer["ASNumber"].write(value.asNumber)
-        try writer["CausedBy"].write(value.causedBy, with: InternetMonitorClientTypes.NetworkImpairment.write(value:to:))
-        try writer["City"].write(value.city)
-        try writer["Country"].write(value.country)
-        try writer["CountryCode"].write(value.countryCode)
-        try writer["InternetHealth"].write(value.internetHealth, with: InternetMonitorClientTypes.InternetHealth.write(value:to:))
-        try writer["Ipv4Prefixes"].writeList(value.ipv4Prefixes, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Latitude"].write(value.latitude)
-        try writer["Longitude"].write(value.longitude)
-        try writer["Metro"].write(value.metro)
-        try writer["ServiceLocation"].write(value.serviceLocation)
-        try writer["Status"].write(value.status)
-        try writer["Subdivision"].write(value.subdivision)
-        try writer["SubdivisionCode"].write(value.subdivisionCode)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> InternetMonitorClientTypes.ImpactedLocation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1457,17 +1395,6 @@ extension InternetMonitorClientTypes {
 
 extension InternetMonitorClientTypes.InternetEventSummary {
 
-    static func write(value: InternetMonitorClientTypes.InternetEventSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ClientLocation"].write(value.clientLocation, with: InternetMonitorClientTypes.ClientLocation.write(value:to:))
-        try writer["EndedAt"].writeTimestamp(value.endedAt, format: .dateTime)
-        try writer["EventArn"].write(value.eventArn)
-        try writer["EventId"].write(value.eventId)
-        try writer["EventStatus"].write(value.eventStatus)
-        try writer["EventType"].write(value.eventType)
-        try writer["StartedAt"].writeTimestamp(value.startedAt, format: .dateTime)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> InternetMonitorClientTypes.InternetEventSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = InternetMonitorClientTypes.InternetEventSummary()
@@ -1559,12 +1486,6 @@ extension InternetMonitorClientTypes {
 }
 
 extension InternetMonitorClientTypes.InternetHealth {
-
-    static func write(value: InternetMonitorClientTypes.InternetHealth?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Availability"].write(value.availability, with: InternetMonitorClientTypes.AvailabilityMeasurement.write(value:to:))
-        try writer["Performance"].write(value.performance, with: InternetMonitorClientTypes.PerformanceMeasurement.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> InternetMonitorClientTypes.InternetHealth {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2181,14 +2102,6 @@ extension InternetMonitorClientTypes {
 
 extension InternetMonitorClientTypes.Monitor {
 
-    static func write(value: InternetMonitorClientTypes.Monitor?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MonitorArn"].write(value.monitorArn)
-        try writer["MonitorName"].write(value.monitorName)
-        try writer["ProcessingStatus"].write(value.processingStatus)
-        try writer["Status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> InternetMonitorClientTypes.Monitor {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = InternetMonitorClientTypes.Monitor()
@@ -2311,12 +2224,6 @@ extension InternetMonitorClientTypes {
 
 extension InternetMonitorClientTypes.Network {
 
-    static func write(value: InternetMonitorClientTypes.Network?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ASName"].write(value.asName)
-        try writer["ASNumber"].write(value.asNumber)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> InternetMonitorClientTypes.Network {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = InternetMonitorClientTypes.Network()
@@ -2349,13 +2256,6 @@ extension InternetMonitorClientTypes {
 }
 
 extension InternetMonitorClientTypes.NetworkImpairment {
-
-    static func write(value: InternetMonitorClientTypes.NetworkImpairment?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AsPath"].writeList(value.asPath, memberWritingClosure: InternetMonitorClientTypes.Network.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["NetworkEventType"].write(value.networkEventType)
-        try writer["Networks"].writeList(value.networks, memberWritingClosure: InternetMonitorClientTypes.Network.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> InternetMonitorClientTypes.NetworkImpairment {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2463,14 +2363,6 @@ extension InternetMonitorClientTypes {
 
 extension InternetMonitorClientTypes.PerformanceMeasurement {
 
-    static func write(value: InternetMonitorClientTypes.PerformanceMeasurement?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ExperienceScore"].write(value.experienceScore)
-        try writer["PercentOfClientLocationImpacted"].write(value.percentOfClientLocationImpacted)
-        try writer["PercentOfTotalTrafficImpacted"].write(value.percentOfTotalTrafficImpacted)
-        try writer["RoundTripTime"].write(value.roundTripTime, with: InternetMonitorClientTypes.RoundTripTime.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> InternetMonitorClientTypes.PerformanceMeasurement {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = InternetMonitorClientTypes.PerformanceMeasurement()
@@ -2511,12 +2403,6 @@ extension InternetMonitorClientTypes {
 }
 
 extension InternetMonitorClientTypes.QueryField {
-
-    static func write(value: InternetMonitorClientTypes.QueryField?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["Type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> InternetMonitorClientTypes.QueryField {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2657,13 +2543,6 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 extension InternetMonitorClientTypes.RoundTripTime {
-
-    static func write(value: InternetMonitorClientTypes.RoundTripTime?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["P50"].write(value.p50)
-        try writer["P90"].write(value.p90)
-        try writer["P95"].write(value.p95)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> InternetMonitorClientTypes.RoundTripTime {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

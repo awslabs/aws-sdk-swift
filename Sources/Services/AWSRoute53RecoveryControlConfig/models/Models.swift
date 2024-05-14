@@ -44,18 +44,6 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
 extension Route53RecoveryControlConfigClientTypes.AssertionRule {
 
-    static func write(value: Route53RecoveryControlConfigClientTypes.AssertionRule?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AssertedControls"].writeList(value.assertedControls, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ControlPanelArn"].write(value.controlPanelArn)
-        try writer["Name"].write(value.name)
-        try writer["Owner"].write(value.owner)
-        try writer["RuleConfig"].write(value.ruleConfig, with: Route53RecoveryControlConfigClientTypes.RuleConfig.write(value:to:))
-        try writer["SafetyRuleArn"].write(value.safetyRuleArn)
-        try writer["Status"].write(value.status)
-        try writer["WaitPeriodMs"].write(value.waitPeriodMs)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> Route53RecoveryControlConfigClientTypes.AssertionRule {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Route53RecoveryControlConfigClientTypes.AssertionRule()
@@ -130,15 +118,6 @@ extension Route53RecoveryControlConfigClientTypes.AssertionRuleUpdate {
         try writer["SafetyRuleArn"].write(value.safetyRuleArn)
         try writer["WaitPeriodMs"].write(value.waitPeriodMs)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> Route53RecoveryControlConfigClientTypes.AssertionRuleUpdate {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Route53RecoveryControlConfigClientTypes.AssertionRuleUpdate()
-        value.name = try reader["Name"].readIfPresent()
-        value.safetyRuleArn = try reader["SafetyRuleArn"].readIfPresent()
-        value.waitPeriodMs = try reader["WaitPeriodMs"].readIfPresent()
-        return value
-    }
 }
 
 extension Route53RecoveryControlConfigClientTypes {
@@ -169,15 +148,6 @@ extension Route53RecoveryControlConfigClientTypes {
 }
 
 extension Route53RecoveryControlConfigClientTypes.Cluster {
-
-    static func write(value: Route53RecoveryControlConfigClientTypes.Cluster?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ClusterArn"].write(value.clusterArn)
-        try writer["ClusterEndpoints"].writeList(value.clusterEndpoints, memberWritingClosure: Route53RecoveryControlConfigClientTypes.ClusterEndpoint.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Name"].write(value.name)
-        try writer["Owner"].write(value.owner)
-        try writer["Status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Route53RecoveryControlConfigClientTypes.Cluster {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -224,12 +194,6 @@ extension Route53RecoveryControlConfigClientTypes {
 }
 
 extension Route53RecoveryControlConfigClientTypes.ClusterEndpoint {
-
-    static func write(value: Route53RecoveryControlConfigClientTypes.ClusterEndpoint?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Endpoint"].write(value.endpoint)
-        try writer["Region"].write(value.region)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Route53RecoveryControlConfigClientTypes.ClusterEndpoint {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -299,17 +263,6 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 }
 
 extension Route53RecoveryControlConfigClientTypes.ControlPanel {
-
-    static func write(value: Route53RecoveryControlConfigClientTypes.ControlPanel?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ClusterArn"].write(value.clusterArn)
-        try writer["ControlPanelArn"].write(value.controlPanelArn)
-        try writer["DefaultControlPanel"].write(value.defaultControlPanel)
-        try writer["Name"].write(value.name)
-        try writer["Owner"].write(value.owner)
-        try writer["RoutingControlCount"].write(value.routingControlCount)
-        try writer["Status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Route53RecoveryControlConfigClientTypes.ControlPanel {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1193,19 +1146,6 @@ enum DescribeSafetyRuleOutputError {
 
 extension Route53RecoveryControlConfigClientTypes.GatingRule {
 
-    static func write(value: Route53RecoveryControlConfigClientTypes.GatingRule?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ControlPanelArn"].write(value.controlPanelArn)
-        try writer["GatingControls"].writeList(value.gatingControls, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Name"].write(value.name)
-        try writer["Owner"].write(value.owner)
-        try writer["RuleConfig"].write(value.ruleConfig, with: Route53RecoveryControlConfigClientTypes.RuleConfig.write(value:to:))
-        try writer["SafetyRuleArn"].write(value.safetyRuleArn)
-        try writer["Status"].write(value.status)
-        try writer["TargetControls"].writeList(value.targetControls, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["WaitPeriodMs"].write(value.waitPeriodMs)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> Route53RecoveryControlConfigClientTypes.GatingRule {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Route53RecoveryControlConfigClientTypes.GatingRule()
@@ -1285,15 +1225,6 @@ extension Route53RecoveryControlConfigClientTypes.GatingRuleUpdate {
         try writer["Name"].write(value.name)
         try writer["SafetyRuleArn"].write(value.safetyRuleArn)
         try writer["WaitPeriodMs"].write(value.waitPeriodMs)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> Route53RecoveryControlConfigClientTypes.GatingRuleUpdate {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Route53RecoveryControlConfigClientTypes.GatingRuleUpdate()
-        value.name = try reader["Name"].readIfPresent()
-        value.safetyRuleArn = try reader["SafetyRuleArn"].readIfPresent()
-        value.waitPeriodMs = try reader["WaitPeriodMs"].readIfPresent()
-        return value
     }
 }
 
@@ -1957,17 +1888,6 @@ extension Route53RecoveryControlConfigClientTypes.NewAssertionRule {
         try writer["RuleConfig"].write(value.ruleConfig, with: Route53RecoveryControlConfigClientTypes.RuleConfig.write(value:to:))
         try writer["WaitPeriodMs"].write(value.waitPeriodMs)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> Route53RecoveryControlConfigClientTypes.NewAssertionRule {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Route53RecoveryControlConfigClientTypes.NewAssertionRule()
-        value.assertedControls = try reader["AssertedControls"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.controlPanelArn = try reader["ControlPanelArn"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.ruleConfig = try reader["RuleConfig"].readIfPresent(with: Route53RecoveryControlConfigClientTypes.RuleConfig.read(from:))
-        value.waitPeriodMs = try reader["WaitPeriodMs"].readIfPresent()
-        return value
-    }
 }
 
 extension Route53RecoveryControlConfigClientTypes {
@@ -2017,18 +1937,6 @@ extension Route53RecoveryControlConfigClientTypes.NewGatingRule {
         try writer["RuleConfig"].write(value.ruleConfig, with: Route53RecoveryControlConfigClientTypes.RuleConfig.write(value:to:))
         try writer["TargetControls"].writeList(value.targetControls, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["WaitPeriodMs"].write(value.waitPeriodMs)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> Route53RecoveryControlConfigClientTypes.NewGatingRule {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Route53RecoveryControlConfigClientTypes.NewGatingRule()
-        value.controlPanelArn = try reader["ControlPanelArn"].readIfPresent()
-        value.gatingControls = try reader["GatingControls"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.name = try reader["Name"].readIfPresent()
-        value.ruleConfig = try reader["RuleConfig"].readIfPresent(with: Route53RecoveryControlConfigClientTypes.RuleConfig.read(from:))
-        value.targetControls = try reader["TargetControls"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.waitPeriodMs = try reader["WaitPeriodMs"].readIfPresent()
-        return value
     }
 }
 
@@ -2116,15 +2024,6 @@ public enum Route53RecoveryControlConfigClientTypes {}
 
 extension Route53RecoveryControlConfigClientTypes.RoutingControl {
 
-    static func write(value: Route53RecoveryControlConfigClientTypes.RoutingControl?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ControlPanelArn"].write(value.controlPanelArn)
-        try writer["Name"].write(value.name)
-        try writer["Owner"].write(value.owner)
-        try writer["RoutingControlArn"].write(value.routingControlArn)
-        try writer["Status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> Route53RecoveryControlConfigClientTypes.RoutingControl {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Route53RecoveryControlConfigClientTypes.RoutingControl()
@@ -2170,12 +2069,6 @@ extension Route53RecoveryControlConfigClientTypes {
 }
 
 extension Route53RecoveryControlConfigClientTypes.Rule {
-
-    static func write(value: Route53RecoveryControlConfigClientTypes.Rule?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ASSERTION"].write(value.assertion, with: Route53RecoveryControlConfigClientTypes.AssertionRule.write(value:to:))
-        try writer["GATING"].write(value.gating, with: Route53RecoveryControlConfigClientTypes.GatingRule.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Route53RecoveryControlConfigClientTypes.Rule {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

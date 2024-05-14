@@ -6,17 +6,6 @@ import SmithyReadWrite
 
 extension MemoryDBClientTypes.ACL {
 
-    static func write(value: MemoryDBClientTypes.ACL?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ARN"].write(value.arn)
-        try writer["Clusters"].writeList(value.clusters, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["MinimumEngineVersion"].write(value.minimumEngineVersion)
-        try writer["Name"].write(value.name)
-        try writer["PendingChanges"].write(value.pendingChanges, with: MemoryDBClientTypes.ACLPendingChanges.write(value:to:))
-        try writer["Status"].write(value.status)
-        try writer["UserNames"].writeList(value.userNames, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MemoryDBClientTypes.ACL {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MemoryDBClientTypes.ACL()
@@ -147,12 +136,6 @@ public struct ACLNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWS
 
 extension MemoryDBClientTypes.ACLPendingChanges {
 
-    static func write(value: MemoryDBClientTypes.ACLPendingChanges?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["UserNamesToAdd"].writeList(value.userNamesToAdd, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["UserNamesToRemove"].writeList(value.userNamesToRemove, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MemoryDBClientTypes.ACLPendingChanges {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MemoryDBClientTypes.ACLPendingChanges()
@@ -220,11 +203,6 @@ public struct ACLQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntim
 }
 
 extension MemoryDBClientTypes.ACLsUpdateStatus {
-
-    static func write(value: MemoryDBClientTypes.ACLsUpdateStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ACLToApply"].write(value.aclToApply)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MemoryDBClientTypes.ACLsUpdateStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -319,12 +297,6 @@ extension MemoryDBClientTypes {
 
 extension MemoryDBClientTypes.Authentication {
 
-    static func write(value: MemoryDBClientTypes.Authentication?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["PasswordCount"].write(value.passwordCount)
-        try writer["Type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MemoryDBClientTypes.Authentication {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MemoryDBClientTypes.Authentication()
@@ -360,14 +332,6 @@ extension MemoryDBClientTypes.AuthenticationMode {
         guard let value else { return }
         try writer["Passwords"].writeList(value.passwords, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Type"].write(value.type)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MemoryDBClientTypes.AuthenticationMode {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MemoryDBClientTypes.AuthenticationMode()
-        value.type = try reader["Type"].readIfPresent()
-        value.passwords = try reader["Passwords"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -425,11 +389,6 @@ extension MemoryDBClientTypes {
 }
 
 extension MemoryDBClientTypes.AvailabilityZone {
-
-    static func write(value: MemoryDBClientTypes.AvailabilityZone?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MemoryDBClientTypes.AvailabilityZone {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -533,36 +492,6 @@ enum BatchUpdateClusterOutputError {
 }
 
 extension MemoryDBClientTypes.Cluster {
-
-    static func write(value: MemoryDBClientTypes.Cluster?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ACLName"].write(value.aclName)
-        try writer["ARN"].write(value.arn)
-        try writer["AutoMinorVersionUpgrade"].write(value.autoMinorVersionUpgrade)
-        try writer["AvailabilityMode"].write(value.availabilityMode)
-        try writer["ClusterEndpoint"].write(value.clusterEndpoint, with: MemoryDBClientTypes.Endpoint.write(value:to:))
-        try writer["DataTiering"].write(value.dataTiering)
-        try writer["Description"].write(value.description)
-        try writer["EnginePatchVersion"].write(value.enginePatchVersion)
-        try writer["EngineVersion"].write(value.engineVersion)
-        try writer["KmsKeyId"].write(value.kmsKeyId)
-        try writer["MaintenanceWindow"].write(value.maintenanceWindow)
-        try writer["Name"].write(value.name)
-        try writer["NodeType"].write(value.nodeType)
-        try writer["NumberOfShards"].write(value.numberOfShards)
-        try writer["ParameterGroupName"].write(value.parameterGroupName)
-        try writer["ParameterGroupStatus"].write(value.parameterGroupStatus)
-        try writer["PendingUpdates"].write(value.pendingUpdates, with: MemoryDBClientTypes.ClusterPendingUpdates.write(value:to:))
-        try writer["SecurityGroups"].writeList(value.securityGroups, memberWritingClosure: MemoryDBClientTypes.SecurityGroupMembership.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Shards"].writeList(value.shards, memberWritingClosure: MemoryDBClientTypes.Shard.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["SnapshotRetentionLimit"].write(value.snapshotRetentionLimit)
-        try writer["SnapshotWindow"].write(value.snapshotWindow)
-        try writer["SnsTopicArn"].write(value.snsTopicArn)
-        try writer["SnsTopicStatus"].write(value.snsTopicStatus)
-        try writer["Status"].write(value.status)
-        try writer["SubnetGroupName"].write(value.subnetGroupName)
-        try writer["TLSEnabled"].write(value.tlsEnabled)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MemoryDBClientTypes.Cluster {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -752,24 +681,6 @@ public struct ClusterAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRu
 
 extension MemoryDBClientTypes.ClusterConfiguration {
 
-    static func write(value: MemoryDBClientTypes.ClusterConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Description"].write(value.description)
-        try writer["EngineVersion"].write(value.engineVersion)
-        try writer["MaintenanceWindow"].write(value.maintenanceWindow)
-        try writer["Name"].write(value.name)
-        try writer["NodeType"].write(value.nodeType)
-        try writer["NumShards"].write(value.numShards)
-        try writer["ParameterGroupName"].write(value.parameterGroupName)
-        try writer["Port"].write(value.port)
-        try writer["Shards"].writeList(value.shards, memberWritingClosure: MemoryDBClientTypes.ShardDetail.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["SnapshotRetentionLimit"].write(value.snapshotRetentionLimit)
-        try writer["SnapshotWindow"].write(value.snapshotWindow)
-        try writer["SubnetGroupName"].write(value.subnetGroupName)
-        try writer["TopicArn"].write(value.topicArn)
-        try writer["VpcId"].write(value.vpcId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MemoryDBClientTypes.ClusterConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MemoryDBClientTypes.ClusterConfiguration()
@@ -897,13 +808,6 @@ public struct ClusterNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime
 }
 
 extension MemoryDBClientTypes.ClusterPendingUpdates {
-
-    static func write(value: MemoryDBClientTypes.ClusterPendingUpdates?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ACLs"].write(value.acLs, with: MemoryDBClientTypes.ACLsUpdateStatus.write(value:to:))
-        try writer["Resharding"].write(value.resharding, with: MemoryDBClientTypes.ReshardingStatus.write(value:to:))
-        try writer["ServiceUpdates"].writeList(value.serviceUpdates, memberWritingClosure: MemoryDBClientTypes.PendingModifiedServiceUpdate.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MemoryDBClientTypes.ClusterPendingUpdates {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3323,12 +3227,6 @@ public struct DuplicateUserNameFault: ClientRuntime.ModeledError, AWSClientRunti
 
 extension MemoryDBClientTypes.Endpoint {
 
-    static func write(value: MemoryDBClientTypes.Endpoint?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Address"].write(value.address)
-        try writer["Port"].write(value.port)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MemoryDBClientTypes.Endpoint {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MemoryDBClientTypes.Endpoint()
@@ -3359,13 +3257,6 @@ extension MemoryDBClientTypes {
 }
 
 extension MemoryDBClientTypes.EngineVersionInfo {
-
-    static func write(value: MemoryDBClientTypes.EngineVersionInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EnginePatchVersion"].write(value.enginePatchVersion)
-        try writer["EngineVersion"].write(value.engineVersion)
-        try writer["ParameterGroupFamily"].write(value.parameterGroupFamily)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MemoryDBClientTypes.EngineVersionInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3402,14 +3293,6 @@ extension MemoryDBClientTypes {
 }
 
 extension MemoryDBClientTypes.Event {
-
-    static func write(value: MemoryDBClientTypes.Event?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Date"].writeTimestamp(value.date, format: .epochSeconds)
-        try writer["Message"].write(value.message)
-        try writer["SourceName"].write(value.sourceName)
-        try writer["SourceType"].write(value.sourceType)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MemoryDBClientTypes.Event {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3535,14 +3418,6 @@ extension MemoryDBClientTypes.Filter {
         guard let value else { return }
         try writer["Name"].write(value.name)
         try writer["Values"].writeList(value.values, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MemoryDBClientTypes.Filter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MemoryDBClientTypes.Filter()
-        value.name = try reader["Name"].readIfPresent()
-        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -4305,15 +4180,6 @@ public struct NoOperationFault: ClientRuntime.ModeledError, AWSClientRuntime.AWS
 
 extension MemoryDBClientTypes.Node {
 
-    static func write(value: MemoryDBClientTypes.Node?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AvailabilityZone"].write(value.availabilityZone)
-        try writer["CreateTime"].writeTimestamp(value.createTime, format: .epochSeconds)
-        try writer["Endpoint"].write(value.endpoint, with: MemoryDBClientTypes.Endpoint.write(value:to:))
-        try writer["Name"].write(value.name)
-        try writer["Status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MemoryDBClientTypes.Node {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MemoryDBClientTypes.Node()
@@ -4434,16 +4300,6 @@ public struct NodeQuotaForCustomerExceededFault: ClientRuntime.ModeledError, AWS
 
 extension MemoryDBClientTypes.Parameter {
 
-    static func write(value: MemoryDBClientTypes.Parameter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AllowedValues"].write(value.allowedValues)
-        try writer["DataType"].write(value.dataType)
-        try writer["Description"].write(value.description)
-        try writer["MinimumEngineVersion"].write(value.minimumEngineVersion)
-        try writer["Name"].write(value.name)
-        try writer["Value"].write(value.value)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MemoryDBClientTypes.Parameter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MemoryDBClientTypes.Parameter()
@@ -4494,14 +4350,6 @@ extension MemoryDBClientTypes {
 }
 
 extension MemoryDBClientTypes.ParameterGroup {
-
-    static func write(value: MemoryDBClientTypes.ParameterGroup?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ARN"].write(value.arn)
-        try writer["Description"].write(value.description)
-        try writer["Family"].write(value.family)
-        try writer["Name"].write(value.name)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MemoryDBClientTypes.ParameterGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4660,14 +4508,6 @@ extension MemoryDBClientTypes.ParameterNameValue {
         try writer["ParameterName"].write(value.parameterName)
         try writer["ParameterValue"].write(value.parameterValue)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MemoryDBClientTypes.ParameterNameValue {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MemoryDBClientTypes.ParameterNameValue()
-        value.parameterName = try reader["ParameterName"].readIfPresent()
-        value.parameterValue = try reader["ParameterValue"].readIfPresent()
-        return value
-    }
 }
 
 extension MemoryDBClientTypes {
@@ -4691,12 +4531,6 @@ extension MemoryDBClientTypes {
 }
 
 extension MemoryDBClientTypes.PendingModifiedServiceUpdate {
-
-    static func write(value: MemoryDBClientTypes.PendingModifiedServiceUpdate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ServiceUpdateName"].write(value.serviceUpdateName)
-        try writer["Status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MemoryDBClientTypes.PendingModifiedServiceUpdate {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4816,12 +4650,6 @@ enum PurchaseReservedNodesOfferingOutputError {
 
 extension MemoryDBClientTypes.RecurringCharge {
 
-    static func write(value: MemoryDBClientTypes.RecurringCharge?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["RecurringChargeAmount"].write(value.recurringChargeAmount)
-        try writer["RecurringChargeFrequency"].write(value.recurringChargeFrequency)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MemoryDBClientTypes.RecurringCharge {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MemoryDBClientTypes.RecurringCharge()
@@ -4857,13 +4685,6 @@ extension MemoryDBClientTypes.ReplicaConfigurationRequest {
         guard let value else { return }
         try writer["ReplicaCount"].write(value.replicaCount)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MemoryDBClientTypes.ReplicaConfigurationRequest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MemoryDBClientTypes.ReplicaConfigurationRequest()
-        value.replicaCount = try reader["ReplicaCount"].readIfPresent() ?? 0
-        return value
-    }
 }
 
 extension MemoryDBClientTypes {
@@ -4883,21 +4704,6 @@ extension MemoryDBClientTypes {
 }
 
 extension MemoryDBClientTypes.ReservedNode {
-
-    static func write(value: MemoryDBClientTypes.ReservedNode?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ARN"].write(value.arn)
-        try writer["Duration"].write(value.duration)
-        try writer["FixedPrice"].write(value.fixedPrice)
-        try writer["NodeCount"].write(value.nodeCount)
-        try writer["NodeType"].write(value.nodeType)
-        try writer["OfferingType"].write(value.offeringType)
-        try writer["RecurringCharges"].writeList(value.recurringCharges, memberWritingClosure: MemoryDBClientTypes.RecurringCharge.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ReservationId"].write(value.reservationId)
-        try writer["ReservedNodesOfferingId"].write(value.reservedNodesOfferingId)
-        try writer["StartTime"].writeTimestamp(value.startTime, format: .epochSeconds)
-        try writer["State"].write(value.state)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MemoryDBClientTypes.ReservedNode {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5086,16 +4892,6 @@ public struct ReservedNodeQuotaExceededFault: ClientRuntime.ModeledError, AWSCli
 
 extension MemoryDBClientTypes.ReservedNodesOffering {
 
-    static func write(value: MemoryDBClientTypes.ReservedNodesOffering?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Duration"].write(value.duration)
-        try writer["FixedPrice"].write(value.fixedPrice)
-        try writer["NodeType"].write(value.nodeType)
-        try writer["OfferingType"].write(value.offeringType)
-        try writer["RecurringCharges"].writeList(value.recurringCharges, memberWritingClosure: MemoryDBClientTypes.RecurringCharge.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ReservedNodesOfferingId"].write(value.reservedNodesOfferingId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MemoryDBClientTypes.ReservedNodesOffering {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MemoryDBClientTypes.ReservedNodesOffering()
@@ -5264,11 +5060,6 @@ enum ResetParameterGroupOutputError {
 
 extension MemoryDBClientTypes.ReshardingStatus {
 
-    static func write(value: MemoryDBClientTypes.ReshardingStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["SlotMigration"].write(value.slotMigration, with: MemoryDBClientTypes.SlotMigration.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MemoryDBClientTypes.ReshardingStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MemoryDBClientTypes.ReshardingStatus()
@@ -5294,12 +5085,6 @@ extension MemoryDBClientTypes {
 }
 
 extension MemoryDBClientTypes.SecurityGroupMembership {
-
-    static func write(value: MemoryDBClientTypes.SecurityGroupMembership?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["SecurityGroupId"].write(value.securityGroupId)
-        try writer["Status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MemoryDBClientTypes.SecurityGroupMembership {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5368,18 +5153,6 @@ public struct ServiceLinkedRoleNotFoundFault: ClientRuntime.ModeledError, AWSCli
 }
 
 extension MemoryDBClientTypes.ServiceUpdate {
-
-    static func write(value: MemoryDBClientTypes.ServiceUpdate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AutoUpdateStartDate"].writeTimestamp(value.autoUpdateStartDate, format: .epochSeconds)
-        try writer["ClusterName"].write(value.clusterName)
-        try writer["Description"].write(value.description)
-        try writer["NodesUpdated"].write(value.nodesUpdated)
-        try writer["ReleaseDate"].writeTimestamp(value.releaseDate, format: .epochSeconds)
-        try writer["ServiceUpdateName"].write(value.serviceUpdateName)
-        try writer["Status"].write(value.status)
-        try writer["Type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MemoryDBClientTypes.ServiceUpdate {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5483,13 +5256,6 @@ extension MemoryDBClientTypes.ServiceUpdateRequest {
         guard let value else { return }
         try writer["ServiceUpdateNameToApply"].write(value.serviceUpdateNameToApply)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MemoryDBClientTypes.ServiceUpdateRequest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MemoryDBClientTypes.ServiceUpdateRequest()
-        value.serviceUpdateNameToApply = try reader["ServiceUpdateNameToApply"].readIfPresent()
-        return value
-    }
 }
 
 extension MemoryDBClientTypes {
@@ -5573,15 +5339,6 @@ extension MemoryDBClientTypes {
 
 extension MemoryDBClientTypes.Shard {
 
-    static func write(value: MemoryDBClientTypes.Shard?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["Nodes"].writeList(value.nodes, memberWritingClosure: MemoryDBClientTypes.Node.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["NumberOfNodes"].write(value.numberOfNodes)
-        try writer["Slots"].write(value.slots)
-        try writer["Status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MemoryDBClientTypes.Shard {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MemoryDBClientTypes.Shard()
@@ -5628,12 +5385,6 @@ extension MemoryDBClientTypes {
 
 extension MemoryDBClientTypes.ShardConfiguration {
 
-    static func write(value: MemoryDBClientTypes.ShardConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ReplicaCount"].write(value.replicaCount)
-        try writer["Slots"].write(value.slots)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MemoryDBClientTypes.ShardConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MemoryDBClientTypes.ShardConfiguration()
@@ -5669,13 +5420,6 @@ extension MemoryDBClientTypes.ShardConfigurationRequest {
         guard let value else { return }
         try writer["ShardCount"].write(value.shardCount)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MemoryDBClientTypes.ShardConfigurationRequest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MemoryDBClientTypes.ShardConfigurationRequest()
-        value.shardCount = try reader["ShardCount"].readIfPresent() ?? 0
-        return value
-    }
 }
 
 extension MemoryDBClientTypes {
@@ -5695,14 +5439,6 @@ extension MemoryDBClientTypes {
 }
 
 extension MemoryDBClientTypes.ShardDetail {
-
-    static func write(value: MemoryDBClientTypes.ShardDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Configuration"].write(value.configuration, with: MemoryDBClientTypes.ShardConfiguration.write(value:to:))
-        try writer["Name"].write(value.name)
-        try writer["Size"].write(value.size)
-        try writer["SnapshotCreationTime"].writeTimestamp(value.snapshotCreationTime, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MemoryDBClientTypes.ShardDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5819,11 +5555,6 @@ public struct ShardsPerClusterQuotaExceededFault: ClientRuntime.ModeledError, AW
 
 extension MemoryDBClientTypes.SlotMigration {
 
-    static func write(value: MemoryDBClientTypes.SlotMigration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ProgressPercentage"].write(value.progressPercentage)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MemoryDBClientTypes.SlotMigration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MemoryDBClientTypes.SlotMigration()
@@ -5849,17 +5580,6 @@ extension MemoryDBClientTypes {
 }
 
 extension MemoryDBClientTypes.Snapshot {
-
-    static func write(value: MemoryDBClientTypes.Snapshot?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ARN"].write(value.arn)
-        try writer["ClusterConfiguration"].write(value.clusterConfiguration, with: MemoryDBClientTypes.ClusterConfiguration.write(value:to:))
-        try writer["DataTiering"].write(value.dataTiering)
-        try writer["KmsKeyId"].write(value.kmsKeyId)
-        try writer["Name"].write(value.name)
-        try writer["Source"].write(value.source)
-        try writer["Status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MemoryDBClientTypes.Snapshot {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6070,12 +5790,6 @@ extension MemoryDBClientTypes {
 
 extension MemoryDBClientTypes.Subnet {
 
-    static func write(value: MemoryDBClientTypes.Subnet?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AvailabilityZone"].write(value.availabilityZone, with: MemoryDBClientTypes.AvailabilityZone.write(value:to:))
-        try writer["Identifier"].write(value.identifier)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MemoryDBClientTypes.Subnet {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MemoryDBClientTypes.Subnet()
@@ -6106,15 +5820,6 @@ extension MemoryDBClientTypes {
 }
 
 extension MemoryDBClientTypes.SubnetGroup {
-
-    static func write(value: MemoryDBClientTypes.SubnetGroup?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ARN"].write(value.arn)
-        try writer["Description"].write(value.description)
-        try writer["Name"].write(value.name)
-        try writer["Subnets"].writeList(value.subnets, memberWritingClosure: MemoryDBClientTypes.Subnet.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["VpcId"].write(value.vpcId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MemoryDBClientTypes.SubnetGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6656,13 +6361,6 @@ public struct TestFailoverNotAvailableFault: ClientRuntime.ModeledError, AWSClie
 }
 
 extension MemoryDBClientTypes.UnprocessedCluster {
-
-    static func write(value: MemoryDBClientTypes.UnprocessedCluster?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ClusterName"].write(value.clusterName)
-        try writer["ErrorMessage"].write(value.errorMessage)
-        try writer["ErrorType"].write(value.errorType)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MemoryDBClientTypes.UnprocessedCluster {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7261,17 +6959,6 @@ enum UpdateUserOutputError {
 }
 
 extension MemoryDBClientTypes.User {
-
-    static func write(value: MemoryDBClientTypes.User?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ACLNames"].writeList(value.aclNames, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ARN"].write(value.arn)
-        try writer["AccessString"].write(value.accessString)
-        try writer["Authentication"].write(value.authentication, with: MemoryDBClientTypes.Authentication.write(value:to:))
-        try writer["MinimumEngineVersion"].write(value.minimumEngineVersion)
-        try writer["Name"].write(value.name)
-        try writer["Status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MemoryDBClientTypes.User {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

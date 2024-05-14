@@ -192,13 +192,6 @@ extension CloudFrontKeyValueStoreClientTypes.DeleteKeyRequestListItem {
         guard let value else { return }
         try writer["Key"].write(value.key)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudFrontKeyValueStoreClientTypes.DeleteKeyRequestListItem {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontKeyValueStoreClientTypes.DeleteKeyRequestListItem()
-        value.key = try reader["Key"].readIfPresent()
-        return value
-    }
 }
 
 extension CloudFrontKeyValueStoreClientTypes {
@@ -560,12 +553,6 @@ extension CloudFrontKeyValueStoreClientTypes.ListKeysResponseListItem: Swift.Cus
 
 extension CloudFrontKeyValueStoreClientTypes.ListKeysResponseListItem {
 
-    static func write(value: CloudFrontKeyValueStoreClientTypes.ListKeysResponseListItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Key"].write(value.key)
-        try writer["Value"].write(value.value)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CloudFrontKeyValueStoreClientTypes.ListKeysResponseListItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudFrontKeyValueStoreClientTypes.ListKeysResponseListItem()
@@ -733,14 +720,6 @@ extension CloudFrontKeyValueStoreClientTypes.PutKeyRequestListItem {
         guard let value else { return }
         try writer["Key"].write(value.key)
         try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudFrontKeyValueStoreClientTypes.PutKeyRequestListItem {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontKeyValueStoreClientTypes.PutKeyRequestListItem()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
-        return value
     }
 }
 

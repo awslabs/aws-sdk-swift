@@ -133,14 +133,6 @@ extension AmplifyUIBuilderClientTypes {
 
 extension AmplifyUIBuilderClientTypes.CodegenDependency {
 
-    static func write(value: AmplifyUIBuilderClientTypes.CodegenDependency?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["isSemVer"].write(value.isSemVer)
-        try writer["name"].write(value.name)
-        try writer["reason"].write(value.reason)
-        try writer["supportedVersion"].write(value.supportedVersion)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AmplifyUIBuilderClientTypes.CodegenDependency {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AmplifyUIBuilderClientTypes.CodegenDependency()
@@ -550,24 +542,6 @@ extension AmplifyUIBuilderClientTypes {
 
 extension AmplifyUIBuilderClientTypes.CodegenJob {
 
-    static func write(value: AmplifyUIBuilderClientTypes.CodegenJob?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["appId"].write(value.appId)
-        try writer["asset"].write(value.asset, with: AmplifyUIBuilderClientTypes.CodegenJobAsset.write(value:to:))
-        try writer["autoGenerateForms"].write(value.autoGenerateForms)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .dateTime)
-        try writer["dependencies"].writeList(value.dependencies, memberWritingClosure: AmplifyUIBuilderClientTypes.CodegenDependency.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["environmentName"].write(value.environmentName)
-        try writer["features"].write(value.features, with: AmplifyUIBuilderClientTypes.CodegenFeatureFlags.write(value:to:))
-        try writer["genericDataSchema"].write(value.genericDataSchema, with: AmplifyUIBuilderClientTypes.CodegenJobGenericDataSchema.write(value:to:))
-        try writer["id"].write(value.id)
-        try writer["modifiedAt"].writeTimestamp(value.modifiedAt, format: .dateTime)
-        try writer["renderConfig"].write(value.renderConfig, with: AmplifyUIBuilderClientTypes.CodegenJobRenderConfig.write(value:to:))
-        try writer["status"].write(value.status)
-        try writer["statusMessage"].write(value.statusMessage)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AmplifyUIBuilderClientTypes.CodegenJob {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AmplifyUIBuilderClientTypes.CodegenJob()
@@ -661,11 +635,6 @@ extension AmplifyUIBuilderClientTypes {
 }
 
 extension AmplifyUIBuilderClientTypes.CodegenJobAsset {
-
-    static func write(value: AmplifyUIBuilderClientTypes.CodegenJobAsset?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["downloadUrl"].write(value.downloadUrl)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AmplifyUIBuilderClientTypes.CodegenJobAsset {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -840,15 +809,6 @@ extension AmplifyUIBuilderClientTypes {
 
 extension AmplifyUIBuilderClientTypes.CodegenJobSummary {
 
-    static func write(value: AmplifyUIBuilderClientTypes.CodegenJobSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["appId"].write(value.appId)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .dateTime)
-        try writer["environmentName"].write(value.environmentName)
-        try writer["id"].write(value.id)
-        try writer["modifiedAt"].writeTimestamp(value.modifiedAt, format: .dateTime)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AmplifyUIBuilderClientTypes.CodegenJobSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AmplifyUIBuilderClientTypes.CodegenJobSummary()
@@ -897,27 +857,6 @@ extension AmplifyUIBuilderClientTypes {
 }
 
 extension AmplifyUIBuilderClientTypes.Component {
-
-    static func write(value: AmplifyUIBuilderClientTypes.Component?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["appId"].write(value.appId)
-        try writer["bindingProperties"].writeMap(value.bindingProperties, valueWritingClosure: AmplifyUIBuilderClientTypes.ComponentBindingPropertiesValue.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["children"].writeList(value.children, memberWritingClosure: AmplifyUIBuilderClientTypes.ComponentChild.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["collectionProperties"].writeMap(value.collectionProperties, valueWritingClosure: AmplifyUIBuilderClientTypes.ComponentDataConfiguration.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["componentType"].write(value.componentType)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .dateTime)
-        try writer["environmentName"].write(value.environmentName)
-        try writer["events"].writeMap(value.events, valueWritingClosure: AmplifyUIBuilderClientTypes.ComponentEvent.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["id"].write(value.id)
-        try writer["modifiedAt"].writeTimestamp(value.modifiedAt, format: .dateTime)
-        try writer["name"].write(value.name)
-        try writer["overrides"].writeMap(value.overrides, valueWritingClosure: mapWritingClosure(valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["properties"].writeMap(value.properties, valueWritingClosure: AmplifyUIBuilderClientTypes.ComponentProperty.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["schemaVersion"].write(value.schemaVersion)
-        try writer["sourceId"].write(value.sourceId)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["variants"].writeList(value.variants, memberWritingClosure: AmplifyUIBuilderClientTypes.ComponentVariant.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AmplifyUIBuilderClientTypes.Component {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1528,15 +1467,6 @@ extension AmplifyUIBuilderClientTypes {
 
 extension AmplifyUIBuilderClientTypes.ComponentSummary {
 
-    static func write(value: AmplifyUIBuilderClientTypes.ComponentSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["appId"].write(value.appId)
-        try writer["componentType"].write(value.componentType)
-        try writer["environmentName"].write(value.environmentName)
-        try writer["id"].write(value.id)
-        try writer["name"].write(value.name)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AmplifyUIBuilderClientTypes.ComponentSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AmplifyUIBuilderClientTypes.ComponentSummary()
@@ -1639,24 +1569,6 @@ extension AmplifyUIBuilderClientTypes.CreateComponentData {
         try writer["sourceId"].write(value.sourceId)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["variants"].writeList(value.variants, memberWritingClosure: AmplifyUIBuilderClientTypes.ComponentVariant.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AmplifyUIBuilderClientTypes.CreateComponentData {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AmplifyUIBuilderClientTypes.CreateComponentData()
-        value.name = try reader["name"].readIfPresent()
-        value.sourceId = try reader["sourceId"].readIfPresent()
-        value.componentType = try reader["componentType"].readIfPresent()
-        value.properties = try reader["properties"].readMapIfPresent(valueReadingClosure: AmplifyUIBuilderClientTypes.ComponentProperty.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.children = try reader["children"].readListIfPresent(memberReadingClosure: AmplifyUIBuilderClientTypes.ComponentChild.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.variants = try reader["variants"].readListIfPresent(memberReadingClosure: AmplifyUIBuilderClientTypes.ComponentVariant.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.overrides = try reader["overrides"].readMapIfPresent(valueReadingClosure: mapReadingClosure(valueReadingClosure: Swift.String.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.bindingProperties = try reader["bindingProperties"].readMapIfPresent(valueReadingClosure: AmplifyUIBuilderClientTypes.ComponentBindingPropertiesValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.collectionProperties = try reader["collectionProperties"].readMapIfPresent(valueReadingClosure: AmplifyUIBuilderClientTypes.ComponentDataConfiguration.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: Swift.String.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.events = try reader["events"].readMapIfPresent(valueReadingClosure: AmplifyUIBuilderClientTypes.ComponentEvent.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.schemaVersion = try reader["schemaVersion"].readIfPresent()
-        return value
     }
 }
 
@@ -1842,22 +1754,6 @@ extension AmplifyUIBuilderClientTypes.CreateFormData {
         try writer["style"].write(value.style, with: AmplifyUIBuilderClientTypes.FormStyle.write(value:to:))
         try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AmplifyUIBuilderClientTypes.CreateFormData {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AmplifyUIBuilderClientTypes.CreateFormData()
-        value.name = try reader["name"].readIfPresent()
-        value.dataType = try reader["dataType"].readIfPresent(with: AmplifyUIBuilderClientTypes.FormDataTypeConfig.read(from:))
-        value.formActionType = try reader["formActionType"].readIfPresent()
-        value.fields = try reader["fields"].readMapIfPresent(valueReadingClosure: AmplifyUIBuilderClientTypes.FieldConfig.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.style = try reader["style"].readIfPresent(with: AmplifyUIBuilderClientTypes.FormStyle.read(from:))
-        value.sectionalElements = try reader["sectionalElements"].readMapIfPresent(valueReadingClosure: AmplifyUIBuilderClientTypes.SectionalElement.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.schemaVersion = try reader["schemaVersion"].readIfPresent()
-        value.cta = try reader["cta"].readIfPresent(with: AmplifyUIBuilderClientTypes.FormCTA.read(from:))
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: Swift.String.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.labelDecorator = try reader["labelDecorator"].readIfPresent()
-        return value
-    }
 }
 
 extension AmplifyUIBuilderClientTypes {
@@ -2028,16 +1924,6 @@ extension AmplifyUIBuilderClientTypes.CreateThemeData {
         try writer["overrides"].writeList(value.overrides, memberWritingClosure: AmplifyUIBuilderClientTypes.ThemeValues.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["values"].writeList(value.values, memberWritingClosure: AmplifyUIBuilderClientTypes.ThemeValues.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AmplifyUIBuilderClientTypes.CreateThemeData {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AmplifyUIBuilderClientTypes.CreateThemeData()
-        value.name = try reader["name"].readIfPresent()
-        value.values = try reader["values"].readListIfPresent(memberReadingClosure: AmplifyUIBuilderClientTypes.ThemeValues.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.overrides = try reader["overrides"].readListIfPresent(memberReadingClosure: AmplifyUIBuilderClientTypes.ThemeValues.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: Swift.String.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
     }
 }
 
@@ -2499,15 +2385,6 @@ extension AmplifyUIBuilderClientTypes.ExchangeCodeForTokenRequestBody {
         try writer["clientId"].write(value.clientId)
         try writer["code"].write(value.code)
         try writer["redirectUri"].write(value.redirectUri)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AmplifyUIBuilderClientTypes.ExchangeCodeForTokenRequestBody {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AmplifyUIBuilderClientTypes.ExchangeCodeForTokenRequestBody()
-        value.code = try reader["code"].readIfPresent()
-        value.redirectUri = try reader["redirectUri"].readIfPresent()
-        value.clientId = try reader["clientId"].readIfPresent()
-        return value
     }
 }
 
@@ -3178,23 +3055,6 @@ extension AmplifyUIBuilderClientTypes {
 
 extension AmplifyUIBuilderClientTypes.Form {
 
-    static func write(value: AmplifyUIBuilderClientTypes.Form?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["appId"].write(value.appId)
-        try writer["cta"].write(value.cta, with: AmplifyUIBuilderClientTypes.FormCTA.write(value:to:))
-        try writer["dataType"].write(value.dataType, with: AmplifyUIBuilderClientTypes.FormDataTypeConfig.write(value:to:))
-        try writer["environmentName"].write(value.environmentName)
-        try writer["fields"].writeMap(value.fields, valueWritingClosure: AmplifyUIBuilderClientTypes.FieldConfig.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["formActionType"].write(value.formActionType)
-        try writer["id"].write(value.id)
-        try writer["labelDecorator"].write(value.labelDecorator)
-        try writer["name"].write(value.name)
-        try writer["schemaVersion"].write(value.schemaVersion)
-        try writer["sectionalElements"].writeMap(value.sectionalElements, valueWritingClosure: AmplifyUIBuilderClientTypes.SectionalElement.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["style"].write(value.style, with: AmplifyUIBuilderClientTypes.FormStyle.write(value:to:))
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AmplifyUIBuilderClientTypes.Form {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AmplifyUIBuilderClientTypes.Form()
@@ -3787,16 +3647,6 @@ extension AmplifyUIBuilderClientTypes {
 }
 
 extension AmplifyUIBuilderClientTypes.FormSummary {
-
-    static func write(value: AmplifyUIBuilderClientTypes.FormSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["appId"].write(value.appId)
-        try writer["dataType"].write(value.dataType, with: AmplifyUIBuilderClientTypes.FormDataTypeConfig.write(value:to:))
-        try writer["environmentName"].write(value.environmentName)
-        try writer["formActionType"].write(value.formActionType)
-        try writer["id"].write(value.id)
-        try writer["name"].write(value.name)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AmplifyUIBuilderClientTypes.FormSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5136,13 +4986,6 @@ extension AmplifyUIBuilderClientTypes.PutMetadataFlagBody {
         guard let value else { return }
         try writer["newValue"].write(value.newValue)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AmplifyUIBuilderClientTypes.PutMetadataFlagBody {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AmplifyUIBuilderClientTypes.PutMetadataFlagBody()
-        value.newValue = try reader["newValue"].readIfPresent()
-        return value
-    }
 }
 
 extension AmplifyUIBuilderClientTypes {
@@ -5405,14 +5248,6 @@ extension AmplifyUIBuilderClientTypes.RefreshTokenRequestBody {
         guard let value else { return }
         try writer["clientId"].write(value.clientId)
         try writer["token"].write(value.token)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AmplifyUIBuilderClientTypes.RefreshTokenRequestBody {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AmplifyUIBuilderClientTypes.RefreshTokenRequestBody()
-        value.token = try reader["token"].readIfPresent()
-        value.clientId = try reader["clientId"].readIfPresent()
-        return value
     }
 }
 
@@ -5689,17 +5524,6 @@ extension AmplifyUIBuilderClientTypes.StartCodegenJobData {
         try writer["renderConfig"].write(value.renderConfig, with: AmplifyUIBuilderClientTypes.CodegenJobRenderConfig.write(value:to:))
         try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AmplifyUIBuilderClientTypes.StartCodegenJobData {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AmplifyUIBuilderClientTypes.StartCodegenJobData()
-        value.renderConfig = try reader["renderConfig"].readIfPresent(with: AmplifyUIBuilderClientTypes.CodegenJobRenderConfig.read(from:))
-        value.genericDataSchema = try reader["genericDataSchema"].readIfPresent(with: AmplifyUIBuilderClientTypes.CodegenJobGenericDataSchema.read(from:))
-        value.autoGenerateForms = try reader["autoGenerateForms"].readIfPresent()
-        value.features = try reader["features"].readIfPresent(with: AmplifyUIBuilderClientTypes.CodegenFeatureFlags.read(from:))
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: Swift.String.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
 }
 
 extension AmplifyUIBuilderClientTypes {
@@ -5936,19 +5760,6 @@ enum TagResourceOutputError {
 
 extension AmplifyUIBuilderClientTypes.Theme {
 
-    static func write(value: AmplifyUIBuilderClientTypes.Theme?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["appId"].write(value.appId)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .dateTime)
-        try writer["environmentName"].write(value.environmentName)
-        try writer["id"].write(value.id)
-        try writer["modifiedAt"].writeTimestamp(value.modifiedAt, format: .dateTime)
-        try writer["name"].write(value.name)
-        try writer["overrides"].writeList(value.overrides, memberWritingClosure: AmplifyUIBuilderClientTypes.ThemeValues.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["values"].writeList(value.values, memberWritingClosure: AmplifyUIBuilderClientTypes.ThemeValues.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> AmplifyUIBuilderClientTypes.Theme {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AmplifyUIBuilderClientTypes.Theme()
@@ -6020,14 +5831,6 @@ extension AmplifyUIBuilderClientTypes {
 }
 
 extension AmplifyUIBuilderClientTypes.ThemeSummary {
-
-    static func write(value: AmplifyUIBuilderClientTypes.ThemeSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["appId"].write(value.appId)
-        try writer["environmentName"].write(value.environmentName)
-        try writer["id"].write(value.id)
-        try writer["name"].write(value.name)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AmplifyUIBuilderClientTypes.ThemeSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6339,24 +6142,6 @@ extension AmplifyUIBuilderClientTypes.UpdateComponentData {
         try writer["sourceId"].write(value.sourceId)
         try writer["variants"].writeList(value.variants, memberWritingClosure: AmplifyUIBuilderClientTypes.ComponentVariant.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AmplifyUIBuilderClientTypes.UpdateComponentData {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AmplifyUIBuilderClientTypes.UpdateComponentData()
-        value.id = try reader["id"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.sourceId = try reader["sourceId"].readIfPresent()
-        value.componentType = try reader["componentType"].readIfPresent()
-        value.properties = try reader["properties"].readMapIfPresent(valueReadingClosure: AmplifyUIBuilderClientTypes.ComponentProperty.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.children = try reader["children"].readListIfPresent(memberReadingClosure: AmplifyUIBuilderClientTypes.ComponentChild.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.variants = try reader["variants"].readListIfPresent(memberReadingClosure: AmplifyUIBuilderClientTypes.ComponentVariant.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.overrides = try reader["overrides"].readMapIfPresent(valueReadingClosure: mapReadingClosure(valueReadingClosure: Swift.String.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.bindingProperties = try reader["bindingProperties"].readMapIfPresent(valueReadingClosure: AmplifyUIBuilderClientTypes.ComponentBindingPropertiesValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.collectionProperties = try reader["collectionProperties"].readMapIfPresent(valueReadingClosure: AmplifyUIBuilderClientTypes.ComponentDataConfiguration.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.events = try reader["events"].readMapIfPresent(valueReadingClosure: AmplifyUIBuilderClientTypes.ComponentEvent.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.schemaVersion = try reader["schemaVersion"].readIfPresent()
-        return value
-    }
 }
 
 extension AmplifyUIBuilderClientTypes {
@@ -6541,21 +6326,6 @@ extension AmplifyUIBuilderClientTypes.UpdateFormData {
         try writer["sectionalElements"].writeMap(value.sectionalElements, valueWritingClosure: AmplifyUIBuilderClientTypes.SectionalElement.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["style"].write(value.style, with: AmplifyUIBuilderClientTypes.FormStyle.write(value:to:))
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AmplifyUIBuilderClientTypes.UpdateFormData {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AmplifyUIBuilderClientTypes.UpdateFormData()
-        value.name = try reader["name"].readIfPresent()
-        value.dataType = try reader["dataType"].readIfPresent(with: AmplifyUIBuilderClientTypes.FormDataTypeConfig.read(from:))
-        value.formActionType = try reader["formActionType"].readIfPresent()
-        value.fields = try reader["fields"].readMapIfPresent(valueReadingClosure: AmplifyUIBuilderClientTypes.FieldConfig.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.style = try reader["style"].readIfPresent(with: AmplifyUIBuilderClientTypes.FormStyle.read(from:))
-        value.sectionalElements = try reader["sectionalElements"].readMapIfPresent(valueReadingClosure: AmplifyUIBuilderClientTypes.SectionalElement.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.schemaVersion = try reader["schemaVersion"].readIfPresent()
-        value.cta = try reader["cta"].readIfPresent(with: AmplifyUIBuilderClientTypes.FormCTA.read(from:))
-        value.labelDecorator = try reader["labelDecorator"].readIfPresent()
-        return value
-    }
 }
 
 extension AmplifyUIBuilderClientTypes {
@@ -6722,16 +6492,6 @@ extension AmplifyUIBuilderClientTypes.UpdateThemeData {
         try writer["name"].write(value.name)
         try writer["overrides"].writeList(value.overrides, memberWritingClosure: AmplifyUIBuilderClientTypes.ThemeValues.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["values"].writeList(value.values, memberWritingClosure: AmplifyUIBuilderClientTypes.ThemeValues.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AmplifyUIBuilderClientTypes.UpdateThemeData {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AmplifyUIBuilderClientTypes.UpdateThemeData()
-        value.id = try reader["id"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.values = try reader["values"].readListIfPresent(memberReadingClosure: AmplifyUIBuilderClientTypes.ThemeValues.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.overrides = try reader["overrides"].readListIfPresent(memberReadingClosure: AmplifyUIBuilderClientTypes.ThemeValues.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 

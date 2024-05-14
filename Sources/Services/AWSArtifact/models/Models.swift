@@ -76,11 +76,6 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
 extension ArtifactClientTypes.AccountSettings {
 
-    static func write(value: ArtifactClientTypes.AccountSettings?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["notificationSubscriptionStatus"].write(value.notificationSubscriptionStatus)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ArtifactClientTypes.AccountSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ArtifactClientTypes.AccountSettings()
@@ -756,30 +751,6 @@ enum PutAccountSettingsOutputError {
 
 extension ArtifactClientTypes.ReportDetail {
 
-    static func write(value: ArtifactClientTypes.ReportDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["acceptanceType"].write(value.acceptanceType)
-        try writer["arn"].write(value.arn)
-        try writer["category"].write(value.category)
-        try writer["companyName"].write(value.companyName)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .dateTime)
-        try writer["deletedAt"].writeTimestamp(value.deletedAt, format: .dateTime)
-        try writer["description"].write(value.description)
-        try writer["id"].write(value.id)
-        try writer["lastModifiedAt"].writeTimestamp(value.lastModifiedAt, format: .dateTime)
-        try writer["name"].write(value.name)
-        try writer["periodEnd"].writeTimestamp(value.periodEnd, format: .dateTime)
-        try writer["periodStart"].writeTimestamp(value.periodStart, format: .dateTime)
-        try writer["productName"].write(value.productName)
-        try writer["sequenceNumber"].write(value.sequenceNumber)
-        try writer["series"].write(value.series)
-        try writer["state"].write(value.state)
-        try writer["statusMessage"].write(value.statusMessage)
-        try writer["termArn"].write(value.termArn)
-        try writer["uploadState"].write(value.uploadState)
-        try writer["version"].write(value.version)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ArtifactClientTypes.ReportDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ArtifactClientTypes.ReportDetail()
@@ -900,24 +871,6 @@ extension ArtifactClientTypes {
 }
 
 extension ArtifactClientTypes.ReportSummary {
-
-    static func write(value: ArtifactClientTypes.ReportSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["category"].write(value.category)
-        try writer["companyName"].write(value.companyName)
-        try writer["description"].write(value.description)
-        try writer["id"].write(value.id)
-        try writer["name"].write(value.name)
-        try writer["periodEnd"].writeTimestamp(value.periodEnd, format: .dateTime)
-        try writer["periodStart"].writeTimestamp(value.periodStart, format: .dateTime)
-        try writer["productName"].write(value.productName)
-        try writer["series"].write(value.series)
-        try writer["state"].write(value.state)
-        try writer["statusMessage"].write(value.statusMessage)
-        try writer["uploadState"].write(value.uploadState)
-        try writer["version"].write(value.version)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ArtifactClientTypes.ReportSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1262,12 +1215,6 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 extension ArtifactClientTypes.ValidationExceptionField {
-
-    static func write(value: ArtifactClientTypes.ValidationExceptionField?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.message)
-        try writer["name"].write(value.name)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ArtifactClientTypes.ValidationExceptionField {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

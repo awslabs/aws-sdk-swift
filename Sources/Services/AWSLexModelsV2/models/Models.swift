@@ -6,11 +6,6 @@ import SmithyReadWrite
 
 extension LexModelsV2ClientTypes.ActiveContext {
 
-    static func write(value: LexModelsV2ClientTypes.ActiveContext?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.ActiveContext {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.ActiveContext()
@@ -69,15 +64,6 @@ extension LexModelsV2ClientTypes {
 
 extension LexModelsV2ClientTypes.AgentTurnResult {
 
-    static func write(value: LexModelsV2ClientTypes.AgentTurnResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["actualAgentPrompt"].write(value.actualAgentPrompt)
-        try writer["actualElicitedSlot"].write(value.actualElicitedSlot)
-        try writer["actualIntent"].write(value.actualIntent)
-        try writer["errorDetails"].write(value.errorDetails, with: LexModelsV2ClientTypes.ExecutionErrorDetails.write(value:to:))
-        try writer["expectedAgentPrompt"].write(value.expectedAgentPrompt)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.AgentTurnResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.AgentTurnResult()
@@ -125,11 +111,6 @@ extension LexModelsV2ClientTypes {
 
 extension LexModelsV2ClientTypes.AgentTurnSpecification {
 
-    static func write(value: LexModelsV2ClientTypes.AgentTurnSpecification?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["agentPrompt"].write(value.agentPrompt)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.AgentTurnSpecification {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.AgentTurnSpecification()
@@ -162,15 +143,6 @@ extension LexModelsV2ClientTypes.AggregatedUtterancesFilter {
         try writer["name"].write(value.name)
         try writer["operator"].write(value.`operator`)
         try writer["values"].writeList(value.values, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.AggregatedUtterancesFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LexModelsV2ClientTypes.AggregatedUtterancesFilter()
-        value.name = try reader["name"].readIfPresent()
-        value.values = try reader["values"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.`operator` = try reader["operator"].readIfPresent()
-        return value
     }
 }
 
@@ -295,14 +267,6 @@ extension LexModelsV2ClientTypes.AggregatedUtterancesSortBy {
         try writer["attribute"].write(value.attribute)
         try writer["order"].write(value.order)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.AggregatedUtterancesSortBy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LexModelsV2ClientTypes.AggregatedUtterancesSortBy()
-        value.attribute = try reader["attribute"].readIfPresent()
-        value.order = try reader["order"].readIfPresent()
-        return value
-    }
 }
 
 extension LexModelsV2ClientTypes {
@@ -328,16 +292,6 @@ extension LexModelsV2ClientTypes {
 }
 
 extension LexModelsV2ClientTypes.AggregatedUtterancesSummary {
-
-    static func write(value: LexModelsV2ClientTypes.AggregatedUtterancesSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["containsDataFromDeletedResources"].write(value.containsDataFromDeletedResources)
-        try writer["hitCount"].write(value.hitCount)
-        try writer["missedCount"].write(value.missedCount)
-        try writer["utterance"].write(value.utterance)
-        try writer["utteranceFirstRecordedInAggregationDuration"].writeTimestamp(value.utteranceFirstRecordedInAggregationDuration, format: .epochSeconds)
-        try writer["utteranceLastRecordedInAggregationDuration"].writeTimestamp(value.utteranceLastRecordedInAggregationDuration, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.AggregatedUtterancesSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -465,15 +419,6 @@ extension LexModelsV2ClientTypes.AnalyticsBinBySpecification {
         try writer["name"].write(value.name)
         try writer["order"].write(value.order)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.AnalyticsBinBySpecification {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LexModelsV2ClientTypes.AnalyticsBinBySpecification()
-        value.name = try reader["name"].readIfPresent()
-        value.interval = try reader["interval"].readIfPresent()
-        value.order = try reader["order"].readIfPresent()
-        return value
-    }
 }
 
 extension LexModelsV2ClientTypes {
@@ -503,12 +448,6 @@ extension LexModelsV2ClientTypes {
 }
 
 extension LexModelsV2ClientTypes.AnalyticsBinKey {
-
-    static func write(value: LexModelsV2ClientTypes.AnalyticsBinKey?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-        try writer["value"].write(value.value)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.AnalyticsBinKey {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -651,15 +590,6 @@ extension LexModelsV2ClientTypes.AnalyticsIntentFilter {
         try writer["name"].write(value.name)
         try writer["operator"].write(value.`operator`)
         try writer["values"].writeList(value.values, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.AnalyticsIntentFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LexModelsV2ClientTypes.AnalyticsIntentFilter()
-        value.name = try reader["name"].readIfPresent()
-        value.`operator` = try reader["operator"].readIfPresent()
-        value.values = try reader["values"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -818,12 +748,6 @@ extension LexModelsV2ClientTypes {
 
 extension LexModelsV2ClientTypes.AnalyticsIntentGroupByKey {
 
-    static func write(value: LexModelsV2ClientTypes.AnalyticsIntentGroupByKey?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-        try writer["value"].write(value.value)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.AnalyticsIntentGroupByKey {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.AnalyticsIntentGroupByKey()
@@ -859,13 +783,6 @@ extension LexModelsV2ClientTypes.AnalyticsIntentGroupBySpecification {
         guard let value else { return }
         try writer["name"].write(value.name)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.AnalyticsIntentGroupBySpecification {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LexModelsV2ClientTypes.AnalyticsIntentGroupBySpecification()
-        value.name = try reader["name"].readIfPresent()
-        return value
-    }
 }
 
 extension LexModelsV2ClientTypes {
@@ -892,15 +809,6 @@ extension LexModelsV2ClientTypes.AnalyticsIntentMetric {
         try writer["name"].write(value.name)
         try writer["order"].write(value.order)
         try writer["statistic"].write(value.statistic)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.AnalyticsIntentMetric {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LexModelsV2ClientTypes.AnalyticsIntentMetric()
-        value.name = try reader["name"].readIfPresent()
-        value.statistic = try reader["statistic"].readIfPresent()
-        value.order = try reader["order"].readIfPresent()
-        return value
     }
 }
 
@@ -987,13 +895,6 @@ extension LexModelsV2ClientTypes {
 
 extension LexModelsV2ClientTypes.AnalyticsIntentMetricResult {
 
-    static func write(value: LexModelsV2ClientTypes.AnalyticsIntentMetricResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-        try writer["statistic"].write(value.statistic)
-        try writer["value"].write(value.value)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.AnalyticsIntentMetricResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.AnalyticsIntentMetricResult()
@@ -1046,15 +947,6 @@ extension LexModelsV2ClientTypes {
 
 extension LexModelsV2ClientTypes.AnalyticsIntentNodeSummary {
 
-    static func write(value: LexModelsV2ClientTypes.AnalyticsIntentNodeSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["intentCount"].write(value.intentCount)
-        try writer["intentLevel"].write(value.intentLevel)
-        try writer["intentName"].write(value.intentName)
-        try writer["intentPath"].write(value.intentPath)
-        try writer["nodeType"].write(value.nodeType)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.AnalyticsIntentNodeSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.AnalyticsIntentNodeSummary()
@@ -1100,13 +992,6 @@ extension LexModelsV2ClientTypes {
 }
 
 extension LexModelsV2ClientTypes.AnalyticsIntentResult {
-
-    static func write(value: LexModelsV2ClientTypes.AnalyticsIntentResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["binKeys"].writeList(value.binKeys, memberWritingClosure: LexModelsV2ClientTypes.AnalyticsBinKey.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["groupByKeys"].writeList(value.groupByKeys, memberWritingClosure: LexModelsV2ClientTypes.AnalyticsIntentGroupByKey.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["metricsResults"].writeList(value.metricsResults, memberWritingClosure: LexModelsV2ClientTypes.AnalyticsIntentMetricResult.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.AnalyticsIntentResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1179,15 +1064,6 @@ extension LexModelsV2ClientTypes.AnalyticsIntentStageFilter {
         try writer["name"].write(value.name)
         try writer["operator"].write(value.`operator`)
         try writer["values"].writeList(value.values, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.AnalyticsIntentStageFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LexModelsV2ClientTypes.AnalyticsIntentStageFilter()
-        value.name = try reader["name"].readIfPresent()
-        value.`operator` = try reader["operator"].readIfPresent()
-        value.values = try reader["values"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -1346,12 +1222,6 @@ extension LexModelsV2ClientTypes {
 
 extension LexModelsV2ClientTypes.AnalyticsIntentStageGroupByKey {
 
-    static func write(value: LexModelsV2ClientTypes.AnalyticsIntentStageGroupByKey?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-        try writer["value"].write(value.value)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.AnalyticsIntentStageGroupByKey {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.AnalyticsIntentStageGroupByKey()
@@ -1387,13 +1257,6 @@ extension LexModelsV2ClientTypes.AnalyticsIntentStageGroupBySpecification {
         guard let value else { return }
         try writer["name"].write(value.name)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.AnalyticsIntentStageGroupBySpecification {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LexModelsV2ClientTypes.AnalyticsIntentStageGroupBySpecification()
-        value.name = try reader["name"].readIfPresent()
-        return value
-    }
 }
 
 extension LexModelsV2ClientTypes {
@@ -1420,15 +1283,6 @@ extension LexModelsV2ClientTypes.AnalyticsIntentStageMetric {
         try writer["name"].write(value.name)
         try writer["order"].write(value.order)
         try writer["statistic"].write(value.statistic)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.AnalyticsIntentStageMetric {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LexModelsV2ClientTypes.AnalyticsIntentStageMetric()
-        value.name = try reader["name"].readIfPresent()
-        value.statistic = try reader["statistic"].readIfPresent()
-        value.order = try reader["order"].readIfPresent()
-        return value
     }
 }
 
@@ -1515,13 +1369,6 @@ extension LexModelsV2ClientTypes {
 
 extension LexModelsV2ClientTypes.AnalyticsIntentStageMetricResult {
 
-    static func write(value: LexModelsV2ClientTypes.AnalyticsIntentStageMetricResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-        try writer["statistic"].write(value.statistic)
-        try writer["value"].write(value.value)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.AnalyticsIntentStageMetricResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.AnalyticsIntentStageMetricResult()
@@ -1573,13 +1420,6 @@ extension LexModelsV2ClientTypes {
 }
 
 extension LexModelsV2ClientTypes.AnalyticsIntentStageResult {
-
-    static func write(value: LexModelsV2ClientTypes.AnalyticsIntentStageResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["binKeys"].writeList(value.binKeys, memberWritingClosure: LexModelsV2ClientTypes.AnalyticsBinKey.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["groupByKeys"].writeList(value.groupByKeys, memberWritingClosure: LexModelsV2ClientTypes.AnalyticsIntentStageGroupByKey.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["metricsResults"].writeList(value.metricsResults, memberWritingClosure: LexModelsV2ClientTypes.AnalyticsIntentStageMetricResult.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.AnalyticsIntentStageResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1752,15 +1592,6 @@ extension LexModelsV2ClientTypes.AnalyticsPathFilter {
         try writer["operator"].write(value.`operator`)
         try writer["values"].writeList(value.values, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.AnalyticsPathFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LexModelsV2ClientTypes.AnalyticsPathFilter()
-        value.name = try reader["name"].readIfPresent()
-        value.`operator` = try reader["operator"].readIfPresent()
-        value.values = try reader["values"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
 }
 
 extension LexModelsV2ClientTypes {
@@ -1878,15 +1709,6 @@ extension LexModelsV2ClientTypes.AnalyticsSessionFilter {
         try writer["name"].write(value.name)
         try writer["operator"].write(value.`operator`)
         try writer["values"].writeList(value.values, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.AnalyticsSessionFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LexModelsV2ClientTypes.AnalyticsSessionFilter()
-        value.name = try reader["name"].readIfPresent()
-        value.`operator` = try reader["operator"].readIfPresent()
-        value.values = try reader["values"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -2054,12 +1876,6 @@ extension LexModelsV2ClientTypes {
 
 extension LexModelsV2ClientTypes.AnalyticsSessionGroupByKey {
 
-    static func write(value: LexModelsV2ClientTypes.AnalyticsSessionGroupByKey?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-        try writer["value"].write(value.value)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.AnalyticsSessionGroupByKey {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.AnalyticsSessionGroupByKey()
@@ -2095,13 +1911,6 @@ extension LexModelsV2ClientTypes.AnalyticsSessionGroupBySpecification {
         guard let value else { return }
         try writer["name"].write(value.name)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.AnalyticsSessionGroupBySpecification {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LexModelsV2ClientTypes.AnalyticsSessionGroupBySpecification()
-        value.name = try reader["name"].readIfPresent()
-        return value
-    }
 }
 
 extension LexModelsV2ClientTypes {
@@ -2128,15 +1937,6 @@ extension LexModelsV2ClientTypes.AnalyticsSessionMetric {
         try writer["name"].write(value.name)
         try writer["order"].write(value.order)
         try writer["statistic"].write(value.statistic)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.AnalyticsSessionMetric {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LexModelsV2ClientTypes.AnalyticsSessionMetric()
-        value.name = try reader["name"].readIfPresent()
-        value.statistic = try reader["statistic"].readIfPresent()
-        value.order = try reader["order"].readIfPresent()
-        return value
     }
 }
 
@@ -2233,13 +2033,6 @@ extension LexModelsV2ClientTypes {
 
 extension LexModelsV2ClientTypes.AnalyticsSessionMetricResult {
 
-    static func write(value: LexModelsV2ClientTypes.AnalyticsSessionMetricResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-        try writer["statistic"].write(value.statistic)
-        try writer["value"].write(value.value)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.AnalyticsSessionMetricResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.AnalyticsSessionMetricResult()
@@ -2295,13 +2088,6 @@ extension LexModelsV2ClientTypes {
 }
 
 extension LexModelsV2ClientTypes.AnalyticsSessionResult {
-
-    static func write(value: LexModelsV2ClientTypes.AnalyticsSessionResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["binKeys"].writeList(value.binKeys, memberWritingClosure: LexModelsV2ClientTypes.AnalyticsBinKey.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["groupByKeys"].writeList(value.groupByKeys, memberWritingClosure: LexModelsV2ClientTypes.AnalyticsSessionGroupByKey.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["metricsResults"].writeList(value.metricsResults, memberWritingClosure: LexModelsV2ClientTypes.AnalyticsSessionMetricResult.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.AnalyticsSessionResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2406,13 +2192,6 @@ extension LexModelsV2ClientTypes.AnalyticsUtteranceAttribute {
         guard let value else { return }
         try writer["name"].write(value.name)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.AnalyticsUtteranceAttribute {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LexModelsV2ClientTypes.AnalyticsUtteranceAttribute()
-        value.name = try reader["name"].readIfPresent()
-        return value
-    }
 }
 
 extension LexModelsV2ClientTypes {
@@ -2460,11 +2239,6 @@ extension LexModelsV2ClientTypes {
 }
 
 extension LexModelsV2ClientTypes.AnalyticsUtteranceAttributeResult {
-
-    static func write(value: LexModelsV2ClientTypes.AnalyticsUtteranceAttributeResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["lastUsedIntent"].write(value.lastUsedIntent)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.AnalyticsUtteranceAttributeResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2527,15 +2301,6 @@ extension LexModelsV2ClientTypes.AnalyticsUtteranceFilter {
         try writer["name"].write(value.name)
         try writer["operator"].write(value.`operator`)
         try writer["values"].writeList(value.values, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.AnalyticsUtteranceFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LexModelsV2ClientTypes.AnalyticsUtteranceFilter()
-        value.name = try reader["name"].readIfPresent()
-        value.`operator` = try reader["operator"].readIfPresent()
-        value.values = try reader["values"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -2694,12 +2459,6 @@ extension LexModelsV2ClientTypes {
 
 extension LexModelsV2ClientTypes.AnalyticsUtteranceGroupByKey {
 
-    static func write(value: LexModelsV2ClientTypes.AnalyticsUtteranceGroupByKey?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-        try writer["value"].write(value.value)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.AnalyticsUtteranceGroupByKey {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.AnalyticsUtteranceGroupByKey()
@@ -2735,13 +2494,6 @@ extension LexModelsV2ClientTypes.AnalyticsUtteranceGroupBySpecification {
         guard let value else { return }
         try writer["name"].write(value.name)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.AnalyticsUtteranceGroupBySpecification {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LexModelsV2ClientTypes.AnalyticsUtteranceGroupBySpecification()
-        value.name = try reader["name"].readIfPresent()
-        return value
-    }
 }
 
 extension LexModelsV2ClientTypes {
@@ -2768,15 +2520,6 @@ extension LexModelsV2ClientTypes.AnalyticsUtteranceMetric {
         try writer["name"].write(value.name)
         try writer["order"].write(value.order)
         try writer["statistic"].write(value.statistic)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.AnalyticsUtteranceMetric {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LexModelsV2ClientTypes.AnalyticsUtteranceMetric()
-        value.name = try reader["name"].readIfPresent()
-        value.statistic = try reader["statistic"].readIfPresent()
-        value.order = try reader["order"].readIfPresent()
-        return value
     }
 }
 
@@ -2858,13 +2601,6 @@ extension LexModelsV2ClientTypes {
 
 extension LexModelsV2ClientTypes.AnalyticsUtteranceMetricResult {
 
-    static func write(value: LexModelsV2ClientTypes.AnalyticsUtteranceMetricResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-        try writer["statistic"].write(value.statistic)
-        try writer["value"].write(value.value)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.AnalyticsUtteranceMetricResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.AnalyticsUtteranceMetricResult()
@@ -2914,14 +2650,6 @@ extension LexModelsV2ClientTypes {
 }
 
 extension LexModelsV2ClientTypes.AnalyticsUtteranceResult {
-
-    static func write(value: LexModelsV2ClientTypes.AnalyticsUtteranceResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["attributeResults"].writeList(value.attributeResults, memberWritingClosure: LexModelsV2ClientTypes.AnalyticsUtteranceAttributeResult.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["binKeys"].writeList(value.binKeys, memberWritingClosure: LexModelsV2ClientTypes.AnalyticsBinKey.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["groupByKeys"].writeList(value.groupByKeys, memberWritingClosure: LexModelsV2ClientTypes.AnalyticsUtteranceGroupByKey.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["metricsResults"].writeList(value.metricsResults, memberWritingClosure: LexModelsV2ClientTypes.AnalyticsUtteranceMetricResult.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.AnalyticsUtteranceResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2991,11 +2719,6 @@ extension LexModelsV2ClientTypes {
 
 extension LexModelsV2ClientTypes.AssociatedTranscript {
 
-    static func write(value: LexModelsV2ClientTypes.AssociatedTranscript?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["transcript"].write(value.transcript)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.AssociatedTranscript {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.AssociatedTranscript()
@@ -3026,14 +2749,6 @@ extension LexModelsV2ClientTypes.AssociatedTranscriptFilter {
         guard let value else { return }
         try writer["name"].write(value.name)
         try writer["values"].writeList(value.values, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.AssociatedTranscriptFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LexModelsV2ClientTypes.AssociatedTranscriptFilter()
-        value.name = try reader["name"].readIfPresent()
-        value.values = try reader["values"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -3684,13 +3399,6 @@ extension LexModelsV2ClientTypes {
 
 extension LexModelsV2ClientTypes.BotAliasHistoryEvent {
 
-    static func write(value: LexModelsV2ClientTypes.BotAliasHistoryEvent?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["botVersion"].write(value.botVersion)
-        try writer["endDate"].writeTimestamp(value.endDate, format: .epochSeconds)
-        try writer["startDate"].writeTimestamp(value.startDate, format: .epochSeconds)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.BotAliasHistoryEvent {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.BotAliasHistoryEvent()
@@ -3764,16 +3472,6 @@ extension LexModelsV2ClientTypes {
 }
 
 extension LexModelsV2ClientTypes.BotAliasReplicaSummary {
-
-    static func write(value: LexModelsV2ClientTypes.BotAliasReplicaSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["botAliasId"].write(value.botAliasId)
-        try writer["botAliasReplicationStatus"].write(value.botAliasReplicationStatus)
-        try writer["botVersion"].write(value.botVersion)
-        try writer["creationDateTime"].writeTimestamp(value.creationDateTime, format: .epochSeconds)
-        try writer["failureReasons"].writeList(value.failureReasons, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["lastUpdatedDateTime"].writeTimestamp(value.lastUpdatedDateTime, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.BotAliasReplicaSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3901,17 +3599,6 @@ extension LexModelsV2ClientTypes {
 }
 
 extension LexModelsV2ClientTypes.BotAliasSummary {
-
-    static func write(value: LexModelsV2ClientTypes.BotAliasSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["botAliasId"].write(value.botAliasId)
-        try writer["botAliasName"].write(value.botAliasName)
-        try writer["botAliasStatus"].write(value.botAliasStatus)
-        try writer["botVersion"].write(value.botVersion)
-        try writer["creationDateTime"].writeTimestamp(value.creationDateTime, format: .epochSeconds)
-        try writer["description"].write(value.description)
-        try writer["lastUpdatedDateTime"].writeTimestamp(value.lastUpdatedDateTime, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.BotAliasSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4059,15 +3746,6 @@ extension LexModelsV2ClientTypes.BotFilter {
         try writer["name"].write(value.name)
         try writer["operator"].write(value.`operator`)
         try writer["values"].writeList(value.values, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.BotFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LexModelsV2ClientTypes.BotFilter()
-        value.name = try reader["name"].readIfPresent()
-        value.values = try reader["values"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.`operator` = try reader["operator"].readIfPresent()
-        return value
     }
 }
 
@@ -4279,15 +3957,6 @@ extension LexModelsV2ClientTypes.BotLocaleFilter {
         try writer["operator"].write(value.`operator`)
         try writer["values"].writeList(value.values, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.BotLocaleFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LexModelsV2ClientTypes.BotLocaleFilter()
-        value.name = try reader["name"].readIfPresent()
-        value.values = try reader["values"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.`operator` = try reader["operator"].readIfPresent()
-        return value
-    }
 }
 
 extension LexModelsV2ClientTypes {
@@ -4375,12 +4044,6 @@ extension LexModelsV2ClientTypes {
 }
 
 extension LexModelsV2ClientTypes.BotLocaleHistoryEvent {
-
-    static func write(value: LexModelsV2ClientTypes.BotLocaleHistoryEvent?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["event"].write(value.event)
-        try writer["eventDate"].writeTimestamp(value.eventDate, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.BotLocaleHistoryEvent {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4513,14 +4176,6 @@ extension LexModelsV2ClientTypes.BotLocaleSortBy {
         try writer["attribute"].write(value.attribute)
         try writer["order"].write(value.order)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.BotLocaleSortBy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LexModelsV2ClientTypes.BotLocaleSortBy()
-        value.attribute = try reader["attribute"].readIfPresent()
-        value.order = try reader["order"].readIfPresent()
-        return value
-    }
 }
 
 extension LexModelsV2ClientTypes {
@@ -4597,16 +4252,6 @@ extension LexModelsV2ClientTypes {
 }
 
 extension LexModelsV2ClientTypes.BotLocaleSummary {
-
-    static func write(value: LexModelsV2ClientTypes.BotLocaleSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["botLocaleStatus"].write(value.botLocaleStatus)
-        try writer["description"].write(value.description)
-        try writer["lastBuildSubmittedDateTime"].writeTimestamp(value.lastBuildSubmittedDateTime, format: .epochSeconds)
-        try writer["lastUpdatedDateTime"].writeTimestamp(value.lastUpdatedDateTime, format: .epochSeconds)
-        try writer["localeId"].write(value.localeId)
-        try writer["localeName"].write(value.localeName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.BotLocaleSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4719,12 +4364,6 @@ extension LexModelsV2ClientTypes {
 
 extension LexModelsV2ClientTypes.BotRecommendationResultStatistics {
 
-    static func write(value: LexModelsV2ClientTypes.BotRecommendationResultStatistics?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["intents"].write(value.intents, with: LexModelsV2ClientTypes.IntentStatistics.write(value:to:))
-        try writer["slotTypes"].write(value.slotTypes, with: LexModelsV2ClientTypes.SlotTypeStatistics.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.BotRecommendationResultStatistics {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.BotRecommendationResultStatistics()
@@ -4755,13 +4394,6 @@ extension LexModelsV2ClientTypes {
 }
 
 extension LexModelsV2ClientTypes.BotRecommendationResults {
-
-    static func write(value: LexModelsV2ClientTypes.BotRecommendationResults?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["associatedTranscriptsUrl"].write(value.associatedTranscriptsUrl)
-        try writer["botLocaleExportUrl"].write(value.botLocaleExportUrl)
-        try writer["statistics"].write(value.statistics, with: LexModelsV2ClientTypes.BotRecommendationResultStatistics.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.BotRecommendationResults {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4850,14 +4482,6 @@ extension LexModelsV2ClientTypes {
 
 extension LexModelsV2ClientTypes.BotRecommendationSummary {
 
-    static func write(value: LexModelsV2ClientTypes.BotRecommendationSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["botRecommendationId"].write(value.botRecommendationId)
-        try writer["botRecommendationStatus"].write(value.botRecommendationStatus)
-        try writer["creationDateTime"].writeTimestamp(value.creationDateTime, format: .epochSeconds)
-        try writer["lastUpdatedDateTime"].writeTimestamp(value.lastUpdatedDateTime, format: .epochSeconds)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.BotRecommendationSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.BotRecommendationSummary()
@@ -4938,14 +4562,6 @@ extension LexModelsV2ClientTypes {
 
 extension LexModelsV2ClientTypes.BotReplicaSummary {
 
-    static func write(value: LexModelsV2ClientTypes.BotReplicaSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["botReplicaStatus"].write(value.botReplicaStatus)
-        try writer["creationDateTime"].writeTimestamp(value.creationDateTime, format: .epochSeconds)
-        try writer["failureReasons"].writeList(value.failureReasons, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["replicaRegion"].write(value.replicaRegion)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.BotReplicaSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.BotReplicaSummary()
@@ -5018,14 +4634,6 @@ extension LexModelsV2ClientTypes.BotSortBy {
         guard let value else { return }
         try writer["attribute"].write(value.attribute)
         try writer["order"].write(value.order)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.BotSortBy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LexModelsV2ClientTypes.BotSortBy()
-        value.attribute = try reader["attribute"].readIfPresent()
-        value.order = try reader["order"].readIfPresent()
-        return value
     }
 }
 
@@ -5100,17 +4708,6 @@ extension LexModelsV2ClientTypes {
 }
 
 extension LexModelsV2ClientTypes.BotSummary {
-
-    static func write(value: LexModelsV2ClientTypes.BotSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["botId"].write(value.botId)
-        try writer["botName"].write(value.botName)
-        try writer["botStatus"].write(value.botStatus)
-        try writer["botType"].write(value.botType)
-        try writer["description"].write(value.description)
-        try writer["lastUpdatedDateTime"].writeTimestamp(value.lastUpdatedDateTime, format: .epochSeconds)
-        try writer["latestBotVersion"].write(value.latestBotVersion)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.BotSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5262,14 +4859,6 @@ extension LexModelsV2ClientTypes.BotVersionReplicaSortBy {
         try writer["attribute"].write(value.attribute)
         try writer["order"].write(value.order)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.BotVersionReplicaSortBy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LexModelsV2ClientTypes.BotVersionReplicaSortBy()
-        value.attribute = try reader["attribute"].readIfPresent()
-        value.order = try reader["order"].readIfPresent()
-        return value
-    }
 }
 
 extension LexModelsV2ClientTypes {
@@ -5295,14 +4884,6 @@ extension LexModelsV2ClientTypes {
 }
 
 extension LexModelsV2ClientTypes.BotVersionReplicaSummary {
-
-    static func write(value: LexModelsV2ClientTypes.BotVersionReplicaSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["botVersion"].write(value.botVersion)
-        try writer["botVersionReplicationStatus"].write(value.botVersionReplicationStatus)
-        try writer["creationDateTime"].writeTimestamp(value.creationDateTime, format: .epochSeconds)
-        try writer["failureReasons"].writeList(value.failureReasons, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.BotVersionReplicaSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5414,14 +4995,6 @@ extension LexModelsV2ClientTypes.BotVersionSortBy {
         try writer["attribute"].write(value.attribute)
         try writer["order"].write(value.order)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.BotVersionSortBy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LexModelsV2ClientTypes.BotVersionSortBy()
-        value.attribute = try reader["attribute"].readIfPresent()
-        value.order = try reader["order"].readIfPresent()
-        return value
-    }
 }
 
 extension LexModelsV2ClientTypes {
@@ -5447,15 +5020,6 @@ extension LexModelsV2ClientTypes {
 }
 
 extension LexModelsV2ClientTypes.BotVersionSummary {
-
-    static func write(value: LexModelsV2ClientTypes.BotVersionSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["botName"].write(value.botName)
-        try writer["botStatus"].write(value.botStatus)
-        try writer["botVersion"].write(value.botVersion)
-        try writer["creationDateTime"].writeTimestamp(value.creationDateTime, format: .epochSeconds)
-        try writer["description"].write(value.description)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.BotVersionSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5674,14 +5238,6 @@ extension LexModelsV2ClientTypes.BuiltInIntentSortBy {
         try writer["attribute"].write(value.attribute)
         try writer["order"].write(value.order)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.BuiltInIntentSortBy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LexModelsV2ClientTypes.BuiltInIntentSortBy()
-        value.attribute = try reader["attribute"].readIfPresent()
-        value.order = try reader["order"].readIfPresent()
-        return value
-    }
 }
 
 extension LexModelsV2ClientTypes {
@@ -5707,12 +5263,6 @@ extension LexModelsV2ClientTypes {
 }
 
 extension LexModelsV2ClientTypes.BuiltInIntentSummary {
-
-    static func write(value: LexModelsV2ClientTypes.BuiltInIntentSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["description"].write(value.description)
-        try writer["intentSignature"].write(value.intentSignature)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.BuiltInIntentSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5777,14 +5327,6 @@ extension LexModelsV2ClientTypes.BuiltInSlotTypeSortBy {
         try writer["attribute"].write(value.attribute)
         try writer["order"].write(value.order)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.BuiltInSlotTypeSortBy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LexModelsV2ClientTypes.BuiltInSlotTypeSortBy()
-        value.attribute = try reader["attribute"].readIfPresent()
-        value.order = try reader["order"].readIfPresent()
-        return value
-    }
 }
 
 extension LexModelsV2ClientTypes {
@@ -5810,12 +5352,6 @@ extension LexModelsV2ClientTypes {
 }
 
 extension LexModelsV2ClientTypes.BuiltInSlotTypeSummary {
-
-    static func write(value: LexModelsV2ClientTypes.BuiltInSlotTypeSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["description"].write(value.description)
-        try writer["slotTypeSignature"].write(value.slotTypeSignature)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.BuiltInSlotTypeSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6189,12 +5725,6 @@ extension LexModelsV2ClientTypes {
 
 extension LexModelsV2ClientTypes.ConversationLevelIntentClassificationResultItem {
 
-    static func write(value: LexModelsV2ClientTypes.ConversationLevelIntentClassificationResultItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["intentName"].write(value.intentName)
-        try writer["matchResult"].write(value.matchResult)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.ConversationLevelIntentClassificationResultItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.ConversationLevelIntentClassificationResultItem()
@@ -6228,12 +5758,6 @@ extension LexModelsV2ClientTypes {
 
 extension LexModelsV2ClientTypes.ConversationLevelResultDetail {
 
-    static func write(value: LexModelsV2ClientTypes.ConversationLevelResultDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["endToEndResult"].write(value.endToEndResult)
-        try writer["speechTranscriptionResult"].write(value.speechTranscriptionResult)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.ConversationLevelResultDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.ConversationLevelResultDetail()
@@ -6265,13 +5789,6 @@ extension LexModelsV2ClientTypes {
 }
 
 extension LexModelsV2ClientTypes.ConversationLevelSlotResolutionResultItem {
-
-    static func write(value: LexModelsV2ClientTypes.ConversationLevelSlotResolutionResultItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["intentName"].write(value.intentName)
-        try writer["matchResult"].write(value.matchResult)
-        try writer["slotName"].write(value.slotName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.ConversationLevelSlotResolutionResultItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6311,15 +5828,6 @@ extension LexModelsV2ClientTypes {
 }
 
 extension LexModelsV2ClientTypes.ConversationLevelTestResultItem {
-
-    static func write(value: LexModelsV2ClientTypes.ConversationLevelTestResultItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["conversationId"].write(value.conversationId)
-        try writer["endToEndResult"].write(value.endToEndResult)
-        try writer["intentClassificationResults"].writeList(value.intentClassificationResults, memberWritingClosure: LexModelsV2ClientTypes.ConversationLevelIntentClassificationResultItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["slotResolutionResults"].writeList(value.slotResolutionResults, memberWritingClosure: LexModelsV2ClientTypes.ConversationLevelSlotResolutionResultItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["speechTranscriptionResult"].write(value.speechTranscriptionResult)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.ConversationLevelTestResultItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6371,11 +5879,6 @@ extension LexModelsV2ClientTypes {
 
 extension LexModelsV2ClientTypes.ConversationLevelTestResults {
 
-    static func write(value: LexModelsV2ClientTypes.ConversationLevelTestResults?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["items"].writeList(value.items, memberWritingClosure: LexModelsV2ClientTypes.ConversationLevelTestResultItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.ConversationLevelTestResults {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.ConversationLevelTestResults()
@@ -6406,13 +5909,6 @@ extension LexModelsV2ClientTypes.ConversationLevelTestResultsFilterBy {
     static func write(value: LexModelsV2ClientTypes.ConversationLevelTestResultsFilterBy?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["endToEndResult"].write(value.endToEndResult)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.ConversationLevelTestResultsFilterBy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LexModelsV2ClientTypes.ConversationLevelTestResultsFilterBy()
-        value.endToEndResult = try reader["endToEndResult"].readIfPresent()
-        return value
     }
 }
 
@@ -8421,13 +7917,6 @@ extension LexModelsV2ClientTypes.CustomVocabularyEntryId {
     static func write(value: LexModelsV2ClientTypes.CustomVocabularyEntryId?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["itemId"].write(value.itemId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.CustomVocabularyEntryId {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LexModelsV2ClientTypes.CustomVocabularyEntryId()
-        value.itemId = try reader["itemId"].readIfPresent()
-        return value
     }
 }
 
@@ -12795,12 +12284,6 @@ extension LexModelsV2ClientTypes {
 
 extension LexModelsV2ClientTypes.ExecutionErrorDetails {
 
-    static func write(value: LexModelsV2ClientTypes.ExecutionErrorDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["errorCode"].write(value.errorCode)
-        try writer["errorMessage"].write(value.errorMessage)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.ExecutionErrorDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.ExecutionErrorDetails()
@@ -12839,15 +12322,6 @@ extension LexModelsV2ClientTypes.ExportFilter {
         try writer["name"].write(value.name)
         try writer["operator"].write(value.`operator`)
         try writer["values"].writeList(value.values, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.ExportFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LexModelsV2ClientTypes.ExportFilter()
-        value.name = try reader["name"].readIfPresent()
-        value.values = try reader["values"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.`operator` = try reader["operator"].readIfPresent()
-        return value
     }
 }
 
@@ -13018,14 +12492,6 @@ extension LexModelsV2ClientTypes.ExportSortBy {
         try writer["attribute"].write(value.attribute)
         try writer["order"].write(value.order)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.ExportSortBy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LexModelsV2ClientTypes.ExportSortBy()
-        value.attribute = try reader["attribute"].readIfPresent()
-        value.order = try reader["order"].readIfPresent()
-        return value
-    }
 }
 
 extension LexModelsV2ClientTypes {
@@ -13087,16 +12553,6 @@ extension LexModelsV2ClientTypes {
 }
 
 extension LexModelsV2ClientTypes.ExportSummary {
-
-    static func write(value: LexModelsV2ClientTypes.ExportSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["creationDateTime"].writeTimestamp(value.creationDateTime, format: .epochSeconds)
-        try writer["exportId"].write(value.exportId)
-        try writer["exportStatus"].write(value.exportStatus)
-        try writer["fileFormat"].write(value.fileFormat)
-        try writer["lastUpdatedDateTime"].writeTimestamp(value.lastUpdatedDateTime, format: .epochSeconds)
-        try writer["resourceSpecification"].write(value.resourceSpecification, with: LexModelsV2ClientTypes.ExportResourceSpecification.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.ExportSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -13179,13 +12635,6 @@ extension LexModelsV2ClientTypes {
 }
 
 extension LexModelsV2ClientTypes.FailedCustomVocabularyItem {
-
-    static func write(value: LexModelsV2ClientTypes.FailedCustomVocabularyItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["errorCode"].write(value.errorCode)
-        try writer["errorMessage"].write(value.errorMessage)
-        try writer["itemId"].write(value.itemId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.FailedCustomVocabularyItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -13534,14 +12983,6 @@ extension LexModelsV2ClientTypes.GenerationSortBy {
         try writer["attribute"].write(value.attribute)
         try writer["order"].write(value.order)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.GenerationSortBy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LexModelsV2ClientTypes.GenerationSortBy()
-        value.attribute = try reader["attribute"].readIfPresent()
-        value.order = try reader["order"].readIfPresent()
-        return value
-    }
 }
 
 extension LexModelsV2ClientTypes {
@@ -13634,14 +13075,6 @@ extension LexModelsV2ClientTypes {
 }
 
 extension LexModelsV2ClientTypes.GenerationSummary {
-
-    static func write(value: LexModelsV2ClientTypes.GenerationSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["creationDateTime"].writeTimestamp(value.creationDateTime, format: .epochSeconds)
-        try writer["generationId"].write(value.generationId)
-        try writer["generationStatus"].write(value.generationStatus)
-        try writer["lastUpdatedDateTime"].writeTimestamp(value.lastUpdatedDateTime, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.GenerationSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -13956,15 +13389,6 @@ extension LexModelsV2ClientTypes.ImportFilter {
         try writer["operator"].write(value.`operator`)
         try writer["values"].writeList(value.values, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.ImportFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LexModelsV2ClientTypes.ImportFilter()
-        value.name = try reader["name"].readIfPresent()
-        value.values = try reader["values"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.`operator` = try reader["operator"].readIfPresent()
-        return value
-    }
 }
 
 extension LexModelsV2ClientTypes {
@@ -14170,14 +13594,6 @@ extension LexModelsV2ClientTypes.ImportSortBy {
         try writer["attribute"].write(value.attribute)
         try writer["order"].write(value.order)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.ImportSortBy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LexModelsV2ClientTypes.ImportSortBy()
-        value.attribute = try reader["attribute"].readIfPresent()
-        value.order = try reader["order"].readIfPresent()
-        return value
-    }
 }
 
 extension LexModelsV2ClientTypes {
@@ -14239,18 +13655,6 @@ extension LexModelsV2ClientTypes {
 }
 
 extension LexModelsV2ClientTypes.ImportSummary {
-
-    static func write(value: LexModelsV2ClientTypes.ImportSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["creationDateTime"].writeTimestamp(value.creationDateTime, format: .epochSeconds)
-        try writer["importId"].write(value.importId)
-        try writer["importStatus"].write(value.importStatus)
-        try writer["importedResourceId"].write(value.importedResourceId)
-        try writer["importedResourceName"].write(value.importedResourceName)
-        try writer["importedResourceType"].write(value.importedResourceType)
-        try writer["lastUpdatedDateTime"].writeTimestamp(value.lastUpdatedDateTime, format: .epochSeconds)
-        try writer["mergeStrategy"].write(value.mergeStrategy)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.ImportSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -14394,13 +13798,6 @@ extension LexModelsV2ClientTypes {
 
 extension LexModelsV2ClientTypes.InputSessionStateSpecification {
 
-    static func write(value: LexModelsV2ClientTypes.InputSessionStateSpecification?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["activeContexts"].writeList(value.activeContexts, memberWritingClosure: LexModelsV2ClientTypes.ActiveContext.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["runtimeHints"].write(value.runtimeHints, with: LexModelsV2ClientTypes.RuntimeHints.write(value:to:))
-        try writer["sessionAttributes"].writeMap(value.sessionAttributes, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.InputSessionStateSpecification {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.InputSessionStateSpecification()
@@ -14436,13 +13833,6 @@ extension LexModelsV2ClientTypes {
 }
 
 extension LexModelsV2ClientTypes.IntentClassificationTestResultItem {
-
-    static func write(value: LexModelsV2ClientTypes.IntentClassificationTestResultItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["intentName"].write(value.intentName)
-        try writer["multiTurnConversation"].write(value.multiTurnConversation)
-        try writer["resultCounts"].write(value.resultCounts, with: LexModelsV2ClientTypes.IntentClassificationTestResultItemCounts.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.IntentClassificationTestResultItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -14483,13 +13873,6 @@ extension LexModelsV2ClientTypes {
 
 extension LexModelsV2ClientTypes.IntentClassificationTestResultItemCounts {
 
-    static func write(value: LexModelsV2ClientTypes.IntentClassificationTestResultItemCounts?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["intentMatchResultCounts"].writeMap(value.intentMatchResultCounts, valueWritingClosure: Swift.Int.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["speechTranscriptionResultCounts"].writeMap(value.speechTranscriptionResultCounts, valueWritingClosure: Swift.Int.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["totalResultCount"].write(value.totalResultCount)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.IntentClassificationTestResultItemCounts {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.IntentClassificationTestResultItemCounts()
@@ -14527,11 +13910,6 @@ extension LexModelsV2ClientTypes {
 }
 
 extension LexModelsV2ClientTypes.IntentClassificationTestResults {
-
-    static func write(value: LexModelsV2ClientTypes.IntentClassificationTestResults?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["items"].writeList(value.items, memberWritingClosure: LexModelsV2ClientTypes.IntentClassificationTestResultItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.IntentClassificationTestResults {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -14719,15 +14097,6 @@ extension LexModelsV2ClientTypes.IntentFilter {
         try writer["operator"].write(value.`operator`)
         try writer["values"].writeList(value.values, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.IntentFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LexModelsV2ClientTypes.IntentFilter()
-        value.name = try reader["name"].readIfPresent()
-        value.values = try reader["values"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.`operator` = try reader["operator"].readIfPresent()
-        return value
-    }
 }
 
 extension LexModelsV2ClientTypes {
@@ -14816,13 +14185,6 @@ extension LexModelsV2ClientTypes {
 
 extension LexModelsV2ClientTypes.IntentLevelSlotResolutionTestResultItem {
 
-    static func write(value: LexModelsV2ClientTypes.IntentLevelSlotResolutionTestResultItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["intentName"].write(value.intentName)
-        try writer["multiTurnConversation"].write(value.multiTurnConversation)
-        try writer["slotResolutionResults"].writeList(value.slotResolutionResults, memberWritingClosure: LexModelsV2ClientTypes.SlotResolutionTestResultItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.IntentLevelSlotResolutionTestResultItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.IntentLevelSlotResolutionTestResultItem()
@@ -14861,11 +14223,6 @@ extension LexModelsV2ClientTypes {
 }
 
 extension LexModelsV2ClientTypes.IntentLevelSlotResolutionTestResults {
-
-    static func write(value: LexModelsV2ClientTypes.IntentLevelSlotResolutionTestResults?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["items"].writeList(value.items, memberWritingClosure: LexModelsV2ClientTypes.IntentLevelSlotResolutionTestResultItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.IntentLevelSlotResolutionTestResults {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -14966,14 +14323,6 @@ extension LexModelsV2ClientTypes.IntentSortBy {
         try writer["attribute"].write(value.attribute)
         try writer["order"].write(value.order)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.IntentSortBy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LexModelsV2ClientTypes.IntentSortBy()
-        value.attribute = try reader["attribute"].readIfPresent()
-        value.order = try reader["order"].readIfPresent()
-        return value
-    }
 }
 
 extension LexModelsV2ClientTypes {
@@ -15042,11 +14391,6 @@ extension LexModelsV2ClientTypes {
 
 extension LexModelsV2ClientTypes.IntentStatistics {
 
-    static func write(value: LexModelsV2ClientTypes.IntentStatistics?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["discoveredIntentCount"].write(value.discoveredIntentCount)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.IntentStatistics {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.IntentStatistics()
@@ -15072,17 +14416,6 @@ extension LexModelsV2ClientTypes {
 }
 
 extension LexModelsV2ClientTypes.IntentSummary {
-
-    static func write(value: LexModelsV2ClientTypes.IntentSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["description"].write(value.description)
-        try writer["inputContexts"].writeList(value.inputContexts, memberWritingClosure: LexModelsV2ClientTypes.InputContext.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["intentId"].write(value.intentId)
-        try writer["intentName"].write(value.intentName)
-        try writer["lastUpdatedDateTime"].writeTimestamp(value.lastUpdatedDateTime, format: .epochSeconds)
-        try writer["outputContexts"].writeList(value.outputContexts, memberWritingClosure: LexModelsV2ClientTypes.OutputContext.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["parentIntentSignature"].write(value.parentIntentSignature)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.IntentSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -15176,11 +14509,6 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 }
 
 extension LexModelsV2ClientTypes.InvokedIntentSample {
-
-    static func write(value: LexModelsV2ClientTypes.InvokedIntentSample?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["intentName"].write(value.intentName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.InvokedIntentSample {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -18931,15 +18259,6 @@ extension LexModelsV2ClientTypes.NewCustomVocabularyItem {
         try writer["phrase"].write(value.phrase)
         try writer["weight"].write(value.weight)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.NewCustomVocabularyItem {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LexModelsV2ClientTypes.NewCustomVocabularyItem()
-        value.phrase = try reader["phrase"].readIfPresent()
-        value.weight = try reader["weight"].readIfPresent()
-        value.displayAs = try reader["displayAs"].readIfPresent()
-        return value
-    }
 }
 
 extension LexModelsV2ClientTypes {
@@ -19134,14 +18453,6 @@ extension LexModelsV2ClientTypes {
 
 extension LexModelsV2ClientTypes.OverallTestResultItem {
 
-    static func write(value: LexModelsV2ClientTypes.OverallTestResultItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["endToEndResultCounts"].writeMap(value.endToEndResultCounts, valueWritingClosure: Swift.Int.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["multiTurnConversation"].write(value.multiTurnConversation)
-        try writer["speechTranscriptionResultCounts"].writeMap(value.speechTranscriptionResultCounts, valueWritingClosure: Swift.Int.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["totalResultCount"].write(value.totalResultCount)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.OverallTestResultItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.OverallTestResultItem()
@@ -19186,11 +18497,6 @@ extension LexModelsV2ClientTypes {
 
 extension LexModelsV2ClientTypes.OverallTestResults {
 
-    static func write(value: LexModelsV2ClientTypes.OverallTestResults?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["items"].writeList(value.items, memberWritingClosure: LexModelsV2ClientTypes.OverallTestResultItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.OverallTestResults {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.OverallTestResults()
@@ -19217,12 +18523,6 @@ extension LexModelsV2ClientTypes {
 }
 
 extension LexModelsV2ClientTypes.ParentBotNetwork {
-
-    static func write(value: LexModelsV2ClientTypes.ParentBotNetwork?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["botId"].write(value.botId)
-        try writer["botVersion"].write(value.botVersion)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.ParentBotNetwork {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -19520,14 +18820,6 @@ extension LexModelsV2ClientTypes.Principal {
         try writer["arn"].write(value.arn)
         try writer["service"].write(value.service)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.Principal {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LexModelsV2ClientTypes.Principal()
-        value.service = try reader["service"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        return value
-    }
 }
 
 extension LexModelsV2ClientTypes {
@@ -19789,13 +19081,6 @@ extension LexModelsV2ClientTypes {
 
 extension LexModelsV2ClientTypes.RecommendedIntentSummary {
 
-    static func write(value: LexModelsV2ClientTypes.RecommendedIntentSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["intentId"].write(value.intentId)
-        try writer["intentName"].write(value.intentName)
-        try writer["sampleUtterancesCount"].write(value.sampleUtterancesCount)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.RecommendedIntentSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.RecommendedIntentSummary()
@@ -19958,12 +19243,6 @@ extension LexModelsV2ClientTypes {
 
 extension LexModelsV2ClientTypes.RuntimeHintDetails {
 
-    static func write(value: LexModelsV2ClientTypes.RuntimeHintDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["runtimeHintValues"].writeList(value.runtimeHintValues, memberWritingClosure: LexModelsV2ClientTypes.RuntimeHintValue.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["subSlotHints"].writeMap(value.subSlotHints, valueWritingClosure: LexModelsV2ClientTypes.RuntimeHintDetails.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.RuntimeHintDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.RuntimeHintDetails()
@@ -19995,11 +19274,6 @@ extension LexModelsV2ClientTypes {
 
 extension LexModelsV2ClientTypes.RuntimeHintValue {
 
-    static func write(value: LexModelsV2ClientTypes.RuntimeHintValue?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["phrase"].write(value.phrase)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.RuntimeHintValue {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.RuntimeHintValue()
@@ -20026,11 +19300,6 @@ extension LexModelsV2ClientTypes {
 }
 
 extension LexModelsV2ClientTypes.RuntimeHints {
-
-    static func write(value: LexModelsV2ClientTypes.RuntimeHints?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["slotHints"].writeMap(value.slotHints, valueWritingClosure: mapWritingClosure(valueWritingClosure: LexModelsV2ClientTypes.RuntimeHintDetails.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.RuntimeHints {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -20576,14 +19845,6 @@ extension LexModelsV2ClientTypes.SessionDataSortBy {
         try writer["name"].write(value.name)
         try writer["order"].write(value.order)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.SessionDataSortBy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LexModelsV2ClientTypes.SessionDataSortBy()
-        value.name = try reader["name"].readIfPresent()
-        value.order = try reader["order"].readIfPresent()
-        return value
-    }
 }
 
 extension LexModelsV2ClientTypes {
@@ -20615,23 +19876,6 @@ extension LexModelsV2ClientTypes {
 }
 
 extension LexModelsV2ClientTypes.SessionSpecification {
-
-    static func write(value: LexModelsV2ClientTypes.SessionSpecification?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["botAliasId"].write(value.botAliasId)
-        try writer["botVersion"].write(value.botVersion)
-        try writer["channel"].write(value.channel)
-        try writer["conversationDurationSeconds"].write(value.conversationDurationSeconds)
-        try writer["conversationEndState"].write(value.conversationEndState)
-        try writer["conversationEndTime"].writeTimestamp(value.conversationEndTime, format: .epochSeconds)
-        try writer["conversationStartTime"].writeTimestamp(value.conversationStartTime, format: .epochSeconds)
-        try writer["invokedIntentSamples"].writeList(value.invokedIntentSamples, memberWritingClosure: LexModelsV2ClientTypes.InvokedIntentSample.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["localeId"].write(value.localeId)
-        try writer["mode"].write(value.mode)
-        try writer["numberOfTurns"].write(value.numberOfTurns)
-        try writer["originatingRequestId"].write(value.originatingRequestId)
-        try writer["sessionId"].write(value.sessionId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.SessionSpecification {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -20900,15 +20144,6 @@ extension LexModelsV2ClientTypes.SlotFilter {
         try writer["operator"].write(value.`operator`)
         try writer["values"].writeList(value.values, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.SlotFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LexModelsV2ClientTypes.SlotFilter()
-        value.name = try reader["name"].readIfPresent()
-        value.values = try reader["values"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.`operator` = try reader["operator"].readIfPresent()
-        return value
-    }
 }
 
 extension LexModelsV2ClientTypes {
@@ -21136,12 +20371,6 @@ extension LexModelsV2ClientTypes {
 
 extension LexModelsV2ClientTypes.SlotResolutionTestResultItem {
 
-    static func write(value: LexModelsV2ClientTypes.SlotResolutionTestResultItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["resultCounts"].write(value.resultCounts, with: LexModelsV2ClientTypes.SlotResolutionTestResultItemCounts.write(value:to:))
-        try writer["slotName"].write(value.slotName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.SlotResolutionTestResultItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.SlotResolutionTestResultItem()
@@ -21174,13 +20403,6 @@ extension LexModelsV2ClientTypes {
 }
 
 extension LexModelsV2ClientTypes.SlotResolutionTestResultItemCounts {
-
-    static func write(value: LexModelsV2ClientTypes.SlotResolutionTestResultItemCounts?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["slotMatchResultCounts"].writeMap(value.slotMatchResultCounts, valueWritingClosure: Swift.Int.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["speechTranscriptionResultCounts"].writeMap(value.speechTranscriptionResultCounts, valueWritingClosure: Swift.Int.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["totalResultCount"].write(value.totalResultCount)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.SlotResolutionTestResultItemCounts {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -21285,14 +20507,6 @@ extension LexModelsV2ClientTypes.SlotSortBy {
         try writer["attribute"].write(value.attribute)
         try writer["order"].write(value.order)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.SlotSortBy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LexModelsV2ClientTypes.SlotSortBy()
-        value.attribute = try reader["attribute"].readIfPresent()
-        value.order = try reader["order"].readIfPresent()
-        return value
-    }
 }
 
 extension LexModelsV2ClientTypes {
@@ -21318,17 +20532,6 @@ extension LexModelsV2ClientTypes {
 }
 
 extension LexModelsV2ClientTypes.SlotSummary {
-
-    static func write(value: LexModelsV2ClientTypes.SlotSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["description"].write(value.description)
-        try writer["lastUpdatedDateTime"].writeTimestamp(value.lastUpdatedDateTime, format: .epochSeconds)
-        try writer["slotConstraint"].write(value.slotConstraint)
-        try writer["slotId"].write(value.slotId)
-        try writer["slotName"].write(value.slotName)
-        try writer["slotTypeId"].write(value.slotTypeId)
-        try writer["valueElicitationPromptSpecification"].write(value.valueElicitationPromptSpecification, with: LexModelsV2ClientTypes.PromptSpecification.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.SlotSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -21427,15 +20630,6 @@ extension LexModelsV2ClientTypes.SlotTypeFilter {
         try writer["name"].write(value.name)
         try writer["operator"].write(value.`operator`)
         try writer["values"].writeList(value.values, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.SlotTypeFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LexModelsV2ClientTypes.SlotTypeFilter()
-        value.name = try reader["name"].readIfPresent()
-        value.values = try reader["values"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.`operator` = try reader["operator"].readIfPresent()
-        return value
     }
 }
 
@@ -21563,14 +20757,6 @@ extension LexModelsV2ClientTypes.SlotTypeSortBy {
         try writer["attribute"].write(value.attribute)
         try writer["order"].write(value.order)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.SlotTypeSortBy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LexModelsV2ClientTypes.SlotTypeSortBy()
-        value.attribute = try reader["attribute"].readIfPresent()
-        value.order = try reader["order"].readIfPresent()
-        return value
-    }
 }
 
 extension LexModelsV2ClientTypes {
@@ -21597,11 +20783,6 @@ extension LexModelsV2ClientTypes {
 
 extension LexModelsV2ClientTypes.SlotTypeStatistics {
 
-    static func write(value: LexModelsV2ClientTypes.SlotTypeStatistics?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["discoveredSlotTypeCount"].write(value.discoveredSlotTypeCount)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.SlotTypeStatistics {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.SlotTypeStatistics()
@@ -21627,16 +20808,6 @@ extension LexModelsV2ClientTypes {
 }
 
 extension LexModelsV2ClientTypes.SlotTypeSummary {
-
-    static func write(value: LexModelsV2ClientTypes.SlotTypeSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["description"].write(value.description)
-        try writer["lastUpdatedDateTime"].writeTimestamp(value.lastUpdatedDateTime, format: .epochSeconds)
-        try writer["parentSlotTypeSignature"].write(value.parentSlotTypeSignature)
-        try writer["slotTypeCategory"].write(value.slotTypeCategory)
-        try writer["slotTypeId"].write(value.slotTypeId)
-        try writer["slotTypeName"].write(value.slotTypeName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.SlotTypeSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -23119,14 +22290,6 @@ extension LexModelsV2ClientTypes.TestExecutionResultFilterBy {
         try writer["conversationLevelTestResultsFilterBy"].write(value.conversationLevelTestResultsFilterBy, with: LexModelsV2ClientTypes.ConversationLevelTestResultsFilterBy.write(value:to:))
         try writer["resultTypeFilter"].write(value.resultTypeFilter)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.TestExecutionResultFilterBy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LexModelsV2ClientTypes.TestExecutionResultFilterBy()
-        value.resultTypeFilter = try reader["resultTypeFilter"].readIfPresent()
-        value.conversationLevelTestResultsFilterBy = try reader["conversationLevelTestResultsFilterBy"].readIfPresent(with: LexModelsV2ClientTypes.ConversationLevelTestResultsFilterBy.read(from:))
-        return value
-    }
 }
 
 extension LexModelsV2ClientTypes {
@@ -23151,15 +22314,6 @@ extension LexModelsV2ClientTypes {
 }
 
 extension LexModelsV2ClientTypes.TestExecutionResultItems {
-
-    static func write(value: LexModelsV2ClientTypes.TestExecutionResultItems?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["conversationLevelTestResults"].write(value.conversationLevelTestResults, with: LexModelsV2ClientTypes.ConversationLevelTestResults.write(value:to:))
-        try writer["intentClassificationTestResults"].write(value.intentClassificationTestResults, with: LexModelsV2ClientTypes.IntentClassificationTestResults.write(value:to:))
-        try writer["intentLevelSlotResolutionTestResults"].write(value.intentLevelSlotResolutionTestResults, with: LexModelsV2ClientTypes.IntentLevelSlotResolutionTestResults.write(value:to:))
-        try writer["overallTestResults"].write(value.overallTestResults, with: LexModelsV2ClientTypes.OverallTestResults.write(value:to:))
-        try writer["utteranceLevelTestResults"].write(value.utteranceLevelTestResults, with: LexModelsV2ClientTypes.UtteranceLevelTestResults.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.TestExecutionResultItems {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -23242,14 +22396,6 @@ extension LexModelsV2ClientTypes.TestExecutionSortBy {
         try writer["attribute"].write(value.attribute)
         try writer["order"].write(value.order)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.TestExecutionSortBy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LexModelsV2ClientTypes.TestExecutionSortBy()
-        value.attribute = try reader["attribute"].readIfPresent()
-        value.order = try reader["order"].readIfPresent()
-        return value
-    }
 }
 
 extension LexModelsV2ClientTypes {
@@ -23320,19 +22466,6 @@ extension LexModelsV2ClientTypes {
 }
 
 extension LexModelsV2ClientTypes.TestExecutionSummary {
-
-    static func write(value: LexModelsV2ClientTypes.TestExecutionSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["apiMode"].write(value.apiMode)
-        try writer["creationDateTime"].writeTimestamp(value.creationDateTime, format: .epochSeconds)
-        try writer["lastUpdatedDateTime"].writeTimestamp(value.lastUpdatedDateTime, format: .epochSeconds)
-        try writer["target"].write(value.target, with: LexModelsV2ClientTypes.TestExecutionTarget.write(value:to:))
-        try writer["testExecutionId"].write(value.testExecutionId)
-        try writer["testExecutionModality"].write(value.testExecutionModality)
-        try writer["testExecutionStatus"].write(value.testExecutionStatus)
-        try writer["testSetId"].write(value.testSetId)
-        try writer["testSetName"].write(value.testSetName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.TestExecutionSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -23502,12 +22635,6 @@ extension LexModelsV2ClientTypes {
 }
 
 extension LexModelsV2ClientTypes.TestSetDiscrepancyErrors {
-
-    static func write(value: LexModelsV2ClientTypes.TestSetDiscrepancyErrors?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["intentDiscrepancies"].writeList(value.intentDiscrepancies, memberWritingClosure: LexModelsV2ClientTypes.TestSetIntentDiscrepancyItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["slotDiscrepancies"].writeList(value.slotDiscrepancies, memberWritingClosure: LexModelsV2ClientTypes.TestSetSlotDiscrepancyItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.TestSetDiscrepancyErrors {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -23862,12 +22989,6 @@ extension LexModelsV2ClientTypes {
 
 extension LexModelsV2ClientTypes.TestSetIntentDiscrepancyItem {
 
-    static func write(value: LexModelsV2ClientTypes.TestSetIntentDiscrepancyItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["errorMessage"].write(value.errorMessage)
-        try writer["intentName"].write(value.intentName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.TestSetIntentDiscrepancyItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.TestSetIntentDiscrepancyItem()
@@ -23930,13 +23051,6 @@ extension LexModelsV2ClientTypes {
 }
 
 extension LexModelsV2ClientTypes.TestSetSlotDiscrepancyItem {
-
-    static func write(value: LexModelsV2ClientTypes.TestSetSlotDiscrepancyItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["errorMessage"].write(value.errorMessage)
-        try writer["intentName"].write(value.intentName)
-        try writer["slotName"].write(value.slotName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.TestSetSlotDiscrepancyItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -24011,14 +23125,6 @@ extension LexModelsV2ClientTypes.TestSetSortBy {
         guard let value else { return }
         try writer["attribute"].write(value.attribute)
         try writer["order"].write(value.order)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.TestSetSortBy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LexModelsV2ClientTypes.TestSetSortBy()
-        value.attribute = try reader["attribute"].readIfPresent()
-        value.order = try reader["order"].readIfPresent()
-        return value
     }
 }
 
@@ -24130,20 +23236,6 @@ extension LexModelsV2ClientTypes {
 
 extension LexModelsV2ClientTypes.TestSetSummary {
 
-    static func write(value: LexModelsV2ClientTypes.TestSetSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["creationDateTime"].writeTimestamp(value.creationDateTime, format: .epochSeconds)
-        try writer["description"].write(value.description)
-        try writer["lastUpdatedDateTime"].writeTimestamp(value.lastUpdatedDateTime, format: .epochSeconds)
-        try writer["modality"].write(value.modality)
-        try writer["numTurns"].write(value.numTurns)
-        try writer["roleArn"].write(value.roleArn)
-        try writer["status"].write(value.status)
-        try writer["storageLocation"].write(value.storageLocation, with: LexModelsV2ClientTypes.TestSetStorageLocation.write(value:to:))
-        try writer["testSetId"].write(value.testSetId)
-        try writer["testSetName"].write(value.testSetName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.TestSetSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.TestSetSummary()
@@ -24215,14 +23307,6 @@ extension LexModelsV2ClientTypes {
 
 extension LexModelsV2ClientTypes.TestSetTurnRecord {
 
-    static func write(value: LexModelsV2ClientTypes.TestSetTurnRecord?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["conversationId"].write(value.conversationId)
-        try writer["recordNumber"].write(value.recordNumber)
-        try writer["turnNumber"].write(value.turnNumber)
-        try writer["turnSpecification"].write(value.turnSpecification, with: LexModelsV2ClientTypes.TurnSpecification.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.TestSetTurnRecord {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.TestSetTurnRecord()
@@ -24265,12 +23349,6 @@ extension LexModelsV2ClientTypes {
 }
 
 extension LexModelsV2ClientTypes.TestSetTurnResult {
-
-    static func write(value: LexModelsV2ClientTypes.TestSetTurnResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["agent"].write(value.agent, with: LexModelsV2ClientTypes.AgentTurnResult.write(value:to:))
-        try writer["user"].write(value.user, with: LexModelsV2ClientTypes.UserTurnResult.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.TestSetTurnResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -24578,12 +23656,6 @@ extension LexModelsV2ClientTypes {
 }
 
 extension LexModelsV2ClientTypes.TurnSpecification {
-
-    static func write(value: LexModelsV2ClientTypes.TurnSpecification?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["agentTurn"].write(value.agentTurn, with: LexModelsV2ClientTypes.AgentTurnSpecification.write(value:to:))
-        try writer["userTurn"].write(value.userTurn, with: LexModelsV2ClientTypes.UserTurnSpecification.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.TurnSpecification {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -26327,13 +25399,6 @@ enum UpdateTestSetOutputError {
 
 extension LexModelsV2ClientTypes.UserTurnInputSpecification {
 
-    static func write(value: LexModelsV2ClientTypes.UserTurnInputSpecification?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["requestAttributes"].writeMap(value.requestAttributes, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["sessionState"].write(value.sessionState, with: LexModelsV2ClientTypes.InputSessionStateSpecification.write(value:to:))
-        try writer["utteranceInput"].write(value.utteranceInput, with: LexModelsV2ClientTypes.UtteranceInputSpecification.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.UserTurnInputSpecification {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.UserTurnInputSpecification()
@@ -26371,12 +25436,6 @@ extension LexModelsV2ClientTypes {
 
 extension LexModelsV2ClientTypes.UserTurnIntentOutput {
 
-    static func write(value: LexModelsV2ClientTypes.UserTurnIntentOutput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-        try writer["slots"].writeMap(value.slots, valueWritingClosure: LexModelsV2ClientTypes.UserTurnSlotOutput.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.UserTurnIntentOutput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.UserTurnIntentOutput()
@@ -26408,13 +25467,6 @@ extension LexModelsV2ClientTypes {
 }
 
 extension LexModelsV2ClientTypes.UserTurnOutputSpecification {
-
-    static func write(value: LexModelsV2ClientTypes.UserTurnOutputSpecification?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["activeContexts"].writeList(value.activeContexts, memberWritingClosure: LexModelsV2ClientTypes.ActiveContext.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["intent"].write(value.intent, with: LexModelsV2ClientTypes.UserTurnIntentOutput.write(value:to:))
-        try writer["transcript"].write(value.transcript)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.UserTurnOutputSpecification {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -26452,19 +25504,6 @@ extension LexModelsV2ClientTypes {
 }
 
 extension LexModelsV2ClientTypes.UserTurnResult {
-
-    static func write(value: LexModelsV2ClientTypes.UserTurnResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["actualOutput"].write(value.actualOutput, with: LexModelsV2ClientTypes.UserTurnOutputSpecification.write(value:to:))
-        try writer["conversationLevelResult"].write(value.conversationLevelResult, with: LexModelsV2ClientTypes.ConversationLevelResultDetail.write(value:to:))
-        try writer["endToEndResult"].write(value.endToEndResult)
-        try writer["errorDetails"].write(value.errorDetails, with: LexModelsV2ClientTypes.ExecutionErrorDetails.write(value:to:))
-        try writer["expectedOutput"].write(value.expectedOutput, with: LexModelsV2ClientTypes.UserTurnOutputSpecification.write(value:to:))
-        try writer["input"].write(value.input, with: LexModelsV2ClientTypes.UserTurnInputSpecification.write(value:to:))
-        try writer["intentMatchResult"].write(value.intentMatchResult)
-        try writer["slotMatchResult"].write(value.slotMatchResult)
-        try writer["speechTranscriptionResult"].write(value.speechTranscriptionResult)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.UserTurnResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -26534,13 +25573,6 @@ extension LexModelsV2ClientTypes {
 
 extension LexModelsV2ClientTypes.UserTurnSlotOutput {
 
-    static func write(value: LexModelsV2ClientTypes.UserTurnSlotOutput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["subSlots"].writeMap(value.subSlots, valueWritingClosure: LexModelsV2ClientTypes.UserTurnSlotOutput.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["value"].write(value.value)
-        try writer["values"].writeList(value.values, memberWritingClosure: LexModelsV2ClientTypes.UserTurnSlotOutput.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.UserTurnSlotOutput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.UserTurnSlotOutput()
@@ -26576,12 +25608,6 @@ extension LexModelsV2ClientTypes {
 }
 
 extension LexModelsV2ClientTypes.UserTurnSpecification {
-
-    static func write(value: LexModelsV2ClientTypes.UserTurnSpecification?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["expected"].write(value.expected, with: LexModelsV2ClientTypes.UserTurnOutputSpecification.write(value:to:))
-        try writer["input"].write(value.input, with: LexModelsV2ClientTypes.UserTurnInputSpecification.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.UserTurnSpecification {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -26648,11 +25674,6 @@ extension LexModelsV2ClientTypes {
 
 extension LexModelsV2ClientTypes.UtteranceAudioInputSpecification {
 
-    static func write(value: LexModelsV2ClientTypes.UtteranceAudioInputSpecification?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["audioFileS3Location"].write(value.audioFileS3Location)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.UtteranceAudioInputSpecification {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.UtteranceAudioInputSpecification()
@@ -26679,13 +25700,6 @@ extension LexModelsV2ClientTypes {
 }
 
 extension LexModelsV2ClientTypes.UtteranceBotResponse {
-
-    static func write(value: LexModelsV2ClientTypes.UtteranceBotResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["content"].write(value.content)
-        try writer["contentType"].write(value.contentType)
-        try writer["imageResponseCard"].write(value.imageResponseCard, with: LexModelsV2ClientTypes.ImageResponseCard.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.UtteranceBotResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -26772,14 +25786,6 @@ extension LexModelsV2ClientTypes.UtteranceDataSortBy {
         try writer["name"].write(value.name)
         try writer["order"].write(value.order)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.UtteranceDataSortBy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LexModelsV2ClientTypes.UtteranceDataSortBy()
-        value.name = try reader["name"].readIfPresent()
-        value.order = try reader["order"].readIfPresent()
-        return value
-    }
 }
 
 extension LexModelsV2ClientTypes {
@@ -26809,12 +25815,6 @@ extension LexModelsV2ClientTypes {
 }
 
 extension LexModelsV2ClientTypes.UtteranceInputSpecification {
-
-    static func write(value: LexModelsV2ClientTypes.UtteranceInputSpecification?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["audioInput"].write(value.audioInput, with: LexModelsV2ClientTypes.UtteranceAudioInputSpecification.write(value:to:))
-        try writer["textInput"].write(value.textInput)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.UtteranceInputSpecification {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -26846,13 +25846,6 @@ extension LexModelsV2ClientTypes {
 }
 
 extension LexModelsV2ClientTypes.UtteranceLevelTestResultItem {
-
-    static func write(value: LexModelsV2ClientTypes.UtteranceLevelTestResultItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["conversationId"].write(value.conversationId)
-        try writer["recordNumber"].write(value.recordNumber)
-        try writer["turnResult"].write(value.turnResult, with: LexModelsV2ClientTypes.TestSetTurnResult.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.UtteranceLevelTestResultItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -26892,11 +25885,6 @@ extension LexModelsV2ClientTypes {
 
 extension LexModelsV2ClientTypes.UtteranceLevelTestResults {
 
-    static func write(value: LexModelsV2ClientTypes.UtteranceLevelTestResults?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["items"].writeList(value.items, memberWritingClosure: LexModelsV2ClientTypes.UtteranceLevelTestResultItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.UtteranceLevelTestResults {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.UtteranceLevelTestResults()
@@ -26923,32 +25911,6 @@ extension LexModelsV2ClientTypes {
 }
 
 extension LexModelsV2ClientTypes.UtteranceSpecification {
-
-    static func write(value: LexModelsV2ClientTypes.UtteranceSpecification?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["associatedIntentName"].write(value.associatedIntentName)
-        try writer["associatedSlotName"].write(value.associatedSlotName)
-        try writer["audioVoiceDurationMillis"].write(value.audioVoiceDurationMillis)
-        try writer["botAliasId"].write(value.botAliasId)
-        try writer["botResponseAudioVoiceId"].write(value.botResponseAudioVoiceId)
-        try writer["botResponses"].writeList(value.botResponses, memberWritingClosure: LexModelsV2ClientTypes.UtteranceBotResponse.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["botVersion"].write(value.botVersion)
-        try writer["channel"].write(value.channel)
-        try writer["conversationEndTime"].writeTimestamp(value.conversationEndTime, format: .epochSeconds)
-        try writer["conversationStartTime"].writeTimestamp(value.conversationStartTime, format: .epochSeconds)
-        try writer["dialogActionType"].write(value.dialogActionType)
-        try writer["inputType"].write(value.inputType)
-        try writer["intentState"].write(value.intentState)
-        try writer["localeId"].write(value.localeId)
-        try writer["mode"].write(value.mode)
-        try writer["outputType"].write(value.outputType)
-        try writer["sessionId"].write(value.sessionId)
-        try writer["slotsFilledInSession"].write(value.slotsFilledInSession)
-        try writer["utterance"].write(value.utterance)
-        try writer["utteranceRequestId"].write(value.utteranceRequestId)
-        try writer["utteranceTimestamp"].writeTimestamp(value.utteranceTimestamp, format: .epochSeconds)
-        try writer["utteranceUnderstood"].write(value.utteranceUnderstood)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.UtteranceSpecification {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

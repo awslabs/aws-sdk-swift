@@ -93,11 +93,6 @@ extension InternalStreamFailure {
 
 extension InternalStreamFailure {
 
-    static func write(value: InternalStreamFailure?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.properties.message)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> InternalStreamFailure {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = InternalStreamFailure()
@@ -733,12 +728,6 @@ extension ModelStreamError {
 
 extension ModelStreamError {
 
-    static func write(value: ModelStreamError?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ErrorCode"].write(value.properties.errorCode)
-        try writer["Message"].write(value.properties.message)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ModelStreamError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ModelStreamError()
@@ -782,11 +771,6 @@ extension SageMakerRuntimeClientTypes.PayloadPart: Swift.CustomDebugStringConver
 }
 
 extension SageMakerRuntimeClientTypes.PayloadPart {
-
-    static func write(value: SageMakerRuntimeClientTypes.PayloadPart?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Bytes"].write(value.bytes)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerRuntimeClientTypes.PayloadPart {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

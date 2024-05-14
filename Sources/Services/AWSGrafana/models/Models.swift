@@ -226,13 +226,6 @@ enum AssociateLicenseOutputError {
 
 extension GrafanaClientTypes.AuthenticationDescription {
 
-    static func write(value: GrafanaClientTypes.AuthenticationDescription?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["awsSso"].write(value.awsSso, with: GrafanaClientTypes.AwsSsoAuthentication.write(value:to:))
-        try writer["providers"].writeList(value.providers, memberWritingClosure: GrafanaClientTypes.AuthenticationProviderTypes.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["saml"].write(value.saml, with: GrafanaClientTypes.SamlAuthentication.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GrafanaClientTypes.AuthenticationDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GrafanaClientTypes.AuthenticationDescription()
@@ -302,12 +295,6 @@ extension GrafanaClientTypes {
 
 extension GrafanaClientTypes.AuthenticationSummary {
 
-    static func write(value: GrafanaClientTypes.AuthenticationSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["providers"].writeList(value.providers, memberWritingClosure: GrafanaClientTypes.AuthenticationProviderTypes.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["samlConfigurationStatus"].write(value.samlConfigurationStatus)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GrafanaClientTypes.AuthenticationSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GrafanaClientTypes.AuthenticationSummary()
@@ -339,11 +326,6 @@ extension GrafanaClientTypes {
 }
 
 extension GrafanaClientTypes.AwsSsoAuthentication {
-
-    static func write(value: GrafanaClientTypes.AwsSsoAuthentication?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ssoClientId"].write(value.ssoClientId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GrafanaClientTypes.AwsSsoAuthentication {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1726,12 +1708,6 @@ extension GrafanaClientTypes {
 
 extension GrafanaClientTypes.PermissionEntry {
 
-    static func write(value: GrafanaClientTypes.PermissionEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["role"].write(value.role)
-        try writer["user"].write(value.user, with: GrafanaClientTypes.User.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GrafanaClientTypes.PermissionEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GrafanaClientTypes.PermissionEntry()
@@ -1925,12 +1901,6 @@ extension GrafanaClientTypes {
 }
 
 extension GrafanaClientTypes.SamlAuthentication {
-
-    static func write(value: GrafanaClientTypes.SamlAuthentication?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["configuration"].write(value.configuration, with: GrafanaClientTypes.SamlConfiguration.write(value:to:))
-        try writer["status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GrafanaClientTypes.SamlAuthentication {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2343,13 +2313,6 @@ extension GrafanaClientTypes {
 }
 
 extension GrafanaClientTypes.UpdateError {
-
-    static func write(value: GrafanaClientTypes.UpdateError?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["causedBy"].write(value.causedBy, with: GrafanaClientTypes.UpdateInstruction.write(value:to:))
-        try writer["code"].write(value.code)
-        try writer["message"].write(value.message)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GrafanaClientTypes.UpdateError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2942,12 +2905,6 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
 extension GrafanaClientTypes.ValidationExceptionField {
 
-    static func write(value: GrafanaClientTypes.ValidationExceptionField?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.message)
-        try writer["name"].write(value.name)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> GrafanaClientTypes.ValidationExceptionField {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GrafanaClientTypes.ValidationExceptionField()
@@ -3060,35 +3017,6 @@ extension GrafanaClientTypes.WorkspaceDescription: Swift.CustomDebugStringConver
 }
 
 extension GrafanaClientTypes.WorkspaceDescription {
-
-    static func write(value: GrafanaClientTypes.WorkspaceDescription?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["accountAccessType"].write(value.accountAccessType)
-        try writer["authentication"].write(value.authentication, with: GrafanaClientTypes.AuthenticationSummary.write(value:to:))
-        try writer["created"].writeTimestamp(value.created, format: .epochSeconds)
-        try writer["dataSources"].writeList(value.dataSources, memberWritingClosure: GrafanaClientTypes.DataSourceType.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["description"].write(value.description)
-        try writer["endpoint"].write(value.endpoint)
-        try writer["freeTrialConsumed"].write(value.freeTrialConsumed)
-        try writer["freeTrialExpiration"].writeTimestamp(value.freeTrialExpiration, format: .epochSeconds)
-        try writer["grafanaToken"].write(value.grafanaToken)
-        try writer["grafanaVersion"].write(value.grafanaVersion)
-        try writer["id"].write(value.id)
-        try writer["licenseExpiration"].writeTimestamp(value.licenseExpiration, format: .epochSeconds)
-        try writer["licenseType"].write(value.licenseType)
-        try writer["modified"].writeTimestamp(value.modified, format: .epochSeconds)
-        try writer["name"].write(value.name)
-        try writer["networkAccessControl"].write(value.networkAccessControl, with: GrafanaClientTypes.NetworkAccessConfiguration.write(value:to:))
-        try writer["notificationDestinations"].writeList(value.notificationDestinations, memberWritingClosure: GrafanaClientTypes.NotificationDestinationType.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["organizationRoleName"].write(value.organizationRoleName)
-        try writer["organizationalUnits"].writeList(value.organizationalUnits, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["permissionType"].write(value.permissionType)
-        try writer["stackSetName"].write(value.stackSetName)
-        try writer["status"].write(value.status)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["vpcConfiguration"].write(value.vpcConfiguration, with: GrafanaClientTypes.VpcConfiguration.write(value:to:))
-        try writer["workspaceRoleArn"].write(value.workspaceRoleArn)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GrafanaClientTypes.WorkspaceDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3324,23 +3252,6 @@ extension GrafanaClientTypes.WorkspaceSummary: Swift.CustomDebugStringConvertibl
 }
 
 extension GrafanaClientTypes.WorkspaceSummary {
-
-    static func write(value: GrafanaClientTypes.WorkspaceSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["authentication"].write(value.authentication, with: GrafanaClientTypes.AuthenticationSummary.write(value:to:))
-        try writer["created"].writeTimestamp(value.created, format: .epochSeconds)
-        try writer["description"].write(value.description)
-        try writer["endpoint"].write(value.endpoint)
-        try writer["grafanaToken"].write(value.grafanaToken)
-        try writer["grafanaVersion"].write(value.grafanaVersion)
-        try writer["id"].write(value.id)
-        try writer["licenseType"].write(value.licenseType)
-        try writer["modified"].writeTimestamp(value.modified, format: .epochSeconds)
-        try writer["name"].write(value.name)
-        try writer["notificationDestinations"].writeList(value.notificationDestinations, memberWritingClosure: GrafanaClientTypes.NotificationDestinationType.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["status"].write(value.status)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GrafanaClientTypes.WorkspaceSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

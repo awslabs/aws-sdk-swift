@@ -143,14 +143,6 @@ extension CustomerProfilesClientTypes.AdditionalSearchKey {
         try writer["KeyName"].write(value.keyName)
         try writer["Values"].writeList(value.values, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.AdditionalSearchKey {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CustomerProfilesClientTypes.AdditionalSearchKey()
-        value.keyName = try reader["KeyName"].readIfPresent()
-        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
 }
 
 extension CustomerProfilesClientTypes {
@@ -278,14 +270,6 @@ extension CustomerProfilesClientTypes.AppflowIntegration {
         try writer["Batches"].writeList(value.batches, memberWritingClosure: CustomerProfilesClientTypes.Batch.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["FlowDefinition"].write(value.flowDefinition, with: CustomerProfilesClientTypes.FlowDefinition.write(value:to:))
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.AppflowIntegration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CustomerProfilesClientTypes.AppflowIntegration()
-        value.flowDefinition = try reader["FlowDefinition"].readIfPresent(with: CustomerProfilesClientTypes.FlowDefinition.read(from:))
-        value.batches = try reader["Batches"].readListIfPresent(memberReadingClosure: CustomerProfilesClientTypes.Batch.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
 }
 
 extension CustomerProfilesClientTypes {
@@ -310,13 +294,6 @@ extension CustomerProfilesClientTypes {
 }
 
 extension CustomerProfilesClientTypes.AppflowIntegrationWorkflowAttributes {
-
-    static func write(value: CustomerProfilesClientTypes.AppflowIntegrationWorkflowAttributes?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ConnectorProfileName"].write(value.connectorProfileName)
-        try writer["RoleArn"].write(value.roleArn)
-        try writer["SourceConnectorType"].write(value.sourceConnectorType)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.AppflowIntegrationWorkflowAttributes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -356,13 +333,6 @@ extension CustomerProfilesClientTypes {
 
 extension CustomerProfilesClientTypes.AppflowIntegrationWorkflowMetrics {
 
-    static func write(value: CustomerProfilesClientTypes.AppflowIntegrationWorkflowMetrics?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["RecordsProcessed"].write(value.recordsProcessed)
-        try writer["StepsCompleted"].write(value.stepsCompleted)
-        try writer["TotalSteps"].write(value.totalSteps)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.AppflowIntegrationWorkflowMetrics {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CustomerProfilesClientTypes.AppflowIntegrationWorkflowMetrics()
@@ -401,18 +371,6 @@ extension CustomerProfilesClientTypes {
 }
 
 extension CustomerProfilesClientTypes.AppflowIntegrationWorkflowStep {
-
-    static func write(value: CustomerProfilesClientTypes.AppflowIntegrationWorkflowStep?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BatchRecordsEndTime"].write(value.batchRecordsEndTime)
-        try writer["BatchRecordsStartTime"].write(value.batchRecordsStartTime)
-        try writer["CreatedAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["ExecutionMessage"].write(value.executionMessage)
-        try writer["FlowName"].write(value.flowName)
-        try writer["LastUpdatedAt"].writeTimestamp(value.lastUpdatedAt, format: .epochSeconds)
-        try writer["RecordsProcessed"].write(value.recordsProcessed)
-        try writer["Status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.AppflowIntegrationWorkflowStep {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -756,14 +714,6 @@ extension CustomerProfilesClientTypes.Batch {
         try writer["EndTime"].writeTimestamp(value.endTime, format: .epochSeconds)
         try writer["StartTime"].writeTimestamp(value.startTime, format: .epochSeconds)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.Batch {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CustomerProfilesClientTypes.Batch()
-        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: .epochSeconds)
-        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: .epochSeconds)
-        return value
-    }
 }
 
 extension CustomerProfilesClientTypes {
@@ -918,17 +868,6 @@ extension CustomerProfilesClientTypes.ConnectorOperator {
         try writer["Salesforce"].write(value.salesforce)
         try writer["ServiceNow"].write(value.serviceNow)
         try writer["Zendesk"].write(value.zendesk)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.ConnectorOperator {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CustomerProfilesClientTypes.ConnectorOperator()
-        value.marketo = try reader["Marketo"].readIfPresent()
-        value.s3 = try reader["S3"].readIfPresent()
-        value.salesforce = try reader["Salesforce"].readIfPresent()
-        value.serviceNow = try reader["ServiceNow"].readIfPresent()
-        value.zendesk = try reader["Zendesk"].readIfPresent()
-        return value
     }
 }
 
@@ -2399,13 +2338,6 @@ enum DeleteWorkflowOutputError {
 
 extension CustomerProfilesClientTypes.DestinationSummary {
 
-    static func write(value: CustomerProfilesClientTypes.DestinationSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Status"].write(value.status)
-        try writer["UnhealthySince"].writeTimestamp(value.unhealthySince, format: .epochSeconds)
-        try writer["Uri"].write(value.uri)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.DestinationSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CustomerProfilesClientTypes.DestinationSummary()
@@ -2532,13 +2464,6 @@ extension CustomerProfilesClientTypes.DetectedProfileObjectType: Swift.CustomDeb
 
 extension CustomerProfilesClientTypes.DetectedProfileObjectType {
 
-    static func write(value: CustomerProfilesClientTypes.DetectedProfileObjectType?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Fields"].writeMap(value.fields, valueWritingClosure: CustomerProfilesClientTypes.ObjectTypeField.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["Keys"].writeMap(value.keys, valueWritingClosure: listWritingClosure(memberWritingClosure: CustomerProfilesClientTypes.ObjectTypeKey.write(value:to:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["SourceLastUpdatedTimestampFormat"].write(value.sourceLastUpdatedTimestampFormat)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.DetectedProfileObjectType {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CustomerProfilesClientTypes.DetectedProfileObjectType()
@@ -2574,14 +2499,6 @@ extension CustomerProfilesClientTypes {
 }
 
 extension CustomerProfilesClientTypes.DomainStats {
-
-    static func write(value: CustomerProfilesClientTypes.DomainStats?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MeteringProfileCount"].write(value.meteringProfileCount)
-        try writer["ObjectCount"].write(value.objectCount)
-        try writer["ProfileCount"].write(value.profileCount)
-        try writer["TotalSize"].write(value.totalSize)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.DomainStats {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2623,14 +2540,6 @@ extension CustomerProfilesClientTypes {
 }
 
 extension CustomerProfilesClientTypes.EventStreamDestinationDetails {
-
-    static func write(value: CustomerProfilesClientTypes.EventStreamDestinationDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.message)
-        try writer["Status"].write(value.status)
-        try writer["UnhealthySince"].writeTimestamp(value.unhealthySince, format: .epochSeconds)
-        try writer["Uri"].write(value.uri)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.EventStreamDestinationDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2735,17 +2644,6 @@ extension CustomerProfilesClientTypes {
 
 extension CustomerProfilesClientTypes.EventStreamSummary {
 
-    static func write(value: CustomerProfilesClientTypes.EventStreamSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DestinationSummary"].write(value.destinationSummary, with: CustomerProfilesClientTypes.DestinationSummary.write(value:to:))
-        try writer["DomainName"].write(value.domainName)
-        try writer["EventStreamArn"].write(value.eventStreamArn)
-        try writer["EventStreamName"].write(value.eventStreamName)
-        try writer["State"].write(value.state)
-        try writer["StoppedSince"].writeTimestamp(value.stoppedSince, format: .epochSeconds)
-        try writer["Tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.EventStreamSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CustomerProfilesClientTypes.EventStreamSummary()
@@ -2837,11 +2735,6 @@ extension CustomerProfilesClientTypes {
 
 extension CustomerProfilesClientTypes.ExportingLocation {
 
-    static func write(value: CustomerProfilesClientTypes.ExportingLocation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["S3Exporting"].write(value.s3Exporting, with: CustomerProfilesClientTypes.S3ExportingLocation.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.ExportingLocation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CustomerProfilesClientTypes.ExportingLocation()
@@ -2930,33 +2823,6 @@ extension CustomerProfilesClientTypes.FieldSourceProfileIds {
         try writer["PersonalEmailAddress"].write(value.personalEmailAddress)
         try writer["PhoneNumber"].write(value.phoneNumber)
         try writer["ShippingAddress"].write(value.shippingAddress)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.FieldSourceProfileIds {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CustomerProfilesClientTypes.FieldSourceProfileIds()
-        value.accountNumber = try reader["AccountNumber"].readIfPresent()
-        value.additionalInformation = try reader["AdditionalInformation"].readIfPresent()
-        value.partyType = try reader["PartyType"].readIfPresent()
-        value.businessName = try reader["BusinessName"].readIfPresent()
-        value.firstName = try reader["FirstName"].readIfPresent()
-        value.middleName = try reader["MiddleName"].readIfPresent()
-        value.lastName = try reader["LastName"].readIfPresent()
-        value.birthDate = try reader["BirthDate"].readIfPresent()
-        value.gender = try reader["Gender"].readIfPresent()
-        value.phoneNumber = try reader["PhoneNumber"].readIfPresent()
-        value.mobilePhoneNumber = try reader["MobilePhoneNumber"].readIfPresent()
-        value.homePhoneNumber = try reader["HomePhoneNumber"].readIfPresent()
-        value.businessPhoneNumber = try reader["BusinessPhoneNumber"].readIfPresent()
-        value.emailAddress = try reader["EmailAddress"].readIfPresent()
-        value.personalEmailAddress = try reader["PersonalEmailAddress"].readIfPresent()
-        value.businessEmailAddress = try reader["BusinessEmailAddress"].readIfPresent()
-        value.address = try reader["Address"].readIfPresent()
-        value.shippingAddress = try reader["ShippingAddress"].readIfPresent()
-        value.mailingAddress = try reader["MailingAddress"].readIfPresent()
-        value.billingAddress = try reader["BillingAddress"].readIfPresent()
-        value.attributes = try reader["Attributes"].readMapIfPresent(valueReadingClosure: Swift.String.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
     }
 }
 
@@ -3073,18 +2939,6 @@ extension CustomerProfilesClientTypes.FlowDefinition {
         try writer["Tasks"].writeList(value.tasks, memberWritingClosure: CustomerProfilesClientTypes.Task.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["TriggerConfig"].write(value.triggerConfig, with: CustomerProfilesClientTypes.TriggerConfig.write(value:to:))
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.FlowDefinition {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CustomerProfilesClientTypes.FlowDefinition()
-        value.description = try reader["Description"].readIfPresent()
-        value.flowName = try reader["FlowName"].readIfPresent()
-        value.kmsArn = try reader["KmsArn"].readIfPresent()
-        value.sourceFlowConfig = try reader["SourceFlowConfig"].readIfPresent(with: CustomerProfilesClientTypes.SourceFlowConfig.read(from:))
-        value.tasks = try reader["Tasks"].readListIfPresent(memberReadingClosure: CustomerProfilesClientTypes.Task.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.triggerConfig = try reader["TriggerConfig"].readIfPresent(with: CustomerProfilesClientTypes.TriggerConfig.read(from:))
-        return value
-    }
 }
 
 extension CustomerProfilesClientTypes {
@@ -3129,12 +2983,6 @@ extension CustomerProfilesClientTypes {
 }
 
 extension CustomerProfilesClientTypes.FoundByKeyValue {
-
-    static func write(value: CustomerProfilesClientTypes.FoundByKeyValue?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["KeyName"].write(value.keyName)
-        try writer["Values"].writeList(value.values, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.FoundByKeyValue {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4698,18 +4546,6 @@ enum GetWorkflowStepsOutputError {
 
 extension CustomerProfilesClientTypes.IdentityResolutionJob {
 
-    static func write(value: CustomerProfilesClientTypes.IdentityResolutionJob?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DomainName"].write(value.domainName)
-        try writer["ExportingLocation"].write(value.exportingLocation, with: CustomerProfilesClientTypes.ExportingLocation.write(value:to:))
-        try writer["JobEndTime"].writeTimestamp(value.jobEndTime, format: .epochSeconds)
-        try writer["JobId"].write(value.jobId)
-        try writer["JobStartTime"].writeTimestamp(value.jobStartTime, format: .epochSeconds)
-        try writer["JobStats"].write(value.jobStats, with: CustomerProfilesClientTypes.JobStats.write(value:to:))
-        try writer["Message"].write(value.message)
-        try writer["Status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.IdentityResolutionJob {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CustomerProfilesClientTypes.IdentityResolutionJob()
@@ -4834,13 +4670,6 @@ extension CustomerProfilesClientTypes.IncrementalPullConfig {
         guard let value else { return }
         try writer["DatetimeTypeFieldName"].write(value.datetimeTypeFieldName)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.IncrementalPullConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CustomerProfilesClientTypes.IncrementalPullConfig()
-        value.datetimeTypeFieldName = try reader["DatetimeTypeFieldName"].readIfPresent()
-        return value
-    }
 }
 
 extension CustomerProfilesClientTypes {
@@ -4864,13 +4693,6 @@ extension CustomerProfilesClientTypes.IntegrationConfig {
     static func write(value: CustomerProfilesClientTypes.IntegrationConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["AppflowIntegration"].write(value.appflowIntegration, with: CustomerProfilesClientTypes.AppflowIntegration.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.IntegrationConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CustomerProfilesClientTypes.IntegrationConfig()
-        value.appflowIntegration = try reader["AppflowIntegration"].readIfPresent(with: CustomerProfilesClientTypes.AppflowIntegration.read(from:))
-        return value
     }
 }
 
@@ -5012,13 +4834,6 @@ extension CustomerProfilesClientTypes {
 }
 
 extension CustomerProfilesClientTypes.JobStats {
-
-    static func write(value: CustomerProfilesClientTypes.JobStats?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["NumberOfMatchesFound"].write(value.numberOfMatchesFound)
-        try writer["NumberOfMergesDone"].write(value.numberOfMergesDone)
-        try writer["NumberOfProfilesReviewed"].write(value.numberOfProfilesReviewed)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.JobStats {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5167,16 +4982,6 @@ extension CustomerProfilesClientTypes.ListCalculatedAttributeDefinitionItem: Swi
 }
 
 extension CustomerProfilesClientTypes.ListCalculatedAttributeDefinitionItem {
-
-    static func write(value: CustomerProfilesClientTypes.ListCalculatedAttributeDefinitionItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CalculatedAttributeName"].write(value.calculatedAttributeName)
-        try writer["CreatedAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["Description"].write(value.description)
-        try writer["DisplayName"].write(value.displayName)
-        try writer["LastUpdatedAt"].writeTimestamp(value.lastUpdatedAt, format: .epochSeconds)
-        try writer["Tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.ListCalculatedAttributeDefinitionItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5328,14 +5133,6 @@ enum ListCalculatedAttributeDefinitionsOutputError {
 
 extension CustomerProfilesClientTypes.ListCalculatedAttributeForProfileItem {
 
-    static func write(value: CustomerProfilesClientTypes.ListCalculatedAttributeForProfileItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CalculatedAttributeName"].write(value.calculatedAttributeName)
-        try writer["DisplayName"].write(value.displayName)
-        try writer["IsDataPartial"].write(value.isDataPartial)
-        try writer["Value"].write(value.value)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.ListCalculatedAttributeForProfileItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CustomerProfilesClientTypes.ListCalculatedAttributeForProfileItem()
@@ -5478,14 +5275,6 @@ enum ListCalculatedAttributesForProfileOutputError {
 }
 
 extension CustomerProfilesClientTypes.ListDomainItem {
-
-    static func write(value: CustomerProfilesClientTypes.ListDomainItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["DomainName"].write(value.domainName)
-        try writer["LastUpdatedAt"].writeTimestamp(value.lastUpdatedAt, format: .epochSeconds)
-        try writer["Tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.ListDomainItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5805,19 +5594,6 @@ enum ListIdentityResolutionJobsOutputError {
 
 extension CustomerProfilesClientTypes.ListIntegrationItem {
 
-    static func write(value: CustomerProfilesClientTypes.ListIntegrationItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["DomainName"].write(value.domainName)
-        try writer["IsUnstructured"].write(value.isUnstructured)
-        try writer["LastUpdatedAt"].writeTimestamp(value.lastUpdatedAt, format: .epochSeconds)
-        try writer["ObjectTypeName"].write(value.objectTypeName)
-        try writer["ObjectTypeNames"].writeMap(value.objectTypeNames, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["Tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["Uri"].write(value.uri)
-        try writer["WorkflowId"].write(value.workflowId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.ListIntegrationItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CustomerProfilesClientTypes.ListIntegrationItem()
@@ -5990,15 +5766,6 @@ enum ListIntegrationsOutputError {
 
 extension CustomerProfilesClientTypes.ListProfileObjectTypeItem {
 
-    static func write(value: CustomerProfilesClientTypes.ListProfileObjectTypeItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["Description"].write(value.description)
-        try writer["LastUpdatedAt"].writeTimestamp(value.lastUpdatedAt, format: .epochSeconds)
-        try writer["ObjectTypeName"].write(value.objectTypeName)
-        try writer["Tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.ListProfileObjectTypeItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CustomerProfilesClientTypes.ListProfileObjectTypeItem()
@@ -6046,13 +5813,6 @@ extension CustomerProfilesClientTypes {
 }
 
 extension CustomerProfilesClientTypes.ListProfileObjectTypeTemplateItem {
-
-    static func write(value: CustomerProfilesClientTypes.ListProfileObjectTypeTemplateItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["SourceName"].write(value.sourceName)
-        try writer["SourceObject"].write(value.sourceObject)
-        try writer["TemplateId"].write(value.templateId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.ListProfileObjectTypeTemplateItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6350,13 +6110,6 @@ extension CustomerProfilesClientTypes.ListProfileObjectsItem: Swift.CustomDebugS
 }
 
 extension CustomerProfilesClientTypes.ListProfileObjectsItem {
-
-    static func write(value: CustomerProfilesClientTypes.ListProfileObjectsItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Object"].write(value.object)
-        try writer["ObjectTypeName"].write(value.objectTypeName)
-        try writer["ProfileObjectUniqueKey"].write(value.profileObjectUniqueKey)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.ListProfileObjectsItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6672,16 +6425,6 @@ public struct ListWorkflowsInput {
 
 extension CustomerProfilesClientTypes.ListWorkflowsItem {
 
-    static func write(value: CustomerProfilesClientTypes.ListWorkflowsItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["LastUpdatedAt"].writeTimestamp(value.lastUpdatedAt, format: .epochSeconds)
-        try writer["Status"].write(value.status)
-        try writer["StatusDescription"].write(value.statusDescription)
-        try writer["WorkflowId"].write(value.workflowId)
-        try writer["WorkflowType"].write(value.workflowType)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.ListWorkflowsItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CustomerProfilesClientTypes.ListWorkflowsItem()
@@ -6892,13 +6635,6 @@ extension CustomerProfilesClientTypes.MarketoSourceProperties {
         guard let value else { return }
         try writer["Object"].write(value.object)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.MarketoSourceProperties {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CustomerProfilesClientTypes.MarketoSourceProperties()
-        value.object = try reader["Object"].readIfPresent()
-        return value
-    }
 }
 
 extension CustomerProfilesClientTypes {
@@ -6919,13 +6655,6 @@ extension CustomerProfilesClientTypes {
 }
 
 extension CustomerProfilesClientTypes.MatchItem {
-
-    static func write(value: CustomerProfilesClientTypes.MatchItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ConfidenceScore"].write(value.confidenceScore)
-        try writer["MatchId"].write(value.matchId)
-        try writer["ProfileIds"].writeList(value.profileIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.MatchItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7000,16 +6729,6 @@ extension CustomerProfilesClientTypes.MatchingRequest {
         try writer["ExportingConfig"].write(value.exportingConfig, with: CustomerProfilesClientTypes.ExportingConfig.write(value:to:))
         try writer["JobSchedule"].write(value.jobSchedule, with: CustomerProfilesClientTypes.JobSchedule.write(value:to:))
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.MatchingRequest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CustomerProfilesClientTypes.MatchingRequest()
-        value.enabled = try reader["Enabled"].readIfPresent()
-        value.jobSchedule = try reader["JobSchedule"].readIfPresent(with: CustomerProfilesClientTypes.JobSchedule.read(from:))
-        value.autoMerging = try reader["AutoMerging"].readIfPresent(with: CustomerProfilesClientTypes.AutoMerging.read(from:))
-        value.exportingConfig = try reader["ExportingConfig"].readIfPresent(with: CustomerProfilesClientTypes.ExportingConfig.read(from:))
-        return value
-    }
 }
 
 extension CustomerProfilesClientTypes {
@@ -7042,14 +6761,6 @@ extension CustomerProfilesClientTypes {
 }
 
 extension CustomerProfilesClientTypes.MatchingResponse {
-
-    static func write(value: CustomerProfilesClientTypes.MatchingResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AutoMerging"].write(value.autoMerging, with: CustomerProfilesClientTypes.AutoMerging.write(value:to:))
-        try writer["Enabled"].write(value.enabled)
-        try writer["ExportingConfig"].write(value.exportingConfig, with: CustomerProfilesClientTypes.ExportingConfig.write(value:to:))
-        try writer["JobSchedule"].write(value.jobSchedule, with: CustomerProfilesClientTypes.JobSchedule.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.MatchingResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7250,14 +6961,6 @@ extension CustomerProfilesClientTypes.ObjectFilter {
         guard let value else { return }
         try writer["KeyName"].write(value.keyName)
         try writer["Values"].writeList(value.values, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.ObjectFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CustomerProfilesClientTypes.ObjectFilter()
-        value.keyName = try reader["KeyName"].readIfPresent()
-        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -7505,35 +7208,6 @@ extension CustomerProfilesClientTypes.Profile: Swift.CustomDebugStringConvertibl
 }
 
 extension CustomerProfilesClientTypes.Profile {
-
-    static func write(value: CustomerProfilesClientTypes.Profile?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccountNumber"].write(value.accountNumber)
-        try writer["AdditionalInformation"].write(value.additionalInformation)
-        try writer["Address"].write(value.address, with: CustomerProfilesClientTypes.Address.write(value:to:))
-        try writer["Attributes"].writeMap(value.attributes, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["BillingAddress"].write(value.billingAddress, with: CustomerProfilesClientTypes.Address.write(value:to:))
-        try writer["BirthDate"].write(value.birthDate)
-        try writer["BusinessEmailAddress"].write(value.businessEmailAddress)
-        try writer["BusinessName"].write(value.businessName)
-        try writer["BusinessPhoneNumber"].write(value.businessPhoneNumber)
-        try writer["EmailAddress"].write(value.emailAddress)
-        try writer["FirstName"].write(value.firstName)
-        try writer["FoundByItems"].writeList(value.foundByItems, memberWritingClosure: CustomerProfilesClientTypes.FoundByKeyValue.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Gender"].write(value.gender)
-        try writer["GenderString"].write(value.genderString)
-        try writer["HomePhoneNumber"].write(value.homePhoneNumber)
-        try writer["LastName"].write(value.lastName)
-        try writer["MailingAddress"].write(value.mailingAddress, with: CustomerProfilesClientTypes.Address.write(value:to:))
-        try writer["MiddleName"].write(value.middleName)
-        try writer["MobilePhoneNumber"].write(value.mobilePhoneNumber)
-        try writer["PartyType"].write(value.partyType)
-        try writer["PartyTypeString"].write(value.partyTypeString)
-        try writer["PersonalEmailAddress"].write(value.personalEmailAddress)
-        try writer["PhoneNumber"].write(value.phoneNumber)
-        try writer["ProfileId"].write(value.profileId)
-        try writer["ShippingAddress"].write(value.shippingAddress, with: CustomerProfilesClientTypes.Address.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.Profile {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8204,19 +7878,6 @@ extension CustomerProfilesClientTypes.RuleBasedMatchingRequest {
         try writer["MaxAllowedRuleLevelForMatching"].write(value.maxAllowedRuleLevelForMatching)
         try writer["MaxAllowedRuleLevelForMerging"].write(value.maxAllowedRuleLevelForMerging)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.RuleBasedMatchingRequest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CustomerProfilesClientTypes.RuleBasedMatchingRequest()
-        value.enabled = try reader["Enabled"].readIfPresent()
-        value.matchingRules = try reader["MatchingRules"].readListIfPresent(memberReadingClosure: CustomerProfilesClientTypes.MatchingRule.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.maxAllowedRuleLevelForMerging = try reader["MaxAllowedRuleLevelForMerging"].readIfPresent()
-        value.maxAllowedRuleLevelForMatching = try reader["MaxAllowedRuleLevelForMatching"].readIfPresent()
-        value.attributeTypesSelector = try reader["AttributeTypesSelector"].readIfPresent(with: CustomerProfilesClientTypes.AttributeTypesSelector.read(from:))
-        value.conflictResolution = try reader["ConflictResolution"].readIfPresent(with: CustomerProfilesClientTypes.ConflictResolution.read(from:))
-        value.exportingConfig = try reader["ExportingConfig"].readIfPresent(with: CustomerProfilesClientTypes.ExportingConfig.read(from:))
-        return value
-    }
 }
 
 extension CustomerProfilesClientTypes {
@@ -8261,18 +7922,6 @@ extension CustomerProfilesClientTypes {
 }
 
 extension CustomerProfilesClientTypes.RuleBasedMatchingResponse {
-
-    static func write(value: CustomerProfilesClientTypes.RuleBasedMatchingResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AttributeTypesSelector"].write(value.attributeTypesSelector, with: CustomerProfilesClientTypes.AttributeTypesSelector.write(value:to:))
-        try writer["ConflictResolution"].write(value.conflictResolution, with: CustomerProfilesClientTypes.ConflictResolution.write(value:to:))
-        try writer["Enabled"].write(value.enabled)
-        try writer["ExportingConfig"].write(value.exportingConfig, with: CustomerProfilesClientTypes.ExportingConfig.write(value:to:))
-        try writer["MatchingRules"].writeList(value.matchingRules, memberWritingClosure: CustomerProfilesClientTypes.MatchingRule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["MaxAllowedRuleLevelForMatching"].write(value.maxAllowedRuleLevelForMatching)
-        try writer["MaxAllowedRuleLevelForMerging"].write(value.maxAllowedRuleLevelForMerging)
-        try writer["Status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.RuleBasedMatchingResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8502,12 +8151,6 @@ extension CustomerProfilesClientTypes {
 
 extension CustomerProfilesClientTypes.S3ExportingLocation {
 
-    static func write(value: CustomerProfilesClientTypes.S3ExportingLocation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["S3BucketName"].write(value.s3BucketName)
-        try writer["S3KeyName"].write(value.s3KeyName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.S3ExportingLocation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CustomerProfilesClientTypes.S3ExportingLocation()
@@ -8543,14 +8186,6 @@ extension CustomerProfilesClientTypes.S3SourceProperties {
         guard let value else { return }
         try writer["BucketName"].write(value.bucketName)
         try writer["BucketPrefix"].write(value.bucketPrefix)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.S3SourceProperties {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CustomerProfilesClientTypes.S3SourceProperties()
-        value.bucketName = try reader["BucketName"].readIfPresent()
-        value.bucketPrefix = try reader["BucketPrefix"].readIfPresent()
-        return value
     }
 }
 
@@ -8670,15 +8305,6 @@ extension CustomerProfilesClientTypes.SalesforceSourceProperties {
         try writer["IncludeDeletedRecords"].write(value.includeDeletedRecords)
         try writer["Object"].write(value.object)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.SalesforceSourceProperties {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CustomerProfilesClientTypes.SalesforceSourceProperties()
-        value.object = try reader["Object"].readIfPresent()
-        value.enableDynamicFieldUpdate = try reader["EnableDynamicFieldUpdate"].readIfPresent() ?? false
-        value.includeDeletedRecords = try reader["IncludeDeletedRecords"].readIfPresent() ?? false
-        return value
-    }
 }
 
 extension CustomerProfilesClientTypes {
@@ -8717,19 +8343,6 @@ extension CustomerProfilesClientTypes.ScheduledTriggerProperties {
         try writer["ScheduleOffset"].write(value.scheduleOffset)
         try writer["ScheduleStartTime"].writeTimestamp(value.scheduleStartTime, format: .epochSeconds)
         try writer["Timezone"].write(value.timezone)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.ScheduledTriggerProperties {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CustomerProfilesClientTypes.ScheduledTriggerProperties()
-        value.scheduleExpression = try reader["ScheduleExpression"].readIfPresent()
-        value.dataPullMode = try reader["DataPullMode"].readIfPresent()
-        value.scheduleStartTime = try reader["ScheduleStartTime"].readTimestampIfPresent(format: .epochSeconds)
-        value.scheduleEndTime = try reader["ScheduleEndTime"].readTimestampIfPresent(format: .epochSeconds)
-        value.timezone = try reader["Timezone"].readIfPresent()
-        value.scheduleOffset = try reader["ScheduleOffset"].readIfPresent()
-        value.firstExecutionFrom = try reader["FirstExecutionFrom"].readTimestampIfPresent(format: .epochSeconds)
-        return value
     }
 }
 
@@ -8997,13 +8610,6 @@ extension CustomerProfilesClientTypes.ServiceNowSourceProperties {
         guard let value else { return }
         try writer["Object"].write(value.object)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.ServiceNowSourceProperties {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CustomerProfilesClientTypes.ServiceNowSourceProperties()
-        value.object = try reader["Object"].readIfPresent()
-        return value
-    }
 }
 
 extension CustomerProfilesClientTypes {
@@ -9032,17 +8638,6 @@ extension CustomerProfilesClientTypes.SourceConnectorProperties {
         try writer["Salesforce"].write(value.salesforce, with: CustomerProfilesClientTypes.SalesforceSourceProperties.write(value:to:))
         try writer["ServiceNow"].write(value.serviceNow, with: CustomerProfilesClientTypes.ServiceNowSourceProperties.write(value:to:))
         try writer["Zendesk"].write(value.zendesk, with: CustomerProfilesClientTypes.ZendeskSourceProperties.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.SourceConnectorProperties {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CustomerProfilesClientTypes.SourceConnectorProperties()
-        value.marketo = try reader["Marketo"].readIfPresent(with: CustomerProfilesClientTypes.MarketoSourceProperties.read(from:))
-        value.s3 = try reader["S3"].readIfPresent(with: CustomerProfilesClientTypes.S3SourceProperties.read(from:))
-        value.salesforce = try reader["Salesforce"].readIfPresent(with: CustomerProfilesClientTypes.SalesforceSourceProperties.read(from:))
-        value.serviceNow = try reader["ServiceNow"].readIfPresent(with: CustomerProfilesClientTypes.ServiceNowSourceProperties.read(from:))
-        value.zendesk = try reader["Zendesk"].readIfPresent(with: CustomerProfilesClientTypes.ZendeskSourceProperties.read(from:))
-        return value
     }
 }
 
@@ -9125,16 +8720,6 @@ extension CustomerProfilesClientTypes.SourceFlowConfig {
         try writer["ConnectorType"].write(value.connectorType)
         try writer["IncrementalPullConfig"].write(value.incrementalPullConfig, with: CustomerProfilesClientTypes.IncrementalPullConfig.write(value:to:))
         try writer["SourceConnectorProperties"].write(value.sourceConnectorProperties, with: CustomerProfilesClientTypes.SourceConnectorProperties.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.SourceFlowConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CustomerProfilesClientTypes.SourceFlowConfig()
-        value.connectorProfileName = try reader["ConnectorProfileName"].readIfPresent()
-        value.connectorType = try reader["ConnectorType"].readIfPresent()
-        value.incrementalPullConfig = try reader["IncrementalPullConfig"].readIfPresent(with: CustomerProfilesClientTypes.IncrementalPullConfig.read(from:))
-        value.sourceConnectorProperties = try reader["SourceConnectorProperties"].readIfPresent(with: CustomerProfilesClientTypes.SourceConnectorProperties.read(from:))
-        return value
     }
 }
 
@@ -9383,17 +8968,6 @@ extension CustomerProfilesClientTypes.Task {
         try writer["TaskProperties"].writeMap(value.taskProperties, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["TaskType"].write(value.taskType)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.Task {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CustomerProfilesClientTypes.Task()
-        value.connectorOperator = try reader["ConnectorOperator"].readIfPresent(with: CustomerProfilesClientTypes.ConnectorOperator.read(from:))
-        value.destinationField = try reader["DestinationField"].readIfPresent()
-        value.sourceFields = try reader["SourceFields"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.taskProperties = try reader["TaskProperties"].readMapIfPresent(valueReadingClosure: Swift.String.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.taskType = try reader["TaskType"].readIfPresent()
-        return value
-    }
 }
 
 extension CustomerProfilesClientTypes {
@@ -9558,14 +9132,6 @@ extension CustomerProfilesClientTypes.TriggerConfig {
         try writer["TriggerProperties"].write(value.triggerProperties, with: CustomerProfilesClientTypes.TriggerProperties.write(value:to:))
         try writer["TriggerType"].write(value.triggerType)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.TriggerConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CustomerProfilesClientTypes.TriggerConfig()
-        value.triggerType = try reader["TriggerType"].readIfPresent()
-        value.triggerProperties = try reader["TriggerProperties"].readIfPresent(with: CustomerProfilesClientTypes.TriggerProperties.read(from:))
-        return value
-    }
 }
 
 extension CustomerProfilesClientTypes {
@@ -9594,13 +9160,6 @@ extension CustomerProfilesClientTypes.TriggerProperties {
     static func write(value: CustomerProfilesClientTypes.TriggerProperties?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Scheduled"].write(value.scheduled, with: CustomerProfilesClientTypes.ScheduledTriggerProperties.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.TriggerProperties {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CustomerProfilesClientTypes.TriggerProperties()
-        value.scheduled = try reader["Scheduled"].readIfPresent(with: CustomerProfilesClientTypes.ScheduledTriggerProperties.read(from:))
-        return value
     }
 }
 
@@ -9772,22 +9331,6 @@ extension CustomerProfilesClientTypes.UpdateAddress {
         try writer["PostalCode"].write(value.postalCode)
         try writer["Province"].write(value.province)
         try writer["State"].write(value.state)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.UpdateAddress {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CustomerProfilesClientTypes.UpdateAddress()
-        value.address1 = try reader["Address1"].readIfPresent()
-        value.address2 = try reader["Address2"].readIfPresent()
-        value.address3 = try reader["Address3"].readIfPresent()
-        value.address4 = try reader["Address4"].readIfPresent()
-        value.city = try reader["City"].readIfPresent()
-        value.county = try reader["County"].readIfPresent()
-        value.state = try reader["State"].readIfPresent()
-        value.province = try reader["Province"].readIfPresent()
-        value.country = try reader["Country"].readIfPresent()
-        value.postalCode = try reader["PostalCode"].readIfPresent()
-        return value
     }
 }
 
@@ -10336,11 +9879,6 @@ enum UpdateProfileOutputError {
 
 extension CustomerProfilesClientTypes.WorkflowAttributes {
 
-    static func write(value: CustomerProfilesClientTypes.WorkflowAttributes?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AppflowIntegration"].write(value.appflowIntegration, with: CustomerProfilesClientTypes.AppflowIntegrationWorkflowAttributes.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.WorkflowAttributes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CustomerProfilesClientTypes.WorkflowAttributes()
@@ -10367,11 +9905,6 @@ extension CustomerProfilesClientTypes {
 
 extension CustomerProfilesClientTypes.WorkflowMetrics {
 
-    static func write(value: CustomerProfilesClientTypes.WorkflowMetrics?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AppflowIntegration"].write(value.appflowIntegration, with: CustomerProfilesClientTypes.AppflowIntegrationWorkflowMetrics.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.WorkflowMetrics {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CustomerProfilesClientTypes.WorkflowMetrics()
@@ -10397,11 +9930,6 @@ extension CustomerProfilesClientTypes {
 }
 
 extension CustomerProfilesClientTypes.WorkflowStepItem {
-
-    static func write(value: CustomerProfilesClientTypes.WorkflowStepItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AppflowIntegration"].write(value.appflowIntegration, with: CustomerProfilesClientTypes.AppflowIntegrationWorkflowStep.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.WorkflowStepItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -10525,13 +10053,6 @@ extension CustomerProfilesClientTypes.ZendeskSourceProperties {
     static func write(value: CustomerProfilesClientTypes.ZendeskSourceProperties?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Object"].write(value.object)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.ZendeskSourceProperties {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CustomerProfilesClientTypes.ZendeskSourceProperties()
-        value.object = try reader["Object"].readIfPresent()
-        return value
     }
 }
 

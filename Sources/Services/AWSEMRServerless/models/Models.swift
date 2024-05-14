@@ -6,30 +6,6 @@ import SmithyReadWrite
 
 extension EMRServerlessClientTypes.Application {
 
-    static func write(value: EMRServerlessClientTypes.Application?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["applicationId"].write(value.applicationId)
-        try writer["architecture"].write(value.architecture)
-        try writer["arn"].write(value.arn)
-        try writer["autoStartConfiguration"].write(value.autoStartConfiguration, with: EMRServerlessClientTypes.AutoStartConfig.write(value:to:))
-        try writer["autoStopConfiguration"].write(value.autoStopConfiguration, with: EMRServerlessClientTypes.AutoStopConfig.write(value:to:))
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["imageConfiguration"].write(value.imageConfiguration, with: EMRServerlessClientTypes.ImageConfiguration.write(value:to:))
-        try writer["initialCapacity"].writeMap(value.initialCapacity, valueWritingClosure: EMRServerlessClientTypes.InitialCapacityConfig.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["maximumCapacity"].write(value.maximumCapacity, with: EMRServerlessClientTypes.MaximumAllowedResources.write(value:to:))
-        try writer["monitoringConfiguration"].write(value.monitoringConfiguration, with: EMRServerlessClientTypes.MonitoringConfiguration.write(value:to:))
-        try writer["name"].write(value.name)
-        try writer["networkConfiguration"].write(value.networkConfiguration, with: EMRServerlessClientTypes.NetworkConfiguration.write(value:to:))
-        try writer["releaseLabel"].write(value.releaseLabel)
-        try writer["runtimeConfiguration"].writeList(value.runtimeConfiguration, memberWritingClosure: EMRServerlessClientTypes.Configuration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["state"].write(value.state)
-        try writer["stateDetails"].write(value.stateDetails)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["type"].write(value.type)
-        try writer["updatedAt"].writeTimestamp(value.updatedAt, format: .epochSeconds)
-        try writer["workerTypeSpecifications"].writeMap(value.workerTypeSpecifications, valueWritingClosure: EMRServerlessClientTypes.WorkerTypeSpecification.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> EMRServerlessClientTypes.Application {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EMRServerlessClientTypes.Application()
@@ -202,20 +178,6 @@ extension EMRServerlessClientTypes {
 }
 
 extension EMRServerlessClientTypes.ApplicationSummary {
-
-    static func write(value: EMRServerlessClientTypes.ApplicationSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["architecture"].write(value.architecture)
-        try writer["arn"].write(value.arn)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["id"].write(value.id)
-        try writer["name"].write(value.name)
-        try writer["releaseLabel"].write(value.releaseLabel)
-        try writer["state"].write(value.state)
-        try writer["stateDetails"].write(value.stateDetails)
-        try writer["type"].write(value.type)
-        try writer["updatedAt"].writeTimestamp(value.updatedAt, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> EMRServerlessClientTypes.ApplicationSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1117,12 +1079,6 @@ extension EMRServerlessClientTypes {
 
 extension EMRServerlessClientTypes.ImageConfiguration {
 
-    static func write(value: EMRServerlessClientTypes.ImageConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["imageUri"].write(value.imageUri)
-        try writer["resolvedImageDigest"].write(value.resolvedImageDigest)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> EMRServerlessClientTypes.ImageConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EMRServerlessClientTypes.ImageConfiguration()
@@ -1158,13 +1114,6 @@ extension EMRServerlessClientTypes.ImageConfigurationInput {
     static func write(value: EMRServerlessClientTypes.ImageConfigurationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["imageUri"].write(value.imageUri)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EMRServerlessClientTypes.ImageConfigurationInput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EMRServerlessClientTypes.ImageConfigurationInput()
-        value.imageUri = try reader["imageUri"].readIfPresent()
-        return value
     }
 }
 
@@ -1301,29 +1250,6 @@ extension EMRServerlessClientTypes {
 }
 
 extension EMRServerlessClientTypes.JobRun {
-
-    static func write(value: EMRServerlessClientTypes.JobRun?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["applicationId"].write(value.applicationId)
-        try writer["arn"].write(value.arn)
-        try writer["billedResourceUtilization"].write(value.billedResourceUtilization, with: EMRServerlessClientTypes.ResourceUtilization.write(value:to:))
-        try writer["configurationOverrides"].write(value.configurationOverrides, with: EMRServerlessClientTypes.ConfigurationOverrides.write(value:to:))
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["createdBy"].write(value.createdBy)
-        try writer["executionRole"].write(value.executionRole)
-        try writer["executionTimeoutMinutes"].write(value.executionTimeoutMinutes)
-        try writer["jobDriver"].write(value.jobDriver, with: EMRServerlessClientTypes.JobDriver.write(value:to:))
-        try writer["jobRunId"].write(value.jobRunId)
-        try writer["name"].write(value.name)
-        try writer["networkConfiguration"].write(value.networkConfiguration, with: EMRServerlessClientTypes.NetworkConfiguration.write(value:to:))
-        try writer["releaseLabel"].write(value.releaseLabel)
-        try writer["state"].write(value.state)
-        try writer["stateDetails"].write(value.stateDetails)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["totalExecutionDurationSeconds"].write(value.totalExecutionDurationSeconds)
-        try writer["totalResourceUtilization"].write(value.totalResourceUtilization, with: EMRServerlessClientTypes.TotalResourceUtilization.write(value:to:))
-        try writer["updatedAt"].writeTimestamp(value.updatedAt, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> EMRServerlessClientTypes.JobRun {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1499,22 +1425,6 @@ extension EMRServerlessClientTypes {
 }
 
 extension EMRServerlessClientTypes.JobRunSummary {
-
-    static func write(value: EMRServerlessClientTypes.JobRunSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["applicationId"].write(value.applicationId)
-        try writer["arn"].write(value.arn)
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["createdBy"].write(value.createdBy)
-        try writer["executionRole"].write(value.executionRole)
-        try writer["id"].write(value.id)
-        try writer["name"].write(value.name)
-        try writer["releaseLabel"].write(value.releaseLabel)
-        try writer["state"].write(value.state)
-        try writer["stateDetails"].write(value.stateDetails)
-        try writer["type"].write(value.type)
-        try writer["updatedAt"].writeTimestamp(value.updatedAt, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> EMRServerlessClientTypes.JobRunSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2119,13 +2029,6 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
 extension EMRServerlessClientTypes.ResourceUtilization {
 
-    static func write(value: EMRServerlessClientTypes.ResourceUtilization?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["memoryGBHour"].write(value.memoryGBHour)
-        try writer["storageGBHour"].write(value.storageGBHour)
-        try writer["vCPUHour"].write(value.vCPUHour)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> EMRServerlessClientTypes.ResourceUtilization {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EMRServerlessClientTypes.ResourceUtilization()
@@ -2574,13 +2477,6 @@ enum TagResourceOutputError {
 
 extension EMRServerlessClientTypes.TotalResourceUtilization {
 
-    static func write(value: EMRServerlessClientTypes.TotalResourceUtilization?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["memoryGBHour"].write(value.memoryGBHour)
-        try writer["storageGBHour"].write(value.storageGBHour)
-        try writer["vCPUHour"].write(value.vCPUHour)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> EMRServerlessClientTypes.TotalResourceUtilization {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EMRServerlessClientTypes.TotalResourceUtilization()
@@ -2910,11 +2806,6 @@ extension EMRServerlessClientTypes {
 
 extension EMRServerlessClientTypes.WorkerTypeSpecification {
 
-    static func write(value: EMRServerlessClientTypes.WorkerTypeSpecification?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["imageConfiguration"].write(value.imageConfiguration, with: EMRServerlessClientTypes.ImageConfiguration.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> EMRServerlessClientTypes.WorkerTypeSpecification {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EMRServerlessClientTypes.WorkerTypeSpecification()
@@ -2944,13 +2835,6 @@ extension EMRServerlessClientTypes.WorkerTypeSpecificationInput {
     static func write(value: EMRServerlessClientTypes.WorkerTypeSpecificationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["imageConfiguration"].write(value.imageConfiguration, with: EMRServerlessClientTypes.ImageConfigurationInput.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EMRServerlessClientTypes.WorkerTypeSpecificationInput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EMRServerlessClientTypes.WorkerTypeSpecificationInput()
-        value.imageConfiguration = try reader["imageConfiguration"].readIfPresent(with: EMRServerlessClientTypes.ImageConfigurationInput.read(from:))
-        return value
     }
 }
 

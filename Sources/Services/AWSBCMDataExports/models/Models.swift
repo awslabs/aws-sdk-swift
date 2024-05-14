@@ -8,13 +8,6 @@ public enum BCMDataExportsClientTypes {}
 
 extension BCMDataExportsClientTypes.Column {
 
-    static func write(value: BCMDataExportsClientTypes.Column?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Description"].write(value.description)
-        try writer["Name"].write(value.name)
-        try writer["Type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> BCMDataExportsClientTypes.Column {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BCMDataExportsClientTypes.Column()
@@ -294,12 +287,6 @@ extension BCMDataExportsClientTypes {
 
 extension BCMDataExportsClientTypes.ExecutionReference {
 
-    static func write(value: BCMDataExportsClientTypes.ExecutionReference?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ExecutionId"].write(value.executionId)
-        try writer["ExecutionStatus"].write(value.executionStatus, with: BCMDataExportsClientTypes.ExecutionStatus.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> BCMDataExportsClientTypes.ExecutionReference {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BCMDataExportsClientTypes.ExecutionReference()
@@ -332,15 +319,6 @@ extension BCMDataExportsClientTypes {
 }
 
 extension BCMDataExportsClientTypes.ExecutionStatus {
-
-    static func write(value: BCMDataExportsClientTypes.ExecutionStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CompletedAt"].writeTimestamp(value.completedAt, format: .dateTime)
-        try writer["CreatedAt"].writeTimestamp(value.createdAt, format: .dateTime)
-        try writer["LastUpdatedAt"].writeTimestamp(value.lastUpdatedAt, format: .dateTime)
-        try writer["StatusCode"].write(value.statusCode)
-        try writer["StatusReason"].write(value.statusReason)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> BCMDataExportsClientTypes.ExecutionStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -531,13 +509,6 @@ extension BCMDataExportsClientTypes {
 
 extension BCMDataExportsClientTypes.ExportReference {
 
-    static func write(value: BCMDataExportsClientTypes.ExportReference?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ExportArn"].write(value.exportArn)
-        try writer["ExportName"].write(value.exportName)
-        try writer["ExportStatus"].write(value.exportStatus, with: BCMDataExportsClientTypes.ExportStatus.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> BCMDataExportsClientTypes.ExportReference {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BCMDataExportsClientTypes.ExportReference()
@@ -576,15 +547,6 @@ extension BCMDataExportsClientTypes {
 }
 
 extension BCMDataExportsClientTypes.ExportStatus {
-
-    static func write(value: BCMDataExportsClientTypes.ExportStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedAt"].writeTimestamp(value.createdAt, format: .dateTime)
-        try writer["LastRefreshedAt"].writeTimestamp(value.lastRefreshedAt, format: .dateTime)
-        try writer["LastUpdatedAt"].writeTimestamp(value.lastUpdatedAt, format: .dateTime)
-        try writer["StatusCode"].write(value.statusCode)
-        try writer["StatusReason"].write(value.statusReason)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> BCMDataExportsClientTypes.ExportStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1670,13 +1632,6 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
 extension BCMDataExportsClientTypes.Table {
 
-    static func write(value: BCMDataExportsClientTypes.Table?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Description"].write(value.description)
-        try writer["TableName"].write(value.tableName)
-        try writer["TableProperties"].writeList(value.tableProperties, memberWritingClosure: BCMDataExportsClientTypes.TablePropertyDescription.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> BCMDataExportsClientTypes.Table {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BCMDataExportsClientTypes.Table()
@@ -1712,14 +1667,6 @@ extension BCMDataExportsClientTypes {
 }
 
 extension BCMDataExportsClientTypes.TablePropertyDescription {
-
-    static func write(value: BCMDataExportsClientTypes.TablePropertyDescription?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DefaultValue"].write(value.defaultValue)
-        try writer["Description"].write(value.description)
-        try writer["Name"].write(value.name)
-        try writer["ValidValues"].writeList(value.validValues, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> BCMDataExportsClientTypes.TablePropertyDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2058,12 +2005,6 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 extension BCMDataExportsClientTypes.ValidationExceptionField {
-
-    static func write(value: BCMDataExportsClientTypes.ValidationExceptionField?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.message)
-        try writer["Name"].write(value.name)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> BCMDataExportsClientTypes.ValidationExceptionField {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

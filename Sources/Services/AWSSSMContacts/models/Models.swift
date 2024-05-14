@@ -409,14 +409,6 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
 extension SSMContactsClientTypes.Contact {
 
-    static func write(value: SSMContactsClientTypes.Contact?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Alias"].write(value.alias)
-        try writer["ContactArn"].write(value.contactArn)
-        try writer["DisplayName"].write(value.displayName)
-        try writer["Type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SSMContactsClientTypes.Contact {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SSMContactsClientTypes.Contact()
@@ -460,16 +452,6 @@ extension SSMContactsClientTypes {
 }
 
 extension SSMContactsClientTypes.ContactChannel {
-
-    static func write(value: SSMContactsClientTypes.ContactChannel?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ActivationStatus"].write(value.activationStatus)
-        try writer["ContactArn"].write(value.contactArn)
-        try writer["ContactChannelArn"].write(value.contactChannelArn)
-        try writer["DeliveryAddress"].write(value.deliveryAddress, with: SSMContactsClientTypes.ContactChannelAddress.write(value:to:))
-        try writer["Name"].write(value.name)
-        try writer["Type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SSMContactsClientTypes.ContactChannel {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1471,12 +1453,6 @@ enum DeleteRotationOverrideOutputError {
 
 extension SSMContactsClientTypes.DependentEntity {
 
-    static func write(value: SSMContactsClientTypes.DependentEntity?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DependentResourceIds"].writeList(value.dependentResourceIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["RelationType"].write(value.relationType)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SSMContactsClientTypes.DependentEntity {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SSMContactsClientTypes.DependentEntity()
@@ -1762,16 +1738,6 @@ enum DescribePageOutputError {
 }
 
 extension SSMContactsClientTypes.Engagement {
-
-    static func write(value: SSMContactsClientTypes.Engagement?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ContactArn"].write(value.contactArn)
-        try writer["EngagementArn"].write(value.engagementArn)
-        try writer["IncidentId"].write(value.incidentId)
-        try writer["Sender"].write(value.sender)
-        try writer["StartTime"].writeTimestamp(value.startTime, format: .epochSeconds)
-        try writer["StopTime"].writeTimestamp(value.stopTime, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SSMContactsClientTypes.Engagement {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3492,18 +3458,6 @@ extension SSMContactsClientTypes {
 
 extension SSMContactsClientTypes.Page {
 
-    static func write(value: SSMContactsClientTypes.Page?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ContactArn"].write(value.contactArn)
-        try writer["DeliveryTime"].writeTimestamp(value.deliveryTime, format: .epochSeconds)
-        try writer["EngagementArn"].write(value.engagementArn)
-        try writer["IncidentId"].write(value.incidentId)
-        try writer["PageArn"].write(value.pageArn)
-        try writer["ReadTime"].writeTimestamp(value.readTime, format: .epochSeconds)
-        try writer["Sender"].write(value.sender)
-        try writer["SentTime"].writeTimestamp(value.sentTime, format: .epochSeconds)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SSMContactsClientTypes.Page {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SSMContactsClientTypes.Page()
@@ -3612,15 +3566,6 @@ extension SSMContactsClientTypes.PreviewOverride {
         try writer["NewMembers"].writeList(value.newMembers, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["StartTime"].writeTimestamp(value.startTime, format: .epochSeconds)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SSMContactsClientTypes.PreviewOverride {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SSMContactsClientTypes.PreviewOverride()
-        value.newMembers = try reader["NewMembers"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: .epochSeconds)
-        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: .epochSeconds)
-        return value
-    }
 }
 
 extension SSMContactsClientTypes {
@@ -3713,14 +3658,6 @@ enum PutContactPolicyOutputError {
 }
 
 extension SSMContactsClientTypes.Receipt {
-
-    static func write(value: SSMContactsClientTypes.Receipt?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ContactChannelArn"].write(value.contactChannelArn)
-        try writer["ReceiptInfo"].write(value.receiptInfo)
-        try writer["ReceiptTime"].writeTimestamp(value.receiptTime, format: .epochSeconds)
-        try writer["ReceiptType"].write(value.receiptType)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SSMContactsClientTypes.Receipt {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3867,13 +3804,6 @@ extension SSMContactsClientTypes {
 
 extension SSMContactsClientTypes.ResolutionContact {
 
-    static func write(value: SSMContactsClientTypes.ResolutionContact?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ContactArn"].write(value.contactArn)
-        try writer["StageIndex"].write(value.stageIndex)
-        try writer["Type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SSMContactsClientTypes.ResolutionContact {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SSMContactsClientTypes.ResolutionContact()
@@ -3962,16 +3892,6 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
 extension SSMContactsClientTypes.Rotation {
 
-    static func write(value: SSMContactsClientTypes.Rotation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ContactIds"].writeList(value.contactIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Name"].write(value.name)
-        try writer["Recurrence"].write(value.recurrence, with: SSMContactsClientTypes.RecurrenceSettings.write(value:to:))
-        try writer["RotationArn"].write(value.rotationArn)
-        try writer["StartTime"].writeTimestamp(value.startTime, format: .epochSeconds)
-        try writer["TimeZoneId"].write(value.timeZoneId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SSMContactsClientTypes.Rotation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SSMContactsClientTypes.Rotation()
@@ -4025,15 +3945,6 @@ extension SSMContactsClientTypes {
 
 extension SSMContactsClientTypes.RotationOverride {
 
-    static func write(value: SSMContactsClientTypes.RotationOverride?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreateTime"].writeTimestamp(value.createTime, format: .epochSeconds)
-        try writer["EndTime"].writeTimestamp(value.endTime, format: .epochSeconds)
-        try writer["NewContactIds"].writeList(value.newContactIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["RotationOverrideId"].write(value.rotationOverrideId)
-        try writer["StartTime"].writeTimestamp(value.startTime, format: .epochSeconds)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SSMContactsClientTypes.RotationOverride {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SSMContactsClientTypes.RotationOverride()
@@ -4084,15 +3995,6 @@ extension SSMContactsClientTypes {
 }
 
 extension SSMContactsClientTypes.RotationShift {
-
-    static func write(value: SSMContactsClientTypes.RotationShift?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ContactIds"].writeList(value.contactIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["EndTime"].writeTimestamp(value.endTime, format: .epochSeconds)
-        try writer["ShiftDetails"].write(value.shiftDetails, with: SSMContactsClientTypes.ShiftDetails.write(value:to:))
-        try writer["StartTime"].writeTimestamp(value.startTime, format: .epochSeconds)
-        try writer["Type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SSMContactsClientTypes.RotationShift {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4263,11 +4165,6 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 }
 
 extension SSMContactsClientTypes.ShiftDetails {
-
-    static func write(value: SSMContactsClientTypes.ShiftDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["OverriddenContactIds"].writeList(value.overriddenContactIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SSMContactsClientTypes.ShiftDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4738,14 +4635,6 @@ extension SSMContactsClientTypes.TimeRange {
         try writer["EndTime"].writeTimestamp(value.endTime, format: .epochSeconds)
         try writer["StartTime"].writeTimestamp(value.startTime, format: .epochSeconds)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SSMContactsClientTypes.TimeRange {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SSMContactsClientTypes.TimeRange()
-        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: .epochSeconds)
-        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: .epochSeconds)
-        return value
-    }
 }
 
 extension SSMContactsClientTypes {
@@ -5101,12 +4990,6 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 extension SSMContactsClientTypes.ValidationExceptionField {
-
-    static func write(value: SSMContactsClientTypes.ValidationExceptionField?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.message)
-        try writer["Name"].write(value.name)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SSMContactsClientTypes.ValidationExceptionField {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

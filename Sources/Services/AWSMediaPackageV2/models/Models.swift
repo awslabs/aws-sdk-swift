@@ -100,15 +100,6 @@ extension MediaPackageV2ClientTypes {
 
 extension MediaPackageV2ClientTypes.ChannelGroupListConfiguration {
 
-    static func write(value: MediaPackageV2ClientTypes.ChannelGroupListConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["ChannelGroupName"].write(value.channelGroupName)
-        try writer["CreatedAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["Description"].write(value.description)
-        try writer["ModifiedAt"].writeTimestamp(value.modifiedAt, format: .epochSeconds)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.ChannelGroupListConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaPackageV2ClientTypes.ChannelGroupListConfiguration()
@@ -158,16 +149,6 @@ extension MediaPackageV2ClientTypes {
 }
 
 extension MediaPackageV2ClientTypes.ChannelListConfiguration {
-
-    static func write(value: MediaPackageV2ClientTypes.ChannelListConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["ChannelGroupName"].write(value.channelGroupName)
-        try writer["ChannelName"].write(value.channelName)
-        try writer["CreatedAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["Description"].write(value.description)
-        try writer["ModifiedAt"].writeTimestamp(value.modifiedAt, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.ChannelListConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -666,23 +647,6 @@ extension MediaPackageV2ClientTypes.CreateDashManifestConfiguration {
         try writer["SuggestedPresentationDelaySeconds"].write(value.suggestedPresentationDelaySeconds)
         try writer["UtcTiming"].write(value.utcTiming, with: MediaPackageV2ClientTypes.DashUtcTiming.write(value:to:))
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.CreateDashManifestConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaPackageV2ClientTypes.CreateDashManifestConfiguration()
-        value.manifestName = try reader["ManifestName"].readIfPresent()
-        value.manifestWindowSeconds = try reader["ManifestWindowSeconds"].readIfPresent()
-        value.filterConfiguration = try reader["FilterConfiguration"].readIfPresent(with: MediaPackageV2ClientTypes.FilterConfiguration.read(from:))
-        value.minUpdatePeriodSeconds = try reader["MinUpdatePeriodSeconds"].readIfPresent()
-        value.minBufferTimeSeconds = try reader["MinBufferTimeSeconds"].readIfPresent()
-        value.suggestedPresentationDelaySeconds = try reader["SuggestedPresentationDelaySeconds"].readIfPresent()
-        value.segmentTemplateFormat = try reader["SegmentTemplateFormat"].readIfPresent()
-        value.periodTriggers = try reader["PeriodTriggers"].readListIfPresent(memberReadingClosure: MediaPackageV2ClientTypes.DashPeriodTrigger.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.scteDash = try reader["ScteDash"].readIfPresent(with: MediaPackageV2ClientTypes.ScteDash.read(from:))
-        value.drmSignaling = try reader["DrmSignaling"].readIfPresent()
-        value.utcTiming = try reader["UtcTiming"].readIfPresent(with: MediaPackageV2ClientTypes.DashUtcTiming.read(from:))
-        return value
-    }
 }
 
 extension MediaPackageV2ClientTypes {
@@ -755,18 +719,6 @@ extension MediaPackageV2ClientTypes.CreateHlsManifestConfiguration {
         try writer["ProgramDateTimeIntervalSeconds"].write(value.programDateTimeIntervalSeconds)
         try writer["ScteHls"].write(value.scteHls, with: MediaPackageV2ClientTypes.ScteHls.write(value:to:))
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.CreateHlsManifestConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaPackageV2ClientTypes.CreateHlsManifestConfiguration()
-        value.manifestName = try reader["ManifestName"].readIfPresent()
-        value.childManifestName = try reader["ChildManifestName"].readIfPresent()
-        value.scteHls = try reader["ScteHls"].readIfPresent(with: MediaPackageV2ClientTypes.ScteHls.read(from:))
-        value.manifestWindowSeconds = try reader["ManifestWindowSeconds"].readIfPresent()
-        value.programDateTimeIntervalSeconds = try reader["ProgramDateTimeIntervalSeconds"].readIfPresent()
-        value.filterConfiguration = try reader["FilterConfiguration"].readIfPresent(with: MediaPackageV2ClientTypes.FilterConfiguration.read(from:))
-        return value
-    }
 }
 
 extension MediaPackageV2ClientTypes {
@@ -816,18 +768,6 @@ extension MediaPackageV2ClientTypes.CreateLowLatencyHlsManifestConfiguration {
         try writer["ManifestWindowSeconds"].write(value.manifestWindowSeconds)
         try writer["ProgramDateTimeIntervalSeconds"].write(value.programDateTimeIntervalSeconds)
         try writer["ScteHls"].write(value.scteHls, with: MediaPackageV2ClientTypes.ScteHls.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.CreateLowLatencyHlsManifestConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaPackageV2ClientTypes.CreateLowLatencyHlsManifestConfiguration()
-        value.manifestName = try reader["ManifestName"].readIfPresent()
-        value.childManifestName = try reader["ChildManifestName"].readIfPresent()
-        value.scteHls = try reader["ScteHls"].readIfPresent(with: MediaPackageV2ClientTypes.ScteHls.read(from:))
-        value.manifestWindowSeconds = try reader["ManifestWindowSeconds"].readIfPresent()
-        value.programDateTimeIntervalSeconds = try reader["ProgramDateTimeIntervalSeconds"].readIfPresent()
-        value.filterConfiguration = try reader["FilterConfiguration"].readIfPresent(with: MediaPackageV2ClientTypes.FilterConfiguration.read(from:))
-        return value
     }
 }
 
@@ -2125,22 +2065,6 @@ enum GetChannelPolicyOutputError {
 
 extension MediaPackageV2ClientTypes.GetDashManifestConfiguration {
 
-    static func write(value: MediaPackageV2ClientTypes.GetDashManifestConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DrmSignaling"].write(value.drmSignaling)
-        try writer["FilterConfiguration"].write(value.filterConfiguration, with: MediaPackageV2ClientTypes.FilterConfiguration.write(value:to:))
-        try writer["ManifestName"].write(value.manifestName)
-        try writer["ManifestWindowSeconds"].write(value.manifestWindowSeconds)
-        try writer["MinBufferTimeSeconds"].write(value.minBufferTimeSeconds)
-        try writer["MinUpdatePeriodSeconds"].write(value.minUpdatePeriodSeconds)
-        try writer["PeriodTriggers"].writeList(value.periodTriggers, memberWritingClosure: MediaPackageV2ClientTypes.DashPeriodTrigger.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ScteDash"].write(value.scteDash, with: MediaPackageV2ClientTypes.ScteDash.write(value:to:))
-        try writer["SegmentTemplateFormat"].write(value.segmentTemplateFormat)
-        try writer["SuggestedPresentationDelaySeconds"].write(value.suggestedPresentationDelaySeconds)
-        try writer["Url"].write(value.url)
-        try writer["UtcTiming"].write(value.utcTiming, with: MediaPackageV2ClientTypes.DashUtcTiming.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.GetDashManifestConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaPackageV2ClientTypes.GetDashManifestConfiguration()
@@ -2226,17 +2150,6 @@ extension MediaPackageV2ClientTypes {
 
 extension MediaPackageV2ClientTypes.GetHlsManifestConfiguration {
 
-    static func write(value: MediaPackageV2ClientTypes.GetHlsManifestConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ChildManifestName"].write(value.childManifestName)
-        try writer["FilterConfiguration"].write(value.filterConfiguration, with: MediaPackageV2ClientTypes.FilterConfiguration.write(value:to:))
-        try writer["ManifestName"].write(value.manifestName)
-        try writer["ManifestWindowSeconds"].write(value.manifestWindowSeconds)
-        try writer["ProgramDateTimeIntervalSeconds"].write(value.programDateTimeIntervalSeconds)
-        try writer["ScteHls"].write(value.scteHls, with: MediaPackageV2ClientTypes.ScteHls.write(value:to:))
-        try writer["Url"].write(value.url)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.GetHlsManifestConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaPackageV2ClientTypes.GetHlsManifestConfiguration()
@@ -2294,17 +2207,6 @@ extension MediaPackageV2ClientTypes {
 }
 
 extension MediaPackageV2ClientTypes.GetLowLatencyHlsManifestConfiguration {
-
-    static func write(value: MediaPackageV2ClientTypes.GetLowLatencyHlsManifestConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ChildManifestName"].write(value.childManifestName)
-        try writer["FilterConfiguration"].write(value.filterConfiguration, with: MediaPackageV2ClientTypes.FilterConfiguration.write(value:to:))
-        try writer["ManifestName"].write(value.manifestName)
-        try writer["ManifestWindowSeconds"].write(value.manifestWindowSeconds)
-        try writer["ProgramDateTimeIntervalSeconds"].write(value.programDateTimeIntervalSeconds)
-        try writer["ScteHls"].write(value.scteHls, with: MediaPackageV2ClientTypes.ScteHls.write(value:to:))
-        try writer["Url"].write(value.url)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.GetLowLatencyHlsManifestConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2623,12 +2525,6 @@ enum GetOriginEndpointPolicyOutputError {
 
 extension MediaPackageV2ClientTypes.IngestEndpoint {
 
-    static func write(value: MediaPackageV2ClientTypes.IngestEndpoint?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Id"].write(value.id)
-        try writer["Url"].write(value.url)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.IngestEndpoint {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaPackageV2ClientTypes.IngestEndpoint()
@@ -2876,12 +2772,6 @@ enum ListChannelsOutputError {
 
 extension MediaPackageV2ClientTypes.ListDashManifestConfiguration {
 
-    static func write(value: MediaPackageV2ClientTypes.ListDashManifestConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ManifestName"].write(value.manifestName)
-        try writer["Url"].write(value.url)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.ListDashManifestConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaPackageV2ClientTypes.ListDashManifestConfiguration()
@@ -2913,13 +2803,6 @@ extension MediaPackageV2ClientTypes {
 }
 
 extension MediaPackageV2ClientTypes.ListHlsManifestConfiguration {
-
-    static func write(value: MediaPackageV2ClientTypes.ListHlsManifestConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ChildManifestName"].write(value.childManifestName)
-        try writer["ManifestName"].write(value.manifestName)
-        try writer["Url"].write(value.url)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.ListHlsManifestConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2957,13 +2840,6 @@ extension MediaPackageV2ClientTypes {
 }
 
 extension MediaPackageV2ClientTypes.ListLowLatencyHlsManifestConfiguration {
-
-    static func write(value: MediaPackageV2ClientTypes.ListLowLatencyHlsManifestConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ChildManifestName"].write(value.childManifestName)
-        try writer["ManifestName"].write(value.manifestName)
-        try writer["Url"].write(value.url)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.ListLowLatencyHlsManifestConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3166,21 +3042,6 @@ enum ListTagsForResourceOutputError {
 public enum MediaPackageV2ClientTypes {}
 
 extension MediaPackageV2ClientTypes.OriginEndpointListConfiguration {
-
-    static func write(value: MediaPackageV2ClientTypes.OriginEndpointListConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["ChannelGroupName"].write(value.channelGroupName)
-        try writer["ChannelName"].write(value.channelName)
-        try writer["ContainerType"].write(value.containerType)
-        try writer["CreatedAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["DashManifests"].writeList(value.dashManifests, memberWritingClosure: MediaPackageV2ClientTypes.ListDashManifestConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Description"].write(value.description)
-        try writer["HlsManifests"].writeList(value.hlsManifests, memberWritingClosure: MediaPackageV2ClientTypes.ListHlsManifestConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["LowLatencyHlsManifests"].writeList(value.lowLatencyHlsManifests, memberWritingClosure: MediaPackageV2ClientTypes.ListLowLatencyHlsManifestConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ModifiedAt"].writeTimestamp(value.modifiedAt, format: .epochSeconds)
-        try writer["OriginEndpointName"].write(value.originEndpointName)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.OriginEndpointListConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

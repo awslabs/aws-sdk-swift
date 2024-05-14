@@ -6,12 +6,6 @@ import SmithyReadWrite
 
 extension SagemakerEdgeClientTypes.Checksum {
 
-    static func write(value: SagemakerEdgeClientTypes.Checksum?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Sum"].write(value.sum)
-        try writer["Type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SagemakerEdgeClientTypes.Checksum {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SagemakerEdgeClientTypes.Checksum()
@@ -70,14 +64,6 @@ extension SagemakerEdgeClientTypes {
 
 extension SagemakerEdgeClientTypes.Definition {
 
-    static func write(value: SagemakerEdgeClientTypes.Definition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Checksum"].write(value.checksum, with: SagemakerEdgeClientTypes.Checksum.write(value:to:))
-        try writer["ModelHandle"].write(value.modelHandle)
-        try writer["S3Url"].write(value.s3Url)
-        try writer["State"].write(value.state)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SagemakerEdgeClientTypes.Definition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SagemakerEdgeClientTypes.Definition()
@@ -129,20 +115,6 @@ extension SagemakerEdgeClientTypes.DeploymentModel {
         try writer["State"].write(value.state)
         try writer["Status"].write(value.status)
         try writer["StatusReason"].write(value.statusReason)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SagemakerEdgeClientTypes.DeploymentModel {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SagemakerEdgeClientTypes.DeploymentModel()
-        value.modelHandle = try reader["ModelHandle"].readIfPresent()
-        value.modelName = try reader["ModelName"].readIfPresent()
-        value.modelVersion = try reader["ModelVersion"].readIfPresent()
-        value.desiredState = try reader["DesiredState"].readIfPresent()
-        value.state = try reader["State"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.statusReason = try reader["StatusReason"].readIfPresent()
-        value.rollbackFailureReason = try reader["RollbackFailureReason"].readIfPresent()
-        return value
     }
 }
 
@@ -200,18 +172,6 @@ extension SagemakerEdgeClientTypes.DeploymentResult {
         try writer["DeploymentStartTime"].writeTimestamp(value.deploymentStartTime, format: .epochSeconds)
         try writer["DeploymentStatus"].write(value.deploymentStatus)
         try writer["DeploymentStatusMessage"].write(value.deploymentStatusMessage)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SagemakerEdgeClientTypes.DeploymentResult {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SagemakerEdgeClientTypes.DeploymentResult()
-        value.deploymentName = try reader["DeploymentName"].readIfPresent()
-        value.deploymentStatus = try reader["DeploymentStatus"].readIfPresent()
-        value.deploymentStatusMessage = try reader["DeploymentStatusMessage"].readIfPresent()
-        value.deploymentStartTime = try reader["DeploymentStartTime"].readTimestampIfPresent(format: .epochSeconds)
-        value.deploymentEndTime = try reader["DeploymentEndTime"].readTimestampIfPresent(format: .epochSeconds)
-        value.deploymentModels = try reader["DeploymentModels"].readListIfPresent(memberReadingClosure: SagemakerEdgeClientTypes.DeploymentModel.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -310,14 +270,6 @@ extension SagemakerEdgeClientTypes {
 
 extension SagemakerEdgeClientTypes.EdgeDeployment {
 
-    static func write(value: SagemakerEdgeClientTypes.EdgeDeployment?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Definitions"].writeList(value.definitions, memberWritingClosure: SagemakerEdgeClientTypes.Definition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["DeploymentName"].write(value.deploymentName)
-        try writer["FailureHandlingPolicy"].write(value.failureHandlingPolicy)
-        try writer["Type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SagemakerEdgeClientTypes.EdgeDeployment {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SagemakerEdgeClientTypes.EdgeDeployment()
@@ -365,16 +317,6 @@ extension SagemakerEdgeClientTypes.EdgeMetric {
         try writer["MetricName"].write(value.metricName)
         try writer["Timestamp"].writeTimestamp(value.timestamp, format: .epochSeconds)
         try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SagemakerEdgeClientTypes.EdgeMetric {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SagemakerEdgeClientTypes.EdgeMetric()
-        value.dimension = try reader["Dimension"].readIfPresent()
-        value.metricName = try reader["MetricName"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
-        value.timestamp = try reader["Timestamp"].readTimestampIfPresent(format: .epochSeconds)
-        return value
     }
 }
 
@@ -631,17 +573,6 @@ extension SagemakerEdgeClientTypes.Model {
         try writer["ModelMetrics"].writeList(value.modelMetrics, memberWritingClosure: SagemakerEdgeClientTypes.EdgeMetric.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ModelName"].write(value.modelName)
         try writer["ModelVersion"].write(value.modelVersion)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SagemakerEdgeClientTypes.Model {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SagemakerEdgeClientTypes.Model()
-        value.modelName = try reader["ModelName"].readIfPresent()
-        value.modelVersion = try reader["ModelVersion"].readIfPresent()
-        value.latestSampleTime = try reader["LatestSampleTime"].readTimestampIfPresent(format: .epochSeconds)
-        value.latestInference = try reader["LatestInference"].readTimestampIfPresent(format: .epochSeconds)
-        value.modelMetrics = try reader["ModelMetrics"].readListIfPresent(memberReadingClosure: SagemakerEdgeClientTypes.EdgeMetric.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 

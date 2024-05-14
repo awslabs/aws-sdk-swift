@@ -118,18 +118,6 @@ extension MediaPackageClientTypes {
 
 extension MediaPackageClientTypes.Channel {
 
-    static func write(value: MediaPackageClientTypes.Channel?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["createdAt"].write(value.createdAt)
-        try writer["description"].write(value.description)
-        try writer["egressAccessLogs"].write(value.egressAccessLogs, with: MediaPackageClientTypes.EgressAccessLogs.write(value:to:))
-        try writer["hlsIngest"].write(value.hlsIngest, with: MediaPackageClientTypes.HlsIngest.write(value:to:))
-        try writer["id"].write(value.id)
-        try writer["ingressAccessLogs"].write(value.ingressAccessLogs, with: MediaPackageClientTypes.IngressAccessLogs.write(value:to:))
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageClientTypes.Channel {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaPackageClientTypes.Channel()
@@ -272,15 +260,6 @@ extension MediaPackageClientTypes {
 
 extension MediaPackageClientTypes.CmafPackage {
 
-    static func write(value: MediaPackageClientTypes.CmafPackage?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["encryption"].write(value.encryption, with: MediaPackageClientTypes.CmafEncryption.write(value:to:))
-        try writer["hlsManifests"].writeList(value.hlsManifests, memberWritingClosure: MediaPackageClientTypes.HlsManifest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["segmentDurationSeconds"].write(value.segmentDurationSeconds)
-        try writer["segmentPrefix"].write(value.segmentPrefix)
-        try writer["streamSelection"].write(value.streamSelection, with: MediaPackageClientTypes.StreamSelection.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageClientTypes.CmafPackage {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaPackageClientTypes.CmafPackage()
@@ -334,17 +313,6 @@ extension MediaPackageClientTypes.CmafPackageCreateOrUpdateParameters {
         try writer["segmentDurationSeconds"].write(value.segmentDurationSeconds)
         try writer["segmentPrefix"].write(value.segmentPrefix)
         try writer["streamSelection"].write(value.streamSelection, with: MediaPackageClientTypes.StreamSelection.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageClientTypes.CmafPackageCreateOrUpdateParameters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaPackageClientTypes.CmafPackageCreateOrUpdateParameters()
-        value.encryption = try reader["encryption"].readIfPresent(with: MediaPackageClientTypes.CmafEncryption.read(from:))
-        value.hlsManifests = try reader["hlsManifests"].readListIfPresent(memberReadingClosure: MediaPackageClientTypes.HlsManifestCreateOrUpdateParameters.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.segmentDurationSeconds = try reader["segmentDurationSeconds"].readIfPresent()
-        value.segmentPrefix = try reader["segmentPrefix"].readIfPresent()
-        value.streamSelection = try reader["streamSelection"].readIfPresent(with: MediaPackageClientTypes.StreamSelection.read(from:))
-        return value
     }
 }
 
@@ -1729,19 +1697,6 @@ public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.A
 
 extension MediaPackageClientTypes.HarvestJob {
 
-    static func write(value: MediaPackageClientTypes.HarvestJob?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["channelId"].write(value.channelId)
-        try writer["createdAt"].write(value.createdAt)
-        try writer["endTime"].write(value.endTime)
-        try writer["id"].write(value.id)
-        try writer["originEndpointId"].write(value.originEndpointId)
-        try writer["s3Destination"].write(value.s3Destination, with: MediaPackageClientTypes.S3Destination.write(value:to:))
-        try writer["startTime"].write(value.startTime)
-        try writer["status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageClientTypes.HarvestJob {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaPackageClientTypes.HarvestJob()
@@ -1864,11 +1819,6 @@ extension MediaPackageClientTypes {
 
 extension MediaPackageClientTypes.HlsIngest {
 
-    static func write(value: MediaPackageClientTypes.HlsIngest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ingestEndpoints"].writeList(value.ingestEndpoints, memberWritingClosure: MediaPackageClientTypes.IngestEndpoint.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageClientTypes.HlsIngest {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaPackageClientTypes.HlsIngest()
@@ -1894,20 +1844,6 @@ extension MediaPackageClientTypes {
 }
 
 extension MediaPackageClientTypes.HlsManifest {
-
-    static func write(value: MediaPackageClientTypes.HlsManifest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["adMarkers"].write(value.adMarkers)
-        try writer["adTriggers"].writeList(value.adTriggers, memberWritingClosure: MediaPackageClientTypes.__AdTriggersElement.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["adsOnDeliveryRestrictions"].write(value.adsOnDeliveryRestrictions)
-        try writer["id"].write(value.id)
-        try writer["includeIframeOnlyStream"].write(value.includeIframeOnlyStream)
-        try writer["manifestName"].write(value.manifestName)
-        try writer["playlistType"].write(value.playlistType)
-        try writer["playlistWindowSeconds"].write(value.playlistWindowSeconds)
-        try writer["programDateTimeIntervalSeconds"].write(value.programDateTimeIntervalSeconds)
-        try writer["url"].write(value.url)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageClientTypes.HlsManifest {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1992,21 +1928,6 @@ extension MediaPackageClientTypes.HlsManifestCreateOrUpdateParameters {
         try writer["playlistType"].write(value.playlistType)
         try writer["playlistWindowSeconds"].write(value.playlistWindowSeconds)
         try writer["programDateTimeIntervalSeconds"].write(value.programDateTimeIntervalSeconds)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageClientTypes.HlsManifestCreateOrUpdateParameters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaPackageClientTypes.HlsManifestCreateOrUpdateParameters()
-        value.adMarkers = try reader["adMarkers"].readIfPresent()
-        value.adTriggers = try reader["adTriggers"].readListIfPresent(memberReadingClosure: MediaPackageClientTypes.__AdTriggersElement.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.adsOnDeliveryRestrictions = try reader["adsOnDeliveryRestrictions"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
-        value.includeIframeOnlyStream = try reader["includeIframeOnlyStream"].readIfPresent()
-        value.manifestName = try reader["manifestName"].readIfPresent()
-        value.playlistType = try reader["playlistType"].readIfPresent()
-        value.playlistWindowSeconds = try reader["playlistWindowSeconds"].readIfPresent()
-        value.programDateTimeIntervalSeconds = try reader["programDateTimeIntervalSeconds"].readIfPresent()
-        return value
     }
 }
 
@@ -2162,14 +2083,6 @@ extension MediaPackageClientTypes.IngestEndpoint: Swift.CustomDebugStringConvert
 }
 
 extension MediaPackageClientTypes.IngestEndpoint {
-
-    static func write(value: MediaPackageClientTypes.IngestEndpoint?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["id"].write(value.id)
-        try writer["password"].write(value.password)
-        try writer["url"].write(value.url)
-        try writer["username"].write(value.username)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageClientTypes.IngestEndpoint {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2775,27 +2688,6 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 }
 
 extension MediaPackageClientTypes.OriginEndpoint {
-
-    static func write(value: MediaPackageClientTypes.OriginEndpoint?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["authorization"].write(value.authorization, with: MediaPackageClientTypes.Authorization.write(value:to:))
-        try writer["channelId"].write(value.channelId)
-        try writer["cmafPackage"].write(value.cmafPackage, with: MediaPackageClientTypes.CmafPackage.write(value:to:))
-        try writer["createdAt"].write(value.createdAt)
-        try writer["dashPackage"].write(value.dashPackage, with: MediaPackageClientTypes.DashPackage.write(value:to:))
-        try writer["description"].write(value.description)
-        try writer["hlsPackage"].write(value.hlsPackage, with: MediaPackageClientTypes.HlsPackage.write(value:to:))
-        try writer["id"].write(value.id)
-        try writer["manifestName"].write(value.manifestName)
-        try writer["mssPackage"].write(value.mssPackage, with: MediaPackageClientTypes.MssPackage.write(value:to:))
-        try writer["origination"].write(value.origination)
-        try writer["startoverWindowSeconds"].write(value.startoverWindowSeconds)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["timeDelaySeconds"].write(value.timeDelaySeconds)
-        try writer["url"].write(value.url)
-        try writer["whitelist"].writeList(value.whitelist, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageClientTypes.OriginEndpoint {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

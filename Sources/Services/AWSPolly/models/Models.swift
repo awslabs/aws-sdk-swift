@@ -865,12 +865,6 @@ extension PollyClientTypes.Lexicon: Swift.CustomDebugStringConvertible {
 
 extension PollyClientTypes.Lexicon {
 
-    static func write(value: PollyClientTypes.Lexicon?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Content"].write(value.content)
-        try writer["Name"].write(value.name)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> PollyClientTypes.Lexicon {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PollyClientTypes.Lexicon()
@@ -901,16 +895,6 @@ extension PollyClientTypes {
 }
 
 extension PollyClientTypes.LexiconAttributes {
-
-    static func write(value: PollyClientTypes.LexiconAttributes?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Alphabet"].write(value.alphabet)
-        try writer["LanguageCode"].write(value.languageCode)
-        try writer["LastModified"].writeTimestamp(value.lastModified, format: .epochSeconds)
-        try writer["LexemesCount"].write(value.lexemesCount)
-        try writer["LexiconArn"].write(value.lexiconArn)
-        try writer["Size"].write(value.size)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PollyClientTypes.LexiconAttributes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -962,12 +946,6 @@ extension PollyClientTypes {
 }
 
 extension PollyClientTypes.LexiconDescription {
-
-    static func write(value: PollyClientTypes.LexiconDescription?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Attributes"].write(value.attributes, with: PollyClientTypes.LexiconAttributes.write(value:to:))
-        try writer["Name"].write(value.name)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PollyClientTypes.LexiconDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1707,25 +1685,6 @@ enum StartSpeechSynthesisTaskOutputError {
 
 extension PollyClientTypes.SynthesisTask {
 
-    static func write(value: PollyClientTypes.SynthesisTask?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["Engine"].write(value.engine)
-        try writer["LanguageCode"].write(value.languageCode)
-        try writer["LexiconNames"].writeList(value.lexiconNames, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["OutputFormat"].write(value.outputFormat)
-        try writer["OutputUri"].write(value.outputUri)
-        try writer["RequestCharacters"].write(value.requestCharacters)
-        try writer["SampleRate"].write(value.sampleRate)
-        try writer["SnsTopicArn"].write(value.snsTopicArn)
-        try writer["SpeechMarkTypes"].writeList(value.speechMarkTypes, memberWritingClosure: PollyClientTypes.SpeechMarkType.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["TaskId"].write(value.taskId)
-        try writer["TaskStatus"].write(value.taskStatus)
-        try writer["TaskStatusReason"].write(value.taskStatusReason)
-        try writer["TextType"].write(value.textType)
-        try writer["VoiceId"].write(value.voiceId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> PollyClientTypes.SynthesisTask {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PollyClientTypes.SynthesisTask()
@@ -2334,17 +2293,6 @@ public struct UnsupportedPlsLanguageException: ClientRuntime.ModeledError, AWSCl
 }
 
 extension PollyClientTypes.Voice {
-
-    static func write(value: PollyClientTypes.Voice?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AdditionalLanguageCodes"].writeList(value.additionalLanguageCodes, memberWritingClosure: PollyClientTypes.LanguageCode.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Gender"].write(value.gender)
-        try writer["Id"].write(value.id)
-        try writer["LanguageCode"].write(value.languageCode)
-        try writer["LanguageName"].write(value.languageName)
-        try writer["Name"].write(value.name)
-        try writer["SupportedEngines"].writeList(value.supportedEngines, memberWritingClosure: PollyClientTypes.Engine.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PollyClientTypes.Voice {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

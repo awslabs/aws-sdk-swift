@@ -446,19 +446,6 @@ enum CreateDbParameterGroupOutputError {
 
 extension TimestreamInfluxDBClientTypes.DbInstanceSummary {
 
-    static func write(value: TimestreamInfluxDBClientTypes.DbInstanceSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["allocatedStorage"].write(value.allocatedStorage)
-        try writer["arn"].write(value.arn)
-        try writer["dbInstanceType"].write(value.dbInstanceType)
-        try writer["dbStorageType"].write(value.dbStorageType)
-        try writer["deploymentType"].write(value.deploymentType)
-        try writer["endpoint"].write(value.endpoint)
-        try writer["id"].write(value.id)
-        try writer["name"].write(value.name)
-        try writer["status"].write(value.status)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> TimestreamInfluxDBClientTypes.DbInstanceSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TimestreamInfluxDBClientTypes.DbInstanceSummary()
@@ -575,14 +562,6 @@ extension TimestreamInfluxDBClientTypes {
 }
 
 extension TimestreamInfluxDBClientTypes.DbParameterGroupSummary {
-
-    static func write(value: TimestreamInfluxDBClientTypes.DbParameterGroupSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["description"].write(value.description)
-        try writer["id"].write(value.id)
-        try writer["name"].write(value.name)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> TimestreamInfluxDBClientTypes.DbParameterGroupSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

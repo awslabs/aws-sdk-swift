@@ -6,14 +6,6 @@ import SmithyReadWrite
 
 extension WAFV2ClientTypes.APIKeySummary {
 
-    static func write(value: WAFV2ClientTypes.APIKeySummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["APIKey"].write(value.apiKey)
-        try writer["CreationTimestamp"].writeTimestamp(value.creationTimestamp, format: .epochSeconds)
-        try writer["TokenDomains"].writeList(value.tokenDomains, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Version"].write(value.version)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.APIKeySummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WAFV2ClientTypes.APIKeySummary()
@@ -824,13 +816,6 @@ extension WAFV2ClientTypes {
 
 extension WAFV2ClientTypes.CaptchaResponse {
 
-    static func write(value: WAFV2ClientTypes.CaptchaResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["FailureReason"].write(value.failureReason)
-        try writer["ResponseCode"].write(value.responseCode)
-        try writer["SolveTimestamp"].write(value.solveTimestamp)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.CaptchaResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WAFV2ClientTypes.CaptchaResponse()
@@ -944,13 +929,6 @@ extension WAFV2ClientTypes {
 }
 
 extension WAFV2ClientTypes.ChallengeResponse {
-
-    static func write(value: WAFV2ClientTypes.ChallengeResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["FailureReason"].write(value.failureReason)
-        try writer["ResponseCode"].write(value.responseCode)
-        try writer["SolveTimestamp"].write(value.solveTimestamp)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.ChallengeResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4097,15 +4075,6 @@ extension WAFV2ClientTypes {
 
 extension WAFV2ClientTypes.FirewallManagerRuleGroup {
 
-    static func write(value: WAFV2ClientTypes.FirewallManagerRuleGroup?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["FirewallManagerStatement"].write(value.firewallManagerStatement, with: WAFV2ClientTypes.FirewallManagerStatement.write(value:to:))
-        try writer["Name"].write(value.name)
-        try writer["OverrideAction"].write(value.overrideAction, with: WAFV2ClientTypes.OverrideAction.write(value:to:))
-        try writer["Priority"].write(value.priority)
-        try writer["VisibilityConfig"].write(value.visibilityConfig, with: WAFV2ClientTypes.VisibilityConfig.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.FirewallManagerRuleGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WAFV2ClientTypes.FirewallManagerRuleGroup()
@@ -4156,12 +4125,6 @@ extension WAFV2ClientTypes {
 }
 
 extension WAFV2ClientTypes.FirewallManagerStatement {
-
-    static func write(value: WAFV2ClientTypes.FirewallManagerStatement?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ManagedRuleGroupStatement"].write(value.managedRuleGroupStatement, with: WAFV2ClientTypes.ManagedRuleGroupStatement.write(value:to:))
-        try writer["RuleGroupReferenceStatement"].write(value.ruleGroupReferenceStatement, with: WAFV2ClientTypes.RuleGroupReferenceStatement.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.FirewallManagerStatement {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5433,12 +5396,6 @@ enum GetWebACLOutputError {
 
 extension WAFV2ClientTypes.HTTPHeader {
 
-    static func write(value: WAFV2ClientTypes.HTTPHeader?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["Value"].write(value.value)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.HTTPHeader {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WAFV2ClientTypes.HTTPHeader()
@@ -5469,16 +5426,6 @@ extension WAFV2ClientTypes {
 }
 
 extension WAFV2ClientTypes.HTTPRequest {
-
-    static func write(value: WAFV2ClientTypes.HTTPRequest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ClientIP"].write(value.clientIP)
-        try writer["Country"].write(value.country)
-        try writer["HTTPVersion"].write(value.httpVersion)
-        try writer["Headers"].writeList(value.headers, memberWritingClosure: WAFV2ClientTypes.HTTPHeader.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Method"].write(value.method)
-        try writer["URI"].write(value.uri)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.HTTPRequest {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5698,16 +5645,6 @@ extension WAFV2ClientTypes {
 
 extension WAFV2ClientTypes.IPSet {
 
-    static func write(value: WAFV2ClientTypes.IPSet?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ARN"].write(value.arn)
-        try writer["Addresses"].writeList(value.addresses, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Description"].write(value.description)
-        try writer["IPAddressVersion"].write(value.ipAddressVersion)
-        try writer["Id"].write(value.id)
-        try writer["Name"].write(value.name)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.IPSet {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WAFV2ClientTypes.IPSet()
@@ -5876,15 +5813,6 @@ extension WAFV2ClientTypes {
 }
 
 extension WAFV2ClientTypes.IPSetSummary {
-
-    static func write(value: WAFV2ClientTypes.IPSetSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ARN"].write(value.arn)
-        try writer["Description"].write(value.description)
-        try writer["Id"].write(value.id)
-        try writer["LockToken"].write(value.lockToken)
-        try writer["Name"].write(value.name)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.IPSetSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6321,11 +6249,6 @@ extension WAFV2ClientTypes {
 }
 
 extension WAFV2ClientTypes.LabelSummary {
-
-    static func write(value: WAFV2ClientTypes.LabelSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.LabelSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7510,19 +7433,6 @@ extension WAFV2ClientTypes {
 
 extension WAFV2ClientTypes.ManagedProductDescriptor {
 
-    static func write(value: WAFV2ClientTypes.ManagedProductDescriptor?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["IsAdvancedManagedRuleSet"].write(value.isAdvancedManagedRuleSet)
-        try writer["IsVersioningSupported"].write(value.isVersioningSupported)
-        try writer["ManagedRuleSetName"].write(value.managedRuleSetName)
-        try writer["ProductDescription"].write(value.productDescription)
-        try writer["ProductId"].write(value.productId)
-        try writer["ProductLink"].write(value.productLink)
-        try writer["ProductTitle"].write(value.productTitle)
-        try writer["SnsTopicArn"].write(value.snsTopicArn)
-        try writer["VendorName"].write(value.vendorName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.ManagedProductDescriptor {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WAFV2ClientTypes.ManagedProductDescriptor()
@@ -7744,14 +7654,6 @@ extension WAFV2ClientTypes {
 
 extension WAFV2ClientTypes.ManagedRuleGroupSummary {
 
-    static func write(value: WAFV2ClientTypes.ManagedRuleGroupSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Description"].write(value.description)
-        try writer["Name"].write(value.name)
-        try writer["VendorName"].write(value.vendorName)
-        try writer["VersioningSupported"].write(value.versioningSupported)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.ManagedRuleGroupSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WAFV2ClientTypes.ManagedRuleGroupSummary()
@@ -7793,12 +7695,6 @@ extension WAFV2ClientTypes {
 
 extension WAFV2ClientTypes.ManagedRuleGroupVersion {
 
-    static func write(value: WAFV2ClientTypes.ManagedRuleGroupVersion?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["LastUpdateTimestamp"].writeTimestamp(value.lastUpdateTimestamp, format: .epochSeconds)
-        try writer["Name"].write(value.name)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.ManagedRuleGroupVersion {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WAFV2ClientTypes.ManagedRuleGroupVersion()
@@ -7829,17 +7725,6 @@ extension WAFV2ClientTypes {
 }
 
 extension WAFV2ClientTypes.ManagedRuleSet {
-
-    static func write(value: WAFV2ClientTypes.ManagedRuleSet?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ARN"].write(value.arn)
-        try writer["Description"].write(value.description)
-        try writer["Id"].write(value.id)
-        try writer["LabelNamespace"].write(value.labelNamespace)
-        try writer["Name"].write(value.name)
-        try writer["PublishedVersions"].writeMap(value.publishedVersions, valueWritingClosure: WAFV2ClientTypes.ManagedRuleSetVersion.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["RecommendedVersion"].write(value.recommendedVersion)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.ManagedRuleSet {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7904,16 +7789,6 @@ extension WAFV2ClientTypes {
 
 extension WAFV2ClientTypes.ManagedRuleSetSummary {
 
-    static func write(value: WAFV2ClientTypes.ManagedRuleSetSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ARN"].write(value.arn)
-        try writer["Description"].write(value.description)
-        try writer["Id"].write(value.id)
-        try writer["LabelNamespace"].write(value.labelNamespace)
-        try writer["LockToken"].write(value.lockToken)
-        try writer["Name"].write(value.name)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.ManagedRuleSetSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WAFV2ClientTypes.ManagedRuleSetSummary()
@@ -7968,16 +7843,6 @@ extension WAFV2ClientTypes {
 }
 
 extension WAFV2ClientTypes.ManagedRuleSetVersion {
-
-    static func write(value: WAFV2ClientTypes.ManagedRuleSetVersion?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AssociatedRuleGroupArn"].write(value.associatedRuleGroupArn)
-        try writer["Capacity"].write(value.capacity)
-        try writer["ExpiryTimestamp"].writeTimestamp(value.expiryTimestamp, format: .epochSeconds)
-        try writer["ForecastedLifetime"].write(value.forecastedLifetime)
-        try writer["LastUpdateTimestamp"].writeTimestamp(value.lastUpdateTimestamp, format: .epochSeconds)
-        try writer["PublishTimestamp"].writeTimestamp(value.publishTimestamp, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.ManagedRuleSetVersion {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8084,14 +7949,6 @@ extension WAFV2ClientTypes {
 }
 
 extension WAFV2ClientTypes.MobileSdkRelease {
-
-    static func write(value: WAFV2ClientTypes.MobileSdkRelease?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ReleaseNotes"].write(value.releaseNotes)
-        try writer["ReleaseVersion"].write(value.releaseVersion)
-        try writer["Tags"].writeList(value.tags, memberWritingClosure: WAFV2ClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Timestamp"].writeTimestamp(value.timestamp, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.MobileSdkRelease {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -9201,12 +9058,6 @@ extension WAFV2ClientTypes {
 
 extension WAFV2ClientTypes.RateBasedStatementManagedKeysIPSet {
 
-    static func write(value: WAFV2ClientTypes.RateBasedStatementManagedKeysIPSet?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Addresses"].writeList(value.addresses, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["IPAddressVersion"].write(value.ipAddressVersion)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.RateBasedStatementManagedKeysIPSet {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WAFV2ClientTypes.RateBasedStatementManagedKeysIPSet()
@@ -9594,15 +9445,6 @@ extension WAFV2ClientTypes {
 
 extension WAFV2ClientTypes.RegexPatternSet {
 
-    static func write(value: WAFV2ClientTypes.RegexPatternSet?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ARN"].write(value.arn)
-        try writer["Description"].write(value.description)
-        try writer["Id"].write(value.id)
-        try writer["Name"].write(value.name)
-        try writer["RegularExpressionList"].writeList(value.regularExpressionList, memberWritingClosure: WAFV2ClientTypes.Regex.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.RegexPatternSet {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WAFV2ClientTypes.RegexPatternSet()
@@ -9695,15 +9537,6 @@ extension WAFV2ClientTypes {
 
 extension WAFV2ClientTypes.RegexPatternSetSummary {
 
-    static func write(value: WAFV2ClientTypes.RegexPatternSetSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ARN"].write(value.arn)
-        try writer["Description"].write(value.description)
-        try writer["Id"].write(value.id)
-        try writer["LockToken"].write(value.lockToken)
-        try writer["Name"].write(value.name)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.RegexPatternSetSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WAFV2ClientTypes.RegexPatternSetSummary()
@@ -9749,12 +9582,6 @@ extension WAFV2ClientTypes {
 }
 
 extension WAFV2ClientTypes.ReleaseSummary {
-
-    static func write(value: WAFV2ClientTypes.ReleaseSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ReleaseVersion"].write(value.releaseVersion)
-        try writer["Timestamp"].writeTimestamp(value.timestamp, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.ReleaseSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -10441,21 +10268,6 @@ extension WAFV2ClientTypes {
 
 extension WAFV2ClientTypes.RuleGroup {
 
-    static func write(value: WAFV2ClientTypes.RuleGroup?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ARN"].write(value.arn)
-        try writer["AvailableLabels"].writeList(value.availableLabels, memberWritingClosure: WAFV2ClientTypes.LabelSummary.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Capacity"].write(value.capacity)
-        try writer["ConsumedLabels"].writeList(value.consumedLabels, memberWritingClosure: WAFV2ClientTypes.LabelSummary.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["CustomResponseBodies"].writeMap(value.customResponseBodies, valueWritingClosure: WAFV2ClientTypes.CustomResponseBody.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["Description"].write(value.description)
-        try writer["Id"].write(value.id)
-        try writer["LabelNamespace"].write(value.labelNamespace)
-        try writer["Name"].write(value.name)
-        try writer["Rules"].writeList(value.rules, memberWritingClosure: WAFV2ClientTypes.Rule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["VisibilityConfig"].write(value.visibilityConfig, with: WAFV2ClientTypes.VisibilityConfig.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.RuleGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WAFV2ClientTypes.RuleGroup()
@@ -10585,15 +10397,6 @@ extension WAFV2ClientTypes {
 
 extension WAFV2ClientTypes.RuleGroupSummary {
 
-    static func write(value: WAFV2ClientTypes.RuleGroupSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ARN"].write(value.arn)
-        try writer["Description"].write(value.description)
-        try writer["Id"].write(value.id)
-        try writer["LockToken"].write(value.lockToken)
-        try writer["Name"].write(value.name)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.RuleGroupSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WAFV2ClientTypes.RuleGroupSummary()
@@ -10640,12 +10443,6 @@ extension WAFV2ClientTypes {
 
 extension WAFV2ClientTypes.RuleSummary {
 
-    static func write(value: WAFV2ClientTypes.RuleSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Action"].write(value.action, with: WAFV2ClientTypes.RuleAction.write(value:to:))
-        try writer["Name"].write(value.name)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.RuleSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WAFV2ClientTypes.RuleSummary()
@@ -10676,21 +10473,6 @@ extension WAFV2ClientTypes {
 }
 
 extension WAFV2ClientTypes.SampledHTTPRequest {
-
-    static func write(value: WAFV2ClientTypes.SampledHTTPRequest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Action"].write(value.action)
-        try writer["CaptchaResponse"].write(value.captchaResponse, with: WAFV2ClientTypes.CaptchaResponse.write(value:to:))
-        try writer["ChallengeResponse"].write(value.challengeResponse, with: WAFV2ClientTypes.ChallengeResponse.write(value:to:))
-        try writer["Labels"].writeList(value.labels, memberWritingClosure: WAFV2ClientTypes.Label.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["OverriddenAction"].write(value.overriddenAction)
-        try writer["Request"].write(value.request, with: WAFV2ClientTypes.HTTPRequest.write(value:to:))
-        try writer["RequestHeadersInserted"].writeList(value.requestHeadersInserted, memberWritingClosure: WAFV2ClientTypes.HTTPHeader.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ResponseCodeSent"].write(value.responseCodeSent)
-        try writer["RuleNameWithinRuleGroup"].write(value.ruleNameWithinRuleGroup)
-        try writer["Timestamp"].writeTimestamp(value.timestamp, format: .epochSeconds)
-        try writer["Weight"].write(value.weight)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.SampledHTTPRequest {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -11231,12 +11013,6 @@ extension WAFV2ClientTypes {
 }
 
 extension WAFV2ClientTypes.TagInfoForResource {
-
-    static func write(value: WAFV2ClientTypes.TagInfoForResource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ResourceARN"].write(value.resourceARN)
-        try writer["TagList"].writeList(value.tagList, memberWritingClosure: WAFV2ClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.TagInfoForResource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -12235,14 +12011,6 @@ extension WAFV2ClientTypes.VersionToPublish {
         try writer["AssociatedRuleGroupArn"].write(value.associatedRuleGroupArn)
         try writer["ForecastedLifetime"].write(value.forecastedLifetime)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.VersionToPublish {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.VersionToPublish()
-        value.associatedRuleGroupArn = try reader["AssociatedRuleGroupArn"].readIfPresent()
-        value.forecastedLifetime = try reader["ForecastedLifetime"].readIfPresent()
-        return value
-    }
 }
 
 extension WAFV2ClientTypes {
@@ -13059,27 +12827,6 @@ public enum WAFV2ClientTypes {}
 
 extension WAFV2ClientTypes.WebACL {
 
-    static func write(value: WAFV2ClientTypes.WebACL?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ARN"].write(value.arn)
-        try writer["AssociationConfig"].write(value.associationConfig, with: WAFV2ClientTypes.AssociationConfig.write(value:to:))
-        try writer["Capacity"].write(value.capacity)
-        try writer["CaptchaConfig"].write(value.captchaConfig, with: WAFV2ClientTypes.CaptchaConfig.write(value:to:))
-        try writer["ChallengeConfig"].write(value.challengeConfig, with: WAFV2ClientTypes.ChallengeConfig.write(value:to:))
-        try writer["CustomResponseBodies"].writeMap(value.customResponseBodies, valueWritingClosure: WAFV2ClientTypes.CustomResponseBody.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["DefaultAction"].write(value.defaultAction, with: WAFV2ClientTypes.DefaultAction.write(value:to:))
-        try writer["Description"].write(value.description)
-        try writer["Id"].write(value.id)
-        try writer["LabelNamespace"].write(value.labelNamespace)
-        try writer["ManagedByFirewallManager"].write(value.managedByFirewallManager)
-        try writer["Name"].write(value.name)
-        try writer["PostProcessFirewallManagerRuleGroups"].writeList(value.postProcessFirewallManagerRuleGroups, memberWritingClosure: WAFV2ClientTypes.FirewallManagerRuleGroup.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["PreProcessFirewallManagerRuleGroups"].writeList(value.preProcessFirewallManagerRuleGroups, memberWritingClosure: WAFV2ClientTypes.FirewallManagerRuleGroup.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Rules"].writeList(value.rules, memberWritingClosure: WAFV2ClientTypes.Rule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["TokenDomains"].writeList(value.tokenDomains, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["VisibilityConfig"].write(value.visibilityConfig, with: WAFV2ClientTypes.VisibilityConfig.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.WebACL {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WAFV2ClientTypes.WebACL()
@@ -13194,15 +12941,6 @@ extension WAFV2ClientTypes {
 }
 
 extension WAFV2ClientTypes.WebACLSummary {
-
-    static func write(value: WAFV2ClientTypes.WebACLSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ARN"].write(value.arn)
-        try writer["Description"].write(value.description)
-        try writer["Id"].write(value.id)
-        try writer["LockToken"].write(value.lockToken)
-        try writer["Name"].write(value.name)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.WebACLSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

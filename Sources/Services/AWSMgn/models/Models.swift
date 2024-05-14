@@ -109,20 +109,6 @@ extension MgnClientTypes.Application: Swift.CustomDebugStringConvertible {
 
 extension MgnClientTypes.Application {
 
-    static func write(value: MgnClientTypes.Application?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["applicationAggregatedStatus"].write(value.applicationAggregatedStatus, with: MgnClientTypes.ApplicationAggregatedStatus.write(value:to:))
-        try writer["applicationID"].write(value.applicationID)
-        try writer["arn"].write(value.arn)
-        try writer["creationDateTime"].write(value.creationDateTime)
-        try writer["description"].write(value.description)
-        try writer["isArchived"].write(value.isArchived)
-        try writer["lastModifiedDateTime"].write(value.lastModifiedDateTime)
-        try writer["name"].write(value.name)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["waveID"].write(value.waveID)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.Application {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MgnClientTypes.Application()
@@ -192,14 +178,6 @@ extension MgnClientTypes {
 }
 
 extension MgnClientTypes.ApplicationAggregatedStatus {
-
-    static func write(value: MgnClientTypes.ApplicationAggregatedStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["healthStatus"].write(value.healthStatus)
-        try writer["lastUpdateDateTime"].write(value.lastUpdateDateTime)
-        try writer["progressStatus"].write(value.progressStatus)
-        try writer["totalSourceServers"].write(value.totalSourceServers)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.ApplicationAggregatedStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -720,12 +698,6 @@ extension MgnClientTypes {
 
 extension MgnClientTypes.CPU {
 
-    static func write(value: MgnClientTypes.CPU?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["cores"].write(value.cores)
-        try writer["modelName"].write(value.modelName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.CPU {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MgnClientTypes.CPU()
@@ -911,13 +883,6 @@ extension MgnClientTypes.ChangeServerLifeCycleStateSourceServerLifecycle {
         guard let value else { return }
         try writer["state"].write(value.state)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.ChangeServerLifeCycleStateSourceServerLifecycle {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MgnClientTypes.ChangeServerLifeCycleStateSourceServerLifecycle()
-        value.state = try reader["state"].readIfPresent()
-        return value
-    }
 }
 
 extension MgnClientTypes {
@@ -1032,16 +997,6 @@ extension MgnClientTypes.Connector: Swift.CustomDebugStringConvertible {
 }
 
 extension MgnClientTypes.Connector {
-
-    static func write(value: MgnClientTypes.Connector?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["connectorID"].write(value.connectorID)
-        try writer["name"].write(value.name)
-        try writer["ssmCommandConfig"].write(value.ssmCommandConfig, with: MgnClientTypes.ConnectorSsmCommandConfig.write(value:to:))
-        try writer["ssmInstanceID"].write(value.ssmInstanceID)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.Connector {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1985,12 +1940,6 @@ enum CreateWaveOutputError {
 
 extension MgnClientTypes.DataReplicationError {
 
-    static func write(value: MgnClientTypes.DataReplicationError?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["error"].write(value.error)
-        try writer["rawError"].write(value.rawError)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.DataReplicationError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MgnClientTypes.DataReplicationError()
@@ -2094,17 +2043,6 @@ extension MgnClientTypes {
 
 extension MgnClientTypes.DataReplicationInfo {
 
-    static func write(value: MgnClientTypes.DataReplicationInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["dataReplicationError"].write(value.dataReplicationError, with: MgnClientTypes.DataReplicationError.write(value:to:))
-        try writer["dataReplicationInitiation"].write(value.dataReplicationInitiation, with: MgnClientTypes.DataReplicationInitiation.write(value:to:))
-        try writer["dataReplicationState"].write(value.dataReplicationState)
-        try writer["etaDateTime"].write(value.etaDateTime)
-        try writer["lagDuration"].write(value.lagDuration)
-        try writer["lastSnapshotDateTime"].write(value.lastSnapshotDateTime)
-        try writer["replicatedDisks"].writeList(value.replicatedDisks, memberWritingClosure: MgnClientTypes.DataReplicationInfoReplicatedDisk.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.DataReplicationInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MgnClientTypes.DataReplicationInfo()
@@ -2161,15 +2099,6 @@ extension MgnClientTypes {
 
 extension MgnClientTypes.DataReplicationInfoReplicatedDisk {
 
-    static func write(value: MgnClientTypes.DataReplicationInfoReplicatedDisk?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["backloggedStorageBytes"].write(value.backloggedStorageBytes)
-        try writer["deviceName"].write(value.deviceName)
-        try writer["replicatedStorageBytes"].write(value.replicatedStorageBytes)
-        try writer["rescannedStorageBytes"].write(value.rescannedStorageBytes)
-        try writer["totalStorageBytes"].write(value.totalStorageBytes)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.DataReplicationInfoReplicatedDisk {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MgnClientTypes.DataReplicationInfoReplicatedDisk()
@@ -2216,13 +2145,6 @@ extension MgnClientTypes {
 
 extension MgnClientTypes.DataReplicationInitiation {
 
-    static func write(value: MgnClientTypes.DataReplicationInitiation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["nextAttemptDateTime"].write(value.nextAttemptDateTime)
-        try writer["startDateTime"].write(value.startDateTime)
-        try writer["steps"].writeList(value.steps, memberWritingClosure: MgnClientTypes.DataReplicationInitiationStep.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.DataReplicationInitiation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MgnClientTypes.DataReplicationInitiation()
@@ -2258,12 +2180,6 @@ extension MgnClientTypes {
 }
 
 extension MgnClientTypes.DataReplicationInitiationStep {
-
-    static func write(value: MgnClientTypes.DataReplicationInitiationStep?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-        try writer["status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.DataReplicationInitiationStep {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3099,15 +3015,6 @@ extension MgnClientTypes.DescribeJobsRequestFilters {
         try writer["jobIDs"].writeList(value.jobIDs, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["toDate"].write(value.toDate)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.DescribeJobsRequestFilters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MgnClientTypes.DescribeJobsRequestFilters()
-        value.jobIDs = try reader["jobIDs"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.fromDate = try reader["fromDate"].readIfPresent()
-        value.toDate = try reader["toDate"].readIfPresent()
-        return value
-    }
 }
 
 extension MgnClientTypes {
@@ -3393,17 +3300,6 @@ extension MgnClientTypes.DescribeSourceServersRequestFilters {
         try writer["lifeCycleStates"].writeList(value.lifeCycleStates, memberWritingClosure: MgnClientTypes.LifeCycleState.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["replicationTypes"].writeList(value.replicationTypes, memberWritingClosure: MgnClientTypes.ReplicationType.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["sourceServerIDs"].writeList(value.sourceServerIDs, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.DescribeSourceServersRequestFilters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MgnClientTypes.DescribeSourceServersRequestFilters()
-        value.sourceServerIDs = try reader["sourceServerIDs"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.isArchived = try reader["isArchived"].readIfPresent()
-        value.replicationTypes = try reader["replicationTypes"].readListIfPresent(memberReadingClosure: MgnClientTypes.ReplicationType.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.lifeCycleStates = try reader["lifeCycleStates"].readListIfPresent(memberReadingClosure: MgnClientTypes.LifeCycleState.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.applicationIDs = try reader["applicationIDs"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -3802,12 +3698,6 @@ enum DisconnectFromServiceOutputError {
 
 extension MgnClientTypes.Disk {
 
-    static func write(value: MgnClientTypes.Disk?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["bytes"].write(value.bytes)
-        try writer["deviceName"].write(value.deviceName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.Disk {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MgnClientTypes.Disk()
@@ -3838,14 +3728,6 @@ extension MgnClientTypes {
 }
 
 extension MgnClientTypes.ErrorDetails {
-
-    static func write(value: MgnClientTypes.ErrorDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["code"].write(value.code)
-        try writer["message"].write(value.message)
-        try writer["resourceId"].write(value.resourceId)
-        try writer["resourceType"].write(value.resourceType)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.ErrorDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3887,11 +3769,6 @@ extension MgnClientTypes {
 }
 
 extension MgnClientTypes.ExportErrorData {
-
-    static func write(value: MgnClientTypes.ExportErrorData?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["rawError"].write(value.rawError)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.ExportErrorData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3954,19 +3831,6 @@ extension MgnClientTypes {
 }
 
 extension MgnClientTypes.ExportTask {
-
-    static func write(value: MgnClientTypes.ExportTask?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["creationDateTime"].write(value.creationDateTime)
-        try writer["endDateTime"].write(value.endDateTime)
-        try writer["exportID"].write(value.exportID)
-        try writer["progressPercentage"].write(value.progressPercentage)
-        try writer["s3Bucket"].write(value.s3Bucket)
-        try writer["s3BucketOwner"].write(value.s3BucketOwner)
-        try writer["s3Key"].write(value.s3Key)
-        try writer["status"].write(value.status)
-        try writer["summary"].write(value.summary, with: MgnClientTypes.ExportTaskSummary.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.ExportTask {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4034,12 +3898,6 @@ extension MgnClientTypes {
 
 extension MgnClientTypes.ExportTaskError {
 
-    static func write(value: MgnClientTypes.ExportTaskError?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["errorData"].write(value.errorData, with: MgnClientTypes.ExportErrorData.write(value:to:))
-        try writer["errorDateTime"].write(value.errorDateTime)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.ExportTaskError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MgnClientTypes.ExportTaskError()
@@ -4070,13 +3928,6 @@ extension MgnClientTypes {
 }
 
 extension MgnClientTypes.ExportTaskSummary {
-
-    static func write(value: MgnClientTypes.ExportTaskSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["applicationsCount"].write(value.applicationsCount)
-        try writer["serversCount"].write(value.serversCount)
-        try writer["wavesCount"].write(value.wavesCount)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.ExportTaskSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4573,15 +4424,6 @@ enum GetReplicationConfigurationOutputError {
 
 extension MgnClientTypes.IdentificationHints {
 
-    static func write(value: MgnClientTypes.IdentificationHints?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["awsInstanceID"].write(value.awsInstanceID)
-        try writer["fqdn"].write(value.fqdn)
-        try writer["hostname"].write(value.hostname)
-        try writer["vmPath"].write(value.vmPath)
-        try writer["vmWareUuid"].write(value.vmWareUuid)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.IdentificationHints {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MgnClientTypes.IdentificationHints()
@@ -4627,17 +4469,6 @@ extension MgnClientTypes {
 }
 
 extension MgnClientTypes.ImportErrorData {
-
-    static func write(value: MgnClientTypes.ImportErrorData?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["accountID"].write(value.accountID)
-        try writer["applicationID"].write(value.applicationID)
-        try writer["ec2LaunchTemplateID"].write(value.ec2LaunchTemplateID)
-        try writer["rawError"].write(value.rawError)
-        try writer["rowNumber"].write(value.rowNumber)
-        try writer["sourceServerID"].write(value.sourceServerID)
-        try writer["waveID"].write(value.waveID)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.ImportErrorData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4761,17 +4592,6 @@ extension MgnClientTypes {
 
 extension MgnClientTypes.ImportTask {
 
-    static func write(value: MgnClientTypes.ImportTask?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["creationDateTime"].write(value.creationDateTime)
-        try writer["endDateTime"].write(value.endDateTime)
-        try writer["importID"].write(value.importID)
-        try writer["progressPercentage"].write(value.progressPercentage)
-        try writer["s3BucketSource"].write(value.s3BucketSource, with: MgnClientTypes.S3BucketSource.write(value:to:))
-        try writer["status"].write(value.status)
-        try writer["summary"].write(value.summary, with: MgnClientTypes.ImportTaskSummary.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.ImportTask {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MgnClientTypes.ImportTask()
@@ -4828,13 +4648,6 @@ extension MgnClientTypes {
 
 extension MgnClientTypes.ImportTaskError {
 
-    static func write(value: MgnClientTypes.ImportTaskError?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["errorData"].write(value.errorData, with: MgnClientTypes.ImportErrorData.write(value:to:))
-        try writer["errorDateTime"].write(value.errorDateTime)
-        try writer["errorType"].write(value.errorType)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.ImportTaskError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MgnClientTypes.ImportTaskError()
@@ -4870,13 +4683,6 @@ extension MgnClientTypes {
 }
 
 extension MgnClientTypes.ImportTaskSummary {
-
-    static func write(value: MgnClientTypes.ImportTaskSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["applications"].write(value.applications, with: MgnClientTypes.ImportTaskSummaryApplications.write(value:to:))
-        try writer["servers"].write(value.servers, with: MgnClientTypes.ImportTaskSummaryServers.write(value:to:))
-        try writer["waves"].write(value.waves, with: MgnClientTypes.ImportTaskSummaryWaves.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.ImportTaskSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4914,12 +4720,6 @@ extension MgnClientTypes {
 
 extension MgnClientTypes.ImportTaskSummaryApplications {
 
-    static func write(value: MgnClientTypes.ImportTaskSummaryApplications?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["createdCount"].write(value.createdCount)
-        try writer["modifiedCount"].write(value.modifiedCount)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.ImportTaskSummaryApplications {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MgnClientTypes.ImportTaskSummaryApplications()
@@ -4951,12 +4751,6 @@ extension MgnClientTypes {
 
 extension MgnClientTypes.ImportTaskSummaryServers {
 
-    static func write(value: MgnClientTypes.ImportTaskSummaryServers?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["createdCount"].write(value.createdCount)
-        try writer["modifiedCount"].write(value.modifiedCount)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.ImportTaskSummaryServers {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MgnClientTypes.ImportTaskSummaryServers()
@@ -4987,12 +4781,6 @@ extension MgnClientTypes {
 }
 
 extension MgnClientTypes.ImportTaskSummaryWaves {
-
-    static func write(value: MgnClientTypes.ImportTaskSummaryWaves?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["createdCount"].write(value.createdCount)
-        try writer["modifiedCount"].write(value.modifiedCount)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.ImportTaskSummaryWaves {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5151,19 +4939,6 @@ extension MgnClientTypes.Job: Swift.CustomDebugStringConvertible {
 
 extension MgnClientTypes.Job {
 
-    static func write(value: MgnClientTypes.Job?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["creationDateTime"].write(value.creationDateTime)
-        try writer["endDateTime"].write(value.endDateTime)
-        try writer["initiatedBy"].write(value.initiatedBy)
-        try writer["jobID"].write(value.jobID)
-        try writer["participatingServers"].writeList(value.participatingServers, memberWritingClosure: MgnClientTypes.ParticipatingServer.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["status"].write(value.status)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.Job {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MgnClientTypes.Job()
@@ -5230,13 +5005,6 @@ extension MgnClientTypes {
 }
 
 extension MgnClientTypes.JobLog {
-
-    static func write(value: MgnClientTypes.JobLog?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["event"].write(value.event)
-        try writer["eventData"].write(value.eventData, with: MgnClientTypes.JobLogEventData.write(value:to:))
-        try writer["logDateTime"].write(value.logDateTime)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.JobLog {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5346,14 +5114,6 @@ extension MgnClientTypes {
 
 extension MgnClientTypes.JobLogEventData {
 
-    static func write(value: MgnClientTypes.JobLogEventData?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["conversionServerID"].write(value.conversionServerID)
-        try writer["rawError"].write(value.rawError)
-        try writer["sourceServerID"].write(value.sourceServerID)
-        try writer["targetInstanceID"].write(value.targetInstanceID)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.JobLogEventData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MgnClientTypes.JobLogEventData()
@@ -5394,15 +5154,6 @@ extension MgnClientTypes {
 }
 
 extension MgnClientTypes.JobPostLaunchActionsLaunchStatus {
-
-    static func write(value: MgnClientTypes.JobPostLaunchActionsLaunchStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["executionID"].write(value.executionID)
-        try writer["executionStatus"].write(value.executionStatus)
-        try writer["failureReason"].write(value.failureReason)
-        try writer["ssmDocument"].write(value.ssmDocument, with: MgnClientTypes.SsmDocument.write(value:to:))
-        try writer["ssmDocumentType"].write(value.ssmDocumentType)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.JobPostLaunchActionsLaunchStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5517,27 +5268,6 @@ extension MgnClientTypes.LaunchConfigurationTemplate: Swift.CustomDebugStringCon
 }
 
 extension MgnClientTypes.LaunchConfigurationTemplate {
-
-    static func write(value: MgnClientTypes.LaunchConfigurationTemplate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["associatePublicIpAddress"].write(value.associatePublicIpAddress)
-        try writer["bootMode"].write(value.bootMode)
-        try writer["copyPrivateIp"].write(value.copyPrivateIp)
-        try writer["copyTags"].write(value.copyTags)
-        try writer["ec2LaunchTemplateID"].write(value.ec2LaunchTemplateID)
-        try writer["enableMapAutoTagging"].write(value.enableMapAutoTagging)
-        try writer["largeVolumeConf"].write(value.largeVolumeConf, with: MgnClientTypes.LaunchTemplateDiskConf.write(value:to:))
-        try writer["launchConfigurationTemplateID"].write(value.launchConfigurationTemplateID)
-        try writer["launchDisposition"].write(value.launchDisposition)
-        try writer["licensing"].write(value.licensing, with: MgnClientTypes.Licensing.write(value:to:))
-        try writer["mapAutoTaggingMpeID"].write(value.mapAutoTaggingMpeID)
-        try writer["postLaunchActions"].write(value.postLaunchActions, with: MgnClientTypes.PostLaunchActions.write(value:to:))
-        try writer["smallVolumeConf"].write(value.smallVolumeConf, with: MgnClientTypes.LaunchTemplateDiskConf.write(value:to:))
-        try writer["smallVolumeMaxSize"].write(value.smallVolumeMaxSize)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["targetInstanceTypeRightSizingMethod"].write(value.targetInstanceTypeRightSizingMethod)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.LaunchConfigurationTemplate {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5757,13 +5487,6 @@ extension MgnClientTypes {
 
 extension MgnClientTypes.LaunchedInstance {
 
-    static func write(value: MgnClientTypes.LaunchedInstance?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ec2InstanceID"].write(value.ec2InstanceID)
-        try writer["firstBoot"].write(value.firstBoot)
-        try writer["jobID"].write(value.jobID)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.LaunchedInstance {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MgnClientTypes.LaunchedInstance()
@@ -5831,17 +5554,6 @@ extension MgnClientTypes {
 
 extension MgnClientTypes.LifeCycle {
 
-    static func write(value: MgnClientTypes.LifeCycle?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["addedToServiceDateTime"].write(value.addedToServiceDateTime)
-        try writer["elapsedReplicationDuration"].write(value.elapsedReplicationDuration)
-        try writer["firstByteDateTime"].write(value.firstByteDateTime)
-        try writer["lastCutover"].write(value.lastCutover, with: MgnClientTypes.LifeCycleLastCutover.write(value:to:))
-        try writer["lastSeenByServiceDateTime"].write(value.lastSeenByServiceDateTime)
-        try writer["lastTest"].write(value.lastTest, with: MgnClientTypes.LifeCycleLastTest.write(value:to:))
-        try writer["state"].write(value.state)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.LifeCycle {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MgnClientTypes.LifeCycle()
@@ -5898,13 +5610,6 @@ extension MgnClientTypes {
 
 extension MgnClientTypes.LifeCycleLastCutover {
 
-    static func write(value: MgnClientTypes.LifeCycleLastCutover?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["finalized"].write(value.finalized, with: MgnClientTypes.LifeCycleLastCutoverFinalized.write(value:to:))
-        try writer["initiated"].write(value.initiated, with: MgnClientTypes.LifeCycleLastCutoverInitiated.write(value:to:))
-        try writer["reverted"].write(value.reverted, with: MgnClientTypes.LifeCycleLastCutoverReverted.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.LifeCycleLastCutover {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MgnClientTypes.LifeCycleLastCutover()
@@ -5941,11 +5646,6 @@ extension MgnClientTypes {
 
 extension MgnClientTypes.LifeCycleLastCutoverFinalized {
 
-    static func write(value: MgnClientTypes.LifeCycleLastCutoverFinalized?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["apiCallDateTime"].write(value.apiCallDateTime)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.LifeCycleLastCutoverFinalized {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MgnClientTypes.LifeCycleLastCutoverFinalized()
@@ -5971,12 +5671,6 @@ extension MgnClientTypes {
 }
 
 extension MgnClientTypes.LifeCycleLastCutoverInitiated {
-
-    static func write(value: MgnClientTypes.LifeCycleLastCutoverInitiated?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["apiCallDateTime"].write(value.apiCallDateTime)
-        try writer["jobID"].write(value.jobID)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.LifeCycleLastCutoverInitiated {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6009,11 +5703,6 @@ extension MgnClientTypes {
 
 extension MgnClientTypes.LifeCycleLastCutoverReverted {
 
-    static func write(value: MgnClientTypes.LifeCycleLastCutoverReverted?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["apiCallDateTime"].write(value.apiCallDateTime)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.LifeCycleLastCutoverReverted {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MgnClientTypes.LifeCycleLastCutoverReverted()
@@ -6039,13 +5728,6 @@ extension MgnClientTypes {
 }
 
 extension MgnClientTypes.LifeCycleLastTest {
-
-    static func write(value: MgnClientTypes.LifeCycleLastTest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["finalized"].write(value.finalized, with: MgnClientTypes.LifeCycleLastTestFinalized.write(value:to:))
-        try writer["initiated"].write(value.initiated, with: MgnClientTypes.LifeCycleLastTestInitiated.write(value:to:))
-        try writer["reverted"].write(value.reverted, with: MgnClientTypes.LifeCycleLastTestReverted.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.LifeCycleLastTest {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6083,11 +5765,6 @@ extension MgnClientTypes {
 
 extension MgnClientTypes.LifeCycleLastTestFinalized {
 
-    static func write(value: MgnClientTypes.LifeCycleLastTestFinalized?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["apiCallDateTime"].write(value.apiCallDateTime)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.LifeCycleLastTestFinalized {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MgnClientTypes.LifeCycleLastTestFinalized()
@@ -6113,12 +5790,6 @@ extension MgnClientTypes {
 }
 
 extension MgnClientTypes.LifeCycleLastTestInitiated {
-
-    static func write(value: MgnClientTypes.LifeCycleLastTestInitiated?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["apiCallDateTime"].write(value.apiCallDateTime)
-        try writer["jobID"].write(value.jobID)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.LifeCycleLastTestInitiated {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6150,11 +5821,6 @@ extension MgnClientTypes {
 }
 
 extension MgnClientTypes.LifeCycleLastTestReverted {
-
-    static func write(value: MgnClientTypes.LifeCycleLastTestReverted?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["apiCallDateTime"].write(value.apiCallDateTime)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.LifeCycleLastTestReverted {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6327,15 +5993,6 @@ extension MgnClientTypes.ListApplicationsRequestFilters {
         try writer["isArchived"].write(value.isArchived)
         try writer["waveIDs"].writeList(value.waveIDs, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.ListApplicationsRequestFilters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MgnClientTypes.ListApplicationsRequestFilters()
-        value.applicationIDs = try reader["applicationIDs"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.isArchived = try reader["isArchived"].readIfPresent()
-        value.waveIDs = try reader["waveIDs"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
 }
 
 extension MgnClientTypes {
@@ -6448,13 +6105,6 @@ extension MgnClientTypes.ListConnectorsRequestFilters {
     static func write(value: MgnClientTypes.ListConnectorsRequestFilters?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["connectorIDs"].writeList(value.connectorIDs, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.ListConnectorsRequestFilters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MgnClientTypes.ListConnectorsRequestFilters()
-        value.connectorIDs = try reader["connectorIDs"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -6646,13 +6296,6 @@ extension MgnClientTypes.ListExportsRequestFilters {
         guard let value else { return }
         try writer["exportIDs"].writeList(value.exportIDs, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.ListExportsRequestFilters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MgnClientTypes.ListExportsRequestFilters()
-        value.exportIDs = try reader["exportIDs"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
 }
 
 extension MgnClientTypes {
@@ -6843,13 +6486,6 @@ extension MgnClientTypes.ListImportsRequestFilters {
     static func write(value: MgnClientTypes.ListImportsRequestFilters?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["importIDs"].writeList(value.importIDs, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.ListImportsRequestFilters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MgnClientTypes.ListImportsRequestFilters()
-        value.importIDs = try reader["importIDs"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -7289,14 +6925,6 @@ extension MgnClientTypes.ListWavesRequestFilters {
         try writer["isArchived"].write(value.isArchived)
         try writer["waveIDs"].writeList(value.waveIDs, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.ListWavesRequestFilters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MgnClientTypes.ListWavesRequestFilters()
-        value.waveIDs = try reader["waveIDs"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.isArchived = try reader["isArchived"].readIfPresent()
-        return value
-    }
 }
 
 extension MgnClientTypes {
@@ -7320,11 +6948,6 @@ extension MgnClientTypes {
 }
 
 extension MgnClientTypes.ManagedAccount {
-
-    static func write(value: MgnClientTypes.ManagedAccount?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["accountId"].write(value.accountId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.ManagedAccount {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7497,13 +7120,6 @@ public enum MgnClientTypes {}
 
 extension MgnClientTypes.NetworkInterface {
 
-    static func write(value: MgnClientTypes.NetworkInterface?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ips"].writeList(value.ips, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["isPrimary"].write(value.isPrimary)
-        try writer["macAddress"].write(value.macAddress)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.NetworkInterface {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MgnClientTypes.NetworkInterface()
@@ -7540,11 +7156,6 @@ extension MgnClientTypes {
 
 extension MgnClientTypes.OS {
 
-    static func write(value: MgnClientTypes.OS?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["fullString"].write(value.fullString)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.OS {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MgnClientTypes.OS()
@@ -7570,14 +7181,6 @@ extension MgnClientTypes {
 }
 
 extension MgnClientTypes.ParticipatingServer {
-
-    static func write(value: MgnClientTypes.ParticipatingServer?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["launchStatus"].write(value.launchStatus)
-        try writer["launchedEc2InstanceID"].write(value.launchedEc2InstanceID)
-        try writer["postLaunchActionsStatus"].write(value.postLaunchActionsStatus, with: MgnClientTypes.PostLaunchActionsStatus.write(value:to:))
-        try writer["sourceServerID"].write(value.sourceServerID)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.ParticipatingServer {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7886,12 +7489,6 @@ extension MgnClientTypes {
 }
 
 extension MgnClientTypes.PostLaunchActionsStatus {
-
-    static func write(value: MgnClientTypes.PostLaunchActionsStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["postLaunchActionsLaunchStatusList"].writeList(value.postLaunchActionsLaunchStatusList, memberWritingClosure: MgnClientTypes.JobPostLaunchActionsLaunchStatus.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ssmAgentDiscoveryDatetime"].write(value.ssmAgentDiscoveryDatetime)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.PostLaunchActionsStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8645,26 +8242,6 @@ extension MgnClientTypes.ReplicationConfigurationTemplate: Swift.CustomDebugStri
 
 extension MgnClientTypes.ReplicationConfigurationTemplate {
 
-    static func write(value: MgnClientTypes.ReplicationConfigurationTemplate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["associateDefaultSecurityGroup"].write(value.associateDefaultSecurityGroup)
-        try writer["bandwidthThrottling"].write(value.bandwidthThrottling)
-        try writer["createPublicIP"].write(value.createPublicIP)
-        try writer["dataPlaneRouting"].write(value.dataPlaneRouting)
-        try writer["defaultLargeStagingDiskType"].write(value.defaultLargeStagingDiskType)
-        try writer["ebsEncryption"].write(value.ebsEncryption)
-        try writer["ebsEncryptionKeyArn"].write(value.ebsEncryptionKeyArn)
-        try writer["replicationConfigurationTemplateID"].write(value.replicationConfigurationTemplateID)
-        try writer["replicationServerInstanceType"].write(value.replicationServerInstanceType)
-        try writer["replicationServersSecurityGroupsIDs"].writeList(value.replicationServersSecurityGroupsIDs, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["stagingAreaSubnetId"].write(value.stagingAreaSubnetId)
-        try writer["stagingAreaTags"].writeMap(value.stagingAreaTags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["useDedicatedReplicationServer"].write(value.useDedicatedReplicationServer)
-        try writer["useFipsEndpoint"].write(value.useFipsEndpoint)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.ReplicationConfigurationTemplate {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MgnClientTypes.ReplicationConfigurationTemplate()
@@ -9246,18 +8823,6 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
 extension MgnClientTypes.SourceProperties {
 
-    static func write(value: MgnClientTypes.SourceProperties?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["cpus"].writeList(value.cpus, memberWritingClosure: MgnClientTypes.CPU.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["disks"].writeList(value.disks, memberWritingClosure: MgnClientTypes.Disk.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["identificationHints"].write(value.identificationHints, with: MgnClientTypes.IdentificationHints.write(value:to:))
-        try writer["lastUpdatedDateTime"].write(value.lastUpdatedDateTime)
-        try writer["networkInterfaces"].writeList(value.networkInterfaces, memberWritingClosure: MgnClientTypes.NetworkInterface.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["os"].write(value.os, with: MgnClientTypes.OS.write(value:to:))
-        try writer["ramBytes"].write(value.ramBytes)
-        try writer["recommendedInstanceType"].write(value.recommendedInstanceType)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.SourceProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MgnClientTypes.SourceProperties()
@@ -9323,24 +8888,6 @@ extension MgnClientTypes.SourceServer: Swift.CustomDebugStringConvertible {
 }
 
 extension MgnClientTypes.SourceServer {
-
-    static func write(value: MgnClientTypes.SourceServer?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["applicationID"].write(value.applicationID)
-        try writer["arn"].write(value.arn)
-        try writer["connectorAction"].write(value.connectorAction, with: MgnClientTypes.SourceServerConnectorAction.write(value:to:))
-        try writer["dataReplicationInfo"].write(value.dataReplicationInfo, with: MgnClientTypes.DataReplicationInfo.write(value:to:))
-        try writer["fqdnForActionFramework"].write(value.fqdnForActionFramework)
-        try writer["isArchived"].write(value.isArchived)
-        try writer["launchedInstance"].write(value.launchedInstance, with: MgnClientTypes.LaunchedInstance.write(value:to:))
-        try writer["lifeCycle"].write(value.lifeCycle, with: MgnClientTypes.LifeCycle.write(value:to:))
-        try writer["replicationType"].write(value.replicationType)
-        try writer["sourceProperties"].write(value.sourceProperties, with: MgnClientTypes.SourceProperties.write(value:to:))
-        try writer["sourceServerID"].write(value.sourceServerID)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["userProvidedID"].write(value.userProvidedID)
-        try writer["vcenterClientID"].write(value.vcenterClientID)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.SourceServer {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -9432,22 +8979,6 @@ extension MgnClientTypes {
 
 extension MgnClientTypes.SourceServerActionDocument {
 
-    static func write(value: MgnClientTypes.SourceServerActionDocument?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["actionID"].write(value.actionID)
-        try writer["actionName"].write(value.actionName)
-        try writer["active"].write(value.active)
-        try writer["category"].write(value.category)
-        try writer["description"].write(value.description)
-        try writer["documentIdentifier"].write(value.documentIdentifier)
-        try writer["documentVersion"].write(value.documentVersion)
-        try writer["externalParameters"].writeMap(value.externalParameters, valueWritingClosure: MgnClientTypes.SsmExternalParameter.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["mustSucceedForCutover"].write(value.mustSucceedForCutover)
-        try writer["order"].write(value.order)
-        try writer["parameters"].writeMap(value.parameters, valueWritingClosure: listWritingClosure(memberWritingClosure: MgnClientTypes.SsmParameterStoreParameter.write(value:to:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["timeoutSeconds"].write(value.timeoutSeconds)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.SourceServerActionDocument {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MgnClientTypes.SourceServerActionDocument()
@@ -9531,13 +9062,6 @@ extension MgnClientTypes.SourceServerActionsRequestFilters {
     static func write(value: MgnClientTypes.SourceServerActionsRequestFilters?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["actionIDs"].writeList(value.actionIDs, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.SourceServerActionsRequestFilters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MgnClientTypes.SourceServerActionsRequestFilters()
-        value.actionIDs = try reader["actionIDs"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -10504,23 +10028,6 @@ extension MgnClientTypes {
 
 extension MgnClientTypes.TemplateActionDocument {
 
-    static func write(value: MgnClientTypes.TemplateActionDocument?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["actionID"].write(value.actionID)
-        try writer["actionName"].write(value.actionName)
-        try writer["active"].write(value.active)
-        try writer["category"].write(value.category)
-        try writer["description"].write(value.description)
-        try writer["documentIdentifier"].write(value.documentIdentifier)
-        try writer["documentVersion"].write(value.documentVersion)
-        try writer["externalParameters"].writeMap(value.externalParameters, valueWritingClosure: MgnClientTypes.SsmExternalParameter.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["mustSucceedForCutover"].write(value.mustSucceedForCutover)
-        try writer["operatingSystem"].write(value.operatingSystem)
-        try writer["order"].write(value.order)
-        try writer["parameters"].writeMap(value.parameters, valueWritingClosure: listWritingClosure(memberWritingClosure: MgnClientTypes.SsmParameterStoreParameter.write(value:to:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["timeoutSeconds"].write(value.timeoutSeconds)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.TemplateActionDocument {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MgnClientTypes.TemplateActionDocument()
@@ -10609,13 +10116,6 @@ extension MgnClientTypes.TemplateActionsRequestFilters {
     static func write(value: MgnClientTypes.TemplateActionsRequestFilters?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["actionIDs"].writeList(value.actionIDs, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.TemplateActionsRequestFilters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MgnClientTypes.TemplateActionsRequestFilters()
-        value.actionIDs = try reader["actionIDs"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
     }
 }
 
@@ -12714,12 +12214,6 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
 extension MgnClientTypes.ValidationExceptionField {
 
-    static func write(value: MgnClientTypes.ValidationExceptionField?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.message)
-        try writer["name"].write(value.name)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.ValidationExceptionField {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MgnClientTypes.ValidationExceptionField()
@@ -12791,18 +12285,6 @@ extension MgnClientTypes.VcenterClient: Swift.CustomDebugStringConvertible {
 }
 
 extension MgnClientTypes.VcenterClient {
-
-    static func write(value: MgnClientTypes.VcenterClient?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["datacenterName"].write(value.datacenterName)
-        try writer["hostname"].write(value.hostname)
-        try writer["lastSeenDatetime"].write(value.lastSeenDatetime)
-        try writer["sourceServerTags"].writeMap(value.sourceServerTags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["vcenterClientID"].write(value.vcenterClientID)
-        try writer["vcenterUUID"].write(value.vcenterUUID)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.VcenterClient {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -12915,19 +12397,6 @@ extension MgnClientTypes.Wave: Swift.CustomDebugStringConvertible {
 
 extension MgnClientTypes.Wave {
 
-    static func write(value: MgnClientTypes.Wave?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["creationDateTime"].write(value.creationDateTime)
-        try writer["description"].write(value.description)
-        try writer["isArchived"].write(value.isArchived)
-        try writer["lastModifiedDateTime"].write(value.lastModifiedDateTime)
-        try writer["name"].write(value.name)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["waveAggregatedStatus"].write(value.waveAggregatedStatus, with: MgnClientTypes.WaveAggregatedStatus.write(value:to:))
-        try writer["waveID"].write(value.waveID)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.Wave {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MgnClientTypes.Wave()
@@ -12992,15 +12461,6 @@ extension MgnClientTypes {
 }
 
 extension MgnClientTypes.WaveAggregatedStatus {
-
-    static func write(value: MgnClientTypes.WaveAggregatedStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["healthStatus"].write(value.healthStatus)
-        try writer["lastUpdateDateTime"].write(value.lastUpdateDateTime)
-        try writer["progressStatus"].write(value.progressStatus)
-        try writer["replicationStartedDateTime"].write(value.replicationStartedDateTime)
-        try writer["totalApplications"].write(value.totalApplications)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.WaveAggregatedStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

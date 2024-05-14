@@ -400,16 +400,6 @@ public enum Route53RecoveryClusterClientTypes {}
 
 extension Route53RecoveryClusterClientTypes.RoutingControl {
 
-    static func write(value: Route53RecoveryClusterClientTypes.RoutingControl?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ControlPanelArn"].write(value.controlPanelArn)
-        try writer["ControlPanelName"].write(value.controlPanelName)
-        try writer["Owner"].write(value.owner)
-        try writer["RoutingControlArn"].write(value.routingControlArn)
-        try writer["RoutingControlName"].write(value.routingControlName)
-        try writer["RoutingControlState"].write(value.routingControlState)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> Route53RecoveryClusterClientTypes.RoutingControl {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Route53RecoveryClusterClientTypes.RoutingControl()
@@ -601,14 +591,6 @@ extension Route53RecoveryClusterClientTypes.UpdateRoutingControlStateEntry {
         guard let value else { return }
         try writer["RoutingControlArn"].write(value.routingControlArn)
         try writer["RoutingControlState"].write(value.routingControlState)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> Route53RecoveryClusterClientTypes.UpdateRoutingControlStateEntry {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Route53RecoveryClusterClientTypes.UpdateRoutingControlStateEntry()
-        value.routingControlArn = try reader["RoutingControlArn"].readIfPresent()
-        value.routingControlState = try reader["RoutingControlState"].readIfPresent()
-        return value
     }
 }
 
@@ -820,12 +802,6 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 extension Route53RecoveryClusterClientTypes.ValidationExceptionField {
-
-    static func write(value: Route53RecoveryClusterClientTypes.ValidationExceptionField?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.message)
-        try writer["name"].write(value.name)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Route53RecoveryClusterClientTypes.ValidationExceptionField {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

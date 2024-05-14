@@ -6,42 +6,6 @@
 //
 import ClientRuntime
 
-public struct ServiceEndpointMetadata {
-    private let defaultProtocol = ProtocolType.https.rawValue
-    private let defaultSigner = "v4"
-    private let protocolPriority = ProtocolType.allCases.map { $0.rawValue }
-    private let signerPriority = ["v4"]
-    /**
-      A URI **template** used to resolve the hostname of the endpoint.
-      Templates are of the form `{name}`. e.g. `{service}.{region}.amazonaws.com`
-
-      Variables that may be substituted:
-      - `service` - the service name
-      - `region` - the region name
-      - `dnsSuffix` - the dns suffix of the partition
-     */
-    let hostName: String?
-
-    /// A list of supported protocols for the endpoint
-    let protocols: [String]
-
-    /// A custom signing constraint for the endpoint
-    let credentialScope: CredentialScope?
-
-    /// A list of allowable signature versions for the endpoint (e.g. "v4", "v2", "v3", "s3v3", etc)
-    let signatureVersions: [String]
-
-    public init(hostName: String? = nil,
-                protocols: [String] = [],
-                credentialScope: CredentialScope? = nil,
-                signatureVersions: [String] = []) {
-        self.hostName = hostName
-        self.protocols = protocols
-        self.credentialScope = credentialScope
-        self.signatureVersions = signatureVersions
-    }
-}
-
 extension ServiceEndpointMetadata {
     func resolve(region: String, defaults: ServiceEndpointMetadata) throws -> AWSEndpoint {
         let serviceEndpointMetadata = buildEndpointMetadataIfNotSet(defaults: defaults)
@@ -54,8 +18,8 @@ extension ServiceEndpointMetadata {
         let signingRegion = serviceEndpointMetadata.credentialScope?.region ?? region
 
         return AWSEndpoint(endpoint: Endpoint(host: editedHostName,
-                                              path: "/",
-                                              protocolType: ProtocolType(rawValue: transportProtocol)),
+                           path: "/",
+                           protocolType: ProtocolType(rawValue: transportProtocol)),
                            signingName: signingName,
                            signingRegion: signingRegion)
     }

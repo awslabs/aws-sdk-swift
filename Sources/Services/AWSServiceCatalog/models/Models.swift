@@ -90,14 +90,6 @@ extension ServiceCatalogClientTypes.AccessLevelFilter {
         try writer["Key"].write(value.key)
         try writer["Value"].write(value.value)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.AccessLevelFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ServiceCatalogClientTypes.AccessLevelFilter()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
-        return value
-    }
 }
 
 extension ServiceCatalogClientTypes {
@@ -727,11 +719,6 @@ enum BatchDisassociateServiceActionFromProvisioningArtifactOutputError {
 
 extension ServiceCatalogClientTypes.BudgetDetail {
 
-    static func write(value: ServiceCatalogClientTypes.BudgetDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BudgetName"].write(value.budgetName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.BudgetDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ServiceCatalogClientTypes.BudgetDetail()
@@ -790,11 +777,6 @@ extension ServiceCatalogClientTypes {
 }
 
 extension ServiceCatalogClientTypes.CloudWatchDashboard {
-
-    static func write(value: ServiceCatalogClientTypes.CloudWatchDashboard?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.CloudWatchDashboard {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -875,16 +857,6 @@ extension ServiceCatalogClientTypes {
 
 extension ServiceCatalogClientTypes.ConstraintDetail {
 
-    static func write(value: ServiceCatalogClientTypes.ConstraintDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ConstraintId"].write(value.constraintId)
-        try writer["Description"].write(value.description)
-        try writer["Owner"].write(value.owner)
-        try writer["PortfolioId"].write(value.portfolioId)
-        try writer["ProductId"].write(value.productId)
-        try writer["Type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.ConstraintDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ServiceCatalogClientTypes.ConstraintDetail()
@@ -943,12 +915,6 @@ extension ServiceCatalogClientTypes {
 }
 
 extension ServiceCatalogClientTypes.ConstraintSummary {
-
-    static func write(value: ServiceCatalogClientTypes.ConstraintSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Description"].write(value.description)
-        try writer["Type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.ConstraintSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4581,13 +4547,6 @@ extension ServiceCatalogClientTypes.EngineWorkflowResourceIdentifier {
         guard let value else { return }
         try writer["UniqueTag"].write(value.uniqueTag, with: ServiceCatalogClientTypes.UniqueTagResourceIdentifier.write(value:to:))
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.EngineWorkflowResourceIdentifier {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ServiceCatalogClientTypes.EngineWorkflowResourceIdentifier()
-        value.uniqueTag = try reader["UniqueTag"].readIfPresent(with: ServiceCatalogClientTypes.UniqueTagResourceIdentifier.read(from:))
-        return value
-    }
 }
 
 extension ServiceCatalogClientTypes {
@@ -4845,13 +4804,6 @@ enum ExecuteProvisionedProductServiceActionOutputError {
 
 extension ServiceCatalogClientTypes.ExecutionParameter {
 
-    static func write(value: ServiceCatalogClientTypes.ExecutionParameter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DefaultValues"].writeList(value.defaultValues, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Name"].write(value.name)
-        try writer["Type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.ExecutionParameter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ServiceCatalogClientTypes.ExecutionParameter()
@@ -4887,15 +4839,6 @@ extension ServiceCatalogClientTypes {
 }
 
 extension ServiceCatalogClientTypes.FailedServiceActionAssociation {
-
-    static func write(value: ServiceCatalogClientTypes.FailedServiceActionAssociation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ErrorCode"].write(value.errorCode)
-        try writer["ErrorMessage"].write(value.errorMessage)
-        try writer["ProductId"].write(value.productId)
-        try writer["ProvisioningArtifactId"].write(value.provisioningArtifactId)
-        try writer["ServiceActionId"].write(value.serviceActionId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.FailedServiceActionAssociation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5278,15 +5221,6 @@ public struct InvalidStateException: ClientRuntime.ModeledError, AWSClientRuntim
 
 extension ServiceCatalogClientTypes.LastSync {
 
-    static func write(value: ServiceCatalogClientTypes.LastSync?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["LastSuccessfulSyncProvisioningArtifactId"].write(value.lastSuccessfulSyncProvisioningArtifactId)
-        try writer["LastSuccessfulSyncTime"].writeTimestamp(value.lastSuccessfulSyncTime, format: .epochSeconds)
-        try writer["LastSyncStatus"].write(value.lastSyncStatus)
-        try writer["LastSyncStatusMessage"].write(value.lastSyncStatusMessage)
-        try writer["LastSyncTime"].writeTimestamp(value.lastSyncTime, format: .epochSeconds)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.LastSync {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ServiceCatalogClientTypes.LastSync()
@@ -5373,12 +5307,6 @@ extension ServiceCatalogClientTypes {
 
 extension ServiceCatalogClientTypes.LaunchPath {
 
-    static func write(value: ServiceCatalogClientTypes.LaunchPath?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Id"].write(value.id)
-        try writer["Name"].write(value.name)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.LaunchPath {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ServiceCatalogClientTypes.LaunchPath()
@@ -5409,14 +5337,6 @@ extension ServiceCatalogClientTypes {
 }
 
 extension ServiceCatalogClientTypes.LaunchPathSummary {
-
-    static func write(value: ServiceCatalogClientTypes.LaunchPathSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ConstraintSummaries"].writeList(value.constraintSummaries, memberWritingClosure: ServiceCatalogClientTypes.ConstraintSummary.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Id"].write(value.id)
-        try writer["Name"].write(value.name)
-        try writer["Tags"].writeList(value.tags, memberWritingClosure: ServiceCatalogClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.LaunchPathSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6702,14 +6622,6 @@ extension ServiceCatalogClientTypes.ListRecordHistorySearchFilter {
         try writer["Key"].write(value.key)
         try writer["Value"].write(value.value)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.ListRecordHistorySearchFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ServiceCatalogClientTypes.ListRecordHistorySearchFilter()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
-        return value
-    }
 }
 
 extension ServiceCatalogClientTypes {
@@ -7104,15 +7016,6 @@ extension ServiceCatalogClientTypes.ListTagOptionsFilters {
         try writer["Active"].write(value.active)
         try writer["Key"].write(value.key)
         try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.ListTagOptionsFilters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ServiceCatalogClientTypes.ListTagOptionsFilters()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
-        value.active = try reader["Active"].readIfPresent()
-        return value
     }
 }
 
@@ -7579,17 +7482,6 @@ extension ServiceCatalogClientTypes {
 
 extension ServiceCatalogClientTypes.ParameterConstraints {
 
-    static func write(value: ServiceCatalogClientTypes.ParameterConstraints?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AllowedPattern"].write(value.allowedPattern)
-        try writer["AllowedValues"].writeList(value.allowedValues, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ConstraintDescription"].write(value.constraintDescription)
-        try writer["MaxLength"].write(value.maxLength)
-        try writer["MaxValue"].write(value.maxValue)
-        try writer["MinLength"].write(value.minLength)
-        try writer["MinValue"].write(value.minValue)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.ParameterConstraints {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ServiceCatalogClientTypes.ParameterConstraints()
@@ -7646,16 +7538,6 @@ extension ServiceCatalogClientTypes {
 
 extension ServiceCatalogClientTypes.PortfolioDetail {
 
-    static func write(value: ServiceCatalogClientTypes.PortfolioDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ARN"].write(value.arn)
-        try writer["CreatedTime"].writeTimestamp(value.createdTime, format: .epochSeconds)
-        try writer["Description"].write(value.description)
-        try writer["DisplayName"].write(value.displayName)
-        try writer["Id"].write(value.id)
-        try writer["ProviderName"].write(value.providerName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.PortfolioDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ServiceCatalogClientTypes.PortfolioDetail()
@@ -7706,15 +7588,6 @@ extension ServiceCatalogClientTypes {
 }
 
 extension ServiceCatalogClientTypes.PortfolioShareDetail {
-
-    static func write(value: ServiceCatalogClientTypes.PortfolioShareDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Accepted"].write(value.accepted)
-        try writer["PrincipalId"].write(value.principalId)
-        try writer["SharePrincipals"].write(value.sharePrincipals)
-        try writer["ShareTagOptions"].write(value.shareTagOptions)
-        try writer["Type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.PortfolioShareDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7794,12 +7667,6 @@ extension ServiceCatalogClientTypes {
 }
 
 extension ServiceCatalogClientTypes.Principal {
-
-    static func write(value: ServiceCatalogClientTypes.Principal?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["PrincipalARN"].write(value.principalARN)
-        try writer["PrincipalType"].write(value.principalType)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.Principal {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7928,12 +7795,6 @@ extension ServiceCatalogClientTypes {
 
 extension ServiceCatalogClientTypes.ProductViewAggregationValue {
 
-    static func write(value: ServiceCatalogClientTypes.ProductViewAggregationValue?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ApproximateCount"].write(value.approximateCount)
-        try writer["Value"].write(value.value)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.ProductViewAggregationValue {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ServiceCatalogClientTypes.ProductViewAggregationValue()
@@ -7964,15 +7825,6 @@ extension ServiceCatalogClientTypes {
 }
 
 extension ServiceCatalogClientTypes.ProductViewDetail {
-
-    static func write(value: ServiceCatalogClientTypes.ProductViewDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedTime"].writeTimestamp(value.createdTime, format: .epochSeconds)
-        try writer["ProductARN"].write(value.productARN)
-        try writer["ProductViewSummary"].write(value.productViewSummary, with: ServiceCatalogClientTypes.ProductViewSummary.write(value:to:))
-        try writer["SourceConnection"].write(value.sourceConnection, with: ServiceCatalogClientTypes.SourceConnectionDetail.write(value:to:))
-        try writer["Status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.ProductViewDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8094,21 +7946,6 @@ extension ServiceCatalogClientTypes {
 }
 
 extension ServiceCatalogClientTypes.ProductViewSummary {
-
-    static func write(value: ServiceCatalogClientTypes.ProductViewSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Distributor"].write(value.distributor)
-        try writer["HasDefaultPath"].write(value.hasDefaultPath)
-        try writer["Id"].write(value.id)
-        try writer["Name"].write(value.name)
-        try writer["Owner"].write(value.owner)
-        try writer["ProductId"].write(value.productId)
-        try writer["ShortDescription"].write(value.shortDescription)
-        try writer["SupportDescription"].write(value.supportDescription)
-        try writer["SupportEmail"].write(value.supportEmail)
-        try writer["SupportUrl"].write(value.supportUrl)
-        try writer["Type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.ProductViewSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8349,29 +8186,6 @@ enum ProvisionProductOutputError {
 
 extension ServiceCatalogClientTypes.ProvisionedProductAttribute {
 
-    static func write(value: ServiceCatalogClientTypes.ProvisionedProductAttribute?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["CreatedTime"].writeTimestamp(value.createdTime, format: .epochSeconds)
-        try writer["Id"].write(value.id)
-        try writer["IdempotencyToken"].write(value.idempotencyToken)
-        try writer["LastProvisioningRecordId"].write(value.lastProvisioningRecordId)
-        try writer["LastRecordId"].write(value.lastRecordId)
-        try writer["LastSuccessfulProvisioningRecordId"].write(value.lastSuccessfulProvisioningRecordId)
-        try writer["Name"].write(value.name)
-        try writer["PhysicalId"].write(value.physicalId)
-        try writer["ProductId"].write(value.productId)
-        try writer["ProductName"].write(value.productName)
-        try writer["ProvisioningArtifactId"].write(value.provisioningArtifactId)
-        try writer["ProvisioningArtifactName"].write(value.provisioningArtifactName)
-        try writer["Status"].write(value.status)
-        try writer["StatusMessage"].write(value.statusMessage)
-        try writer["Tags"].writeList(value.tags, memberWritingClosure: ServiceCatalogClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Type"].write(value.type)
-        try writer["UserArn"].write(value.userArn)
-        try writer["UserArnSession"].write(value.userArnSession)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.ProvisionedProductAttribute {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ServiceCatalogClientTypes.ProvisionedProductAttribute()
@@ -8514,24 +8328,6 @@ extension ServiceCatalogClientTypes {
 
 extension ServiceCatalogClientTypes.ProvisionedProductDetail {
 
-    static func write(value: ServiceCatalogClientTypes.ProvisionedProductDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["CreatedTime"].writeTimestamp(value.createdTime, format: .epochSeconds)
-        try writer["Id"].write(value.id)
-        try writer["IdempotencyToken"].write(value.idempotencyToken)
-        try writer["LastProvisioningRecordId"].write(value.lastProvisioningRecordId)
-        try writer["LastRecordId"].write(value.lastRecordId)
-        try writer["LastSuccessfulProvisioningRecordId"].write(value.lastSuccessfulProvisioningRecordId)
-        try writer["LaunchRoleArn"].write(value.launchRoleArn)
-        try writer["Name"].write(value.name)
-        try writer["ProductId"].write(value.productId)
-        try writer["ProvisioningArtifactId"].write(value.provisioningArtifactId)
-        try writer["Status"].write(value.status)
-        try writer["StatusMessage"].write(value.statusMessage)
-        try writer["Type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.ProvisionedProductDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ServiceCatalogClientTypes.ProvisionedProductDetail()
@@ -8648,25 +8444,6 @@ extension ServiceCatalogClientTypes {
 }
 
 extension ServiceCatalogClientTypes.ProvisionedProductPlanDetails {
-
-    static func write(value: ServiceCatalogClientTypes.ProvisionedProductPlanDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedTime"].writeTimestamp(value.createdTime, format: .epochSeconds)
-        try writer["NotificationArns"].writeList(value.notificationArns, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["PathId"].write(value.pathId)
-        try writer["PlanId"].write(value.planId)
-        try writer["PlanName"].write(value.planName)
-        try writer["PlanType"].write(value.planType)
-        try writer["ProductId"].write(value.productId)
-        try writer["ProvisionProductId"].write(value.provisionProductId)
-        try writer["ProvisionProductName"].write(value.provisionProductName)
-        try writer["ProvisioningArtifactId"].write(value.provisioningArtifactId)
-        try writer["ProvisioningParameters"].writeList(value.provisioningParameters, memberWritingClosure: ServiceCatalogClientTypes.UpdateProvisioningParameter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Status"].write(value.status)
-        try writer["StatusMessage"].write(value.statusMessage)
-        try writer["Tags"].writeList(value.tags, memberWritingClosure: ServiceCatalogClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["UpdatedTime"].writeTimestamp(value.updatedTime, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.ProvisionedProductPlanDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8805,16 +8582,6 @@ extension ServiceCatalogClientTypes {
 }
 
 extension ServiceCatalogClientTypes.ProvisionedProductPlanSummary {
-
-    static func write(value: ServiceCatalogClientTypes.ProvisionedProductPlanSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["PlanId"].write(value.planId)
-        try writer["PlanName"].write(value.planName)
-        try writer["PlanType"].write(value.planType)
-        try writer["ProvisionProductId"].write(value.provisionProductId)
-        try writer["ProvisionProductName"].write(value.provisionProductName)
-        try writer["ProvisioningArtifactId"].write(value.provisioningArtifactId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.ProvisionedProductPlanSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8960,15 +8727,6 @@ extension ServiceCatalogClientTypes {
 
 extension ServiceCatalogClientTypes.ProvisioningArtifact {
 
-    static func write(value: ServiceCatalogClientTypes.ProvisioningArtifact?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedTime"].writeTimestamp(value.createdTime, format: .epochSeconds)
-        try writer["Description"].write(value.description)
-        try writer["Guidance"].write(value.guidance)
-        try writer["Id"].write(value.id)
-        try writer["Name"].write(value.name)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.ProvisioningArtifact {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ServiceCatalogClientTypes.ProvisioningArtifact()
@@ -9014,18 +8772,6 @@ extension ServiceCatalogClientTypes {
 }
 
 extension ServiceCatalogClientTypes.ProvisioningArtifactDetail {
-
-    static func write(value: ServiceCatalogClientTypes.ProvisioningArtifactDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Active"].write(value.active)
-        try writer["CreatedTime"].writeTimestamp(value.createdTime, format: .epochSeconds)
-        try writer["Description"].write(value.description)
-        try writer["Guidance"].write(value.guidance)
-        try writer["Id"].write(value.id)
-        try writer["Name"].write(value.name)
-        try writer["SourceRevision"].write(value.sourceRevision)
-        try writer["Type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.ProvisioningArtifactDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -9126,12 +8872,6 @@ extension ServiceCatalogClientTypes {
 
 extension ServiceCatalogClientTypes.ProvisioningArtifactOutput {
 
-    static func write(value: ServiceCatalogClientTypes.ProvisioningArtifactOutput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Description"].write(value.description)
-        try writer["Key"].write(value.key)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.ProvisioningArtifactOutput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ServiceCatalogClientTypes.ProvisioningArtifactOutput()
@@ -9162,16 +8902,6 @@ extension ServiceCatalogClientTypes {
 }
 
 extension ServiceCatalogClientTypes.ProvisioningArtifactParameter {
-
-    static func write(value: ServiceCatalogClientTypes.ProvisioningArtifactParameter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DefaultValue"].write(value.defaultValue)
-        try writer["Description"].write(value.description)
-        try writer["IsNoEcho"].write(value.isNoEcho)
-        try writer["ParameterConstraints"].write(value.parameterConstraints, with: ServiceCatalogClientTypes.ParameterConstraints.write(value:to:))
-        try writer["ParameterKey"].write(value.parameterKey)
-        try writer["ParameterType"].write(value.parameterType)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.ProvisioningArtifactParameter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -9224,12 +8954,6 @@ extension ServiceCatalogClientTypes {
 
 extension ServiceCatalogClientTypes.ProvisioningArtifactPreferences {
 
-    static func write(value: ServiceCatalogClientTypes.ProvisioningArtifactPreferences?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["StackSetAccounts"].writeList(value.stackSetAccounts, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["StackSetRegions"].writeList(value.stackSetRegions, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.ProvisioningArtifactPreferences {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ServiceCatalogClientTypes.ProvisioningArtifactPreferences()
@@ -9268,17 +8992,6 @@ extension ServiceCatalogClientTypes.ProvisioningArtifactProperties {
         try writer["Info"].writeMap(value.info, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["Name"].write(value.name)
         try writer["Type"].write(value.type)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.ProvisioningArtifactProperties {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ServiceCatalogClientTypes.ProvisioningArtifactProperties()
-        value.name = try reader["Name"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.info = try reader["Info"].readMapIfPresent(valueReadingClosure: Swift.String.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.type = try reader["Type"].readIfPresent()
-        value.disableTemplateValidation = try reader["DisableTemplateValidation"].readIfPresent() ?? false
-        return value
     }
 }
 
@@ -9350,15 +9063,6 @@ extension ServiceCatalogClientTypes {
 }
 
 extension ServiceCatalogClientTypes.ProvisioningArtifactSummary {
-
-    static func write(value: ServiceCatalogClientTypes.ProvisioningArtifactSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedTime"].writeTimestamp(value.createdTime, format: .epochSeconds)
-        try writer["Description"].write(value.description)
-        try writer["Id"].write(value.id)
-        try writer["Name"].write(value.name)
-        try writer["ProvisioningArtifactMetadata"].writeMap(value.provisioningArtifactMetadata, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.ProvisioningArtifactSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -9448,12 +9152,6 @@ extension ServiceCatalogClientTypes {
 
 extension ServiceCatalogClientTypes.ProvisioningArtifactView {
 
-    static func write(value: ServiceCatalogClientTypes.ProvisioningArtifactView?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ProductViewSummary"].write(value.productViewSummary, with: ServiceCatalogClientTypes.ProductViewSummary.write(value:to:))
-        try writer["ProvisioningArtifact"].write(value.provisioningArtifact, with: ServiceCatalogClientTypes.ProvisioningArtifact.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.ProvisioningArtifactView {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ServiceCatalogClientTypes.ProvisioningArtifactView()
@@ -9490,14 +9188,6 @@ extension ServiceCatalogClientTypes.ProvisioningParameter {
         try writer["Key"].write(value.key)
         try writer["Value"].write(value.value)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.ProvisioningParameter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ServiceCatalogClientTypes.ProvisioningParameter()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
-        return value
-    }
 }
 
 extension ServiceCatalogClientTypes {
@@ -9530,18 +9220,6 @@ extension ServiceCatalogClientTypes.ProvisioningPreferences {
         try writer["StackSetMaxConcurrencyCount"].write(value.stackSetMaxConcurrencyCount)
         try writer["StackSetMaxConcurrencyPercentage"].write(value.stackSetMaxConcurrencyPercentage)
         try writer["StackSetRegions"].writeList(value.stackSetRegions, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.ProvisioningPreferences {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ServiceCatalogClientTypes.ProvisioningPreferences()
-        value.stackSetAccounts = try reader["StackSetAccounts"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.stackSetRegions = try reader["StackSetRegions"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.stackSetFailureToleranceCount = try reader["StackSetFailureToleranceCount"].readIfPresent()
-        value.stackSetFailureTolerancePercentage = try reader["StackSetFailureTolerancePercentage"].readIfPresent()
-        value.stackSetMaxConcurrencyCount = try reader["StackSetMaxConcurrencyCount"].readIfPresent()
-        value.stackSetMaxConcurrencyPercentage = try reader["StackSetMaxConcurrencyPercentage"].readIfPresent()
-        return value
     }
 }
 
@@ -9582,24 +9260,6 @@ extension ServiceCatalogClientTypes {
 }
 
 extension ServiceCatalogClientTypes.RecordDetail {
-
-    static func write(value: ServiceCatalogClientTypes.RecordDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedTime"].writeTimestamp(value.createdTime, format: .epochSeconds)
-        try writer["LaunchRoleArn"].write(value.launchRoleArn)
-        try writer["PathId"].write(value.pathId)
-        try writer["ProductId"].write(value.productId)
-        try writer["ProvisionedProductId"].write(value.provisionedProductId)
-        try writer["ProvisionedProductName"].write(value.provisionedProductName)
-        try writer["ProvisionedProductType"].write(value.provisionedProductType)
-        try writer["ProvisioningArtifactId"].write(value.provisioningArtifactId)
-        try writer["RecordErrors"].writeList(value.recordErrors, memberWritingClosure: ServiceCatalogClientTypes.RecordError.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["RecordId"].write(value.recordId)
-        try writer["RecordTags"].writeList(value.recordTags, memberWritingClosure: ServiceCatalogClientTypes.RecordTag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["RecordType"].write(value.recordType)
-        try writer["Status"].write(value.status)
-        try writer["UpdatedTime"].writeTimestamp(value.updatedTime, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.RecordDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -9707,12 +9367,6 @@ extension ServiceCatalogClientTypes {
 }
 
 extension ServiceCatalogClientTypes.RecordError {
-
-    static func write(value: ServiceCatalogClientTypes.RecordError?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Code"].write(value.code)
-        try writer["Description"].write(value.description)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.RecordError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -9826,12 +9480,6 @@ extension ServiceCatalogClientTypes {
 }
 
 extension ServiceCatalogClientTypes.RecordTag {
-
-    static func write(value: ServiceCatalogClientTypes.RecordTag?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Key"].write(value.key)
-        try writer["Value"].write(value.value)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.RecordTag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -10049,17 +9697,6 @@ extension ServiceCatalogClientTypes {
 
 extension ServiceCatalogClientTypes.ResourceChange {
 
-    static func write(value: ServiceCatalogClientTypes.ResourceChange?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Action"].write(value.action)
-        try writer["Details"].writeList(value.details, memberWritingClosure: ServiceCatalogClientTypes.ResourceChangeDetail.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["LogicalResourceId"].write(value.logicalResourceId)
-        try writer["PhysicalResourceId"].write(value.physicalResourceId)
-        try writer["Replacement"].write(value.replacement)
-        try writer["ResourceType"].write(value.resourceType)
-        try writer["Scope"].writeList(value.scope, memberWritingClosure: ServiceCatalogClientTypes.ResourceAttribute.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.ResourceChange {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ServiceCatalogClientTypes.ResourceChange()
@@ -10116,13 +9753,6 @@ extension ServiceCatalogClientTypes {
 
 extension ServiceCatalogClientTypes.ResourceChangeDetail {
 
-    static func write(value: ServiceCatalogClientTypes.ResourceChangeDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CausingEntity"].write(value.causingEntity)
-        try writer["Evaluation"].write(value.evaluation)
-        try writer["Target"].write(value.target, with: ServiceCatalogClientTypes.ResourceTargetDefinition.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.ResourceChangeDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ServiceCatalogClientTypes.ResourceChangeDetail()
@@ -10158,15 +9788,6 @@ extension ServiceCatalogClientTypes {
 }
 
 extension ServiceCatalogClientTypes.ResourceDetail {
-
-    static func write(value: ServiceCatalogClientTypes.ResourceDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ARN"].write(value.arn)
-        try writer["CreatedTime"].writeTimestamp(value.createdTime, format: .epochSeconds)
-        try writer["Description"].write(value.description)
-        try writer["Id"].write(value.id)
-        try writer["Name"].write(value.name)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.ResourceDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -10287,13 +9908,6 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 extension ServiceCatalogClientTypes.ResourceTargetDefinition {
-
-    static func write(value: ServiceCatalogClientTypes.ResourceTargetDefinition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Attribute"].write(value.attribute)
-        try writer["Name"].write(value.name)
-        try writer["RequiresRecreation"].write(value.requiresRecreation)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.ResourceTargetDefinition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -10749,15 +10363,6 @@ extension ServiceCatalogClientTypes.ServiceActionAssociation {
         try writer["ProvisioningArtifactId"].write(value.provisioningArtifactId)
         try writer["ServiceActionId"].write(value.serviceActionId)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.ServiceActionAssociation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ServiceCatalogClientTypes.ServiceActionAssociation()
-        value.serviceActionId = try reader["ServiceActionId"].readIfPresent()
-        value.productId = try reader["ProductId"].readIfPresent()
-        value.provisioningArtifactId = try reader["ProvisioningArtifactId"].readIfPresent()
-        return value
-    }
 }
 
 extension ServiceCatalogClientTypes {
@@ -10894,12 +10499,6 @@ extension ServiceCatalogClientTypes {
 
 extension ServiceCatalogClientTypes.ServiceActionDetail {
 
-    static func write(value: ServiceCatalogClientTypes.ServiceActionDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Definition"].writeMap(value.definition, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["ServiceActionSummary"].write(value.serviceActionSummary, with: ServiceCatalogClientTypes.ServiceActionSummary.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.ServiceActionDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ServiceCatalogClientTypes.ServiceActionDetail()
@@ -10930,14 +10529,6 @@ extension ServiceCatalogClientTypes {
 }
 
 extension ServiceCatalogClientTypes.ServiceActionSummary {
-
-    static func write(value: ServiceCatalogClientTypes.ServiceActionSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DefinitionType"].write(value.definitionType)
-        try writer["Description"].write(value.description)
-        try writer["Id"].write(value.id)
-        try writer["Name"].write(value.name)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.ServiceActionSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -10982,12 +10573,6 @@ public enum ServiceCatalogClientTypes {}
 
 extension ServiceCatalogClientTypes.ShareDetails {
 
-    static func write(value: ServiceCatalogClientTypes.ShareDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ShareErrors"].writeList(value.shareErrors, memberWritingClosure: ServiceCatalogClientTypes.ShareError.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["SuccessfulShares"].writeList(value.successfulShares, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.ShareDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ServiceCatalogClientTypes.ShareDetails()
@@ -11018,13 +10603,6 @@ extension ServiceCatalogClientTypes {
 }
 
 extension ServiceCatalogClientTypes.ShareError {
-
-    static func write(value: ServiceCatalogClientTypes.ShareError?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Accounts"].writeList(value.accounts, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Error"].write(value.error)
-        try writer["Message"].write(value.message)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.ShareError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -11136,14 +10714,6 @@ extension ServiceCatalogClientTypes.SourceConnection {
         try writer["ConnectionParameters"].write(value.connectionParameters, with: ServiceCatalogClientTypes.SourceConnectionParameters.write(value:to:))
         try writer["Type"].write(value.type)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.SourceConnection {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ServiceCatalogClientTypes.SourceConnection()
-        value.type = try reader["Type"].readIfPresent()
-        value.connectionParameters = try reader["ConnectionParameters"].readIfPresent(with: ServiceCatalogClientTypes.SourceConnectionParameters.read(from:))
-        return value
-    }
 }
 
 extension ServiceCatalogClientTypes {
@@ -11168,13 +10738,6 @@ extension ServiceCatalogClientTypes {
 }
 
 extension ServiceCatalogClientTypes.SourceConnectionDetail {
-
-    static func write(value: ServiceCatalogClientTypes.SourceConnectionDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ConnectionParameters"].write(value.connectionParameters, with: ServiceCatalogClientTypes.SourceConnectionParameters.write(value:to:))
-        try writer["LastSync"].write(value.lastSync, with: ServiceCatalogClientTypes.LastSync.write(value:to:))
-        try writer["Type"].write(value.type)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.SourceConnectionDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -11279,13 +10842,6 @@ extension ServiceCatalogClientTypes {
 }
 
 extension ServiceCatalogClientTypes.StackInstance {
-
-    static func write(value: ServiceCatalogClientTypes.StackInstance?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Account"].write(value.account)
-        try writer["Region"].write(value.region)
-        try writer["StackInstanceStatus"].write(value.stackInstanceStatus)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.StackInstance {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -11467,15 +11023,6 @@ extension ServiceCatalogClientTypes {
 
 extension ServiceCatalogClientTypes.TagOptionDetail {
 
-    static func write(value: ServiceCatalogClientTypes.TagOptionDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Active"].write(value.active)
-        try writer["Id"].write(value.id)
-        try writer["Key"].write(value.key)
-        try writer["Owner"].write(value.owner)
-        try writer["Value"].write(value.value)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.TagOptionDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ServiceCatalogClientTypes.TagOptionDetail()
@@ -11558,12 +11105,6 @@ public struct TagOptionNotMigratedException: ClientRuntime.ModeledError, AWSClie
 }
 
 extension ServiceCatalogClientTypes.TagOptionSummary {
-
-    static func write(value: ServiceCatalogClientTypes.TagOptionSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Key"].write(value.key)
-        try writer["Values"].writeList(value.values, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.TagOptionSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -11695,14 +11236,6 @@ extension ServiceCatalogClientTypes.UniqueTagResourceIdentifier {
         guard let value else { return }
         try writer["Key"].write(value.key)
         try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.UniqueTagResourceIdentifier {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ServiceCatalogClientTypes.UniqueTagResourceIdentifier()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
-        return value
     }
 }
 
@@ -12571,19 +12104,6 @@ extension ServiceCatalogClientTypes.UpdateProvisioningPreferences {
         try writer["StackSetOperationType"].write(value.stackSetOperationType)
         try writer["StackSetRegions"].writeList(value.stackSetRegions, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.UpdateProvisioningPreferences {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ServiceCatalogClientTypes.UpdateProvisioningPreferences()
-        value.stackSetAccounts = try reader["StackSetAccounts"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.stackSetRegions = try reader["StackSetRegions"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.stackSetFailureToleranceCount = try reader["StackSetFailureToleranceCount"].readIfPresent()
-        value.stackSetFailureTolerancePercentage = try reader["StackSetFailureTolerancePercentage"].readIfPresent()
-        value.stackSetMaxConcurrencyCount = try reader["StackSetMaxConcurrencyCount"].readIfPresent()
-        value.stackSetMaxConcurrencyPercentage = try reader["StackSetMaxConcurrencyPercentage"].readIfPresent()
-        value.stackSetOperationType = try reader["StackSetOperationType"].readIfPresent()
-        return value
-    }
 }
 
 extension ServiceCatalogClientTypes {
@@ -12797,12 +12317,6 @@ enum UpdateTagOptionOutputError {
 }
 
 extension ServiceCatalogClientTypes.UsageInstruction {
-
-    static func write(value: ServiceCatalogClientTypes.UsageInstruction?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Type"].write(value.type)
-        try writer["Value"].write(value.value)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.UsageInstruction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

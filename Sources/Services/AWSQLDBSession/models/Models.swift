@@ -10,11 +10,6 @@ extension QLDBSessionClientTypes.AbortTransactionRequest {
         guard value != nil else { return }
         _ = writer[""]  // create an empty structure
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QLDBSessionClientTypes.AbortTransactionRequest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        return QLDBSessionClientTypes.AbortTransactionRequest()
-    }
 }
 
 extension QLDBSessionClientTypes {
@@ -27,11 +22,6 @@ extension QLDBSessionClientTypes {
 }
 
 extension QLDBSessionClientTypes.AbortTransactionResult {
-
-    static func write(value: QLDBSessionClientTypes.AbortTransactionResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["TimingInformation"].write(value.timingInformation, with: QLDBSessionClientTypes.TimingInformation.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QLDBSessionClientTypes.AbortTransactionResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -142,14 +132,6 @@ extension QLDBSessionClientTypes.CommitTransactionRequest {
         try writer["CommitDigest"].write(value.commitDigest)
         try writer["TransactionId"].write(value.transactionId)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QLDBSessionClientTypes.CommitTransactionRequest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QLDBSessionClientTypes.CommitTransactionRequest()
-        value.transactionId = try reader["TransactionId"].readIfPresent()
-        value.commitDigest = try reader["CommitDigest"].readIfPresent()
-        return value
-    }
 }
 
 extension QLDBSessionClientTypes {
@@ -175,14 +157,6 @@ extension QLDBSessionClientTypes {
 }
 
 extension QLDBSessionClientTypes.CommitTransactionResult {
-
-    static func write(value: QLDBSessionClientTypes.CommitTransactionResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CommitDigest"].write(value.commitDigest)
-        try writer["ConsumedIOs"].write(value.consumedIOs, with: QLDBSessionClientTypes.IOUsage.write(value:to:))
-        try writer["TimingInformation"].write(value.timingInformation, with: QLDBSessionClientTypes.TimingInformation.write(value:to:))
-        try writer["TransactionId"].write(value.transactionId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QLDBSessionClientTypes.CommitTransactionResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -229,11 +203,6 @@ extension QLDBSessionClientTypes.EndSessionRequest {
         guard value != nil else { return }
         _ = writer[""]  // create an empty structure
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QLDBSessionClientTypes.EndSessionRequest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        return QLDBSessionClientTypes.EndSessionRequest()
-    }
 }
 
 extension QLDBSessionClientTypes {
@@ -246,11 +215,6 @@ extension QLDBSessionClientTypes {
 }
 
 extension QLDBSessionClientTypes.EndSessionResult {
-
-    static func write(value: QLDBSessionClientTypes.EndSessionResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["TimingInformation"].write(value.timingInformation, with: QLDBSessionClientTypes.TimingInformation.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QLDBSessionClientTypes.EndSessionResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -284,15 +248,6 @@ extension QLDBSessionClientTypes.ExecuteStatementRequest {
         try writer["Statement"].write(value.statement)
         try writer["TransactionId"].write(value.transactionId)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QLDBSessionClientTypes.ExecuteStatementRequest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QLDBSessionClientTypes.ExecuteStatementRequest()
-        value.transactionId = try reader["TransactionId"].readIfPresent()
-        value.statement = try reader["Statement"].readIfPresent()
-        value.parameters = try reader["Parameters"].readListIfPresent(memberReadingClosure: QLDBSessionClientTypes.ValueHolder.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
 }
 
 extension QLDBSessionClientTypes {
@@ -322,13 +277,6 @@ extension QLDBSessionClientTypes {
 }
 
 extension QLDBSessionClientTypes.ExecuteStatementResult {
-
-    static func write(value: QLDBSessionClientTypes.ExecuteStatementResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ConsumedIOs"].write(value.consumedIOs, with: QLDBSessionClientTypes.IOUsage.write(value:to:))
-        try writer["FirstPage"].write(value.firstPage, with: QLDBSessionClientTypes.Page.write(value:to:))
-        try writer["TimingInformation"].write(value.timingInformation, with: QLDBSessionClientTypes.TimingInformation.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QLDBSessionClientTypes.ExecuteStatementResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -371,14 +319,6 @@ extension QLDBSessionClientTypes.FetchPageRequest {
         try writer["NextPageToken"].write(value.nextPageToken)
         try writer["TransactionId"].write(value.transactionId)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QLDBSessionClientTypes.FetchPageRequest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QLDBSessionClientTypes.FetchPageRequest()
-        value.transactionId = try reader["TransactionId"].readIfPresent()
-        value.nextPageToken = try reader["NextPageToken"].readIfPresent()
-        return value
-    }
 }
 
 extension QLDBSessionClientTypes {
@@ -404,13 +344,6 @@ extension QLDBSessionClientTypes {
 }
 
 extension QLDBSessionClientTypes.FetchPageResult {
-
-    static func write(value: QLDBSessionClientTypes.FetchPageResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ConsumedIOs"].write(value.consumedIOs, with: QLDBSessionClientTypes.IOUsage.write(value:to:))
-        try writer["Page"].write(value.page, with: QLDBSessionClientTypes.Page.write(value:to:))
-        try writer["TimingInformation"].write(value.timingInformation, with: QLDBSessionClientTypes.TimingInformation.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QLDBSessionClientTypes.FetchPageResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -447,12 +380,6 @@ extension QLDBSessionClientTypes {
 }
 
 extension QLDBSessionClientTypes.IOUsage {
-
-    static func write(value: QLDBSessionClientTypes.IOUsage?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ReadIOs"].write(value.readIOs)
-        try writer["WriteIOs"].write(value.writeIOs)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QLDBSessionClientTypes.IOUsage {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -599,12 +526,6 @@ public struct OccConflictException: ClientRuntime.ModeledError, AWSClientRuntime
 }
 
 extension QLDBSessionClientTypes.Page {
-
-    static func write(value: QLDBSessionClientTypes.Page?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["NextPageToken"].write(value.nextPageToken)
-        try writer["Values"].writeList(value.values, memberWritingClosure: QLDBSessionClientTypes.ValueHolder.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QLDBSessionClientTypes.Page {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -815,13 +736,6 @@ extension QLDBSessionClientTypes.StartSessionRequest {
         guard let value else { return }
         try writer["LedgerName"].write(value.ledgerName)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QLDBSessionClientTypes.StartSessionRequest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QLDBSessionClientTypes.StartSessionRequest()
-        value.ledgerName = try reader["LedgerName"].readIfPresent()
-        return value
-    }
 }
 
 extension QLDBSessionClientTypes {
@@ -842,12 +756,6 @@ extension QLDBSessionClientTypes {
 }
 
 extension QLDBSessionClientTypes.StartSessionResult {
-
-    static func write(value: QLDBSessionClientTypes.StartSessionResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["SessionToken"].write(value.sessionToken)
-        try writer["TimingInformation"].write(value.timingInformation, with: QLDBSessionClientTypes.TimingInformation.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QLDBSessionClientTypes.StartSessionResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -884,11 +792,6 @@ extension QLDBSessionClientTypes.StartTransactionRequest {
         guard value != nil else { return }
         _ = writer[""]  // create an empty structure
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QLDBSessionClientTypes.StartTransactionRequest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        return QLDBSessionClientTypes.StartTransactionRequest()
-    }
 }
 
 extension QLDBSessionClientTypes {
@@ -901,12 +804,6 @@ extension QLDBSessionClientTypes {
 }
 
 extension QLDBSessionClientTypes.StartTransactionResult {
-
-    static func write(value: QLDBSessionClientTypes.StartTransactionResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["TimingInformation"].write(value.timingInformation, with: QLDBSessionClientTypes.TimingInformation.write(value:to:))
-        try writer["TransactionId"].write(value.transactionId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QLDBSessionClientTypes.StartTransactionResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -938,11 +835,6 @@ extension QLDBSessionClientTypes {
 }
 
 extension QLDBSessionClientTypes.TimingInformation {
-
-    static func write(value: QLDBSessionClientTypes.TimingInformation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ProcessingTimeMilliseconds"].write(value.processingTimeMilliseconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QLDBSessionClientTypes.TimingInformation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

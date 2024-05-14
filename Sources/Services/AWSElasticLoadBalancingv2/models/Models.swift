@@ -414,12 +414,6 @@ public struct AllocationIdNotFoundException: ClientRuntime.ModeledError, AWSClie
 
 extension ElasticLoadBalancingv2ClientTypes.AnomalyDetection {
 
-    static func write(value: ElasticLoadBalancingv2ClientTypes.AnomalyDetection?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["MitigationInEffect"].write(value.mitigationInEffect)
-        try writer["Result"].write(value.result)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.AnomalyDetection {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ElasticLoadBalancingv2ClientTypes.AnomalyDetection()
@@ -737,14 +731,6 @@ extension ElasticLoadBalancingv2ClientTypes {
 
 extension ElasticLoadBalancingv2ClientTypes.AvailabilityZone {
 
-    static func write(value: ElasticLoadBalancingv2ClientTypes.AvailabilityZone?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["LoadBalancerAddresses"].writeList(value.loadBalancerAddresses, memberWritingClosure: ElasticLoadBalancingv2ClientTypes.LoadBalancerAddress.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["OutpostId"].write(value.outpostId)
-        try writer["SubnetId"].write(value.subnetId)
-        try writer["ZoneName"].write(value.zoneName)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.AvailabilityZone {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ElasticLoadBalancingv2ClientTypes.AvailabilityZone()
@@ -933,12 +919,6 @@ public struct CertificateNotFoundException: ClientRuntime.ModeledError, AWSClien
 }
 
 extension ElasticLoadBalancingv2ClientTypes.Cipher {
-
-    static func write(value: ElasticLoadBalancingv2ClientTypes.Cipher?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["Priority"].write(value.priority)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.Cipher {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2944,14 +2924,6 @@ enum DescribeTrustStoreAssociationsOutputError {
 
 extension ElasticLoadBalancingv2ClientTypes.DescribeTrustStoreRevocation {
 
-    static func write(value: ElasticLoadBalancingv2ClientTypes.DescribeTrustStoreRevocation?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["NumberOfRevokedEntries"].write(value.numberOfRevokedEntries)
-        try writer["RevocationId"].write(value.revocationId)
-        try writer["RevocationType"].write(value.revocationType)
-        try writer["TrustStoreArn"].write(value.trustStoreArn)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.DescribeTrustStoreRevocation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ElasticLoadBalancingv2ClientTypes.DescribeTrustStoreRevocation()
@@ -4109,12 +4081,6 @@ extension ElasticLoadBalancingv2ClientTypes {
 
 extension ElasticLoadBalancingv2ClientTypes.Limit {
 
-    static func write(value: ElasticLoadBalancingv2ClientTypes.Limit?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Max"].write(value.max)
-        try writer["Name"].write(value.name)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.Limit {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ElasticLoadBalancingv2ClientTypes.Limit()
@@ -4187,19 +4153,6 @@ extension ElasticLoadBalancingv2ClientTypes {
 }
 
 extension ElasticLoadBalancingv2ClientTypes.Listener {
-
-    static func write(value: ElasticLoadBalancingv2ClientTypes.Listener?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["AlpnPolicy"].writeList(value.alpnPolicy, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Certificates"].writeList(value.certificates, memberWritingClosure: ElasticLoadBalancingv2ClientTypes.Certificate.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["DefaultActions"].writeList(value.defaultActions, memberWritingClosure: ElasticLoadBalancingv2ClientTypes.Action.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ListenerArn"].write(value.listenerArn)
-        try writer["LoadBalancerArn"].write(value.loadBalancerArn)
-        try writer["MutualAuthentication"].write(value.mutualAuthentication, with: ElasticLoadBalancingv2ClientTypes.MutualAuthenticationAttributes.write(value:to:))
-        try writer["Port"].write(value.port)
-        try writer["Protocol"].write(value.`protocol`)
-        try writer["SslPolicy"].write(value.sslPolicy)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.Listener {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4304,24 +4257,6 @@ public struct ListenerNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
 extension ElasticLoadBalancingv2ClientTypes.LoadBalancer {
 
-    static func write(value: ElasticLoadBalancingv2ClientTypes.LoadBalancer?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["AvailabilityZones"].writeList(value.availabilityZones, memberWritingClosure: ElasticLoadBalancingv2ClientTypes.AvailabilityZone.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["CanonicalHostedZoneId"].write(value.canonicalHostedZoneId)
-        try writer["CreatedTime"].writeTimestamp(value.createdTime, format: .dateTime)
-        try writer["CustomerOwnedIpv4Pool"].write(value.customerOwnedIpv4Pool)
-        try writer["DNSName"].write(value.dnsName)
-        try writer["EnforceSecurityGroupInboundRulesOnPrivateLinkTraffic"].write(value.enforceSecurityGroupInboundRulesOnPrivateLinkTraffic)
-        try writer["IpAddressType"].write(value.ipAddressType)
-        try writer["LoadBalancerArn"].write(value.loadBalancerArn)
-        try writer["LoadBalancerName"].write(value.loadBalancerName)
-        try writer["Scheme"].write(value.scheme)
-        try writer["SecurityGroups"].writeList(value.securityGroups, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["State"].write(value.state, with: ElasticLoadBalancingv2ClientTypes.LoadBalancerState.write(value:to:))
-        try writer["Type"].write(value.type)
-        try writer["VpcId"].write(value.vpcId)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.LoadBalancer {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ElasticLoadBalancingv2ClientTypes.LoadBalancer()
@@ -4412,14 +4347,6 @@ extension ElasticLoadBalancingv2ClientTypes {
 }
 
 extension ElasticLoadBalancingv2ClientTypes.LoadBalancerAddress {
-
-    static func write(value: ElasticLoadBalancingv2ClientTypes.LoadBalancerAddress?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["AllocationId"].write(value.allocationId)
-        try writer["IPv6Address"].write(value.ipv6Address)
-        try writer["IpAddress"].write(value.ipAddress)
-        try writer["PrivateIPv4Address"].write(value.privateIPv4Address)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.LoadBalancerAddress {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4623,12 +4550,6 @@ extension ElasticLoadBalancingv2ClientTypes {
 }
 
 extension ElasticLoadBalancingv2ClientTypes.LoadBalancerState {
-
-    static func write(value: ElasticLoadBalancingv2ClientTypes.LoadBalancerState?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Code"].write(value.code)
-        try writer["Reason"].write(value.reason)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.LoadBalancerState {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6038,16 +5959,6 @@ extension ElasticLoadBalancingv2ClientTypes.RevocationContent {
         try writer["S3Key"].write(value.s3Key)
         try writer["S3ObjectVersion"].write(value.s3ObjectVersion)
     }
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.RevocationContent {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElasticLoadBalancingv2ClientTypes.RevocationContent()
-        value.s3Bucket = try reader["S3Bucket"].readIfPresent()
-        value.s3Key = try reader["S3Key"].readIfPresent()
-        value.s3ObjectVersion = try reader["S3ObjectVersion"].readIfPresent()
-        value.revocationType = try reader["RevocationType"].readIfPresent()
-        return value
-    }
 }
 
 extension ElasticLoadBalancingv2ClientTypes {
@@ -6180,15 +6091,6 @@ extension ElasticLoadBalancingv2ClientTypes {
 }
 
 extension ElasticLoadBalancingv2ClientTypes.Rule {
-
-    static func write(value: ElasticLoadBalancingv2ClientTypes.Rule?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Actions"].writeList(value.actions, memberWritingClosure: ElasticLoadBalancingv2ClientTypes.Action.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Conditions"].writeList(value.conditions, memberWritingClosure: ElasticLoadBalancingv2ClientTypes.RuleCondition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["IsDefault"].write(value.isDefault)
-        try writer["Priority"].write(value.priority)
-        try writer["RuleArn"].write(value.ruleArn)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.Rule {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6383,14 +6285,6 @@ extension ElasticLoadBalancingv2ClientTypes.RulePriorityPair {
         guard let value else { return }
         try writer["Priority"].write(value.priority)
         try writer["RuleArn"].write(value.ruleArn)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.RulePriorityPair {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElasticLoadBalancingv2ClientTypes.RulePriorityPair()
-        value.ruleArn = try reader["RuleArn"].readIfPresent()
-        value.priority = try reader["Priority"].readIfPresent()
-        return value
     }
 }
 
@@ -6809,14 +6703,6 @@ extension ElasticLoadBalancingv2ClientTypes {
 
 extension ElasticLoadBalancingv2ClientTypes.SslPolicy {
 
-    static func write(value: ElasticLoadBalancingv2ClientTypes.SslPolicy?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Ciphers"].writeList(value.ciphers, memberWritingClosure: ElasticLoadBalancingv2ClientTypes.Cipher.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Name"].write(value.name)
-        try writer["SslProtocols"].writeList(value.sslProtocols, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["SupportedLoadBalancerTypes"].writeList(value.supportedLoadBalancerTypes, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.SslPolicy {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ElasticLoadBalancingv2ClientTypes.SslPolicy()
@@ -6864,16 +6750,6 @@ extension ElasticLoadBalancingv2ClientTypes.SubnetMapping {
         try writer["IPv6Address"].write(value.ipv6Address)
         try writer["PrivateIPv4Address"].write(value.privateIPv4Address)
         try writer["SubnetId"].write(value.subnetId)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.SubnetMapping {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElasticLoadBalancingv2ClientTypes.SubnetMapping()
-        value.subnetId = try reader["SubnetId"].readIfPresent()
-        value.allocationId = try reader["AllocationId"].readIfPresent()
-        value.privateIPv4Address = try reader["PrivateIPv4Address"].readIfPresent()
-        value.ipv6Address = try reader["IPv6Address"].readIfPresent()
-        return value
     }
 }
 
@@ -6982,12 +6858,6 @@ extension ElasticLoadBalancingv2ClientTypes {
 
 extension ElasticLoadBalancingv2ClientTypes.TagDescription {
 
-    static func write(value: ElasticLoadBalancingv2ClientTypes.TagDescription?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["ResourceArn"].write(value.resourceArn)
-        try writer["Tags"].writeList(value.tags, memberWritingClosure: ElasticLoadBalancingv2ClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.TagDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ElasticLoadBalancingv2ClientTypes.TagDescription()
@@ -7062,28 +6932,6 @@ extension ElasticLoadBalancingv2ClientTypes {
 }
 
 extension ElasticLoadBalancingv2ClientTypes.TargetGroup {
-
-    static func write(value: ElasticLoadBalancingv2ClientTypes.TargetGroup?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["HealthCheckEnabled"].write(value.healthCheckEnabled)
-        try writer["HealthCheckIntervalSeconds"].write(value.healthCheckIntervalSeconds)
-        try writer["HealthCheckPath"].write(value.healthCheckPath)
-        try writer["HealthCheckPort"].write(value.healthCheckPort)
-        try writer["HealthCheckProtocol"].write(value.healthCheckProtocol)
-        try writer["HealthCheckTimeoutSeconds"].write(value.healthCheckTimeoutSeconds)
-        try writer["HealthyThresholdCount"].write(value.healthyThresholdCount)
-        try writer["IpAddressType"].write(value.ipAddressType)
-        try writer["LoadBalancerArns"].writeList(value.loadBalancerArns, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Matcher"].write(value.matcher, with: ElasticLoadBalancingv2ClientTypes.Matcher.write(value:to:))
-        try writer["Port"].write(value.port)
-        try writer["Protocol"].write(value.`protocol`)
-        try writer["ProtocolVersion"].write(value.protocolVersion)
-        try writer["TargetGroupArn"].write(value.targetGroupArn)
-        try writer["TargetGroupName"].write(value.targetGroupName)
-        try writer["TargetType"].write(value.targetType)
-        try writer["UnhealthyThresholdCount"].write(value.unhealthyThresholdCount)
-        try writer["VpcId"].write(value.vpcId)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.TargetGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7479,13 +7327,6 @@ extension ElasticLoadBalancingv2ClientTypes {
 
 extension ElasticLoadBalancingv2ClientTypes.TargetHealth {
 
-    static func write(value: ElasticLoadBalancingv2ClientTypes.TargetHealth?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Description"].write(value.description)
-        try writer["Reason"].write(value.reason)
-        try writer["State"].write(value.state)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.TargetHealth {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ElasticLoadBalancingv2ClientTypes.TargetHealth()
@@ -7559,14 +7400,6 @@ extension ElasticLoadBalancingv2ClientTypes {
 }
 
 extension ElasticLoadBalancingv2ClientTypes.TargetHealthDescription {
-
-    static func write(value: ElasticLoadBalancingv2ClientTypes.TargetHealthDescription?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["AnomalyDetection"].write(value.anomalyDetection, with: ElasticLoadBalancingv2ClientTypes.AnomalyDetection.write(value:to:))
-        try writer["HealthCheckPort"].write(value.healthCheckPort)
-        try writer["Target"].write(value.target, with: ElasticLoadBalancingv2ClientTypes.TargetDescription.write(value:to:))
-        try writer["TargetHealth"].write(value.targetHealth, with: ElasticLoadBalancingv2ClientTypes.TargetHealth.write(value:to:))
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.TargetHealthDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8194,15 +8027,6 @@ public struct TooManyUniqueTargetGroupsPerLoadBalancerException: ClientRuntime.M
 
 extension ElasticLoadBalancingv2ClientTypes.TrustStore {
 
-    static func write(value: ElasticLoadBalancingv2ClientTypes.TrustStore?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["NumberOfCaCertificates"].write(value.numberOfCaCertificates)
-        try writer["Status"].write(value.status)
-        try writer["TotalRevokedEntries"].write(value.totalRevokedEntries)
-        try writer["TrustStoreArn"].write(value.trustStoreArn)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.TrustStore {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ElasticLoadBalancingv2ClientTypes.TrustStore()
@@ -8248,11 +8072,6 @@ extension ElasticLoadBalancingv2ClientTypes {
 }
 
 extension ElasticLoadBalancingv2ClientTypes.TrustStoreAssociation {
-
-    static func write(value: ElasticLoadBalancingv2ClientTypes.TrustStoreAssociation?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["ResourceArn"].write(value.resourceArn)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.TrustStoreAssociation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8390,14 +8209,6 @@ public struct TrustStoreNotReadyException: ClientRuntime.ModeledError, AWSClient
 }
 
 extension ElasticLoadBalancingv2ClientTypes.TrustStoreRevocation {
-
-    static func write(value: ElasticLoadBalancingv2ClientTypes.TrustStoreRevocation?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["NumberOfRevokedEntries"].write(value.numberOfRevokedEntries)
-        try writer["RevocationId"].write(value.revocationId)
-        try writer["RevocationType"].write(value.revocationType)
-        try writer["TrustStoreArn"].write(value.trustStoreArn)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.TrustStoreRevocation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

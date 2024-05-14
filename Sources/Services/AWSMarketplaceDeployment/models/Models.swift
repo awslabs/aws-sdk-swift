@@ -98,14 +98,6 @@ extension MarketplaceDeploymentClientTypes.DeploymentParameterInput {
         try writer["name"].write(value.name)
         try writer["secretString"].write(value.secretString)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceDeploymentClientTypes.DeploymentParameterInput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MarketplaceDeploymentClientTypes.DeploymentParameterInput()
-        value.name = try reader["name"].readIfPresent()
-        value.secretString = try reader["secretString"].readIfPresent()
-        return value
-    }
 }
 
 extension MarketplaceDeploymentClientTypes {

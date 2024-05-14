@@ -258,13 +258,6 @@ extension WorkMailMessageFlowClientTypes.RawMessageContent {
         guard let value else { return }
         try writer["s3Reference"].write(value.s3Reference, with: WorkMailMessageFlowClientTypes.S3Reference.write(value:to:))
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WorkMailMessageFlowClientTypes.RawMessageContent {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WorkMailMessageFlowClientTypes.RawMessageContent()
-        value.s3Reference = try reader["s3Reference"].readIfPresent(with: WorkMailMessageFlowClientTypes.S3Reference.read(from:))
-        return value
-    }
 }
 
 extension WorkMailMessageFlowClientTypes {
@@ -342,15 +335,6 @@ extension WorkMailMessageFlowClientTypes.S3Reference {
         try writer["bucket"].write(value.bucket)
         try writer["key"].write(value.key)
         try writer["objectVersion"].write(value.objectVersion)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WorkMailMessageFlowClientTypes.S3Reference {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WorkMailMessageFlowClientTypes.S3Reference()
-        value.bucket = try reader["bucket"].readIfPresent()
-        value.key = try reader["key"].readIfPresent()
-        value.objectVersion = try reader["objectVersion"].readIfPresent()
-        return value
     }
 }
 

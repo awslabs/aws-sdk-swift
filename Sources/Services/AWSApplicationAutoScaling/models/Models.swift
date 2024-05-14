@@ -39,12 +39,6 @@ extension ApplicationAutoScalingClientTypes {
 
 extension ApplicationAutoScalingClientTypes.Alarm {
 
-    static func write(value: ApplicationAutoScalingClientTypes.Alarm?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AlarmARN"].write(value.alarmARN)
-        try writer["AlarmName"].write(value.alarmName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ApplicationAutoScalingClientTypes.Alarm {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ApplicationAutoScalingClientTypes.Alarm()
@@ -1777,14 +1771,6 @@ extension ApplicationAutoScalingClientTypes {
 
 extension ApplicationAutoScalingClientTypes.NotScaledReason {
 
-    static func write(value: ApplicationAutoScalingClientTypes.NotScaledReason?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Code"].write(value.code)
-        try writer["CurrentCapacity"].write(value.currentCapacity)
-        try writer["MaxCapacity"].write(value.maxCapacity)
-        try writer["MinCapacity"].write(value.minCapacity)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ApplicationAutoScalingClientTypes.NotScaledReason {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ApplicationAutoScalingClientTypes.NotScaledReason()
@@ -2677,19 +2663,6 @@ extension ApplicationAutoScalingClientTypes {
 
 extension ApplicationAutoScalingClientTypes.ScalableTarget {
 
-    static func write(value: ApplicationAutoScalingClientTypes.ScalableTarget?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["MaxCapacity"].write(value.maxCapacity)
-        try writer["MinCapacity"].write(value.minCapacity)
-        try writer["ResourceId"].write(value.resourceId)
-        try writer["RoleARN"].write(value.roleARN)
-        try writer["ScalableDimension"].write(value.scalableDimension)
-        try writer["ScalableTargetARN"].write(value.scalableTargetARN)
-        try writer["ServiceNamespace"].write(value.serviceNamespace)
-        try writer["SuspendedState"].write(value.suspendedState, with: ApplicationAutoScalingClientTypes.SuspendedState.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ApplicationAutoScalingClientTypes.ScalableTarget {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ApplicationAutoScalingClientTypes.ScalableTarget()
@@ -2879,22 +2852,6 @@ extension ApplicationAutoScalingClientTypes {
 }
 
 extension ApplicationAutoScalingClientTypes.ScalingActivity {
-
-    static func write(value: ApplicationAutoScalingClientTypes.ScalingActivity?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ActivityId"].write(value.activityId)
-        try writer["Cause"].write(value.cause)
-        try writer["Description"].write(value.description)
-        try writer["Details"].write(value.details)
-        try writer["EndTime"].writeTimestamp(value.endTime, format: .epochSeconds)
-        try writer["NotScaledReasons"].writeList(value.notScaledReasons, memberWritingClosure: ApplicationAutoScalingClientTypes.NotScaledReason.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ResourceId"].write(value.resourceId)
-        try writer["ScalableDimension"].write(value.scalableDimension)
-        try writer["ServiceNamespace"].write(value.serviceNamespace)
-        try writer["StartTime"].writeTimestamp(value.startTime, format: .epochSeconds)
-        try writer["StatusCode"].write(value.statusCode)
-        try writer["StatusMessage"].write(value.statusMessage)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ApplicationAutoScalingClientTypes.ScalingActivity {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3107,20 +3064,6 @@ extension ApplicationAutoScalingClientTypes {
 
 extension ApplicationAutoScalingClientTypes.ScalingPolicy {
 
-    static func write(value: ApplicationAutoScalingClientTypes.ScalingPolicy?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Alarms"].writeList(value.alarms, memberWritingClosure: ApplicationAutoScalingClientTypes.Alarm.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["PolicyARN"].write(value.policyARN)
-        try writer["PolicyName"].write(value.policyName)
-        try writer["PolicyType"].write(value.policyType)
-        try writer["ResourceId"].write(value.resourceId)
-        try writer["ScalableDimension"].write(value.scalableDimension)
-        try writer["ServiceNamespace"].write(value.serviceNamespace)
-        try writer["StepScalingPolicyConfiguration"].write(value.stepScalingPolicyConfiguration, with: ApplicationAutoScalingClientTypes.StepScalingPolicyConfiguration.write(value:to:))
-        try writer["TargetTrackingScalingPolicyConfiguration"].write(value.targetTrackingScalingPolicyConfiguration, with: ApplicationAutoScalingClientTypes.TargetTrackingScalingPolicyConfiguration.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> ApplicationAutoScalingClientTypes.ScalingPolicy {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ApplicationAutoScalingClientTypes.ScalingPolicy()
@@ -3278,21 +3221,6 @@ extension ApplicationAutoScalingClientTypes {
 }
 
 extension ApplicationAutoScalingClientTypes.ScheduledAction {
-
-    static func write(value: ApplicationAutoScalingClientTypes.ScheduledAction?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["EndTime"].writeTimestamp(value.endTime, format: .epochSeconds)
-        try writer["ResourceId"].write(value.resourceId)
-        try writer["ScalableDimension"].write(value.scalableDimension)
-        try writer["ScalableTargetAction"].write(value.scalableTargetAction, with: ApplicationAutoScalingClientTypes.ScalableTargetAction.write(value:to:))
-        try writer["Schedule"].write(value.schedule)
-        try writer["ScheduledActionARN"].write(value.scheduledActionARN)
-        try writer["ScheduledActionName"].write(value.scheduledActionName)
-        try writer["ServiceNamespace"].write(value.serviceNamespace)
-        try writer["StartTime"].writeTimestamp(value.startTime, format: .epochSeconds)
-        try writer["Timezone"].write(value.timezone)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ApplicationAutoScalingClientTypes.ScheduledAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

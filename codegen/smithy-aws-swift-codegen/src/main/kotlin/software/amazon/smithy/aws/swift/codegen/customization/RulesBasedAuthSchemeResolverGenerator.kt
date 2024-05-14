@@ -21,7 +21,6 @@ class RulesBasedAuthSchemeResolverGenerator {
             renderServiceSpecificDefaultResolver(ctx, it)
             it.write("")
             it.addImport(SwiftDependency.CLIENT_RUNTIME.target)
-            it.addIndividualTypeImport("enum", "AWSClientRuntime", "AuthScheme")
         }
     }
 
@@ -79,7 +78,11 @@ class RulesBasedAuthSchemeResolverGenerator {
                     // are returned by endpoint resolver.
                     write("return try InternalModeled${sdkId + AUTH_SCHEME_RESOLVER}().resolveAuthScheme(params: params)")
                 }
-                writer.write("let schemes = try authSchemes.map { (input) -> AWSClientRuntime.AuthScheme in try AWSClientRuntime.AuthScheme(from: input) }")
+                writer.write(
+                    "let schemes = try authSchemes.map { (input) -> \$N in try \$N(from: input) }",
+                    ClientRuntimeTypes.Core.EndpointsAuthScheme,
+                    ClientRuntimeTypes.Core.EndpointsAuthScheme
+                )
                 // If endpoint resolver returned auth schemes, iterate over them and save each as valid auth option to return
                 openBlock("for scheme in schemes {", "}") {
                     openBlock("switch scheme {", "}") {

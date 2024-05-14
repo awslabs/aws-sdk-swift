@@ -51,13 +51,6 @@ extension IoTAnalyticsClientTypes {
 
 extension IoTAnalyticsClientTypes.BatchPutMessageErrorEntry {
 
-    static func write(value: IoTAnalyticsClientTypes.BatchPutMessageErrorEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["errorCode"].write(value.errorCode)
-        try writer["errorMessage"].write(value.errorMessage)
-        try writer["messageId"].write(value.messageId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTAnalyticsClientTypes.BatchPutMessageErrorEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTAnalyticsClientTypes.BatchPutMessageErrorEntry()
@@ -246,18 +239,6 @@ enum CancelPipelineReprocessingOutputError {
 
 extension IoTAnalyticsClientTypes.Channel {
 
-    static func write(value: IoTAnalyticsClientTypes.Channel?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["creationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["lastMessageArrivalTime"].writeTimestamp(value.lastMessageArrivalTime, format: .epochSeconds)
-        try writer["lastUpdateTime"].writeTimestamp(value.lastUpdateTime, format: .epochSeconds)
-        try writer["name"].write(value.name)
-        try writer["retentionPeriod"].write(value.retentionPeriod, with: IoTAnalyticsClientTypes.RetentionPeriod.write(value:to:))
-        try writer["status"].write(value.status)
-        try writer["storage"].write(value.storage, with: IoTAnalyticsClientTypes.ChannelStorage.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTAnalyticsClientTypes.Channel {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTAnalyticsClientTypes.Channel()
@@ -368,13 +349,6 @@ extension IoTAnalyticsClientTypes.ChannelMessages {
         guard let value else { return }
         try writer["s3Paths"].writeList(value.s3Paths, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTAnalyticsClientTypes.ChannelMessages {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTAnalyticsClientTypes.ChannelMessages()
-        value.s3Paths = try reader["s3Paths"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
 }
 
 extension IoTAnalyticsClientTypes {
@@ -394,11 +368,6 @@ extension IoTAnalyticsClientTypes {
 }
 
 extension IoTAnalyticsClientTypes.ChannelStatistics {
-
-    static func write(value: IoTAnalyticsClientTypes.ChannelStatistics?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["size"].write(value.size, with: IoTAnalyticsClientTypes.EstimatedResourceSize.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTAnalyticsClientTypes.ChannelStatistics {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -496,12 +465,6 @@ extension IoTAnalyticsClientTypes {
 
 extension IoTAnalyticsClientTypes.ChannelStorageSummary {
 
-    static func write(value: IoTAnalyticsClientTypes.ChannelStorageSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["customerManagedS3"].write(value.customerManagedS3, with: IoTAnalyticsClientTypes.CustomerManagedChannelS3StorageSummary.write(value:to:))
-        try writer["serviceManagedS3"].write(value.serviceManagedS3, with: IoTAnalyticsClientTypes.ServiceManagedChannelS3StorageSummary.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTAnalyticsClientTypes.ChannelStorageSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTAnalyticsClientTypes.ChannelStorageSummary()
@@ -532,16 +495,6 @@ extension IoTAnalyticsClientTypes {
 }
 
 extension IoTAnalyticsClientTypes.ChannelSummary {
-
-    static func write(value: IoTAnalyticsClientTypes.ChannelSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["channelName"].write(value.channelName)
-        try writer["channelStorage"].write(value.channelStorage, with: IoTAnalyticsClientTypes.ChannelStorageSummary.write(value:to:))
-        try writer["creationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["lastMessageArrivalTime"].writeTimestamp(value.lastMessageArrivalTime, format: .epochSeconds)
-        try writer["lastUpdateTime"].writeTimestamp(value.lastUpdateTime, format: .epochSeconds)
-        try writer["status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTAnalyticsClientTypes.ChannelSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1243,13 +1196,6 @@ extension IoTAnalyticsClientTypes {
 
 extension IoTAnalyticsClientTypes.CustomerManagedChannelS3StorageSummary {
 
-    static func write(value: IoTAnalyticsClientTypes.CustomerManagedChannelS3StorageSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["bucket"].write(value.bucket)
-        try writer["keyPrefix"].write(value.keyPrefix)
-        try writer["roleArn"].write(value.roleArn)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTAnalyticsClientTypes.CustomerManagedChannelS3StorageSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTAnalyticsClientTypes.CustomerManagedChannelS3StorageSummary()
@@ -1331,13 +1277,6 @@ extension IoTAnalyticsClientTypes {
 
 extension IoTAnalyticsClientTypes.CustomerManagedDatastoreS3StorageSummary {
 
-    static func write(value: IoTAnalyticsClientTypes.CustomerManagedDatastoreS3StorageSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["bucket"].write(value.bucket)
-        try writer["keyPrefix"].write(value.keyPrefix)
-        try writer["roleArn"].write(value.roleArn)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTAnalyticsClientTypes.CustomerManagedDatastoreS3StorageSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTAnalyticsClientTypes.CustomerManagedDatastoreS3StorageSummary()
@@ -1373,21 +1312,6 @@ extension IoTAnalyticsClientTypes {
 }
 
 extension IoTAnalyticsClientTypes.Dataset {
-
-    static func write(value: IoTAnalyticsClientTypes.Dataset?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["actions"].writeList(value.actions, memberWritingClosure: IoTAnalyticsClientTypes.DatasetAction.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["arn"].write(value.arn)
-        try writer["contentDeliveryRules"].writeList(value.contentDeliveryRules, memberWritingClosure: IoTAnalyticsClientTypes.DatasetContentDeliveryRule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["creationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["lastUpdateTime"].writeTimestamp(value.lastUpdateTime, format: .epochSeconds)
-        try writer["lateDataRules"].writeList(value.lateDataRules, memberWritingClosure: IoTAnalyticsClientTypes.LateDataRule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["name"].write(value.name)
-        try writer["retentionPeriod"].write(value.retentionPeriod, with: IoTAnalyticsClientTypes.RetentionPeriod.write(value:to:))
-        try writer["status"].write(value.status)
-        try writer["triggers"].writeList(value.triggers, memberWritingClosure: IoTAnalyticsClientTypes.DatasetTrigger.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["versioningConfiguration"].write(value.versioningConfiguration, with: IoTAnalyticsClientTypes.VersioningConfiguration.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTAnalyticsClientTypes.Dataset {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1507,12 +1431,6 @@ extension IoTAnalyticsClientTypes {
 }
 
 extension IoTAnalyticsClientTypes.DatasetActionSummary {
-
-    static func write(value: IoTAnalyticsClientTypes.DatasetActionSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["actionName"].write(value.actionName)
-        try writer["actionType"].write(value.actionType)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTAnalyticsClientTypes.DatasetActionSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1683,12 +1601,6 @@ extension IoTAnalyticsClientTypes {
 
 extension IoTAnalyticsClientTypes.DatasetContentStatus {
 
-    static func write(value: IoTAnalyticsClientTypes.DatasetContentStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["reason"].write(value.reason)
-        try writer["state"].write(value.state)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTAnalyticsClientTypes.DatasetContentStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTAnalyticsClientTypes.DatasetContentStatus()
@@ -1719,15 +1631,6 @@ extension IoTAnalyticsClientTypes {
 }
 
 extension IoTAnalyticsClientTypes.DatasetContentSummary {
-
-    static func write(value: IoTAnalyticsClientTypes.DatasetContentSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["completionTime"].writeTimestamp(value.completionTime, format: .epochSeconds)
-        try writer["creationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["scheduleTime"].writeTimestamp(value.scheduleTime, format: .epochSeconds)
-        try writer["status"].write(value.status, with: IoTAnalyticsClientTypes.DatasetContentStatus.write(value:to:))
-        try writer["version"].write(value.version)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTAnalyticsClientTypes.DatasetContentSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1807,12 +1710,6 @@ extension IoTAnalyticsClientTypes {
 
 extension IoTAnalyticsClientTypes.DatasetEntry {
 
-    static func write(value: IoTAnalyticsClientTypes.DatasetEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["dataURI"].write(value.dataURI)
-        try writer["entryName"].write(value.entryName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTAnalyticsClientTypes.DatasetEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTAnalyticsClientTypes.DatasetEntry()
@@ -1876,16 +1773,6 @@ extension IoTAnalyticsClientTypes {
 }
 
 extension IoTAnalyticsClientTypes.DatasetSummary {
-
-    static func write(value: IoTAnalyticsClientTypes.DatasetSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["actions"].writeList(value.actions, memberWritingClosure: IoTAnalyticsClientTypes.DatasetActionSummary.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["creationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["datasetName"].write(value.datasetName)
-        try writer["lastUpdateTime"].writeTimestamp(value.lastUpdateTime, format: .epochSeconds)
-        try writer["status"].write(value.status)
-        try writer["triggers"].writeList(value.triggers, memberWritingClosure: IoTAnalyticsClientTypes.DatasetTrigger.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTAnalyticsClientTypes.DatasetSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1974,20 +1861,6 @@ extension IoTAnalyticsClientTypes {
 }
 
 extension IoTAnalyticsClientTypes.Datastore {
-
-    static func write(value: IoTAnalyticsClientTypes.Datastore?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["creationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["datastorePartitions"].write(value.datastorePartitions, with: IoTAnalyticsClientTypes.DatastorePartitions.write(value:to:))
-        try writer["fileFormatConfiguration"].write(value.fileFormatConfiguration, with: IoTAnalyticsClientTypes.FileFormatConfiguration.write(value:to:))
-        try writer["lastMessageArrivalTime"].writeTimestamp(value.lastMessageArrivalTime, format: .epochSeconds)
-        try writer["lastUpdateTime"].writeTimestamp(value.lastUpdateTime, format: .epochSeconds)
-        try writer["name"].write(value.name)
-        try writer["retentionPeriod"].write(value.retentionPeriod, with: IoTAnalyticsClientTypes.RetentionPeriod.write(value:to:))
-        try writer["status"].write(value.status)
-        try writer["storage"].write(value.storage, with: IoTAnalyticsClientTypes.DatastoreStorage.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTAnalyticsClientTypes.Datastore {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2131,11 +2004,6 @@ extension IoTAnalyticsClientTypes {
 
 extension IoTAnalyticsClientTypes.DatastoreIotSiteWiseMultiLayerStorageSummary {
 
-    static func write(value: IoTAnalyticsClientTypes.DatastoreIotSiteWiseMultiLayerStorageSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["customerManagedS3Storage"].write(value.customerManagedS3Storage, with: IoTAnalyticsClientTypes.IotSiteWiseCustomerManagedDatastoreS3StorageSummary.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTAnalyticsClientTypes.DatastoreIotSiteWiseMultiLayerStorageSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTAnalyticsClientTypes.DatastoreIotSiteWiseMultiLayerStorageSummary()
@@ -2229,11 +2097,6 @@ extension IoTAnalyticsClientTypes {
 }
 
 extension IoTAnalyticsClientTypes.DatastoreStatistics {
-
-    static func write(value: IoTAnalyticsClientTypes.DatastoreStatistics?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["size"].write(value.size, with: IoTAnalyticsClientTypes.EstimatedResourceSize.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTAnalyticsClientTypes.DatastoreStatistics {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2340,13 +2203,6 @@ extension IoTAnalyticsClientTypes {
 
 extension IoTAnalyticsClientTypes.DatastoreStorageSummary {
 
-    static func write(value: IoTAnalyticsClientTypes.DatastoreStorageSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["customerManagedS3"].write(value.customerManagedS3, with: IoTAnalyticsClientTypes.CustomerManagedDatastoreS3StorageSummary.write(value:to:))
-        try writer["iotSiteWiseMultiLayerStorage"].write(value.iotSiteWiseMultiLayerStorage, with: IoTAnalyticsClientTypes.DatastoreIotSiteWiseMultiLayerStorageSummary.write(value:to:))
-        try writer["serviceManagedS3"].write(value.serviceManagedS3, with: IoTAnalyticsClientTypes.ServiceManagedDatastoreS3StorageSummary.write(value:to:))
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTAnalyticsClientTypes.DatastoreStorageSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTAnalyticsClientTypes.DatastoreStorageSummary()
@@ -2382,18 +2238,6 @@ extension IoTAnalyticsClientTypes {
 }
 
 extension IoTAnalyticsClientTypes.DatastoreSummary {
-
-    static func write(value: IoTAnalyticsClientTypes.DatastoreSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["creationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["datastoreName"].write(value.datastoreName)
-        try writer["datastorePartitions"].write(value.datastorePartitions, with: IoTAnalyticsClientTypes.DatastorePartitions.write(value:to:))
-        try writer["datastoreStorage"].write(value.datastoreStorage, with: IoTAnalyticsClientTypes.DatastoreStorageSummary.write(value:to:))
-        try writer["fileFormatType"].write(value.fileFormatType)
-        try writer["lastMessageArrivalTime"].writeTimestamp(value.lastMessageArrivalTime, format: .epochSeconds)
-        try writer["lastUpdateTime"].writeTimestamp(value.lastUpdateTime, format: .epochSeconds)
-        try writer["status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTAnalyticsClientTypes.DatastoreSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3282,12 +3126,6 @@ extension IoTAnalyticsClientTypes {
 
 extension IoTAnalyticsClientTypes.EstimatedResourceSize {
 
-    static func write(value: IoTAnalyticsClientTypes.EstimatedResourceSize?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["estimatedOn"].writeTimestamp(value.estimatedOn, format: .epochSeconds)
-        try writer["estimatedSizeInBytes"].write(value.estimatedSizeInBytes)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTAnalyticsClientTypes.EstimatedResourceSize {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTAnalyticsClientTypes.EstimatedResourceSize()
@@ -3713,12 +3551,6 @@ extension IoTAnalyticsClientTypes {
 }
 
 extension IoTAnalyticsClientTypes.IotSiteWiseCustomerManagedDatastoreS3StorageSummary {
-
-    static func write(value: IoTAnalyticsClientTypes.IotSiteWiseCustomerManagedDatastoreS3StorageSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["bucket"].write(value.bucket)
-        try writer["keyPrefix"].write(value.keyPrefix)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTAnalyticsClientTypes.IotSiteWiseCustomerManagedDatastoreS3StorageSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4588,14 +4420,6 @@ extension IoTAnalyticsClientTypes.Message {
         try writer["messageId"].write(value.messageId)
         try writer["payload"].write(value.payload)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTAnalyticsClientTypes.Message {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTAnalyticsClientTypes.Message()
-        value.messageId = try reader["messageId"].readIfPresent()
-        value.payload = try reader["payload"].readIfPresent()
-        return value
-    }
 }
 
 extension IoTAnalyticsClientTypes {
@@ -4716,16 +4540,6 @@ extension IoTAnalyticsClientTypes {
 }
 
 extension IoTAnalyticsClientTypes.Pipeline {
-
-    static func write(value: IoTAnalyticsClientTypes.Pipeline?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["activities"].writeList(value.activities, memberWritingClosure: IoTAnalyticsClientTypes.PipelineActivity.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["arn"].write(value.arn)
-        try writer["creationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["lastUpdateTime"].writeTimestamp(value.lastUpdateTime, format: .epochSeconds)
-        try writer["name"].write(value.name)
-        try writer["reprocessingSummaries"].writeList(value.reprocessingSummaries, memberWritingClosure: IoTAnalyticsClientTypes.ReprocessingSummary.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTAnalyticsClientTypes.Pipeline {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4862,14 +4676,6 @@ extension IoTAnalyticsClientTypes {
 }
 
 extension IoTAnalyticsClientTypes.PipelineSummary {
-
-    static func write(value: IoTAnalyticsClientTypes.PipelineSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["creationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["lastUpdateTime"].writeTimestamp(value.lastUpdateTime, format: .epochSeconds)
-        try writer["pipelineName"].write(value.pipelineName)
-        try writer["reprocessingSummaries"].writeList(value.reprocessingSummaries, memberWritingClosure: IoTAnalyticsClientTypes.ReprocessingSummary.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTAnalyticsClientTypes.PipelineSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5080,13 +4886,6 @@ extension IoTAnalyticsClientTypes {
 }
 
 extension IoTAnalyticsClientTypes.ReprocessingSummary {
-
-    static func write(value: IoTAnalyticsClientTypes.ReprocessingSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["creationTime"].writeTimestamp(value.creationTime, format: .epochSeconds)
-        try writer["id"].write(value.id)
-        try writer["status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTAnalyticsClientTypes.ReprocessingSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5651,11 +5450,6 @@ extension IoTAnalyticsClientTypes {
 
 extension IoTAnalyticsClientTypes.ServiceManagedChannelS3StorageSummary {
 
-    static func write(value: IoTAnalyticsClientTypes.ServiceManagedChannelS3StorageSummary?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> IoTAnalyticsClientTypes.ServiceManagedChannelS3StorageSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         return IoTAnalyticsClientTypes.ServiceManagedChannelS3StorageSummary()
@@ -5694,11 +5488,6 @@ extension IoTAnalyticsClientTypes {
 }
 
 extension IoTAnalyticsClientTypes.ServiceManagedDatastoreS3StorageSummary {
-
-    static func write(value: IoTAnalyticsClientTypes.ServiceManagedDatastoreS3StorageSummary?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTAnalyticsClientTypes.ServiceManagedDatastoreS3StorageSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

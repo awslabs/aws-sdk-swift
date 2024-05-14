@@ -170,18 +170,6 @@ extension ElasticBeanstalkClientTypes {
 
 extension ElasticBeanstalkClientTypes.ApplicationDescription {
 
-    static func write(value: ElasticBeanstalkClientTypes.ApplicationDescription?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["ApplicationArn"].write(value.applicationArn)
-        try writer["ApplicationName"].write(value.applicationName)
-        try writer["ConfigurationTemplates"].writeList(value.configurationTemplates, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["DateCreated"].writeTimestamp(value.dateCreated, format: .dateTime)
-        try writer["DateUpdated"].writeTimestamp(value.dateUpdated, format: .dateTime)
-        try writer["Description"].write(value.description)
-        try writer["ResourceLifecycleConfig"].write(value.resourceLifecycleConfig, with: ElasticBeanstalkClientTypes.ApplicationResourceLifecycleConfig.write(value:to:))
-        try writer["Versions"].writeList(value.versions, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.ApplicationDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ElasticBeanstalkClientTypes.ApplicationDescription()
@@ -242,14 +230,6 @@ extension ElasticBeanstalkClientTypes {
 }
 
 extension ElasticBeanstalkClientTypes.ApplicationMetrics {
-
-    static func write(value: ElasticBeanstalkClientTypes.ApplicationMetrics?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Duration"].write(value.duration)
-        try writer["Latency"].write(value.latency, with: ElasticBeanstalkClientTypes.Latency.write(value:to:))
-        try writer["RequestCount"].write(value.requestCount)
-        try writer["StatusCodes"].write(value.statusCodes, with: ElasticBeanstalkClientTypes.StatusCodes.write(value:to:))
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.ApplicationMetrics {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -328,20 +308,6 @@ extension ElasticBeanstalkClientTypes {
 }
 
 extension ElasticBeanstalkClientTypes.ApplicationVersionDescription {
-
-    static func write(value: ElasticBeanstalkClientTypes.ApplicationVersionDescription?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["ApplicationName"].write(value.applicationName)
-        try writer["ApplicationVersionArn"].write(value.applicationVersionArn)
-        try writer["BuildArn"].write(value.buildArn)
-        try writer["DateCreated"].writeTimestamp(value.dateCreated, format: .dateTime)
-        try writer["DateUpdated"].writeTimestamp(value.dateUpdated, format: .dateTime)
-        try writer["Description"].write(value.description)
-        try writer["SourceBuildInformation"].write(value.sourceBuildInformation, with: ElasticBeanstalkClientTypes.SourceBuildInformation.write(value:to:))
-        try writer["SourceBundle"].write(value.sourceBundle, with: ElasticBeanstalkClientTypes.S3Location.write(value:to:))
-        try writer["Status"].write(value.status)
-        try writer["VersionLabel"].write(value.versionLabel)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.ApplicationVersionDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -659,11 +625,6 @@ enum AssociateEnvironmentOperationsRoleOutputError {
 
 extension ElasticBeanstalkClientTypes.AutoScalingGroup {
 
-    static func write(value: ElasticBeanstalkClientTypes.AutoScalingGroup?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.AutoScalingGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ElasticBeanstalkClientTypes.AutoScalingGroup()
@@ -697,17 +658,6 @@ extension ElasticBeanstalkClientTypes.BuildConfiguration {
         try writer["ComputeType"].write(value.computeType)
         try writer["Image"].write(value.image)
         try writer["TimeoutInMinutes"].write(value.timeoutInMinutes)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.BuildConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElasticBeanstalkClientTypes.BuildConfiguration()
-        value.artifactName = try reader["ArtifactName"].readIfPresent()
-        value.codeBuildServiceRole = try reader["CodeBuildServiceRole"].readIfPresent()
-        value.computeType = try reader["ComputeType"].readIfPresent()
-        value.image = try reader["Image"].readIfPresent()
-        value.timeoutInMinutes = try reader["TimeoutInMinutes"].readIfPresent()
-        return value
     }
 }
 
@@ -753,11 +703,6 @@ extension ElasticBeanstalkClientTypes {
 
 extension ElasticBeanstalkClientTypes.Builder {
 
-    static func write(value: ElasticBeanstalkClientTypes.Builder?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["ARN"].write(value.arn)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.Builder {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ElasticBeanstalkClientTypes.Builder()
@@ -783,18 +728,6 @@ extension ElasticBeanstalkClientTypes {
 }
 
 extension ElasticBeanstalkClientTypes.CPUUtilization {
-
-    static func write(value: ElasticBeanstalkClientTypes.CPUUtilization?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["IOWait"].write(value.ioWait)
-        try writer["IRQ"].write(value.irq)
-        try writer["Idle"].write(value.idle)
-        try writer["Nice"].write(value.nice)
-        try writer["Privileged"].write(value.privileged)
-        try writer["SoftIRQ"].write(value.softIRQ)
-        try writer["System"].write(value.system)
-        try writer["User"].write(value.user)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.CPUUtilization {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1124,21 +1057,6 @@ extension ElasticBeanstalkClientTypes {
 
 extension ElasticBeanstalkClientTypes.ConfigurationOptionDescription {
 
-    static func write(value: ElasticBeanstalkClientTypes.ConfigurationOptionDescription?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["ChangeSeverity"].write(value.changeSeverity)
-        try writer["DefaultValue"].write(value.defaultValue)
-        try writer["MaxLength"].write(value.maxLength)
-        try writer["MaxValue"].write(value.maxValue)
-        try writer["MinValue"].write(value.minValue)
-        try writer["Name"].write(value.name)
-        try writer["Namespace"].write(value.namespace)
-        try writer["Regex"].write(value.regex, with: ElasticBeanstalkClientTypes.OptionRestrictionRegex.write(value:to:))
-        try writer["UserDefined"].write(value.userDefined)
-        try writer["ValueOptions"].writeList(value.valueOptions, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ValueType"].write(value.valueType)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.ConfigurationOptionDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ElasticBeanstalkClientTypes.ConfigurationOptionDescription()
@@ -1314,20 +1232,6 @@ extension ElasticBeanstalkClientTypes {
 }
 
 extension ElasticBeanstalkClientTypes.ConfigurationSettingsDescription {
-
-    static func write(value: ElasticBeanstalkClientTypes.ConfigurationSettingsDescription?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["ApplicationName"].write(value.applicationName)
-        try writer["DateCreated"].writeTimestamp(value.dateCreated, format: .dateTime)
-        try writer["DateUpdated"].writeTimestamp(value.dateUpdated, format: .dateTime)
-        try writer["DeploymentStatus"].write(value.deploymentStatus)
-        try writer["Description"].write(value.description)
-        try writer["EnvironmentName"].write(value.environmentName)
-        try writer["OptionSettings"].writeList(value.optionSettings, memberWritingClosure: ElasticBeanstalkClientTypes.ConfigurationOptionSetting.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["PlatformArn"].write(value.platformArn)
-        try writer["SolutionStackName"].write(value.solutionStackName)
-        try writer["TemplateName"].write(value.templateName)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.ConfigurationSettingsDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2197,12 +2101,6 @@ enum CreateStorageLocationOutputError {
 
 extension ElasticBeanstalkClientTypes.CustomAmi {
 
-    static func write(value: ElasticBeanstalkClientTypes.CustomAmi?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["ImageId"].write(value.imageId)
-        try writer["VirtualizationType"].write(value.virtualizationType)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.CustomAmi {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ElasticBeanstalkClientTypes.CustomAmi()
@@ -2561,14 +2459,6 @@ enum DeletePlatformVersionOutputError {
 }
 
 extension ElasticBeanstalkClientTypes.Deployment {
-
-    static func write(value: ElasticBeanstalkClientTypes.Deployment?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["DeploymentId"].write(value.deploymentId)
-        try writer["DeploymentTime"].writeTimestamp(value.deploymentTime, format: .dateTime)
-        try writer["Status"].write(value.status)
-        try writer["VersionLabel"].write(value.versionLabel)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.Deployment {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3870,31 +3760,6 @@ public struct ElasticBeanstalkServiceException: ClientRuntime.ModeledError, AWSC
 
 extension ElasticBeanstalkClientTypes.EnvironmentDescription {
 
-    static func write(value: ElasticBeanstalkClientTypes.EnvironmentDescription?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["AbortableOperationInProgress"].write(value.abortableOperationInProgress)
-        try writer["ApplicationName"].write(value.applicationName)
-        try writer["CNAME"].write(value.cname)
-        try writer["DateCreated"].writeTimestamp(value.dateCreated, format: .dateTime)
-        try writer["DateUpdated"].writeTimestamp(value.dateUpdated, format: .dateTime)
-        try writer["Description"].write(value.description)
-        try writer["EndpointURL"].write(value.endpointURL)
-        try writer["EnvironmentArn"].write(value.environmentArn)
-        try writer["EnvironmentId"].write(value.environmentId)
-        try writer["EnvironmentLinks"].writeList(value.environmentLinks, memberWritingClosure: ElasticBeanstalkClientTypes.EnvironmentLink.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["EnvironmentName"].write(value.environmentName)
-        try writer["Health"].write(value.health)
-        try writer["HealthStatus"].write(value.healthStatus)
-        try writer["OperationsRole"].write(value.operationsRole)
-        try writer["PlatformArn"].write(value.platformArn)
-        try writer["Resources"].write(value.resources, with: ElasticBeanstalkClientTypes.EnvironmentResourcesDescription.write(value:to:))
-        try writer["SolutionStackName"].write(value.solutionStackName)
-        try writer["Status"].write(value.status)
-        try writer["TemplateName"].write(value.templateName)
-        try writer["Tier"].write(value.tier, with: ElasticBeanstalkClientTypes.EnvironmentTier.write(value:to:))
-        try writer["VersionLabel"].write(value.versionLabel)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.EnvironmentDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ElasticBeanstalkClientTypes.EnvironmentDescription()
@@ -4177,14 +4042,6 @@ extension ElasticBeanstalkClientTypes {
 
 extension ElasticBeanstalkClientTypes.EnvironmentInfoDescription {
 
-    static func write(value: ElasticBeanstalkClientTypes.EnvironmentInfoDescription?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Ec2InstanceId"].write(value.ec2InstanceId)
-        try writer["InfoType"].write(value.infoType)
-        try writer["Message"].write(value.message)
-        try writer["SampleTimestamp"].writeTimestamp(value.sampleTimestamp, format: .dateTime)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.EnvironmentInfoDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ElasticBeanstalkClientTypes.EnvironmentInfoDescription()
@@ -4256,12 +4113,6 @@ extension ElasticBeanstalkClientTypes {
 
 extension ElasticBeanstalkClientTypes.EnvironmentLink {
 
-    static func write(value: ElasticBeanstalkClientTypes.EnvironmentLink?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["EnvironmentName"].write(value.environmentName)
-        try writer["LinkName"].write(value.linkName)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.EnvironmentLink {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ElasticBeanstalkClientTypes.EnvironmentLink()
@@ -4292,18 +4143,6 @@ extension ElasticBeanstalkClientTypes {
 }
 
 extension ElasticBeanstalkClientTypes.EnvironmentResourceDescription {
-
-    static func write(value: ElasticBeanstalkClientTypes.EnvironmentResourceDescription?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["AutoScalingGroups"].writeList(value.autoScalingGroups, memberWritingClosure: ElasticBeanstalkClientTypes.AutoScalingGroup.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["EnvironmentName"].write(value.environmentName)
-        try writer["Instances"].writeList(value.instances, memberWritingClosure: ElasticBeanstalkClientTypes.Instance.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["LaunchConfigurations"].writeList(value.launchConfigurations, memberWritingClosure: ElasticBeanstalkClientTypes.LaunchConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["LaunchTemplates"].writeList(value.launchTemplates, memberWritingClosure: ElasticBeanstalkClientTypes.LaunchTemplate.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["LoadBalancers"].writeList(value.loadBalancers, memberWritingClosure: ElasticBeanstalkClientTypes.LoadBalancer.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Queues"].writeList(value.queues, memberWritingClosure: ElasticBeanstalkClientTypes.Queue.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Triggers"].writeList(value.triggers, memberWritingClosure: ElasticBeanstalkClientTypes.Trigger.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.EnvironmentResourceDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4365,11 +4204,6 @@ extension ElasticBeanstalkClientTypes {
 }
 
 extension ElasticBeanstalkClientTypes.EnvironmentResourcesDescription {
-
-    static func write(value: ElasticBeanstalkClientTypes.EnvironmentResourcesDescription?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["LoadBalancer"].write(value.loadBalancer, with: ElasticBeanstalkClientTypes.LoadBalancerDescription.write(value:to:))
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.EnvironmentResourcesDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4495,19 +4329,6 @@ extension ElasticBeanstalkClientTypes {
 }
 
 extension ElasticBeanstalkClientTypes.EventDescription {
-
-    static func write(value: ElasticBeanstalkClientTypes.EventDescription?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["ApplicationName"].write(value.applicationName)
-        try writer["EnvironmentName"].write(value.environmentName)
-        try writer["EventDate"].writeTimestamp(value.eventDate, format: .dateTime)
-        try writer["Message"].write(value.message)
-        try writer["PlatformArn"].write(value.platformArn)
-        try writer["RequestId"].write(value.requestId)
-        try writer["Severity"].write(value.severity)
-        try writer["TemplateName"].write(value.templateName)
-        try writer["VersionLabel"].write(value.versionLabel)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.EventDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4662,11 +4483,6 @@ extension ElasticBeanstalkClientTypes {
 
 extension ElasticBeanstalkClientTypes.Instance {
 
-    static func write(value: ElasticBeanstalkClientTypes.Instance?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Id"].write(value.id)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.Instance {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ElasticBeanstalkClientTypes.Instance()
@@ -4692,18 +4508,6 @@ extension ElasticBeanstalkClientTypes {
 }
 
 extension ElasticBeanstalkClientTypes.InstanceHealthSummary {
-
-    static func write(value: ElasticBeanstalkClientTypes.InstanceHealthSummary?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Degraded"].write(value.degraded)
-        try writer["Info"].write(value.info)
-        try writer["NoData"].write(value.noData)
-        try writer["Ok"].write(value.ok)
-        try writer["Pending"].write(value.pending)
-        try writer["Severe"].write(value.severe)
-        try writer["Unknown"].write(value.unknown)
-        try writer["Warning"].write(value.warning)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.InstanceHealthSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4899,18 +4703,6 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
 
 extension ElasticBeanstalkClientTypes.Latency {
 
-    static func write(value: ElasticBeanstalkClientTypes.Latency?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["P10"].write(value.p10)
-        try writer["P50"].write(value.p50)
-        try writer["P75"].write(value.p75)
-        try writer["P85"].write(value.p85)
-        try writer["P90"].write(value.p90)
-        try writer["P95"].write(value.p95)
-        try writer["P99"].write(value.p99)
-        try writer["P999"].write(value.p999)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.Latency {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ElasticBeanstalkClientTypes.Latency()
@@ -4972,11 +4764,6 @@ extension ElasticBeanstalkClientTypes {
 
 extension ElasticBeanstalkClientTypes.LaunchConfiguration {
 
-    static func write(value: ElasticBeanstalkClientTypes.LaunchConfiguration?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.LaunchConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ElasticBeanstalkClientTypes.LaunchConfiguration()
@@ -5002,11 +4789,6 @@ extension ElasticBeanstalkClientTypes {
 }
 
 extension ElasticBeanstalkClientTypes.LaunchTemplate {
-
-    static func write(value: ElasticBeanstalkClientTypes.LaunchTemplate?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Id"].write(value.id)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.LaunchTemplate {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5373,12 +5155,6 @@ enum ListTagsForResourceOutputError {
 
 extension ElasticBeanstalkClientTypes.Listener {
 
-    static func write(value: ElasticBeanstalkClientTypes.Listener?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Port"].write(value.port)
-        try writer["Protocol"].write(value.`protocol`)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.Listener {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ElasticBeanstalkClientTypes.Listener()
@@ -5410,11 +5186,6 @@ extension ElasticBeanstalkClientTypes {
 
 extension ElasticBeanstalkClientTypes.LoadBalancer {
 
-    static func write(value: ElasticBeanstalkClientTypes.LoadBalancer?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.LoadBalancer {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ElasticBeanstalkClientTypes.LoadBalancer()
@@ -5440,13 +5211,6 @@ extension ElasticBeanstalkClientTypes {
 }
 
 extension ElasticBeanstalkClientTypes.LoadBalancerDescription {
-
-    static func write(value: ElasticBeanstalkClientTypes.LoadBalancerDescription?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Domain"].write(value.domain)
-        try writer["Listeners"].writeList(value.listeners, memberWritingClosure: ElasticBeanstalkClientTypes.Listener.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["LoadBalancerName"].write(value.loadBalancerName)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.LoadBalancerDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5483,15 +5247,6 @@ extension ElasticBeanstalkClientTypes {
 }
 
 extension ElasticBeanstalkClientTypes.ManagedAction {
-
-    static func write(value: ElasticBeanstalkClientTypes.ManagedAction?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["ActionDescription"].write(value.actionDescription)
-        try writer["ActionId"].write(value.actionId)
-        try writer["ActionType"].write(value.actionType)
-        try writer["Status"].write(value.status)
-        try writer["WindowStartTime"].writeTimestamp(value.windowStartTime, format: .dateTime)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.ManagedAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5538,18 +5293,6 @@ extension ElasticBeanstalkClientTypes {
 }
 
 extension ElasticBeanstalkClientTypes.ManagedActionHistoryItem {
-
-    static func write(value: ElasticBeanstalkClientTypes.ManagedActionHistoryItem?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["ActionDescription"].write(value.actionDescription)
-        try writer["ActionId"].write(value.actionId)
-        try writer["ActionType"].write(value.actionType)
-        try writer["ExecutedTime"].writeTimestamp(value.executedTime, format: .dateTime)
-        try writer["FailureDescription"].write(value.failureDescription)
-        try writer["FailureType"].write(value.failureType)
-        try writer["FinishedTime"].writeTimestamp(value.finishedTime, format: .dateTime)
-        try writer["Status"].write(value.status)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.ManagedActionHistoryItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5776,12 +5519,6 @@ public struct OperationInProgressException: ClientRuntime.ModeledError, AWSClien
 
 extension ElasticBeanstalkClientTypes.OptionRestrictionRegex {
 
-    static func write(value: ElasticBeanstalkClientTypes.OptionRestrictionRegex?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Label"].write(value.label)
-        try writer["Pattern"].write(value.pattern)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.OptionRestrictionRegex {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ElasticBeanstalkClientTypes.OptionRestrictionRegex()
@@ -5819,15 +5556,6 @@ extension ElasticBeanstalkClientTypes.OptionSpecification {
         try writer["OptionName"].write(value.optionName)
         try writer["ResourceName"].write(value.resourceName)
     }
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.OptionSpecification {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElasticBeanstalkClientTypes.OptionSpecification()
-        value.resourceName = try reader["ResourceName"].readIfPresent()
-        value.namespace = try reader["Namespace"].readIfPresent()
-        value.optionName = try reader["OptionName"].readIfPresent()
-        return value
-    }
 }
 
 extension ElasticBeanstalkClientTypes {
@@ -5855,15 +5583,6 @@ extension ElasticBeanstalkClientTypes {
 }
 
 extension ElasticBeanstalkClientTypes.PlatformBranchSummary {
-
-    static func write(value: ElasticBeanstalkClientTypes.PlatformBranchSummary?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["BranchName"].write(value.branchName)
-        try writer["BranchOrder"].write(value.branchOrder)
-        try writer["LifecycleState"].write(value.lifecycleState)
-        try writer["PlatformName"].write(value.platformName)
-        try writer["SupportedTierList"].writeList(value.supportedTierList, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.PlatformBranchSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -5910,31 +5629,6 @@ extension ElasticBeanstalkClientTypes {
 }
 
 extension ElasticBeanstalkClientTypes.PlatformDescription {
-
-    static func write(value: ElasticBeanstalkClientTypes.PlatformDescription?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["CustomAmiList"].writeList(value.customAmiList, memberWritingClosure: ElasticBeanstalkClientTypes.CustomAmi.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["DateCreated"].writeTimestamp(value.dateCreated, format: .dateTime)
-        try writer["DateUpdated"].writeTimestamp(value.dateUpdated, format: .dateTime)
-        try writer["Description"].write(value.description)
-        try writer["Frameworks"].writeList(value.frameworks, memberWritingClosure: ElasticBeanstalkClientTypes.PlatformFramework.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Maintainer"].write(value.maintainer)
-        try writer["OperatingSystemName"].write(value.operatingSystemName)
-        try writer["OperatingSystemVersion"].write(value.operatingSystemVersion)
-        try writer["PlatformArn"].write(value.platformArn)
-        try writer["PlatformBranchLifecycleState"].write(value.platformBranchLifecycleState)
-        try writer["PlatformBranchName"].write(value.platformBranchName)
-        try writer["PlatformCategory"].write(value.platformCategory)
-        try writer["PlatformLifecycleState"].write(value.platformLifecycleState)
-        try writer["PlatformName"].write(value.platformName)
-        try writer["PlatformOwner"].write(value.platformOwner)
-        try writer["PlatformStatus"].write(value.platformStatus)
-        try writer["PlatformVersion"].write(value.platformVersion)
-        try writer["ProgrammingLanguages"].writeList(value.programmingLanguages, memberWritingClosure: ElasticBeanstalkClientTypes.PlatformProgrammingLanguage.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["SolutionStackName"].write(value.solutionStackName)
-        try writer["SupportedAddonList"].writeList(value.supportedAddonList, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["SupportedTierList"].writeList(value.supportedTierList, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.PlatformDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6068,15 +5762,6 @@ extension ElasticBeanstalkClientTypes.PlatformFilter {
         try writer["Type"].write(value.type)
         try writer["Values"].writeList(value.values, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.PlatformFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElasticBeanstalkClientTypes.PlatformFilter()
-        value.type = try reader["Type"].readIfPresent()
-        value.`operator` = try reader["Operator"].readIfPresent()
-        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
 }
 
 extension ElasticBeanstalkClientTypes {
@@ -6113,12 +5798,6 @@ extension ElasticBeanstalkClientTypes {
 
 extension ElasticBeanstalkClientTypes.PlatformFramework {
 
-    static func write(value: ElasticBeanstalkClientTypes.PlatformFramework?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["Version"].write(value.version)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.PlatformFramework {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ElasticBeanstalkClientTypes.PlatformFramework()
@@ -6149,12 +5828,6 @@ extension ElasticBeanstalkClientTypes {
 }
 
 extension ElasticBeanstalkClientTypes.PlatformProgrammingLanguage {
-
-    static func write(value: ElasticBeanstalkClientTypes.PlatformProgrammingLanguage?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["Version"].write(value.version)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.PlatformProgrammingLanguage {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6225,22 +5898,6 @@ extension ElasticBeanstalkClientTypes {
 }
 
 extension ElasticBeanstalkClientTypes.PlatformSummary {
-
-    static func write(value: ElasticBeanstalkClientTypes.PlatformSummary?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["OperatingSystemName"].write(value.operatingSystemName)
-        try writer["OperatingSystemVersion"].write(value.operatingSystemVersion)
-        try writer["PlatformArn"].write(value.platformArn)
-        try writer["PlatformBranchLifecycleState"].write(value.platformBranchLifecycleState)
-        try writer["PlatformBranchName"].write(value.platformBranchName)
-        try writer["PlatformCategory"].write(value.platformCategory)
-        try writer["PlatformLifecycleState"].write(value.platformLifecycleState)
-        try writer["PlatformOwner"].write(value.platformOwner)
-        try writer["PlatformStatus"].write(value.platformStatus)
-        try writer["PlatformVersion"].write(value.platformVersion)
-        try writer["SupportedAddonList"].writeList(value.supportedAddonList, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["SupportedTierList"].writeList(value.supportedTierList, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.PlatformSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6360,12 +6017,6 @@ public struct PlatformVersionStillReferencedException: ClientRuntime.ModeledErro
 }
 
 extension ElasticBeanstalkClientTypes.Queue {
-
-    static func write(value: ElasticBeanstalkClientTypes.Queue?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["URL"].write(value.url)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.Queue {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6563,11 +6214,6 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
 extension ElasticBeanstalkClientTypes.ResourceQuota {
 
-    static func write(value: ElasticBeanstalkClientTypes.ResourceQuota?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Maximum"].write(value.maximum)
-    }
-
     static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.ResourceQuota {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ElasticBeanstalkClientTypes.ResourceQuota()
@@ -6593,15 +6239,6 @@ extension ElasticBeanstalkClientTypes {
 }
 
 extension ElasticBeanstalkClientTypes.ResourceQuotas {
-
-    static func write(value: ElasticBeanstalkClientTypes.ResourceQuotas?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["ApplicationQuota"].write(value.applicationQuota, with: ElasticBeanstalkClientTypes.ResourceQuota.write(value:to:))
-        try writer["ApplicationVersionQuota"].write(value.applicationVersionQuota, with: ElasticBeanstalkClientTypes.ResourceQuota.write(value:to:))
-        try writer["ConfigurationTemplateQuota"].write(value.configurationTemplateQuota, with: ElasticBeanstalkClientTypes.ResourceQuota.write(value:to:))
-        try writer["CustomPlatformQuota"].write(value.customPlatformQuota, with: ElasticBeanstalkClientTypes.ResourceQuota.write(value:to:))
-        try writer["EnvironmentQuota"].write(value.environmentQuota, with: ElasticBeanstalkClientTypes.ResourceQuota.write(value:to:))
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.ResourceQuotas {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6951,15 +6588,6 @@ extension ElasticBeanstalkClientTypes.SearchFilter {
         try writer["Operator"].write(value.`operator`)
         try writer["Values"].writeList(value.values, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.SearchFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElasticBeanstalkClientTypes.SearchFilter()
-        value.attribute = try reader["Attribute"].readIfPresent()
-        value.`operator` = try reader["Operator"].readIfPresent()
-        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
 }
 
 extension ElasticBeanstalkClientTypes {
@@ -6987,20 +6615,6 @@ extension ElasticBeanstalkClientTypes {
 }
 
 extension ElasticBeanstalkClientTypes.SingleInstanceHealth {
-
-    static func write(value: ElasticBeanstalkClientTypes.SingleInstanceHealth?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["ApplicationMetrics"].write(value.applicationMetrics, with: ElasticBeanstalkClientTypes.ApplicationMetrics.write(value:to:))
-        try writer["AvailabilityZone"].write(value.availabilityZone)
-        try writer["Causes"].writeList(value.causes, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Color"].write(value.color)
-        try writer["Deployment"].write(value.deployment, with: ElasticBeanstalkClientTypes.Deployment.write(value:to:))
-        try writer["HealthStatus"].write(value.healthStatus)
-        try writer["InstanceId"].write(value.instanceId)
-        try writer["InstanceType"].write(value.instanceType)
-        try writer["LaunchedAt"].writeTimestamp(value.launchedAt, format: .dateTime)
-        try writer["System"].write(value.system, with: ElasticBeanstalkClientTypes.SystemStatus.write(value:to:))
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.SingleInstanceHealth {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7072,12 +6686,6 @@ extension ElasticBeanstalkClientTypes {
 }
 
 extension ElasticBeanstalkClientTypes.SolutionStackDescription {
-
-    static func write(value: ElasticBeanstalkClientTypes.SolutionStackDescription?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["PermittedFileTypes"].writeList(value.permittedFileTypes, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["SolutionStackName"].write(value.solutionStackName)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.SolutionStackDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7211,14 +6819,6 @@ extension ElasticBeanstalkClientTypes.SourceConfiguration {
         try writer["ApplicationName"].write(value.applicationName)
         try writer["TemplateName"].write(value.templateName)
     }
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.SourceConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElasticBeanstalkClientTypes.SourceConfiguration()
-        value.applicationName = try reader["ApplicationName"].readIfPresent()
-        value.templateName = try reader["TemplateName"].readIfPresent()
-        return value
-    }
 }
 
 extension ElasticBeanstalkClientTypes {
@@ -7302,14 +6902,6 @@ extension ElasticBeanstalkClientTypes {
 }
 
 extension ElasticBeanstalkClientTypes.StatusCodes {
-
-    static func write(value: ElasticBeanstalkClientTypes.StatusCodes?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Status2xx"].write(value.status2xx)
-        try writer["Status3xx"].write(value.status3xx)
-        try writer["Status4xx"].write(value.status4xx)
-        try writer["Status5xx"].write(value.status5xx)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.StatusCodes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7421,12 +7013,6 @@ enum SwapEnvironmentCNAMEsOutputError {
 }
 
 extension ElasticBeanstalkClientTypes.SystemStatus {
-
-    static func write(value: ElasticBeanstalkClientTypes.SystemStatus?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["CPUUtilization"].write(value.cpuUtilization, with: ElasticBeanstalkClientTypes.CPUUtilization.write(value:to:))
-        try writer["LoadAverage"].writeList(value.loadAverage, memberWritingClosure: Swift.Double.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.SystemStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -7973,11 +7559,6 @@ public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime
 }
 
 extension ElasticBeanstalkClientTypes.Trigger {
-
-    static func write(value: ElasticBeanstalkClientTypes.Trigger?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.Trigger {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -8785,14 +8366,6 @@ enum ValidateConfigurationSettingsOutputError {
 }
 
 extension ElasticBeanstalkClientTypes.ValidationMessage {
-
-    static func write(value: ElasticBeanstalkClientTypes.ValidationMessage?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.message)
-        try writer["Namespace"].write(value.namespace)
-        try writer["OptionName"].write(value.optionName)
-        try writer["Severity"].write(value.severity)
-    }
 
     static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.ValidationMessage {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

@@ -300,14 +300,6 @@ public struct ClusterLimitExceededException: ClientRuntime.ModeledError, AWSClie
 
 extension SnowballClientTypes.ClusterListEntry {
 
-    static func write(value: SnowballClientTypes.ClusterListEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ClusterId"].write(value.clusterId)
-        try writer["ClusterState"].write(value.clusterState)
-        try writer["CreationDate"].writeTimestamp(value.creationDate, format: .epochSeconds)
-        try writer["Description"].write(value.description)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SnowballClientTypes.ClusterListEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SnowballClientTypes.ClusterListEntry()
@@ -348,25 +340,6 @@ extension SnowballClientTypes {
 }
 
 extension SnowballClientTypes.ClusterMetadata {
-
-    static func write(value: SnowballClientTypes.ClusterMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AddressId"].write(value.addressId)
-        try writer["ClusterId"].write(value.clusterId)
-        try writer["ClusterState"].write(value.clusterState)
-        try writer["CreationDate"].writeTimestamp(value.creationDate, format: .epochSeconds)
-        try writer["Description"].write(value.description)
-        try writer["ForwardingAddressId"].write(value.forwardingAddressId)
-        try writer["JobType"].write(value.jobType)
-        try writer["KmsKeyARN"].write(value.kmsKeyARN)
-        try writer["Notification"].write(value.notification, with: SnowballClientTypes.Notification.write(value:to:))
-        try writer["OnDeviceServiceConfiguration"].write(value.onDeviceServiceConfiguration, with: SnowballClientTypes.OnDeviceServiceConfiguration.write(value:to:))
-        try writer["Resources"].write(value.resources, with: SnowballClientTypes.JobResource.write(value:to:))
-        try writer["RoleARN"].write(value.roleARN)
-        try writer["ShippingOption"].write(value.shippingOption)
-        try writer["SnowballType"].write(value.snowballType)
-        try writer["TaxDocuments"].write(value.taxDocuments, with: SnowballClientTypes.TaxDocuments.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SnowballClientTypes.ClusterMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -510,12 +483,6 @@ extension SnowballClientTypes {
 }
 
 extension SnowballClientTypes.CompatibleImage {
-
-    static func write(value: SnowballClientTypes.CompatibleImage?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AmiId"].write(value.amiId)
-        try writer["Name"].write(value.name)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SnowballClientTypes.CompatibleImage {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -1151,14 +1118,6 @@ enum CreateReturnShippingLabelOutputError {
 }
 
 extension SnowballClientTypes.DataTransfer {
-
-    static func write(value: SnowballClientTypes.DataTransfer?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BytesTransferred"].write(value.bytesTransferred)
-        try writer["ObjectsTransferred"].write(value.objectsTransferred)
-        try writer["TotalBytes"].write(value.totalBytes)
-        try writer["TotalObjects"].write(value.totalObjects)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SnowballClientTypes.DataTransfer {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2322,17 +2281,6 @@ public struct InvalidResourceException: ClientRuntime.ModeledError, AWSClientRun
 
 extension SnowballClientTypes.JobListEntry {
 
-    static func write(value: SnowballClientTypes.JobListEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationDate"].writeTimestamp(value.creationDate, format: .epochSeconds)
-        try writer["Description"].write(value.description)
-        try writer["IsMaster"].write(value.isMaster)
-        try writer["JobId"].write(value.jobId)
-        try writer["JobState"].write(value.jobState)
-        try writer["JobType"].write(value.jobType)
-        try writer["SnowballType"].write(value.snowballType)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SnowballClientTypes.JobListEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SnowballClientTypes.JobListEntry()
@@ -2389,13 +2337,6 @@ extension SnowballClientTypes {
 
 extension SnowballClientTypes.JobLogs {
 
-    static func write(value: SnowballClientTypes.JobLogs?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["JobCompletionReportURI"].write(value.jobCompletionReportURI)
-        try writer["JobFailureLogURI"].write(value.jobFailureLogURI)
-        try writer["JobSuccessLogURI"].write(value.jobSuccessLogURI)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SnowballClientTypes.JobLogs {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SnowballClientTypes.JobLogs()
@@ -2431,35 +2372,6 @@ extension SnowballClientTypes {
 }
 
 extension SnowballClientTypes.JobMetadata {
-
-    static func write(value: SnowballClientTypes.JobMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AddressId"].write(value.addressId)
-        try writer["ClusterId"].write(value.clusterId)
-        try writer["CreationDate"].writeTimestamp(value.creationDate, format: .epochSeconds)
-        try writer["DataTransferProgress"].write(value.dataTransferProgress, with: SnowballClientTypes.DataTransfer.write(value:to:))
-        try writer["Description"].write(value.description)
-        try writer["DeviceConfiguration"].write(value.deviceConfiguration, with: SnowballClientTypes.DeviceConfiguration.write(value:to:))
-        try writer["ForwardingAddressId"].write(value.forwardingAddressId)
-        try writer["ImpactLevel"].write(value.impactLevel)
-        try writer["JobId"].write(value.jobId)
-        try writer["JobLogInfo"].write(value.jobLogInfo, with: SnowballClientTypes.JobLogs.write(value:to:))
-        try writer["JobState"].write(value.jobState)
-        try writer["JobType"].write(value.jobType)
-        try writer["KmsKeyARN"].write(value.kmsKeyARN)
-        try writer["LongTermPricingId"].write(value.longTermPricingId)
-        try writer["Notification"].write(value.notification, with: SnowballClientTypes.Notification.write(value:to:))
-        try writer["OnDeviceServiceConfiguration"].write(value.onDeviceServiceConfiguration, with: SnowballClientTypes.OnDeviceServiceConfiguration.write(value:to:))
-        try writer["PickupDetails"].write(value.pickupDetails, with: SnowballClientTypes.PickupDetails.write(value:to:))
-        try writer["RemoteManagement"].write(value.remoteManagement)
-        try writer["Resources"].write(value.resources, with: SnowballClientTypes.JobResource.write(value:to:))
-        try writer["RoleARN"].write(value.roleARN)
-        try writer["ShippingDetails"].write(value.shippingDetails, with: SnowballClientTypes.ShippingDetails.write(value:to:))
-        try writer["SnowballCapacityPreference"].write(value.snowballCapacityPreference)
-        try writer["SnowballId"].write(value.snowballId)
-        try writer["SnowballType"].write(value.snowballType)
-        try writer["TaxDocuments"].write(value.taxDocuments, with: SnowballClientTypes.TaxDocuments.write(value:to:))
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SnowballClientTypes.JobMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3415,20 +3327,6 @@ enum ListServiceVersionsOutputError {
 
 extension SnowballClientTypes.LongTermPricingListEntry {
 
-    static func write(value: SnowballClientTypes.LongTermPricingListEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CurrentActiveJob"].write(value.currentActiveJob)
-        try writer["IsLongTermPricingAutoRenew"].write(value.isLongTermPricingAutoRenew)
-        try writer["JobIds"].writeList(value.jobIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["LongTermPricingEndDate"].writeTimestamp(value.longTermPricingEndDate, format: .epochSeconds)
-        try writer["LongTermPricingId"].write(value.longTermPricingId)
-        try writer["LongTermPricingStartDate"].writeTimestamp(value.longTermPricingStartDate, format: .epochSeconds)
-        try writer["LongTermPricingStatus"].write(value.longTermPricingStatus)
-        try writer["LongTermPricingType"].write(value.longTermPricingType)
-        try writer["ReplacementJob"].write(value.replacementJob)
-        try writer["SnowballType"].write(value.snowballType)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SnowballClientTypes.LongTermPricingListEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SnowballClientTypes.LongTermPricingListEntry()
@@ -3963,12 +3861,6 @@ extension SnowballClientTypes {
 
 extension SnowballClientTypes.Shipment {
 
-    static func write(value: SnowballClientTypes.Shipment?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Status"].write(value.status)
-        try writer["TrackingNumber"].write(value.trackingNumber)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> SnowballClientTypes.Shipment {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SnowballClientTypes.Shipment()
@@ -4029,13 +3921,6 @@ extension SnowballClientTypes {
 }
 
 extension SnowballClientTypes.ShippingDetails {
-
-    static func write(value: SnowballClientTypes.ShippingDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["InboundShipment"].write(value.inboundShipment, with: SnowballClientTypes.Shipment.write(value:to:))
-        try writer["OutboundShipment"].write(value.outboundShipment, with: SnowballClientTypes.Shipment.write(value:to:))
-        try writer["ShippingOption"].write(value.shippingOption)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SnowballClientTypes.ShippingDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

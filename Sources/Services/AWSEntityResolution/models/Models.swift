@@ -1230,12 +1230,6 @@ enum DeleteSchemaMappingOutputError {
 
 extension EntityResolutionClientTypes.DeleteUniqueIdError {
 
-    static func write(value: EntityResolutionClientTypes.DeleteUniqueIdError?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["errorType"].write(value.errorType)
-        try writer["uniqueId"].write(value.uniqueId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> EntityResolutionClientTypes.DeleteUniqueIdError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EntityResolutionClientTypes.DeleteUniqueIdError()
@@ -1329,11 +1323,6 @@ extension EntityResolutionClientTypes {
 
 extension EntityResolutionClientTypes.DeletedUniqueId {
 
-    static func write(value: EntityResolutionClientTypes.DeletedUniqueId?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["uniqueId"].write(value.uniqueId)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> EntityResolutionClientTypes.DeletedUniqueId {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EntityResolutionClientTypes.DeletedUniqueId()
@@ -1362,11 +1351,6 @@ extension EntityResolutionClientTypes {
 public enum EntityResolutionClientTypes {}
 
 extension EntityResolutionClientTypes.ErrorDetails {
-
-    static func write(value: EntityResolutionClientTypes.ErrorDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["errorMessage"].write(value.errorMessage)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> EntityResolutionClientTypes.ErrorDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -2425,13 +2409,6 @@ enum GetSchemaMappingOutputError {
 
 extension EntityResolutionClientTypes.IdMappingJobMetrics {
 
-    static func write(value: EntityResolutionClientTypes.IdMappingJobMetrics?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["inputRecords"].write(value.inputRecords)
-        try writer["recordsNotProcessed"].write(value.recordsNotProcessed)
-        try writer["totalRecordsProcessed"].write(value.totalRecordsProcessed)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> EntityResolutionClientTypes.IdMappingJobMetrics {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EntityResolutionClientTypes.IdMappingJobMetrics()
@@ -2660,14 +2637,6 @@ extension EntityResolutionClientTypes {
 
 extension EntityResolutionClientTypes.IdMappingWorkflowSummary {
 
-    static func write(value: EntityResolutionClientTypes.IdMappingWorkflowSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["updatedAt"].writeTimestamp(value.updatedAt, format: .epochSeconds)
-        try writer["workflowArn"].write(value.workflowArn)
-        try writer["workflowName"].write(value.workflowName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> EntityResolutionClientTypes.IdMappingWorkflowSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EntityResolutionClientTypes.IdMappingWorkflowSummary()
@@ -2788,16 +2757,6 @@ extension EntityResolutionClientTypes {
 }
 
 extension EntityResolutionClientTypes.IdNamespaceSummary {
-
-    static func write(value: EntityResolutionClientTypes.IdNamespaceSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["description"].write(value.description)
-        try writer["idNamespaceArn"].write(value.idNamespaceArn)
-        try writer["idNamespaceName"].write(value.idNamespaceName)
-        try writer["type"].write(value.type)
-        try writer["updatedAt"].writeTimestamp(value.updatedAt, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> EntityResolutionClientTypes.IdNamespaceSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3057,14 +3016,6 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
 extension EntityResolutionClientTypes.JobMetrics {
 
-    static func write(value: EntityResolutionClientTypes.JobMetrics?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["inputRecords"].write(value.inputRecords)
-        try writer["matchIDs"].write(value.matchIDs)
-        try writer["recordsNotProcessed"].write(value.recordsNotProcessed)
-        try writer["totalRecordsProcessed"].write(value.totalRecordsProcessed)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> EntityResolutionClientTypes.JobMetrics {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EntityResolutionClientTypes.JobMetrics()
@@ -3105,13 +3056,6 @@ extension EntityResolutionClientTypes {
 }
 
 extension EntityResolutionClientTypes.JobOutputSource {
-
-    static func write(value: EntityResolutionClientTypes.JobOutputSource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["KMSArn"].write(value.kmsArn)
-        try writer["outputS3Path"].write(value.outputS3Path)
-        try writer["roleArn"].write(value.roleArn)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> EntityResolutionClientTypes.JobOutputSource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3186,14 +3130,6 @@ extension EntityResolutionClientTypes {
 }
 
 extension EntityResolutionClientTypes.JobSummary {
-
-    static func write(value: EntityResolutionClientTypes.JobSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["endTime"].writeTimestamp(value.endTime, format: .epochSeconds)
-        try writer["jobId"].write(value.jobId)
-        try writer["startTime"].writeTimestamp(value.startTime, format: .epochSeconds)
-        try writer["status"].write(value.status)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> EntityResolutionClientTypes.JobSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -3924,15 +3860,6 @@ enum ListTagsForResourceOutputError {
 
 extension EntityResolutionClientTypes.MatchingWorkflowSummary {
 
-    static func write(value: EntityResolutionClientTypes.MatchingWorkflowSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["resolutionType"].write(value.resolutionType)
-        try writer["updatedAt"].writeTimestamp(value.updatedAt, format: .epochSeconds)
-        try writer["workflowArn"].write(value.workflowArn)
-        try writer["workflowName"].write(value.workflowName)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> EntityResolutionClientTypes.MatchingWorkflowSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EntityResolutionClientTypes.MatchingWorkflowSummary()
@@ -4111,12 +4038,6 @@ extension EntityResolutionClientTypes {
 
 extension EntityResolutionClientTypes.ProviderComponentSchema {
 
-    static func write(value: EntityResolutionClientTypes.ProviderComponentSchema?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["providerSchemaAttributes"].writeList(value.providerSchemaAttributes, memberWritingClosure: EntityResolutionClientTypes.ProviderSchemaAttribute.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["schemas"].writeList(value.schemas, memberWritingClosure: listWritingClosure(memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> EntityResolutionClientTypes.ProviderComponentSchema {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EntityResolutionClientTypes.ProviderComponentSchema()
@@ -4148,16 +4069,6 @@ extension EntityResolutionClientTypes {
 
 extension EntityResolutionClientTypes.ProviderEndpointConfiguration {
 
-    static func write(value: EntityResolutionClientTypes.ProviderEndpointConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .marketplaceconfiguration(marketplaceconfiguration):
-                try writer["marketplaceConfiguration"].write(marketplaceconfiguration, with: EntityResolutionClientTypes.ProviderMarketplaceConfiguration.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> EntityResolutionClientTypes.ProviderEndpointConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
@@ -4181,13 +4092,6 @@ extension EntityResolutionClientTypes {
 }
 
 extension EntityResolutionClientTypes.ProviderIdNameSpaceConfiguration {
-
-    static func write(value: EntityResolutionClientTypes.ProviderIdNameSpaceConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["description"].write(value.description)
-        try writer["providerSourceConfigurationDefinition"].write(value.providerSourceConfigurationDefinition)
-        try writer["providerTargetConfigurationDefinition"].write(value.providerTargetConfigurationDefinition)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> EntityResolutionClientTypes.ProviderIdNameSpaceConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4225,12 +4129,6 @@ extension EntityResolutionClientTypes {
 
 extension EntityResolutionClientTypes.ProviderIntermediateDataAccessConfiguration {
 
-    static func write(value: EntityResolutionClientTypes.ProviderIntermediateDataAccessConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["awsAccountIds"].writeList(value.awsAccountIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["requiredBucketActions"].writeList(value.requiredBucketActions, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> EntityResolutionClientTypes.ProviderIntermediateDataAccessConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EntityResolutionClientTypes.ProviderIntermediateDataAccessConfiguration()
@@ -4261,14 +4159,6 @@ extension EntityResolutionClientTypes {
 }
 
 extension EntityResolutionClientTypes.ProviderMarketplaceConfiguration {
-
-    static func write(value: EntityResolutionClientTypes.ProviderMarketplaceConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["assetId"].write(value.assetId)
-        try writer["dataSetId"].write(value.dataSetId)
-        try writer["listingId"].write(value.listingId)
-        try writer["revisionId"].write(value.revisionId)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> EntityResolutionClientTypes.ProviderMarketplaceConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4359,14 +4249,6 @@ extension EntityResolutionClientTypes {
 
 extension EntityResolutionClientTypes.ProviderSchemaAttribute {
 
-    static func write(value: EntityResolutionClientTypes.ProviderSchemaAttribute?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["fieldName"].write(value.fieldName)
-        try writer["hashing"].write(value.hashing)
-        try writer["subType"].write(value.subType)
-        try writer["type"].write(value.type)
-    }
-
     static func read(from reader: SmithyJSON.Reader) throws -> EntityResolutionClientTypes.ProviderSchemaAttribute {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EntityResolutionClientTypes.ProviderSchemaAttribute()
@@ -4409,15 +4291,6 @@ extension EntityResolutionClientTypes {
 }
 
 extension EntityResolutionClientTypes.ProviderServiceSummary {
-
-    static func write(value: EntityResolutionClientTypes.ProviderServiceSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["providerName"].write(value.providerName)
-        try writer["providerServiceArn"].write(value.providerServiceArn)
-        try writer["providerServiceDisplayName"].write(value.providerServiceDisplayName)
-        try writer["providerServiceName"].write(value.providerServiceName)
-        try writer["providerServiceType"].write(value.providerServiceType)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> EntityResolutionClientTypes.ProviderServiceSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -4898,15 +4771,6 @@ extension EntityResolutionClientTypes {
 }
 
 extension EntityResolutionClientTypes.SchemaMappingSummary {
-
-    static func write(value: EntityResolutionClientTypes.SchemaMappingSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["createdAt"].writeTimestamp(value.createdAt, format: .epochSeconds)
-        try writer["hasWorkflows"].write(value.hasWorkflows)
-        try writer["schemaArn"].write(value.schemaArn)
-        try writer["schemaName"].write(value.schemaName)
-        try writer["updatedAt"].writeTimestamp(value.updatedAt, format: .epochSeconds)
-    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> EntityResolutionClientTypes.SchemaMappingSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
