@@ -29,15 +29,15 @@ public protocol EndpointResolver {
 
 public struct DefaultEndpointResolver: EndpointResolver  {
 
-    private let engine: AWSClientRuntime.AWSEndpointsRuleEngine
+    private let engine: ClientRuntime.EndpointsRuleEngine
     private let ruleSet = "{\"version\":\"1.0\",\"parameters\":{\"UseFIPS\":{\"builtIn\":\"AWS::UseFIPS\",\"required\":true,\"default\":false,\"documentation\":\"When true, send this request to the FIPS-compliant regional endpoint. If the configured endpoint does not have a FIPS compliant endpoint, dispatching the request will return an error.\",\"type\":\"Boolean\"},\"Region\":{\"builtIn\":\"AWS::Region\",\"required\":false,\"documentation\":\"The AWS region used to dispatch the request.\",\"type\":\"String\"},\"Endpoint\":{\"builtIn\":\"SDK::Endpoint\",\"required\":false,\"documentation\":\"Override the endpoint used to send this request\",\"type\":\"String\"}},\"rules\":[{\"conditions\":[{\"fn\":\"isSet\",\"argv\":[{\"ref\":\"Endpoint\"}]}],\"endpoint\":{\"url\":{\"ref\":\"Endpoint\"},\"properties\":{},\"headers\":{}},\"type\":\"endpoint\"},{\"conditions\":[{\"fn\":\"not\",\"argv\":[{\"fn\":\"isSet\",\"argv\":[{\"ref\":\"Region\"}]}]},{\"fn\":\"aws.partition\",\"argv\":[\"us-west-2\"],\"assign\":\"PartitionResult\"}],\"rules\":[{\"conditions\":[{\"fn\":\"booleanEquals\",\"argv\":[{\"ref\":\"UseFIPS\"},true]}],\"rules\":[{\"conditions\":[{\"fn\":\"booleanEquals\",\"argv\":[{\"fn\":\"getAttr\",\"argv\":[{\"ref\":\"PartitionResult\"},\"supportsFIPS\"]},false]}],\"error\":\"Partition does not support FIPS.\",\"type\":\"error\"},{\"conditions\":[],\"endpoint\":{\"url\":\"https://codecatalyst-fips.global.{PartitionResult#dualStackDnsSuffix}\",\"properties\":{},\"headers\":{}},\"type\":\"endpoint\"}],\"type\":\"tree\"},{\"conditions\":[],\"endpoint\":{\"url\":\"https://codecatalyst.global.{PartitionResult#dualStackDnsSuffix}\",\"properties\":{},\"headers\":{}},\"type\":\"endpoint\"}],\"type\":\"tree\"},{\"conditions\":[{\"fn\":\"isSet\",\"argv\":[{\"ref\":\"Region\"}]},{\"fn\":\"aws.partition\",\"argv\":[{\"ref\":\"Region\"}],\"assign\":\"PartitionResult\"}],\"rules\":[{\"conditions\":[{\"fn\":\"booleanEquals\",\"argv\":[{\"ref\":\"UseFIPS\"},true]}],\"rules\":[{\"conditions\":[{\"fn\":\"booleanEquals\",\"argv\":[{\"fn\":\"getAttr\",\"argv\":[{\"ref\":\"PartitionResult\"},\"supportsFIPS\"]},false]}],\"error\":\"Partition does not support FIPS.\",\"type\":\"error\"},{\"conditions\":[],\"endpoint\":{\"url\":\"https://codecatalyst-fips.global.{PartitionResult#dualStackDnsSuffix}\",\"properties\":{},\"headers\":{}},\"type\":\"endpoint\"}],\"type\":\"tree\"},{\"conditions\":[],\"endpoint\":{\"url\":\"https://codecatalyst.global.{PartitionResult#dualStackDnsSuffix}\",\"properties\":{},\"headers\":{}},\"type\":\"endpoint\"}],\"type\":\"tree\"}]}"
 
     public init() throws {
-        engine = try AWSClientRuntime.AWSEndpointsRuleEngine(ruleSet: ruleSet)
+        engine = try ClientRuntime.EndpointsRuleEngine(partitions: AWSClientRuntime.awsPartitionJSON, ruleSet: ruleSet)
     }
 
     public func resolve(params: EndpointParams) throws -> ClientRuntime.Endpoint {
-        let context = try AWSClientRuntime.AWSEndpointsRequestContext()
+        let context = try ClientRuntime.EndpointsRequestContext()
         try context.add(name: "Endpoint", value: params.endpoint)
         try context.add(name: "Region", value: params.region)
         try context.add(name: "UseFIPS", value: params.useFIPS)
@@ -69,9 +69,9 @@ public struct EndpointResolverMiddleware<OperationStackOutput>: ClientRuntime.Mi
 
     let endpointParams: EndpointParams
 
-    let authSchemeResolver: AWSClientRuntime.AuthSchemeResolver
+    let authSchemeResolver: ClientRuntime.EndpointsAuthSchemeResolver
 
-    public init(endpointResolver: EndpointResolver, endpointParams: EndpointParams, authSchemeResolver: AWSClientRuntime.AuthSchemeResolver = AWSClientRuntime.DefaultAuthSchemeResolver()) {
+    public init(endpointResolver: EndpointResolver, endpointParams: EndpointParams, authSchemeResolver: ClientRuntime.EndpointsAuthSchemeResolver = ClientRuntime.DefaultEndpointsAuthSchemeResolver()) {
         self.endpointResolver = endpointResolver
         self.endpointParams = endpointParams
         self.authSchemeResolver = authSchemeResolver
@@ -109,7 +109,7 @@ extension EndpointResolverMiddleware: ApplyEndpoint {
         var signingRegion: String? = nil
         var signingAlgorithm: String? = nil
         if let authSchemes = endpoint.authSchemes() {
-            let schemes = try authSchemes.map { try AuthScheme(from: $0) }
+            let schemes = try authSchemes.map { try EndpointsAuthScheme(from: $0) }
             let authScheme = try authSchemeResolver.resolve(authSchemes: schemes)
             signingAlgorithm = authScheme.name
             switch authScheme {

@@ -54,3 +54,4 @@ extension ServiceEndpointMetadata {
         return defaultProtocol
     }
 }
+
