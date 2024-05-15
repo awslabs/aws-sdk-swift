@@ -16,10 +16,6 @@ import software.amazon.smithy.swift.codegen.integration.ClientProperty
 
 class EC2QueryCustomizations : AWSHTTPProtocolCustomizations() {
 
-    override fun getClientProperties(): List<ClientProperty> {
-        return listOf()
-    }
-
     override fun customRenderBodyComparison(test: HttpRequestTestCase): ((SwiftWriter, HttpRequestTestCase, Symbol, Shape, String, String) -> Unit)? {
         return this::renderFormURLBodyComparison
     }
