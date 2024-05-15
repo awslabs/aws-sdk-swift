@@ -12,7 +12,6 @@ import software.amazon.smithy.model.shapes.Shape
 import software.amazon.smithy.model.traits.TimestampFormatTrait
 import software.amazon.smithy.protocoltests.traits.HttpRequestTestCase
 import software.amazon.smithy.swift.codegen.SwiftWriter
-import software.amazon.smithy.swift.codegen.integration.ClientProperty
 
 class EC2QueryCustomizations : AWSHTTPProtocolCustomizations() {
 

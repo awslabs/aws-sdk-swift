@@ -12,7 +12,6 @@ import software.amazon.smithy.swift.codegen.ClientRuntimeTypes
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.config.ConfigProperty
 import software.amazon.smithy.swift.codegen.config.DefaultProvider
-import software.amazon.smithy.swift.codegen.integration.ClientProperty
 import software.amazon.smithy.swift.codegen.integration.HttpProtocolServiceClient
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.ServiceConfig

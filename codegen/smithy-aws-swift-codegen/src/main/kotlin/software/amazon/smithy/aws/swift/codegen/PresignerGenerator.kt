@@ -89,7 +89,8 @@ class PresignerGenerator : SwiftIntegration {
                 writer.write("let serviceName = \$S", ctx.settings.sdkId)
                 writer.write("let input = self")
                 if (protocolGeneratorContext.settings.useInterceptors) {
-                    writer.write("""
+                    writer.write(
+                        """
                         let client: (SdkHttpRequest, HttpContext) async throws -> HttpResponse = { (_, _) in
                             throw ClientRuntime.ClientError.unknownError("No HTTP client configured for presigned request")
                         }
