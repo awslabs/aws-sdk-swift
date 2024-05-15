@@ -172,7 +172,7 @@ public class AWSSigV4Signer: ClientRuntime.Signer {
                 signingAlgorithm: signingAlgorithm
             )
             let builtRequest = await sigV4SignedRequest(requestBuilder: requestBuilder, signingConfig: signingConfig)
-            guard let presignedURL = builtRequest?.endpoint.url else {
+            guard let presignedURL = builtRequest?.destination.url else {
                 logger.error("Failed to generate presigend url")
                 return nil
             }
