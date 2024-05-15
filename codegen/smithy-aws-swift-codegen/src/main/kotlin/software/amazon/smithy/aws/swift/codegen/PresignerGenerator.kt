@@ -98,12 +98,6 @@ class PresignerGenerator : SwiftIntegration {
                     )
                 }
                 val operationStackName = "operation"
-                for (prop in protocolGenerator.customizations.getClientProperties()) {
-                    prop.addImportsAndDependencies(writer)
-                    prop.renderInstantiation(writer)
-                    prop.renderConfiguration(writer)
-                }
-
                 val generator = MiddlewareExecutionGenerator(
                     protocolGeneratorContext,
                     writer,
@@ -117,11 +111,7 @@ class PresignerGenerator : SwiftIntegration {
                 }
 
                 if (protocolGeneratorContext.settings.useInterceptors) {
-                    writer.write(
-                        """
-                        return try await op.presignRequest(input: input)
-                        """.trimIndent()
-                    )
+                    writer.write("return try await op.presignRequest(input: input)")
                 } else {
                     val requestBuilderName = "presignedRequestBuilder"
                     val builtRequestName = "builtRequest"

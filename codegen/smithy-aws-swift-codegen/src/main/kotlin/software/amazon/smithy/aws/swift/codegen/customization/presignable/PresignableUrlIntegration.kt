@@ -126,12 +126,6 @@ class PresignableUrlIntegration(private val presignedOperations: Map<String, Set
                     )
                 }
                 val operationStackName = "operation"
-                for (prop in protocolGenerator.customizations.getClientProperties()) {
-                    prop.addImportsAndDependencies(writer)
-                    prop.renderInstantiation(writer)
-                    prop.renderConfiguration(writer)
-                }
-
                 val generator = MiddlewareExecutionGenerator(
                     protocolGeneratorContext,
                     writer,

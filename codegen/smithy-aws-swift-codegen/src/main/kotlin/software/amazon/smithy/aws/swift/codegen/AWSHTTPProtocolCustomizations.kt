@@ -65,8 +65,7 @@ abstract class AWSHTTPProtocolCustomizations : DefaultHTTPProtocolCustomizations
         serviceConfig: ServiceConfig
     ): HttpProtocolServiceClient {
         writer.addImport(AWSSwiftDependency.AWS_CLIENT_RUNTIME.target, false, "FileBasedConfig")
-        val clientProperties = getClientProperties()
-        return AWSHttpProtocolServiceClient(ctx, writer, clientProperties, serviceConfig)
+        return AWSHttpProtocolServiceClient(ctx, writer, serviceConfig)
     }
 
     override val messageDecoderSymbol: Symbol = AWSClientRuntimeTypes.AWSEventStream.AWSMessageDecoder
