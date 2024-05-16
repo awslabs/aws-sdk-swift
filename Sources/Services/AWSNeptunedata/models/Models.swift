@@ -1561,9 +1561,6 @@ public struct ExecuteGremlinExplainQueryInput {
 extension ExecuteGremlinExplainQueryOutput {
 
     static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ExecuteGremlinExplainQueryOutput {
-        let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let reader = responseReader
         var value = ExecuteGremlinExplainQueryOutput()
         switch httpResponse.body {
         case .data(let data):
@@ -1673,9 +1670,6 @@ public struct ExecuteGremlinProfileQueryInput {
 extension ExecuteGremlinProfileQueryOutput {
 
     static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ExecuteGremlinProfileQueryOutput {
-        let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let reader = responseReader
         var value = ExecuteGremlinProfileQueryOutput()
         switch httpResponse.body {
         case .data(let data):
@@ -1891,9 +1885,6 @@ public struct ExecuteOpenCypherExplainQueryInput {
 extension ExecuteOpenCypherExplainQueryOutput {
 
     static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ExecuteOpenCypherExplainQueryOutput {
-        let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let reader = responseReader
         var value = ExecuteOpenCypherExplainQueryOutput()
         switch httpResponse.body {
         case .data(let data):

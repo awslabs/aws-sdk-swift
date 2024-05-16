@@ -4899,9 +4899,6 @@ public struct GetIntrospectionSchemaInput {
 extension GetIntrospectionSchemaOutput {
 
     static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetIntrospectionSchemaOutput {
-        let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let reader = responseReader
         var value = GetIntrospectionSchemaOutput()
         switch httpResponse.body {
         case .data(let data):
