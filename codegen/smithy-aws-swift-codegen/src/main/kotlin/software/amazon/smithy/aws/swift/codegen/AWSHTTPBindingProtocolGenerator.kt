@@ -7,14 +7,10 @@ package software.amazon.smithy.aws.swift.codegen
 import software.amazon.smithy.aws.swift.codegen.middleware.OperationEndpointResolverMiddleware
 import software.amazon.smithy.aws.swift.codegen.middleware.UserAgentMiddleware
 import software.amazon.smithy.codegen.core.Symbol
-import software.amazon.smithy.model.shapes.MemberShape
 import software.amazon.smithy.model.shapes.OperationShape
-import software.amazon.smithy.model.shapes.Shape
-import software.amazon.smithy.model.traits.TimestampFormatTrait
 import software.amazon.smithy.rulesengine.language.EndpointRuleSet
 import software.amazon.smithy.rulesengine.traits.EndpointRuleSetTrait
 import software.amazon.smithy.rulesengine.traits.EndpointTestsTrait
-import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.HTTPBindingProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.HTTPProtocolCustomizable
 import software.amazon.smithy.swift.codegen.integration.HttpProtocolTestGenerator
@@ -22,9 +18,6 @@ import software.amazon.smithy.swift.codegen.integration.HttpProtocolUnitTestErro
 import software.amazon.smithy.swift.codegen.integration.HttpProtocolUnitTestRequestGenerator
 import software.amazon.smithy.swift.codegen.integration.HttpProtocolUnitTestResponseGenerator
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
-import software.amazon.smithy.swift.codegen.integration.serde.struct.StructDecodeGenerator
-import software.amazon.smithy.swift.codegen.integration.serde.struct.StructEncodeGenerator
-import software.amazon.smithy.swift.codegen.model.ShapeMetadata
 import software.amazon.smithy.swift.codegen.model.getTrait
 import software.amazon.smithy.swift.codegen.testModuleName
 
@@ -78,30 +71,6 @@ abstract class AWSHTTPBindingProtocolGenerator(
         }
 
         return testCount
-    }
-
-    override fun renderStructEncode(
-        ctx: ProtocolGenerator.GenerationContext,
-        shapeContainingMembers: Shape,
-        shapeMetadata: Map<ShapeMetadata, Any>,
-        members: List<MemberShape>,
-        writer: SwiftWriter,
-        defaultTimestampFormat: TimestampFormatTrait.Format,
-        path: String?
-    ) {
-        StructEncodeGenerator(ctx, shapeContainingMembers, members, shapeMetadata, writer).render()
-    }
-
-    override fun renderStructDecode(
-        ctx: ProtocolGenerator.GenerationContext,
-        shapeContainingMembers: Shape,
-        shapeMetaData: Map<ShapeMetadata, Any>,
-        members: List<MemberShape>,
-        writer: SwiftWriter,
-        defaultTimestampFormat: TimestampFormatTrait.Format,
-        path: String
-    ) {
-        StructDecodeGenerator(ctx, shapeContainingMembers, members, shapeMetaData, writer).render()
     }
 
     override fun addProtocolSpecificMiddleware(ctx: ProtocolGenerator.GenerationContext, operation: OperationShape) {
