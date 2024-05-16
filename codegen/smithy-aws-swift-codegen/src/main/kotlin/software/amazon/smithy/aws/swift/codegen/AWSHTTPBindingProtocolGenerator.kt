@@ -87,30 +87,6 @@ abstract class AWSHTTPBindingProtocolGenerator(
         return testCount
     }
 
-    override fun renderStructEncode(
-        ctx: ProtocolGenerator.GenerationContext,
-        shapeContainingMembers: Shape,
-        shapeMetadata: Map<ShapeMetadata, Any>,
-        members: List<MemberShape>,
-        writer: SwiftWriter,
-        defaultTimestampFormat: TimestampFormatTrait.Format,
-        path: String?
-    ) {
-        StructEncodeGenerator(ctx, shapeContainingMembers, members, shapeMetadata, writer).render()
-    }
-
-    override fun renderStructDecode(
-        ctx: ProtocolGenerator.GenerationContext,
-        shapeContainingMembers: Shape,
-        shapeMetaData: Map<ShapeMetadata, Any>,
-        members: List<MemberShape>,
-        writer: SwiftWriter,
-        defaultTimestampFormat: TimestampFormatTrait.Format,
-        path: String
-    ) {
-        StructDecodeGenerator(ctx, shapeContainingMembers, members, shapeMetaData, writer).render()
-    }
-
     override fun addProtocolSpecificMiddleware(ctx: ProtocolGenerator.GenerationContext, operation: OperationShape) {
         operationMiddleware.appendMiddleware(operation, OperationEndpointResolverMiddleware(ctx))
         operationMiddleware.appendMiddleware(operation, UserAgentMiddleware(ctx.settings))
