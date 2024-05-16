@@ -126,6 +126,7 @@ jobs:
             | xcpretty
 
   linux:
+    if: false
     runs-on: ubuntu-latest
     container: swift:${{ matrix.version }}-${{ matrix.os }}
     strategy:

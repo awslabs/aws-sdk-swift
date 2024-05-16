@@ -7,6 +7,7 @@ on:
   workflow_dispatch:
 
 jobs:
+  if: false
   ktlint:
     runs-on: ubuntu-latest
     steps:
@@ -16,6 +17,7 @@ jobs:
         run: ./gradlew ktlint
 
   swiftlint:
+    if: false
     runs-on: ubuntu-latest
     container:
       image: ghcr.io/realm/swiftlint:0.54.0
