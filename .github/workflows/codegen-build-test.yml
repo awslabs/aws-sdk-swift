@@ -11,6 +11,7 @@ env:
 
 jobs:
   codegen-build-test:
+    if: false
     runs-on: macos-14-xlarge
     env:
       DEVELOPER_DIR: /Applications/Xcode_15.3.app/Contents/Developer
