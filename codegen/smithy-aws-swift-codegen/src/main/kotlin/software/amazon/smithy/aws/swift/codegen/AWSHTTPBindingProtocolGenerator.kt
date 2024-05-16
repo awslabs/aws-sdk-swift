@@ -4,15 +4,10 @@
  */
 package software.amazon.smithy.aws.swift.codegen
 
-import software.amazon.smithy.aws.swift.codegen.message.MessageMarshallableGenerator
-import software.amazon.smithy.aws.swift.codegen.message.MessageUnmarshallableGenerator
 import software.amazon.smithy.aws.swift.codegen.middleware.OperationEndpointResolverMiddleware
 import software.amazon.smithy.aws.swift.codegen.middleware.UserAgentMiddleware
 import software.amazon.smithy.codegen.core.Symbol
-import software.amazon.smithy.model.shapes.MemberShape
 import software.amazon.smithy.model.shapes.OperationShape
-import software.amazon.smithy.model.shapes.ShapeId
-import software.amazon.smithy.model.shapes.UnionShape
 import software.amazon.smithy.rulesengine.language.EndpointRuleSet
 import software.amazon.smithy.rulesengine.traits.EndpointRuleSetTrait
 import software.amazon.smithy.rulesengine.traits.EndpointTestsTrait
@@ -23,10 +18,7 @@ import software.amazon.smithy.swift.codegen.integration.HttpProtocolUnitTestErro
 import software.amazon.smithy.swift.codegen.integration.HttpProtocolUnitTestRequestGenerator
 import software.amazon.smithy.swift.codegen.integration.HttpProtocolUnitTestResponseGenerator
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
-import software.amazon.smithy.swift.codegen.model.findStreamingMember
 import software.amazon.smithy.swift.codegen.model.getTrait
-import software.amazon.smithy.swift.codegen.model.isInputEventStream
-import software.amazon.smithy.swift.codegen.model.isOutputEventStream
 import software.amazon.smithy.swift.codegen.testModuleName
 
 abstract class AWSHTTPBindingProtocolGenerator(
@@ -84,50 +76,5 @@ abstract class AWSHTTPBindingProtocolGenerator(
     override fun addProtocolSpecificMiddleware(ctx: ProtocolGenerator.GenerationContext, operation: OperationShape) {
         operationMiddleware.appendMiddleware(operation, OperationEndpointResolverMiddleware(ctx))
         operationMiddleware.appendMiddleware(operation, UserAgentMiddleware(ctx.settings))
-    }
-
-    fun outputStreamingShapes(ctx: ProtocolGenerator.GenerationContext): MutableSet<MemberShape> {
-        val streamingShapes = mutableMapOf<ShapeId, MemberShape>()
-        val streamingOperations = getHttpBindingOperations(ctx).filter { it.isOutputEventStream(ctx.model) }
-        streamingOperations.forEach { operation ->
-            val input = operation.output.get()
-            val streamingMember = ctx.model.expectShape(input).findStreamingMember(ctx.model)
-            streamingMember?.let {
-                val targetType = ctx.model.expectShape(it.target)
-                streamingShapes[targetType.id] = it
-            }
-        }
-
-        return streamingShapes.values.toMutableSet()
-    }
-
-    fun inputStreamingShapes(ctx: ProtocolGenerator.GenerationContext): MutableSet<UnionShape> {
-        val streamingShapes = mutableSetOf<UnionShape>()
-        val streamingOperations = getHttpBindingOperations(ctx).filter { it.isInputEventStream(ctx.model) }
-        streamingOperations.forEach { operation ->
-            val input = operation.input.get()
-            val streamingMember = ctx.model.expectShape(input).findStreamingMember(ctx.model)
-            streamingMember?.let {
-                val targetType = ctx.model.expectShape(it.target)
-                streamingShapes.add(targetType as UnionShape)
-            }
-        }
-        return streamingShapes
-    }
-
-    override fun generateMessageMarshallable(ctx: ProtocolGenerator.GenerationContext) {
-        var streamingShapes = inputStreamingShapes(ctx)
-        val messageMarshallableGenerator = MessageMarshallableGenerator(ctx, defaultContentType)
-        streamingShapes.forEach { streamingMember ->
-            messageMarshallableGenerator.render(streamingMember)
-        }
-    }
-
-    override fun generateMessageUnmarshallable(ctx: ProtocolGenerator.GenerationContext) {
-        var streamingShapes = outputStreamingShapes(ctx)
-        val messageUnmarshallableGenerator = MessageUnmarshallableGenerator(ctx)
-        streamingShapes.forEach { streamingMember ->
-            messageUnmarshallableGenerator.render(streamingMember)
-        }
     }
 }
