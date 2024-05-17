@@ -884,9 +884,6 @@ public struct GetSolFunctionPackageContentInput {
 extension GetSolFunctionPackageContentOutput {
 
     static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetSolFunctionPackageContentOutput {
-        let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let reader = responseReader
         var value = GetSolFunctionPackageContentOutput()
         if let contentTypeHeaderValue = httpResponse.headers.value(for: "Content-Type") {
             value.contentType = TnbClientTypes.PackageContentType(rawValue: contentTypeHeaderValue)
@@ -979,9 +976,6 @@ public struct GetSolFunctionPackageDescriptorInput {
 extension GetSolFunctionPackageDescriptorOutput {
 
     static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetSolFunctionPackageDescriptorOutput {
-        let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let reader = responseReader
         var value = GetSolFunctionPackageDescriptorOutput()
         if let contentTypeHeaderValue = httpResponse.headers.value(for: "Content-Type") {
             value.contentType = TnbClientTypes.DescriptorContentType(rawValue: contentTypeHeaderValue)
@@ -1613,9 +1607,6 @@ public struct GetSolNetworkPackageContentInput {
 extension GetSolNetworkPackageContentOutput {
 
     static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetSolNetworkPackageContentOutput {
-        let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let reader = responseReader
         var value = GetSolNetworkPackageContentOutput()
         if let contentTypeHeaderValue = httpResponse.headers.value(for: "Content-Type") {
             value.contentType = TnbClientTypes.PackageContentType(rawValue: contentTypeHeaderValue)
@@ -1692,9 +1683,6 @@ public struct GetSolNetworkPackageDescriptorInput {
 extension GetSolNetworkPackageDescriptorOutput {
 
     static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetSolNetworkPackageDescriptorOutput {
-        let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let reader = responseReader
         var value = GetSolNetworkPackageDescriptorOutput()
         if let contentTypeHeaderValue = httpResponse.headers.value(for: "Content-Type") {
             value.contentType = TnbClientTypes.DescriptorContentType(rawValue: contentTypeHeaderValue)

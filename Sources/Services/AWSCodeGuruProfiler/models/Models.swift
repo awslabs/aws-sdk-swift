@@ -1506,9 +1506,6 @@ public struct GetProfileInput {
 extension GetProfileOutput {
 
     static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetProfileOutput {
-        let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let reader = responseReader
         var value = GetProfileOutput()
         if let contentEncodingHeaderValue = httpResponse.headers.value(for: "Content-Encoding") {
             value.contentEncoding = contentEncodingHeaderValue
