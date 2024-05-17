@@ -8,6 +8,7 @@
 import Foundation
 import AWSS3
 import XCTest
+import AWSIntegrationTestUtils
 
 class S3EventStreamTests: S3XCTestCase {
     private let objectKey = "integ-test-json-object"
@@ -26,7 +27,7 @@ class S3EventStreamTests: S3XCTestCase {
     }
 
     // Tests event stream output in restXml protocol using S3::SelectObjectContent.
-    func testEventStreamOutput() async throws {
+    func test_eventStreamOutput() async throws {
         let result = try await client.selectObjectContent(input: SelectObjectContentInput(
             bucket: bucketName,
             // Gets the two ID objects from the S3 object content.
@@ -58,5 +59,10 @@ class S3EventStreamTests: S3XCTestCase {
         // Check returned record event's payload was successfully received.
         let expectedOutput = "{\"id\":\"1\"}\n{\"id\":\"2\"}\n"
         XCTAssertEqual(expectedOutput, actualOutput)
+    }
+
+    // Run the test above, but do it 100x in concurrent tasks.
+    func test_100x_eventStreamOutput() async throws {
+        try await repeatConcurrently(count: 100, test: test_eventStreamOutput)
     }
 }

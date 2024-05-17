@@ -8,14 +8,16 @@
 import XCTest
 import AWSS3
 @testable import ClientRuntime
+import AWSIntegrationTestUtils
 
 final class S3StreamTests: S3XCTestCase {
     let objectName = "hello-world"
     let expected = "Hello, world!"
 
     func test_getObject() async throws {
-        try await putObject(body: expected, key: objectName)
-        let input = GetObjectInput(bucket: bucketName, key: objectName)
+        let key = UUID().uuidString
+        try await putObject(body: expected, key: key)
+        let input = GetObjectInput(bucket: bucketName, key: key)
         let output = try await client.getObject(input: input)
         let body = try XCTUnwrap(output.body)
         switch body {
@@ -41,14 +43,23 @@ final class S3StreamTests: S3XCTestCase {
     }
     
     func test_putObject_givenStreamBody() async throws {
+        let key = UUID().uuidString
         let audioURL = Bundle.module.url(forResource: objectName, withExtension: nil)!
         let fileHandle = FileHandle(forReadingAtPath: audioURL.relativePath)!
         let fileByteStream = ByteStream.stream(FileStream(fileHandle: fileHandle))
-        let input = PutObjectInput(body: fileByteStream, bucket: bucketName, key: objectName)
+        let input = PutObjectInput(body: fileByteStream, bucket: bucketName, key: key)
         let output = try await client.putObject(input: input)
         XCTAssertNotNil(output)
 
-        let actual = try await getObject(key: objectName)
+        let actual = try await getObject(key: key)
         XCTAssertEqual(expected, actual)
+    }
+
+    func test_100x_getObject() async throws {
+        try await repeatConcurrently(count: 100, test: test_getObject)
+    }
+
+    func test_100x_putObject_givenStreamBody() async throws {
+        try await repeatConcurrently(count: 100, test: test_putObject_givenStreamBody)
     }
 }
