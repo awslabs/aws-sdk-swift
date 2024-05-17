@@ -25,6 +25,7 @@ jobs:
         xcode:
           - Xcode_14.1
           - Xcode_15.3
+          - Xcode_15.4
         destination:
           - 'platform=iOS Simulator,OS=16.1,name=iPhone 14'
           - 'platform=iOS Simulator,OS=17.4,name=iPhone 15'
@@ -45,6 +46,10 @@ jobs:
             xcode: Xcode_15.3
           - destination: 'platform=iOS Simulator,OS=16.1,name=iPhone 14'
             xcode: Xcode_15.3
+          - destination: 'platform=tvOS Simulator,OS=16.1,name=Apple TV 4K (3rd generation) (at 1080p)'
+            xcode: Xcode_15.4
+          - destination: 'platform=iOS Simulator,OS=16.1,name=iPhone 14'
+            xcode: Xcode_15.4
           # Don't run new simulators with old Xcode
           - destination: 'platform=tvOS Simulator,OS=17.4,name=Apple TV 4K (3rd generation) (at 1080p)'
             xcode: Xcode_14.1
