@@ -21,7 +21,7 @@ private val REMOVE_BEFORE_DATE = "2024-09-17"
  */
 internal fun String.toLocalDate(): LocalDate? = try { LocalDate.parse(this, DEPRECATED_SINCE_DATE_FORMATTER) } catch (e: DateTimeException) { null }
 
-class AWSDeprecatedShapeRemover: SwiftIntegration {
+class AWSDeprecatedShapeRemover : SwiftIntegration {
     override fun preprocessModel(model: Model, settings: SwiftSettings): Model {
         return ModelTransformer.create().removeShapesIf(
             model,
