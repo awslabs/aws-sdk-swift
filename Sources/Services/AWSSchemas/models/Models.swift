@@ -1495,9 +1495,6 @@ public struct GetCodeBindingSourceInput {
 extension GetCodeBindingSourceOutput {
 
     static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetCodeBindingSourceOutput {
-        let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let reader = responseReader
         var value = GetCodeBindingSourceOutput()
         switch httpResponse.body {
         case .data(let data):

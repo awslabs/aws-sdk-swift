@@ -5554,9 +5554,6 @@ public struct SendApiAssetInput {
 extension SendApiAssetOutput {
 
     static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> SendApiAssetOutput {
-        let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let reader = responseReader
         var value = SendApiAssetOutput()
         let keysForResponseHeaders = httpResponse.headers.dictionary.keys
         if (!keysForResponseHeaders.isEmpty) {
