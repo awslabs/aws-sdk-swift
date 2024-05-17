@@ -14,7 +14,7 @@ jobs:
     if: false
     runs-on: macos-14-xlarge
     env:
-      DEVELOPER_DIR: /Applications/Xcode_15.3.app/Contents/Developer
+      DEVELOPER_DIR: /Applications/Xcode_15.4.app/Contents/Developer
     steps:
       - name: Checkout aws-sdk-swift
         uses: actions/checkout@v3
