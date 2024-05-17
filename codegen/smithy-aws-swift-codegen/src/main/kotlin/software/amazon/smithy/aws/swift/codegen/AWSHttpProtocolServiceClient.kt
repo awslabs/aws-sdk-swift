@@ -13,7 +13,6 @@ import software.amazon.smithy.swift.codegen.SwiftDependency
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.config.ConfigProperty
 import software.amazon.smithy.swift.codegen.config.DefaultProvider
-import software.amazon.smithy.swift.codegen.integration.ClientProperty
 import software.amazon.smithy.swift.codegen.integration.HttpProtocolServiceClient
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.ServiceConfig
@@ -24,9 +23,8 @@ import software.amazon.smithy.swift.codegen.utils.toUpperCamelCase
 class AWSHttpProtocolServiceClient(
     private val ctx: ProtocolGenerator.GenerationContext,
     private val writer: SwiftWriter,
-    properties: List<ClientProperty>,
     private val serviceConfig: ServiceConfig
-) : HttpProtocolServiceClient(ctx, writer, properties, serviceConfig) {
+) : HttpProtocolServiceClient(ctx, writer, serviceConfig) {
     override fun renderConvenienceInitFunctions(serviceSymbol: Symbol) {
         writer.openBlock("public convenience init(region: Swift.String) throws {", "}") {
             writer.write("let config = try ${serviceConfig.typeName}(region: region)")

@@ -85,9 +85,6 @@ public struct DeleteThingShadowInput {
 extension DeleteThingShadowOutput {
 
     static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteThingShadowOutput {
-        let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let reader = responseReader
         var value = DeleteThingShadowOutput()
         switch httpResponse.body {
         case .data(let data):
@@ -268,9 +265,6 @@ public struct GetThingShadowInput {
 extension GetThingShadowOutput {
 
     static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetThingShadowOutput {
-        let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let reader = responseReader
         var value = GetThingShadowOutput()
         switch httpResponse.body {
         case .data(let data):
@@ -1124,9 +1118,6 @@ public struct UpdateThingShadowInput {
 extension UpdateThingShadowOutput {
 
     static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateThingShadowOutput {
-        let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let reader = responseReader
         var value = UpdateThingShadowOutput()
         switch httpResponse.body {
         case .data(let data):

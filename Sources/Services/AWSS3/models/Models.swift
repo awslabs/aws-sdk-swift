@@ -7544,9 +7544,6 @@ public struct GetBucketPolicyInput {
 extension GetBucketPolicyOutput {
 
     static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetBucketPolicyOutput {
-        let data = try await httpResponse.data()
-        let responseReader = try SmithyXML.Reader.from(data: data)
-        let reader = responseReader
         var value = GetBucketPolicyOutput()
         if let data = try await httpResponse.body.readData(), let output = Swift.String(data: data, encoding: .utf8) {
             value.policy = output

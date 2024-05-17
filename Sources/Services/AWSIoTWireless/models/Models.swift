@@ -5369,9 +5369,6 @@ public struct GetPositionEstimateInput {
 extension GetPositionEstimateOutput {
 
     static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetPositionEstimateOutput {
-        let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let reader = responseReader
         var value = GetPositionEstimateOutput()
         switch httpResponse.body {
         case .data(let data):
@@ -5767,9 +5764,6 @@ public struct GetResourcePositionInput {
 extension GetResourcePositionOutput {
 
     static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetResourcePositionOutput {
-        let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let reader = responseReader
         var value = GetResourcePositionOutput()
         switch httpResponse.body {
         case .data(let data):
