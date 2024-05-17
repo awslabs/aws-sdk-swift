@@ -38,6 +38,8 @@ jobs:
           # Don't run old macOS with new Xcode
           - runner: macos-13-xlarge
             xcode: Xcode_15.3
+          - runner: macos-13-xlarge
+            xcode: Xcode_15.4
           # Don't run new macOS with old Xcode
           - runner: macos-14-xlarge
             xcode: Xcode_14.1
