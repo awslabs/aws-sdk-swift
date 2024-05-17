@@ -194,9 +194,6 @@ extension InvokeModelOutput: Swift.CustomDebugStringConvertible {
 extension InvokeModelOutput {
 
     static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> InvokeModelOutput {
-        let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let reader = responseReader
         var value = InvokeModelOutput()
         if let contentTypeHeaderValue = httpResponse.headers.value(for: "Content-Type") {
             value.contentType = contentTypeHeaderValue

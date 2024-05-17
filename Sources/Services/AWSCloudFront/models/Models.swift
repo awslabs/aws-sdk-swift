@@ -8746,9 +8746,6 @@ extension GetFunctionOutput: Swift.CustomDebugStringConvertible {
 extension GetFunctionOutput {
 
     static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetFunctionOutput {
-        let data = try await httpResponse.data()
-        let responseReader = try SmithyXML.Reader.from(data: data)
-        let reader = responseReader
         var value = GetFunctionOutput()
         if let contentTypeHeaderValue = httpResponse.headers.value(for: "Content-Type") {
             value.contentType = contentTypeHeaderValue

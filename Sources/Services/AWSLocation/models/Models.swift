@@ -4379,9 +4379,6 @@ public struct GetMapGlyphsInput {
 extension GetMapGlyphsOutput {
 
     static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetMapGlyphsOutput {
-        let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let reader = responseReader
         var value = GetMapGlyphsOutput()
         if let cacheControlHeaderValue = httpResponse.headers.value(for: "Cache-Control") {
             value.cacheControl = cacheControlHeaderValue
@@ -4505,9 +4502,6 @@ public struct GetMapSpritesInput {
 extension GetMapSpritesOutput {
 
     static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetMapSpritesOutput {
-        let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let reader = responseReader
         var value = GetMapSpritesOutput()
         if let cacheControlHeaderValue = httpResponse.headers.value(for: "Cache-Control") {
             value.cacheControl = cacheControlHeaderValue
@@ -4612,9 +4606,6 @@ public struct GetMapStyleDescriptorInput {
 extension GetMapStyleDescriptorOutput {
 
     static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetMapStyleDescriptorOutput {
-        let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let reader = responseReader
         var value = GetMapStyleDescriptorOutput()
         if let cacheControlHeaderValue = httpResponse.headers.value(for: "Cache-Control") {
             value.cacheControl = cacheControlHeaderValue
@@ -4743,9 +4734,6 @@ public struct GetMapTileInput {
 extension GetMapTileOutput {
 
     static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetMapTileOutput {
-        let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let reader = responseReader
         var value = GetMapTileOutput()
         if let cacheControlHeaderValue = httpResponse.headers.value(for: "Cache-Control") {
             value.cacheControl = cacheControlHeaderValue

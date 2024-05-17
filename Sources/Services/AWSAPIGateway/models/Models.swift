@@ -5122,8 +5122,8 @@ extension GetApiKeysOutput {
         let reader = responseReader
         var value = GetApiKeysOutput()
         value.items = try reader["item"].readListIfPresent(memberReadingClosure: APIGatewayClientTypes.ApiKey.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.position = try reader["position"].readIfPresent()
         value.warnings = try reader["warnings"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.position = nil
         return value
     }
 }
@@ -5341,7 +5341,7 @@ extension GetAuthorizersOutput {
         let reader = responseReader
         var value = GetAuthorizersOutput()
         value.items = try reader["item"].readListIfPresent(memberReadingClosure: APIGatewayClientTypes.Authorizer.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.position = nil
+        value.position = try reader["position"].readIfPresent()
         return value
     }
 }
@@ -5520,7 +5520,7 @@ extension GetBasePathMappingsOutput {
         let reader = responseReader
         var value = GetBasePathMappingsOutput()
         value.items = try reader["item"].readListIfPresent(memberReadingClosure: APIGatewayClientTypes.BasePathMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.position = nil
+        value.position = try reader["position"].readIfPresent()
         return value
     }
 }
@@ -5698,7 +5698,7 @@ extension GetClientCertificatesOutput {
         let reader = responseReader
         var value = GetClientCertificatesOutput()
         value.items = try reader["item"].readListIfPresent(memberReadingClosure: APIGatewayClientTypes.ClientCertificate.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.position = nil
+        value.position = try reader["position"].readIfPresent()
         return value
     }
 }
@@ -5901,7 +5901,7 @@ extension GetDeploymentsOutput {
         let reader = responseReader
         var value = GetDeploymentsOutput()
         value.items = try reader["item"].readListIfPresent(memberReadingClosure: APIGatewayClientTypes.Deployment.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.position = nil
+        value.position = try reader["position"].readIfPresent()
         return value
     }
 }
@@ -6113,7 +6113,7 @@ extension GetDocumentationPartsOutput {
         let reader = responseReader
         var value = GetDocumentationPartsOutput()
         value.items = try reader["item"].readListIfPresent(memberReadingClosure: APIGatewayClientTypes.DocumentationPart.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.position = nil
+        value.position = try reader["position"].readIfPresent()
         return value
     }
 }
@@ -6291,7 +6291,7 @@ extension GetDocumentationVersionsOutput {
         let reader = responseReader
         var value = GetDocumentationVersionsOutput()
         value.items = try reader["item"].readListIfPresent(memberReadingClosure: APIGatewayClientTypes.DocumentationVersion.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.position = nil
+        value.position = try reader["position"].readIfPresent()
         return value
     }
 }
@@ -6524,7 +6524,7 @@ extension GetDomainNamesOutput {
         let reader = responseReader
         var value = GetDomainNamesOutput()
         value.items = try reader["item"].readListIfPresent(memberReadingClosure: APIGatewayClientTypes.DomainName.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.position = nil
+        value.position = try reader["position"].readIfPresent()
         return value
     }
 }
@@ -6642,9 +6642,6 @@ public struct GetExportInput {
 extension GetExportOutput {
 
     static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetExportOutput {
-        let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let reader = responseReader
         var value = GetExportOutput()
         if let contentDispositionHeaderValue = httpResponse.headers.value(for: "Content-Disposition") {
             value.contentDisposition = contentDispositionHeaderValue
@@ -6854,7 +6851,7 @@ extension GetGatewayResponsesOutput {
         let reader = responseReader
         var value = GetGatewayResponsesOutput()
         value.items = try reader["item"].readListIfPresent(memberReadingClosure: APIGatewayClientTypes.GatewayResponse.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.position = nil
+        value.position = try reader["position"].readIfPresent()
         return value
     }
 }
@@ -7625,7 +7622,7 @@ extension GetModelsOutput {
         let reader = responseReader
         var value = GetModelsOutput()
         value.items = try reader["item"].readListIfPresent(memberReadingClosure: APIGatewayClientTypes.Model.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.position = nil
+        value.position = try reader["position"].readIfPresent()
         return value
     }
 }
@@ -7809,7 +7806,7 @@ extension GetRequestValidatorsOutput {
         let reader = responseReader
         var value = GetRequestValidatorsOutput()
         value.items = try reader["item"].readListIfPresent(memberReadingClosure: APIGatewayClientTypes.RequestValidator.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.position = nil
+        value.position = try reader["position"].readIfPresent()
         return value
     }
 }
@@ -8025,7 +8022,7 @@ extension GetResourcesOutput {
         let reader = responseReader
         var value = GetResourcesOutput()
         value.items = try reader["item"].readListIfPresent(memberReadingClosure: APIGatewayClientTypes.Resource.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.position = nil
+        value.position = try reader["position"].readIfPresent()
         return value
     }
 }
@@ -8243,7 +8240,7 @@ extension GetRestApisOutput {
         let reader = responseReader
         var value = GetRestApisOutput()
         value.items = try reader["item"].readListIfPresent(memberReadingClosure: APIGatewayClientTypes.RestApi.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.position = nil
+        value.position = try reader["position"].readIfPresent()
         return value
     }
 }
@@ -8346,9 +8343,6 @@ public struct GetSdkInput {
 extension GetSdkOutput {
 
     static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetSdkOutput {
-        let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let reader = responseReader
         var value = GetSdkOutput()
         if let contentDispositionHeaderValue = httpResponse.headers.value(for: "Content-Disposition") {
             value.contentDisposition = contentDispositionHeaderValue
@@ -8988,9 +8982,9 @@ extension GetUsageOutput {
         var value = GetUsageOutput()
         value.endDate = try reader["endDate"].readIfPresent()
         value.items = try reader["values"].readMapIfPresent(valueReadingClosure: listReadingClosure(memberReadingClosure: listReadingClosure(memberReadingClosure: Swift.Int.read(from:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.position = try reader["position"].readIfPresent()
         value.startDate = try reader["startDate"].readIfPresent()
         value.usagePlanId = try reader["usagePlanId"].readIfPresent()
-        value.position = nil
         return value
     }
 }
@@ -9218,7 +9212,7 @@ extension GetUsagePlanKeysOutput {
         let reader = responseReader
         var value = GetUsagePlanKeysOutput()
         value.items = try reader["item"].readListIfPresent(memberReadingClosure: APIGatewayClientTypes.UsagePlanKey.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.position = nil
+        value.position = try reader["position"].readIfPresent()
         return value
     }
 }
@@ -9390,7 +9384,7 @@ extension GetUsagePlansOutput {
         let reader = responseReader
         var value = GetUsagePlansOutput()
         value.items = try reader["item"].readListIfPresent(memberReadingClosure: APIGatewayClientTypes.UsagePlan.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.position = nil
+        value.position = try reader["position"].readIfPresent()
         return value
     }
 }
@@ -9573,7 +9567,7 @@ extension GetVpcLinksOutput {
         let reader = responseReader
         var value = GetVpcLinksOutput()
         value.items = try reader["item"].readListIfPresent(memberReadingClosure: APIGatewayClientTypes.VpcLink.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.position = nil
+        value.position = try reader["position"].readIfPresent()
         return value
     }
 }
@@ -15208,9 +15202,9 @@ extension UpdateUsageOutput {
         var value = UpdateUsageOutput()
         value.endDate = try reader["endDate"].readIfPresent()
         value.items = try reader["values"].readMapIfPresent(valueReadingClosure: listReadingClosure(memberReadingClosure: listReadingClosure(memberReadingClosure: Swift.Int.read(from:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.position = try reader["position"].readIfPresent()
         value.startDate = try reader["startDate"].readIfPresent()
         value.usagePlanId = try reader["usagePlanId"].readIfPresent()
-        value.position = nil
         return value
     }
 }

@@ -1323,9 +1323,6 @@ extension CreateHostedConfigurationVersionOutput: Swift.CustomDebugStringConvert
 extension CreateHostedConfigurationVersionOutput {
 
     static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateHostedConfigurationVersionOutput {
-        let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let reader = responseReader
         var value = CreateHostedConfigurationVersionOutput()
         if let applicationIdHeaderValue = httpResponse.headers.value(for: "Application-Id") {
             value.applicationId = applicationIdHeaderValue
@@ -2418,9 +2415,6 @@ extension GetConfigurationOutput: Swift.CustomDebugStringConvertible {
 extension GetConfigurationOutput {
 
     static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetConfigurationOutput {
-        let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let reader = responseReader
         var value = GetConfigurationOutput()
         if let configurationVersionHeaderValue = httpResponse.headers.value(for: "Configuration-Version") {
             value.configurationVersion = configurationVersionHeaderValue
@@ -3215,9 +3209,6 @@ extension GetHostedConfigurationVersionOutput: Swift.CustomDebugStringConvertibl
 extension GetHostedConfigurationVersionOutput {
 
     static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetHostedConfigurationVersionOutput {
-        let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let reader = responseReader
         var value = GetHostedConfigurationVersionOutput()
         if let applicationIdHeaderValue = httpResponse.headers.value(for: "Application-Id") {
             value.applicationId = applicationIdHeaderValue

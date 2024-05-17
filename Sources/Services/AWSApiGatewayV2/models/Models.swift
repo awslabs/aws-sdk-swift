@@ -3678,9 +3678,6 @@ public struct ExportApiInput {
 extension ExportApiOutput {
 
     static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ExportApiOutput {
-        let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let reader = responseReader
         var value = ExportApiOutput()
         switch httpResponse.body {
         case .data(let data):
