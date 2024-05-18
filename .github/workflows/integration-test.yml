@@ -129,7 +129,8 @@ jobs:
             -scheme AWSIntegrationTestsOnCI \
             -testPlan AWSIntegrationTestsOnCI \
             -destination '${{ matrix.destination }}' \
-            test 2>&1 \
+            #test 2>&1 \
+            test \
             | xcbeautify
 
   linux:
