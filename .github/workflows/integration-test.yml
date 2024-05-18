@@ -120,8 +120,8 @@ jobs:
           # to a temp file, then move the temp over the original.
           jq ".defaultOptions.environmentVariableEntries += [{\"key\": \"AWS_ACCESS_KEY_ID\", \"value\": $AKID_ESCAPED}, {\"key\": \"AWS_SECRET_ACCESS_KEY\", \"value\": $SECRET_ESCAPED}, {\"key\": \"AWS_DEFAULT_REGION\", \"value\": $REGION_ESCAPED}, {\"key\": \"AWS_SESSION_TOKEN\", \"value\": $TOKEN_ESCAPED}]" XCTestPlans/AWSIntegrationTestsOnCI.xctestplan > testplan.tmp
           mv testplan.tmp XCTestPlans/AWSIntegrationTestsOnCI.xctestplan
-      - name: Prepare Integration Tests
-        run: ./scripts/ci_steps/prepare_integration_tests.sh
+      # - name: Prepare Integration Tests
+        # run: ./scripts/ci_steps/prepare_integration_tests.sh
       - name: Run Integration Tests
         run: |
           set -o pipefail && \
