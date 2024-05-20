@@ -27,7 +27,7 @@ class AWSDeprecatedShapeRemoverTests {
         val contents = TestUtils.getModelFileContents("Example", "OperationWithDeprecatedInputMembersInput.swift", context.manifest)
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
-    @available(*, deprecated, message: " API deprecated since 2024-10-01")
+    @available(*, deprecated, message: "API deprecated since 2024-10-01")
     public var deprecatedMemberWithCorrectlyFormedSinceFieldButDeprecatedAfterCutoff: Swift.String?
 """
         contents.shouldContainOnlyOnce(expectedContents)
@@ -39,7 +39,7 @@ class AWSDeprecatedShapeRemoverTests {
         val contents = TestUtils.getModelFileContents("Example", "OperationWithDeprecatedInputMembersInput.swift", context.manifest)
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
-    @available(*, deprecated, message: " API deprecated since 4.2.0")
+    @available(*, deprecated, message: "API deprecated since 4.2.0")
     public var deprecatedMemberWithMalformedSinceField: Swift.String?
 """
         contents.shouldContainOnlyOnce(expectedContents)
