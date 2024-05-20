@@ -58,30 +58,31 @@ extension UnknownAWSHTTPServiceError {
     ///   - requestID2: The request ID2 associated with this error (ID2 used on S3 only.)  Defaults to `nil`.
     ///   - typeName: The non-namespaced name of the error type for this error, or `nil`.
     /// - Returns: An error that represents the response.
-    public static func makeError(
-        httpResponse: HttpResponse,
-        message: String?,
-        requestID: String?,
-        requestID2: String? = nil,
-        typeName: String?
-    ) async throws -> Error {
+    public static func makeError<Base: BaseError>(
+        baseError: Base
+    ) throws -> Error {
         let candidates: [UnknownAWSHTTPErrorCandidate.Type] = [
             InvalidAccessKeyId.self
         ]
-        if let Candidate = candidates.first(where: { $0.errorCode == typeName }) {
+        if let Candidate = candidates.first(where: { $0.errorCode == baseError.code }) {
             return Candidate.init(
-                httpResponse: httpResponse,
-                message: message,
-                requestID: requestID,
-                requestID2: requestID2
+                httpResponse: baseError.httpResponse,
+                message: baseError.message,
+                requestID: baseError.requestID,
+                requestID2: baseError.requestID2
             )
         }
         return UnknownAWSHTTPServiceError(
-            httpResponse: httpResponse,
-            message: message,
-            requestID: requestID,
-            requestID2: requestID2,
-            typeName: typeName
+            httpResponse: baseError.httpResponse,
+            message: baseError.message,
+            requestID: baseError.requestID,
+            requestID2: baseError.requestID2,
+            typeName: baseError.code
         )
     }
+}
+
+extension ClientRuntime.BaseError {
+
+    var requestID2: String? { nil }
 }

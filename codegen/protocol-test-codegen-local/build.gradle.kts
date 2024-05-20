@@ -41,8 +41,12 @@ val codegenTests = listOf(
         "Waiters"
     ),
     CodegenTest(
-        "aws.protocoltests.restjson#TestService",
+        "aws.protocoltests.eventstream#TestService",
         "EventStream"
+    ),
+    CodegenTest(
+        "aws.protocoltests.eventstream#RPCTestService",
+        "RPCEventStream"
     )
 )
 

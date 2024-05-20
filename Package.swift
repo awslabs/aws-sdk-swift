@@ -95,6 +95,7 @@ func addCRTDependency(_ version: Version) {
 }
 
 func addDoccDependency() {
+    guard ProcessInfo.processInfo.environment["AWS_SWIFT_SDK_ENABLE_DOCC"] != nil else { return }
     package.dependencies += [
         .package(url: "https://github.com/apple/swift-docc-plugin", from: "1.0.0")
     ]
@@ -191,11 +192,13 @@ func addProtocolTests() {
         let name: String
         let sourcePath: String
         let testPath: String?
+        let buildOnly: Bool
 
-        init(name: String, sourcePath: String, testPath: String? = nil) {
+        init(name: String, sourcePath: String, testPath: String? = nil, buildOnly: Bool = false) {
             self.name = name
             self.sourcePath = sourcePath
             self.testPath = testPath
+            self.buildOnly = buildOnly
         }
     }
 
@@ -217,21 +220,22 @@ func addProtocolTests() {
         .init(name: "S3TestSDK", sourcePath: "\(baseDir)/s3"),
         .init(name: "rest_json_extras", sourcePath: "\(baseDirLocal)/rest_json_extras"),
         .init(name: "AwsQueryExtras", sourcePath: "\(baseDirLocal)/AwsQueryExtras"),
+        .init(name: "EventStream", sourcePath: "\(baseDirLocal)/EventStream", buildOnly: true),
+        .init(name: "RPCEventStream", sourcePath: "\(baseDirLocal)/RPCEventStream", buildOnly: true),
         .init(name: "Waiters", sourcePath: "\(baseDirLocal)/Waiters", testPath: "codegen/protocol-test-codegen-local/Tests"),
     ]
     for protocolTest in protocolTests {
-        package.targets += [
-            .target(
-                name: protocolTest.name,
-                dependencies: [.clientRuntime, .awsClientRuntime],
-                path: "\(protocolTest.sourcePath)/swift-codegen/\(protocolTest.name)"
-            ),
-            .testTarget(
-                name: "\(protocolTest.name)Tests",
-                dependencies: [.smithyTestUtils, .byNameItem(name: protocolTest.name, condition: nil)],
-                path: "\(protocolTest.testPath ?? protocolTest.sourcePath)/swift-codegen/\(protocolTest.name)Tests"
-            )
-        ]
+        let target = Target.target(
+            name: protocolTest.name,
+            dependencies: [.clientRuntime, .awsClientRuntime],
+            path: "\(protocolTest.sourcePath)/swift-codegen/\(protocolTest.name)"
+        )
+        let testTarget = protocolTest.buildOnly ? nil : Target.testTarget(
+            name: "\(protocolTest.name)Tests",
+            dependencies: [.smithyTestUtils, .byNameItem(name: protocolTest.name, condition: nil)],
+            path: "\(protocolTest.testPath ?? protocolTest.sourcePath)/swift-codegen/\(protocolTest.name)Tests"
+        )
+        package.targets += [target, testTarget].compactMap { $0 }
     }
 }
 

@@ -7,18 +7,16 @@ import typealias Foundation.TimeInterval
 
 extension S3ClientTypes.AbortIncompleteMultipartUpload {
 
-    static func writingClosure(_ value: S3ClientTypes.AbortIncompleteMultipartUpload?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ClientTypes.AbortIncompleteMultipartUpload?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["DaysAfterInitiation"].write(value.daysAfterInitiation)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.AbortIncompleteMultipartUpload, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.AbortIncompleteMultipartUpload()
-            value.daysAfterInitiation = try reader["DaysAfterInitiation"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.AbortIncompleteMultipartUpload {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.AbortIncompleteMultipartUpload()
+        value.daysAfterInitiation = try reader["DaysAfterInitiation"].readIfPresent()
+        return value
     }
 }
 
@@ -110,14 +108,12 @@ public struct AbortMultipartUploadInput {
 
 extension AbortMultipartUploadOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<AbortMultipartUploadOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            var value = AbortMultipartUploadOutput()
-            if let requestChargedHeaderValue = httpResponse.headers.value(for: "x-amz-request-charged") {
-                value.requestCharged = S3ClientTypes.RequestCharged(rawValue: requestChargedHeaderValue)
-            }
-            return value
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> AbortMultipartUploadOutput {
+        var value = AbortMultipartUploadOutput()
+        if let requestChargedHeaderValue = httpResponse.headers.value(for: "x-amz-request-charged") {
+            value.requestCharged = S3ClientTypes.RequestCharged(rawValue: requestChargedHeaderValue)
         }
+        return value
     }
 }
 
@@ -135,33 +131,24 @@ public struct AbortMultipartUploadOutput {
 
 enum AbortMultipartUploadOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let errorBodyReader = AWSClientRuntime.RestXMLError.errorBodyReader(responseReader: responseReader, noErrorWrapping: true)
-            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
-            switch restXMLError.code {
-                case "NoSuchUpload": return try await NoSuchUpload.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2)
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "NoSuchUpload": return try NoSuchUpload.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
 
 extension S3ClientTypes.AccelerateConfiguration {
 
-    static func writingClosure(_ value: S3ClientTypes.AccelerateConfiguration?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ClientTypes.AccelerateConfiguration?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["Status"].write(value.status)
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.AccelerateConfiguration, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.AccelerateConfiguration()
-            value.status = try reader["Status"].readIfPresent()
-            return value
-        }
     }
 }
 
@@ -183,20 +170,10 @@ extension S3ClientTypes {
 
 extension S3ClientTypes.AccessControlPolicy {
 
-    static func writingClosure(_ value: S3ClientTypes.AccessControlPolicy?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["AccessControlList"].writeList(value.grants, memberWritingClosure: S3ClientTypes.Grant.writingClosure(_:to:), memberNodeInfo: "Grant", isFlattened: false)
-        try writer["Owner"].write(value.owner, writingClosure: S3ClientTypes.Owner.writingClosure(_:to:))
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.AccessControlPolicy, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.AccessControlPolicy()
-            value.grants = try reader["AccessControlList"].readListIfPresent(memberReadingClosure: S3ClientTypes.Grant.readingClosure, memberNodeInfo: "Grant", isFlattened: false)
-            value.owner = try reader["Owner"].readIfPresent(readingClosure: S3ClientTypes.Owner.readingClosure)
-            return value
-        }
+    static func write(value: S3ClientTypes.AccessControlPolicy?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["AccessControlList"].writeList(value.grants, memberWritingClosure: S3ClientTypes.Grant.write(value:to:), memberNodeInfo: "Grant", isFlattened: false)
+        try writer["Owner"].write(value.owner, with: S3ClientTypes.Owner.write(value:to:))
     }
 }
 
@@ -222,18 +199,16 @@ extension S3ClientTypes {
 
 extension S3ClientTypes.AccessControlTranslation {
 
-    static func writingClosure(_ value: S3ClientTypes.AccessControlTranslation?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ClientTypes.AccessControlTranslation?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["Owner"].write(value.owner)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.AccessControlTranslation, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.AccessControlTranslation()
-            value.owner = try reader["Owner"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.AccessControlTranslation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.AccessControlTranslation()
+        value.owner = try reader["Owner"].readIfPresent()
+        return value
     }
 }
 
@@ -254,22 +229,27 @@ extension S3ClientTypes {
 
 }
 
+func httpServiceError(baseError: AWSClientRuntime.RestXMLError) throws -> Swift.Error? {
+    if baseError.httpResponse.statusCode == .notFound && baseError.httpResponse.body.isEmpty {
+        return try NotFound.makeError(baseError: baseError)
+    }
+    return nil
+}
+
 extension S3ClientTypes.AnalyticsAndOperator {
 
-    static func writingClosure(_ value: S3ClientTypes.AnalyticsAndOperator?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ClientTypes.AnalyticsAndOperator?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["Prefix"].write(value.`prefix`)
-        try writer["Tag"].writeList(value.tags, memberWritingClosure: S3ClientTypes.Tag.writingClosure(_:to:), memberNodeInfo: "Tag", isFlattened: true)
+        try writer["Tag"].writeList(value.tags, memberWritingClosure: S3ClientTypes.Tag.write(value:to:), memberNodeInfo: "Tag", isFlattened: true)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.AnalyticsAndOperator, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.AnalyticsAndOperator()
-            value.`prefix` = try reader["Prefix"].readIfPresent()
-            value.tags = try reader["Tag"].readListIfPresent(memberReadingClosure: S3ClientTypes.Tag.readingClosure, memberNodeInfo: "Tag", isFlattened: true)
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.AnalyticsAndOperator {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.AnalyticsAndOperator()
+        value.`prefix` = try reader["Prefix"].readIfPresent()
+        value.tags = try reader["Tag"].readListIfPresent(memberReadingClosure: S3ClientTypes.Tag.read(from:), memberNodeInfo: "Tag", isFlattened: true)
+        return value
     }
 }
 
@@ -295,22 +275,20 @@ extension S3ClientTypes {
 
 extension S3ClientTypes.AnalyticsConfiguration {
 
-    static func writingClosure(_ value: S3ClientTypes.AnalyticsConfiguration?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["Filter"].write(value.filter, writingClosure: S3ClientTypes.AnalyticsFilter.writingClosure(_:to:))
+    static func write(value: S3ClientTypes.AnalyticsConfiguration?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Filter"].write(value.filter, with: S3ClientTypes.AnalyticsFilter.write(value:to:))
         try writer["Id"].write(value.id)
-        try writer["StorageClassAnalysis"].write(value.storageClassAnalysis, writingClosure: S3ClientTypes.StorageClassAnalysis.writingClosure(_:to:))
+        try writer["StorageClassAnalysis"].write(value.storageClassAnalysis, with: S3ClientTypes.StorageClassAnalysis.write(value:to:))
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.AnalyticsConfiguration, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.AnalyticsConfiguration()
-            value.id = try reader["Id"].readIfPresent()
-            value.filter = try reader["Filter"].readIfPresent(readingClosure: S3ClientTypes.AnalyticsFilter.readingClosure)
-            value.storageClassAnalysis = try reader["StorageClassAnalysis"].readIfPresent(readingClosure: S3ClientTypes.StorageClassAnalysis.readingClosure)
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.AnalyticsConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.AnalyticsConfiguration()
+        value.id = try reader["Id"].readIfPresent()
+        value.filter = try reader["Filter"].readIfPresent(with: S3ClientTypes.AnalyticsFilter.read(from:))
+        value.storageClassAnalysis = try reader["StorageClassAnalysis"].readIfPresent(with: S3ClientTypes.StorageClassAnalysis.read(from:))
+        return value
     }
 }
 
@@ -342,18 +320,16 @@ extension S3ClientTypes {
 
 extension S3ClientTypes.AnalyticsExportDestination {
 
-    static func writingClosure(_ value: S3ClientTypes.AnalyticsExportDestination?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["S3BucketDestination"].write(value.s3BucketDestination, writingClosure: S3ClientTypes.AnalyticsS3BucketDestination.writingClosure(_:to:))
+    static func write(value: S3ClientTypes.AnalyticsExportDestination?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["S3BucketDestination"].write(value.s3BucketDestination, with: S3ClientTypes.AnalyticsS3BucketDestination.write(value:to:))
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.AnalyticsExportDestination, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.AnalyticsExportDestination()
-            value.s3BucketDestination = try reader["S3BucketDestination"].readIfPresent(readingClosure: S3ClientTypes.AnalyticsS3BucketDestination.readingClosure)
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.AnalyticsExportDestination {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.AnalyticsExportDestination()
+        value.s3BucketDestination = try reader["S3BucketDestination"].readIfPresent(with: S3ClientTypes.AnalyticsS3BucketDestination.read(from:))
+        return value
     }
 }
 
@@ -376,34 +352,32 @@ extension S3ClientTypes {
 
 extension S3ClientTypes.AnalyticsFilter {
 
-    static func writingClosure(_ value: S3ClientTypes.AnalyticsFilter?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ClientTypes.AnalyticsFilter?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         switch value {
             case let .and(and):
-                try writer["And"].write(and, writingClosure: S3ClientTypes.AnalyticsAndOperator.writingClosure(_:to:))
+                try writer["And"].write(and, with: S3ClientTypes.AnalyticsAndOperator.write(value:to:))
             case let .`prefix`(`prefix`):
                 try writer["Prefix"].write(`prefix`)
             case let .tag(tag):
-                try writer["Tag"].write(tag, writingClosure: S3ClientTypes.Tag.writingClosure(_:to:))
+                try writer["Tag"].write(tag, with: S3ClientTypes.Tag.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
-                try writer[.init("sdkUnknown")].write(sdkUnknown)
+                try writer["sdkUnknown"].write(sdkUnknown)
         }
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.AnalyticsFilter, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            let name = reader.children.first?.nodeInfo.name
-            switch name {
-                case "Prefix":
-                    return .`prefix`(try reader["Prefix"].read())
-                case "Tag":
-                    return .tag(try reader["Tag"].read(readingClosure: S3ClientTypes.Tag.readingClosure))
-                case "And":
-                    return .and(try reader["And"].read(readingClosure: S3ClientTypes.AnalyticsAndOperator.readingClosure))
-                default:
-                    return .sdkUnknown(name ?? "")
-            }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.AnalyticsFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "Prefix":
+                return .`prefix`(try reader["Prefix"].read())
+            case "Tag":
+                return .tag(try reader["Tag"].read(with: S3ClientTypes.Tag.read(from:)))
+            case "And":
+                return .and(try reader["And"].read(with: S3ClientTypes.AnalyticsAndOperator.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
         }
     }
 }
@@ -424,24 +398,22 @@ extension S3ClientTypes {
 
 extension S3ClientTypes.AnalyticsS3BucketDestination {
 
-    static func writingClosure(_ value: S3ClientTypes.AnalyticsS3BucketDestination?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ClientTypes.AnalyticsS3BucketDestination?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["Bucket"].write(value.bucket)
         try writer["BucketAccountId"].write(value.bucketAccountId)
         try writer["Format"].write(value.format)
         try writer["Prefix"].write(value.`prefix`)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.AnalyticsS3BucketDestination, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.AnalyticsS3BucketDestination()
-            value.format = try reader["Format"].readIfPresent()
-            value.bucketAccountId = try reader["BucketAccountId"].readIfPresent()
-            value.bucket = try reader["Bucket"].readIfPresent()
-            value.`prefix` = try reader["Prefix"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.AnalyticsS3BucketDestination {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.AnalyticsS3BucketDestination()
+        value.format = try reader["Format"].readIfPresent()
+        value.bucketAccountId = try reader["BucketAccountId"].readIfPresent()
+        value.bucket = try reader["Bucket"].readIfPresent()
+        value.`prefix` = try reader["Prefix"].readIfPresent()
+        return value
     }
 }
 
@@ -476,7 +448,8 @@ extension S3ClientTypes {
 }
 
 extension S3ClientTypes {
-    public enum AnalyticsS3ExportFileFormat: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum AnalyticsS3ExportFileFormat: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case csv
         case sdkUnknown(Swift.String)
 
@@ -486,26 +459,24 @@ extension S3ClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .csv: return "CSV"
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = AnalyticsS3ExportFileFormat(rawValue: rawValue) ?? AnalyticsS3ExportFileFormat.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension S3ClientTypes {
-    public enum ArchiveStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum ArchiveStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case archiveAccess
         case deepArchiveAccess
         case sdkUnknown(Swift.String)
@@ -517,10 +488,12 @@ extension S3ClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .archiveAccess: return "ARCHIVE_ACCESS"
@@ -528,30 +501,17 @@ extension S3ClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = ArchiveStatus(rawValue: rawValue) ?? ArchiveStatus.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension S3ClientTypes.Bucket {
 
-    static func writingClosure(_ value: S3ClientTypes.Bucket?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["CreationDate"].writeTimestamp(value.creationDate, format: .dateTime)
-        try writer["Name"].write(value.name)
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.Bucket, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.Bucket()
-            value.name = try reader["Name"].readIfPresent()
-            value.creationDate = try reader["CreationDate"].readTimestampIfPresent(format: .dateTime)
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.Bucket {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.Bucket()
+        value.name = try reader["Name"].readIfPresent()
+        value.creationDate = try reader["CreationDate"].readTimestampIfPresent(format: .dateTime)
+        return value
     }
 }
 
@@ -576,7 +536,8 @@ extension S3ClientTypes {
 }
 
 extension S3ClientTypes {
-    public enum BucketAccelerateStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum BucketAccelerateStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case enabled
         case suspended
         case sdkUnknown(Swift.String)
@@ -588,10 +549,12 @@ extension S3ClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .enabled: return "Enabled"
@@ -599,22 +562,17 @@ extension S3ClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = BucketAccelerateStatus(rawValue: rawValue) ?? BucketAccelerateStatus.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension BucketAlreadyExists {
 
-    static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil, requestID2: Swift.String? = nil) async throws -> Swift.Error {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> BucketAlreadyExists {
         var value = BucketAlreadyExists()
-        value.httpResponse = httpResponse
-        value.requestID = requestID
-        value.message = message
-        value.requestID2 = requestID2
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        value.requestID2 = baseError.requestID2
         return value
     }
 }
@@ -635,12 +593,12 @@ public struct BucketAlreadyExists: ClientRuntime.ModeledError, AWSClientRuntime.
 
 extension BucketAlreadyOwnedByYou {
 
-    static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil, requestID2: Swift.String? = nil) async throws -> Swift.Error {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> BucketAlreadyOwnedByYou {
         var value = BucketAlreadyOwnedByYou()
-        value.httpResponse = httpResponse
-        value.requestID = requestID
-        value.message = message
-        value.requestID2 = requestID2
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        value.requestID2 = baseError.requestID2
         return value
     }
 }
@@ -660,7 +618,8 @@ public struct BucketAlreadyOwnedByYou: ClientRuntime.ModeledError, AWSClientRunt
 }
 
 extension S3ClientTypes {
-    public enum BucketCannedACL: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum BucketCannedACL: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case authenticatedRead
         case `private`
         case publicRead
@@ -676,10 +635,12 @@ extension S3ClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .authenticatedRead: return "authenticated-read"
@@ -689,30 +650,15 @@ extension S3ClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = BucketCannedACL(rawValue: rawValue) ?? BucketCannedACL.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension S3ClientTypes.BucketInfo {
 
-    static func writingClosure(_ value: S3ClientTypes.BucketInfo?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ClientTypes.BucketInfo?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["DataRedundancy"].write(value.dataRedundancy)
         try writer["Type"].write(value.type)
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.BucketInfo, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.BucketInfo()
-            value.dataRedundancy = try reader["DataRedundancy"].readIfPresent()
-            value.type = try reader["Type"].readIfPresent()
-            return value
-        }
     }
 }
 
@@ -738,18 +684,9 @@ extension S3ClientTypes {
 
 extension S3ClientTypes.BucketLifecycleConfiguration {
 
-    static func writingClosure(_ value: S3ClientTypes.BucketLifecycleConfiguration?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["Rule"].writeList(value.rules, memberWritingClosure: S3ClientTypes.LifecycleRule.writingClosure(_:to:), memberNodeInfo: "member", isFlattened: true)
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.BucketLifecycleConfiguration, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.BucketLifecycleConfiguration()
-            value.rules = try reader["Rule"].readListIfPresent(memberReadingClosure: S3ClientTypes.LifecycleRule.readingClosure, memberNodeInfo: "member", isFlattened: true)
-            return value
-        }
+    static func write(value: S3ClientTypes.BucketLifecycleConfiguration?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Rule"].writeList(value.rules, memberWritingClosure: S3ClientTypes.LifecycleRule.write(value:to:), memberNodeInfo: "member", isFlattened: true)
     }
 }
 
@@ -771,7 +708,8 @@ extension S3ClientTypes {
 }
 
 extension S3ClientTypes {
-    public enum BucketLocationConstraint: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum BucketLocationConstraint: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case eu
         case afSouth1
         case apEast1
@@ -835,10 +773,12 @@ extension S3ClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .eu: return "EU"
@@ -872,28 +812,14 @@ extension S3ClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = BucketLocationConstraint(rawValue: rawValue) ?? BucketLocationConstraint.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension S3ClientTypes.BucketLoggingStatus {
 
-    static func writingClosure(_ value: S3ClientTypes.BucketLoggingStatus?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["LoggingEnabled"].write(value.loggingEnabled, writingClosure: S3ClientTypes.LoggingEnabled.writingClosure(_:to:))
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.BucketLoggingStatus, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.BucketLoggingStatus()
-            value.loggingEnabled = try reader["LoggingEnabled"].readIfPresent(readingClosure: S3ClientTypes.LoggingEnabled.readingClosure)
-            return value
-        }
+    static func write(value: S3ClientTypes.BucketLoggingStatus?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["LoggingEnabled"].write(value.loggingEnabled, with: S3ClientTypes.LoggingEnabled.write(value:to:))
     }
 }
 
@@ -914,7 +840,8 @@ extension S3ClientTypes {
 }
 
 extension S3ClientTypes {
-    public enum BucketLogsPermission: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum BucketLogsPermission: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case fullControl
         case read
         case write
@@ -928,10 +855,12 @@ extension S3ClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .fullControl: return "FULL_CONTROL"
@@ -940,16 +869,12 @@ extension S3ClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = BucketLogsPermission(rawValue: rawValue) ?? BucketLogsPermission.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension S3ClientTypes {
-    public enum BucketType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum BucketType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case directory
         case sdkUnknown(Swift.String)
 
@@ -959,26 +884,24 @@ extension S3ClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .directory: return "Directory"
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = BucketType(rawValue: rawValue) ?? BucketType.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension S3ClientTypes {
-    public enum BucketVersioningStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum BucketVersioningStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case enabled
         case suspended
         case sdkUnknown(Swift.String)
@@ -990,10 +913,12 @@ extension S3ClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .enabled: return "Enabled"
@@ -1001,28 +926,14 @@ extension S3ClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = BucketVersioningStatus(rawValue: rawValue) ?? BucketVersioningStatus.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension S3ClientTypes.CORSConfiguration {
 
-    static func writingClosure(_ value: S3ClientTypes.CORSConfiguration?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["CORSRule"].writeList(value.corsRules, memberWritingClosure: S3ClientTypes.CORSRule.writingClosure(_:to:), memberNodeInfo: "member", isFlattened: true)
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.CORSConfiguration, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.CORSConfiguration()
-            value.corsRules = try reader["CORSRule"].readListIfPresent(memberReadingClosure: S3ClientTypes.CORSRule.readingClosure, memberNodeInfo: "member", isFlattened: true)
-            return value
-        }
+    static func write(value: S3ClientTypes.CORSConfiguration?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["CORSRule"].writeList(value.corsRules, memberWritingClosure: S3ClientTypes.CORSRule.write(value:to:), memberNodeInfo: "member", isFlattened: true)
     }
 }
 
@@ -1045,28 +956,26 @@ extension S3ClientTypes {
 
 extension S3ClientTypes.CORSRule {
 
-    static func writingClosure(_ value: S3ClientTypes.CORSRule?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["AllowedHeader"].writeList(value.allowedHeaders, memberWritingClosure: Swift.String.writingClosure(_:to:), memberNodeInfo: "member", isFlattened: true)
-        try writer["AllowedMethod"].writeList(value.allowedMethods, memberWritingClosure: Swift.String.writingClosure(_:to:), memberNodeInfo: "member", isFlattened: true)
-        try writer["AllowedOrigin"].writeList(value.allowedOrigins, memberWritingClosure: Swift.String.writingClosure(_:to:), memberNodeInfo: "member", isFlattened: true)
-        try writer["ExposeHeader"].writeList(value.exposeHeaders, memberWritingClosure: Swift.String.writingClosure(_:to:), memberNodeInfo: "member", isFlattened: true)
+    static func write(value: S3ClientTypes.CORSRule?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["AllowedHeader"].writeList(value.allowedHeaders, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: true)
+        try writer["AllowedMethod"].writeList(value.allowedMethods, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: true)
+        try writer["AllowedOrigin"].writeList(value.allowedOrigins, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: true)
+        try writer["ExposeHeader"].writeList(value.exposeHeaders, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: true)
         try writer["ID"].write(value.id)
         try writer["MaxAgeSeconds"].write(value.maxAgeSeconds)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.CORSRule, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.CORSRule()
-            value.id = try reader["ID"].readIfPresent()
-            value.allowedHeaders = try reader["AllowedHeader"].readListIfPresent(memberReadingClosure: Swift.String.readingClosure, memberNodeInfo: "member", isFlattened: true)
-            value.allowedMethods = try reader["AllowedMethod"].readListIfPresent(memberReadingClosure: Swift.String.readingClosure, memberNodeInfo: "member", isFlattened: true)
-            value.allowedOrigins = try reader["AllowedOrigin"].readListIfPresent(memberReadingClosure: Swift.String.readingClosure, memberNodeInfo: "member", isFlattened: true)
-            value.exposeHeaders = try reader["ExposeHeader"].readListIfPresent(memberReadingClosure: Swift.String.readingClosure, memberNodeInfo: "member", isFlattened: true)
-            value.maxAgeSeconds = try reader["MaxAgeSeconds"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.CORSRule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.CORSRule()
+        value.id = try reader["ID"].readIfPresent()
+        value.allowedHeaders = try reader["AllowedHeader"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: true)
+        value.allowedMethods = try reader["AllowedMethod"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: true)
+        value.allowedOrigins = try reader["AllowedOrigin"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: true)
+        value.exposeHeaders = try reader["ExposeHeader"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: true)
+        value.maxAgeSeconds = try reader["MaxAgeSeconds"].readIfPresent()
+        return value
     }
 }
 
@@ -1110,8 +1019,8 @@ extension S3ClientTypes {
 
 extension S3ClientTypes.CSVInput {
 
-    static func writingClosure(_ value: S3ClientTypes.CSVInput?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ClientTypes.CSVInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["AllowQuotedRecordDelimiter"].write(value.allowQuotedRecordDelimiter)
         try writer["Comments"].write(value.comments)
         try writer["FieldDelimiter"].write(value.fieldDelimiter)
@@ -1119,21 +1028,6 @@ extension S3ClientTypes.CSVInput {
         try writer["QuoteCharacter"].write(value.quoteCharacter)
         try writer["QuoteEscapeCharacter"].write(value.quoteEscapeCharacter)
         try writer["RecordDelimiter"].write(value.recordDelimiter)
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.CSVInput, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.CSVInput()
-            value.fileHeaderInfo = try reader["FileHeaderInfo"].readIfPresent()
-            value.comments = try reader["Comments"].readIfPresent()
-            value.quoteEscapeCharacter = try reader["QuoteEscapeCharacter"].readIfPresent()
-            value.recordDelimiter = try reader["RecordDelimiter"].readIfPresent()
-            value.fieldDelimiter = try reader["FieldDelimiter"].readIfPresent()
-            value.quoteCharacter = try reader["QuoteCharacter"].readIfPresent()
-            value.allowQuotedRecordDelimiter = try reader["AllowQuotedRecordDelimiter"].readIfPresent()
-            return value
-        }
     }
 }
 
@@ -1185,26 +1079,13 @@ extension S3ClientTypes {
 
 extension S3ClientTypes.CSVOutput {
 
-    static func writingClosure(_ value: S3ClientTypes.CSVOutput?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ClientTypes.CSVOutput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["FieldDelimiter"].write(value.fieldDelimiter)
         try writer["QuoteCharacter"].write(value.quoteCharacter)
         try writer["QuoteEscapeCharacter"].write(value.quoteEscapeCharacter)
         try writer["QuoteFields"].write(value.quoteFields)
         try writer["RecordDelimiter"].write(value.recordDelimiter)
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.CSVOutput, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.CSVOutput()
-            value.quoteFields = try reader["QuoteFields"].readIfPresent()
-            value.quoteEscapeCharacter = try reader["QuoteEscapeCharacter"].readIfPresent()
-            value.recordDelimiter = try reader["RecordDelimiter"].readIfPresent()
-            value.fieldDelimiter = try reader["FieldDelimiter"].readIfPresent()
-            value.quoteCharacter = try reader["QuoteCharacter"].readIfPresent()
-            return value
-        }
     }
 }
 
@@ -1246,24 +1127,14 @@ extension S3ClientTypes {
 
 extension S3ClientTypes.Checksum {
 
-    static func writingClosure(_ value: S3ClientTypes.Checksum?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["ChecksumCRC32"].write(value.checksumCRC32)
-        try writer["ChecksumCRC32C"].write(value.checksumCRC32C)
-        try writer["ChecksumSHA1"].write(value.checksumSHA1)
-        try writer["ChecksumSHA256"].write(value.checksumSHA256)
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.Checksum, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.Checksum()
-            value.checksumCRC32 = try reader["ChecksumCRC32"].readIfPresent()
-            value.checksumCRC32C = try reader["ChecksumCRC32C"].readIfPresent()
-            value.checksumSHA1 = try reader["ChecksumSHA1"].readIfPresent()
-            value.checksumSHA256 = try reader["ChecksumSHA256"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.Checksum {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.Checksum()
+        value.checksumCRC32 = try reader["ChecksumCRC32"].readIfPresent()
+        value.checksumCRC32C = try reader["ChecksumCRC32C"].readIfPresent()
+        value.checksumSHA1 = try reader["ChecksumSHA1"].readIfPresent()
+        value.checksumSHA256 = try reader["ChecksumSHA256"].readIfPresent()
+        return value
     }
 }
 
@@ -1296,7 +1167,8 @@ extension S3ClientTypes {
 }
 
 extension S3ClientTypes {
-    public enum ChecksumAlgorithm: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum ChecksumAlgorithm: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case crc32
         case crc32c
         case sha1
@@ -1312,10 +1184,12 @@ extension S3ClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .crc32: return "CRC32"
@@ -1325,16 +1199,12 @@ extension S3ClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = ChecksumAlgorithm(rawValue: rawValue) ?? ChecksumAlgorithm.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension S3ClientTypes {
-    public enum ChecksumMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum ChecksumMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case enabled
         case sdkUnknown(Swift.String)
 
@@ -1344,38 +1214,28 @@ extension S3ClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .enabled: return "ENABLED"
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = ChecksumMode(rawValue: rawValue) ?? ChecksumMode.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension S3ClientTypes.CommonPrefix {
 
-    static func writingClosure(_ value: S3ClientTypes.CommonPrefix?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["Prefix"].write(value.`prefix`)
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.CommonPrefix, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.CommonPrefix()
-            value.`prefix` = try reader["Prefix"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.CommonPrefix {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.CommonPrefix()
+        value.`prefix` = try reader["Prefix"].readIfPresent()
+        return value
     }
 }
 
@@ -1398,13 +1258,6 @@ extension S3ClientTypes {
 extension CompleteMultipartUploadInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "CompleteMultipartUploadInput(bucket: \(Swift.String(describing: bucket)), checksumCRC32: \(Swift.String(describing: checksumCRC32)), checksumCRC32C: \(Swift.String(describing: checksumCRC32C)), checksumSHA1: \(Swift.String(describing: checksumSHA1)), checksumSHA256: \(Swift.String(describing: checksumSHA256)), expectedBucketOwner: \(Swift.String(describing: expectedBucketOwner)), key: \(Swift.String(describing: key)), multipartUpload: \(Swift.String(describing: multipartUpload)), requestPayer: \(Swift.String(describing: requestPayer)), sseCustomerAlgorithm: \(Swift.String(describing: sseCustomerAlgorithm)), sseCustomerKeyMD5: \(Swift.String(describing: sseCustomerKeyMD5)), uploadId: \(Swift.String(describing: uploadId)), sseCustomerKey: \"CONTENT_REDACTED\")"}
-}
-
-extension CompleteMultipartUploadInput {
-    static func writingClosure(_ value: CompleteMultipartUploadInput?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["CompleteMultipartUpload"].write(value.multipartUpload, writingClosure: S3ClientTypes.CompletedMultipartUpload.writingClosure(_:to:))
-    }
 }
 
 extension CompleteMultipartUploadInput {
@@ -1464,6 +1317,14 @@ extension CompleteMultipartUploadInput {
             return nil
         }
         return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
+    }
+}
+
+extension CompleteMultipartUploadInput {
+
+    static func write(value: CompleteMultipartUploadInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["CompleteMultipartUpload"].write(value.multipartUpload, with: S3ClientTypes.CompletedMultipartUpload.write(value:to:))
     }
 }
 
@@ -1537,39 +1398,38 @@ extension CompleteMultipartUploadOutput: Swift.CustomDebugStringConvertible {
 
 extension CompleteMultipartUploadOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<CompleteMultipartUploadOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = CompleteMultipartUploadOutput()
-            if let bucketKeyEnabledHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption-bucket-key-enabled") {
-                value.bucketKeyEnabled = Swift.Bool(bucketKeyEnabledHeaderValue) ?? false
-            }
-            if let expirationHeaderValue = httpResponse.headers.value(for: "x-amz-expiration") {
-                value.expiration = expirationHeaderValue
-            }
-            if let requestChargedHeaderValue = httpResponse.headers.value(for: "x-amz-request-charged") {
-                value.requestCharged = S3ClientTypes.RequestCharged(rawValue: requestChargedHeaderValue)
-            }
-            if let ssekmsKeyIdHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption-aws-kms-key-id") {
-                value.ssekmsKeyId = ssekmsKeyIdHeaderValue
-            }
-            if let serverSideEncryptionHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption") {
-                value.serverSideEncryption = S3ClientTypes.ServerSideEncryption(rawValue: serverSideEncryptionHeaderValue)
-            }
-            if let versionIdHeaderValue = httpResponse.headers.value(for: "x-amz-version-id") {
-                value.versionId = versionIdHeaderValue
-            }
-            value.bucket = try reader["Bucket"].readIfPresent()
-            value.checksumCRC32 = try reader["ChecksumCRC32"].readIfPresent()
-            value.checksumCRC32C = try reader["ChecksumCRC32C"].readIfPresent()
-            value.checksumSHA1 = try reader["ChecksumSHA1"].readIfPresent()
-            value.checksumSHA256 = try reader["ChecksumSHA256"].readIfPresent()
-            value.eTag = try reader["ETag"].readIfPresent()
-            value.key = try reader["Key"].readIfPresent()
-            value.location = try reader["Location"].readIfPresent()
-            return value
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CompleteMultipartUploadOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = CompleteMultipartUploadOutput()
+        if let bucketKeyEnabledHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption-bucket-key-enabled") {
+            value.bucketKeyEnabled = Swift.Bool(bucketKeyEnabledHeaderValue) ?? false
         }
+        if let expirationHeaderValue = httpResponse.headers.value(for: "x-amz-expiration") {
+            value.expiration = expirationHeaderValue
+        }
+        if let requestChargedHeaderValue = httpResponse.headers.value(for: "x-amz-request-charged") {
+            value.requestCharged = S3ClientTypes.RequestCharged(rawValue: requestChargedHeaderValue)
+        }
+        if let ssekmsKeyIdHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption-aws-kms-key-id") {
+            value.ssekmsKeyId = ssekmsKeyIdHeaderValue
+        }
+        if let serverSideEncryptionHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption") {
+            value.serverSideEncryption = S3ClientTypes.ServerSideEncryption(rawValue: serverSideEncryptionHeaderValue)
+        }
+        if let versionIdHeaderValue = httpResponse.headers.value(for: "x-amz-version-id") {
+            value.versionId = versionIdHeaderValue
+        }
+        value.bucket = try reader["Bucket"].readIfPresent()
+        value.checksumCRC32 = try reader["ChecksumCRC32"].readIfPresent()
+        value.checksumCRC32C = try reader["ChecksumCRC32C"].readIfPresent()
+        value.checksumSHA1 = try reader["ChecksumSHA1"].readIfPresent()
+        value.checksumSHA256 = try reader["ChecksumSHA256"].readIfPresent()
+        value.eTag = try reader["ETag"].readIfPresent()
+        value.key = try reader["Key"].readIfPresent()
+        value.location = try reader["Location"].readIfPresent()
+        return value
     }
 }
 
@@ -1639,31 +1499,23 @@ public struct CompleteMultipartUploadOutput {
 
 enum CompleteMultipartUploadOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
 
 extension S3ClientTypes.CompletedMultipartUpload {
 
-    static func writingClosure(_ value: S3ClientTypes.CompletedMultipartUpload?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["Part"].writeList(value.parts, memberWritingClosure: S3ClientTypes.CompletedPart.writingClosure(_:to:), memberNodeInfo: "member", isFlattened: true)
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.CompletedMultipartUpload, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.CompletedMultipartUpload()
-            value.parts = try reader["Part"].readListIfPresent(memberReadingClosure: S3ClientTypes.CompletedPart.readingClosure, memberNodeInfo: "member", isFlattened: true)
-            return value
-        }
+    static func write(value: S3ClientTypes.CompletedMultipartUpload?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Part"].writeList(value.parts, memberWritingClosure: S3ClientTypes.CompletedPart.write(value:to:), memberNodeInfo: "member", isFlattened: true)
     }
 }
 
@@ -1685,28 +1537,14 @@ extension S3ClientTypes {
 
 extension S3ClientTypes.CompletedPart {
 
-    static func writingClosure(_ value: S3ClientTypes.CompletedPart?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ClientTypes.CompletedPart?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["ChecksumCRC32"].write(value.checksumCRC32)
         try writer["ChecksumCRC32C"].write(value.checksumCRC32C)
         try writer["ChecksumSHA1"].write(value.checksumSHA1)
         try writer["ChecksumSHA256"].write(value.checksumSHA256)
         try writer["ETag"].write(value.eTag)
         try writer["PartNumber"].write(value.partNumber)
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.CompletedPart, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.CompletedPart()
-            value.eTag = try reader["ETag"].readIfPresent()
-            value.checksumCRC32 = try reader["ChecksumCRC32"].readIfPresent()
-            value.checksumCRC32C = try reader["ChecksumCRC32C"].readIfPresent()
-            value.checksumSHA1 = try reader["ChecksumSHA1"].readIfPresent()
-            value.checksumSHA256 = try reader["ChecksumSHA256"].readIfPresent()
-            value.partNumber = try reader["PartNumber"].readIfPresent()
-            return value
-        }
     }
 }
 
@@ -1751,7 +1589,8 @@ extension S3ClientTypes {
 }
 
 extension S3ClientTypes {
-    public enum CompressionType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum CompressionType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case bzip2
         case gzip
         case `none`
@@ -1765,10 +1604,12 @@ extension S3ClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .bzip2: return "BZIP2"
@@ -1777,30 +1618,23 @@ extension S3ClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = CompressionType(rawValue: rawValue) ?? CompressionType.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension S3ClientTypes.Condition {
 
-    static func writingClosure(_ value: S3ClientTypes.Condition?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ClientTypes.Condition?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["HttpErrorCodeReturnedEquals"].write(value.httpErrorCodeReturnedEquals)
         try writer["KeyPrefixEquals"].write(value.keyPrefixEquals)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.Condition, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.Condition()
-            value.httpErrorCodeReturnedEquals = try reader["HttpErrorCodeReturnedEquals"].readIfPresent()
-            value.keyPrefixEquals = try reader["KeyPrefixEquals"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.Condition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.Condition()
+        value.httpErrorCodeReturnedEquals = try reader["HttpErrorCodeReturnedEquals"].readIfPresent()
+        value.keyPrefixEquals = try reader["KeyPrefixEquals"].readIfPresent()
+        return value
     }
 }
 
@@ -1826,15 +1660,9 @@ extension S3ClientTypes {
 
 extension S3ClientTypes.ContinuationEvent {
 
-    static func writingClosure(_ value: S3ClientTypes.ContinuationEvent?, to writer: SmithyXML.Writer) throws {
-        guard value != nil else { writer.detach(); return }
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.ContinuationEvent, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil || Mirror(reflecting: self).children.isEmpty else { return nil }
-            return S3ClientTypes.ContinuationEvent()
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.ContinuationEvent {
+        guard reader.hasContent || Mirror(reflecting: self).children.isEmpty else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return S3ClientTypes.ContinuationEvent()
     }
 }
 
@@ -2280,44 +2108,43 @@ extension CopyObjectOutput: Swift.CustomDebugStringConvertible {
 
 extension CopyObjectOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<CopyObjectOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = CopyObjectOutput()
-            if let bucketKeyEnabledHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption-bucket-key-enabled") {
-                value.bucketKeyEnabled = Swift.Bool(bucketKeyEnabledHeaderValue) ?? false
-            }
-            if let copySourceVersionIdHeaderValue = httpResponse.headers.value(for: "x-amz-copy-source-version-id") {
-                value.copySourceVersionId = copySourceVersionIdHeaderValue
-            }
-            if let expirationHeaderValue = httpResponse.headers.value(for: "x-amz-expiration") {
-                value.expiration = expirationHeaderValue
-            }
-            if let requestChargedHeaderValue = httpResponse.headers.value(for: "x-amz-request-charged") {
-                value.requestCharged = S3ClientTypes.RequestCharged(rawValue: requestChargedHeaderValue)
-            }
-            if let sseCustomerAlgorithmHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption-customer-algorithm") {
-                value.sseCustomerAlgorithm = sseCustomerAlgorithmHeaderValue
-            }
-            if let sseCustomerKeyMD5HeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption-customer-key-MD5") {
-                value.sseCustomerKeyMD5 = sseCustomerKeyMD5HeaderValue
-            }
-            if let ssekmsEncryptionContextHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption-context") {
-                value.ssekmsEncryptionContext = ssekmsEncryptionContextHeaderValue
-            }
-            if let ssekmsKeyIdHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption-aws-kms-key-id") {
-                value.ssekmsKeyId = ssekmsKeyIdHeaderValue
-            }
-            if let serverSideEncryptionHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption") {
-                value.serverSideEncryption = S3ClientTypes.ServerSideEncryption(rawValue: serverSideEncryptionHeaderValue)
-            }
-            if let versionIdHeaderValue = httpResponse.headers.value(for: "x-amz-version-id") {
-                value.versionId = versionIdHeaderValue
-            }
-            value.copyObjectResult = try reader.readIfPresent(readingClosure: S3ClientTypes.CopyObjectResult.readingClosure)
-            return value
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CopyObjectOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = CopyObjectOutput()
+        if let bucketKeyEnabledHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption-bucket-key-enabled") {
+            value.bucketKeyEnabled = Swift.Bool(bucketKeyEnabledHeaderValue) ?? false
         }
+        if let copySourceVersionIdHeaderValue = httpResponse.headers.value(for: "x-amz-copy-source-version-id") {
+            value.copySourceVersionId = copySourceVersionIdHeaderValue
+        }
+        if let expirationHeaderValue = httpResponse.headers.value(for: "x-amz-expiration") {
+            value.expiration = expirationHeaderValue
+        }
+        if let requestChargedHeaderValue = httpResponse.headers.value(for: "x-amz-request-charged") {
+            value.requestCharged = S3ClientTypes.RequestCharged(rawValue: requestChargedHeaderValue)
+        }
+        if let sseCustomerAlgorithmHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption-customer-algorithm") {
+            value.sseCustomerAlgorithm = sseCustomerAlgorithmHeaderValue
+        }
+        if let sseCustomerKeyMD5HeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption-customer-key-MD5") {
+            value.sseCustomerKeyMD5 = sseCustomerKeyMD5HeaderValue
+        }
+        if let ssekmsEncryptionContextHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption-context") {
+            value.ssekmsEncryptionContext = ssekmsEncryptionContextHeaderValue
+        }
+        if let ssekmsKeyIdHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption-aws-kms-key-id") {
+            value.ssekmsKeyId = ssekmsKeyIdHeaderValue
+        }
+        if let serverSideEncryptionHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption") {
+            value.serverSideEncryption = S3ClientTypes.ServerSideEncryption(rawValue: serverSideEncryptionHeaderValue)
+        }
+        if let versionIdHeaderValue = httpResponse.headers.value(for: "x-amz-version-id") {
+            value.versionId = versionIdHeaderValue
+        }
+        value.copyObjectResult = try reader.readIfPresent(with: S3ClientTypes.CopyObjectResult.read(from:))
+        return value
     }
 }
 
@@ -2375,43 +2202,31 @@ public struct CopyObjectOutput {
 
 enum CopyObjectOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let errorBodyReader = AWSClientRuntime.RestXMLError.errorBodyReader(responseReader: responseReader, noErrorWrapping: true)
-            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
-            switch restXMLError.code {
-                case "ObjectNotInActiveTierError": return try await ObjectNotInActiveTierError.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2)
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "ObjectNotInActiveTierError": return try ObjectNotInActiveTierError.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
 
 extension S3ClientTypes.CopyObjectResult {
 
-    static func writingClosure(_ value: S3ClientTypes.CopyObjectResult?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["ChecksumCRC32"].write(value.checksumCRC32)
-        try writer["ChecksumCRC32C"].write(value.checksumCRC32C)
-        try writer["ChecksumSHA1"].write(value.checksumSHA1)
-        try writer["ChecksumSHA256"].write(value.checksumSHA256)
-        try writer["ETag"].write(value.eTag)
-        try writer["LastModified"].writeTimestamp(value.lastModified, format: .dateTime)
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.CopyObjectResult, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.CopyObjectResult()
-            value.eTag = try reader["ETag"].readIfPresent()
-            value.lastModified = try reader["LastModified"].readTimestampIfPresent(format: .dateTime)
-            value.checksumCRC32 = try reader["ChecksumCRC32"].readIfPresent()
-            value.checksumCRC32C = try reader["ChecksumCRC32C"].readIfPresent()
-            value.checksumSHA1 = try reader["ChecksumSHA1"].readIfPresent()
-            value.checksumSHA256 = try reader["ChecksumSHA256"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.CopyObjectResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.CopyObjectResult()
+        value.eTag = try reader["ETag"].readIfPresent()
+        value.lastModified = try reader["LastModified"].readTimestampIfPresent(format: .dateTime)
+        value.checksumCRC32 = try reader["ChecksumCRC32"].readIfPresent()
+        value.checksumCRC32C = try reader["ChecksumCRC32C"].readIfPresent()
+        value.checksumSHA1 = try reader["ChecksumSHA1"].readIfPresent()
+        value.checksumSHA256 = try reader["ChecksumSHA256"].readIfPresent()
+        return value
     }
 }
 
@@ -2453,28 +2268,16 @@ extension S3ClientTypes {
 
 extension S3ClientTypes.CopyPartResult {
 
-    static func writingClosure(_ value: S3ClientTypes.CopyPartResult?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["ChecksumCRC32"].write(value.checksumCRC32)
-        try writer["ChecksumCRC32C"].write(value.checksumCRC32C)
-        try writer["ChecksumSHA1"].write(value.checksumSHA1)
-        try writer["ChecksumSHA256"].write(value.checksumSHA256)
-        try writer["ETag"].write(value.eTag)
-        try writer["LastModified"].writeTimestamp(value.lastModified, format: .dateTime)
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.CopyPartResult, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.CopyPartResult()
-            value.eTag = try reader["ETag"].readIfPresent()
-            value.lastModified = try reader["LastModified"].readTimestampIfPresent(format: .dateTime)
-            value.checksumCRC32 = try reader["ChecksumCRC32"].readIfPresent()
-            value.checksumCRC32C = try reader["ChecksumCRC32C"].readIfPresent()
-            value.checksumSHA1 = try reader["ChecksumSHA1"].readIfPresent()
-            value.checksumSHA256 = try reader["ChecksumSHA256"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.CopyPartResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.CopyPartResult()
+        value.eTag = try reader["ETag"].readIfPresent()
+        value.lastModified = try reader["LastModified"].readTimestampIfPresent(format: .dateTime)
+        value.checksumCRC32 = try reader["ChecksumCRC32"].readIfPresent()
+        value.checksumCRC32C = try reader["ChecksumCRC32C"].readIfPresent()
+        value.checksumSHA1 = try reader["ChecksumSHA1"].readIfPresent()
+        value.checksumSHA256 = try reader["ChecksumSHA256"].readIfPresent()
+        return value
     }
 }
 
@@ -2516,22 +2319,11 @@ extension S3ClientTypes {
 
 extension S3ClientTypes.CreateBucketConfiguration {
 
-    static func writingClosure(_ value: S3ClientTypes.CreateBucketConfiguration?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["Bucket"].write(value.bucket, writingClosure: S3ClientTypes.BucketInfo.writingClosure(_:to:))
-        try writer["Location"].write(value.location, writingClosure: S3ClientTypes.LocationInfo.writingClosure(_:to:))
+    static func write(value: S3ClientTypes.CreateBucketConfiguration?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Bucket"].write(value.bucket, with: S3ClientTypes.BucketInfo.write(value:to:))
+        try writer["Location"].write(value.location, with: S3ClientTypes.LocationInfo.write(value:to:))
         try writer["LocationConstraint"].write(value.locationConstraint)
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.CreateBucketConfiguration, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.CreateBucketConfiguration()
-            value.locationConstraint = try reader["LocationConstraint"].readIfPresent()
-            value.location = try reader["Location"].readIfPresent(readingClosure: S3ClientTypes.LocationInfo.readingClosure)
-            value.bucket = try reader["Bucket"].readIfPresent(readingClosure: S3ClientTypes.BucketInfo.readingClosure)
-            return value
-        }
     }
 }
 
@@ -2557,13 +2349,6 @@ extension S3ClientTypes {
         }
     }
 
-}
-
-extension CreateBucketInput {
-    static func writingClosure(_ value: CreateBucketInput?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["CreateBucketConfiguration"].write(value.createBucketConfiguration, writingClosure: S3ClientTypes.CreateBucketConfiguration.writingClosure(_:to:))
-    }
 }
 
 extension CreateBucketInput {
@@ -2602,6 +2387,14 @@ extension CreateBucketInput {
 
     static func urlPathProvider(_ value: CreateBucketInput) -> Swift.String? {
         return "/"
+    }
+}
+
+extension CreateBucketInput {
+
+    static func write(value: CreateBucketInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["CreateBucketConfiguration"].write(value.createBucketConfiguration, with: S3ClientTypes.CreateBucketConfiguration.write(value:to:))
     }
 }
 
@@ -2656,14 +2449,12 @@ public struct CreateBucketInput {
 
 extension CreateBucketOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<CreateBucketOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            var value = CreateBucketOutput()
-            if let locationHeaderValue = httpResponse.headers.value(for: "Location") {
-                value.location = locationHeaderValue
-            }
-            return value
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateBucketOutput {
+        var value = CreateBucketOutput()
+        if let locationHeaderValue = httpResponse.headers.value(for: "Location") {
+            value.location = locationHeaderValue
         }
+        return value
     }
 }
 
@@ -2681,16 +2472,16 @@ public struct CreateBucketOutput {
 
 enum CreateBucketOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let errorBodyReader = AWSClientRuntime.RestXMLError.errorBodyReader(responseReader: responseReader, noErrorWrapping: true)
-            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
-            switch restXMLError.code {
-                case "BucketAlreadyExists": return try await BucketAlreadyExists.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2)
-                case "BucketAlreadyOwnedByYou": return try await BucketAlreadyOwnedByYou.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2)
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "BucketAlreadyExists": return try BucketAlreadyExists.makeError(baseError: baseError)
+            case "BucketAlreadyOwnedByYou": return try BucketAlreadyOwnedByYou.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -3087,46 +2878,45 @@ extension CreateMultipartUploadOutput: Swift.CustomDebugStringConvertible {
 
 extension CreateMultipartUploadOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<CreateMultipartUploadOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = CreateMultipartUploadOutput()
-            if let abortDateHeaderValue = httpResponse.headers.value(for: "x-amz-abort-date") {
-                value.abortDate = TimestampFormatter(format: .httpDate).date(from: abortDateHeaderValue)
-            }
-            if let abortRuleIdHeaderValue = httpResponse.headers.value(for: "x-amz-abort-rule-id") {
-                value.abortRuleId = abortRuleIdHeaderValue
-            }
-            if let bucketKeyEnabledHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption-bucket-key-enabled") {
-                value.bucketKeyEnabled = Swift.Bool(bucketKeyEnabledHeaderValue) ?? false
-            }
-            if let checksumAlgorithmHeaderValue = httpResponse.headers.value(for: "x-amz-checksum-algorithm") {
-                value.checksumAlgorithm = S3ClientTypes.ChecksumAlgorithm(rawValue: checksumAlgorithmHeaderValue)
-            }
-            if let requestChargedHeaderValue = httpResponse.headers.value(for: "x-amz-request-charged") {
-                value.requestCharged = S3ClientTypes.RequestCharged(rawValue: requestChargedHeaderValue)
-            }
-            if let sseCustomerAlgorithmHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption-customer-algorithm") {
-                value.sseCustomerAlgorithm = sseCustomerAlgorithmHeaderValue
-            }
-            if let sseCustomerKeyMD5HeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption-customer-key-MD5") {
-                value.sseCustomerKeyMD5 = sseCustomerKeyMD5HeaderValue
-            }
-            if let ssekmsEncryptionContextHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption-context") {
-                value.ssekmsEncryptionContext = ssekmsEncryptionContextHeaderValue
-            }
-            if let ssekmsKeyIdHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption-aws-kms-key-id") {
-                value.ssekmsKeyId = ssekmsKeyIdHeaderValue
-            }
-            if let serverSideEncryptionHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption") {
-                value.serverSideEncryption = S3ClientTypes.ServerSideEncryption(rawValue: serverSideEncryptionHeaderValue)
-            }
-            value.bucket = try reader["Bucket"].readIfPresent()
-            value.key = try reader["Key"].readIfPresent()
-            value.uploadId = try reader["UploadId"].readIfPresent()
-            return value
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateMultipartUploadOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateMultipartUploadOutput()
+        if let abortDateHeaderValue = httpResponse.headers.value(for: "x-amz-abort-date") {
+            value.abortDate = TimestampFormatter(format: .httpDate).date(from: abortDateHeaderValue)
         }
+        if let abortRuleIdHeaderValue = httpResponse.headers.value(for: "x-amz-abort-rule-id") {
+            value.abortRuleId = abortRuleIdHeaderValue
+        }
+        if let bucketKeyEnabledHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption-bucket-key-enabled") {
+            value.bucketKeyEnabled = Swift.Bool(bucketKeyEnabledHeaderValue) ?? false
+        }
+        if let checksumAlgorithmHeaderValue = httpResponse.headers.value(for: "x-amz-checksum-algorithm") {
+            value.checksumAlgorithm = S3ClientTypes.ChecksumAlgorithm(rawValue: checksumAlgorithmHeaderValue)
+        }
+        if let requestChargedHeaderValue = httpResponse.headers.value(for: "x-amz-request-charged") {
+            value.requestCharged = S3ClientTypes.RequestCharged(rawValue: requestChargedHeaderValue)
+        }
+        if let sseCustomerAlgorithmHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption-customer-algorithm") {
+            value.sseCustomerAlgorithm = sseCustomerAlgorithmHeaderValue
+        }
+        if let sseCustomerKeyMD5HeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption-customer-key-MD5") {
+            value.sseCustomerKeyMD5 = sseCustomerKeyMD5HeaderValue
+        }
+        if let ssekmsEncryptionContextHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption-context") {
+            value.ssekmsEncryptionContext = ssekmsEncryptionContextHeaderValue
+        }
+        if let ssekmsKeyIdHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption-aws-kms-key-id") {
+            value.ssekmsKeyId = ssekmsKeyIdHeaderValue
+        }
+        if let serverSideEncryptionHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption") {
+            value.serverSideEncryption = S3ClientTypes.ServerSideEncryption(rawValue: serverSideEncryptionHeaderValue)
+        }
+        value.bucket = try reader["Bucket"].readIfPresent()
+        value.key = try reader["Key"].readIfPresent()
+        value.uploadId = try reader["UploadId"].readIfPresent()
+        return value
     }
 }
 
@@ -3192,13 +2982,14 @@ public struct CreateMultipartUploadOutput {
 
 enum CreateMultipartUploadOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -3249,14 +3040,13 @@ public struct CreateSessionInput {
 
 extension CreateSessionOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<CreateSessionOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = CreateSessionOutput()
-            value.credentials = try reader["Credentials"].readIfPresent(readingClosure: S3ClientTypes.SessionCredentials.readingClosure)
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateSessionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateSessionOutput()
+        value.credentials = try reader["Credentials"].readIfPresent(with: S3ClientTypes.SessionCredentials.read(from:))
+        return value
     }
 }
 
@@ -3275,21 +3065,22 @@ public struct CreateSessionOutput {
 
 enum CreateSessionOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let errorBodyReader = AWSClientRuntime.RestXMLError.errorBodyReader(responseReader: responseReader, noErrorWrapping: true)
-            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
-            switch restXMLError.code {
-                case "NoSuchBucket": return try await NoSuchBucket.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2)
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "NoSuchBucket": return try NoSuchBucket.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
 
 extension S3ClientTypes {
-    public enum DataRedundancy: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum DataRedundancy: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case singleavailabilityzone
         case sdkUnknown(Swift.String)
 
@@ -3299,42 +3090,37 @@ extension S3ClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .singleavailabilityzone: return "SingleAvailabilityZone"
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = DataRedundancy(rawValue: rawValue) ?? DataRedundancy.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension S3ClientTypes.DefaultRetention {
 
-    static func writingClosure(_ value: S3ClientTypes.DefaultRetention?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ClientTypes.DefaultRetention?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["Days"].write(value.days)
         try writer["Mode"].write(value.mode)
         try writer["Years"].write(value.years)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.DefaultRetention, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.DefaultRetention()
-            value.mode = try reader["Mode"].readIfPresent()
-            value.days = try reader["Days"].readIfPresent()
-            value.years = try reader["Years"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.DefaultRetention {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.DefaultRetention()
+        value.mode = try reader["Mode"].readIfPresent()
+        value.days = try reader["Days"].readIfPresent()
+        value.years = try reader["Years"].readIfPresent()
+        return value
     }
 }
 
@@ -3368,20 +3154,10 @@ extension S3ClientTypes {
 
 extension S3ClientTypes.Delete {
 
-    static func writingClosure(_ value: S3ClientTypes.Delete?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["Object"].writeList(value.objects, memberWritingClosure: S3ClientTypes.ObjectIdentifier.writingClosure(_:to:), memberNodeInfo: "member", isFlattened: true)
+    static func write(value: S3ClientTypes.Delete?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Object"].writeList(value.objects, memberWritingClosure: S3ClientTypes.ObjectIdentifier.write(value:to:), memberNodeInfo: "member", isFlattened: true)
         try writer["Quiet"].write(value.quiet)
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.Delete, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.Delete()
-            value.objects = try reader["Object"].readListIfPresent(memberReadingClosure: S3ClientTypes.ObjectIdentifier.readingClosure, memberNodeInfo: "member", isFlattened: true)
-            value.quiet = try reader["Quiet"].readIfPresent()
-            return value
-        }
     }
 }
 
@@ -3463,10 +3239,8 @@ public struct DeleteBucketAnalyticsConfigurationInput {
 
 extension DeleteBucketAnalyticsConfigurationOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<DeleteBucketAnalyticsConfigurationOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            return DeleteBucketAnalyticsConfigurationOutput()
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteBucketAnalyticsConfigurationOutput {
+        return DeleteBucketAnalyticsConfigurationOutput()
     }
 }
 
@@ -3477,13 +3251,14 @@ public struct DeleteBucketAnalyticsConfigurationOutput {
 
 enum DeleteBucketAnalyticsConfigurationOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -3534,10 +3309,8 @@ public struct DeleteBucketCorsInput {
 
 extension DeleteBucketCorsOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<DeleteBucketCorsOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            return DeleteBucketCorsOutput()
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteBucketCorsOutput {
+        return DeleteBucketCorsOutput()
     }
 }
 
@@ -3548,13 +3321,14 @@ public struct DeleteBucketCorsOutput {
 
 enum DeleteBucketCorsOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -3605,10 +3379,8 @@ public struct DeleteBucketEncryptionInput {
 
 extension DeleteBucketEncryptionOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<DeleteBucketEncryptionOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            return DeleteBucketEncryptionOutput()
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteBucketEncryptionOutput {
+        return DeleteBucketEncryptionOutput()
     }
 }
 
@@ -3619,13 +3391,14 @@ public struct DeleteBucketEncryptionOutput {
 
 enum DeleteBucketEncryptionOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -3707,10 +3480,8 @@ public struct DeleteBucketIntelligentTieringConfigurationInput {
 
 extension DeleteBucketIntelligentTieringConfigurationOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<DeleteBucketIntelligentTieringConfigurationOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            return DeleteBucketIntelligentTieringConfigurationOutput()
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteBucketIntelligentTieringConfigurationOutput {
+        return DeleteBucketIntelligentTieringConfigurationOutput()
     }
 }
 
@@ -3721,13 +3492,14 @@ public struct DeleteBucketIntelligentTieringConfigurationOutput {
 
 enum DeleteBucketIntelligentTieringConfigurationOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -3789,10 +3561,8 @@ public struct DeleteBucketInventoryConfigurationInput {
 
 extension DeleteBucketInventoryConfigurationOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<DeleteBucketInventoryConfigurationOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            return DeleteBucketInventoryConfigurationOutput()
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteBucketInventoryConfigurationOutput {
+        return DeleteBucketInventoryConfigurationOutput()
     }
 }
 
@@ -3803,13 +3573,14 @@ public struct DeleteBucketInventoryConfigurationOutput {
 
 enum DeleteBucketInventoryConfigurationOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -3860,10 +3631,8 @@ public struct DeleteBucketLifecycleInput {
 
 extension DeleteBucketLifecycleOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<DeleteBucketLifecycleOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            return DeleteBucketLifecycleOutput()
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteBucketLifecycleOutput {
+        return DeleteBucketLifecycleOutput()
     }
 }
 
@@ -3874,13 +3643,14 @@ public struct DeleteBucketLifecycleOutput {
 
 enum DeleteBucketLifecycleOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -3942,10 +3712,8 @@ public struct DeleteBucketMetricsConfigurationInput {
 
 extension DeleteBucketMetricsConfigurationOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<DeleteBucketMetricsConfigurationOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            return DeleteBucketMetricsConfigurationOutput()
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteBucketMetricsConfigurationOutput {
+        return DeleteBucketMetricsConfigurationOutput()
     }
 }
 
@@ -3956,23 +3724,22 @@ public struct DeleteBucketMetricsConfigurationOutput {
 
 enum DeleteBucketMetricsConfigurationOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
 
 extension DeleteBucketOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<DeleteBucketOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            return DeleteBucketOutput()
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteBucketOutput {
+        return DeleteBucketOutput()
     }
 }
 
@@ -3983,13 +3750,14 @@ public struct DeleteBucketOutput {
 
 enum DeleteBucketOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -4040,10 +3808,8 @@ public struct DeleteBucketOwnershipControlsInput {
 
 extension DeleteBucketOwnershipControlsOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<DeleteBucketOwnershipControlsOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            return DeleteBucketOwnershipControlsOutput()
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteBucketOwnershipControlsOutput {
+        return DeleteBucketOwnershipControlsOutput()
     }
 }
 
@@ -4054,13 +3820,14 @@ public struct DeleteBucketOwnershipControlsOutput {
 
 enum DeleteBucketOwnershipControlsOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -4111,10 +3878,8 @@ public struct DeleteBucketPolicyInput {
 
 extension DeleteBucketPolicyOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<DeleteBucketPolicyOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            return DeleteBucketPolicyOutput()
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteBucketPolicyOutput {
+        return DeleteBucketPolicyOutput()
     }
 }
 
@@ -4125,13 +3890,14 @@ public struct DeleteBucketPolicyOutput {
 
 enum DeleteBucketPolicyOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -4182,10 +3948,8 @@ public struct DeleteBucketReplicationInput {
 
 extension DeleteBucketReplicationOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<DeleteBucketReplicationOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            return DeleteBucketReplicationOutput()
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteBucketReplicationOutput {
+        return DeleteBucketReplicationOutput()
     }
 }
 
@@ -4196,13 +3960,14 @@ public struct DeleteBucketReplicationOutput {
 
 enum DeleteBucketReplicationOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -4253,10 +4018,8 @@ public struct DeleteBucketTaggingInput {
 
 extension DeleteBucketTaggingOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<DeleteBucketTaggingOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            return DeleteBucketTaggingOutput()
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteBucketTaggingOutput {
+        return DeleteBucketTaggingOutput()
     }
 }
 
@@ -4267,13 +4030,14 @@ public struct DeleteBucketTaggingOutput {
 
 enum DeleteBucketTaggingOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -4324,10 +4088,8 @@ public struct DeleteBucketWebsiteInput {
 
 extension DeleteBucketWebsiteOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<DeleteBucketWebsiteOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            return DeleteBucketWebsiteOutput()
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteBucketWebsiteOutput {
+        return DeleteBucketWebsiteOutput()
     }
 }
 
@@ -4338,39 +4100,29 @@ public struct DeleteBucketWebsiteOutput {
 
 enum DeleteBucketWebsiteOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
 
 extension S3ClientTypes.DeleteMarkerEntry {
 
-    static func writingClosure(_ value: S3ClientTypes.DeleteMarkerEntry?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["IsLatest"].write(value.isLatest)
-        try writer["Key"].write(value.key)
-        try writer["LastModified"].writeTimestamp(value.lastModified, format: .dateTime)
-        try writer["Owner"].write(value.owner, writingClosure: S3ClientTypes.Owner.writingClosure(_:to:))
-        try writer["VersionId"].write(value.versionId)
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.DeleteMarkerEntry, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.DeleteMarkerEntry()
-            value.owner = try reader["Owner"].readIfPresent(readingClosure: S3ClientTypes.Owner.readingClosure)
-            value.key = try reader["Key"].readIfPresent()
-            value.versionId = try reader["VersionId"].readIfPresent()
-            value.isLatest = try reader["IsLatest"].readIfPresent()
-            value.lastModified = try reader["LastModified"].readTimestampIfPresent(format: .dateTime)
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.DeleteMarkerEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.DeleteMarkerEntry()
+        value.owner = try reader["Owner"].readIfPresent(with: S3ClientTypes.Owner.read(from:))
+        value.key = try reader["Key"].readIfPresent()
+        value.versionId = try reader["VersionId"].readIfPresent()
+        value.isLatest = try reader["IsLatest"].readIfPresent()
+        value.lastModified = try reader["LastModified"].readTimestampIfPresent(format: .dateTime)
+        return value
     }
 }
 
@@ -4408,18 +4160,16 @@ extension S3ClientTypes {
 
 extension S3ClientTypes.DeleteMarkerReplication {
 
-    static func writingClosure(_ value: S3ClientTypes.DeleteMarkerReplication?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ClientTypes.DeleteMarkerReplication?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["Status"].write(value.status)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.DeleteMarkerReplication, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.DeleteMarkerReplication()
-            value.status = try reader["Status"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.DeleteMarkerReplication {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.DeleteMarkerReplication()
+        value.status = try reader["Status"].readIfPresent()
+        return value
     }
 }
 
@@ -4440,7 +4190,8 @@ extension S3ClientTypes {
 }
 
 extension S3ClientTypes {
-    public enum DeleteMarkerReplicationStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum DeleteMarkerReplicationStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case disabled
         case enabled
         case sdkUnknown(Swift.String)
@@ -4452,21 +4203,18 @@ extension S3ClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .disabled: return "Disabled"
             case .enabled: return "Enabled"
             case let .sdkUnknown(s): return s
             }
-        }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = DeleteMarkerReplicationStatus(rawValue: rawValue) ?? DeleteMarkerReplicationStatus.sdkUnknown(rawValue)
         }
     }
 }
@@ -4554,20 +4302,18 @@ public struct DeleteObjectInput {
 
 extension DeleteObjectOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<DeleteObjectOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            var value = DeleteObjectOutput()
-            if let deleteMarkerHeaderValue = httpResponse.headers.value(for: "x-amz-delete-marker") {
-                value.deleteMarker = Swift.Bool(deleteMarkerHeaderValue) ?? false
-            }
-            if let requestChargedHeaderValue = httpResponse.headers.value(for: "x-amz-request-charged") {
-                value.requestCharged = S3ClientTypes.RequestCharged(rawValue: requestChargedHeaderValue)
-            }
-            if let versionIdHeaderValue = httpResponse.headers.value(for: "x-amz-version-id") {
-                value.versionId = versionIdHeaderValue
-            }
-            return value
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteObjectOutput {
+        var value = DeleteObjectOutput()
+        if let deleteMarkerHeaderValue = httpResponse.headers.value(for: "x-amz-delete-marker") {
+            value.deleteMarker = Swift.Bool(deleteMarkerHeaderValue) ?? false
         }
+        if let requestChargedHeaderValue = httpResponse.headers.value(for: "x-amz-request-charged") {
+            value.requestCharged = S3ClientTypes.RequestCharged(rawValue: requestChargedHeaderValue)
+        }
+        if let versionIdHeaderValue = httpResponse.headers.value(for: "x-amz-version-id") {
+            value.versionId = versionIdHeaderValue
+        }
+        return value
     }
 }
 
@@ -4593,13 +4339,14 @@ public struct DeleteObjectOutput {
 
 enum DeleteObjectOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -4666,14 +4413,12 @@ public struct DeleteObjectTaggingInput {
 
 extension DeleteObjectTaggingOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<DeleteObjectTaggingOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            var value = DeleteObjectTaggingOutput()
-            if let versionIdHeaderValue = httpResponse.headers.value(for: "x-amz-version-id") {
-                value.versionId = versionIdHeaderValue
-            }
-            return value
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteObjectTaggingOutput {
+        var value = DeleteObjectTaggingOutput()
+        if let versionIdHeaderValue = httpResponse.headers.value(for: "x-amz-version-id") {
+            value.versionId = versionIdHeaderValue
         }
+        return value
     }
 }
 
@@ -4691,21 +4436,15 @@ public struct DeleteObjectTaggingOutput {
 
 enum DeleteObjectTaggingOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
-    }
-}
-
-extension DeleteObjectsInput {
-    static func writingClosure(_ value: DeleteObjectsInput?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["Delete"].write(value.delete, writingClosure: S3ClientTypes.Delete.writingClosure(_:to:))
     }
 }
 
@@ -4746,6 +4485,14 @@ extension DeleteObjectsInput {
 
     static func urlPathProvider(_ value: DeleteObjectsInput) -> Swift.String? {
         return "/"
+    }
+}
+
+extension DeleteObjectsInput {
+
+    static func write(value: DeleteObjectsInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Delete"].write(value.delete, with: S3ClientTypes.Delete.write(value:to:))
     }
 }
 
@@ -4800,18 +4547,17 @@ public struct DeleteObjectsInput {
 
 extension DeleteObjectsOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<DeleteObjectsOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = DeleteObjectsOutput()
-            if let requestChargedHeaderValue = httpResponse.headers.value(for: "x-amz-request-charged") {
-                value.requestCharged = S3ClientTypes.RequestCharged(rawValue: requestChargedHeaderValue)
-            }
-            value.deleted = try reader["Deleted"].readListIfPresent(memberReadingClosure: S3ClientTypes.DeletedObject.readingClosure, memberNodeInfo: "member", isFlattened: true)
-            value.errors = try reader["Error"].readListIfPresent(memberReadingClosure: S3ClientTypes.Error.readingClosure, memberNodeInfo: "member", isFlattened: true)
-            return value
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteObjectsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteObjectsOutput()
+        if let requestChargedHeaderValue = httpResponse.headers.value(for: "x-amz-request-charged") {
+            value.requestCharged = S3ClientTypes.RequestCharged(rawValue: requestChargedHeaderValue)
         }
+        value.deleted = try reader["Deleted"].readListIfPresent(memberReadingClosure: S3ClientTypes.DeletedObject.read(from:), memberNodeInfo: "member", isFlattened: true)
+        value.errors = try reader["Error"].readListIfPresent(memberReadingClosure: S3ClientTypes.Error.read(from:), memberNodeInfo: "member", isFlattened: true)
+        return value
     }
 }
 
@@ -4837,13 +4583,14 @@ public struct DeleteObjectsOutput {
 
 enum DeleteObjectsOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -4894,10 +4641,8 @@ public struct DeletePublicAccessBlockInput {
 
 extension DeletePublicAccessBlockOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<DeletePublicAccessBlockOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            return DeletePublicAccessBlockOutput()
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeletePublicAccessBlockOutput {
+        return DeletePublicAccessBlockOutput()
     }
 }
 
@@ -4908,37 +4653,28 @@ public struct DeletePublicAccessBlockOutput {
 
 enum DeletePublicAccessBlockOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
 
 extension S3ClientTypes.DeletedObject {
 
-    static func writingClosure(_ value: S3ClientTypes.DeletedObject?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["DeleteMarker"].write(value.deleteMarker)
-        try writer["DeleteMarkerVersionId"].write(value.deleteMarkerVersionId)
-        try writer["Key"].write(value.key)
-        try writer["VersionId"].write(value.versionId)
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.DeletedObject, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.DeletedObject()
-            value.key = try reader["Key"].readIfPresent()
-            value.versionId = try reader["VersionId"].readIfPresent()
-            value.deleteMarker = try reader["DeleteMarker"].readIfPresent()
-            value.deleteMarkerVersionId = try reader["DeleteMarkerVersionId"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.DeletedObject {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.DeletedObject()
+        value.key = try reader["Key"].readIfPresent()
+        value.versionId = try reader["VersionId"].readIfPresent()
+        value.deleteMarker = try reader["DeleteMarker"].readIfPresent()
+        value.deleteMarkerVersionId = try reader["DeleteMarkerVersionId"].readIfPresent()
+        return value
     }
 }
 
@@ -4972,30 +4708,28 @@ extension S3ClientTypes {
 
 extension S3ClientTypes.Destination {
 
-    static func writingClosure(_ value: S3ClientTypes.Destination?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["AccessControlTranslation"].write(value.accessControlTranslation, writingClosure: S3ClientTypes.AccessControlTranslation.writingClosure(_:to:))
+    static func write(value: S3ClientTypes.Destination?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["AccessControlTranslation"].write(value.accessControlTranslation, with: S3ClientTypes.AccessControlTranslation.write(value:to:))
         try writer["Account"].write(value.account)
         try writer["Bucket"].write(value.bucket)
-        try writer["EncryptionConfiguration"].write(value.encryptionConfiguration, writingClosure: S3ClientTypes.EncryptionConfiguration.writingClosure(_:to:))
-        try writer["Metrics"].write(value.metrics, writingClosure: S3ClientTypes.Metrics.writingClosure(_:to:))
-        try writer["ReplicationTime"].write(value.replicationTime, writingClosure: S3ClientTypes.ReplicationTime.writingClosure(_:to:))
+        try writer["EncryptionConfiguration"].write(value.encryptionConfiguration, with: S3ClientTypes.EncryptionConfiguration.write(value:to:))
+        try writer["Metrics"].write(value.metrics, with: S3ClientTypes.Metrics.write(value:to:))
+        try writer["ReplicationTime"].write(value.replicationTime, with: S3ClientTypes.ReplicationTime.write(value:to:))
         try writer["StorageClass"].write(value.storageClass)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.Destination, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.Destination()
-            value.bucket = try reader["Bucket"].readIfPresent()
-            value.account = try reader["Account"].readIfPresent()
-            value.storageClass = try reader["StorageClass"].readIfPresent()
-            value.accessControlTranslation = try reader["AccessControlTranslation"].readIfPresent(readingClosure: S3ClientTypes.AccessControlTranslation.readingClosure)
-            value.encryptionConfiguration = try reader["EncryptionConfiguration"].readIfPresent(readingClosure: S3ClientTypes.EncryptionConfiguration.readingClosure)
-            value.replicationTime = try reader["ReplicationTime"].readIfPresent(readingClosure: S3ClientTypes.ReplicationTime.readingClosure)
-            value.metrics = try reader["Metrics"].readIfPresent(readingClosure: S3ClientTypes.Metrics.readingClosure)
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.Destination {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.Destination()
+        value.bucket = try reader["Bucket"].readIfPresent()
+        value.account = try reader["Account"].readIfPresent()
+        value.storageClass = try reader["StorageClass"].readIfPresent()
+        value.accessControlTranslation = try reader["AccessControlTranslation"].readIfPresent(with: S3ClientTypes.AccessControlTranslation.read(from:))
+        value.encryptionConfiguration = try reader["EncryptionConfiguration"].readIfPresent(with: S3ClientTypes.EncryptionConfiguration.read(from:))
+        value.replicationTime = try reader["ReplicationTime"].readIfPresent(with: S3ClientTypes.ReplicationTime.read(from:))
+        value.metrics = try reader["Metrics"].readIfPresent(with: S3ClientTypes.Metrics.read(from:))
+        return value
     }
 }
 
@@ -5041,8 +4775,9 @@ extension S3ClientTypes {
 }
 
 extension S3ClientTypes {
+
     /// Requests Amazon S3 to encode the object keys in the response and specifies the encoding method to use. An object key can contain any Unicode character; however, the XML 1.0 parser cannot parse some characters, such as characters with an ASCII value from 0 to 10. For characters that are not supported in XML 1.0, you can add this parameter to request that Amazon S3 encode the keys in the response.
-    public enum EncodingType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+    public enum EncodingType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case url
         case sdkUnknown(Swift.String)
 
@@ -5052,41 +4787,17 @@ extension S3ClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .url: return "url"
             case let .sdkUnknown(s): return s
             }
-        }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = EncodingType(rawValue: rawValue) ?? EncodingType.sdkUnknown(rawValue)
-        }
-    }
-}
-
-extension S3ClientTypes.Encryption {
-
-    static func writingClosure(_ value: S3ClientTypes.Encryption?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["EncryptionType"].write(value.encryptionType)
-        try writer["KMSContext"].write(value.kmsContext)
-        try writer["KMSKeyId"].write(value.kmsKeyId)
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.Encryption, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.Encryption()
-            value.encryptionType = try reader["EncryptionType"].readIfPresent()
-            value.kmsKeyId = try reader["KMSKeyId"].readIfPresent()
-            value.kmsContext = try reader["KMSContext"].readIfPresent()
-            return value
         }
     }
 }
@@ -5094,6 +4805,16 @@ extension S3ClientTypes.Encryption {
 extension S3ClientTypes.Encryption: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "Encryption(encryptionType: \(Swift.String(describing: encryptionType)), kmsContext: \(Swift.String(describing: kmsContext)), kmsKeyId: \"CONTENT_REDACTED\")"}
+}
+
+extension S3ClientTypes.Encryption {
+
+    static func write(value: S3ClientTypes.Encryption?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["EncryptionType"].write(value.encryptionType)
+        try writer["KMSContext"].write(value.kmsContext)
+        try writer["KMSKeyId"].write(value.kmsKeyId)
+    }
 }
 
 extension S3ClientTypes {
@@ -5123,18 +4844,16 @@ extension S3ClientTypes {
 
 extension S3ClientTypes.EncryptionConfiguration {
 
-    static func writingClosure(_ value: S3ClientTypes.EncryptionConfiguration?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ClientTypes.EncryptionConfiguration?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["ReplicaKmsKeyID"].write(value.replicaKmsKeyID)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.EncryptionConfiguration, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.EncryptionConfiguration()
-            value.replicaKmsKeyID = try reader["ReplicaKmsKeyID"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.EncryptionConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.EncryptionConfiguration()
+        value.replicaKmsKeyID = try reader["ReplicaKmsKeyID"].readIfPresent()
+        return value
     }
 }
 
@@ -5156,15 +4875,9 @@ extension S3ClientTypes {
 
 extension S3ClientTypes.EndEvent {
 
-    static func writingClosure(_ value: S3ClientTypes.EndEvent?, to writer: SmithyXML.Writer) throws {
-        guard value != nil else { writer.detach(); return }
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.EndEvent, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil || Mirror(reflecting: self).children.isEmpty else { return nil }
-            return S3ClientTypes.EndEvent()
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.EndEvent {
+        guard reader.hasContent || Mirror(reflecting: self).children.isEmpty else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return S3ClientTypes.EndEvent()
     }
 }
 
@@ -5179,24 +4892,14 @@ extension S3ClientTypes {
 
 extension S3ClientTypes.Error {
 
-    static func writingClosure(_ value: S3ClientTypes.Error?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["Code"].write(value.code)
-        try writer["Key"].write(value.key)
-        try writer["Message"].write(value.message)
-        try writer["VersionId"].write(value.versionId)
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.Error, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.Error()
-            value.key = try reader["Key"].readIfPresent()
-            value.versionId = try reader["VersionId"].readIfPresent()
-            value.code = try reader["Code"].readIfPresent()
-            value.message = try reader["Message"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.Error {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.Error()
+        value.key = try reader["Key"].readIfPresent()
+        value.versionId = try reader["VersionId"].readIfPresent()
+        value.code = try reader["Code"].readIfPresent()
+        value.message = try reader["Message"].readIfPresent()
+        return value
     }
 }
 
@@ -6283,18 +5986,16 @@ extension S3ClientTypes {
 
 extension S3ClientTypes.ErrorDocument {
 
-    static func writingClosure(_ value: S3ClientTypes.ErrorDocument?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ClientTypes.ErrorDocument?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["Key"].write(value.key)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.ErrorDocument, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.ErrorDocument()
-            value.key = try reader["Key"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.ErrorDocument {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.ErrorDocument()
+        value.key = try reader["Key"].readIfPresent()
+        return value
     }
 }
 
@@ -6316,8 +6017,9 @@ extension S3ClientTypes {
 }
 
 extension S3ClientTypes {
+
     /// The bucket event for which to send notifications.
-    public enum Event: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+    public enum Event: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case s3Intelligenttiering
         case s3Lifecycleexpiration
         case s3LifecycleexpirationDelete
@@ -6379,10 +6081,12 @@ extension S3ClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .s3Intelligenttiering: return "s3:IntelligentTiering"
@@ -6415,25 +6119,19 @@ extension S3ClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = Event(rawValue: rawValue) ?? Event.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension S3ClientTypes.EventBridgeConfiguration {
 
-    static func writingClosure(_ value: S3ClientTypes.EventBridgeConfiguration?, to writer: SmithyXML.Writer) throws {
-        guard value != nil else { writer.detach(); return }
+    static func write(value: S3ClientTypes.EventBridgeConfiguration?, to writer: SmithyXML.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.EventBridgeConfiguration, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil || Mirror(reflecting: self).children.isEmpty else { return nil }
-            return S3ClientTypes.EventBridgeConfiguration()
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.EventBridgeConfiguration {
+        guard reader.hasContent || Mirror(reflecting: self).children.isEmpty else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return S3ClientTypes.EventBridgeConfiguration()
     }
 }
 
@@ -6448,18 +6146,16 @@ extension S3ClientTypes {
 
 extension S3ClientTypes.ExistingObjectReplication {
 
-    static func writingClosure(_ value: S3ClientTypes.ExistingObjectReplication?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ClientTypes.ExistingObjectReplication?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["Status"].write(value.status)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.ExistingObjectReplication, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.ExistingObjectReplication()
-            value.status = try reader["Status"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.ExistingObjectReplication {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.ExistingObjectReplication()
+        value.status = try reader["Status"].readIfPresent()
+        return value
     }
 }
 
@@ -6481,7 +6177,8 @@ extension S3ClientTypes {
 }
 
 extension S3ClientTypes {
-    public enum ExistingObjectReplicationStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum ExistingObjectReplicationStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case disabled
         case enabled
         case sdkUnknown(Swift.String)
@@ -6493,10 +6190,12 @@ extension S3ClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .disabled: return "Disabled"
@@ -6504,16 +6203,12 @@ extension S3ClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = ExistingObjectReplicationStatus(rawValue: rawValue) ?? ExistingObjectReplicationStatus.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension S3ClientTypes {
-    public enum ExpirationStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum ExpirationStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case disabled
         case enabled
         case sdkUnknown(Swift.String)
@@ -6525,10 +6220,12 @@ extension S3ClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .disabled: return "Disabled"
@@ -6536,16 +6233,12 @@ extension S3ClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = ExpirationStatus(rawValue: rawValue) ?? ExpirationStatus.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension S3ClientTypes {
-    public enum ExpressionType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum ExpressionType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case sql
         case sdkUnknown(Swift.String)
 
@@ -6555,26 +6248,24 @@ extension S3ClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .sql: return "SQL"
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = ExpressionType(rawValue: rawValue) ?? ExpressionType.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension S3ClientTypes {
-    public enum FileHeaderInfo: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum FileHeaderInfo: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case ignore
         case `none`
         case use
@@ -6588,10 +6279,12 @@ extension S3ClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .ignore: return "IGNORE"
@@ -6600,30 +6293,23 @@ extension S3ClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = FileHeaderInfo(rawValue: rawValue) ?? FileHeaderInfo.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension S3ClientTypes.FilterRule {
 
-    static func writingClosure(_ value: S3ClientTypes.FilterRule?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ClientTypes.FilterRule?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["Name"].write(value.name)
         try writer["Value"].write(value.value)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.FilterRule, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.FilterRule()
-            value.name = try reader["Name"].readIfPresent()
-            value.value = try reader["Value"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.FilterRule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.FilterRule()
+        value.name = try reader["Name"].readIfPresent()
+        value.value = try reader["Value"].readIfPresent()
+        return value
     }
 }
 
@@ -6648,7 +6334,8 @@ extension S3ClientTypes {
 }
 
 extension S3ClientTypes {
-    public enum FilterRuleName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum FilterRuleName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case `prefix`
         case suffix
         case sdkUnknown(Swift.String)
@@ -6660,21 +6347,18 @@ extension S3ClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .prefix: return "prefix"
             case .suffix: return "suffix"
             case let .sdkUnknown(s): return s
             }
-        }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = FilterRuleName(rawValue: rawValue) ?? FilterRuleName.sdkUnknown(rawValue)
         }
     }
 }
@@ -6732,17 +6416,16 @@ public struct GetBucketAccelerateConfigurationInput {
 
 extension GetBucketAccelerateConfigurationOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<GetBucketAccelerateConfigurationOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = GetBucketAccelerateConfigurationOutput()
-            if let requestChargedHeaderValue = httpResponse.headers.value(for: "x-amz-request-charged") {
-                value.requestCharged = S3ClientTypes.RequestCharged(rawValue: requestChargedHeaderValue)
-            }
-            value.status = try reader["Status"].readIfPresent()
-            return value
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetBucketAccelerateConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetBucketAccelerateConfigurationOutput()
+        if let requestChargedHeaderValue = httpResponse.headers.value(for: "x-amz-request-charged") {
+            value.requestCharged = S3ClientTypes.RequestCharged(rawValue: requestChargedHeaderValue)
         }
+        value.status = try reader["Status"].readIfPresent()
+        return value
     }
 }
 
@@ -6764,13 +6447,14 @@ public struct GetBucketAccelerateConfigurationOutput {
 
 enum GetBucketAccelerateConfigurationOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -6821,15 +6505,14 @@ public struct GetBucketAclInput {
 
 extension GetBucketAclOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<GetBucketAclOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = GetBucketAclOutput()
-            value.grants = try reader["AccessControlList"].readListIfPresent(memberReadingClosure: S3ClientTypes.Grant.readingClosure, memberNodeInfo: "Grant", isFlattened: false)
-            value.owner = try reader["Owner"].readIfPresent(readingClosure: S3ClientTypes.Owner.readingClosure)
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetBucketAclOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetBucketAclOutput()
+        value.grants = try reader["AccessControlList"].readListIfPresent(memberReadingClosure: S3ClientTypes.Grant.read(from:), memberNodeInfo: "Grant", isFlattened: false)
+        value.owner = try reader["Owner"].readIfPresent(with: S3ClientTypes.Owner.read(from:))
+        return value
     }
 }
 
@@ -6851,13 +6534,14 @@ public struct GetBucketAclOutput {
 
 enum GetBucketAclOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -6920,14 +6604,13 @@ public struct GetBucketAnalyticsConfigurationInput {
 
 extension GetBucketAnalyticsConfigurationOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<GetBucketAnalyticsConfigurationOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = GetBucketAnalyticsConfigurationOutput()
-            value.analyticsConfiguration = try reader.readIfPresent(readingClosure: S3ClientTypes.AnalyticsConfiguration.readingClosure)
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetBucketAnalyticsConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetBucketAnalyticsConfigurationOutput()
+        value.analyticsConfiguration = try reader.readIfPresent(with: S3ClientTypes.AnalyticsConfiguration.read(from:))
+        return value
     }
 }
 
@@ -6945,13 +6628,14 @@ public struct GetBucketAnalyticsConfigurationOutput {
 
 enum GetBucketAnalyticsConfigurationOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -7002,14 +6686,13 @@ public struct GetBucketCorsInput {
 
 extension GetBucketCorsOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<GetBucketCorsOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = GetBucketCorsOutput()
-            value.corsRules = try reader["CORSRule"].readListIfPresent(memberReadingClosure: S3ClientTypes.CORSRule.readingClosure, memberNodeInfo: "member", isFlattened: true)
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetBucketCorsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetBucketCorsOutput()
+        value.corsRules = try reader["CORSRule"].readListIfPresent(memberReadingClosure: S3ClientTypes.CORSRule.read(from:), memberNodeInfo: "member", isFlattened: true)
+        return value
     }
 }
 
@@ -7027,13 +6710,14 @@ public struct GetBucketCorsOutput {
 
 enum GetBucketCorsOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -7084,14 +6768,13 @@ public struct GetBucketEncryptionInput {
 
 extension GetBucketEncryptionOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<GetBucketEncryptionOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = GetBucketEncryptionOutput()
-            value.serverSideEncryptionConfiguration = try reader.readIfPresent(readingClosure: S3ClientTypes.ServerSideEncryptionConfiguration.readingClosure)
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetBucketEncryptionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetBucketEncryptionOutput()
+        value.serverSideEncryptionConfiguration = try reader.readIfPresent(with: S3ClientTypes.ServerSideEncryptionConfiguration.read(from:))
+        return value
     }
 }
 
@@ -7109,13 +6792,14 @@ public struct GetBucketEncryptionOutput {
 
 enum GetBucketEncryptionOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -7163,14 +6847,13 @@ public struct GetBucketIntelligentTieringConfigurationInput {
 
 extension GetBucketIntelligentTieringConfigurationOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<GetBucketIntelligentTieringConfigurationOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = GetBucketIntelligentTieringConfigurationOutput()
-            value.intelligentTieringConfiguration = try reader.readIfPresent(readingClosure: S3ClientTypes.IntelligentTieringConfiguration.readingClosure)
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetBucketIntelligentTieringConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetBucketIntelligentTieringConfigurationOutput()
+        value.intelligentTieringConfiguration = try reader.readIfPresent(with: S3ClientTypes.IntelligentTieringConfiguration.read(from:))
+        return value
     }
 }
 
@@ -7188,13 +6871,14 @@ public struct GetBucketIntelligentTieringConfigurationOutput {
 
 enum GetBucketIntelligentTieringConfigurationOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -7257,14 +6941,13 @@ public struct GetBucketInventoryConfigurationInput {
 
 extension GetBucketInventoryConfigurationOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<GetBucketInventoryConfigurationOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = GetBucketInventoryConfigurationOutput()
-            value.inventoryConfiguration = try reader.readIfPresent(readingClosure: S3ClientTypes.InventoryConfiguration.readingClosure)
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetBucketInventoryConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetBucketInventoryConfigurationOutput()
+        value.inventoryConfiguration = try reader.readIfPresent(with: S3ClientTypes.InventoryConfiguration.read(from:))
+        return value
     }
 }
 
@@ -7282,13 +6965,14 @@ public struct GetBucketInventoryConfigurationOutput {
 
 enum GetBucketInventoryConfigurationOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -7339,14 +7023,13 @@ public struct GetBucketLifecycleConfigurationInput {
 
 extension GetBucketLifecycleConfigurationOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<GetBucketLifecycleConfigurationOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = GetBucketLifecycleConfigurationOutput()
-            value.rules = try reader["Rule"].readListIfPresent(memberReadingClosure: S3ClientTypes.LifecycleRule.readingClosure, memberNodeInfo: "member", isFlattened: true)
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetBucketLifecycleConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetBucketLifecycleConfigurationOutput()
+        value.rules = try reader["Rule"].readListIfPresent(memberReadingClosure: S3ClientTypes.LifecycleRule.read(from:), memberNodeInfo: "member", isFlattened: true)
+        return value
     }
 }
 
@@ -7364,13 +7047,14 @@ public struct GetBucketLifecycleConfigurationOutput {
 
 enum GetBucketLifecycleConfigurationOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -7421,14 +7105,13 @@ public struct GetBucketLocationInput {
 
 extension GetBucketLocationOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<GetBucketLocationOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader.unwrap()
-            var value = GetBucketLocationOutput()
-            value.locationConstraint = try reader["LocationConstraint"].readIfPresent()
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetBucketLocationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader.unwrap()
+        var value = GetBucketLocationOutput()
+        value.locationConstraint = try reader["LocationConstraint"].readIfPresent()
+        return value
     }
 }
 
@@ -7446,13 +7129,14 @@ public struct GetBucketLocationOutput {
 
 enum GetBucketLocationOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -7503,14 +7187,13 @@ public struct GetBucketLoggingInput {
 
 extension GetBucketLoggingOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<GetBucketLoggingOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = GetBucketLoggingOutput()
-            value.loggingEnabled = try reader["LoggingEnabled"].readIfPresent(readingClosure: S3ClientTypes.LoggingEnabled.readingClosure)
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetBucketLoggingOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetBucketLoggingOutput()
+        value.loggingEnabled = try reader["LoggingEnabled"].readIfPresent(with: S3ClientTypes.LoggingEnabled.read(from:))
+        return value
     }
 }
 
@@ -7528,13 +7211,14 @@ public struct GetBucketLoggingOutput {
 
 enum GetBucketLoggingOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -7597,14 +7281,13 @@ public struct GetBucketMetricsConfigurationInput {
 
 extension GetBucketMetricsConfigurationOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<GetBucketMetricsConfigurationOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = GetBucketMetricsConfigurationOutput()
-            value.metricsConfiguration = try reader.readIfPresent(readingClosure: S3ClientTypes.MetricsConfiguration.readingClosure)
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetBucketMetricsConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetBucketMetricsConfigurationOutput()
+        value.metricsConfiguration = try reader.readIfPresent(with: S3ClientTypes.MetricsConfiguration.read(from:))
+        return value
     }
 }
 
@@ -7622,13 +7305,14 @@ public struct GetBucketMetricsConfigurationOutput {
 
 enum GetBucketMetricsConfigurationOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -7679,17 +7363,16 @@ public struct GetBucketNotificationConfigurationInput {
 
 extension GetBucketNotificationConfigurationOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<GetBucketNotificationConfigurationOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = GetBucketNotificationConfigurationOutput()
-            value.eventBridgeConfiguration = try reader["EventBridgeConfiguration"].readIfPresent(readingClosure: S3ClientTypes.EventBridgeConfiguration.readingClosure)
-            value.lambdaFunctionConfigurations = try reader["CloudFunctionConfiguration"].readListIfPresent(memberReadingClosure: S3ClientTypes.LambdaFunctionConfiguration.readingClosure, memberNodeInfo: "member", isFlattened: true)
-            value.queueConfigurations = try reader["QueueConfiguration"].readListIfPresent(memberReadingClosure: S3ClientTypes.QueueConfiguration.readingClosure, memberNodeInfo: "member", isFlattened: true)
-            value.topicConfigurations = try reader["TopicConfiguration"].readListIfPresent(memberReadingClosure: S3ClientTypes.TopicConfiguration.readingClosure, memberNodeInfo: "member", isFlattened: true)
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetBucketNotificationConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetBucketNotificationConfigurationOutput()
+        value.eventBridgeConfiguration = try reader["EventBridgeConfiguration"].readIfPresent(with: S3ClientTypes.EventBridgeConfiguration.read(from:))
+        value.lambdaFunctionConfigurations = try reader["CloudFunctionConfiguration"].readListIfPresent(memberReadingClosure: S3ClientTypes.LambdaFunctionConfiguration.read(from:), memberNodeInfo: "member", isFlattened: true)
+        value.queueConfigurations = try reader["QueueConfiguration"].readListIfPresent(memberReadingClosure: S3ClientTypes.QueueConfiguration.read(from:), memberNodeInfo: "member", isFlattened: true)
+        value.topicConfigurations = try reader["TopicConfiguration"].readListIfPresent(memberReadingClosure: S3ClientTypes.TopicConfiguration.read(from:), memberNodeInfo: "member", isFlattened: true)
+        return value
     }
 }
 
@@ -7720,13 +7403,14 @@ public struct GetBucketNotificationConfigurationOutput {
 
 enum GetBucketNotificationConfigurationOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -7777,14 +7461,13 @@ public struct GetBucketOwnershipControlsInput {
 
 extension GetBucketOwnershipControlsOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<GetBucketOwnershipControlsOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = GetBucketOwnershipControlsOutput()
-            value.ownershipControls = try reader.readIfPresent(readingClosure: S3ClientTypes.OwnershipControls.readingClosure)
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetBucketOwnershipControlsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetBucketOwnershipControlsOutput()
+        value.ownershipControls = try reader.readIfPresent(with: S3ClientTypes.OwnershipControls.read(from:))
+        return value
     }
 }
 
@@ -7802,13 +7485,14 @@ public struct GetBucketOwnershipControlsOutput {
 
 enum GetBucketOwnershipControlsOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -7859,16 +7543,12 @@ public struct GetBucketPolicyInput {
 
 extension GetBucketPolicyOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<GetBucketPolicyOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = GetBucketPolicyOutput()
-            if let data = try await httpResponse.body.readData(), let output = Swift.String(data: data, encoding: .utf8) {
-                value.policy = output
-            }
-            return value
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetBucketPolicyOutput {
+        var value = GetBucketPolicyOutput()
+        if let data = try await httpResponse.body.readData(), let output = Swift.String(data: data, encoding: .utf8) {
+            value.policy = output
         }
+        return value
     }
 }
 
@@ -7886,13 +7566,14 @@ public struct GetBucketPolicyOutput {
 
 enum GetBucketPolicyOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -7943,14 +7624,13 @@ public struct GetBucketPolicyStatusInput {
 
 extension GetBucketPolicyStatusOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<GetBucketPolicyStatusOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = GetBucketPolicyStatusOutput()
-            value.policyStatus = try reader.readIfPresent(readingClosure: S3ClientTypes.PolicyStatus.readingClosure)
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetBucketPolicyStatusOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetBucketPolicyStatusOutput()
+        value.policyStatus = try reader.readIfPresent(with: S3ClientTypes.PolicyStatus.read(from:))
+        return value
     }
 }
 
@@ -7968,13 +7648,14 @@ public struct GetBucketPolicyStatusOutput {
 
 enum GetBucketPolicyStatusOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -8025,14 +7706,13 @@ public struct GetBucketReplicationInput {
 
 extension GetBucketReplicationOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<GetBucketReplicationOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = GetBucketReplicationOutput()
-            value.replicationConfiguration = try reader.readIfPresent(readingClosure: S3ClientTypes.ReplicationConfiguration.readingClosure)
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetBucketReplicationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetBucketReplicationOutput()
+        value.replicationConfiguration = try reader.readIfPresent(with: S3ClientTypes.ReplicationConfiguration.read(from:))
+        return value
     }
 }
 
@@ -8050,13 +7730,14 @@ public struct GetBucketReplicationOutput {
 
 enum GetBucketReplicationOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -8107,14 +7788,13 @@ public struct GetBucketRequestPaymentInput {
 
 extension GetBucketRequestPaymentOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<GetBucketRequestPaymentOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = GetBucketRequestPaymentOutput()
-            value.payer = try reader["Payer"].readIfPresent()
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetBucketRequestPaymentOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetBucketRequestPaymentOutput()
+        value.payer = try reader["Payer"].readIfPresent()
+        return value
     }
 }
 
@@ -8132,13 +7812,14 @@ public struct GetBucketRequestPaymentOutput {
 
 enum GetBucketRequestPaymentOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -8189,14 +7870,13 @@ public struct GetBucketTaggingInput {
 
 extension GetBucketTaggingOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<GetBucketTaggingOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = GetBucketTaggingOutput()
-            value.tagSet = try reader["TagSet"].readListIfPresent(memberReadingClosure: S3ClientTypes.Tag.readingClosure, memberNodeInfo: "Tag", isFlattened: false)
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetBucketTaggingOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetBucketTaggingOutput()
+        value.tagSet = try reader["TagSet"].readListIfPresent(memberReadingClosure: S3ClientTypes.Tag.read(from:), memberNodeInfo: "Tag", isFlattened: false)
+        return value
     }
 }
 
@@ -8215,13 +7895,14 @@ public struct GetBucketTaggingOutput {
 
 enum GetBucketTaggingOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -8272,15 +7953,14 @@ public struct GetBucketVersioningInput {
 
 extension GetBucketVersioningOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<GetBucketVersioningOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = GetBucketVersioningOutput()
-            value.mfaDelete = try reader["MfaDelete"].readIfPresent()
-            value.status = try reader["Status"].readIfPresent()
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetBucketVersioningOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetBucketVersioningOutput()
+        value.mfaDelete = try reader["MfaDelete"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        return value
     }
 }
 
@@ -8302,13 +7982,14 @@ public struct GetBucketVersioningOutput {
 
 enum GetBucketVersioningOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -8359,17 +8040,16 @@ public struct GetBucketWebsiteInput {
 
 extension GetBucketWebsiteOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<GetBucketWebsiteOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = GetBucketWebsiteOutput()
-            value.errorDocument = try reader["ErrorDocument"].readIfPresent(readingClosure: S3ClientTypes.ErrorDocument.readingClosure)
-            value.indexDocument = try reader["IndexDocument"].readIfPresent(readingClosure: S3ClientTypes.IndexDocument.readingClosure)
-            value.redirectAllRequestsTo = try reader["RedirectAllRequestsTo"].readIfPresent(readingClosure: S3ClientTypes.RedirectAllRequestsTo.readingClosure)
-            value.routingRules = try reader["RoutingRules"].readListIfPresent(memberReadingClosure: S3ClientTypes.RoutingRule.readingClosure, memberNodeInfo: "RoutingRule", isFlattened: false)
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetBucketWebsiteOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetBucketWebsiteOutput()
+        value.errorDocument = try reader["ErrorDocument"].readIfPresent(with: S3ClientTypes.ErrorDocument.read(from:))
+        value.indexDocument = try reader["IndexDocument"].readIfPresent(with: S3ClientTypes.IndexDocument.read(from:))
+        value.redirectAllRequestsTo = try reader["RedirectAllRequestsTo"].readIfPresent(with: S3ClientTypes.RedirectAllRequestsTo.read(from:))
+        value.routingRules = try reader["RoutingRules"].readListIfPresent(memberReadingClosure: S3ClientTypes.RoutingRule.read(from:), memberNodeInfo: "RoutingRule", isFlattened: false)
+        return value
     }
 }
 
@@ -8399,13 +8079,14 @@ public struct GetBucketWebsiteOutput {
 
 enum GetBucketWebsiteOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -8479,18 +8160,17 @@ public struct GetObjectAclInput {
 
 extension GetObjectAclOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<GetObjectAclOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = GetObjectAclOutput()
-            if let requestChargedHeaderValue = httpResponse.headers.value(for: "x-amz-request-charged") {
-                value.requestCharged = S3ClientTypes.RequestCharged(rawValue: requestChargedHeaderValue)
-            }
-            value.grants = try reader["AccessControlList"].readListIfPresent(memberReadingClosure: S3ClientTypes.Grant.readingClosure, memberNodeInfo: "Grant", isFlattened: false)
-            value.owner = try reader["Owner"].readIfPresent(readingClosure: S3ClientTypes.Owner.readingClosure)
-            return value
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetObjectAclOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetObjectAclOutput()
+        if let requestChargedHeaderValue = httpResponse.headers.value(for: "x-amz-request-charged") {
+            value.requestCharged = S3ClientTypes.RequestCharged(rawValue: requestChargedHeaderValue)
         }
+        value.grants = try reader["AccessControlList"].readListIfPresent(memberReadingClosure: S3ClientTypes.Grant.read(from:), memberNodeInfo: "Grant", isFlattened: false)
+        value.owner = try reader["Owner"].readIfPresent(with: S3ClientTypes.Owner.read(from:))
+        return value
     }
 }
 
@@ -8516,15 +8196,15 @@ public struct GetObjectAclOutput {
 
 enum GetObjectAclOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let errorBodyReader = AWSClientRuntime.RestXMLError.errorBodyReader(responseReader: responseReader, noErrorWrapping: true)
-            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
-            switch restXMLError.code {
-                case "NoSuchKey": return try await NoSuchKey.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2)
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "NoSuchKey": return try NoSuchKey.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -8648,30 +8328,29 @@ public struct GetObjectAttributesInput {
 
 extension GetObjectAttributesOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<GetObjectAttributesOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = GetObjectAttributesOutput()
-            if let deleteMarkerHeaderValue = httpResponse.headers.value(for: "x-amz-delete-marker") {
-                value.deleteMarker = Swift.Bool(deleteMarkerHeaderValue) ?? false
-            }
-            if let lastModifiedHeaderValue = httpResponse.headers.value(for: "Last-Modified") {
-                value.lastModified = TimestampFormatter(format: .httpDate).date(from: lastModifiedHeaderValue)
-            }
-            if let requestChargedHeaderValue = httpResponse.headers.value(for: "x-amz-request-charged") {
-                value.requestCharged = S3ClientTypes.RequestCharged(rawValue: requestChargedHeaderValue)
-            }
-            if let versionIdHeaderValue = httpResponse.headers.value(for: "x-amz-version-id") {
-                value.versionId = versionIdHeaderValue
-            }
-            value.checksum = try reader["Checksum"].readIfPresent(readingClosure: S3ClientTypes.Checksum.readingClosure)
-            value.eTag = try reader["ETag"].readIfPresent()
-            value.objectParts = try reader["ObjectParts"].readIfPresent(readingClosure: S3ClientTypes.GetObjectAttributesParts.readingClosure)
-            value.objectSize = try reader["ObjectSize"].readIfPresent()
-            value.storageClass = try reader["StorageClass"].readIfPresent()
-            return value
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetObjectAttributesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetObjectAttributesOutput()
+        if let deleteMarkerHeaderValue = httpResponse.headers.value(for: "x-amz-delete-marker") {
+            value.deleteMarker = Swift.Bool(deleteMarkerHeaderValue) ?? false
         }
+        if let lastModifiedHeaderValue = httpResponse.headers.value(for: "Last-Modified") {
+            value.lastModified = TimestampFormatter(format: .httpDate).date(from: lastModifiedHeaderValue)
+        }
+        if let requestChargedHeaderValue = httpResponse.headers.value(for: "x-amz-request-charged") {
+            value.requestCharged = S3ClientTypes.RequestCharged(rawValue: requestChargedHeaderValue)
+        }
+        if let versionIdHeaderValue = httpResponse.headers.value(for: "x-amz-version-id") {
+            value.versionId = versionIdHeaderValue
+        }
+        value.checksum = try reader["Checksum"].readIfPresent(with: S3ClientTypes.Checksum.read(from:))
+        value.eTag = try reader["ETag"].readIfPresent()
+        value.objectParts = try reader["ObjectParts"].readIfPresent(with: S3ClientTypes.GetObjectAttributesParts.read(from:))
+        value.objectSize = try reader["ObjectSize"].readIfPresent()
+        value.storageClass = try reader["StorageClass"].readIfPresent()
+        return value
     }
 }
 
@@ -8721,43 +8400,31 @@ public struct GetObjectAttributesOutput {
 
 enum GetObjectAttributesOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let errorBodyReader = AWSClientRuntime.RestXMLError.errorBodyReader(responseReader: responseReader, noErrorWrapping: true)
-            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
-            switch restXMLError.code {
-                case "NoSuchKey": return try await NoSuchKey.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2)
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "NoSuchKey": return try NoSuchKey.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
 
 extension S3ClientTypes.GetObjectAttributesParts {
 
-    static func writingClosure(_ value: S3ClientTypes.GetObjectAttributesParts?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["IsTruncated"].write(value.isTruncated)
-        try writer["MaxParts"].write(value.maxParts)
-        try writer["NextPartNumberMarker"].write(value.nextPartNumberMarker)
-        try writer["PartNumberMarker"].write(value.partNumberMarker)
-        try writer["Part"].writeList(value.parts, memberWritingClosure: S3ClientTypes.ObjectPart.writingClosure(_:to:), memberNodeInfo: "member", isFlattened: true)
-        try writer["PartsCount"].write(value.totalPartsCount)
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.GetObjectAttributesParts, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.GetObjectAttributesParts()
-            value.totalPartsCount = try reader["PartsCount"].readIfPresent()
-            value.partNumberMarker = try reader["PartNumberMarker"].readIfPresent()
-            value.nextPartNumberMarker = try reader["NextPartNumberMarker"].readIfPresent()
-            value.maxParts = try reader["MaxParts"].readIfPresent()
-            value.isTruncated = try reader["IsTruncated"].readIfPresent()
-            value.parts = try reader["Part"].readListIfPresent(memberReadingClosure: S3ClientTypes.ObjectPart.readingClosure, memberNodeInfo: "member", isFlattened: true)
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.GetObjectAttributesParts {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.GetObjectAttributesParts()
+        value.totalPartsCount = try reader["PartsCount"].readIfPresent()
+        value.partNumberMarker = try reader["PartNumberMarker"].readIfPresent()
+        value.nextPartNumberMarker = try reader["NextPartNumberMarker"].readIfPresent()
+        value.maxParts = try reader["MaxParts"].readIfPresent()
+        value.isTruncated = try reader["IsTruncated"].readIfPresent()
+        value.parts = try reader["Part"].readListIfPresent(memberReadingClosure: S3ClientTypes.ObjectPart.read(from:), memberNodeInfo: "member", isFlattened: true)
+        return value
     }
 }
 
@@ -8884,7 +8551,7 @@ extension GetObjectInput {
         builder.retryStrategy(ClientRuntime.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetObjectOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetObjectOutput>(responseClosure(GetObjectOutput.httpBinding, responseDocumentBinding), responseErrorClosure(GetObjectOutputError.httpBinding, responseDocumentBinding)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetObjectOutput>(GetObjectOutput.httpOutput(from:), GetObjectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetObjectInput, GetObjectOutput>(clientLogMode: config.clientLogMode))
         builder.interceptors.add(ClientRuntime.FlexibleChecksumsResponseMiddleware<GetObjectInput, GetObjectOutput>(validationMode: true))
         let op = builder.attributes(context)
@@ -8933,7 +8600,7 @@ extension GetObjectInput {
         builder.retryStrategy(ClientRuntime.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetObjectOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetObjectOutput>(responseClosure(GetObjectOutput.httpBinding, responseDocumentBinding), responseErrorClosure(GetObjectOutputError.httpBinding, responseDocumentBinding)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetObjectOutput>(GetObjectOutput.httpOutput(from:), GetObjectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetObjectInput, GetObjectOutput>(clientLogMode: config.clientLogMode))
         builder.interceptors.add(ClientRuntime.FlexibleChecksumsResponseMiddleware<GetObjectInput, GetObjectOutput>(validationMode: true))
         let op = builder.attributes(context)
@@ -9291,14 +8958,13 @@ public struct GetObjectLegalHoldInput {
 
 extension GetObjectLegalHoldOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<GetObjectLegalHoldOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = GetObjectLegalHoldOutput()
-            value.legalHold = try reader.readIfPresent(readingClosure: S3ClientTypes.ObjectLockLegalHold.readingClosure)
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetObjectLegalHoldOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetObjectLegalHoldOutput()
+        value.legalHold = try reader.readIfPresent(with: S3ClientTypes.ObjectLockLegalHold.read(from:))
+        return value
     }
 }
 
@@ -9316,13 +8982,14 @@ public struct GetObjectLegalHoldOutput {
 
 enum GetObjectLegalHoldOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -9373,14 +9040,13 @@ public struct GetObjectLockConfigurationInput {
 
 extension GetObjectLockConfigurationOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<GetObjectLockConfigurationOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = GetObjectLockConfigurationOutput()
-            value.objectLockConfiguration = try reader.readIfPresent(readingClosure: S3ClientTypes.ObjectLockConfiguration.readingClosure)
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetObjectLockConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetObjectLockConfigurationOutput()
+        value.objectLockConfiguration = try reader.readIfPresent(with: S3ClientTypes.ObjectLockConfiguration.read(from:))
+        return value
     }
 }
 
@@ -9398,13 +9064,14 @@ public struct GetObjectLockConfigurationOutput {
 
 enum GetObjectLockConfigurationOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -9416,133 +9083,131 @@ extension GetObjectOutput: Swift.CustomDebugStringConvertible {
 
 extension GetObjectOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<GetObjectOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            var value = GetObjectOutput()
-            if let acceptRangesHeaderValue = httpResponse.headers.value(for: "accept-ranges") {
-                value.acceptRanges = acceptRangesHeaderValue
-            }
-            if let bucketKeyEnabledHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption-bucket-key-enabled") {
-                value.bucketKeyEnabled = Swift.Bool(bucketKeyEnabledHeaderValue) ?? false
-            }
-            if let cacheControlHeaderValue = httpResponse.headers.value(for: "Cache-Control") {
-                value.cacheControl = cacheControlHeaderValue
-            }
-            if let checksumCRC32HeaderValue = httpResponse.headers.value(for: "x-amz-checksum-crc32") {
-                value.checksumCRC32 = checksumCRC32HeaderValue
-            }
-            if let checksumCRC32CHeaderValue = httpResponse.headers.value(for: "x-amz-checksum-crc32c") {
-                value.checksumCRC32C = checksumCRC32CHeaderValue
-            }
-            if let checksumSHA1HeaderValue = httpResponse.headers.value(for: "x-amz-checksum-sha1") {
-                value.checksumSHA1 = checksumSHA1HeaderValue
-            }
-            if let checksumSHA256HeaderValue = httpResponse.headers.value(for: "x-amz-checksum-sha256") {
-                value.checksumSHA256 = checksumSHA256HeaderValue
-            }
-            if let contentDispositionHeaderValue = httpResponse.headers.value(for: "Content-Disposition") {
-                value.contentDisposition = contentDispositionHeaderValue
-            }
-            if let contentEncodingHeaderValue = httpResponse.headers.value(for: "Content-Encoding") {
-                value.contentEncoding = contentEncodingHeaderValue
-            }
-            if let contentLanguageHeaderValue = httpResponse.headers.value(for: "Content-Language") {
-                value.contentLanguage = contentLanguageHeaderValue
-            }
-            if let contentLengthHeaderValue = httpResponse.headers.value(for: "Content-Length") {
-                value.contentLength = Swift.Int(contentLengthHeaderValue) ?? 0
-            }
-            if let contentRangeHeaderValue = httpResponse.headers.value(for: "Content-Range") {
-                value.contentRange = contentRangeHeaderValue
-            }
-            if let contentTypeHeaderValue = httpResponse.headers.value(for: "Content-Type") {
-                value.contentType = contentTypeHeaderValue
-            }
-            if let deleteMarkerHeaderValue = httpResponse.headers.value(for: "x-amz-delete-marker") {
-                value.deleteMarker = Swift.Bool(deleteMarkerHeaderValue) ?? false
-            }
-            if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
-                value.eTag = eTagHeaderValue
-            }
-            if let expirationHeaderValue = httpResponse.headers.value(for: "x-amz-expiration") {
-                value.expiration = expirationHeaderValue
-            }
-            if let expiresHeaderValue = httpResponse.headers.value(for: "Expires") {
-                value.expires = expiresHeaderValue
-            }
-            if let lastModifiedHeaderValue = httpResponse.headers.value(for: "Last-Modified") {
-                value.lastModified = TimestampFormatter(format: .httpDate).date(from: lastModifiedHeaderValue)
-            }
-            if let missingMetaHeaderValue = httpResponse.headers.value(for: "x-amz-missing-meta") {
-                value.missingMeta = Swift.Int(missingMetaHeaderValue) ?? 0
-            }
-            if let objectLockLegalHoldStatusHeaderValue = httpResponse.headers.value(for: "x-amz-object-lock-legal-hold") {
-                value.objectLockLegalHoldStatus = S3ClientTypes.ObjectLockLegalHoldStatus(rawValue: objectLockLegalHoldStatusHeaderValue)
-            }
-            if let objectLockModeHeaderValue = httpResponse.headers.value(for: "x-amz-object-lock-mode") {
-                value.objectLockMode = S3ClientTypes.ObjectLockMode(rawValue: objectLockModeHeaderValue)
-            }
-            if let objectLockRetainUntilDateHeaderValue = httpResponse.headers.value(for: "x-amz-object-lock-retain-until-date") {
-                value.objectLockRetainUntilDate = TimestampFormatter(format: .dateTime).date(from: objectLockRetainUntilDateHeaderValue)
-            }
-            if let partsCountHeaderValue = httpResponse.headers.value(for: "x-amz-mp-parts-count") {
-                value.partsCount = Swift.Int(partsCountHeaderValue) ?? 0
-            }
-            if let replicationStatusHeaderValue = httpResponse.headers.value(for: "x-amz-replication-status") {
-                value.replicationStatus = S3ClientTypes.ReplicationStatus(rawValue: replicationStatusHeaderValue)
-            }
-            if let requestChargedHeaderValue = httpResponse.headers.value(for: "x-amz-request-charged") {
-                value.requestCharged = S3ClientTypes.RequestCharged(rawValue: requestChargedHeaderValue)
-            }
-            if let restoreHeaderValue = httpResponse.headers.value(for: "x-amz-restore") {
-                value.restore = restoreHeaderValue
-            }
-            if let sseCustomerAlgorithmHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption-customer-algorithm") {
-                value.sseCustomerAlgorithm = sseCustomerAlgorithmHeaderValue
-            }
-            if let sseCustomerKeyMD5HeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption-customer-key-MD5") {
-                value.sseCustomerKeyMD5 = sseCustomerKeyMD5HeaderValue
-            }
-            if let ssekmsKeyIdHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption-aws-kms-key-id") {
-                value.ssekmsKeyId = ssekmsKeyIdHeaderValue
-            }
-            if let serverSideEncryptionHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption") {
-                value.serverSideEncryption = S3ClientTypes.ServerSideEncryption(rawValue: serverSideEncryptionHeaderValue)
-            }
-            if let storageClassHeaderValue = httpResponse.headers.value(for: "x-amz-storage-class") {
-                value.storageClass = S3ClientTypes.StorageClass(rawValue: storageClassHeaderValue)
-            }
-            if let tagCountHeaderValue = httpResponse.headers.value(for: "x-amz-tagging-count") {
-                value.tagCount = Swift.Int(tagCountHeaderValue) ?? 0
-            }
-            if let versionIdHeaderValue = httpResponse.headers.value(for: "x-amz-version-id") {
-                value.versionId = versionIdHeaderValue
-            }
-            if let websiteRedirectLocationHeaderValue = httpResponse.headers.value(for: "x-amz-website-redirect-location") {
-                value.websiteRedirectLocation = websiteRedirectLocationHeaderValue
-            }
-            let keysForMetadata = httpResponse.headers.dictionary.keys.filter({ $0.starts(with: "x-amz-meta-") })
-            if (!keysForMetadata.isEmpty) {
-                var mapMember = [Swift.String: String]()
-                for headerKey in keysForMetadata {
-                    let mapMemberValue = httpResponse.headers.dictionary[headerKey]?[0]
-                    let mapMemberKey = headerKey.removePrefix("x-amz-meta-")
-                    mapMember[mapMemberKey] = mapMemberValue
-                }
-                value.metadata = mapMember
-            } else {
-                value.metadata = [:]
-            }
-            switch httpResponse.body {
-            case .data(let data):
-                value.body = .data(data)
-            case .stream(let stream):
-                value.body = .stream(stream)
-            case .noStream:
-                value.body = nil
-            }
-            return value
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetObjectOutput {
+        var value = GetObjectOutput()
+        if let acceptRangesHeaderValue = httpResponse.headers.value(for: "accept-ranges") {
+            value.acceptRanges = acceptRangesHeaderValue
         }
+        if let bucketKeyEnabledHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption-bucket-key-enabled") {
+            value.bucketKeyEnabled = Swift.Bool(bucketKeyEnabledHeaderValue) ?? false
+        }
+        if let cacheControlHeaderValue = httpResponse.headers.value(for: "Cache-Control") {
+            value.cacheControl = cacheControlHeaderValue
+        }
+        if let checksumCRC32HeaderValue = httpResponse.headers.value(for: "x-amz-checksum-crc32") {
+            value.checksumCRC32 = checksumCRC32HeaderValue
+        }
+        if let checksumCRC32CHeaderValue = httpResponse.headers.value(for: "x-amz-checksum-crc32c") {
+            value.checksumCRC32C = checksumCRC32CHeaderValue
+        }
+        if let checksumSHA1HeaderValue = httpResponse.headers.value(for: "x-amz-checksum-sha1") {
+            value.checksumSHA1 = checksumSHA1HeaderValue
+        }
+        if let checksumSHA256HeaderValue = httpResponse.headers.value(for: "x-amz-checksum-sha256") {
+            value.checksumSHA256 = checksumSHA256HeaderValue
+        }
+        if let contentDispositionHeaderValue = httpResponse.headers.value(for: "Content-Disposition") {
+            value.contentDisposition = contentDispositionHeaderValue
+        }
+        if let contentEncodingHeaderValue = httpResponse.headers.value(for: "Content-Encoding") {
+            value.contentEncoding = contentEncodingHeaderValue
+        }
+        if let contentLanguageHeaderValue = httpResponse.headers.value(for: "Content-Language") {
+            value.contentLanguage = contentLanguageHeaderValue
+        }
+        if let contentLengthHeaderValue = httpResponse.headers.value(for: "Content-Length") {
+            value.contentLength = Swift.Int(contentLengthHeaderValue) ?? 0
+        }
+        if let contentRangeHeaderValue = httpResponse.headers.value(for: "Content-Range") {
+            value.contentRange = contentRangeHeaderValue
+        }
+        if let contentTypeHeaderValue = httpResponse.headers.value(for: "Content-Type") {
+            value.contentType = contentTypeHeaderValue
+        }
+        if let deleteMarkerHeaderValue = httpResponse.headers.value(for: "x-amz-delete-marker") {
+            value.deleteMarker = Swift.Bool(deleteMarkerHeaderValue) ?? false
+        }
+        if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
+            value.eTag = eTagHeaderValue
+        }
+        if let expirationHeaderValue = httpResponse.headers.value(for: "x-amz-expiration") {
+            value.expiration = expirationHeaderValue
+        }
+        if let expiresHeaderValue = httpResponse.headers.value(for: "Expires") {
+            value.expires = expiresHeaderValue
+        }
+        if let lastModifiedHeaderValue = httpResponse.headers.value(for: "Last-Modified") {
+            value.lastModified = TimestampFormatter(format: .httpDate).date(from: lastModifiedHeaderValue)
+        }
+        if let missingMetaHeaderValue = httpResponse.headers.value(for: "x-amz-missing-meta") {
+            value.missingMeta = Swift.Int(missingMetaHeaderValue) ?? 0
+        }
+        if let objectLockLegalHoldStatusHeaderValue = httpResponse.headers.value(for: "x-amz-object-lock-legal-hold") {
+            value.objectLockLegalHoldStatus = S3ClientTypes.ObjectLockLegalHoldStatus(rawValue: objectLockLegalHoldStatusHeaderValue)
+        }
+        if let objectLockModeHeaderValue = httpResponse.headers.value(for: "x-amz-object-lock-mode") {
+            value.objectLockMode = S3ClientTypes.ObjectLockMode(rawValue: objectLockModeHeaderValue)
+        }
+        if let objectLockRetainUntilDateHeaderValue = httpResponse.headers.value(for: "x-amz-object-lock-retain-until-date") {
+            value.objectLockRetainUntilDate = TimestampFormatter(format: .dateTime).date(from: objectLockRetainUntilDateHeaderValue)
+        }
+        if let partsCountHeaderValue = httpResponse.headers.value(for: "x-amz-mp-parts-count") {
+            value.partsCount = Swift.Int(partsCountHeaderValue) ?? 0
+        }
+        if let replicationStatusHeaderValue = httpResponse.headers.value(for: "x-amz-replication-status") {
+            value.replicationStatus = S3ClientTypes.ReplicationStatus(rawValue: replicationStatusHeaderValue)
+        }
+        if let requestChargedHeaderValue = httpResponse.headers.value(for: "x-amz-request-charged") {
+            value.requestCharged = S3ClientTypes.RequestCharged(rawValue: requestChargedHeaderValue)
+        }
+        if let restoreHeaderValue = httpResponse.headers.value(for: "x-amz-restore") {
+            value.restore = restoreHeaderValue
+        }
+        if let sseCustomerAlgorithmHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption-customer-algorithm") {
+            value.sseCustomerAlgorithm = sseCustomerAlgorithmHeaderValue
+        }
+        if let sseCustomerKeyMD5HeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption-customer-key-MD5") {
+            value.sseCustomerKeyMD5 = sseCustomerKeyMD5HeaderValue
+        }
+        if let ssekmsKeyIdHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption-aws-kms-key-id") {
+            value.ssekmsKeyId = ssekmsKeyIdHeaderValue
+        }
+        if let serverSideEncryptionHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption") {
+            value.serverSideEncryption = S3ClientTypes.ServerSideEncryption(rawValue: serverSideEncryptionHeaderValue)
+        }
+        if let storageClassHeaderValue = httpResponse.headers.value(for: "x-amz-storage-class") {
+            value.storageClass = S3ClientTypes.StorageClass(rawValue: storageClassHeaderValue)
+        }
+        if let tagCountHeaderValue = httpResponse.headers.value(for: "x-amz-tagging-count") {
+            value.tagCount = Swift.Int(tagCountHeaderValue) ?? 0
+        }
+        if let versionIdHeaderValue = httpResponse.headers.value(for: "x-amz-version-id") {
+            value.versionId = versionIdHeaderValue
+        }
+        if let websiteRedirectLocationHeaderValue = httpResponse.headers.value(for: "x-amz-website-redirect-location") {
+            value.websiteRedirectLocation = websiteRedirectLocationHeaderValue
+        }
+        let keysForMetadata = httpResponse.headers.dictionary.keys.filter({ $0.starts(with: "x-amz-meta-") })
+        if (!keysForMetadata.isEmpty) {
+            var mapMember = [Swift.String: String]()
+            for headerKey in keysForMetadata {
+                let mapMemberValue = httpResponse.headers.dictionary[headerKey]?[0]
+                let mapMemberKey = headerKey.removePrefix("x-amz-meta-")
+                mapMember[mapMemberKey] = mapMemberValue
+            }
+            value.metadata = mapMember
+        } else {
+            value.metadata = [:]
+        }
+        switch httpResponse.body {
+        case .data(let data):
+            value.body = .data(data)
+        case .stream(let stream):
+            value.body = .stream(stream)
+        case .noStream:
+            value.body = nil
+        }
+        return value
     }
 }
 
@@ -9704,16 +9369,16 @@ public struct GetObjectOutput {
 
 enum GetObjectOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let errorBodyReader = AWSClientRuntime.RestXMLError.errorBodyReader(responseReader: responseReader, noErrorWrapping: true)
-            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
-            switch restXMLError.code {
-                case "InvalidObjectState": return try await InvalidObjectState.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2)
-                case "NoSuchKey": return try await NoSuchKey.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2)
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "InvalidObjectState": return try InvalidObjectState.makeError(baseError: baseError)
+            case "NoSuchKey": return try NoSuchKey.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -9787,14 +9452,13 @@ public struct GetObjectRetentionInput {
 
 extension GetObjectRetentionOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<GetObjectRetentionOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = GetObjectRetentionOutput()
-            value.retention = try reader.readIfPresent(readingClosure: S3ClientTypes.ObjectLockRetention.readingClosure)
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetObjectRetentionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetObjectRetentionOutput()
+        value.retention = try reader.readIfPresent(with: S3ClientTypes.ObjectLockRetention.read(from:))
+        return value
     }
 }
 
@@ -9812,13 +9476,14 @@ public struct GetObjectRetentionOutput {
 
 enum GetObjectRetentionOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -9892,17 +9557,16 @@ public struct GetObjectTaggingInput {
 
 extension GetObjectTaggingOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<GetObjectTaggingOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = GetObjectTaggingOutput()
-            if let versionIdHeaderValue = httpResponse.headers.value(for: "x-amz-version-id") {
-                value.versionId = versionIdHeaderValue
-            }
-            value.tagSet = try reader["TagSet"].readListIfPresent(memberReadingClosure: S3ClientTypes.Tag.readingClosure, memberNodeInfo: "Tag", isFlattened: false)
-            return value
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetObjectTaggingOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetObjectTaggingOutput()
+        if let versionIdHeaderValue = httpResponse.headers.value(for: "x-amz-version-id") {
+            value.versionId = versionIdHeaderValue
         }
+        value.tagSet = try reader["TagSet"].readListIfPresent(memberReadingClosure: S3ClientTypes.Tag.read(from:), memberNodeInfo: "Tag", isFlattened: false)
+        return value
     }
 }
 
@@ -9925,13 +9589,14 @@ public struct GetObjectTaggingOutput {
 
 enum GetObjectTaggingOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -9997,22 +9662,20 @@ public struct GetObjectTorrentInput {
 
 extension GetObjectTorrentOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<GetObjectTorrentOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            var value = GetObjectTorrentOutput()
-            if let requestChargedHeaderValue = httpResponse.headers.value(for: "x-amz-request-charged") {
-                value.requestCharged = S3ClientTypes.RequestCharged(rawValue: requestChargedHeaderValue)
-            }
-            switch httpResponse.body {
-            case .data(let data):
-                value.body = .data(data)
-            case .stream(let stream):
-                value.body = .stream(stream)
-            case .noStream:
-                value.body = nil
-            }
-            return value
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetObjectTorrentOutput {
+        var value = GetObjectTorrentOutput()
+        if let requestChargedHeaderValue = httpResponse.headers.value(for: "x-amz-request-charged") {
+            value.requestCharged = S3ClientTypes.RequestCharged(rawValue: requestChargedHeaderValue)
         }
+        switch httpResponse.body {
+        case .data(let data):
+            value.body = .data(data)
+        case .stream(let stream):
+            value.body = .stream(stream)
+        case .noStream:
+            value.body = nil
+        }
+        return value
     }
 }
 
@@ -10034,13 +9697,14 @@ public struct GetObjectTorrentOutput {
 
 enum GetObjectTorrentOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -10091,14 +9755,13 @@ public struct GetPublicAccessBlockInput {
 
 extension GetPublicAccessBlockOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<GetPublicAccessBlockOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = GetPublicAccessBlockOutput()
-            value.publicAccessBlockConfiguration = try reader.readIfPresent(readingClosure: S3ClientTypes.PublicAccessBlockConfiguration.readingClosure)
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetPublicAccessBlockOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetPublicAccessBlockOutput()
+        value.publicAccessBlockConfiguration = try reader.readIfPresent(with: S3ClientTypes.PublicAccessBlockConfiguration.read(from:))
+        return value
     }
 }
 
@@ -10116,31 +9779,23 @@ public struct GetPublicAccessBlockOutput {
 
 enum GetPublicAccessBlockOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
 
 extension S3ClientTypes.GlacierJobParameters {
 
-    static func writingClosure(_ value: S3ClientTypes.GlacierJobParameters?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ClientTypes.GlacierJobParameters?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["Tier"].write(value.tier)
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.GlacierJobParameters, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.GlacierJobParameters()
-            value.tier = try reader["Tier"].readIfPresent()
-            return value
-        }
     }
 }
 
@@ -10163,20 +9818,18 @@ extension S3ClientTypes {
 
 extension S3ClientTypes.Grant {
 
-    static func writingClosure(_ value: S3ClientTypes.Grant?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer[.init("Grantee", namespaceDef: .init(prefix: "xsi", uri: "http://www.w3.org/2001/XMLSchema-instance"))].write(value.grantee, writingClosure: S3ClientTypes.Grantee.writingClosure(_:to:))
+    static func write(value: S3ClientTypes.Grant?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer[.init("Grantee", namespaceDef: .init(prefix: "xsi", uri: "http://www.w3.org/2001/XMLSchema-instance"))].write(value.grantee, with: S3ClientTypes.Grantee.write(value:to:))
         try writer["Permission"].write(value.permission)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.Grant, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.Grant()
-            value.grantee = try reader[.init("Grantee", namespaceDef: .init(prefix: "xsi", uri: "http://www.w3.org/2001/XMLSchema-instance"))].readIfPresent(readingClosure: S3ClientTypes.Grantee.readingClosure)
-            value.permission = try reader["Permission"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.Grant {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.Grant()
+        value.grantee = try reader[.init("Grantee", namespaceDef: .init(prefix: "xsi", uri: "http://www.w3.org/2001/XMLSchema-instance"))].readIfPresent(with: S3ClientTypes.Grantee.read(from:))
+        value.permission = try reader["Permission"].readIfPresent()
+        return value
     }
 }
 
@@ -10202,8 +9855,8 @@ extension S3ClientTypes {
 
 extension S3ClientTypes.Grantee {
 
-    static func writingClosure(_ value: S3ClientTypes.Grantee?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ClientTypes.Grantee?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["DisplayName"].write(value.displayName)
         try writer["EmailAddress"].write(value.emailAddress)
         try writer["ID"].write(value.id)
@@ -10211,17 +9864,15 @@ extension S3ClientTypes.Grantee {
         try writer["URI"].write(value.uri)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.Grantee, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.Grantee()
-            value.displayName = try reader["DisplayName"].readIfPresent()
-            value.emailAddress = try reader["EmailAddress"].readIfPresent()
-            value.id = try reader["ID"].readIfPresent()
-            value.uri = try reader["URI"].readIfPresent()
-            value.type = try reader[.init("xsi:type", location: .attribute)].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.Grantee {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.Grantee()
+        value.displayName = try reader["DisplayName"].readIfPresent()
+        value.emailAddress = try reader["EmailAddress"].readIfPresent()
+        value.id = try reader["ID"].readIfPresent()
+        value.uri = try reader["URI"].readIfPresent()
+        value.type = try reader[.init("xsi:type", location: .attribute)].readIfPresent()
+        return value
     }
 }
 
@@ -10314,23 +9965,21 @@ public struct HeadBucketInput {
 
 extension HeadBucketOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<HeadBucketOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            var value = HeadBucketOutput()
-            if let accessPointAliasHeaderValue = httpResponse.headers.value(for: "x-amz-access-point-alias") {
-                value.accessPointAlias = Swift.Bool(accessPointAliasHeaderValue) ?? false
-            }
-            if let bucketLocationNameHeaderValue = httpResponse.headers.value(for: "x-amz-bucket-location-name") {
-                value.bucketLocationName = bucketLocationNameHeaderValue
-            }
-            if let bucketLocationTypeHeaderValue = httpResponse.headers.value(for: "x-amz-bucket-location-type") {
-                value.bucketLocationType = S3ClientTypes.LocationType(rawValue: bucketLocationTypeHeaderValue)
-            }
-            if let bucketRegionHeaderValue = httpResponse.headers.value(for: "x-amz-bucket-region") {
-                value.bucketRegion = bucketRegionHeaderValue
-            }
-            return value
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> HeadBucketOutput {
+        var value = HeadBucketOutput()
+        if let accessPointAliasHeaderValue = httpResponse.headers.value(for: "x-amz-access-point-alias") {
+            value.accessPointAlias = Swift.Bool(accessPointAliasHeaderValue) ?? false
         }
+        if let bucketLocationNameHeaderValue = httpResponse.headers.value(for: "x-amz-bucket-location-name") {
+            value.bucketLocationName = bucketLocationNameHeaderValue
+        }
+        if let bucketLocationTypeHeaderValue = httpResponse.headers.value(for: "x-amz-bucket-location-type") {
+            value.bucketLocationType = S3ClientTypes.LocationType(rawValue: bucketLocationTypeHeaderValue)
+        }
+        if let bucketRegionHeaderValue = httpResponse.headers.value(for: "x-amz-bucket-region") {
+            value.bucketRegion = bucketRegionHeaderValue
+        }
+        return value
     }
 }
 
@@ -10360,15 +10009,15 @@ public struct HeadBucketOutput {
 
 enum HeadBucketOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let errorBodyReader = AWSClientRuntime.RestXMLError.errorBodyReader(responseReader: responseReader, noErrorWrapping: true)
-            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
-            switch restXMLError.code {
-                case "NotFound": return try await NotFound.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2)
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "NotFound": return try NotFound.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -10550,122 +10199,120 @@ extension HeadObjectOutput: Swift.CustomDebugStringConvertible {
 
 extension HeadObjectOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<HeadObjectOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            var value = HeadObjectOutput()
-            if let acceptRangesHeaderValue = httpResponse.headers.value(for: "accept-ranges") {
-                value.acceptRanges = acceptRangesHeaderValue
-            }
-            if let archiveStatusHeaderValue = httpResponse.headers.value(for: "x-amz-archive-status") {
-                value.archiveStatus = S3ClientTypes.ArchiveStatus(rawValue: archiveStatusHeaderValue)
-            }
-            if let bucketKeyEnabledHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption-bucket-key-enabled") {
-                value.bucketKeyEnabled = Swift.Bool(bucketKeyEnabledHeaderValue) ?? false
-            }
-            if let cacheControlHeaderValue = httpResponse.headers.value(for: "Cache-Control") {
-                value.cacheControl = cacheControlHeaderValue
-            }
-            if let checksumCRC32HeaderValue = httpResponse.headers.value(for: "x-amz-checksum-crc32") {
-                value.checksumCRC32 = checksumCRC32HeaderValue
-            }
-            if let checksumCRC32CHeaderValue = httpResponse.headers.value(for: "x-amz-checksum-crc32c") {
-                value.checksumCRC32C = checksumCRC32CHeaderValue
-            }
-            if let checksumSHA1HeaderValue = httpResponse.headers.value(for: "x-amz-checksum-sha1") {
-                value.checksumSHA1 = checksumSHA1HeaderValue
-            }
-            if let checksumSHA256HeaderValue = httpResponse.headers.value(for: "x-amz-checksum-sha256") {
-                value.checksumSHA256 = checksumSHA256HeaderValue
-            }
-            if let contentDispositionHeaderValue = httpResponse.headers.value(for: "Content-Disposition") {
-                value.contentDisposition = contentDispositionHeaderValue
-            }
-            if let contentEncodingHeaderValue = httpResponse.headers.value(for: "Content-Encoding") {
-                value.contentEncoding = contentEncodingHeaderValue
-            }
-            if let contentLanguageHeaderValue = httpResponse.headers.value(for: "Content-Language") {
-                value.contentLanguage = contentLanguageHeaderValue
-            }
-            if let contentLengthHeaderValue = httpResponse.headers.value(for: "Content-Length") {
-                value.contentLength = Swift.Int(contentLengthHeaderValue) ?? 0
-            }
-            if let contentTypeHeaderValue = httpResponse.headers.value(for: "Content-Type") {
-                value.contentType = contentTypeHeaderValue
-            }
-            if let deleteMarkerHeaderValue = httpResponse.headers.value(for: "x-amz-delete-marker") {
-                value.deleteMarker = Swift.Bool(deleteMarkerHeaderValue) ?? false
-            }
-            if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
-                value.eTag = eTagHeaderValue
-            }
-            if let expirationHeaderValue = httpResponse.headers.value(for: "x-amz-expiration") {
-                value.expiration = expirationHeaderValue
-            }
-            if let expiresHeaderValue = httpResponse.headers.value(for: "Expires") {
-                value.expires = expiresHeaderValue
-            }
-            if let lastModifiedHeaderValue = httpResponse.headers.value(for: "Last-Modified") {
-                value.lastModified = TimestampFormatter(format: .httpDate).date(from: lastModifiedHeaderValue)
-            }
-            if let missingMetaHeaderValue = httpResponse.headers.value(for: "x-amz-missing-meta") {
-                value.missingMeta = Swift.Int(missingMetaHeaderValue) ?? 0
-            }
-            if let objectLockLegalHoldStatusHeaderValue = httpResponse.headers.value(for: "x-amz-object-lock-legal-hold") {
-                value.objectLockLegalHoldStatus = S3ClientTypes.ObjectLockLegalHoldStatus(rawValue: objectLockLegalHoldStatusHeaderValue)
-            }
-            if let objectLockModeHeaderValue = httpResponse.headers.value(for: "x-amz-object-lock-mode") {
-                value.objectLockMode = S3ClientTypes.ObjectLockMode(rawValue: objectLockModeHeaderValue)
-            }
-            if let objectLockRetainUntilDateHeaderValue = httpResponse.headers.value(for: "x-amz-object-lock-retain-until-date") {
-                value.objectLockRetainUntilDate = TimestampFormatter(format: .dateTime).date(from: objectLockRetainUntilDateHeaderValue)
-            }
-            if let partsCountHeaderValue = httpResponse.headers.value(for: "x-amz-mp-parts-count") {
-                value.partsCount = Swift.Int(partsCountHeaderValue) ?? 0
-            }
-            if let replicationStatusHeaderValue = httpResponse.headers.value(for: "x-amz-replication-status") {
-                value.replicationStatus = S3ClientTypes.ReplicationStatus(rawValue: replicationStatusHeaderValue)
-            }
-            if let requestChargedHeaderValue = httpResponse.headers.value(for: "x-amz-request-charged") {
-                value.requestCharged = S3ClientTypes.RequestCharged(rawValue: requestChargedHeaderValue)
-            }
-            if let restoreHeaderValue = httpResponse.headers.value(for: "x-amz-restore") {
-                value.restore = restoreHeaderValue
-            }
-            if let sseCustomerAlgorithmHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption-customer-algorithm") {
-                value.sseCustomerAlgorithm = sseCustomerAlgorithmHeaderValue
-            }
-            if let sseCustomerKeyMD5HeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption-customer-key-MD5") {
-                value.sseCustomerKeyMD5 = sseCustomerKeyMD5HeaderValue
-            }
-            if let ssekmsKeyIdHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption-aws-kms-key-id") {
-                value.ssekmsKeyId = ssekmsKeyIdHeaderValue
-            }
-            if let serverSideEncryptionHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption") {
-                value.serverSideEncryption = S3ClientTypes.ServerSideEncryption(rawValue: serverSideEncryptionHeaderValue)
-            }
-            if let storageClassHeaderValue = httpResponse.headers.value(for: "x-amz-storage-class") {
-                value.storageClass = S3ClientTypes.StorageClass(rawValue: storageClassHeaderValue)
-            }
-            if let versionIdHeaderValue = httpResponse.headers.value(for: "x-amz-version-id") {
-                value.versionId = versionIdHeaderValue
-            }
-            if let websiteRedirectLocationHeaderValue = httpResponse.headers.value(for: "x-amz-website-redirect-location") {
-                value.websiteRedirectLocation = websiteRedirectLocationHeaderValue
-            }
-            let keysForMetadata = httpResponse.headers.dictionary.keys.filter({ $0.starts(with: "x-amz-meta-") })
-            if (!keysForMetadata.isEmpty) {
-                var mapMember = [Swift.String: String]()
-                for headerKey in keysForMetadata {
-                    let mapMemberValue = httpResponse.headers.dictionary[headerKey]?[0]
-                    let mapMemberKey = headerKey.removePrefix("x-amz-meta-")
-                    mapMember[mapMemberKey] = mapMemberValue
-                }
-                value.metadata = mapMember
-            } else {
-                value.metadata = [:]
-            }
-            return value
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> HeadObjectOutput {
+        var value = HeadObjectOutput()
+        if let acceptRangesHeaderValue = httpResponse.headers.value(for: "accept-ranges") {
+            value.acceptRanges = acceptRangesHeaderValue
         }
+        if let archiveStatusHeaderValue = httpResponse.headers.value(for: "x-amz-archive-status") {
+            value.archiveStatus = S3ClientTypes.ArchiveStatus(rawValue: archiveStatusHeaderValue)
+        }
+        if let bucketKeyEnabledHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption-bucket-key-enabled") {
+            value.bucketKeyEnabled = Swift.Bool(bucketKeyEnabledHeaderValue) ?? false
+        }
+        if let cacheControlHeaderValue = httpResponse.headers.value(for: "Cache-Control") {
+            value.cacheControl = cacheControlHeaderValue
+        }
+        if let checksumCRC32HeaderValue = httpResponse.headers.value(for: "x-amz-checksum-crc32") {
+            value.checksumCRC32 = checksumCRC32HeaderValue
+        }
+        if let checksumCRC32CHeaderValue = httpResponse.headers.value(for: "x-amz-checksum-crc32c") {
+            value.checksumCRC32C = checksumCRC32CHeaderValue
+        }
+        if let checksumSHA1HeaderValue = httpResponse.headers.value(for: "x-amz-checksum-sha1") {
+            value.checksumSHA1 = checksumSHA1HeaderValue
+        }
+        if let checksumSHA256HeaderValue = httpResponse.headers.value(for: "x-amz-checksum-sha256") {
+            value.checksumSHA256 = checksumSHA256HeaderValue
+        }
+        if let contentDispositionHeaderValue = httpResponse.headers.value(for: "Content-Disposition") {
+            value.contentDisposition = contentDispositionHeaderValue
+        }
+        if let contentEncodingHeaderValue = httpResponse.headers.value(for: "Content-Encoding") {
+            value.contentEncoding = contentEncodingHeaderValue
+        }
+        if let contentLanguageHeaderValue = httpResponse.headers.value(for: "Content-Language") {
+            value.contentLanguage = contentLanguageHeaderValue
+        }
+        if let contentLengthHeaderValue = httpResponse.headers.value(for: "Content-Length") {
+            value.contentLength = Swift.Int(contentLengthHeaderValue) ?? 0
+        }
+        if let contentTypeHeaderValue = httpResponse.headers.value(for: "Content-Type") {
+            value.contentType = contentTypeHeaderValue
+        }
+        if let deleteMarkerHeaderValue = httpResponse.headers.value(for: "x-amz-delete-marker") {
+            value.deleteMarker = Swift.Bool(deleteMarkerHeaderValue) ?? false
+        }
+        if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
+            value.eTag = eTagHeaderValue
+        }
+        if let expirationHeaderValue = httpResponse.headers.value(for: "x-amz-expiration") {
+            value.expiration = expirationHeaderValue
+        }
+        if let expiresHeaderValue = httpResponse.headers.value(for: "Expires") {
+            value.expires = expiresHeaderValue
+        }
+        if let lastModifiedHeaderValue = httpResponse.headers.value(for: "Last-Modified") {
+            value.lastModified = TimestampFormatter(format: .httpDate).date(from: lastModifiedHeaderValue)
+        }
+        if let missingMetaHeaderValue = httpResponse.headers.value(for: "x-amz-missing-meta") {
+            value.missingMeta = Swift.Int(missingMetaHeaderValue) ?? 0
+        }
+        if let objectLockLegalHoldStatusHeaderValue = httpResponse.headers.value(for: "x-amz-object-lock-legal-hold") {
+            value.objectLockLegalHoldStatus = S3ClientTypes.ObjectLockLegalHoldStatus(rawValue: objectLockLegalHoldStatusHeaderValue)
+        }
+        if let objectLockModeHeaderValue = httpResponse.headers.value(for: "x-amz-object-lock-mode") {
+            value.objectLockMode = S3ClientTypes.ObjectLockMode(rawValue: objectLockModeHeaderValue)
+        }
+        if let objectLockRetainUntilDateHeaderValue = httpResponse.headers.value(for: "x-amz-object-lock-retain-until-date") {
+            value.objectLockRetainUntilDate = TimestampFormatter(format: .dateTime).date(from: objectLockRetainUntilDateHeaderValue)
+        }
+        if let partsCountHeaderValue = httpResponse.headers.value(for: "x-amz-mp-parts-count") {
+            value.partsCount = Swift.Int(partsCountHeaderValue) ?? 0
+        }
+        if let replicationStatusHeaderValue = httpResponse.headers.value(for: "x-amz-replication-status") {
+            value.replicationStatus = S3ClientTypes.ReplicationStatus(rawValue: replicationStatusHeaderValue)
+        }
+        if let requestChargedHeaderValue = httpResponse.headers.value(for: "x-amz-request-charged") {
+            value.requestCharged = S3ClientTypes.RequestCharged(rawValue: requestChargedHeaderValue)
+        }
+        if let restoreHeaderValue = httpResponse.headers.value(for: "x-amz-restore") {
+            value.restore = restoreHeaderValue
+        }
+        if let sseCustomerAlgorithmHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption-customer-algorithm") {
+            value.sseCustomerAlgorithm = sseCustomerAlgorithmHeaderValue
+        }
+        if let sseCustomerKeyMD5HeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption-customer-key-MD5") {
+            value.sseCustomerKeyMD5 = sseCustomerKeyMD5HeaderValue
+        }
+        if let ssekmsKeyIdHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption-aws-kms-key-id") {
+            value.ssekmsKeyId = ssekmsKeyIdHeaderValue
+        }
+        if let serverSideEncryptionHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption") {
+            value.serverSideEncryption = S3ClientTypes.ServerSideEncryption(rawValue: serverSideEncryptionHeaderValue)
+        }
+        if let storageClassHeaderValue = httpResponse.headers.value(for: "x-amz-storage-class") {
+            value.storageClass = S3ClientTypes.StorageClass(rawValue: storageClassHeaderValue)
+        }
+        if let versionIdHeaderValue = httpResponse.headers.value(for: "x-amz-version-id") {
+            value.versionId = versionIdHeaderValue
+        }
+        if let websiteRedirectLocationHeaderValue = httpResponse.headers.value(for: "x-amz-website-redirect-location") {
+            value.websiteRedirectLocation = websiteRedirectLocationHeaderValue
+        }
+        let keysForMetadata = httpResponse.headers.dictionary.keys.filter({ $0.starts(with: "x-amz-meta-") })
+        if (!keysForMetadata.isEmpty) {
+            var mapMember = [Swift.String: String]()
+            for headerKey in keysForMetadata {
+                let mapMemberValue = httpResponse.headers.dictionary[headerKey]?[0]
+                let mapMemberKey = headerKey.removePrefix("x-amz-meta-")
+                mapMember[mapMemberKey] = mapMemberValue
+            }
+            value.metadata = mapMember
+        } else {
+            value.metadata = [:]
+        }
+        return value
     }
 }
 
@@ -10824,33 +10471,31 @@ public struct HeadObjectOutput {
 
 enum HeadObjectOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let errorBodyReader = AWSClientRuntime.RestXMLError.errorBodyReader(responseReader: responseReader, noErrorWrapping: true)
-            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
-            switch restXMLError.code {
-                case "NotFound": return try await NotFound.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2)
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "NotFound": return try NotFound.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
 
 extension S3ClientTypes.IndexDocument {
 
-    static func writingClosure(_ value: S3ClientTypes.IndexDocument?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ClientTypes.IndexDocument?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["Suffix"].write(value.suffix)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.IndexDocument, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.IndexDocument()
-            value.suffix = try reader["Suffix"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.IndexDocument {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.IndexDocument()
+        value.suffix = try reader["Suffix"].readIfPresent()
+        return value
     }
 }
 
@@ -10873,20 +10518,12 @@ extension S3ClientTypes {
 
 extension S3ClientTypes.Initiator {
 
-    static func writingClosure(_ value: S3ClientTypes.Initiator?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["DisplayName"].write(value.displayName)
-        try writer["ID"].write(value.id)
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.Initiator, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.Initiator()
-            value.id = try reader["ID"].readIfPresent()
-            value.displayName = try reader["DisplayName"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.Initiator {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.Initiator()
+        value.id = try reader["ID"].readIfPresent()
+        value.displayName = try reader["DisplayName"].readIfPresent()
+        return value
     }
 }
 
@@ -10912,24 +10549,12 @@ extension S3ClientTypes {
 
 extension S3ClientTypes.InputSerialization {
 
-    static func writingClosure(_ value: S3ClientTypes.InputSerialization?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["CSV"].write(value.csv, writingClosure: S3ClientTypes.CSVInput.writingClosure(_:to:))
+    static func write(value: S3ClientTypes.InputSerialization?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["CSV"].write(value.csv, with: S3ClientTypes.CSVInput.write(value:to:))
         try writer["CompressionType"].write(value.compressionType)
-        try writer["JSON"].write(value.json, writingClosure: S3ClientTypes.JSONInput.writingClosure(_:to:))
-        try writer["Parquet"].write(value.parquet, writingClosure: S3ClientTypes.ParquetInput.writingClosure(_:to:))
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.InputSerialization, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.InputSerialization()
-            value.csv = try reader["CSV"].readIfPresent(readingClosure: S3ClientTypes.CSVInput.readingClosure)
-            value.compressionType = try reader["CompressionType"].readIfPresent()
-            value.json = try reader["JSON"].readIfPresent(readingClosure: S3ClientTypes.JSONInput.readingClosure)
-            value.parquet = try reader["Parquet"].readIfPresent(readingClosure: S3ClientTypes.ParquetInput.readingClosure)
-            return value
-        }
+        try writer["JSON"].write(value.json, with: S3ClientTypes.JSONInput.write(value:to:))
+        try writer["Parquet"].write(value.parquet, with: S3ClientTypes.ParquetInput.write(value:to:))
     }
 }
 
@@ -10962,7 +10587,8 @@ extension S3ClientTypes {
 }
 
 extension S3ClientTypes {
-    public enum IntelligentTieringAccessTier: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum IntelligentTieringAccessTier: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case archiveAccess
         case deepArchiveAccess
         case sdkUnknown(Swift.String)
@@ -10974,10 +10600,12 @@ extension S3ClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .archiveAccess: return "ARCHIVE_ACCESS"
@@ -10985,30 +10613,23 @@ extension S3ClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = IntelligentTieringAccessTier(rawValue: rawValue) ?? IntelligentTieringAccessTier.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension S3ClientTypes.IntelligentTieringAndOperator {
 
-    static func writingClosure(_ value: S3ClientTypes.IntelligentTieringAndOperator?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ClientTypes.IntelligentTieringAndOperator?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["Prefix"].write(value.`prefix`)
-        try writer["Tag"].writeList(value.tags, memberWritingClosure: S3ClientTypes.Tag.writingClosure(_:to:), memberNodeInfo: "Tag", isFlattened: true)
+        try writer["Tag"].writeList(value.tags, memberWritingClosure: S3ClientTypes.Tag.write(value:to:), memberNodeInfo: "Tag", isFlattened: true)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.IntelligentTieringAndOperator, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.IntelligentTieringAndOperator()
-            value.`prefix` = try reader["Prefix"].readIfPresent()
-            value.tags = try reader["Tag"].readListIfPresent(memberReadingClosure: S3ClientTypes.Tag.readingClosure, memberNodeInfo: "Tag", isFlattened: true)
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.IntelligentTieringAndOperator {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.IntelligentTieringAndOperator()
+        value.`prefix` = try reader["Prefix"].readIfPresent()
+        value.tags = try reader["Tag"].readListIfPresent(memberReadingClosure: S3ClientTypes.Tag.read(from:), memberNodeInfo: "Tag", isFlattened: true)
+        return value
     }
 }
 
@@ -11034,24 +10655,22 @@ extension S3ClientTypes {
 
 extension S3ClientTypes.IntelligentTieringConfiguration {
 
-    static func writingClosure(_ value: S3ClientTypes.IntelligentTieringConfiguration?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["Filter"].write(value.filter, writingClosure: S3ClientTypes.IntelligentTieringFilter.writingClosure(_:to:))
+    static func write(value: S3ClientTypes.IntelligentTieringConfiguration?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Filter"].write(value.filter, with: S3ClientTypes.IntelligentTieringFilter.write(value:to:))
         try writer["Id"].write(value.id)
         try writer["Status"].write(value.status)
-        try writer["Tiering"].writeList(value.tierings, memberWritingClosure: S3ClientTypes.Tiering.writingClosure(_:to:), memberNodeInfo: "member", isFlattened: true)
+        try writer["Tiering"].writeList(value.tierings, memberWritingClosure: S3ClientTypes.Tiering.write(value:to:), memberNodeInfo: "member", isFlattened: true)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.IntelligentTieringConfiguration, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.IntelligentTieringConfiguration()
-            value.id = try reader["Id"].readIfPresent()
-            value.filter = try reader["Filter"].readIfPresent(readingClosure: S3ClientTypes.IntelligentTieringFilter.readingClosure)
-            value.status = try reader["Status"].readIfPresent()
-            value.tierings = try reader["Tiering"].readListIfPresent(memberReadingClosure: S3ClientTypes.Tiering.readingClosure, memberNodeInfo: "member", isFlattened: true)
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.IntelligentTieringConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.IntelligentTieringConfiguration()
+        value.id = try reader["Id"].readIfPresent()
+        value.filter = try reader["Filter"].readIfPresent(with: S3ClientTypes.IntelligentTieringFilter.read(from:))
+        value.status = try reader["Status"].readIfPresent()
+        value.tierings = try reader["Tiering"].readListIfPresent(memberReadingClosure: S3ClientTypes.Tiering.read(from:), memberNodeInfo: "member", isFlattened: true)
+        return value
     }
 }
 
@@ -11088,22 +10707,20 @@ extension S3ClientTypes {
 
 extension S3ClientTypes.IntelligentTieringFilter {
 
-    static func writingClosure(_ value: S3ClientTypes.IntelligentTieringFilter?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["And"].write(value.and, writingClosure: S3ClientTypes.IntelligentTieringAndOperator.writingClosure(_:to:))
+    static func write(value: S3ClientTypes.IntelligentTieringFilter?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["And"].write(value.and, with: S3ClientTypes.IntelligentTieringAndOperator.write(value:to:))
         try writer["Prefix"].write(value.`prefix`)
-        try writer["Tag"].write(value.tag, writingClosure: S3ClientTypes.Tag.writingClosure(_:to:))
+        try writer["Tag"].write(value.tag, with: S3ClientTypes.Tag.write(value:to:))
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.IntelligentTieringFilter, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.IntelligentTieringFilter()
-            value.`prefix` = try reader["Prefix"].readIfPresent()
-            value.tag = try reader["Tag"].readIfPresent(readingClosure: S3ClientTypes.Tag.readingClosure)
-            value.and = try reader["And"].readIfPresent(readingClosure: S3ClientTypes.IntelligentTieringAndOperator.readingClosure)
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.IntelligentTieringFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.IntelligentTieringFilter()
+        value.`prefix` = try reader["Prefix"].readIfPresent()
+        value.tag = try reader["Tag"].readIfPresent(with: S3ClientTypes.Tag.read(from:))
+        value.and = try reader["And"].readIfPresent(with: S3ClientTypes.IntelligentTieringAndOperator.read(from:))
+        return value
     }
 }
 
@@ -11132,7 +10749,8 @@ extension S3ClientTypes {
 }
 
 extension S3ClientTypes {
-    public enum IntelligentTieringStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum IntelligentTieringStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case disabled
         case enabled
         case sdkUnknown(Swift.String)
@@ -11144,10 +10762,12 @@ extension S3ClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .disabled: return "Disabled"
@@ -11155,37 +10775,20 @@ extension S3ClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = IntelligentTieringStatus(rawValue: rawValue) ?? IntelligentTieringStatus.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension InvalidObjectState {
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<InvalidObjectState, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = InvalidObjectState()
-            value.properties.storageClass = try reader["StorageClass"].readIfPresent()
-            value.properties.accessTier = try reader["AccessTier"].readIfPresent()
-            return value
-        }
-    }
-}
-
-extension InvalidObjectState {
-
-    static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil, requestID2: Swift.String? = nil) async throws -> Swift.Error {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidObjectState {
+        let reader = baseError.errorBodyReader
         var value = InvalidObjectState()
         value.properties.accessTier = try reader["AccessTier"].readIfPresent()
         value.properties.storageClass = try reader["StorageClass"].readIfPresent()
-        value.httpResponse = httpResponse
-        value.requestID = requestID
-        value.message = message
-        value.requestID2 = requestID2
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        value.requestID2 = baseError.requestID2
         return value
     }
 }
@@ -11220,30 +10823,28 @@ public struct InvalidObjectState: ClientRuntime.ModeledError, AWSClientRuntime.A
 
 extension S3ClientTypes.InventoryConfiguration {
 
-    static func writingClosure(_ value: S3ClientTypes.InventoryConfiguration?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["Destination"].write(value.destination, writingClosure: S3ClientTypes.InventoryDestination.writingClosure(_:to:))
-        try writer["Filter"].write(value.filter, writingClosure: S3ClientTypes.InventoryFilter.writingClosure(_:to:))
+    static func write(value: S3ClientTypes.InventoryConfiguration?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Destination"].write(value.destination, with: S3ClientTypes.InventoryDestination.write(value:to:))
+        try writer["Filter"].write(value.filter, with: S3ClientTypes.InventoryFilter.write(value:to:))
         try writer["Id"].write(value.id)
         try writer["IncludedObjectVersions"].write(value.includedObjectVersions)
         try writer["IsEnabled"].write(value.isEnabled)
-        try writer["OptionalFields"].writeList(value.optionalFields, memberWritingClosure: S3ClientTypes.InventoryOptionalField.writingClosure(_:to:), memberNodeInfo: "Field", isFlattened: false)
-        try writer["Schedule"].write(value.schedule, writingClosure: S3ClientTypes.InventorySchedule.writingClosure(_:to:))
+        try writer["OptionalFields"].writeList(value.optionalFields, memberWritingClosure: S3ClientTypes.InventoryOptionalField.write(value:to:), memberNodeInfo: "Field", isFlattened: false)
+        try writer["Schedule"].write(value.schedule, with: S3ClientTypes.InventorySchedule.write(value:to:))
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.InventoryConfiguration, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.InventoryConfiguration()
-            value.destination = try reader["Destination"].readIfPresent(readingClosure: S3ClientTypes.InventoryDestination.readingClosure)
-            value.isEnabled = try reader["IsEnabled"].readIfPresent()
-            value.filter = try reader["Filter"].readIfPresent(readingClosure: S3ClientTypes.InventoryFilter.readingClosure)
-            value.id = try reader["Id"].readIfPresent()
-            value.includedObjectVersions = try reader["IncludedObjectVersions"].readIfPresent()
-            value.optionalFields = try reader["OptionalFields"].readListIfPresent(memberReadingClosure: S3ClientTypes.InventoryOptionalField.readingClosure, memberNodeInfo: "Field", isFlattened: false)
-            value.schedule = try reader["Schedule"].readIfPresent(readingClosure: S3ClientTypes.InventorySchedule.readingClosure)
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.InventoryConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.InventoryConfiguration()
+        value.destination = try reader["Destination"].readIfPresent(with: S3ClientTypes.InventoryDestination.read(from:))
+        value.isEnabled = try reader["IsEnabled"].readIfPresent()
+        value.filter = try reader["Filter"].readIfPresent(with: S3ClientTypes.InventoryFilter.read(from:))
+        value.id = try reader["Id"].readIfPresent()
+        value.includedObjectVersions = try reader["IncludedObjectVersions"].readIfPresent()
+        value.optionalFields = try reader["OptionalFields"].readListIfPresent(memberReadingClosure: S3ClientTypes.InventoryOptionalField.read(from:), memberNodeInfo: "Field", isFlattened: false)
+        value.schedule = try reader["Schedule"].readIfPresent(with: S3ClientTypes.InventorySchedule.read(from:))
+        return value
     }
 }
 
@@ -11294,18 +10895,16 @@ extension S3ClientTypes {
 
 extension S3ClientTypes.InventoryDestination {
 
-    static func writingClosure(_ value: S3ClientTypes.InventoryDestination?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["S3BucketDestination"].write(value.s3BucketDestination, writingClosure: S3ClientTypes.InventoryS3BucketDestination.writingClosure(_:to:))
+    static func write(value: S3ClientTypes.InventoryDestination?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["S3BucketDestination"].write(value.s3BucketDestination, with: S3ClientTypes.InventoryS3BucketDestination.write(value:to:))
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.InventoryDestination, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.InventoryDestination()
-            value.s3BucketDestination = try reader["S3BucketDestination"].readIfPresent(readingClosure: S3ClientTypes.InventoryS3BucketDestination.readingClosure)
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.InventoryDestination {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.InventoryDestination()
+        value.s3BucketDestination = try reader["S3BucketDestination"].readIfPresent(with: S3ClientTypes.InventoryS3BucketDestination.read(from:))
+        return value
     }
 }
 
@@ -11328,20 +10927,18 @@ extension S3ClientTypes {
 
 extension S3ClientTypes.InventoryEncryption {
 
-    static func writingClosure(_ value: S3ClientTypes.InventoryEncryption?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["SSE-KMS"].write(value.ssekms, writingClosure: S3ClientTypes.SSEKMS.writingClosure(_:to:))
-        try writer["SSE-S3"].write(value.sses3, writingClosure: S3ClientTypes.SSES3.writingClosure(_:to:))
+    static func write(value: S3ClientTypes.InventoryEncryption?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["SSE-KMS"].write(value.ssekms, with: S3ClientTypes.SSEKMS.write(value:to:))
+        try writer["SSE-S3"].write(value.sses3, with: S3ClientTypes.SSES3.write(value:to:))
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.InventoryEncryption, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.InventoryEncryption()
-            value.sses3 = try reader["SSE-S3"].readIfPresent(readingClosure: S3ClientTypes.SSES3.readingClosure)
-            value.ssekms = try reader["SSE-KMS"].readIfPresent(readingClosure: S3ClientTypes.SSEKMS.readingClosure)
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.InventoryEncryption {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.InventoryEncryption()
+        value.sses3 = try reader["SSE-S3"].readIfPresent(with: S3ClientTypes.SSES3.read(from:))
+        value.ssekms = try reader["SSE-KMS"].readIfPresent(with: S3ClientTypes.SSEKMS.read(from:))
+        return value
     }
 }
 
@@ -11367,18 +10964,16 @@ extension S3ClientTypes {
 
 extension S3ClientTypes.InventoryFilter {
 
-    static func writingClosure(_ value: S3ClientTypes.InventoryFilter?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ClientTypes.InventoryFilter?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["Prefix"].write(value.`prefix`)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.InventoryFilter, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.InventoryFilter()
-            value.`prefix` = try reader["Prefix"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.InventoryFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.InventoryFilter()
+        value.`prefix` = try reader["Prefix"].readIfPresent()
+        return value
     }
 }
 
@@ -11400,7 +10995,8 @@ extension S3ClientTypes {
 }
 
 extension S3ClientTypes {
-    public enum InventoryFormat: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum InventoryFormat: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case csv
         case orc
         case parquet
@@ -11414,10 +11010,12 @@ extension S3ClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .csv: return "CSV"
@@ -11426,16 +11024,12 @@ extension S3ClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = InventoryFormat(rawValue: rawValue) ?? InventoryFormat.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension S3ClientTypes {
-    public enum InventoryFrequency: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum InventoryFrequency: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case daily
         case weekly
         case sdkUnknown(Swift.String)
@@ -11447,10 +11041,12 @@ extension S3ClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .daily: return "Daily"
@@ -11458,16 +11054,12 @@ extension S3ClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = InventoryFrequency(rawValue: rawValue) ?? InventoryFrequency.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension S3ClientTypes {
-    public enum InventoryIncludedObjectVersions: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum InventoryIncludedObjectVersions: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case all
         case current
         case sdkUnknown(Swift.String)
@@ -11479,10 +11071,12 @@ extension S3ClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .all: return "All"
@@ -11490,16 +11084,12 @@ extension S3ClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = InventoryIncludedObjectVersions(rawValue: rawValue) ?? InventoryIncludedObjectVersions.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension S3ClientTypes {
-    public enum InventoryOptionalField: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum InventoryOptionalField: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case bucketkeystatus
         case checksumalgorithm
         case etag
@@ -11537,10 +11127,12 @@ extension S3ClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .bucketkeystatus: return "BucketKeyStatus"
@@ -11561,36 +11153,29 @@ extension S3ClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = InventoryOptionalField(rawValue: rawValue) ?? InventoryOptionalField.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension S3ClientTypes.InventoryS3BucketDestination {
 
-    static func writingClosure(_ value: S3ClientTypes.InventoryS3BucketDestination?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ClientTypes.InventoryS3BucketDestination?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["AccountId"].write(value.accountId)
         try writer["Bucket"].write(value.bucket)
-        try writer["Encryption"].write(value.encryption, writingClosure: S3ClientTypes.InventoryEncryption.writingClosure(_:to:))
+        try writer["Encryption"].write(value.encryption, with: S3ClientTypes.InventoryEncryption.write(value:to:))
         try writer["Format"].write(value.format)
         try writer["Prefix"].write(value.`prefix`)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.InventoryS3BucketDestination, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.InventoryS3BucketDestination()
-            value.accountId = try reader["AccountId"].readIfPresent()
-            value.bucket = try reader["Bucket"].readIfPresent()
-            value.format = try reader["Format"].readIfPresent()
-            value.`prefix` = try reader["Prefix"].readIfPresent()
-            value.encryption = try reader["Encryption"].readIfPresent(readingClosure: S3ClientTypes.InventoryEncryption.readingClosure)
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.InventoryS3BucketDestination {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.InventoryS3BucketDestination()
+        value.accountId = try reader["AccountId"].readIfPresent()
+        value.bucket = try reader["Bucket"].readIfPresent()
+        value.format = try reader["Format"].readIfPresent()
+        value.`prefix` = try reader["Prefix"].readIfPresent()
+        value.encryption = try reader["Encryption"].readIfPresent(with: S3ClientTypes.InventoryEncryption.read(from:))
+        return value
     }
 }
 
@@ -11630,18 +11215,16 @@ extension S3ClientTypes {
 
 extension S3ClientTypes.InventorySchedule {
 
-    static func writingClosure(_ value: S3ClientTypes.InventorySchedule?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ClientTypes.InventorySchedule?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["Frequency"].write(value.frequency)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.InventorySchedule, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.InventorySchedule()
-            value.frequency = try reader["Frequency"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.InventorySchedule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.InventorySchedule()
+        value.frequency = try reader["Frequency"].readIfPresent()
+        return value
     }
 }
 
@@ -11664,18 +11247,9 @@ extension S3ClientTypes {
 
 extension S3ClientTypes.JSONInput {
 
-    static func writingClosure(_ value: S3ClientTypes.JSONInput?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ClientTypes.JSONInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["Type"].write(value.type)
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.JSONInput, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.JSONInput()
-            value.type = try reader["Type"].readIfPresent()
-            return value
-        }
     }
 }
 
@@ -11697,18 +11271,9 @@ extension S3ClientTypes {
 
 extension S3ClientTypes.JSONOutput {
 
-    static func writingClosure(_ value: S3ClientTypes.JSONOutput?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ClientTypes.JSONOutput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["RecordDelimiter"].write(value.recordDelimiter)
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.JSONOutput, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.JSONOutput()
-            value.recordDelimiter = try reader["RecordDelimiter"].readIfPresent()
-            return value
-        }
     }
 }
 
@@ -11729,7 +11294,8 @@ extension S3ClientTypes {
 }
 
 extension S3ClientTypes {
-    public enum JSONType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum JSONType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case document
         case lines
         case sdkUnknown(Swift.String)
@@ -11741,10 +11307,12 @@ extension S3ClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .document: return "DOCUMENT"
@@ -11752,34 +11320,27 @@ extension S3ClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = JSONType(rawValue: rawValue) ?? JSONType.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension S3ClientTypes.LambdaFunctionConfiguration {
 
-    static func writingClosure(_ value: S3ClientTypes.LambdaFunctionConfiguration?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["Event"].writeList(value.events, memberWritingClosure: S3ClientTypes.Event.writingClosure(_:to:), memberNodeInfo: "member", isFlattened: true)
-        try writer["Filter"].write(value.filter, writingClosure: S3ClientTypes.NotificationConfigurationFilter.writingClosure(_:to:))
+    static func write(value: S3ClientTypes.LambdaFunctionConfiguration?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Event"].writeList(value.events, memberWritingClosure: S3ClientTypes.Event.write(value:to:), memberNodeInfo: "member", isFlattened: true)
+        try writer["Filter"].write(value.filter, with: S3ClientTypes.NotificationConfigurationFilter.write(value:to:))
         try writer["Id"].write(value.id)
         try writer["CloudFunction"].write(value.lambdaFunctionArn)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.LambdaFunctionConfiguration, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.LambdaFunctionConfiguration()
-            value.id = try reader["Id"].readIfPresent()
-            value.lambdaFunctionArn = try reader["CloudFunction"].readIfPresent()
-            value.events = try reader["Event"].readListIfPresent(memberReadingClosure: S3ClientTypes.Event.readingClosure, memberNodeInfo: "member", isFlattened: true)
-            value.filter = try reader["Filter"].readIfPresent(readingClosure: S3ClientTypes.NotificationConfigurationFilter.readingClosure)
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.LambdaFunctionConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.LambdaFunctionConfiguration()
+        value.id = try reader["Id"].readIfPresent()
+        value.lambdaFunctionArn = try reader["CloudFunction"].readIfPresent()
+        value.events = try reader["Event"].readListIfPresent(memberReadingClosure: S3ClientTypes.Event.read(from:), memberNodeInfo: "member", isFlattened: true)
+        value.filter = try reader["Filter"].readIfPresent(with: S3ClientTypes.NotificationConfigurationFilter.read(from:))
+        return value
     }
 }
 
@@ -11815,22 +11376,20 @@ extension S3ClientTypes {
 
 extension S3ClientTypes.LifecycleExpiration {
 
-    static func writingClosure(_ value: S3ClientTypes.LifecycleExpiration?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ClientTypes.LifecycleExpiration?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["Date"].writeTimestamp(value.date, format: .dateTime)
         try writer["Days"].write(value.days)
         try writer["ExpiredObjectDeleteMarker"].write(value.expiredObjectDeleteMarker)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.LifecycleExpiration, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.LifecycleExpiration()
-            value.date = try reader["Date"].readTimestampIfPresent(format: .dateTime)
-            value.days = try reader["Days"].readIfPresent()
-            value.expiredObjectDeleteMarker = try reader["ExpiredObjectDeleteMarker"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.LifecycleExpiration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.LifecycleExpiration()
+        value.date = try reader["Date"].readTimestampIfPresent(format: .dateTime)
+        value.days = try reader["Days"].readIfPresent()
+        value.expiredObjectDeleteMarker = try reader["ExpiredObjectDeleteMarker"].readIfPresent()
+        return value
     }
 }
 
@@ -11860,34 +11419,32 @@ extension S3ClientTypes {
 
 extension S3ClientTypes.LifecycleRule {
 
-    static func writingClosure(_ value: S3ClientTypes.LifecycleRule?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["AbortIncompleteMultipartUpload"].write(value.abortIncompleteMultipartUpload, writingClosure: S3ClientTypes.AbortIncompleteMultipartUpload.writingClosure(_:to:))
-        try writer["Expiration"].write(value.expiration, writingClosure: S3ClientTypes.LifecycleExpiration.writingClosure(_:to:))
-        try writer["Filter"].write(value.filter, writingClosure: S3ClientTypes.LifecycleRuleFilter.writingClosure(_:to:))
+    static func write(value: S3ClientTypes.LifecycleRule?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["AbortIncompleteMultipartUpload"].write(value.abortIncompleteMultipartUpload, with: S3ClientTypes.AbortIncompleteMultipartUpload.write(value:to:))
+        try writer["Expiration"].write(value.expiration, with: S3ClientTypes.LifecycleExpiration.write(value:to:))
+        try writer["Filter"].write(value.filter, with: S3ClientTypes.LifecycleRuleFilter.write(value:to:))
         try writer["ID"].write(value.id)
-        try writer["NoncurrentVersionExpiration"].write(value.noncurrentVersionExpiration, writingClosure: S3ClientTypes.NoncurrentVersionExpiration.writingClosure(_:to:))
-        try writer["NoncurrentVersionTransition"].writeList(value.noncurrentVersionTransitions, memberWritingClosure: S3ClientTypes.NoncurrentVersionTransition.writingClosure(_:to:), memberNodeInfo: "member", isFlattened: true)
+        try writer["NoncurrentVersionExpiration"].write(value.noncurrentVersionExpiration, with: S3ClientTypes.NoncurrentVersionExpiration.write(value:to:))
+        try writer["NoncurrentVersionTransition"].writeList(value.noncurrentVersionTransitions, memberWritingClosure: S3ClientTypes.NoncurrentVersionTransition.write(value:to:), memberNodeInfo: "member", isFlattened: true)
         try writer["Prefix"].write(value.`prefix`)
         try writer["Status"].write(value.status)
-        try writer["Transition"].writeList(value.transitions, memberWritingClosure: S3ClientTypes.Transition.writingClosure(_:to:), memberNodeInfo: "member", isFlattened: true)
+        try writer["Transition"].writeList(value.transitions, memberWritingClosure: S3ClientTypes.Transition.write(value:to:), memberNodeInfo: "member", isFlattened: true)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.LifecycleRule, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.LifecycleRule()
-            value.expiration = try reader["Expiration"].readIfPresent(readingClosure: S3ClientTypes.LifecycleExpiration.readingClosure)
-            value.id = try reader["ID"].readIfPresent()
-            value.`prefix` = try reader["Prefix"].readIfPresent()
-            value.filter = try reader["Filter"].readIfPresent(readingClosure: S3ClientTypes.LifecycleRuleFilter.readingClosure)
-            value.status = try reader["Status"].readIfPresent()
-            value.transitions = try reader["Transition"].readListIfPresent(memberReadingClosure: S3ClientTypes.Transition.readingClosure, memberNodeInfo: "member", isFlattened: true)
-            value.noncurrentVersionTransitions = try reader["NoncurrentVersionTransition"].readListIfPresent(memberReadingClosure: S3ClientTypes.NoncurrentVersionTransition.readingClosure, memberNodeInfo: "member", isFlattened: true)
-            value.noncurrentVersionExpiration = try reader["NoncurrentVersionExpiration"].readIfPresent(readingClosure: S3ClientTypes.NoncurrentVersionExpiration.readingClosure)
-            value.abortIncompleteMultipartUpload = try reader["AbortIncompleteMultipartUpload"].readIfPresent(readingClosure: S3ClientTypes.AbortIncompleteMultipartUpload.readingClosure)
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.LifecycleRule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.LifecycleRule()
+        value.expiration = try reader["Expiration"].readIfPresent(with: S3ClientTypes.LifecycleExpiration.read(from:))
+        value.id = try reader["ID"].readIfPresent()
+        value.`prefix` = try reader["Prefix"].readIfPresent()
+        value.filter = try reader["Filter"].readIfPresent(with: S3ClientTypes.LifecycleRuleFilter.read(from:))
+        value.status = try reader["Status"].readIfPresent()
+        value.transitions = try reader["Transition"].readListIfPresent(memberReadingClosure: S3ClientTypes.Transition.read(from:), memberNodeInfo: "member", isFlattened: true)
+        value.noncurrentVersionTransitions = try reader["NoncurrentVersionTransition"].readListIfPresent(memberReadingClosure: S3ClientTypes.NoncurrentVersionTransition.read(from:), memberNodeInfo: "member", isFlattened: true)
+        value.noncurrentVersionExpiration = try reader["NoncurrentVersionExpiration"].readIfPresent(with: S3ClientTypes.NoncurrentVersionExpiration.read(from:))
+        value.abortIncompleteMultipartUpload = try reader["AbortIncompleteMultipartUpload"].readIfPresent(with: S3ClientTypes.AbortIncompleteMultipartUpload.read(from:))
+        return value
     }
 }
 
@@ -11943,24 +11500,22 @@ extension S3ClientTypes {
 
 extension S3ClientTypes.LifecycleRuleAndOperator {
 
-    static func writingClosure(_ value: S3ClientTypes.LifecycleRuleAndOperator?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ClientTypes.LifecycleRuleAndOperator?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["ObjectSizeGreaterThan"].write(value.objectSizeGreaterThan)
         try writer["ObjectSizeLessThan"].write(value.objectSizeLessThan)
         try writer["Prefix"].write(value.`prefix`)
-        try writer["Tag"].writeList(value.tags, memberWritingClosure: S3ClientTypes.Tag.writingClosure(_:to:), memberNodeInfo: "Tag", isFlattened: true)
+        try writer["Tag"].writeList(value.tags, memberWritingClosure: S3ClientTypes.Tag.write(value:to:), memberNodeInfo: "Tag", isFlattened: true)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.LifecycleRuleAndOperator, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.LifecycleRuleAndOperator()
-            value.`prefix` = try reader["Prefix"].readIfPresent()
-            value.tags = try reader["Tag"].readListIfPresent(memberReadingClosure: S3ClientTypes.Tag.readingClosure, memberNodeInfo: "Tag", isFlattened: true)
-            value.objectSizeGreaterThan = try reader["ObjectSizeGreaterThan"].readIfPresent()
-            value.objectSizeLessThan = try reader["ObjectSizeLessThan"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.LifecycleRuleAndOperator {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.LifecycleRuleAndOperator()
+        value.`prefix` = try reader["Prefix"].readIfPresent()
+        value.tags = try reader["Tag"].readListIfPresent(memberReadingClosure: S3ClientTypes.Tag.read(from:), memberNodeInfo: "Tag", isFlattened: true)
+        value.objectSizeGreaterThan = try reader["ObjectSizeGreaterThan"].readIfPresent()
+        value.objectSizeLessThan = try reader["ObjectSizeLessThan"].readIfPresent()
+        return value
     }
 }
 
@@ -11994,11 +11549,11 @@ extension S3ClientTypes {
 
 extension S3ClientTypes.LifecycleRuleFilter {
 
-    static func writingClosure(_ value: S3ClientTypes.LifecycleRuleFilter?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ClientTypes.LifecycleRuleFilter?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         switch value {
             case let .and(and):
-                try writer["And"].write(and, writingClosure: S3ClientTypes.LifecycleRuleAndOperator.writingClosure(_:to:))
+                try writer["And"].write(and, with: S3ClientTypes.LifecycleRuleAndOperator.write(value:to:))
             case let .objectsizegreaterthan(objectsizegreaterthan):
                 try writer["ObjectSizeGreaterThan"].write(objectsizegreaterthan)
             case let .objectsizelessthan(objectsizelessthan):
@@ -12006,30 +11561,28 @@ extension S3ClientTypes.LifecycleRuleFilter {
             case let .`prefix`(`prefix`):
                 try writer["Prefix"].write(`prefix`)
             case let .tag(tag):
-                try writer["Tag"].write(tag, writingClosure: S3ClientTypes.Tag.writingClosure(_:to:))
+                try writer["Tag"].write(tag, with: S3ClientTypes.Tag.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
-                try writer[.init("sdkUnknown")].write(sdkUnknown)
+                try writer["sdkUnknown"].write(sdkUnknown)
         }
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.LifecycleRuleFilter, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            let name = reader.children.first?.nodeInfo.name
-            switch name {
-                case "Prefix":
-                    return .`prefix`(try reader["Prefix"].read())
-                case "Tag":
-                    return .tag(try reader["Tag"].read(readingClosure: S3ClientTypes.Tag.readingClosure))
-                case "ObjectSizeGreaterThan":
-                    return .objectsizegreaterthan(try reader["ObjectSizeGreaterThan"].read())
-                case "ObjectSizeLessThan":
-                    return .objectsizelessthan(try reader["ObjectSizeLessThan"].read())
-                case "And":
-                    return .and(try reader["And"].read(readingClosure: S3ClientTypes.LifecycleRuleAndOperator.readingClosure))
-                default:
-                    return .sdkUnknown(name ?? "")
-            }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.LifecycleRuleFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "Prefix":
+                return .`prefix`(try reader["Prefix"].read())
+            case "Tag":
+                return .tag(try reader["Tag"].read(with: S3ClientTypes.Tag.read(from:)))
+            case "ObjectSizeGreaterThan":
+                return .objectsizegreaterthan(try reader["ObjectSizeGreaterThan"].read())
+            case "ObjectSizeLessThan":
+                return .objectsizelessthan(try reader["ObjectSizeLessThan"].read())
+            case "And":
+                return .and(try reader["And"].read(with: S3ClientTypes.LifecycleRuleAndOperator.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
         }
     }
 }
@@ -12107,17 +11660,16 @@ public struct ListBucketAnalyticsConfigurationsInput {
 
 extension ListBucketAnalyticsConfigurationsOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<ListBucketAnalyticsConfigurationsOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = ListBucketAnalyticsConfigurationsOutput()
-            value.analyticsConfigurationList = try reader["AnalyticsConfiguration"].readListIfPresent(memberReadingClosure: S3ClientTypes.AnalyticsConfiguration.readingClosure, memberNodeInfo: "member", isFlattened: true)
-            value.continuationToken = try reader["ContinuationToken"].readIfPresent()
-            value.isTruncated = try reader["IsTruncated"].readIfPresent()
-            value.nextContinuationToken = try reader["NextContinuationToken"].readIfPresent()
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListBucketAnalyticsConfigurationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListBucketAnalyticsConfigurationsOutput()
+        value.analyticsConfigurationList = try reader["AnalyticsConfiguration"].readListIfPresent(memberReadingClosure: S3ClientTypes.AnalyticsConfiguration.read(from:), memberNodeInfo: "member", isFlattened: true)
+        value.continuationToken = try reader["ContinuationToken"].readIfPresent()
+        value.isTruncated = try reader["IsTruncated"].readIfPresent()
+        value.nextContinuationToken = try reader["NextContinuationToken"].readIfPresent()
+        return value
     }
 }
 
@@ -12147,13 +11699,14 @@ public struct ListBucketAnalyticsConfigurationsOutput {
 
 enum ListBucketAnalyticsConfigurationsOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -12198,17 +11751,16 @@ public struct ListBucketIntelligentTieringConfigurationsInput {
 
 extension ListBucketIntelligentTieringConfigurationsOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<ListBucketIntelligentTieringConfigurationsOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = ListBucketIntelligentTieringConfigurationsOutput()
-            value.continuationToken = try reader["ContinuationToken"].readIfPresent()
-            value.intelligentTieringConfigurationList = try reader["IntelligentTieringConfiguration"].readListIfPresent(memberReadingClosure: S3ClientTypes.IntelligentTieringConfiguration.readingClosure, memberNodeInfo: "member", isFlattened: true)
-            value.isTruncated = try reader["IsTruncated"].readIfPresent()
-            value.nextContinuationToken = try reader["NextContinuationToken"].readIfPresent()
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListBucketIntelligentTieringConfigurationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListBucketIntelligentTieringConfigurationsOutput()
+        value.continuationToken = try reader["ContinuationToken"].readIfPresent()
+        value.intelligentTieringConfigurationList = try reader["IntelligentTieringConfiguration"].readListIfPresent(memberReadingClosure: S3ClientTypes.IntelligentTieringConfiguration.read(from:), memberNodeInfo: "member", isFlattened: true)
+        value.isTruncated = try reader["IsTruncated"].readIfPresent()
+        value.nextContinuationToken = try reader["NextContinuationToken"].readIfPresent()
+        return value
     }
 }
 
@@ -12238,13 +11790,14 @@ public struct ListBucketIntelligentTieringConfigurationsOutput {
 
 enum ListBucketIntelligentTieringConfigurationsOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -12304,17 +11857,16 @@ public struct ListBucketInventoryConfigurationsInput {
 
 extension ListBucketInventoryConfigurationsOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<ListBucketInventoryConfigurationsOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = ListBucketInventoryConfigurationsOutput()
-            value.continuationToken = try reader["ContinuationToken"].readIfPresent()
-            value.inventoryConfigurationList = try reader["InventoryConfiguration"].readListIfPresent(memberReadingClosure: S3ClientTypes.InventoryConfiguration.readingClosure, memberNodeInfo: "member", isFlattened: true)
-            value.isTruncated = try reader["IsTruncated"].readIfPresent()
-            value.nextContinuationToken = try reader["NextContinuationToken"].readIfPresent()
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListBucketInventoryConfigurationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListBucketInventoryConfigurationsOutput()
+        value.continuationToken = try reader["ContinuationToken"].readIfPresent()
+        value.inventoryConfigurationList = try reader["InventoryConfiguration"].readListIfPresent(memberReadingClosure: S3ClientTypes.InventoryConfiguration.read(from:), memberNodeInfo: "member", isFlattened: true)
+        value.isTruncated = try reader["IsTruncated"].readIfPresent()
+        value.nextContinuationToken = try reader["NextContinuationToken"].readIfPresent()
+        return value
     }
 }
 
@@ -12344,13 +11896,14 @@ public struct ListBucketInventoryConfigurationsOutput {
 
 enum ListBucketInventoryConfigurationsOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -12410,17 +11963,16 @@ public struct ListBucketMetricsConfigurationsInput {
 
 extension ListBucketMetricsConfigurationsOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<ListBucketMetricsConfigurationsOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = ListBucketMetricsConfigurationsOutput()
-            value.continuationToken = try reader["ContinuationToken"].readIfPresent()
-            value.isTruncated = try reader["IsTruncated"].readIfPresent()
-            value.metricsConfigurationList = try reader["MetricsConfiguration"].readListIfPresent(memberReadingClosure: S3ClientTypes.MetricsConfiguration.readingClosure, memberNodeInfo: "member", isFlattened: true)
-            value.nextContinuationToken = try reader["NextContinuationToken"].readIfPresent()
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListBucketMetricsConfigurationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListBucketMetricsConfigurationsOutput()
+        value.continuationToken = try reader["ContinuationToken"].readIfPresent()
+        value.isTruncated = try reader["IsTruncated"].readIfPresent()
+        value.metricsConfigurationList = try reader["MetricsConfiguration"].readListIfPresent(memberReadingClosure: S3ClientTypes.MetricsConfiguration.read(from:), memberNodeInfo: "member", isFlattened: true)
+        value.nextContinuationToken = try reader["NextContinuationToken"].readIfPresent()
+        return value
     }
 }
 
@@ -12450,13 +12002,14 @@ public struct ListBucketMetricsConfigurationsOutput {
 
 enum ListBucketMetricsConfigurationsOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -12484,15 +12037,14 @@ public struct ListBucketsInput {
 
 extension ListBucketsOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<ListBucketsOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = ListBucketsOutput()
-            value.buckets = try reader["Buckets"].readListIfPresent(memberReadingClosure: S3ClientTypes.Bucket.readingClosure, memberNodeInfo: "Bucket", isFlattened: false)
-            value.owner = try reader["Owner"].readIfPresent(readingClosure: S3ClientTypes.Owner.readingClosure)
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListBucketsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListBucketsOutput()
+        value.buckets = try reader["Buckets"].readListIfPresent(memberReadingClosure: S3ClientTypes.Bucket.read(from:), memberNodeInfo: "Bucket", isFlattened: false)
+        value.owner = try reader["Owner"].readIfPresent(with: S3ClientTypes.Owner.read(from:))
+        return value
     }
 }
 
@@ -12514,13 +12066,14 @@ public struct ListBucketsOutput {
 
 enum ListBucketsOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -12567,15 +12120,14 @@ public struct ListDirectoryBucketsInput {
 
 extension ListDirectoryBucketsOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<ListDirectoryBucketsOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = ListDirectoryBucketsOutput()
-            value.buckets = try reader["Buckets"].readListIfPresent(memberReadingClosure: S3ClientTypes.Bucket.readingClosure, memberNodeInfo: "Bucket", isFlattened: false)
-            value.continuationToken = try reader["ContinuationToken"].readIfPresent()
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListDirectoryBucketsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListDirectoryBucketsOutput()
+        value.buckets = try reader["Buckets"].readListIfPresent(memberReadingClosure: S3ClientTypes.Bucket.read(from:), memberNodeInfo: "Bucket", isFlattened: false)
+        value.continuationToken = try reader["ContinuationToken"].readIfPresent()
+        return value
     }
 }
 
@@ -12597,13 +12149,14 @@ public struct ListDirectoryBucketsOutput {
 
 enum ListDirectoryBucketsOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -12713,28 +12266,27 @@ public struct ListMultipartUploadsInput {
 
 extension ListMultipartUploadsOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<ListMultipartUploadsOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = ListMultipartUploadsOutput()
-            if let requestChargedHeaderValue = httpResponse.headers.value(for: "x-amz-request-charged") {
-                value.requestCharged = S3ClientTypes.RequestCharged(rawValue: requestChargedHeaderValue)
-            }
-            value.bucket = try reader["Bucket"].readIfPresent()
-            value.commonPrefixes = try reader["CommonPrefixes"].readListIfPresent(memberReadingClosure: S3ClientTypes.CommonPrefix.readingClosure, memberNodeInfo: "member", isFlattened: true)
-            value.delimiter = try reader["Delimiter"].readIfPresent()
-            value.encodingType = try reader["EncodingType"].readIfPresent()
-            value.isTruncated = try reader["IsTruncated"].readIfPresent()
-            value.keyMarker = try reader["KeyMarker"].readIfPresent()
-            value.maxUploads = try reader["MaxUploads"].readIfPresent()
-            value.nextKeyMarker = try reader["NextKeyMarker"].readIfPresent()
-            value.nextUploadIdMarker = try reader["NextUploadIdMarker"].readIfPresent()
-            value.`prefix` = try reader["Prefix"].readIfPresent()
-            value.uploadIdMarker = try reader["UploadIdMarker"].readIfPresent()
-            value.uploads = try reader["Upload"].readListIfPresent(memberReadingClosure: S3ClientTypes.MultipartUpload.readingClosure, memberNodeInfo: "member", isFlattened: true)
-            return value
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListMultipartUploadsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListMultipartUploadsOutput()
+        if let requestChargedHeaderValue = httpResponse.headers.value(for: "x-amz-request-charged") {
+            value.requestCharged = S3ClientTypes.RequestCharged(rawValue: requestChargedHeaderValue)
         }
+        value.bucket = try reader["Bucket"].readIfPresent()
+        value.commonPrefixes = try reader["CommonPrefixes"].readListIfPresent(memberReadingClosure: S3ClientTypes.CommonPrefix.read(from:), memberNodeInfo: "member", isFlattened: true)
+        value.delimiter = try reader["Delimiter"].readIfPresent()
+        value.encodingType = try reader["EncodingType"].readIfPresent()
+        value.isTruncated = try reader["IsTruncated"].readIfPresent()
+        value.keyMarker = try reader["KeyMarker"].readIfPresent()
+        value.maxUploads = try reader["MaxUploads"].readIfPresent()
+        value.nextKeyMarker = try reader["NextKeyMarker"].readIfPresent()
+        value.nextUploadIdMarker = try reader["NextUploadIdMarker"].readIfPresent()
+        value.`prefix` = try reader["Prefix"].readIfPresent()
+        value.uploadIdMarker = try reader["UploadIdMarker"].readIfPresent()
+        value.uploads = try reader["Upload"].readListIfPresent(memberReadingClosure: S3ClientTypes.MultipartUpload.read(from:), memberNodeInfo: "member", isFlattened: true)
+        return value
     }
 }
 
@@ -12800,13 +12352,14 @@ public struct ListMultipartUploadsOutput {
 
 enum ListMultipartUploadsOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -12921,29 +12474,28 @@ public struct ListObjectVersionsInput {
 
 extension ListObjectVersionsOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<ListObjectVersionsOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = ListObjectVersionsOutput()
-            if let requestChargedHeaderValue = httpResponse.headers.value(for: "x-amz-request-charged") {
-                value.requestCharged = S3ClientTypes.RequestCharged(rawValue: requestChargedHeaderValue)
-            }
-            value.commonPrefixes = try reader["CommonPrefixes"].readListIfPresent(memberReadingClosure: S3ClientTypes.CommonPrefix.readingClosure, memberNodeInfo: "member", isFlattened: true)
-            value.deleteMarkers = try reader["DeleteMarker"].readListIfPresent(memberReadingClosure: S3ClientTypes.DeleteMarkerEntry.readingClosure, memberNodeInfo: "member", isFlattened: true)
-            value.delimiter = try reader["Delimiter"].readIfPresent()
-            value.encodingType = try reader["EncodingType"].readIfPresent()
-            value.isTruncated = try reader["IsTruncated"].readIfPresent()
-            value.keyMarker = try reader["KeyMarker"].readIfPresent()
-            value.maxKeys = try reader["MaxKeys"].readIfPresent()
-            value.name = try reader["Name"].readIfPresent()
-            value.nextKeyMarker = try reader["NextKeyMarker"].readIfPresent()
-            value.nextVersionIdMarker = try reader["NextVersionIdMarker"].readIfPresent()
-            value.`prefix` = try reader["Prefix"].readIfPresent()
-            value.versionIdMarker = try reader["VersionIdMarker"].readIfPresent()
-            value.versions = try reader["Version"].readListIfPresent(memberReadingClosure: S3ClientTypes.ObjectVersion.readingClosure, memberNodeInfo: "member", isFlattened: true)
-            return value
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListObjectVersionsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListObjectVersionsOutput()
+        if let requestChargedHeaderValue = httpResponse.headers.value(for: "x-amz-request-charged") {
+            value.requestCharged = S3ClientTypes.RequestCharged(rawValue: requestChargedHeaderValue)
         }
+        value.commonPrefixes = try reader["CommonPrefixes"].readListIfPresent(memberReadingClosure: S3ClientTypes.CommonPrefix.read(from:), memberNodeInfo: "member", isFlattened: true)
+        value.deleteMarkers = try reader["DeleteMarker"].readListIfPresent(memberReadingClosure: S3ClientTypes.DeleteMarkerEntry.read(from:), memberNodeInfo: "member", isFlattened: true)
+        value.delimiter = try reader["Delimiter"].readIfPresent()
+        value.encodingType = try reader["EncodingType"].readIfPresent()
+        value.isTruncated = try reader["IsTruncated"].readIfPresent()
+        value.keyMarker = try reader["KeyMarker"].readIfPresent()
+        value.maxKeys = try reader["MaxKeys"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.nextKeyMarker = try reader["NextKeyMarker"].readIfPresent()
+        value.nextVersionIdMarker = try reader["NextVersionIdMarker"].readIfPresent()
+        value.`prefix` = try reader["Prefix"].readIfPresent()
+        value.versionIdMarker = try reader["VersionIdMarker"].readIfPresent()
+        value.versions = try reader["Version"].readListIfPresent(memberReadingClosure: S3ClientTypes.ObjectVersion.read(from:), memberNodeInfo: "member", isFlattened: true)
+        return value
     }
 }
 
@@ -13013,13 +12565,14 @@ public struct ListObjectVersionsOutput {
 
 enum ListObjectVersionsOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -13125,26 +12678,25 @@ public struct ListObjectsInput {
 
 extension ListObjectsOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<ListObjectsOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = ListObjectsOutput()
-            if let requestChargedHeaderValue = httpResponse.headers.value(for: "x-amz-request-charged") {
-                value.requestCharged = S3ClientTypes.RequestCharged(rawValue: requestChargedHeaderValue)
-            }
-            value.commonPrefixes = try reader["CommonPrefixes"].readListIfPresent(memberReadingClosure: S3ClientTypes.CommonPrefix.readingClosure, memberNodeInfo: "member", isFlattened: true)
-            value.contents = try reader["Contents"].readListIfPresent(memberReadingClosure: S3ClientTypes.Object.readingClosure, memberNodeInfo: "member", isFlattened: true)
-            value.delimiter = try reader["Delimiter"].readIfPresent()
-            value.encodingType = try reader["EncodingType"].readIfPresent()
-            value.isTruncated = try reader["IsTruncated"].readIfPresent()
-            value.marker = try reader["Marker"].readIfPresent()
-            value.maxKeys = try reader["MaxKeys"].readIfPresent()
-            value.name = try reader["Name"].readIfPresent()
-            value.nextMarker = try reader["NextMarker"].readIfPresent()
-            value.`prefix` = try reader["Prefix"].readIfPresent()
-            return value
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListObjectsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListObjectsOutput()
+        if let requestChargedHeaderValue = httpResponse.headers.value(for: "x-amz-request-charged") {
+            value.requestCharged = S3ClientTypes.RequestCharged(rawValue: requestChargedHeaderValue)
         }
+        value.commonPrefixes = try reader["CommonPrefixes"].readListIfPresent(memberReadingClosure: S3ClientTypes.CommonPrefix.read(from:), memberNodeInfo: "member", isFlattened: true)
+        value.contents = try reader["Contents"].readListIfPresent(memberReadingClosure: S3ClientTypes.Object.read(from:), memberNodeInfo: "member", isFlattened: true)
+        value.delimiter = try reader["Delimiter"].readIfPresent()
+        value.encodingType = try reader["EncodingType"].readIfPresent()
+        value.isTruncated = try reader["IsTruncated"].readIfPresent()
+        value.marker = try reader["Marker"].readIfPresent()
+        value.maxKeys = try reader["MaxKeys"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.nextMarker = try reader["NextMarker"].readIfPresent()
+        value.`prefix` = try reader["Prefix"].readIfPresent()
+        return value
     }
 }
 
@@ -13202,15 +12754,15 @@ public struct ListObjectsOutput {
 
 enum ListObjectsOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let errorBodyReader = AWSClientRuntime.RestXMLError.errorBodyReader(responseReader: responseReader, noErrorWrapping: true)
-            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
-            switch restXMLError.code {
-                case "NoSuchBucket": return try await NoSuchBucket.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2)
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "NoSuchBucket": return try NoSuchBucket.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -13337,28 +12889,27 @@ public struct ListObjectsV2Input {
 
 extension ListObjectsV2Output {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<ListObjectsV2Output, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = ListObjectsV2Output()
-            if let requestChargedHeaderValue = httpResponse.headers.value(for: "x-amz-request-charged") {
-                value.requestCharged = S3ClientTypes.RequestCharged(rawValue: requestChargedHeaderValue)
-            }
-            value.commonPrefixes = try reader["CommonPrefixes"].readListIfPresent(memberReadingClosure: S3ClientTypes.CommonPrefix.readingClosure, memberNodeInfo: "member", isFlattened: true)
-            value.contents = try reader["Contents"].readListIfPresent(memberReadingClosure: S3ClientTypes.Object.readingClosure, memberNodeInfo: "member", isFlattened: true)
-            value.continuationToken = try reader["ContinuationToken"].readIfPresent()
-            value.delimiter = try reader["Delimiter"].readIfPresent()
-            value.encodingType = try reader["EncodingType"].readIfPresent()
-            value.isTruncated = try reader["IsTruncated"].readIfPresent()
-            value.keyCount = try reader["KeyCount"].readIfPresent()
-            value.maxKeys = try reader["MaxKeys"].readIfPresent()
-            value.name = try reader["Name"].readIfPresent()
-            value.nextContinuationToken = try reader["NextContinuationToken"].readIfPresent()
-            value.`prefix` = try reader["Prefix"].readIfPresent()
-            value.startAfter = try reader["StartAfter"].readIfPresent()
-            return value
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListObjectsV2Output {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListObjectsV2Output()
+        if let requestChargedHeaderValue = httpResponse.headers.value(for: "x-amz-request-charged") {
+            value.requestCharged = S3ClientTypes.RequestCharged(rawValue: requestChargedHeaderValue)
         }
+        value.commonPrefixes = try reader["CommonPrefixes"].readListIfPresent(memberReadingClosure: S3ClientTypes.CommonPrefix.read(from:), memberNodeInfo: "member", isFlattened: true)
+        value.contents = try reader["Contents"].readListIfPresent(memberReadingClosure: S3ClientTypes.Object.read(from:), memberNodeInfo: "member", isFlattened: true)
+        value.continuationToken = try reader["ContinuationToken"].readIfPresent()
+        value.delimiter = try reader["Delimiter"].readIfPresent()
+        value.encodingType = try reader["EncodingType"].readIfPresent()
+        value.isTruncated = try reader["IsTruncated"].readIfPresent()
+        value.keyCount = try reader["KeyCount"].readIfPresent()
+        value.maxKeys = try reader["MaxKeys"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.nextContinuationToken = try reader["NextContinuationToken"].readIfPresent()
+        value.`prefix` = try reader["Prefix"].readIfPresent()
+        value.startAfter = try reader["StartAfter"].readIfPresent()
+        return value
     }
 }
 
@@ -13428,15 +12979,15 @@ public struct ListObjectsV2Output {
 
 enum ListObjectsV2OutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let errorBodyReader = AWSClientRuntime.RestXMLError.errorBodyReader(responseReader: responseReader, noErrorWrapping: true)
-            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
-            switch restXMLError.code {
-                case "NoSuchBucket": return try await NoSuchBucket.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2)
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "NoSuchBucket": return try NoSuchBucket.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -13555,34 +13106,33 @@ public struct ListPartsInput {
 
 extension ListPartsOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<ListPartsOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = ListPartsOutput()
-            if let abortDateHeaderValue = httpResponse.headers.value(for: "x-amz-abort-date") {
-                value.abortDate = TimestampFormatter(format: .httpDate).date(from: abortDateHeaderValue)
-            }
-            if let abortRuleIdHeaderValue = httpResponse.headers.value(for: "x-amz-abort-rule-id") {
-                value.abortRuleId = abortRuleIdHeaderValue
-            }
-            if let requestChargedHeaderValue = httpResponse.headers.value(for: "x-amz-request-charged") {
-                value.requestCharged = S3ClientTypes.RequestCharged(rawValue: requestChargedHeaderValue)
-            }
-            value.bucket = try reader["Bucket"].readIfPresent()
-            value.checksumAlgorithm = try reader["ChecksumAlgorithm"].readIfPresent()
-            value.initiator = try reader["Initiator"].readIfPresent(readingClosure: S3ClientTypes.Initiator.readingClosure)
-            value.isTruncated = try reader["IsTruncated"].readIfPresent()
-            value.key = try reader["Key"].readIfPresent()
-            value.maxParts = try reader["MaxParts"].readIfPresent()
-            value.nextPartNumberMarker = try reader["NextPartNumberMarker"].readIfPresent()
-            value.owner = try reader["Owner"].readIfPresent(readingClosure: S3ClientTypes.Owner.readingClosure)
-            value.partNumberMarker = try reader["PartNumberMarker"].readIfPresent()
-            value.parts = try reader["Part"].readListIfPresent(memberReadingClosure: S3ClientTypes.Part.readingClosure, memberNodeInfo: "member", isFlattened: true)
-            value.storageClass = try reader["StorageClass"].readIfPresent()
-            value.uploadId = try reader["UploadId"].readIfPresent()
-            return value
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListPartsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListPartsOutput()
+        if let abortDateHeaderValue = httpResponse.headers.value(for: "x-amz-abort-date") {
+            value.abortDate = TimestampFormatter(format: .httpDate).date(from: abortDateHeaderValue)
         }
+        if let abortRuleIdHeaderValue = httpResponse.headers.value(for: "x-amz-abort-rule-id") {
+            value.abortRuleId = abortRuleIdHeaderValue
+        }
+        if let requestChargedHeaderValue = httpResponse.headers.value(for: "x-amz-request-charged") {
+            value.requestCharged = S3ClientTypes.RequestCharged(rawValue: requestChargedHeaderValue)
+        }
+        value.bucket = try reader["Bucket"].readIfPresent()
+        value.checksumAlgorithm = try reader["ChecksumAlgorithm"].readIfPresent()
+        value.initiator = try reader["Initiator"].readIfPresent(with: S3ClientTypes.Initiator.read(from:))
+        value.isTruncated = try reader["IsTruncated"].readIfPresent()
+        value.key = try reader["Key"].readIfPresent()
+        value.maxParts = try reader["MaxParts"].readIfPresent()
+        value.nextPartNumberMarker = try reader["NextPartNumberMarker"].readIfPresent()
+        value.owner = try reader["Owner"].readIfPresent(with: S3ClientTypes.Owner.read(from:))
+        value.partNumberMarker = try reader["PartNumberMarker"].readIfPresent()
+        value.parts = try reader["Part"].readListIfPresent(memberReadingClosure: S3ClientTypes.Part.read(from:), memberNodeInfo: "member", isFlattened: true)
+        value.storageClass = try reader["StorageClass"].readIfPresent()
+        value.uploadId = try reader["UploadId"].readIfPresent()
+        return value
     }
 }
 
@@ -13656,33 +13206,24 @@ public struct ListPartsOutput {
 
 enum ListPartsOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
 
 extension S3ClientTypes.LocationInfo {
 
-    static func writingClosure(_ value: S3ClientTypes.LocationInfo?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ClientTypes.LocationInfo?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["Name"].write(value.name)
         try writer["Type"].write(value.type)
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.LocationInfo, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.LocationInfo()
-            value.type = try reader["Type"].readIfPresent()
-            value.name = try reader["Name"].readIfPresent()
-            return value
-        }
     }
 }
 
@@ -13707,7 +13248,8 @@ extension S3ClientTypes {
 }
 
 extension S3ClientTypes {
-    public enum LocationType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum LocationType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case availabilityzone
         case sdkUnknown(Swift.String)
 
@@ -13717,44 +13259,39 @@ extension S3ClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .availabilityzone: return "AvailabilityZone"
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = LocationType(rawValue: rawValue) ?? LocationType.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension S3ClientTypes.LoggingEnabled {
 
-    static func writingClosure(_ value: S3ClientTypes.LoggingEnabled?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ClientTypes.LoggingEnabled?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["TargetBucket"].write(value.targetBucket)
-        try writer["TargetGrants"].writeList(value.targetGrants, memberWritingClosure: S3ClientTypes.TargetGrant.writingClosure(_:to:), memberNodeInfo: "Grant", isFlattened: false)
-        try writer["TargetObjectKeyFormat"].write(value.targetObjectKeyFormat, writingClosure: S3ClientTypes.TargetObjectKeyFormat.writingClosure(_:to:))
+        try writer["TargetGrants"].writeList(value.targetGrants, memberWritingClosure: S3ClientTypes.TargetGrant.write(value:to:), memberNodeInfo: "Grant", isFlattened: false)
+        try writer["TargetObjectKeyFormat"].write(value.targetObjectKeyFormat, with: S3ClientTypes.TargetObjectKeyFormat.write(value:to:))
         try writer["TargetPrefix"].write(value.targetPrefix)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.LoggingEnabled, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.LoggingEnabled()
-            value.targetBucket = try reader["TargetBucket"].readIfPresent()
-            value.targetGrants = try reader["TargetGrants"].readListIfPresent(memberReadingClosure: S3ClientTypes.TargetGrant.readingClosure, memberNodeInfo: "Grant", isFlattened: false)
-            value.targetPrefix = try reader["TargetPrefix"].readIfPresent()
-            value.targetObjectKeyFormat = try reader["TargetObjectKeyFormat"].readIfPresent(readingClosure: S3ClientTypes.TargetObjectKeyFormat.readingClosure)
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.LoggingEnabled {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.LoggingEnabled()
+        value.targetBucket = try reader["TargetBucket"].readIfPresent()
+        value.targetGrants = try reader["TargetGrants"].readListIfPresent(memberReadingClosure: S3ClientTypes.TargetGrant.read(from:), memberNodeInfo: "Grant", isFlattened: false)
+        value.targetPrefix = try reader["TargetPrefix"].readIfPresent()
+        value.targetObjectKeyFormat = try reader["TargetObjectKeyFormat"].readIfPresent(with: S3ClientTypes.TargetObjectKeyFormat.read(from:))
+        return value
     }
 }
 
@@ -13789,7 +13326,8 @@ extension S3ClientTypes {
 }
 
 extension S3ClientTypes {
-    public enum MFADelete: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum MFADelete: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case disabled
         case enabled
         case sdkUnknown(Swift.String)
@@ -13801,10 +13339,12 @@ extension S3ClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .disabled: return "Disabled"
@@ -13812,16 +13352,12 @@ extension S3ClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = MFADelete(rawValue: rawValue) ?? MFADelete.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension S3ClientTypes {
-    public enum MFADeleteStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum MFADeleteStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case disabled
         case enabled
         case sdkUnknown(Swift.String)
@@ -13833,10 +13369,12 @@ extension S3ClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .disabled: return "Disabled"
@@ -13844,16 +13382,12 @@ extension S3ClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = MFADeleteStatus(rawValue: rawValue) ?? MFADeleteStatus.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension S3ClientTypes {
-    public enum MetadataDirective: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum MetadataDirective: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case copy
         case replace
         case sdkUnknown(Swift.String)
@@ -13865,10 +13399,12 @@ extension S3ClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .copy: return "COPY"
@@ -13876,30 +13412,15 @@ extension S3ClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = MetadataDirective(rawValue: rawValue) ?? MetadataDirective.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension S3ClientTypes.MetadataEntry {
 
-    static func writingClosure(_ value: S3ClientTypes.MetadataEntry?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ClientTypes.MetadataEntry?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["Name"].write(value.name)
         try writer["Value"].write(value.value)
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.MetadataEntry, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.MetadataEntry()
-            value.name = try reader["Name"].readIfPresent()
-            value.value = try reader["Value"].readIfPresent()
-            return value
-        }
     }
 }
 
@@ -13925,20 +13446,18 @@ extension S3ClientTypes {
 
 extension S3ClientTypes.Metrics {
 
-    static func writingClosure(_ value: S3ClientTypes.Metrics?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["EventThreshold"].write(value.eventThreshold, writingClosure: S3ClientTypes.ReplicationTimeValue.writingClosure(_:to:))
+    static func write(value: S3ClientTypes.Metrics?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["EventThreshold"].write(value.eventThreshold, with: S3ClientTypes.ReplicationTimeValue.write(value:to:))
         try writer["Status"].write(value.status)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.Metrics, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.Metrics()
-            value.status = try reader["Status"].readIfPresent()
-            value.eventThreshold = try reader["EventThreshold"].readIfPresent(readingClosure: S3ClientTypes.ReplicationTimeValue.readingClosure)
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.Metrics {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.Metrics()
+        value.status = try reader["Status"].readIfPresent()
+        value.eventThreshold = try reader["EventThreshold"].readIfPresent(with: S3ClientTypes.ReplicationTimeValue.read(from:))
+        return value
     }
 }
 
@@ -13965,22 +13484,20 @@ extension S3ClientTypes {
 
 extension S3ClientTypes.MetricsAndOperator {
 
-    static func writingClosure(_ value: S3ClientTypes.MetricsAndOperator?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ClientTypes.MetricsAndOperator?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["AccessPointArn"].write(value.accessPointArn)
         try writer["Prefix"].write(value.`prefix`)
-        try writer["Tag"].writeList(value.tags, memberWritingClosure: S3ClientTypes.Tag.writingClosure(_:to:), memberNodeInfo: "Tag", isFlattened: true)
+        try writer["Tag"].writeList(value.tags, memberWritingClosure: S3ClientTypes.Tag.write(value:to:), memberNodeInfo: "Tag", isFlattened: true)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.MetricsAndOperator, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.MetricsAndOperator()
-            value.`prefix` = try reader["Prefix"].readIfPresent()
-            value.tags = try reader["Tag"].readListIfPresent(memberReadingClosure: S3ClientTypes.Tag.readingClosure, memberNodeInfo: "Tag", isFlattened: true)
-            value.accessPointArn = try reader["AccessPointArn"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.MetricsAndOperator {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.MetricsAndOperator()
+        value.`prefix` = try reader["Prefix"].readIfPresent()
+        value.tags = try reader["Tag"].readListIfPresent(memberReadingClosure: S3ClientTypes.Tag.read(from:), memberNodeInfo: "Tag", isFlattened: true)
+        value.accessPointArn = try reader["AccessPointArn"].readIfPresent()
+        return value
     }
 }
 
@@ -14010,20 +13527,18 @@ extension S3ClientTypes {
 
 extension S3ClientTypes.MetricsConfiguration {
 
-    static func writingClosure(_ value: S3ClientTypes.MetricsConfiguration?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["Filter"].write(value.filter, writingClosure: S3ClientTypes.MetricsFilter.writingClosure(_:to:))
+    static func write(value: S3ClientTypes.MetricsConfiguration?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Filter"].write(value.filter, with: S3ClientTypes.MetricsFilter.write(value:to:))
         try writer["Id"].write(value.id)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.MetricsConfiguration, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.MetricsConfiguration()
-            value.id = try reader["Id"].readIfPresent()
-            value.filter = try reader["Filter"].readIfPresent(readingClosure: S3ClientTypes.MetricsFilter.readingClosure)
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.MetricsConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.MetricsConfiguration()
+        value.id = try reader["Id"].readIfPresent()
+        value.filter = try reader["Filter"].readIfPresent(with: S3ClientTypes.MetricsFilter.read(from:))
+        return value
     }
 }
 
@@ -14050,38 +13565,36 @@ extension S3ClientTypes {
 
 extension S3ClientTypes.MetricsFilter {
 
-    static func writingClosure(_ value: S3ClientTypes.MetricsFilter?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ClientTypes.MetricsFilter?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         switch value {
             case let .accesspointarn(accesspointarn):
                 try writer["AccessPointArn"].write(accesspointarn)
             case let .and(and):
-                try writer["And"].write(and, writingClosure: S3ClientTypes.MetricsAndOperator.writingClosure(_:to:))
+                try writer["And"].write(and, with: S3ClientTypes.MetricsAndOperator.write(value:to:))
             case let .`prefix`(`prefix`):
                 try writer["Prefix"].write(`prefix`)
             case let .tag(tag):
-                try writer["Tag"].write(tag, writingClosure: S3ClientTypes.Tag.writingClosure(_:to:))
+                try writer["Tag"].write(tag, with: S3ClientTypes.Tag.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
-                try writer[.init("sdkUnknown")].write(sdkUnknown)
+                try writer["sdkUnknown"].write(sdkUnknown)
         }
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.MetricsFilter, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            let name = reader.children.first?.nodeInfo.name
-            switch name {
-                case "Prefix":
-                    return .`prefix`(try reader["Prefix"].read())
-                case "Tag":
-                    return .tag(try reader["Tag"].read(readingClosure: S3ClientTypes.Tag.readingClosure))
-                case "AccessPointArn":
-                    return .accesspointarn(try reader["AccessPointArn"].read())
-                case "And":
-                    return .and(try reader["And"].read(readingClosure: S3ClientTypes.MetricsAndOperator.readingClosure))
-                default:
-                    return .sdkUnknown(name ?? "")
-            }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.MetricsFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "Prefix":
+                return .`prefix`(try reader["Prefix"].read())
+            case "Tag":
+                return .tag(try reader["Tag"].read(with: S3ClientTypes.Tag.read(from:)))
+            case "AccessPointArn":
+                return .accesspointarn(try reader["AccessPointArn"].read())
+            case "And":
+                return .and(try reader["And"].read(with: S3ClientTypes.MetricsAndOperator.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
         }
     }
 }
@@ -14103,7 +13616,8 @@ extension S3ClientTypes {
 }
 
 extension S3ClientTypes {
-    public enum MetricsStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum MetricsStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case disabled
         case enabled
         case sdkUnknown(Swift.String)
@@ -14115,10 +13629,12 @@ extension S3ClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .disabled: return "Disabled"
@@ -14126,40 +13642,22 @@ extension S3ClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = MetricsStatus(rawValue: rawValue) ?? MetricsStatus.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension S3ClientTypes.MultipartUpload {
 
-    static func writingClosure(_ value: S3ClientTypes.MultipartUpload?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["ChecksumAlgorithm"].write(value.checksumAlgorithm)
-        try writer["Initiated"].writeTimestamp(value.initiated, format: .dateTime)
-        try writer["Initiator"].write(value.initiator, writingClosure: S3ClientTypes.Initiator.writingClosure(_:to:))
-        try writer["Key"].write(value.key)
-        try writer["Owner"].write(value.owner, writingClosure: S3ClientTypes.Owner.writingClosure(_:to:))
-        try writer["StorageClass"].write(value.storageClass)
-        try writer["UploadId"].write(value.uploadId)
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.MultipartUpload, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.MultipartUpload()
-            value.uploadId = try reader["UploadId"].readIfPresent()
-            value.key = try reader["Key"].readIfPresent()
-            value.initiated = try reader["Initiated"].readTimestampIfPresent(format: .dateTime)
-            value.storageClass = try reader["StorageClass"].readIfPresent()
-            value.owner = try reader["Owner"].readIfPresent(readingClosure: S3ClientTypes.Owner.readingClosure)
-            value.initiator = try reader["Initiator"].readIfPresent(readingClosure: S3ClientTypes.Initiator.readingClosure)
-            value.checksumAlgorithm = try reader["ChecksumAlgorithm"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.MultipartUpload {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.MultipartUpload()
+        value.uploadId = try reader["UploadId"].readIfPresent()
+        value.key = try reader["Key"].readIfPresent()
+        value.initiated = try reader["Initiated"].readTimestampIfPresent(format: .dateTime)
+        value.storageClass = try reader["StorageClass"].readIfPresent()
+        value.owner = try reader["Owner"].readIfPresent(with: S3ClientTypes.Owner.read(from:))
+        value.initiator = try reader["Initiator"].readIfPresent(with: S3ClientTypes.Initiator.read(from:))
+        value.checksumAlgorithm = try reader["ChecksumAlgorithm"].readIfPresent()
+        return value
     }
 }
 
@@ -14205,12 +13703,12 @@ extension S3ClientTypes {
 
 extension NoSuchBucket {
 
-    static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil, requestID2: Swift.String? = nil) async throws -> Swift.Error {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchBucket {
         var value = NoSuchBucket()
-        value.httpResponse = httpResponse
-        value.requestID = requestID
-        value.message = message
-        value.requestID2 = requestID2
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        value.requestID2 = baseError.requestID2
         return value
     }
 }
@@ -14231,12 +13729,12 @@ public struct NoSuchBucket: ClientRuntime.ModeledError, AWSClientRuntime.AWSS3Se
 
 extension NoSuchKey {
 
-    static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil, requestID2: Swift.String? = nil) async throws -> Swift.Error {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchKey {
         var value = NoSuchKey()
-        value.httpResponse = httpResponse
-        value.requestID = requestID
-        value.message = message
-        value.requestID2 = requestID2
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        value.requestID2 = baseError.requestID2
         return value
     }
 }
@@ -14257,12 +13755,12 @@ public struct NoSuchKey: ClientRuntime.ModeledError, AWSClientRuntime.AWSS3Servi
 
 extension NoSuchUpload {
 
-    static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil, requestID2: Swift.String? = nil) async throws -> Swift.Error {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchUpload {
         var value = NoSuchUpload()
-        value.httpResponse = httpResponse
-        value.requestID = requestID
-        value.message = message
-        value.requestID2 = requestID2
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        value.requestID2 = baseError.requestID2
         return value
     }
 }
@@ -14283,20 +13781,18 @@ public struct NoSuchUpload: ClientRuntime.ModeledError, AWSClientRuntime.AWSS3Se
 
 extension S3ClientTypes.NoncurrentVersionExpiration {
 
-    static func writingClosure(_ value: S3ClientTypes.NoncurrentVersionExpiration?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ClientTypes.NoncurrentVersionExpiration?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["NewerNoncurrentVersions"].write(value.newerNoncurrentVersions)
         try writer["NoncurrentDays"].write(value.noncurrentDays)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.NoncurrentVersionExpiration, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.NoncurrentVersionExpiration()
-            value.noncurrentDays = try reader["NoncurrentDays"].readIfPresent()
-            value.newerNoncurrentVersions = try reader["NewerNoncurrentVersions"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.NoncurrentVersionExpiration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.NoncurrentVersionExpiration()
+        value.noncurrentDays = try reader["NoncurrentDays"].readIfPresent()
+        value.newerNoncurrentVersions = try reader["NewerNoncurrentVersions"].readIfPresent()
+        return value
     }
 }
 
@@ -14322,22 +13818,20 @@ extension S3ClientTypes {
 
 extension S3ClientTypes.NoncurrentVersionTransition {
 
-    static func writingClosure(_ value: S3ClientTypes.NoncurrentVersionTransition?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ClientTypes.NoncurrentVersionTransition?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["NewerNoncurrentVersions"].write(value.newerNoncurrentVersions)
         try writer["NoncurrentDays"].write(value.noncurrentDays)
         try writer["StorageClass"].write(value.storageClass)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.NoncurrentVersionTransition, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.NoncurrentVersionTransition()
-            value.noncurrentDays = try reader["NoncurrentDays"].readIfPresent()
-            value.storageClass = try reader["StorageClass"].readIfPresent()
-            value.newerNoncurrentVersions = try reader["NewerNoncurrentVersions"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.NoncurrentVersionTransition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.NoncurrentVersionTransition()
+        value.noncurrentDays = try reader["NoncurrentDays"].readIfPresent()
+        value.storageClass = try reader["StorageClass"].readIfPresent()
+        value.newerNoncurrentVersions = try reader["NewerNoncurrentVersions"].readIfPresent()
+        return value
     }
 }
 
@@ -14367,12 +13861,12 @@ extension S3ClientTypes {
 
 extension NotFound {
 
-    static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil, requestID2: Swift.String? = nil) async throws -> Swift.Error {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NotFound {
         var value = NotFound()
-        value.httpResponse = httpResponse
-        value.requestID = requestID
-        value.message = message
-        value.requestID2 = requestID2
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        value.requestID2 = baseError.requestID2
         return value
     }
 }
@@ -14393,24 +13887,12 @@ public struct NotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSS3Servic
 
 extension S3ClientTypes.NotificationConfiguration {
 
-    static func writingClosure(_ value: S3ClientTypes.NotificationConfiguration?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["EventBridgeConfiguration"].write(value.eventBridgeConfiguration, writingClosure: S3ClientTypes.EventBridgeConfiguration.writingClosure(_:to:))
-        try writer["CloudFunctionConfiguration"].writeList(value.lambdaFunctionConfigurations, memberWritingClosure: S3ClientTypes.LambdaFunctionConfiguration.writingClosure(_:to:), memberNodeInfo: "member", isFlattened: true)
-        try writer["QueueConfiguration"].writeList(value.queueConfigurations, memberWritingClosure: S3ClientTypes.QueueConfiguration.writingClosure(_:to:), memberNodeInfo: "member", isFlattened: true)
-        try writer["TopicConfiguration"].writeList(value.topicConfigurations, memberWritingClosure: S3ClientTypes.TopicConfiguration.writingClosure(_:to:), memberNodeInfo: "member", isFlattened: true)
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.NotificationConfiguration, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.NotificationConfiguration()
-            value.topicConfigurations = try reader["TopicConfiguration"].readListIfPresent(memberReadingClosure: S3ClientTypes.TopicConfiguration.readingClosure, memberNodeInfo: "member", isFlattened: true)
-            value.queueConfigurations = try reader["QueueConfiguration"].readListIfPresent(memberReadingClosure: S3ClientTypes.QueueConfiguration.readingClosure, memberNodeInfo: "member", isFlattened: true)
-            value.lambdaFunctionConfigurations = try reader["CloudFunctionConfiguration"].readListIfPresent(memberReadingClosure: S3ClientTypes.LambdaFunctionConfiguration.readingClosure, memberNodeInfo: "member", isFlattened: true)
-            value.eventBridgeConfiguration = try reader["EventBridgeConfiguration"].readIfPresent(readingClosure: S3ClientTypes.EventBridgeConfiguration.readingClosure)
-            return value
-        }
+    static func write(value: S3ClientTypes.NotificationConfiguration?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["EventBridgeConfiguration"].write(value.eventBridgeConfiguration, with: S3ClientTypes.EventBridgeConfiguration.write(value:to:))
+        try writer["CloudFunctionConfiguration"].writeList(value.lambdaFunctionConfigurations, memberWritingClosure: S3ClientTypes.LambdaFunctionConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: true)
+        try writer["QueueConfiguration"].writeList(value.queueConfigurations, memberWritingClosure: S3ClientTypes.QueueConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: true)
+        try writer["TopicConfiguration"].writeList(value.topicConfigurations, memberWritingClosure: S3ClientTypes.TopicConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: true)
     }
 }
 
@@ -14444,18 +13926,16 @@ extension S3ClientTypes {
 
 extension S3ClientTypes.NotificationConfigurationFilter {
 
-    static func writingClosure(_ value: S3ClientTypes.NotificationConfigurationFilter?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["S3Key"].write(value.key, writingClosure: S3ClientTypes.S3KeyFilter.writingClosure(_:to:))
+    static func write(value: S3ClientTypes.NotificationConfigurationFilter?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["S3Key"].write(value.key, with: S3ClientTypes.S3KeyFilter.write(value:to:))
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.NotificationConfigurationFilter, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.NotificationConfigurationFilter()
-            value.key = try reader["S3Key"].readIfPresent(readingClosure: S3ClientTypes.S3KeyFilter.readingClosure)
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.NotificationConfigurationFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.NotificationConfigurationFilter()
+        value.key = try reader["S3Key"].readIfPresent(with: S3ClientTypes.S3KeyFilter.read(from:))
+        return value
     }
 }
 
@@ -14477,32 +13957,18 @@ extension S3ClientTypes {
 
 extension S3ClientTypes.Object {
 
-    static func writingClosure(_ value: S3ClientTypes.Object?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["ChecksumAlgorithm"].writeList(value.checksumAlgorithm, memberWritingClosure: S3ClientTypes.ChecksumAlgorithm.writingClosure(_:to:), memberNodeInfo: "member", isFlattened: true)
-        try writer["ETag"].write(value.eTag)
-        try writer["Key"].write(value.key)
-        try writer["LastModified"].writeTimestamp(value.lastModified, format: .dateTime)
-        try writer["Owner"].write(value.owner, writingClosure: S3ClientTypes.Owner.writingClosure(_:to:))
-        try writer["RestoreStatus"].write(value.restoreStatus, writingClosure: S3ClientTypes.RestoreStatus.writingClosure(_:to:))
-        try writer["Size"].write(value.size)
-        try writer["StorageClass"].write(value.storageClass)
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.Object, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.Object()
-            value.key = try reader["Key"].readIfPresent()
-            value.lastModified = try reader["LastModified"].readTimestampIfPresent(format: .dateTime)
-            value.eTag = try reader["ETag"].readIfPresent()
-            value.checksumAlgorithm = try reader["ChecksumAlgorithm"].readListIfPresent(memberReadingClosure: S3ClientTypes.ChecksumAlgorithm.readingClosure, memberNodeInfo: "member", isFlattened: true)
-            value.size = try reader["Size"].readIfPresent()
-            value.storageClass = try reader["StorageClass"].readIfPresent()
-            value.owner = try reader["Owner"].readIfPresent(readingClosure: S3ClientTypes.Owner.readingClosure)
-            value.restoreStatus = try reader["RestoreStatus"].readIfPresent(readingClosure: S3ClientTypes.RestoreStatus.readingClosure)
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.Object {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.Object()
+        value.key = try reader["Key"].readIfPresent()
+        value.lastModified = try reader["LastModified"].readTimestampIfPresent(format: .dateTime)
+        value.eTag = try reader["ETag"].readIfPresent()
+        value.checksumAlgorithm = try reader["ChecksumAlgorithm"].readListIfPresent(memberReadingClosure: S3ClientTypes.ChecksumAlgorithm.read(from:), memberNodeInfo: "member", isFlattened: true)
+        value.size = try reader["Size"].readIfPresent()
+        value.storageClass = try reader["StorageClass"].readIfPresent()
+        value.owner = try reader["Owner"].readIfPresent(with: S3ClientTypes.Owner.read(from:))
+        value.restoreStatus = try reader["RestoreStatus"].readIfPresent(with: S3ClientTypes.RestoreStatus.read(from:))
+        return value
     }
 }
 
@@ -14561,12 +14027,12 @@ extension S3ClientTypes {
 
 extension ObjectAlreadyInActiveTierError {
 
-    static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil, requestID2: Swift.String? = nil) async throws -> Swift.Error {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> ObjectAlreadyInActiveTierError {
         var value = ObjectAlreadyInActiveTierError()
-        value.httpResponse = httpResponse
-        value.requestID = requestID
-        value.message = message
-        value.requestID2 = requestID2
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        value.requestID2 = baseError.requestID2
         return value
     }
 }
@@ -14586,7 +14052,8 @@ public struct ObjectAlreadyInActiveTierError: ClientRuntime.ModeledError, AWSCli
 }
 
 extension S3ClientTypes {
-    public enum ObjectAttributes: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum ObjectAttributes: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case checksum
         case etag
         case objectParts
@@ -14604,10 +14071,12 @@ extension S3ClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .checksum: return "Checksum"
@@ -14618,16 +14087,12 @@ extension S3ClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = ObjectAttributes(rawValue: rawValue) ?? ObjectAttributes.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension S3ClientTypes {
-    public enum ObjectCannedACL: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum ObjectCannedACL: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case authenticatedRead
         case awsExecRead
         case bucketOwnerFullControl
@@ -14649,10 +14114,12 @@ extension S3ClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .authenticatedRead: return "authenticated-read"
@@ -14665,30 +14132,15 @@ extension S3ClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = ObjectCannedACL(rawValue: rawValue) ?? ObjectCannedACL.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension S3ClientTypes.ObjectIdentifier {
 
-    static func writingClosure(_ value: S3ClientTypes.ObjectIdentifier?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ClientTypes.ObjectIdentifier?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["Key"].write(value.key)
         try writer["VersionId"].write(value.versionId)
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.ObjectIdentifier, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.ObjectIdentifier()
-            value.key = try reader["Key"].readIfPresent()
-            value.versionId = try reader["VersionId"].readIfPresent()
-            return value
-        }
     }
 }
 
@@ -14715,20 +14167,18 @@ extension S3ClientTypes {
 
 extension S3ClientTypes.ObjectLockConfiguration {
 
-    static func writingClosure(_ value: S3ClientTypes.ObjectLockConfiguration?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ClientTypes.ObjectLockConfiguration?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["ObjectLockEnabled"].write(value.objectLockEnabled)
-        try writer["Rule"].write(value.rule, writingClosure: S3ClientTypes.ObjectLockRule.writingClosure(_:to:))
+        try writer["Rule"].write(value.rule, with: S3ClientTypes.ObjectLockRule.write(value:to:))
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.ObjectLockConfiguration, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.ObjectLockConfiguration()
-            value.objectLockEnabled = try reader["ObjectLockEnabled"].readIfPresent()
-            value.rule = try reader["Rule"].readIfPresent(readingClosure: S3ClientTypes.ObjectLockRule.readingClosure)
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.ObjectLockConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.ObjectLockConfiguration()
+        value.objectLockEnabled = try reader["ObjectLockEnabled"].readIfPresent()
+        value.rule = try reader["Rule"].readIfPresent(with: S3ClientTypes.ObjectLockRule.read(from:))
+        return value
     }
 }
 
@@ -14753,7 +14203,8 @@ extension S3ClientTypes {
 }
 
 extension S3ClientTypes {
-    public enum ObjectLockEnabled: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum ObjectLockEnabled: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case enabled
         case sdkUnknown(Swift.String)
 
@@ -14763,38 +14214,33 @@ extension S3ClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .enabled: return "Enabled"
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = ObjectLockEnabled(rawValue: rawValue) ?? ObjectLockEnabled.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension S3ClientTypes.ObjectLockLegalHold {
 
-    static func writingClosure(_ value: S3ClientTypes.ObjectLockLegalHold?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ClientTypes.ObjectLockLegalHold?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["Status"].write(value.status)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.ObjectLockLegalHold, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.ObjectLockLegalHold()
-            value.status = try reader["Status"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.ObjectLockLegalHold {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.ObjectLockLegalHold()
+        value.status = try reader["Status"].readIfPresent()
+        return value
     }
 }
 
@@ -14815,7 +14261,8 @@ extension S3ClientTypes {
 }
 
 extension S3ClientTypes {
-    public enum ObjectLockLegalHoldStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum ObjectLockLegalHoldStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case off
         case on
         case sdkUnknown(Swift.String)
@@ -14827,10 +14274,12 @@ extension S3ClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .off: return "OFF"
@@ -14838,16 +14287,12 @@ extension S3ClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = ObjectLockLegalHoldStatus(rawValue: rawValue) ?? ObjectLockLegalHoldStatus.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension S3ClientTypes {
-    public enum ObjectLockMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum ObjectLockMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case compliance
         case governance
         case sdkUnknown(Swift.String)
@@ -14859,10 +14304,12 @@ extension S3ClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .compliance: return "COMPLIANCE"
@@ -14870,30 +14317,23 @@ extension S3ClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = ObjectLockMode(rawValue: rawValue) ?? ObjectLockMode.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension S3ClientTypes.ObjectLockRetention {
 
-    static func writingClosure(_ value: S3ClientTypes.ObjectLockRetention?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ClientTypes.ObjectLockRetention?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["Mode"].write(value.mode)
         try writer["RetainUntilDate"].writeTimestamp(value.retainUntilDate, format: .dateTime)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.ObjectLockRetention, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.ObjectLockRetention()
-            value.mode = try reader["Mode"].readIfPresent()
-            value.retainUntilDate = try reader["RetainUntilDate"].readTimestampIfPresent(format: .dateTime)
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.ObjectLockRetention {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.ObjectLockRetention()
+        value.mode = try reader["Mode"].readIfPresent()
+        value.retainUntilDate = try reader["RetainUntilDate"].readTimestampIfPresent(format: .dateTime)
+        return value
     }
 }
 
@@ -14918,7 +14358,8 @@ extension S3ClientTypes {
 }
 
 extension S3ClientTypes {
-    public enum ObjectLockRetentionMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum ObjectLockRetentionMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case compliance
         case governance
         case sdkUnknown(Swift.String)
@@ -14930,10 +14371,12 @@ extension S3ClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .compliance: return "COMPLIANCE"
@@ -14941,28 +14384,21 @@ extension S3ClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = ObjectLockRetentionMode(rawValue: rawValue) ?? ObjectLockRetentionMode.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension S3ClientTypes.ObjectLockRule {
 
-    static func writingClosure(_ value: S3ClientTypes.ObjectLockRule?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["DefaultRetention"].write(value.defaultRetention, writingClosure: S3ClientTypes.DefaultRetention.writingClosure(_:to:))
+    static func write(value: S3ClientTypes.ObjectLockRule?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["DefaultRetention"].write(value.defaultRetention, with: S3ClientTypes.DefaultRetention.write(value:to:))
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.ObjectLockRule, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.ObjectLockRule()
-            value.defaultRetention = try reader["DefaultRetention"].readIfPresent(readingClosure: S3ClientTypes.DefaultRetention.readingClosure)
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.ObjectLockRule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.ObjectLockRule()
+        value.defaultRetention = try reader["DefaultRetention"].readIfPresent(with: S3ClientTypes.DefaultRetention.read(from:))
+        return value
     }
 }
 
@@ -14984,12 +14420,12 @@ extension S3ClientTypes {
 
 extension ObjectNotInActiveTierError {
 
-    static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil, requestID2: Swift.String? = nil) async throws -> Swift.Error {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> ObjectNotInActiveTierError {
         var value = ObjectNotInActiveTierError()
-        value.httpResponse = httpResponse
-        value.requestID = requestID
-        value.message = message
-        value.requestID2 = requestID2
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        value.requestID2 = baseError.requestID2
         return value
     }
 }
@@ -15009,8 +14445,9 @@ public struct ObjectNotInActiveTierError: ClientRuntime.ModeledError, AWSClientR
 }
 
 extension S3ClientTypes {
+
     /// The container element for object ownership for a bucket's ownership controls. BucketOwnerPreferred - Objects uploaded to the bucket change ownership to the bucket owner if the objects are uploaded with the bucket-owner-full-control canned ACL. ObjectWriter - The uploading account will own the object if the object is uploaded with the bucket-owner-full-control canned ACL. BucketOwnerEnforced - Access control lists (ACLs) are disabled and no longer affect permissions. The bucket owner automatically owns and has full control over every object in the bucket. The bucket only accepts PUT requests that don't specify an ACL or specify bucket owner full control ACLs (such as the predefined bucket-owner-full-control canned ACL or a custom ACL in XML format that grants the same permissions). By default, ObjectOwnership is set to BucketOwnerEnforced and ACLs are disabled. We recommend keeping ACLs disabled, except in uncommon use cases where you must control access for each object individually. For more information about S3 Object Ownership, see [Controlling ownership of objects and disabling ACLs for your bucket](https://docs.aws.amazon.com/AmazonS3/latest/userguide/about-object-ownership.html) in the Amazon S3 User Guide. This functionality is not supported for directory buckets. Directory buckets use the bucket owner enforced setting for S3 Object Ownership.
-    public enum ObjectOwnership: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+    public enum ObjectOwnership: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case bucketownerenforced
         case bucketownerpreferred
         case objectwriter
@@ -15024,10 +14461,12 @@ extension S3ClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .bucketownerenforced: return "BucketOwnerEnforced"
@@ -15036,38 +14475,21 @@ extension S3ClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = ObjectOwnership(rawValue: rawValue) ?? ObjectOwnership.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension S3ClientTypes.ObjectPart {
 
-    static func writingClosure(_ value: S3ClientTypes.ObjectPart?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["ChecksumCRC32"].write(value.checksumCRC32)
-        try writer["ChecksumCRC32C"].write(value.checksumCRC32C)
-        try writer["ChecksumSHA1"].write(value.checksumSHA1)
-        try writer["ChecksumSHA256"].write(value.checksumSHA256)
-        try writer["PartNumber"].write(value.partNumber)
-        try writer["Size"].write(value.size)
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.ObjectPart, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.ObjectPart()
-            value.partNumber = try reader["PartNumber"].readIfPresent()
-            value.size = try reader["Size"].readIfPresent()
-            value.checksumCRC32 = try reader["ChecksumCRC32"].readIfPresent()
-            value.checksumCRC32C = try reader["ChecksumCRC32C"].readIfPresent()
-            value.checksumSHA1 = try reader["ChecksumSHA1"].readIfPresent()
-            value.checksumSHA256 = try reader["ChecksumSHA256"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.ObjectPart {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.ObjectPart()
+        value.partNumber = try reader["PartNumber"].readIfPresent()
+        value.size = try reader["Size"].readIfPresent()
+        value.checksumCRC32 = try reader["ChecksumCRC32"].readIfPresent()
+        value.checksumCRC32C = try reader["ChecksumCRC32C"].readIfPresent()
+        value.checksumSHA1 = try reader["ChecksumSHA1"].readIfPresent()
+        value.checksumSHA256 = try reader["ChecksumSHA256"].readIfPresent()
+        return value
     }
 }
 
@@ -15108,7 +14530,8 @@ extension S3ClientTypes {
 }
 
 extension S3ClientTypes {
-    public enum ObjectStorageClass: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum ObjectStorageClass: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case deepArchive
         case expressOnezone
         case glacier
@@ -15138,10 +14561,12 @@ extension S3ClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .deepArchive: return "DEEP_ARCHIVE"
@@ -15158,46 +14583,25 @@ extension S3ClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = ObjectStorageClass(rawValue: rawValue) ?? ObjectStorageClass.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension S3ClientTypes.ObjectVersion {
 
-    static func writingClosure(_ value: S3ClientTypes.ObjectVersion?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["ChecksumAlgorithm"].writeList(value.checksumAlgorithm, memberWritingClosure: S3ClientTypes.ChecksumAlgorithm.writingClosure(_:to:), memberNodeInfo: "member", isFlattened: true)
-        try writer["ETag"].write(value.eTag)
-        try writer["IsLatest"].write(value.isLatest)
-        try writer["Key"].write(value.key)
-        try writer["LastModified"].writeTimestamp(value.lastModified, format: .dateTime)
-        try writer["Owner"].write(value.owner, writingClosure: S3ClientTypes.Owner.writingClosure(_:to:))
-        try writer["RestoreStatus"].write(value.restoreStatus, writingClosure: S3ClientTypes.RestoreStatus.writingClosure(_:to:))
-        try writer["Size"].write(value.size)
-        try writer["StorageClass"].write(value.storageClass)
-        try writer["VersionId"].write(value.versionId)
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.ObjectVersion, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.ObjectVersion()
-            value.eTag = try reader["ETag"].readIfPresent()
-            value.checksumAlgorithm = try reader["ChecksumAlgorithm"].readListIfPresent(memberReadingClosure: S3ClientTypes.ChecksumAlgorithm.readingClosure, memberNodeInfo: "member", isFlattened: true)
-            value.size = try reader["Size"].readIfPresent()
-            value.storageClass = try reader["StorageClass"].readIfPresent()
-            value.key = try reader["Key"].readIfPresent()
-            value.versionId = try reader["VersionId"].readIfPresent()
-            value.isLatest = try reader["IsLatest"].readIfPresent()
-            value.lastModified = try reader["LastModified"].readTimestampIfPresent(format: .dateTime)
-            value.owner = try reader["Owner"].readIfPresent(readingClosure: S3ClientTypes.Owner.readingClosure)
-            value.restoreStatus = try reader["RestoreStatus"].readIfPresent(readingClosure: S3ClientTypes.RestoreStatus.readingClosure)
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.ObjectVersion {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.ObjectVersion()
+        value.eTag = try reader["ETag"].readIfPresent()
+        value.checksumAlgorithm = try reader["ChecksumAlgorithm"].readListIfPresent(memberReadingClosure: S3ClientTypes.ChecksumAlgorithm.read(from:), memberNodeInfo: "member", isFlattened: true)
+        value.size = try reader["Size"].readIfPresent()
+        value.storageClass = try reader["StorageClass"].readIfPresent()
+        value.key = try reader["Key"].readIfPresent()
+        value.versionId = try reader["VersionId"].readIfPresent()
+        value.isLatest = try reader["IsLatest"].readIfPresent()
+        value.lastModified = try reader["LastModified"].readTimestampIfPresent(format: .dateTime)
+        value.owner = try reader["Owner"].readIfPresent(with: S3ClientTypes.Owner.read(from:))
+        value.restoreStatus = try reader["RestoreStatus"].readIfPresent(with: S3ClientTypes.RestoreStatus.read(from:))
+        return value
     }
 }
 
@@ -15254,7 +14658,8 @@ extension S3ClientTypes {
 }
 
 extension S3ClientTypes {
-    public enum ObjectVersionStorageClass: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum ObjectVersionStorageClass: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case standard
         case sdkUnknown(Swift.String)
 
@@ -15264,26 +14669,24 @@ extension S3ClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .standard: return "STANDARD"
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = ObjectVersionStorageClass(rawValue: rawValue) ?? ObjectVersionStorageClass.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension S3ClientTypes {
-    public enum OptionalObjectAttributes: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum OptionalObjectAttributes: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case restoreStatus
         case sdkUnknown(Swift.String)
 
@@ -15293,38 +14696,26 @@ extension S3ClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .restoreStatus: return "RestoreStatus"
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = OptionalObjectAttributes(rawValue: rawValue) ?? OptionalObjectAttributes.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension S3ClientTypes.OutputLocation {
 
-    static func writingClosure(_ value: S3ClientTypes.OutputLocation?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["S3"].write(value.s3, writingClosure: S3ClientTypes.S3Location.writingClosure(_:to:))
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.OutputLocation, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.OutputLocation()
-            value.s3 = try reader["S3"].readIfPresent(readingClosure: S3ClientTypes.S3Location.readingClosure)
-            return value
-        }
+    static func write(value: S3ClientTypes.OutputLocation?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["S3"].write(value.s3, with: S3ClientTypes.S3Location.write(value:to:))
     }
 }
 
@@ -15346,20 +14737,10 @@ extension S3ClientTypes {
 
 extension S3ClientTypes.OutputSerialization {
 
-    static func writingClosure(_ value: S3ClientTypes.OutputSerialization?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["CSV"].write(value.csv, writingClosure: S3ClientTypes.CSVOutput.writingClosure(_:to:))
-        try writer["JSON"].write(value.json, writingClosure: S3ClientTypes.JSONOutput.writingClosure(_:to:))
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.OutputSerialization, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.OutputSerialization()
-            value.csv = try reader["CSV"].readIfPresent(readingClosure: S3ClientTypes.CSVOutput.readingClosure)
-            value.json = try reader["JSON"].readIfPresent(readingClosure: S3ClientTypes.JSONOutput.readingClosure)
-            return value
-        }
+    static func write(value: S3ClientTypes.OutputSerialization?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["CSV"].write(value.csv, with: S3ClientTypes.CSVOutput.write(value:to:))
+        try writer["JSON"].write(value.json, with: S3ClientTypes.JSONOutput.write(value:to:))
     }
 }
 
@@ -15385,20 +14766,18 @@ extension S3ClientTypes {
 
 extension S3ClientTypes.Owner {
 
-    static func writingClosure(_ value: S3ClientTypes.Owner?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ClientTypes.Owner?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["DisplayName"].write(value.displayName)
         try writer["ID"].write(value.id)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.Owner, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.Owner()
-            value.displayName = try reader["DisplayName"].readIfPresent()
-            value.id = try reader["ID"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.Owner {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.Owner()
+        value.displayName = try reader["DisplayName"].readIfPresent()
+        value.id = try reader["ID"].readIfPresent()
+        return value
     }
 }
 
@@ -15442,7 +14821,8 @@ extension S3ClientTypes {
 }
 
 extension S3ClientTypes {
-    public enum OwnerOverride: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum OwnerOverride: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case destination
         case sdkUnknown(Swift.String)
 
@@ -15452,38 +14832,33 @@ extension S3ClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .destination: return "Destination"
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = OwnerOverride(rawValue: rawValue) ?? OwnerOverride.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension S3ClientTypes.OwnershipControls {
 
-    static func writingClosure(_ value: S3ClientTypes.OwnershipControls?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["Rule"].writeList(value.rules, memberWritingClosure: S3ClientTypes.OwnershipControlsRule.writingClosure(_:to:), memberNodeInfo: "member", isFlattened: true)
+    static func write(value: S3ClientTypes.OwnershipControls?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Rule"].writeList(value.rules, memberWritingClosure: S3ClientTypes.OwnershipControlsRule.write(value:to:), memberNodeInfo: "member", isFlattened: true)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.OwnershipControls, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.OwnershipControls()
-            value.rules = try reader["Rule"].readListIfPresent(memberReadingClosure: S3ClientTypes.OwnershipControlsRule.readingClosure, memberNodeInfo: "member", isFlattened: true)
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.OwnershipControls {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.OwnershipControls()
+        value.rules = try reader["Rule"].readListIfPresent(memberReadingClosure: S3ClientTypes.OwnershipControlsRule.read(from:), memberNodeInfo: "member", isFlattened: true)
+        return value
     }
 }
 
@@ -15506,18 +14881,16 @@ extension S3ClientTypes {
 
 extension S3ClientTypes.OwnershipControlsRule {
 
-    static func writingClosure(_ value: S3ClientTypes.OwnershipControlsRule?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ClientTypes.OwnershipControlsRule?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["ObjectOwnership"].write(value.objectOwnership)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.OwnershipControlsRule, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.OwnershipControlsRule()
-            value.objectOwnership = try reader["ObjectOwnership"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.OwnershipControlsRule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.OwnershipControlsRule()
+        value.objectOwnership = try reader["ObjectOwnership"].readIfPresent()
+        return value
     }
 }
 
@@ -15540,15 +14913,9 @@ extension S3ClientTypes {
 
 extension S3ClientTypes.ParquetInput {
 
-    static func writingClosure(_ value: S3ClientTypes.ParquetInput?, to writer: SmithyXML.Writer) throws {
-        guard value != nil else { writer.detach(); return }
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.ParquetInput, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil || Mirror(reflecting: self).children.isEmpty else { return nil }
-            return S3ClientTypes.ParquetInput()
-        }
+    static func write(value: S3ClientTypes.ParquetInput?, to writer: SmithyXML.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
     }
 }
 
@@ -15563,32 +14930,18 @@ extension S3ClientTypes {
 
 extension S3ClientTypes.Part {
 
-    static func writingClosure(_ value: S3ClientTypes.Part?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["ChecksumCRC32"].write(value.checksumCRC32)
-        try writer["ChecksumCRC32C"].write(value.checksumCRC32C)
-        try writer["ChecksumSHA1"].write(value.checksumSHA1)
-        try writer["ChecksumSHA256"].write(value.checksumSHA256)
-        try writer["ETag"].write(value.eTag)
-        try writer["LastModified"].writeTimestamp(value.lastModified, format: .dateTime)
-        try writer["PartNumber"].write(value.partNumber)
-        try writer["Size"].write(value.size)
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.Part, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.Part()
-            value.partNumber = try reader["PartNumber"].readIfPresent()
-            value.lastModified = try reader["LastModified"].readTimestampIfPresent(format: .dateTime)
-            value.eTag = try reader["ETag"].readIfPresent()
-            value.size = try reader["Size"].readIfPresent()
-            value.checksumCRC32 = try reader["ChecksumCRC32"].readIfPresent()
-            value.checksumCRC32C = try reader["ChecksumCRC32C"].readIfPresent()
-            value.checksumSHA1 = try reader["ChecksumSHA1"].readIfPresent()
-            value.checksumSHA256 = try reader["ChecksumSHA256"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.Part {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.Part()
+        value.partNumber = try reader["PartNumber"].readIfPresent()
+        value.lastModified = try reader["LastModified"].readTimestampIfPresent(format: .dateTime)
+        value.eTag = try reader["ETag"].readIfPresent()
+        value.size = try reader["Size"].readIfPresent()
+        value.checksumCRC32 = try reader["ChecksumCRC32"].readIfPresent()
+        value.checksumCRC32C = try reader["ChecksumCRC32C"].readIfPresent()
+        value.checksumSHA1 = try reader["ChecksumSHA1"].readIfPresent()
+        value.checksumSHA256 = try reader["ChecksumSHA256"].readIfPresent()
+        return value
     }
 }
 
@@ -15637,7 +14990,8 @@ extension S3ClientTypes {
 }
 
 extension S3ClientTypes {
-    public enum PartitionDateSource: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum PartitionDateSource: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case deliverytime
         case eventtime
         case sdkUnknown(Swift.String)
@@ -15649,10 +15003,12 @@ extension S3ClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .deliverytime: return "DeliveryTime"
@@ -15660,28 +15016,21 @@ extension S3ClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = PartitionDateSource(rawValue: rawValue) ?? PartitionDateSource.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension S3ClientTypes.PartitionedPrefix {
 
-    static func writingClosure(_ value: S3ClientTypes.PartitionedPrefix?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ClientTypes.PartitionedPrefix?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["PartitionDateSource"].write(value.partitionDateSource)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.PartitionedPrefix, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.PartitionedPrefix()
-            value.partitionDateSource = try reader["PartitionDateSource"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.PartitionedPrefix {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.PartitionedPrefix()
+        value.partitionDateSource = try reader["PartitionDateSource"].readIfPresent()
+        return value
     }
 }
 
@@ -15702,7 +15051,8 @@ extension S3ClientTypes {
 }
 
 extension S3ClientTypes {
-    public enum Payer: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum Payer: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case bucketowner
         case requester
         case sdkUnknown(Swift.String)
@@ -15714,10 +15064,12 @@ extension S3ClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .bucketowner: return "BucketOwner"
@@ -15725,16 +15077,12 @@ extension S3ClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = Payer(rawValue: rawValue) ?? Payer.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension S3ClientTypes {
-    public enum Permission: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum Permission: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case fullControl
         case read
         case readAcp
@@ -15752,10 +15100,12 @@ extension S3ClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .fullControl: return "FULL_CONTROL"
@@ -15766,28 +15116,16 @@ extension S3ClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = Permission(rawValue: rawValue) ?? Permission.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension S3ClientTypes.PolicyStatus {
 
-    static func writingClosure(_ value: S3ClientTypes.PolicyStatus?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["IsPublic"].write(value.isPublic)
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.PolicyStatus, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.PolicyStatus()
-            value.isPublic = try reader["IsPublic"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.PolicyStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.PolicyStatus()
+        value.isPublic = try reader["IsPublic"].readIfPresent()
+        return value
     }
 }
 
@@ -15809,22 +15147,13 @@ extension S3ClientTypes {
 
 extension S3ClientTypes.Progress {
 
-    static func writingClosure(_ value: S3ClientTypes.Progress?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["BytesProcessed"].write(value.bytesProcessed)
-        try writer["BytesReturned"].write(value.bytesReturned)
-        try writer["BytesScanned"].write(value.bytesScanned)
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.Progress, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.Progress()
-            value.bytesScanned = try reader["BytesScanned"].readIfPresent()
-            value.bytesProcessed = try reader["BytesProcessed"].readIfPresent()
-            value.bytesReturned = try reader["BytesReturned"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.Progress {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.Progress()
+        value.bytesScanned = try reader["BytesScanned"].readIfPresent()
+        value.bytesProcessed = try reader["BytesProcessed"].readIfPresent()
+        value.bytesReturned = try reader["BytesReturned"].readIfPresent()
+        return value
     }
 }
 
@@ -15854,18 +15183,11 @@ extension S3ClientTypes {
 
 extension S3ClientTypes.ProgressEvent {
 
-    static func writingClosure(_ value: S3ClientTypes.ProgressEvent?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["Details"].write(value.details, writingClosure: S3ClientTypes.Progress.writingClosure(_:to:))
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.ProgressEvent, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.ProgressEvent()
-            value.details = try reader["Details"].readIfPresent(readingClosure: S3ClientTypes.Progress.readingClosure)
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.ProgressEvent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.ProgressEvent()
+        value.details = try reader["Details"].readIfPresent(with: S3ClientTypes.Progress.read(from:))
+        return value
     }
 }
 
@@ -15886,7 +15208,8 @@ extension S3ClientTypes {
 }
 
 extension S3ClientTypes {
-    public enum ModelProtocol: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum ModelProtocol: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case http
         case https
         case sdkUnknown(Swift.String)
@@ -15898,10 +15221,12 @@ extension S3ClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .http: return "http"
@@ -15909,34 +15234,27 @@ extension S3ClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = ModelProtocol(rawValue: rawValue) ?? ModelProtocol.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension S3ClientTypes.PublicAccessBlockConfiguration {
 
-    static func writingClosure(_ value: S3ClientTypes.PublicAccessBlockConfiguration?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ClientTypes.PublicAccessBlockConfiguration?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["BlockPublicAcls"].write(value.blockPublicAcls)
         try writer["BlockPublicPolicy"].write(value.blockPublicPolicy)
         try writer["IgnorePublicAcls"].write(value.ignorePublicAcls)
         try writer["RestrictPublicBuckets"].write(value.restrictPublicBuckets)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.PublicAccessBlockConfiguration, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.PublicAccessBlockConfiguration()
-            value.blockPublicAcls = try reader["BlockPublicAcls"].readIfPresent()
-            value.ignorePublicAcls = try reader["IgnorePublicAcls"].readIfPresent()
-            value.blockPublicPolicy = try reader["BlockPublicPolicy"].readIfPresent()
-            value.restrictPublicBuckets = try reader["RestrictPublicBuckets"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.PublicAccessBlockConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.PublicAccessBlockConfiguration()
+        value.blockPublicAcls = try reader["BlockPublicAcls"].readIfPresent()
+        value.ignorePublicAcls = try reader["IgnorePublicAcls"].readIfPresent()
+        value.blockPublicPolicy = try reader["BlockPublicPolicy"].readIfPresent()
+        value.restrictPublicBuckets = try reader["RestrictPublicBuckets"].readIfPresent()
+        return value
     }
 }
 
@@ -15978,13 +15296,6 @@ extension S3ClientTypes {
 }
 
 extension PutBucketAccelerateConfigurationInput {
-    static func writingClosure(_ value: PutBucketAccelerateConfigurationInput?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["AccelerateConfiguration"].write(value.accelerateConfiguration, writingClosure: S3ClientTypes.AccelerateConfiguration.writingClosure(_:to:))
-    }
-}
-
-extension PutBucketAccelerateConfigurationInput {
 
     static func headerProvider(_ value: PutBucketAccelerateConfigurationInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
@@ -16011,6 +15322,14 @@ extension PutBucketAccelerateConfigurationInput {
 
     static func urlPathProvider(_ value: PutBucketAccelerateConfigurationInput) -> Swift.String? {
         return "/"
+    }
+}
+
+extension PutBucketAccelerateConfigurationInput {
+
+    static func write(value: PutBucketAccelerateConfigurationInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["AccelerateConfiguration"].write(value.accelerateConfiguration, with: S3ClientTypes.AccelerateConfiguration.write(value:to:))
     }
 }
 
@@ -16042,10 +15361,8 @@ public struct PutBucketAccelerateConfigurationInput {
 
 extension PutBucketAccelerateConfigurationOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<PutBucketAccelerateConfigurationOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            return PutBucketAccelerateConfigurationOutput()
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutBucketAccelerateConfigurationOutput {
+        return PutBucketAccelerateConfigurationOutput()
     }
 }
 
@@ -16056,21 +15373,15 @@ public struct PutBucketAccelerateConfigurationOutput {
 
 enum PutBucketAccelerateConfigurationOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
-    }
-}
-
-extension PutBucketAclInput {
-    static func writingClosure(_ value: PutBucketAclInput?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["AccessControlPolicy"].write(value.accessControlPolicy, writingClosure: S3ClientTypes.AccessControlPolicy.writingClosure(_:to:))
     }
 }
 
@@ -16122,6 +15433,14 @@ extension PutBucketAclInput {
 
     static func urlPathProvider(_ value: PutBucketAclInput) -> Swift.String? {
         return "/"
+    }
+}
+
+extension PutBucketAclInput {
+
+    static func write(value: PutBucketAclInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["AccessControlPolicy"].write(value.accessControlPolicy, with: S3ClientTypes.AccessControlPolicy.write(value:to:))
     }
 }
 
@@ -16180,10 +15499,8 @@ public struct PutBucketAclInput {
 
 extension PutBucketAclOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<PutBucketAclOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            return PutBucketAclOutput()
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutBucketAclOutput {
+        return PutBucketAclOutput()
     }
 }
 
@@ -16194,21 +15511,15 @@ public struct PutBucketAclOutput {
 
 enum PutBucketAclOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
-    }
-}
-
-extension PutBucketAnalyticsConfigurationInput {
-    static func writingClosure(_ value: PutBucketAnalyticsConfigurationInput?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["AnalyticsConfiguration"].write(value.analyticsConfiguration, writingClosure: S3ClientTypes.AnalyticsConfiguration.writingClosure(_:to:))
     }
 }
 
@@ -16245,6 +15556,14 @@ extension PutBucketAnalyticsConfigurationInput {
     }
 }
 
+extension PutBucketAnalyticsConfigurationInput {
+
+    static func write(value: PutBucketAnalyticsConfigurationInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["AnalyticsConfiguration"].write(value.analyticsConfiguration, with: S3ClientTypes.AnalyticsConfiguration.write(value:to:))
+    }
+}
+
 public struct PutBucketAnalyticsConfigurationInput {
     /// The configuration and any analyses for the analytics filter.
     /// This member is required.
@@ -16274,10 +15593,8 @@ public struct PutBucketAnalyticsConfigurationInput {
 
 extension PutBucketAnalyticsConfigurationOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<PutBucketAnalyticsConfigurationOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            return PutBucketAnalyticsConfigurationOutput()
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutBucketAnalyticsConfigurationOutput {
+        return PutBucketAnalyticsConfigurationOutput()
     }
 }
 
@@ -16288,21 +15605,15 @@ public struct PutBucketAnalyticsConfigurationOutput {
 
 enum PutBucketAnalyticsConfigurationOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
-    }
-}
-
-extension PutBucketCorsInput {
-    static func writingClosure(_ value: PutBucketCorsInput?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["CORSConfiguration"].write(value.corsConfiguration, writingClosure: S3ClientTypes.CORSConfiguration.writingClosure(_:to:))
     }
 }
 
@@ -16339,6 +15650,14 @@ extension PutBucketCorsInput {
     }
 }
 
+extension PutBucketCorsInput {
+
+    static func write(value: PutBucketCorsInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["CORSConfiguration"].write(value.corsConfiguration, with: S3ClientTypes.CORSConfiguration.write(value:to:))
+    }
+}
+
 public struct PutBucketCorsInput {
     /// Specifies the bucket impacted by the corsconfiguration.
     /// This member is required.
@@ -16371,10 +15690,8 @@ public struct PutBucketCorsInput {
 
 extension PutBucketCorsOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<PutBucketCorsOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            return PutBucketCorsOutput()
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutBucketCorsOutput {
+        return PutBucketCorsOutput()
     }
 }
 
@@ -16385,21 +15702,15 @@ public struct PutBucketCorsOutput {
 
 enum PutBucketCorsOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
-    }
-}
-
-extension PutBucketEncryptionInput {
-    static func writingClosure(_ value: PutBucketEncryptionInput?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["ServerSideEncryptionConfiguration"].write(value.serverSideEncryptionConfiguration, writingClosure: S3ClientTypes.ServerSideEncryptionConfiguration.writingClosure(_:to:))
     }
 }
 
@@ -16436,6 +15747,14 @@ extension PutBucketEncryptionInput {
     }
 }
 
+extension PutBucketEncryptionInput {
+
+    static func write(value: PutBucketEncryptionInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["ServerSideEncryptionConfiguration"].write(value.serverSideEncryptionConfiguration, with: S3ClientTypes.ServerSideEncryptionConfiguration.write(value:to:))
+    }
+}
+
 public struct PutBucketEncryptionInput {
     /// Specifies default encryption for a bucket using server-side encryption with different key options. By default, all buckets have a default encryption configuration that uses server-side encryption with Amazon S3 managed keys (SSE-S3). You can optionally configure default encryption for a bucket by using server-side encryption with an Amazon Web Services KMS key (SSE-KMS) or a customer-provided key (SSE-C). For information about the bucket default encryption feature, see [Amazon S3 Bucket Default Encryption](https://docs.aws.amazon.com/AmazonS3/latest/dev/bucket-encryption.html) in the Amazon S3 User Guide.
     /// This member is required.
@@ -16468,10 +15787,8 @@ public struct PutBucketEncryptionInput {
 
 extension PutBucketEncryptionOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<PutBucketEncryptionOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            return PutBucketEncryptionOutput()
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutBucketEncryptionOutput {
+        return PutBucketEncryptionOutput()
     }
 }
 
@@ -16482,21 +15799,15 @@ public struct PutBucketEncryptionOutput {
 
 enum PutBucketEncryptionOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
-    }
-}
-
-extension PutBucketIntelligentTieringConfigurationInput {
-    static func writingClosure(_ value: PutBucketIntelligentTieringConfigurationInput?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["IntelligentTieringConfiguration"].write(value.intelligentTieringConfiguration, writingClosure: S3ClientTypes.IntelligentTieringConfiguration.writingClosure(_:to:))
     }
 }
 
@@ -16519,6 +15830,14 @@ extension PutBucketIntelligentTieringConfigurationInput {
 
     static func urlPathProvider(_ value: PutBucketIntelligentTieringConfigurationInput) -> Swift.String? {
         return "/"
+    }
+}
+
+extension PutBucketIntelligentTieringConfigurationInput {
+
+    static func write(value: PutBucketIntelligentTieringConfigurationInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["IntelligentTieringConfiguration"].write(value.intelligentTieringConfiguration, with: S3ClientTypes.IntelligentTieringConfiguration.write(value:to:))
     }
 }
 
@@ -16547,10 +15866,8 @@ public struct PutBucketIntelligentTieringConfigurationInput {
 
 extension PutBucketIntelligentTieringConfigurationOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<PutBucketIntelligentTieringConfigurationOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            return PutBucketIntelligentTieringConfigurationOutput()
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutBucketIntelligentTieringConfigurationOutput {
+        return PutBucketIntelligentTieringConfigurationOutput()
     }
 }
 
@@ -16561,21 +15878,15 @@ public struct PutBucketIntelligentTieringConfigurationOutput {
 
 enum PutBucketIntelligentTieringConfigurationOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
-    }
-}
-
-extension PutBucketInventoryConfigurationInput {
-    static func writingClosure(_ value: PutBucketInventoryConfigurationInput?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["InventoryConfiguration"].write(value.inventoryConfiguration, writingClosure: S3ClientTypes.InventoryConfiguration.writingClosure(_:to:))
     }
 }
 
@@ -16612,6 +15923,14 @@ extension PutBucketInventoryConfigurationInput {
     }
 }
 
+extension PutBucketInventoryConfigurationInput {
+
+    static func write(value: PutBucketInventoryConfigurationInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["InventoryConfiguration"].write(value.inventoryConfiguration, with: S3ClientTypes.InventoryConfiguration.write(value:to:))
+    }
+}
+
 public struct PutBucketInventoryConfigurationInput {
     /// The name of the bucket where the inventory configuration will be stored.
     /// This member is required.
@@ -16641,10 +15960,8 @@ public struct PutBucketInventoryConfigurationInput {
 
 extension PutBucketInventoryConfigurationOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<PutBucketInventoryConfigurationOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            return PutBucketInventoryConfigurationOutput()
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutBucketInventoryConfigurationOutput {
+        return PutBucketInventoryConfigurationOutput()
     }
 }
 
@@ -16655,21 +15972,15 @@ public struct PutBucketInventoryConfigurationOutput {
 
 enum PutBucketInventoryConfigurationOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
-    }
-}
-
-extension PutBucketLifecycleConfigurationInput {
-    static func writingClosure(_ value: PutBucketLifecycleConfigurationInput?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["LifecycleConfiguration"].write(value.lifecycleConfiguration, writingClosure: S3ClientTypes.BucketLifecycleConfiguration.writingClosure(_:to:))
     }
 }
 
@@ -16703,6 +16014,14 @@ extension PutBucketLifecycleConfigurationInput {
     }
 }
 
+extension PutBucketLifecycleConfigurationInput {
+
+    static func write(value: PutBucketLifecycleConfigurationInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["LifecycleConfiguration"].write(value.lifecycleConfiguration, with: S3ClientTypes.BucketLifecycleConfiguration.write(value:to:))
+    }
+}
+
 public struct PutBucketLifecycleConfigurationInput {
     /// The name of the bucket for which to set the configuration.
     /// This member is required.
@@ -16730,10 +16049,8 @@ public struct PutBucketLifecycleConfigurationInput {
 
 extension PutBucketLifecycleConfigurationOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<PutBucketLifecycleConfigurationOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            return PutBucketLifecycleConfigurationOutput()
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutBucketLifecycleConfigurationOutput {
+        return PutBucketLifecycleConfigurationOutput()
     }
 }
 
@@ -16744,21 +16061,15 @@ public struct PutBucketLifecycleConfigurationOutput {
 
 enum PutBucketLifecycleConfigurationOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
-    }
-}
-
-extension PutBucketLoggingInput {
-    static func writingClosure(_ value: PutBucketLoggingInput?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["BucketLoggingStatus"].write(value.bucketLoggingStatus, writingClosure: S3ClientTypes.BucketLoggingStatus.writingClosure(_:to:))
     }
 }
 
@@ -16795,6 +16106,14 @@ extension PutBucketLoggingInput {
     }
 }
 
+extension PutBucketLoggingInput {
+
+    static func write(value: PutBucketLoggingInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["BucketLoggingStatus"].write(value.bucketLoggingStatus, with: S3ClientTypes.BucketLoggingStatus.write(value:to:))
+    }
+}
+
 public struct PutBucketLoggingInput {
     /// The name of the bucket for which to set the logging parameters.
     /// This member is required.
@@ -16827,10 +16146,8 @@ public struct PutBucketLoggingInput {
 
 extension PutBucketLoggingOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<PutBucketLoggingOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            return PutBucketLoggingOutput()
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutBucketLoggingOutput {
+        return PutBucketLoggingOutput()
     }
 }
 
@@ -16841,21 +16158,15 @@ public struct PutBucketLoggingOutput {
 
 enum PutBucketLoggingOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
-    }
-}
-
-extension PutBucketMetricsConfigurationInput {
-    static func writingClosure(_ value: PutBucketMetricsConfigurationInput?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["MetricsConfiguration"].write(value.metricsConfiguration, writingClosure: S3ClientTypes.MetricsConfiguration.writingClosure(_:to:))
     }
 }
 
@@ -16892,6 +16203,14 @@ extension PutBucketMetricsConfigurationInput {
     }
 }
 
+extension PutBucketMetricsConfigurationInput {
+
+    static func write(value: PutBucketMetricsConfigurationInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["MetricsConfiguration"].write(value.metricsConfiguration, with: S3ClientTypes.MetricsConfiguration.write(value:to:))
+    }
+}
+
 public struct PutBucketMetricsConfigurationInput {
     /// The name of the bucket for which the metrics configuration is set.
     /// This member is required.
@@ -16921,10 +16240,8 @@ public struct PutBucketMetricsConfigurationInput {
 
 extension PutBucketMetricsConfigurationOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<PutBucketMetricsConfigurationOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            return PutBucketMetricsConfigurationOutput()
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutBucketMetricsConfigurationOutput {
+        return PutBucketMetricsConfigurationOutput()
     }
 }
 
@@ -16935,21 +16252,15 @@ public struct PutBucketMetricsConfigurationOutput {
 
 enum PutBucketMetricsConfigurationOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
-    }
-}
-
-extension PutBucketNotificationConfigurationInput {
-    static func writingClosure(_ value: PutBucketNotificationConfigurationInput?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["NotificationConfiguration"].write(value.notificationConfiguration, writingClosure: S3ClientTypes.NotificationConfiguration.writingClosure(_:to:))
     }
 }
 
@@ -16983,6 +16294,14 @@ extension PutBucketNotificationConfigurationInput {
     }
 }
 
+extension PutBucketNotificationConfigurationInput {
+
+    static func write(value: PutBucketNotificationConfigurationInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["NotificationConfiguration"].write(value.notificationConfiguration, with: S3ClientTypes.NotificationConfiguration.write(value:to:))
+    }
+}
+
 public struct PutBucketNotificationConfigurationInput {
     /// The name of the bucket.
     /// This member is required.
@@ -17011,10 +16330,8 @@ public struct PutBucketNotificationConfigurationInput {
 
 extension PutBucketNotificationConfigurationOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<PutBucketNotificationConfigurationOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            return PutBucketNotificationConfigurationOutput()
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutBucketNotificationConfigurationOutput {
+        return PutBucketNotificationConfigurationOutput()
     }
 }
 
@@ -17025,21 +16342,15 @@ public struct PutBucketNotificationConfigurationOutput {
 
 enum PutBucketNotificationConfigurationOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
-    }
-}
-
-extension PutBucketOwnershipControlsInput {
-    static func writingClosure(_ value: PutBucketOwnershipControlsInput?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["OwnershipControls"].write(value.ownershipControls, writingClosure: S3ClientTypes.OwnershipControls.writingClosure(_:to:))
     }
 }
 
@@ -17073,6 +16384,14 @@ extension PutBucketOwnershipControlsInput {
     }
 }
 
+extension PutBucketOwnershipControlsInput {
+
+    static func write(value: PutBucketOwnershipControlsInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["OwnershipControls"].write(value.ownershipControls, with: S3ClientTypes.OwnershipControls.write(value:to:))
+    }
+}
+
 public struct PutBucketOwnershipControlsInput {
     /// The name of the Amazon S3 bucket whose OwnershipControls you want to set.
     /// This member is required.
@@ -17101,10 +16420,8 @@ public struct PutBucketOwnershipControlsInput {
 
 extension PutBucketOwnershipControlsOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<PutBucketOwnershipControlsOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            return PutBucketOwnershipControlsOutput()
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutBucketOwnershipControlsOutput {
+        return PutBucketOwnershipControlsOutput()
     }
 }
 
@@ -17115,21 +16432,15 @@ public struct PutBucketOwnershipControlsOutput {
 
 enum PutBucketOwnershipControlsOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
-    }
-}
-
-extension PutBucketPolicyInput {
-    static func writingClosure(_ value: PutBucketPolicyInput?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["Policy"].write(value.policy)
     }
 }
 
@@ -17166,6 +16477,14 @@ extension PutBucketPolicyInput {
 
     static func urlPathProvider(_ value: PutBucketPolicyInput) -> Swift.String? {
         return "/"
+    }
+}
+
+extension PutBucketPolicyInput {
+
+    static func write(value: PutBucketPolicyInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Policy"].write(value.policy)
     }
 }
 
@@ -17216,10 +16535,8 @@ public struct PutBucketPolicyInput {
 
 extension PutBucketPolicyOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<PutBucketPolicyOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            return PutBucketPolicyOutput()
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutBucketPolicyOutput {
+        return PutBucketPolicyOutput()
     }
 }
 
@@ -17230,21 +16547,15 @@ public struct PutBucketPolicyOutput {
 
 enum PutBucketPolicyOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
-    }
-}
-
-extension PutBucketReplicationInput {
-    static func writingClosure(_ value: PutBucketReplicationInput?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["ReplicationConfiguration"].write(value.replicationConfiguration, writingClosure: S3ClientTypes.ReplicationConfiguration.writingClosure(_:to:))
     }
 }
 
@@ -17284,6 +16595,14 @@ extension PutBucketReplicationInput {
     }
 }
 
+extension PutBucketReplicationInput {
+
+    static func write(value: PutBucketReplicationInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["ReplicationConfiguration"].write(value.replicationConfiguration, with: S3ClientTypes.ReplicationConfiguration.write(value:to:))
+    }
+}
+
 public struct PutBucketReplicationInput {
     /// The name of the bucket
     /// This member is required.
@@ -17320,10 +16639,8 @@ public struct PutBucketReplicationInput {
 
 extension PutBucketReplicationOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<PutBucketReplicationOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            return PutBucketReplicationOutput()
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutBucketReplicationOutput {
+        return PutBucketReplicationOutput()
     }
 }
 
@@ -17334,21 +16651,15 @@ public struct PutBucketReplicationOutput {
 
 enum PutBucketReplicationOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
-    }
-}
-
-extension PutBucketRequestPaymentInput {
-    static func writingClosure(_ value: PutBucketRequestPaymentInput?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["RequestPaymentConfiguration"].write(value.requestPaymentConfiguration, writingClosure: S3ClientTypes.RequestPaymentConfiguration.writingClosure(_:to:))
     }
 }
 
@@ -17385,6 +16696,14 @@ extension PutBucketRequestPaymentInput {
     }
 }
 
+extension PutBucketRequestPaymentInput {
+
+    static func write(value: PutBucketRequestPaymentInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["RequestPaymentConfiguration"].write(value.requestPaymentConfiguration, with: S3ClientTypes.RequestPaymentConfiguration.write(value:to:))
+    }
+}
+
 public struct PutBucketRequestPaymentInput {
     /// The bucket name.
     /// This member is required.
@@ -17417,10 +16736,8 @@ public struct PutBucketRequestPaymentInput {
 
 extension PutBucketRequestPaymentOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<PutBucketRequestPaymentOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            return PutBucketRequestPaymentOutput()
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutBucketRequestPaymentOutput {
+        return PutBucketRequestPaymentOutput()
     }
 }
 
@@ -17431,21 +16748,15 @@ public struct PutBucketRequestPaymentOutput {
 
 enum PutBucketRequestPaymentOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
-    }
-}
-
-extension PutBucketTaggingInput {
-    static func writingClosure(_ value: PutBucketTaggingInput?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["Tagging"].write(value.tagging, writingClosure: S3ClientTypes.Tagging.writingClosure(_:to:))
     }
 }
 
@@ -17482,6 +16793,14 @@ extension PutBucketTaggingInput {
     }
 }
 
+extension PutBucketTaggingInput {
+
+    static func write(value: PutBucketTaggingInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Tagging"].write(value.tagging, with: S3ClientTypes.Tagging.write(value:to:))
+    }
+}
+
 public struct PutBucketTaggingInput {
     /// The bucket name.
     /// This member is required.
@@ -17514,10 +16833,8 @@ public struct PutBucketTaggingInput {
 
 extension PutBucketTaggingOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<PutBucketTaggingOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            return PutBucketTaggingOutput()
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutBucketTaggingOutput {
+        return PutBucketTaggingOutput()
     }
 }
 
@@ -17528,21 +16845,15 @@ public struct PutBucketTaggingOutput {
 
 enum PutBucketTaggingOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
-    }
-}
-
-extension PutBucketVersioningInput {
-    static func writingClosure(_ value: PutBucketVersioningInput?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["VersioningConfiguration"].write(value.versioningConfiguration, writingClosure: S3ClientTypes.VersioningConfiguration.writingClosure(_:to:))
     }
 }
 
@@ -17582,6 +16893,14 @@ extension PutBucketVersioningInput {
     }
 }
 
+extension PutBucketVersioningInput {
+
+    static func write(value: PutBucketVersioningInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["VersioningConfiguration"].write(value.versioningConfiguration, with: S3ClientTypes.VersioningConfiguration.write(value:to:))
+    }
+}
+
 public struct PutBucketVersioningInput {
     /// The bucket name.
     /// This member is required.
@@ -17618,10 +16937,8 @@ public struct PutBucketVersioningInput {
 
 extension PutBucketVersioningOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<PutBucketVersioningOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            return PutBucketVersioningOutput()
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutBucketVersioningOutput {
+        return PutBucketVersioningOutput()
     }
 }
 
@@ -17632,21 +16949,15 @@ public struct PutBucketVersioningOutput {
 
 enum PutBucketVersioningOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
-    }
-}
-
-extension PutBucketWebsiteInput {
-    static func writingClosure(_ value: PutBucketWebsiteInput?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["WebsiteConfiguration"].write(value.websiteConfiguration, writingClosure: S3ClientTypes.WebsiteConfiguration.writingClosure(_:to:))
     }
 }
 
@@ -17683,6 +16994,14 @@ extension PutBucketWebsiteInput {
     }
 }
 
+extension PutBucketWebsiteInput {
+
+    static func write(value: PutBucketWebsiteInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["WebsiteConfiguration"].write(value.websiteConfiguration, with: S3ClientTypes.WebsiteConfiguration.write(value:to:))
+    }
+}
+
 public struct PutBucketWebsiteInput {
     /// The bucket name.
     /// This member is required.
@@ -17715,10 +17034,8 @@ public struct PutBucketWebsiteInput {
 
 extension PutBucketWebsiteOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<PutBucketWebsiteOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            return PutBucketWebsiteOutput()
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutBucketWebsiteOutput {
+        return PutBucketWebsiteOutput()
     }
 }
 
@@ -17729,21 +17046,15 @@ public struct PutBucketWebsiteOutput {
 
 enum PutBucketWebsiteOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
-    }
-}
-
-extension PutObjectAclInput {
-    static func writingClosure(_ value: PutObjectAclInput?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["AccessControlPolicy"].write(value.accessControlPolicy, writingClosure: S3ClientTypes.AccessControlPolicy.writingClosure(_:to:))
     }
 }
 
@@ -17805,6 +17116,14 @@ extension PutObjectAclInput {
             return nil
         }
         return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
+    }
+}
+
+extension PutObjectAclInput {
+
+    static func write(value: PutObjectAclInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["AccessControlPolicy"].write(value.accessControlPolicy, with: S3ClientTypes.AccessControlPolicy.write(value:to:))
     }
 }
 
@@ -17876,14 +17195,12 @@ public struct PutObjectAclInput {
 
 extension PutObjectAclOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<PutObjectAclOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            var value = PutObjectAclOutput()
-            if let requestChargedHeaderValue = httpResponse.headers.value(for: "x-amz-request-charged") {
-                value.requestCharged = S3ClientTypes.RequestCharged(rawValue: requestChargedHeaderValue)
-            }
-            return value
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutObjectAclOutput {
+        var value = PutObjectAclOutput()
+        if let requestChargedHeaderValue = httpResponse.headers.value(for: "x-amz-request-charged") {
+            value.requestCharged = S3ClientTypes.RequestCharged(rawValue: requestChargedHeaderValue)
         }
+        return value
     }
 }
 
@@ -17901,15 +17218,15 @@ public struct PutObjectAclOutput {
 
 enum PutObjectAclOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let errorBodyReader = AWSClientRuntime.RestXMLError.errorBodyReader(responseReader: responseReader, noErrorWrapping: true)
-            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
-            switch restXMLError.code {
-                case "NoSuchKey": return try await NoSuchKey.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2)
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "NoSuchKey": return try NoSuchKey.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -17917,13 +17234,6 @@ enum PutObjectAclOutputError {
 extension PutObjectInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "PutObjectInput(acl: \(Swift.String(describing: acl)), body: \(Swift.String(describing: body)), bucket: \(Swift.String(describing: bucket)), bucketKeyEnabled: \(Swift.String(describing: bucketKeyEnabled)), cacheControl: \(Swift.String(describing: cacheControl)), checksumAlgorithm: \(Swift.String(describing: checksumAlgorithm)), checksumCRC32: \(Swift.String(describing: checksumCRC32)), checksumCRC32C: \(Swift.String(describing: checksumCRC32C)), checksumSHA1: \(Swift.String(describing: checksumSHA1)), checksumSHA256: \(Swift.String(describing: checksumSHA256)), contentDisposition: \(Swift.String(describing: contentDisposition)), contentEncoding: \(Swift.String(describing: contentEncoding)), contentLanguage: \(Swift.String(describing: contentLanguage)), contentLength: \(Swift.String(describing: contentLength)), contentMD5: \(Swift.String(describing: contentMD5)), contentType: \(Swift.String(describing: contentType)), expectedBucketOwner: \(Swift.String(describing: expectedBucketOwner)), expires: \(Swift.String(describing: expires)), grantFullControl: \(Swift.String(describing: grantFullControl)), grantRead: \(Swift.String(describing: grantRead)), grantReadACP: \(Swift.String(describing: grantReadACP)), grantWriteACP: \(Swift.String(describing: grantWriteACP)), key: \(Swift.String(describing: key)), metadata: \(Swift.String(describing: metadata)), objectLockLegalHoldStatus: \(Swift.String(describing: objectLockLegalHoldStatus)), objectLockMode: \(Swift.String(describing: objectLockMode)), objectLockRetainUntilDate: \(Swift.String(describing: objectLockRetainUntilDate)), requestPayer: \(Swift.String(describing: requestPayer)), sseCustomerAlgorithm: \(Swift.String(describing: sseCustomerAlgorithm)), sseCustomerKeyMD5: \(Swift.String(describing: sseCustomerKeyMD5)), serverSideEncryption: \(Swift.String(describing: serverSideEncryption)), storageClass: \(Swift.String(describing: storageClass)), tagging: \(Swift.String(describing: tagging)), websiteRedirectLocation: \(Swift.String(describing: websiteRedirectLocation)), sseCustomerKey: \"CONTENT_REDACTED\", ssekmsEncryptionContext: \"CONTENT_REDACTED\", ssekmsKeyId: \"CONTENT_REDACTED\")"}
-}
-
-extension PutObjectInput {
-    static func writingClosure(_ value: PutObjectInput?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["Body"].write(value.body)
-    }
 }
 
 extension PutObjectInput {
@@ -18076,7 +17386,7 @@ extension PutObjectInput {
         builder.retryStrategy(ClientRuntime.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutObjectOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutObjectOutput>(responseClosure(PutObjectOutput.httpBinding, responseDocumentBinding), responseErrorClosure(PutObjectOutputError.httpBinding, responseDocumentBinding)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutObjectOutput>(PutObjectOutput.httpOutput(from:), PutObjectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutObjectInput, PutObjectOutput>(clientLogMode: config.clientLogMode))
         builder.interceptors.add(AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<PutObjectInput, PutObjectOutput>())
         let op = builder.attributes(context)
@@ -18129,7 +17439,7 @@ extension PutObjectInput {
         builder.retryStrategy(ClientRuntime.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutObjectOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutObjectOutput>(responseClosure(PutObjectOutput.httpBinding, responseDocumentBinding), responseErrorClosure(PutObjectOutputError.httpBinding, responseDocumentBinding)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutObjectOutput>(PutObjectOutput.httpOutput(from:), PutObjectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutObjectInput, PutObjectOutput>(clientLogMode: config.clientLogMode))
         builder.interceptors.add(AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<PutObjectInput, PutObjectOutput>())
         let op = builder.attributes(context)
@@ -18193,6 +17503,14 @@ extension PutObjectInput {
             return nil
         }
         return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
+    }
+}
+
+extension PutObjectInput {
+
+    static func write(value: PutObjectInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Body"].write(value.body)
     }
 }
 
@@ -18390,13 +17708,6 @@ public struct PutObjectInput {
 }
 
 extension PutObjectLegalHoldInput {
-    static func writingClosure(_ value: PutObjectLegalHoldInput?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["LegalHold"].write(value.legalHold, writingClosure: S3ClientTypes.ObjectLockLegalHold.writingClosure(_:to:))
-    }
-}
-
-extension PutObjectLegalHoldInput {
 
     static func headerProvider(_ value: PutObjectLegalHoldInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
@@ -18436,6 +17747,14 @@ extension PutObjectLegalHoldInput {
             return nil
         }
         return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
+    }
+}
+
+extension PutObjectLegalHoldInput {
+
+    static func write(value: PutObjectLegalHoldInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["LegalHold"].write(value.legalHold, with: S3ClientTypes.ObjectLockLegalHold.write(value:to:))
     }
 }
 
@@ -18483,14 +17802,12 @@ public struct PutObjectLegalHoldInput {
 
 extension PutObjectLegalHoldOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<PutObjectLegalHoldOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            var value = PutObjectLegalHoldOutput()
-            if let requestChargedHeaderValue = httpResponse.headers.value(for: "x-amz-request-charged") {
-                value.requestCharged = S3ClientTypes.RequestCharged(rawValue: requestChargedHeaderValue)
-            }
-            return value
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutObjectLegalHoldOutput {
+        var value = PutObjectLegalHoldOutput()
+        if let requestChargedHeaderValue = httpResponse.headers.value(for: "x-amz-request-charged") {
+            value.requestCharged = S3ClientTypes.RequestCharged(rawValue: requestChargedHeaderValue)
         }
+        return value
     }
 }
 
@@ -18508,21 +17825,15 @@ public struct PutObjectLegalHoldOutput {
 
 enum PutObjectLegalHoldOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
-    }
-}
-
-extension PutObjectLockConfigurationInput {
-    static func writingClosure(_ value: PutObjectLockConfigurationInput?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["ObjectLockConfiguration"].write(value.objectLockConfiguration, writingClosure: S3ClientTypes.ObjectLockConfiguration.writingClosure(_:to:))
     }
 }
 
@@ -18565,6 +17876,14 @@ extension PutObjectLockConfigurationInput {
     }
 }
 
+extension PutObjectLockConfigurationInput {
+
+    static func write(value: PutObjectLockConfigurationInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["ObjectLockConfiguration"].write(value.objectLockConfiguration, with: S3ClientTypes.ObjectLockConfiguration.write(value:to:))
+    }
+}
+
 public struct PutObjectLockConfigurationInput {
     /// The bucket whose Object Lock configuration you want to create or replace.
     /// This member is required.
@@ -18604,14 +17923,12 @@ public struct PutObjectLockConfigurationInput {
 
 extension PutObjectLockConfigurationOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<PutObjectLockConfigurationOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            var value = PutObjectLockConfigurationOutput()
-            if let requestChargedHeaderValue = httpResponse.headers.value(for: "x-amz-request-charged") {
-                value.requestCharged = S3ClientTypes.RequestCharged(rawValue: requestChargedHeaderValue)
-            }
-            return value
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutObjectLockConfigurationOutput {
+        var value = PutObjectLockConfigurationOutput()
+        if let requestChargedHeaderValue = httpResponse.headers.value(for: "x-amz-request-charged") {
+            value.requestCharged = S3ClientTypes.RequestCharged(rawValue: requestChargedHeaderValue)
         }
+        return value
     }
 }
 
@@ -18629,13 +17946,14 @@ public struct PutObjectLockConfigurationOutput {
 
 enum PutObjectLockConfigurationOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -18647,53 +17965,51 @@ extension PutObjectOutput: Swift.CustomDebugStringConvertible {
 
 extension PutObjectOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<PutObjectOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            var value = PutObjectOutput()
-            if let bucketKeyEnabledHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption-bucket-key-enabled") {
-                value.bucketKeyEnabled = Swift.Bool(bucketKeyEnabledHeaderValue) ?? false
-            }
-            if let checksumCRC32HeaderValue = httpResponse.headers.value(for: "x-amz-checksum-crc32") {
-                value.checksumCRC32 = checksumCRC32HeaderValue
-            }
-            if let checksumCRC32CHeaderValue = httpResponse.headers.value(for: "x-amz-checksum-crc32c") {
-                value.checksumCRC32C = checksumCRC32CHeaderValue
-            }
-            if let checksumSHA1HeaderValue = httpResponse.headers.value(for: "x-amz-checksum-sha1") {
-                value.checksumSHA1 = checksumSHA1HeaderValue
-            }
-            if let checksumSHA256HeaderValue = httpResponse.headers.value(for: "x-amz-checksum-sha256") {
-                value.checksumSHA256 = checksumSHA256HeaderValue
-            }
-            if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
-                value.eTag = eTagHeaderValue
-            }
-            if let expirationHeaderValue = httpResponse.headers.value(for: "x-amz-expiration") {
-                value.expiration = expirationHeaderValue
-            }
-            if let requestChargedHeaderValue = httpResponse.headers.value(for: "x-amz-request-charged") {
-                value.requestCharged = S3ClientTypes.RequestCharged(rawValue: requestChargedHeaderValue)
-            }
-            if let sseCustomerAlgorithmHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption-customer-algorithm") {
-                value.sseCustomerAlgorithm = sseCustomerAlgorithmHeaderValue
-            }
-            if let sseCustomerKeyMD5HeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption-customer-key-MD5") {
-                value.sseCustomerKeyMD5 = sseCustomerKeyMD5HeaderValue
-            }
-            if let ssekmsEncryptionContextHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption-context") {
-                value.ssekmsEncryptionContext = ssekmsEncryptionContextHeaderValue
-            }
-            if let ssekmsKeyIdHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption-aws-kms-key-id") {
-                value.ssekmsKeyId = ssekmsKeyIdHeaderValue
-            }
-            if let serverSideEncryptionHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption") {
-                value.serverSideEncryption = S3ClientTypes.ServerSideEncryption(rawValue: serverSideEncryptionHeaderValue)
-            }
-            if let versionIdHeaderValue = httpResponse.headers.value(for: "x-amz-version-id") {
-                value.versionId = versionIdHeaderValue
-            }
-            return value
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutObjectOutput {
+        var value = PutObjectOutput()
+        if let bucketKeyEnabledHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption-bucket-key-enabled") {
+            value.bucketKeyEnabled = Swift.Bool(bucketKeyEnabledHeaderValue) ?? false
         }
+        if let checksumCRC32HeaderValue = httpResponse.headers.value(for: "x-amz-checksum-crc32") {
+            value.checksumCRC32 = checksumCRC32HeaderValue
+        }
+        if let checksumCRC32CHeaderValue = httpResponse.headers.value(for: "x-amz-checksum-crc32c") {
+            value.checksumCRC32C = checksumCRC32CHeaderValue
+        }
+        if let checksumSHA1HeaderValue = httpResponse.headers.value(for: "x-amz-checksum-sha1") {
+            value.checksumSHA1 = checksumSHA1HeaderValue
+        }
+        if let checksumSHA256HeaderValue = httpResponse.headers.value(for: "x-amz-checksum-sha256") {
+            value.checksumSHA256 = checksumSHA256HeaderValue
+        }
+        if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
+            value.eTag = eTagHeaderValue
+        }
+        if let expirationHeaderValue = httpResponse.headers.value(for: "x-amz-expiration") {
+            value.expiration = expirationHeaderValue
+        }
+        if let requestChargedHeaderValue = httpResponse.headers.value(for: "x-amz-request-charged") {
+            value.requestCharged = S3ClientTypes.RequestCharged(rawValue: requestChargedHeaderValue)
+        }
+        if let sseCustomerAlgorithmHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption-customer-algorithm") {
+            value.sseCustomerAlgorithm = sseCustomerAlgorithmHeaderValue
+        }
+        if let sseCustomerKeyMD5HeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption-customer-key-MD5") {
+            value.sseCustomerKeyMD5 = sseCustomerKeyMD5HeaderValue
+        }
+        if let ssekmsEncryptionContextHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption-context") {
+            value.ssekmsEncryptionContext = ssekmsEncryptionContextHeaderValue
+        }
+        if let ssekmsKeyIdHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption-aws-kms-key-id") {
+            value.ssekmsKeyId = ssekmsKeyIdHeaderValue
+        }
+        if let serverSideEncryptionHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption") {
+            value.serverSideEncryption = S3ClientTypes.ServerSideEncryption(rawValue: serverSideEncryptionHeaderValue)
+        }
+        if let versionIdHeaderValue = httpResponse.headers.value(for: "x-amz-version-id") {
+            value.versionId = versionIdHeaderValue
+        }
+        return value
     }
 }
 
@@ -18763,21 +18079,15 @@ public struct PutObjectOutput {
 
 enum PutObjectOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
-    }
-}
-
-extension PutObjectRetentionInput {
-    static func writingClosure(_ value: PutObjectRetentionInput?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["Retention"].write(value.retention, writingClosure: S3ClientTypes.ObjectLockRetention.writingClosure(_:to:))
     }
 }
 
@@ -18824,6 +18134,14 @@ extension PutObjectRetentionInput {
             return nil
         }
         return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
+    }
+}
+
+extension PutObjectRetentionInput {
+
+    static func write(value: PutObjectRetentionInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Retention"].write(value.retention, with: S3ClientTypes.ObjectLockRetention.write(value:to:))
     }
 }
 
@@ -18875,14 +18193,12 @@ public struct PutObjectRetentionInput {
 
 extension PutObjectRetentionOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<PutObjectRetentionOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            var value = PutObjectRetentionOutput()
-            if let requestChargedHeaderValue = httpResponse.headers.value(for: "x-amz-request-charged") {
-                value.requestCharged = S3ClientTypes.RequestCharged(rawValue: requestChargedHeaderValue)
-            }
-            return value
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutObjectRetentionOutput {
+        var value = PutObjectRetentionOutput()
+        if let requestChargedHeaderValue = httpResponse.headers.value(for: "x-amz-request-charged") {
+            value.requestCharged = S3ClientTypes.RequestCharged(rawValue: requestChargedHeaderValue)
         }
+        return value
     }
 }
 
@@ -18900,21 +18216,15 @@ public struct PutObjectRetentionOutput {
 
 enum PutObjectRetentionOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
-    }
-}
-
-extension PutObjectTaggingInput {
-    static func writingClosure(_ value: PutObjectTaggingInput?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["Tagging"].write(value.tagging, writingClosure: S3ClientTypes.Tagging.writingClosure(_:to:))
     }
 }
 
@@ -18958,6 +18268,14 @@ extension PutObjectTaggingInput {
             return nil
         }
         return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
+    }
+}
+
+extension PutObjectTaggingInput {
+
+    static func write(value: PutObjectTaggingInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Tagging"].write(value.tagging, with: S3ClientTypes.Tagging.write(value:to:))
     }
 }
 
@@ -19006,14 +18324,12 @@ public struct PutObjectTaggingInput {
 
 extension PutObjectTaggingOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<PutObjectTaggingOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            var value = PutObjectTaggingOutput()
-            if let versionIdHeaderValue = httpResponse.headers.value(for: "x-amz-version-id") {
-                value.versionId = versionIdHeaderValue
-            }
-            return value
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutObjectTaggingOutput {
+        var value = PutObjectTaggingOutput()
+        if let versionIdHeaderValue = httpResponse.headers.value(for: "x-amz-version-id") {
+            value.versionId = versionIdHeaderValue
         }
+        return value
     }
 }
 
@@ -19031,21 +18347,15 @@ public struct PutObjectTaggingOutput {
 
 enum PutObjectTaggingOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
-    }
-}
-
-extension PutPublicAccessBlockInput {
-    static func writingClosure(_ value: PutPublicAccessBlockInput?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["PublicAccessBlockConfiguration"].write(value.publicAccessBlockConfiguration, writingClosure: S3ClientTypes.PublicAccessBlockConfiguration.writingClosure(_:to:))
     }
 }
 
@@ -19082,6 +18392,14 @@ extension PutPublicAccessBlockInput {
     }
 }
 
+extension PutPublicAccessBlockInput {
+
+    static func write(value: PutPublicAccessBlockInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["PublicAccessBlockConfiguration"].write(value.publicAccessBlockConfiguration, with: S3ClientTypes.PublicAccessBlockConfiguration.write(value:to:))
+    }
+}
+
 public struct PutPublicAccessBlockInput {
     /// The name of the Amazon S3 bucket whose PublicAccessBlock configuration you want to set.
     /// This member is required.
@@ -19114,10 +18432,8 @@ public struct PutPublicAccessBlockInput {
 
 extension PutPublicAccessBlockOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<PutPublicAccessBlockOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            return PutPublicAccessBlockOutput()
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutPublicAccessBlockOutput {
+        return PutPublicAccessBlockOutput()
     }
 }
 
@@ -19128,37 +18444,36 @@ public struct PutPublicAccessBlockOutput {
 
 enum PutPublicAccessBlockOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
 
 extension S3ClientTypes.QueueConfiguration {
 
-    static func writingClosure(_ value: S3ClientTypes.QueueConfiguration?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["Event"].writeList(value.events, memberWritingClosure: S3ClientTypes.Event.writingClosure(_:to:), memberNodeInfo: "member", isFlattened: true)
-        try writer["Filter"].write(value.filter, writingClosure: S3ClientTypes.NotificationConfigurationFilter.writingClosure(_:to:))
+    static func write(value: S3ClientTypes.QueueConfiguration?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Event"].writeList(value.events, memberWritingClosure: S3ClientTypes.Event.write(value:to:), memberNodeInfo: "member", isFlattened: true)
+        try writer["Filter"].write(value.filter, with: S3ClientTypes.NotificationConfigurationFilter.write(value:to:))
         try writer["Id"].write(value.id)
         try writer["Queue"].write(value.queueArn)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.QueueConfiguration, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.QueueConfiguration()
-            value.id = try reader["Id"].readIfPresent()
-            value.queueArn = try reader["Queue"].readIfPresent()
-            value.events = try reader["Event"].readListIfPresent(memberReadingClosure: S3ClientTypes.Event.readingClosure, memberNodeInfo: "member", isFlattened: true)
-            value.filter = try reader["Filter"].readIfPresent(readingClosure: S3ClientTypes.NotificationConfigurationFilter.readingClosure)
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.QueueConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.QueueConfiguration()
+        value.id = try reader["Id"].readIfPresent()
+        value.queueArn = try reader["Queue"].readIfPresent()
+        value.events = try reader["Event"].readListIfPresent(memberReadingClosure: S3ClientTypes.Event.read(from:), memberNodeInfo: "member", isFlattened: true)
+        value.filter = try reader["Filter"].readIfPresent(with: S3ClientTypes.NotificationConfigurationFilter.read(from:))
+        return value
     }
 }
 
@@ -19193,7 +18508,8 @@ extension S3ClientTypes {
 }
 
 extension S3ClientTypes {
-    public enum QuoteFields: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum QuoteFields: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case always
         case asneeded
         case sdkUnknown(Swift.String)
@@ -19205,10 +18521,12 @@ extension S3ClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .always: return "ALWAYS"
@@ -19216,28 +18534,16 @@ extension S3ClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = QuoteFields(rawValue: rawValue) ?? QuoteFields.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension S3ClientTypes.RecordsEvent {
 
-    static func writingClosure(_ value: S3ClientTypes.RecordsEvent?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["Payload"].write(value.payload)
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.RecordsEvent, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.RecordsEvent()
-            value.payload = try reader["Payload"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.RecordsEvent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.RecordsEvent()
+        value.payload = try reader["Payload"].readIfPresent()
+        return value
     }
 }
 
@@ -19259,8 +18565,8 @@ extension S3ClientTypes {
 
 extension S3ClientTypes.Redirect {
 
-    static func writingClosure(_ value: S3ClientTypes.Redirect?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ClientTypes.Redirect?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["HostName"].write(value.hostName)
         try writer["HttpRedirectCode"].write(value.httpRedirectCode)
         try writer["Protocol"].write(value.`protocol`)
@@ -19268,17 +18574,15 @@ extension S3ClientTypes.Redirect {
         try writer["ReplaceKeyWith"].write(value.replaceKeyWith)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.Redirect, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.Redirect()
-            value.hostName = try reader["HostName"].readIfPresent()
-            value.httpRedirectCode = try reader["HttpRedirectCode"].readIfPresent()
-            value.`protocol` = try reader["Protocol"].readIfPresent()
-            value.replaceKeyPrefixWith = try reader["ReplaceKeyPrefixWith"].readIfPresent()
-            value.replaceKeyWith = try reader["ReplaceKeyWith"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.Redirect {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.Redirect()
+        value.hostName = try reader["HostName"].readIfPresent()
+        value.httpRedirectCode = try reader["HttpRedirectCode"].readIfPresent()
+        value.`protocol` = try reader["Protocol"].readIfPresent()
+        value.replaceKeyPrefixWith = try reader["ReplaceKeyPrefixWith"].readIfPresent()
+        value.replaceKeyWith = try reader["ReplaceKeyWith"].readIfPresent()
+        return value
     }
 }
 
@@ -19316,20 +18620,18 @@ extension S3ClientTypes {
 
 extension S3ClientTypes.RedirectAllRequestsTo {
 
-    static func writingClosure(_ value: S3ClientTypes.RedirectAllRequestsTo?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ClientTypes.RedirectAllRequestsTo?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["HostName"].write(value.hostName)
         try writer["Protocol"].write(value.`protocol`)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.RedirectAllRequestsTo, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.RedirectAllRequestsTo()
-            value.hostName = try reader["HostName"].readIfPresent()
-            value.`protocol` = try reader["Protocol"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.RedirectAllRequestsTo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.RedirectAllRequestsTo()
+        value.hostName = try reader["HostName"].readIfPresent()
+        value.`protocol` = try reader["Protocol"].readIfPresent()
+        return value
     }
 }
 
@@ -19356,18 +18658,16 @@ extension S3ClientTypes {
 
 extension S3ClientTypes.ReplicaModifications {
 
-    static func writingClosure(_ value: S3ClientTypes.ReplicaModifications?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ClientTypes.ReplicaModifications?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["Status"].write(value.status)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.ReplicaModifications, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.ReplicaModifications()
-            value.status = try reader["Status"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.ReplicaModifications {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.ReplicaModifications()
+        value.status = try reader["Status"].readIfPresent()
+        return value
     }
 }
 
@@ -19389,7 +18689,8 @@ extension S3ClientTypes {
 }
 
 extension S3ClientTypes {
-    public enum ReplicaModificationsStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum ReplicaModificationsStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case disabled
         case enabled
         case sdkUnknown(Swift.String)
@@ -19401,10 +18702,12 @@ extension S3ClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .disabled: return "Disabled"
@@ -19412,30 +18715,23 @@ extension S3ClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = ReplicaModificationsStatus(rawValue: rawValue) ?? ReplicaModificationsStatus.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension S3ClientTypes.ReplicationConfiguration {
 
-    static func writingClosure(_ value: S3ClientTypes.ReplicationConfiguration?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ClientTypes.ReplicationConfiguration?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["Role"].write(value.role)
-        try writer["Rule"].writeList(value.rules, memberWritingClosure: S3ClientTypes.ReplicationRule.writingClosure(_:to:), memberNodeInfo: "member", isFlattened: true)
+        try writer["Rule"].writeList(value.rules, memberWritingClosure: S3ClientTypes.ReplicationRule.write(value:to:), memberNodeInfo: "member", isFlattened: true)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.ReplicationConfiguration, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.ReplicationConfiguration()
-            value.role = try reader["Role"].readIfPresent()
-            value.rules = try reader["Rule"].readListIfPresent(memberReadingClosure: S3ClientTypes.ReplicationRule.readingClosure, memberNodeInfo: "member", isFlattened: true)
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.ReplicationConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.ReplicationConfiguration()
+        value.role = try reader["Role"].readIfPresent()
+        value.rules = try reader["Rule"].readListIfPresent(memberReadingClosure: S3ClientTypes.ReplicationRule.read(from:), memberNodeInfo: "member", isFlattened: true)
+        return value
     }
 }
 
@@ -19463,34 +18759,32 @@ extension S3ClientTypes {
 
 extension S3ClientTypes.ReplicationRule {
 
-    static func writingClosure(_ value: S3ClientTypes.ReplicationRule?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["DeleteMarkerReplication"].write(value.deleteMarkerReplication, writingClosure: S3ClientTypes.DeleteMarkerReplication.writingClosure(_:to:))
-        try writer["Destination"].write(value.destination, writingClosure: S3ClientTypes.Destination.writingClosure(_:to:))
-        try writer["ExistingObjectReplication"].write(value.existingObjectReplication, writingClosure: S3ClientTypes.ExistingObjectReplication.writingClosure(_:to:))
-        try writer["Filter"].write(value.filter, writingClosure: S3ClientTypes.ReplicationRuleFilter.writingClosure(_:to:))
+    static func write(value: S3ClientTypes.ReplicationRule?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["DeleteMarkerReplication"].write(value.deleteMarkerReplication, with: S3ClientTypes.DeleteMarkerReplication.write(value:to:))
+        try writer["Destination"].write(value.destination, with: S3ClientTypes.Destination.write(value:to:))
+        try writer["ExistingObjectReplication"].write(value.existingObjectReplication, with: S3ClientTypes.ExistingObjectReplication.write(value:to:))
+        try writer["Filter"].write(value.filter, with: S3ClientTypes.ReplicationRuleFilter.write(value:to:))
         try writer["ID"].write(value.id)
         try writer["Prefix"].write(value.`prefix`)
         try writer["Priority"].write(value.priority)
-        try writer["SourceSelectionCriteria"].write(value.sourceSelectionCriteria, writingClosure: S3ClientTypes.SourceSelectionCriteria.writingClosure(_:to:))
+        try writer["SourceSelectionCriteria"].write(value.sourceSelectionCriteria, with: S3ClientTypes.SourceSelectionCriteria.write(value:to:))
         try writer["Status"].write(value.status)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.ReplicationRule, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.ReplicationRule()
-            value.id = try reader["ID"].readIfPresent()
-            value.priority = try reader["Priority"].readIfPresent()
-            value.`prefix` = try reader["Prefix"].readIfPresent()
-            value.filter = try reader["Filter"].readIfPresent(readingClosure: S3ClientTypes.ReplicationRuleFilter.readingClosure)
-            value.status = try reader["Status"].readIfPresent()
-            value.sourceSelectionCriteria = try reader["SourceSelectionCriteria"].readIfPresent(readingClosure: S3ClientTypes.SourceSelectionCriteria.readingClosure)
-            value.existingObjectReplication = try reader["ExistingObjectReplication"].readIfPresent(readingClosure: S3ClientTypes.ExistingObjectReplication.readingClosure)
-            value.destination = try reader["Destination"].readIfPresent(readingClosure: S3ClientTypes.Destination.readingClosure)
-            value.deleteMarkerReplication = try reader["DeleteMarkerReplication"].readIfPresent(readingClosure: S3ClientTypes.DeleteMarkerReplication.readingClosure)
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.ReplicationRule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.ReplicationRule()
+        value.id = try reader["ID"].readIfPresent()
+        value.priority = try reader["Priority"].readIfPresent()
+        value.`prefix` = try reader["Prefix"].readIfPresent()
+        value.filter = try reader["Filter"].readIfPresent(with: S3ClientTypes.ReplicationRuleFilter.read(from:))
+        value.status = try reader["Status"].readIfPresent()
+        value.sourceSelectionCriteria = try reader["SourceSelectionCriteria"].readIfPresent(with: S3ClientTypes.SourceSelectionCriteria.read(from:))
+        value.existingObjectReplication = try reader["ExistingObjectReplication"].readIfPresent(with: S3ClientTypes.ExistingObjectReplication.read(from:))
+        value.destination = try reader["Destination"].readIfPresent(with: S3ClientTypes.Destination.read(from:))
+        value.deleteMarkerReplication = try reader["DeleteMarkerReplication"].readIfPresent(with: S3ClientTypes.DeleteMarkerReplication.read(from:))
+        return value
     }
 }
 
@@ -19547,20 +18841,18 @@ extension S3ClientTypes {
 
 extension S3ClientTypes.ReplicationRuleAndOperator {
 
-    static func writingClosure(_ value: S3ClientTypes.ReplicationRuleAndOperator?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ClientTypes.ReplicationRuleAndOperator?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["Prefix"].write(value.`prefix`)
-        try writer["Tag"].writeList(value.tags, memberWritingClosure: S3ClientTypes.Tag.writingClosure(_:to:), memberNodeInfo: "Tag", isFlattened: true)
+        try writer["Tag"].writeList(value.tags, memberWritingClosure: S3ClientTypes.Tag.write(value:to:), memberNodeInfo: "Tag", isFlattened: true)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.ReplicationRuleAndOperator, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.ReplicationRuleAndOperator()
-            value.`prefix` = try reader["Prefix"].readIfPresent()
-            value.tags = try reader["Tag"].readListIfPresent(memberReadingClosure: S3ClientTypes.Tag.readingClosure, memberNodeInfo: "Tag", isFlattened: true)
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.ReplicationRuleAndOperator {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.ReplicationRuleAndOperator()
+        value.`prefix` = try reader["Prefix"].readIfPresent()
+        value.tags = try reader["Tag"].readListIfPresent(memberReadingClosure: S3ClientTypes.Tag.read(from:), memberNodeInfo: "Tag", isFlattened: true)
+        return value
     }
 }
 
@@ -19590,34 +18882,32 @@ extension S3ClientTypes {
 
 extension S3ClientTypes.ReplicationRuleFilter {
 
-    static func writingClosure(_ value: S3ClientTypes.ReplicationRuleFilter?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ClientTypes.ReplicationRuleFilter?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         switch value {
             case let .and(and):
-                try writer["And"].write(and, writingClosure: S3ClientTypes.ReplicationRuleAndOperator.writingClosure(_:to:))
+                try writer["And"].write(and, with: S3ClientTypes.ReplicationRuleAndOperator.write(value:to:))
             case let .`prefix`(`prefix`):
                 try writer["Prefix"].write(`prefix`)
             case let .tag(tag):
-                try writer["Tag"].write(tag, writingClosure: S3ClientTypes.Tag.writingClosure(_:to:))
+                try writer["Tag"].write(tag, with: S3ClientTypes.Tag.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
-                try writer[.init("sdkUnknown")].write(sdkUnknown)
+                try writer["sdkUnknown"].write(sdkUnknown)
         }
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.ReplicationRuleFilter, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            let name = reader.children.first?.nodeInfo.name
-            switch name {
-                case "Prefix":
-                    return .`prefix`(try reader["Prefix"].read())
-                case "Tag":
-                    return .tag(try reader["Tag"].read(readingClosure: S3ClientTypes.Tag.readingClosure))
-                case "And":
-                    return .and(try reader["And"].read(readingClosure: S3ClientTypes.ReplicationRuleAndOperator.readingClosure))
-                default:
-                    return .sdkUnknown(name ?? "")
-            }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.ReplicationRuleFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "Prefix":
+                return .`prefix`(try reader["Prefix"].read())
+            case "Tag":
+                return .tag(try reader["Tag"].read(with: S3ClientTypes.Tag.read(from:)))
+            case "And":
+                return .and(try reader["And"].read(with: S3ClientTypes.ReplicationRuleAndOperator.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
         }
     }
 }
@@ -19641,7 +18931,8 @@ extension S3ClientTypes {
 }
 
 extension S3ClientTypes {
-    public enum ReplicationRuleStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum ReplicationRuleStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case disabled
         case enabled
         case sdkUnknown(Swift.String)
@@ -19653,10 +18944,12 @@ extension S3ClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .disabled: return "Disabled"
@@ -19664,16 +18957,12 @@ extension S3ClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = ReplicationRuleStatus(rawValue: rawValue) ?? ReplicationRuleStatus.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension S3ClientTypes {
-    public enum ReplicationStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum ReplicationStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case complete
         case completed
         case failed
@@ -19691,10 +18980,12 @@ extension S3ClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .complete: return "COMPLETE"
@@ -19705,30 +18996,23 @@ extension S3ClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = ReplicationStatus(rawValue: rawValue) ?? ReplicationStatus.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension S3ClientTypes.ReplicationTime {
 
-    static func writingClosure(_ value: S3ClientTypes.ReplicationTime?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ClientTypes.ReplicationTime?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["Status"].write(value.status)
-        try writer["Time"].write(value.time, writingClosure: S3ClientTypes.ReplicationTimeValue.writingClosure(_:to:))
+        try writer["Time"].write(value.time, with: S3ClientTypes.ReplicationTimeValue.write(value:to:))
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.ReplicationTime, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.ReplicationTime()
-            value.status = try reader["Status"].readIfPresent()
-            value.time = try reader["Time"].readIfPresent(readingClosure: S3ClientTypes.ReplicationTimeValue.readingClosure)
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.ReplicationTime {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.ReplicationTime()
+        value.status = try reader["Status"].readIfPresent()
+        value.time = try reader["Time"].readIfPresent(with: S3ClientTypes.ReplicationTimeValue.read(from:))
+        return value
     }
 }
 
@@ -19755,7 +19039,8 @@ extension S3ClientTypes {
 }
 
 extension S3ClientTypes {
-    public enum ReplicationTimeStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum ReplicationTimeStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case disabled
         case enabled
         case sdkUnknown(Swift.String)
@@ -19767,10 +19052,12 @@ extension S3ClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .disabled: return "Disabled"
@@ -19778,28 +19065,21 @@ extension S3ClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = ReplicationTimeStatus(rawValue: rawValue) ?? ReplicationTimeStatus.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension S3ClientTypes.ReplicationTimeValue {
 
-    static func writingClosure(_ value: S3ClientTypes.ReplicationTimeValue?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ClientTypes.ReplicationTimeValue?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["Minutes"].write(value.minutes)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.ReplicationTimeValue, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.ReplicationTimeValue()
-            value.minutes = try reader["Minutes"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.ReplicationTimeValue {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.ReplicationTimeValue()
+        value.minutes = try reader["Minutes"].readIfPresent()
+        return value
     }
 }
 
@@ -19820,8 +19100,9 @@ extension S3ClientTypes {
 }
 
 extension S3ClientTypes {
+
     /// If present, indicates that the requester was successfully charged for the request. This functionality is not supported for directory buckets.
-    public enum RequestCharged: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+    public enum RequestCharged: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case requester
         case sdkUnknown(Swift.String)
 
@@ -19831,27 +19112,25 @@ extension S3ClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .requester: return "requester"
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = RequestCharged(rawValue: rawValue) ?? RequestCharged.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension S3ClientTypes {
+
     /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests. If either the source or destination S3 bucket has Requester Pays enabled, the requester will pay for corresponding charges to copy the object. For information about downloading objects from Requester Pays buckets, see [Downloading Objects in Requester Pays Buckets](https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html) in the Amazon S3 User Guide. This functionality is not supported for directory buckets.
-    public enum RequestPayer: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+    public enum RequestPayer: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case requester
         case sdkUnknown(Swift.String)
 
@@ -19861,38 +19140,26 @@ extension S3ClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .requester: return "requester"
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = RequestPayer(rawValue: rawValue) ?? RequestPayer.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension S3ClientTypes.RequestPaymentConfiguration {
 
-    static func writingClosure(_ value: S3ClientTypes.RequestPaymentConfiguration?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ClientTypes.RequestPaymentConfiguration?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["Payer"].write(value.payer)
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.RequestPaymentConfiguration, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.RequestPaymentConfiguration()
-            value.payer = try reader["Payer"].readIfPresent()
-            return value
-        }
     }
 }
 
@@ -19915,18 +19182,9 @@ extension S3ClientTypes {
 
 extension S3ClientTypes.RequestProgress {
 
-    static func writingClosure(_ value: S3ClientTypes.RequestProgress?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ClientTypes.RequestProgress?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["Enabled"].write(value.enabled)
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.RequestProgress, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.RequestProgress()
-            value.enabled = try reader["Enabled"].readIfPresent()
-            return value
-        }
     }
 }
 
@@ -19944,13 +19202,6 @@ extension S3ClientTypes {
         }
     }
 
-}
-
-extension RestoreObjectInput {
-    static func writingClosure(_ value: RestoreObjectInput?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["RestoreRequest"].write(value.restoreRequest, writingClosure: S3ClientTypes.RestoreRequest.writingClosure(_:to:))
-    }
 }
 
 extension RestoreObjectInput {
@@ -19994,6 +19245,14 @@ extension RestoreObjectInput {
     }
 }
 
+extension RestoreObjectInput {
+
+    static func write(value: RestoreObjectInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["RestoreRequest"].write(value.restoreRequest, with: S3ClientTypes.RestoreRequest.write(value:to:))
+    }
+}
+
 public struct RestoreObjectInput {
     /// The bucket name containing the object to restore. Access points - When you use this action with an access point, you must provide the alias of the access point in place of the bucket name or specify the access point ARN. When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see [Using access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html) in the Amazon S3 User Guide. S3 on Outposts - When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see [What is S3 on Outposts?](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide.
     /// This member is required.
@@ -20034,17 +19293,15 @@ public struct RestoreObjectInput {
 
 extension RestoreObjectOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<RestoreObjectOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            var value = RestoreObjectOutput()
-            if let requestChargedHeaderValue = httpResponse.headers.value(for: "x-amz-request-charged") {
-                value.requestCharged = S3ClientTypes.RequestCharged(rawValue: requestChargedHeaderValue)
-            }
-            if let restoreOutputPathHeaderValue = httpResponse.headers.value(for: "x-amz-restore-output-path") {
-                value.restoreOutputPath = restoreOutputPathHeaderValue
-            }
-            return value
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> RestoreObjectOutput {
+        var value = RestoreObjectOutput()
+        if let requestChargedHeaderValue = httpResponse.headers.value(for: "x-amz-request-charged") {
+            value.requestCharged = S3ClientTypes.RequestCharged(rawValue: requestChargedHeaderValue)
         }
+        if let restoreOutputPathHeaderValue = httpResponse.headers.value(for: "x-amz-restore-output-path") {
+            value.restoreOutputPath = restoreOutputPathHeaderValue
+        }
+        return value
     }
 }
 
@@ -20066,45 +19323,30 @@ public struct RestoreObjectOutput {
 
 enum RestoreObjectOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let errorBodyReader = AWSClientRuntime.RestXMLError.errorBodyReader(responseReader: responseReader, noErrorWrapping: true)
-            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
-            switch restXMLError.code {
-                case "ObjectAlreadyInActiveTierError": return try await ObjectAlreadyInActiveTierError.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2)
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "ObjectAlreadyInActiveTierError": return try ObjectAlreadyInActiveTierError.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
 
 extension S3ClientTypes.RestoreRequest {
 
-    static func writingClosure(_ value: S3ClientTypes.RestoreRequest?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ClientTypes.RestoreRequest?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["Days"].write(value.days)
         try writer["Description"].write(value.description)
-        try writer["GlacierJobParameters"].write(value.glacierJobParameters, writingClosure: S3ClientTypes.GlacierJobParameters.writingClosure(_:to:))
-        try writer["OutputLocation"].write(value.outputLocation, writingClosure: S3ClientTypes.OutputLocation.writingClosure(_:to:))
-        try writer["SelectParameters"].write(value.selectParameters, writingClosure: S3ClientTypes.SelectParameters.writingClosure(_:to:))
+        try writer["GlacierJobParameters"].write(value.glacierJobParameters, with: S3ClientTypes.GlacierJobParameters.write(value:to:))
+        try writer["OutputLocation"].write(value.outputLocation, with: S3ClientTypes.OutputLocation.write(value:to:))
+        try writer["SelectParameters"].write(value.selectParameters, with: S3ClientTypes.SelectParameters.write(value:to:))
         try writer["Tier"].write(value.tier)
         try writer["Type"].write(value.type)
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.RestoreRequest, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.RestoreRequest()
-            value.days = try reader["Days"].readIfPresent()
-            value.glacierJobParameters = try reader["GlacierJobParameters"].readIfPresent(readingClosure: S3ClientTypes.GlacierJobParameters.readingClosure)
-            value.type = try reader["Type"].readIfPresent()
-            value.tier = try reader["Tier"].readIfPresent()
-            value.description = try reader["Description"].readIfPresent()
-            value.selectParameters = try reader["SelectParameters"].readIfPresent(readingClosure: S3ClientTypes.SelectParameters.readingClosure)
-            value.outputLocation = try reader["OutputLocation"].readIfPresent(readingClosure: S3ClientTypes.OutputLocation.readingClosure)
-            return value
-        }
     }
 }
 
@@ -20149,7 +19391,8 @@ extension S3ClientTypes {
 }
 
 extension S3ClientTypes {
-    public enum RestoreRequestType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum RestoreRequestType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case select
         case sdkUnknown(Swift.String)
 
@@ -20159,40 +19402,29 @@ extension S3ClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .select: return "SELECT"
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = RestoreRequestType(rawValue: rawValue) ?? RestoreRequestType.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension S3ClientTypes.RestoreStatus {
 
-    static func writingClosure(_ value: S3ClientTypes.RestoreStatus?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["IsRestoreInProgress"].write(value.isRestoreInProgress)
-        try writer["RestoreExpiryDate"].writeTimestamp(value.restoreExpiryDate, format: .dateTime)
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.RestoreStatus, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.RestoreStatus()
-            value.isRestoreInProgress = try reader["IsRestoreInProgress"].readIfPresent()
-            value.restoreExpiryDate = try reader["RestoreExpiryDate"].readTimestampIfPresent(format: .dateTime)
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.RestoreStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.RestoreStatus()
+        value.isRestoreInProgress = try reader["IsRestoreInProgress"].readIfPresent()
+        value.restoreExpiryDate = try reader["RestoreExpiryDate"].readTimestampIfPresent(format: .dateTime)
+        return value
     }
 }
 
@@ -20218,20 +19450,18 @@ extension S3ClientTypes {
 
 extension S3ClientTypes.RoutingRule {
 
-    static func writingClosure(_ value: S3ClientTypes.RoutingRule?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["Condition"].write(value.condition, writingClosure: S3ClientTypes.Condition.writingClosure(_:to:))
-        try writer["Redirect"].write(value.redirect, writingClosure: S3ClientTypes.Redirect.writingClosure(_:to:))
+    static func write(value: S3ClientTypes.RoutingRule?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Condition"].write(value.condition, with: S3ClientTypes.Condition.write(value:to:))
+        try writer["Redirect"].write(value.redirect, with: S3ClientTypes.Redirect.write(value:to:))
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.RoutingRule, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.RoutingRule()
-            value.condition = try reader["Condition"].readIfPresent(readingClosure: S3ClientTypes.Condition.readingClosure)
-            value.redirect = try reader["Redirect"].readIfPresent(readingClosure: S3ClientTypes.Redirect.readingClosure)
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.RoutingRule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.RoutingRule()
+        value.condition = try reader["Condition"].readIfPresent(with: S3ClientTypes.Condition.read(from:))
+        value.redirect = try reader["Redirect"].readIfPresent(with: S3ClientTypes.Redirect.read(from:))
+        return value
     }
 }
 
@@ -20260,18 +19490,16 @@ public enum S3ClientTypes {}
 
 extension S3ClientTypes.S3KeyFilter {
 
-    static func writingClosure(_ value: S3ClientTypes.S3KeyFilter?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["FilterRule"].writeList(value.filterRules, memberWritingClosure: S3ClientTypes.FilterRule.writingClosure(_:to:), memberNodeInfo: "member", isFlattened: true)
+    static func write(value: S3ClientTypes.S3KeyFilter?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["FilterRule"].writeList(value.filterRules, memberWritingClosure: S3ClientTypes.FilterRule.write(value:to:), memberNodeInfo: "member", isFlattened: true)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.S3KeyFilter, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.S3KeyFilter()
-            value.filterRules = try reader["FilterRule"].readListIfPresent(memberReadingClosure: S3ClientTypes.FilterRule.readingClosure, memberNodeInfo: "member", isFlattened: true)
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.S3KeyFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.S3KeyFilter()
+        value.filterRules = try reader["FilterRule"].readListIfPresent(memberReadingClosure: S3ClientTypes.FilterRule.read(from:), memberNodeInfo: "member", isFlattened: true)
+        return value
     }
 }
 
@@ -20293,32 +19521,16 @@ extension S3ClientTypes {
 
 extension S3ClientTypes.S3Location {
 
-    static func writingClosure(_ value: S3ClientTypes.S3Location?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["AccessControlList"].writeList(value.accessControlList, memberWritingClosure: S3ClientTypes.Grant.writingClosure(_:to:), memberNodeInfo: "Grant", isFlattened: false)
+    static func write(value: S3ClientTypes.S3Location?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["AccessControlList"].writeList(value.accessControlList, memberWritingClosure: S3ClientTypes.Grant.write(value:to:), memberNodeInfo: "Grant", isFlattened: false)
         try writer["BucketName"].write(value.bucketName)
         try writer["CannedACL"].write(value.cannedACL)
-        try writer["Encryption"].write(value.encryption, writingClosure: S3ClientTypes.Encryption.writingClosure(_:to:))
+        try writer["Encryption"].write(value.encryption, with: S3ClientTypes.Encryption.write(value:to:))
         try writer["Prefix"].write(value.`prefix`)
         try writer["StorageClass"].write(value.storageClass)
-        try writer["Tagging"].write(value.tagging, writingClosure: S3ClientTypes.Tagging.writingClosure(_:to:))
-        try writer["UserMetadata"].writeList(value.userMetadata, memberWritingClosure: S3ClientTypes.MetadataEntry.writingClosure(_:to:), memberNodeInfo: "MetadataEntry", isFlattened: false)
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.S3Location, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.S3Location()
-            value.bucketName = try reader["BucketName"].readIfPresent()
-            value.`prefix` = try reader["Prefix"].readIfPresent()
-            value.encryption = try reader["Encryption"].readIfPresent(readingClosure: S3ClientTypes.Encryption.readingClosure)
-            value.cannedACL = try reader["CannedACL"].readIfPresent()
-            value.accessControlList = try reader["AccessControlList"].readListIfPresent(memberReadingClosure: S3ClientTypes.Grant.readingClosure, memberNodeInfo: "Grant", isFlattened: false)
-            value.tagging = try reader["Tagging"].readIfPresent(readingClosure: S3ClientTypes.Tagging.readingClosure)
-            value.userMetadata = try reader["UserMetadata"].readListIfPresent(memberReadingClosure: S3ClientTypes.MetadataEntry.readingClosure, memberNodeInfo: "MetadataEntry", isFlattened: false)
-            value.storageClass = try reader["StorageClass"].readIfPresent()
-            return value
-        }
+        try writer["Tagging"].write(value.tagging, with: S3ClientTypes.Tagging.write(value:to:))
+        try writer["UserMetadata"].writeList(value.userMetadata, memberWritingClosure: S3ClientTypes.MetadataEntry.write(value:to:), memberNodeInfo: "MetadataEntry", isFlattened: false)
     }
 }
 
@@ -20368,26 +19580,24 @@ extension S3ClientTypes {
 
 }
 
-extension S3ClientTypes.SSEKMS {
-
-    static func writingClosure(_ value: S3ClientTypes.SSEKMS?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["KeyId"].write(value.keyId)
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.SSEKMS, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.SSEKMS()
-            value.keyId = try reader["KeyId"].readIfPresent()
-            return value
-        }
-    }
-}
-
 extension S3ClientTypes.SSEKMS: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "SSEKMS(keyId: \"CONTENT_REDACTED\")"}
+}
+
+extension S3ClientTypes.SSEKMS {
+
+    static func write(value: S3ClientTypes.SSEKMS?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["KeyId"].write(value.keyId)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.SSEKMS {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.SSEKMS()
+        value.keyId = try reader["KeyId"].readIfPresent()
+        return value
+    }
 }
 
 extension S3ClientTypes {
@@ -20409,15 +19619,14 @@ extension S3ClientTypes {
 
 extension S3ClientTypes.SSES3 {
 
-    static func writingClosure(_ value: S3ClientTypes.SSES3?, to writer: SmithyXML.Writer) throws {
-        guard value != nil else { writer.detach(); return }
+    static func write(value: S3ClientTypes.SSES3?, to writer: SmithyXML.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.SSES3, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil || Mirror(reflecting: self).children.isEmpty else { return nil }
-            return S3ClientTypes.SSES3()
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.SSES3 {
+        guard reader.hasContent || Mirror(reflecting: self).children.isEmpty else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return S3ClientTypes.SSES3()
     }
 }
 
@@ -20432,20 +19641,10 @@ extension S3ClientTypes {
 
 extension S3ClientTypes.ScanRange {
 
-    static func writingClosure(_ value: S3ClientTypes.ScanRange?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ClientTypes.ScanRange?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["End"].write(value.end)
         try writer["Start"].write(value.start)
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.ScanRange, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.ScanRange()
-            value.start = try reader["Start"].readIfPresent()
-            value.end = try reader["End"].readIfPresent()
-            return value
-        }
     }
 }
 
@@ -20481,16 +19680,20 @@ extension S3ClientTypes.SelectObjectContentEventStream {
                     return .records(event)
                 case "Stats":
                     var event = S3ClientTypes.StatsEvent()
-                    event.details = try SmithyXML.XMLReadWrite.documentReadingClosure(rootNodeInfo: .init("Stats", namespaceDef: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/")))(message.payload, S3ClientTypes.Stats.readingClosure)
+                    let value = try SmithyXML.Reader.readFrom(message.payload, with: S3ClientTypes.Stats.read(from:))
+                    event.details = value
                     return .stats(event)
                 case "Progress":
                     var event = S3ClientTypes.ProgressEvent()
-                    event.details = try SmithyXML.XMLReadWrite.documentReadingClosure(rootNodeInfo: .init("Progress", namespaceDef: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/")))(message.payload, S3ClientTypes.Progress.readingClosure)
+                    let value = try SmithyXML.Reader.readFrom(message.payload, with: S3ClientTypes.Progress.read(from:))
+                    event.details = value
                     return .progress(event)
                 case "Cont":
-                    return .cont(try SmithyXML.XMLReadWrite.documentReadingClosure(rootNodeInfo: .init("ContinuationEvent", namespaceDef: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/")))(message.payload, S3ClientTypes.ContinuationEvent.readingClosure))
+                    let value = try SmithyXML.Reader.readFrom(message.payload, with: S3ClientTypes.ContinuationEvent.read(from:))
+                    return .cont(value)
                 case "End":
-                    return .end(try SmithyXML.XMLReadWrite.documentReadingClosure(rootNodeInfo: .init("EndEvent", namespaceDef: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/")))(message.payload, S3ClientTypes.EndEvent.readingClosure))
+                    let value = try SmithyXML.Reader.readFrom(message.payload, with: S3ClientTypes.EndEvent.read(from:))
+                    return .end(value)
                 default:
                     return .sdkUnknown("error processing event stream, unrecognized event: \(params.eventType)")
                 }
@@ -20538,18 +19741,6 @@ extension SelectObjectContentInput: Swift.CustomDebugStringConvertible {
 }
 
 extension SelectObjectContentInput {
-    static func writingClosure(_ value: SelectObjectContentInput?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["Expression"].write(value.expression)
-        try writer["ExpressionType"].write(value.expressionType)
-        try writer["InputSerialization"].write(value.inputSerialization, writingClosure: S3ClientTypes.InputSerialization.writingClosure(_:to:))
-        try writer["OutputSerialization"].write(value.outputSerialization, writingClosure: S3ClientTypes.OutputSerialization.writingClosure(_:to:))
-        try writer["RequestProgress"].write(value.requestProgress, writingClosure: S3ClientTypes.RequestProgress.writingClosure(_:to:))
-        try writer["ScanRange"].write(value.scanRange, writingClosure: S3ClientTypes.ScanRange.writingClosure(_:to:))
-    }
-}
-
-extension SelectObjectContentInput {
 
     static func headerProvider(_ value: SelectObjectContentInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
@@ -20587,6 +19778,19 @@ extension SelectObjectContentInput {
             return nil
         }
         return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
+    }
+}
+
+extension SelectObjectContentInput {
+
+    static func write(value: SelectObjectContentInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Expression"].write(value.expression)
+        try writer["ExpressionType"].write(value.expressionType)
+        try writer["InputSerialization"].write(value.inputSerialization, with: S3ClientTypes.InputSerialization.write(value:to:))
+        try writer["OutputSerialization"].write(value.outputSerialization, with: S3ClientTypes.OutputSerialization.write(value:to:))
+        try writer["RequestProgress"].write(value.requestProgress, with: S3ClientTypes.RequestProgress.write(value:to:))
+        try writer["ScanRange"].write(value.scanRange, with: S3ClientTypes.ScanRange.write(value:to:))
     }
 }
 
@@ -20661,16 +19865,14 @@ public struct SelectObjectContentInput {
 
 extension SelectObjectContentOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<SelectObjectContentOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            var value = SelectObjectContentOutput()
-            if case .stream(let stream) = httpResponse.body {
-                let messageDecoder = AWSClientRuntime.AWSEventStream.AWSMessageDecoder()
-                let decoderStream = ClientRuntime.EventStream.DefaultMessageDecoderStream(stream: stream, messageDecoder: messageDecoder, unmarshalClosure: S3ClientTypes.SelectObjectContentEventStream.unmarshal)
-                value.payload = decoderStream.toAsyncStream()
-            }
-            return value
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> SelectObjectContentOutput {
+        var value = SelectObjectContentOutput()
+        if case .stream(let stream) = httpResponse.body {
+            let messageDecoder = AWSClientRuntime.AWSEventStream.AWSMessageDecoder()
+            let decoderStream = ClientRuntime.EventStream.DefaultMessageDecoderStream(stream: stream, messageDecoder: messageDecoder, unmarshalClosure: S3ClientTypes.SelectObjectContentEventStream.unmarshal)
+            value.payload = decoderStream.toAsyncStream()
         }
+        return value
     }
 }
 
@@ -20688,37 +19890,26 @@ public struct SelectObjectContentOutput {
 
 enum SelectObjectContentOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
 
 extension S3ClientTypes.SelectParameters {
 
-    static func writingClosure(_ value: S3ClientTypes.SelectParameters?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ClientTypes.SelectParameters?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["Expression"].write(value.expression)
         try writer["ExpressionType"].write(value.expressionType)
-        try writer["InputSerialization"].write(value.inputSerialization, writingClosure: S3ClientTypes.InputSerialization.writingClosure(_:to:))
-        try writer["OutputSerialization"].write(value.outputSerialization, writingClosure: S3ClientTypes.OutputSerialization.writingClosure(_:to:))
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.SelectParameters, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.SelectParameters()
-            value.inputSerialization = try reader["InputSerialization"].readIfPresent(readingClosure: S3ClientTypes.InputSerialization.readingClosure)
-            value.expressionType = try reader["ExpressionType"].readIfPresent()
-            value.expression = try reader["Expression"].readIfPresent()
-            value.outputSerialization = try reader["OutputSerialization"].readIfPresent(readingClosure: S3ClientTypes.OutputSerialization.readingClosure)
-            return value
-        }
+        try writer["InputSerialization"].write(value.inputSerialization, with: S3ClientTypes.InputSerialization.write(value:to:))
+        try writer["OutputSerialization"].write(value.outputSerialization, with: S3ClientTypes.OutputSerialization.write(value:to:))
     }
 }
 
@@ -20755,7 +19946,8 @@ extension S3ClientTypes {
 }
 
 extension S3ClientTypes {
-    public enum ServerSideEncryption: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum ServerSideEncryption: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case aes256
         case awsKms
         case awsKmsDsse
@@ -20769,10 +19961,12 @@ extension S3ClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .aes256: return "AES256"
@@ -20781,36 +19975,29 @@ extension S3ClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = ServerSideEncryption(rawValue: rawValue) ?? ServerSideEncryption.sdkUnknown(rawValue)
-        }
-    }
-}
-
-extension S3ClientTypes.ServerSideEncryptionByDefault {
-
-    static func writingClosure(_ value: S3ClientTypes.ServerSideEncryptionByDefault?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["KMSMasterKeyID"].write(value.kmsMasterKeyID)
-        try writer["SSEAlgorithm"].write(value.sseAlgorithm)
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.ServerSideEncryptionByDefault, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.ServerSideEncryptionByDefault()
-            value.sseAlgorithm = try reader["SSEAlgorithm"].readIfPresent()
-            value.kmsMasterKeyID = try reader["KMSMasterKeyID"].readIfPresent()
-            return value
-        }
     }
 }
 
 extension S3ClientTypes.ServerSideEncryptionByDefault: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "ServerSideEncryptionByDefault(sseAlgorithm: \(Swift.String(describing: sseAlgorithm)), kmsMasterKeyID: \"CONTENT_REDACTED\")"}
+}
+
+extension S3ClientTypes.ServerSideEncryptionByDefault {
+
+    static func write(value: S3ClientTypes.ServerSideEncryptionByDefault?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["KMSMasterKeyID"].write(value.kmsMasterKeyID)
+        try writer["SSEAlgorithm"].write(value.sseAlgorithm)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.ServerSideEncryptionByDefault {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.ServerSideEncryptionByDefault()
+        value.sseAlgorithm = try reader["SSEAlgorithm"].readIfPresent()
+        value.kmsMasterKeyID = try reader["KMSMasterKeyID"].readIfPresent()
+        return value
+    }
 }
 
 extension S3ClientTypes {
@@ -20845,18 +20032,16 @@ extension S3ClientTypes {
 
 extension S3ClientTypes.ServerSideEncryptionConfiguration {
 
-    static func writingClosure(_ value: S3ClientTypes.ServerSideEncryptionConfiguration?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["Rule"].writeList(value.rules, memberWritingClosure: S3ClientTypes.ServerSideEncryptionRule.writingClosure(_:to:), memberNodeInfo: "member", isFlattened: true)
+    static func write(value: S3ClientTypes.ServerSideEncryptionConfiguration?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Rule"].writeList(value.rules, memberWritingClosure: S3ClientTypes.ServerSideEncryptionRule.write(value:to:), memberNodeInfo: "member", isFlattened: true)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.ServerSideEncryptionConfiguration, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.ServerSideEncryptionConfiguration()
-            value.rules = try reader["Rule"].readListIfPresent(memberReadingClosure: S3ClientTypes.ServerSideEncryptionRule.readingClosure, memberNodeInfo: "member", isFlattened: true)
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.ServerSideEncryptionConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.ServerSideEncryptionConfiguration()
+        value.rules = try reader["Rule"].readListIfPresent(memberReadingClosure: S3ClientTypes.ServerSideEncryptionRule.read(from:), memberNodeInfo: "member", isFlattened: true)
+        return value
     }
 }
 
@@ -20879,20 +20064,18 @@ extension S3ClientTypes {
 
 extension S3ClientTypes.ServerSideEncryptionRule {
 
-    static func writingClosure(_ value: S3ClientTypes.ServerSideEncryptionRule?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["ApplyServerSideEncryptionByDefault"].write(value.applyServerSideEncryptionByDefault, writingClosure: S3ClientTypes.ServerSideEncryptionByDefault.writingClosure(_:to:))
+    static func write(value: S3ClientTypes.ServerSideEncryptionRule?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["ApplyServerSideEncryptionByDefault"].write(value.applyServerSideEncryptionByDefault, with: S3ClientTypes.ServerSideEncryptionByDefault.write(value:to:))
         try writer["BucketKeyEnabled"].write(value.bucketKeyEnabled)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.ServerSideEncryptionRule, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.ServerSideEncryptionRule()
-            value.applyServerSideEncryptionByDefault = try reader["ApplyServerSideEncryptionByDefault"].readIfPresent(readingClosure: S3ClientTypes.ServerSideEncryptionByDefault.readingClosure)
-            value.bucketKeyEnabled = try reader["BucketKeyEnabled"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.ServerSideEncryptionRule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.ServerSideEncryptionRule()
+        value.applyServerSideEncryptionByDefault = try reader["ApplyServerSideEncryptionByDefault"].readIfPresent(with: S3ClientTypes.ServerSideEncryptionByDefault.read(from:))
+        value.bucketKeyEnabled = try reader["BucketKeyEnabled"].readIfPresent()
+        return value
     }
 }
 
@@ -20916,32 +20099,22 @@ extension S3ClientTypes {
 
 }
 
-extension S3ClientTypes.SessionCredentials {
-
-    static func writingClosure(_ value: S3ClientTypes.SessionCredentials?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["AccessKeyId"].write(value.accessKeyId)
-        try writer["Expiration"].writeTimestamp(value.expiration, format: .dateTime)
-        try writer["SecretAccessKey"].write(value.secretAccessKey)
-        try writer["SessionToken"].write(value.sessionToken)
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.SessionCredentials, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.SessionCredentials()
-            value.accessKeyId = try reader["AccessKeyId"].readIfPresent()
-            value.secretAccessKey = try reader["SecretAccessKey"].readIfPresent()
-            value.sessionToken = try reader["SessionToken"].readIfPresent()
-            value.expiration = try reader["Expiration"].readTimestampIfPresent(format: .dateTime)
-            return value
-        }
-    }
-}
-
 extension S3ClientTypes.SessionCredentials: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "SessionCredentials(accessKeyId: \(Swift.String(describing: accessKeyId)), expiration: \(Swift.String(describing: expiration)), secretAccessKey: \"CONTENT_REDACTED\", sessionToken: \"CONTENT_REDACTED\")"}
+}
+
+extension S3ClientTypes.SessionCredentials {
+
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.SessionCredentials {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.SessionCredentials()
+        value.accessKeyId = try reader["AccessKeyId"].readIfPresent()
+        value.secretAccessKey = try reader["SecretAccessKey"].readIfPresent()
+        value.sessionToken = try reader["SessionToken"].readIfPresent()
+        value.expiration = try reader["Expiration"].readTimestampIfPresent(format: .dateTime)
+        return value
+    }
 }
 
 extension S3ClientTypes {
@@ -20977,7 +20150,8 @@ extension S3ClientTypes {
 }
 
 extension S3ClientTypes {
-    public enum SessionMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum SessionMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case readonly
         case readwrite
         case sdkUnknown(Swift.String)
@@ -20989,10 +20163,12 @@ extension S3ClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .readonly: return "ReadOnly"
@@ -21000,25 +20176,19 @@ extension S3ClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = SessionMode(rawValue: rawValue) ?? SessionMode.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension S3ClientTypes.SimplePrefix {
 
-    static func writingClosure(_ value: S3ClientTypes.SimplePrefix?, to writer: SmithyXML.Writer) throws {
-        guard value != nil else { writer.detach(); return }
+    static func write(value: S3ClientTypes.SimplePrefix?, to writer: SmithyXML.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.SimplePrefix, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil || Mirror(reflecting: self).children.isEmpty else { return nil }
-            return S3ClientTypes.SimplePrefix()
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.SimplePrefix {
+        guard reader.hasContent || Mirror(reflecting: self).children.isEmpty else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return S3ClientTypes.SimplePrefix()
     }
 }
 
@@ -21033,20 +20203,18 @@ extension S3ClientTypes {
 
 extension S3ClientTypes.SourceSelectionCriteria {
 
-    static func writingClosure(_ value: S3ClientTypes.SourceSelectionCriteria?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["ReplicaModifications"].write(value.replicaModifications, writingClosure: S3ClientTypes.ReplicaModifications.writingClosure(_:to:))
-        try writer["SseKmsEncryptedObjects"].write(value.sseKmsEncryptedObjects, writingClosure: S3ClientTypes.SseKmsEncryptedObjects.writingClosure(_:to:))
+    static func write(value: S3ClientTypes.SourceSelectionCriteria?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["ReplicaModifications"].write(value.replicaModifications, with: S3ClientTypes.ReplicaModifications.write(value:to:))
+        try writer["SseKmsEncryptedObjects"].write(value.sseKmsEncryptedObjects, with: S3ClientTypes.SseKmsEncryptedObjects.write(value:to:))
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.SourceSelectionCriteria, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.SourceSelectionCriteria()
-            value.sseKmsEncryptedObjects = try reader["SseKmsEncryptedObjects"].readIfPresent(readingClosure: S3ClientTypes.SseKmsEncryptedObjects.readingClosure)
-            value.replicaModifications = try reader["ReplicaModifications"].readIfPresent(readingClosure: S3ClientTypes.ReplicaModifications.readingClosure)
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.SourceSelectionCriteria {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.SourceSelectionCriteria()
+        value.sseKmsEncryptedObjects = try reader["SseKmsEncryptedObjects"].readIfPresent(with: S3ClientTypes.SseKmsEncryptedObjects.read(from:))
+        value.replicaModifications = try reader["ReplicaModifications"].readIfPresent(with: S3ClientTypes.ReplicaModifications.read(from:))
+        return value
     }
 }
 
@@ -21072,18 +20240,16 @@ extension S3ClientTypes {
 
 extension S3ClientTypes.SseKmsEncryptedObjects {
 
-    static func writingClosure(_ value: S3ClientTypes.SseKmsEncryptedObjects?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ClientTypes.SseKmsEncryptedObjects?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["Status"].write(value.status)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.SseKmsEncryptedObjects, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.SseKmsEncryptedObjects()
-            value.status = try reader["Status"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.SseKmsEncryptedObjects {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.SseKmsEncryptedObjects()
+        value.status = try reader["Status"].readIfPresent()
+        return value
     }
 }
 
@@ -21105,7 +20271,8 @@ extension S3ClientTypes {
 }
 
 extension S3ClientTypes {
-    public enum SseKmsEncryptedObjectsStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum SseKmsEncryptedObjectsStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case disabled
         case enabled
         case sdkUnknown(Swift.String)
@@ -21117,10 +20284,12 @@ extension S3ClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .disabled: return "Disabled"
@@ -21128,32 +20297,18 @@ extension S3ClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = SseKmsEncryptedObjectsStatus(rawValue: rawValue) ?? SseKmsEncryptedObjectsStatus.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension S3ClientTypes.Stats {
 
-    static func writingClosure(_ value: S3ClientTypes.Stats?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["BytesProcessed"].write(value.bytesProcessed)
-        try writer["BytesReturned"].write(value.bytesReturned)
-        try writer["BytesScanned"].write(value.bytesScanned)
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.Stats, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.Stats()
-            value.bytesScanned = try reader["BytesScanned"].readIfPresent()
-            value.bytesProcessed = try reader["BytesProcessed"].readIfPresent()
-            value.bytesReturned = try reader["BytesReturned"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.Stats {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.Stats()
+        value.bytesScanned = try reader["BytesScanned"].readIfPresent()
+        value.bytesProcessed = try reader["BytesProcessed"].readIfPresent()
+        value.bytesReturned = try reader["BytesReturned"].readIfPresent()
+        return value
     }
 }
 
@@ -21183,18 +20338,11 @@ extension S3ClientTypes {
 
 extension S3ClientTypes.StatsEvent {
 
-    static func writingClosure(_ value: S3ClientTypes.StatsEvent?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["Details"].write(value.details, writingClosure: S3ClientTypes.Stats.writingClosure(_:to:))
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.StatsEvent, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.StatsEvent()
-            value.details = try reader["Details"].readIfPresent(readingClosure: S3ClientTypes.Stats.readingClosure)
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.StatsEvent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.StatsEvent()
+        value.details = try reader["Details"].readIfPresent(with: S3ClientTypes.Stats.read(from:))
+        return value
     }
 }
 
@@ -21215,7 +20363,8 @@ extension S3ClientTypes {
 }
 
 extension S3ClientTypes {
-    public enum StorageClass: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum StorageClass: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case deepArchive
         case expressOnezone
         case glacier
@@ -21245,10 +20394,12 @@ extension S3ClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .deepArchive: return "DEEP_ARCHIVE"
@@ -21265,28 +20416,21 @@ extension S3ClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = StorageClass(rawValue: rawValue) ?? StorageClass.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension S3ClientTypes.StorageClassAnalysis {
 
-    static func writingClosure(_ value: S3ClientTypes.StorageClassAnalysis?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["DataExport"].write(value.dataExport, writingClosure: S3ClientTypes.StorageClassAnalysisDataExport.writingClosure(_:to:))
+    static func write(value: S3ClientTypes.StorageClassAnalysis?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["DataExport"].write(value.dataExport, with: S3ClientTypes.StorageClassAnalysisDataExport.write(value:to:))
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.StorageClassAnalysis, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.StorageClassAnalysis()
-            value.dataExport = try reader["DataExport"].readIfPresent(readingClosure: S3ClientTypes.StorageClassAnalysisDataExport.readingClosure)
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.StorageClassAnalysis {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.StorageClassAnalysis()
+        value.dataExport = try reader["DataExport"].readIfPresent(with: S3ClientTypes.StorageClassAnalysisDataExport.read(from:))
+        return value
     }
 }
 
@@ -21308,20 +20452,18 @@ extension S3ClientTypes {
 
 extension S3ClientTypes.StorageClassAnalysisDataExport {
 
-    static func writingClosure(_ value: S3ClientTypes.StorageClassAnalysisDataExport?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["Destination"].write(value.destination, writingClosure: S3ClientTypes.AnalyticsExportDestination.writingClosure(_:to:))
+    static func write(value: S3ClientTypes.StorageClassAnalysisDataExport?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Destination"].write(value.destination, with: S3ClientTypes.AnalyticsExportDestination.write(value:to:))
         try writer["OutputSchemaVersion"].write(value.outputSchemaVersion)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.StorageClassAnalysisDataExport, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.StorageClassAnalysisDataExport()
-            value.outputSchemaVersion = try reader["OutputSchemaVersion"].readIfPresent()
-            value.destination = try reader["Destination"].readIfPresent(readingClosure: S3ClientTypes.AnalyticsExportDestination.readingClosure)
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.StorageClassAnalysisDataExport {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.StorageClassAnalysisDataExport()
+        value.outputSchemaVersion = try reader["OutputSchemaVersion"].readIfPresent()
+        value.destination = try reader["Destination"].readIfPresent(with: S3ClientTypes.AnalyticsExportDestination.read(from:))
+        return value
     }
 }
 
@@ -21348,7 +20490,8 @@ extension S3ClientTypes {
 }
 
 extension S3ClientTypes {
-    public enum StorageClassAnalysisSchemaVersion: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum StorageClassAnalysisSchemaVersion: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case v1
         case sdkUnknown(Swift.String)
 
@@ -21358,40 +20501,35 @@ extension S3ClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .v1: return "V_1"
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = StorageClassAnalysisSchemaVersion(rawValue: rawValue) ?? StorageClassAnalysisSchemaVersion.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension S3ClientTypes.Tag {
 
-    static func writingClosure(_ value: S3ClientTypes.Tag?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ClientTypes.Tag?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["Key"].write(value.key)
         try writer["Value"].write(value.value)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.Tag, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.Tag()
-            value.key = try reader["Key"].readIfPresent()
-            value.value = try reader["Value"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.Tag {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.Tag()
+        value.key = try reader["Key"].readIfPresent()
+        value.value = try reader["Value"].readIfPresent()
+        return value
     }
 }
 
@@ -21419,18 +20557,9 @@ extension S3ClientTypes {
 
 extension S3ClientTypes.Tagging {
 
-    static func writingClosure(_ value: S3ClientTypes.Tagging?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["TagSet"].writeList(value.tagSet, memberWritingClosure: S3ClientTypes.Tag.writingClosure(_:to:), memberNodeInfo: "Tag", isFlattened: false)
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.Tagging, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.Tagging()
-            value.tagSet = try reader["TagSet"].readListIfPresent(memberReadingClosure: S3ClientTypes.Tag.readingClosure, memberNodeInfo: "Tag", isFlattened: false)
-            return value
-        }
+    static func write(value: S3ClientTypes.Tagging?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["TagSet"].writeList(value.tagSet, memberWritingClosure: S3ClientTypes.Tag.write(value:to:), memberNodeInfo: "Tag", isFlattened: false)
     }
 }
 
@@ -21452,7 +20581,8 @@ extension S3ClientTypes {
 }
 
 extension S3ClientTypes {
-    public enum TaggingDirective: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum TaggingDirective: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case copy
         case replace
         case sdkUnknown(Swift.String)
@@ -21464,10 +20594,12 @@ extension S3ClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .copy: return "COPY"
@@ -21475,30 +20607,23 @@ extension S3ClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = TaggingDirective(rawValue: rawValue) ?? TaggingDirective.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension S3ClientTypes.TargetGrant {
 
-    static func writingClosure(_ value: S3ClientTypes.TargetGrant?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer[.init("Grantee", namespaceDef: .init(prefix: "xsi", uri: "http://www.w3.org/2001/XMLSchema-instance"))].write(value.grantee, writingClosure: S3ClientTypes.Grantee.writingClosure(_:to:))
+    static func write(value: S3ClientTypes.TargetGrant?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer[.init("Grantee", namespaceDef: .init(prefix: "xsi", uri: "http://www.w3.org/2001/XMLSchema-instance"))].write(value.grantee, with: S3ClientTypes.Grantee.write(value:to:))
         try writer["Permission"].write(value.permission)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.TargetGrant, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.TargetGrant()
-            value.grantee = try reader[.init("Grantee", namespaceDef: .init(prefix: "xsi", uri: "http://www.w3.org/2001/XMLSchema-instance"))].readIfPresent(readingClosure: S3ClientTypes.Grantee.readingClosure)
-            value.permission = try reader["Permission"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.TargetGrant {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.TargetGrant()
+        value.grantee = try reader[.init("Grantee", namespaceDef: .init(prefix: "xsi", uri: "http://www.w3.org/2001/XMLSchema-instance"))].readIfPresent(with: S3ClientTypes.Grantee.read(from:))
+        value.permission = try reader["Permission"].readIfPresent()
+        return value
     }
 }
 
@@ -21524,20 +20649,18 @@ extension S3ClientTypes {
 
 extension S3ClientTypes.TargetObjectKeyFormat {
 
-    static func writingClosure(_ value: S3ClientTypes.TargetObjectKeyFormat?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["PartitionedPrefix"].write(value.partitionedPrefix, writingClosure: S3ClientTypes.PartitionedPrefix.writingClosure(_:to:))
-        try writer["SimplePrefix"].write(value.simplePrefix, writingClosure: S3ClientTypes.SimplePrefix.writingClosure(_:to:))
+    static func write(value: S3ClientTypes.TargetObjectKeyFormat?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["PartitionedPrefix"].write(value.partitionedPrefix, with: S3ClientTypes.PartitionedPrefix.write(value:to:))
+        try writer["SimplePrefix"].write(value.simplePrefix, with: S3ClientTypes.SimplePrefix.write(value:to:))
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.TargetObjectKeyFormat, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.TargetObjectKeyFormat()
-            value.simplePrefix = try reader["SimplePrefix"].readIfPresent(readingClosure: S3ClientTypes.SimplePrefix.readingClosure)
-            value.partitionedPrefix = try reader["PartitionedPrefix"].readIfPresent(readingClosure: S3ClientTypes.PartitionedPrefix.readingClosure)
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.TargetObjectKeyFormat {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.TargetObjectKeyFormat()
+        value.simplePrefix = try reader["SimplePrefix"].readIfPresent(with: S3ClientTypes.SimplePrefix.read(from:))
+        value.partitionedPrefix = try reader["PartitionedPrefix"].readIfPresent(with: S3ClientTypes.PartitionedPrefix.read(from:))
+        return value
     }
 }
 
@@ -21562,7 +20685,8 @@ extension S3ClientTypes {
 }
 
 extension S3ClientTypes {
-    public enum Tier: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum Tier: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case bulk
         case expedited
         case standard
@@ -21576,10 +20700,12 @@ extension S3ClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .bulk: return "Bulk"
@@ -21588,30 +20714,23 @@ extension S3ClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = Tier(rawValue: rawValue) ?? Tier.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension S3ClientTypes.Tiering {
 
-    static func writingClosure(_ value: S3ClientTypes.Tiering?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ClientTypes.Tiering?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["AccessTier"].write(value.accessTier)
         try writer["Days"].write(value.days)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.Tiering, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.Tiering()
-            value.days = try reader["Days"].readIfPresent()
-            value.accessTier = try reader["AccessTier"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.Tiering {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.Tiering()
+        value.days = try reader["Days"].readIfPresent()
+        value.accessTier = try reader["AccessTier"].readIfPresent()
+        return value
     }
 }
 
@@ -21639,24 +20758,22 @@ extension S3ClientTypes {
 
 extension S3ClientTypes.TopicConfiguration {
 
-    static func writingClosure(_ value: S3ClientTypes.TopicConfiguration?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["Event"].writeList(value.events, memberWritingClosure: S3ClientTypes.Event.writingClosure(_:to:), memberNodeInfo: "member", isFlattened: true)
-        try writer["Filter"].write(value.filter, writingClosure: S3ClientTypes.NotificationConfigurationFilter.writingClosure(_:to:))
+    static func write(value: S3ClientTypes.TopicConfiguration?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Event"].writeList(value.events, memberWritingClosure: S3ClientTypes.Event.write(value:to:), memberNodeInfo: "member", isFlattened: true)
+        try writer["Filter"].write(value.filter, with: S3ClientTypes.NotificationConfigurationFilter.write(value:to:))
         try writer["Id"].write(value.id)
         try writer["Topic"].write(value.topicArn)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.TopicConfiguration, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.TopicConfiguration()
-            value.id = try reader["Id"].readIfPresent()
-            value.topicArn = try reader["Topic"].readIfPresent()
-            value.events = try reader["Event"].readListIfPresent(memberReadingClosure: S3ClientTypes.Event.readingClosure, memberNodeInfo: "member", isFlattened: true)
-            value.filter = try reader["Filter"].readIfPresent(readingClosure: S3ClientTypes.NotificationConfigurationFilter.readingClosure)
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.TopicConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.TopicConfiguration()
+        value.id = try reader["Id"].readIfPresent()
+        value.topicArn = try reader["Topic"].readIfPresent()
+        value.events = try reader["Event"].readListIfPresent(memberReadingClosure: S3ClientTypes.Event.read(from:), memberNodeInfo: "member", isFlattened: true)
+        value.filter = try reader["Filter"].readIfPresent(with: S3ClientTypes.NotificationConfigurationFilter.read(from:))
+        return value
     }
 }
 
@@ -21692,22 +20809,20 @@ extension S3ClientTypes {
 
 extension S3ClientTypes.Transition {
 
-    static func writingClosure(_ value: S3ClientTypes.Transition?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ClientTypes.Transition?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["Date"].writeTimestamp(value.date, format: .dateTime)
         try writer["Days"].write(value.days)
         try writer["StorageClass"].write(value.storageClass)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.Transition, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.Transition()
-            value.date = try reader["Date"].readTimestampIfPresent(format: .dateTime)
-            value.days = try reader["Days"].readIfPresent()
-            value.storageClass = try reader["StorageClass"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.Transition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.Transition()
+        value.date = try reader["Date"].readTimestampIfPresent(format: .dateTime)
+        value.days = try reader["Days"].readIfPresent()
+        value.storageClass = try reader["StorageClass"].readIfPresent()
+        return value
     }
 }
 
@@ -21736,7 +20851,8 @@ extension S3ClientTypes {
 }
 
 extension S3ClientTypes {
-    public enum TransitionStorageClass: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum TransitionStorageClass: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case deepArchive
         case glacier
         case glacierIr
@@ -21756,10 +20872,12 @@ extension S3ClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .deepArchive: return "DEEP_ARCHIVE"
@@ -21771,16 +20889,12 @@ extension S3ClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = TransitionStorageClass(rawValue: rawValue) ?? TransitionStorageClass.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension S3ClientTypes {
-    public enum ModelType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum ModelType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case amazoncustomerbyemail
         case canonicaluser
         case group
@@ -21794,10 +20908,12 @@ extension S3ClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .amazoncustomerbyemail: return "AmazonCustomerByEmail"
@@ -21805,11 +20921,6 @@ extension S3ClientTypes {
             case .group: return "Group"
             case let .sdkUnknown(s): return s
             }
-        }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = ModelType(rawValue: rawValue) ?? ModelType.sdkUnknown(rawValue)
         }
     }
 }
@@ -22013,35 +21124,34 @@ extension UploadPartCopyOutput: Swift.CustomDebugStringConvertible {
 
 extension UploadPartCopyOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<UploadPartCopyOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = UploadPartCopyOutput()
-            if let bucketKeyEnabledHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption-bucket-key-enabled") {
-                value.bucketKeyEnabled = Swift.Bool(bucketKeyEnabledHeaderValue) ?? false
-            }
-            if let copySourceVersionIdHeaderValue = httpResponse.headers.value(for: "x-amz-copy-source-version-id") {
-                value.copySourceVersionId = copySourceVersionIdHeaderValue
-            }
-            if let requestChargedHeaderValue = httpResponse.headers.value(for: "x-amz-request-charged") {
-                value.requestCharged = S3ClientTypes.RequestCharged(rawValue: requestChargedHeaderValue)
-            }
-            if let sseCustomerAlgorithmHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption-customer-algorithm") {
-                value.sseCustomerAlgorithm = sseCustomerAlgorithmHeaderValue
-            }
-            if let sseCustomerKeyMD5HeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption-customer-key-MD5") {
-                value.sseCustomerKeyMD5 = sseCustomerKeyMD5HeaderValue
-            }
-            if let ssekmsKeyIdHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption-aws-kms-key-id") {
-                value.ssekmsKeyId = ssekmsKeyIdHeaderValue
-            }
-            if let serverSideEncryptionHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption") {
-                value.serverSideEncryption = S3ClientTypes.ServerSideEncryption(rawValue: serverSideEncryptionHeaderValue)
-            }
-            value.copyPartResult = try reader.readIfPresent(readingClosure: S3ClientTypes.CopyPartResult.readingClosure)
-            return value
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UploadPartCopyOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = UploadPartCopyOutput()
+        if let bucketKeyEnabledHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption-bucket-key-enabled") {
+            value.bucketKeyEnabled = Swift.Bool(bucketKeyEnabledHeaderValue) ?? false
         }
+        if let copySourceVersionIdHeaderValue = httpResponse.headers.value(for: "x-amz-copy-source-version-id") {
+            value.copySourceVersionId = copySourceVersionIdHeaderValue
+        }
+        if let requestChargedHeaderValue = httpResponse.headers.value(for: "x-amz-request-charged") {
+            value.requestCharged = S3ClientTypes.RequestCharged(rawValue: requestChargedHeaderValue)
+        }
+        if let sseCustomerAlgorithmHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption-customer-algorithm") {
+            value.sseCustomerAlgorithm = sseCustomerAlgorithmHeaderValue
+        }
+        if let sseCustomerKeyMD5HeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption-customer-key-MD5") {
+            value.sseCustomerKeyMD5 = sseCustomerKeyMD5HeaderValue
+        }
+        if let ssekmsKeyIdHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption-aws-kms-key-id") {
+            value.ssekmsKeyId = ssekmsKeyIdHeaderValue
+        }
+        if let serverSideEncryptionHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption") {
+            value.serverSideEncryption = S3ClientTypes.ServerSideEncryption(rawValue: serverSideEncryptionHeaderValue)
+        }
+        value.copyPartResult = try reader.readIfPresent(with: S3ClientTypes.CopyPartResult.read(from:))
+        return value
     }
 }
 
@@ -22087,13 +21197,14 @@ public struct UploadPartCopyOutput {
 
 enum UploadPartCopyOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -22101,13 +21212,6 @@ enum UploadPartCopyOutputError {
 extension UploadPartInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "UploadPartInput(body: \(Swift.String(describing: body)), bucket: \(Swift.String(describing: bucket)), checksumAlgorithm: \(Swift.String(describing: checksumAlgorithm)), checksumCRC32: \(Swift.String(describing: checksumCRC32)), checksumCRC32C: \(Swift.String(describing: checksumCRC32C)), checksumSHA1: \(Swift.String(describing: checksumSHA1)), checksumSHA256: \(Swift.String(describing: checksumSHA256)), contentLength: \(Swift.String(describing: contentLength)), contentMD5: \(Swift.String(describing: contentMD5)), expectedBucketOwner: \(Swift.String(describing: expectedBucketOwner)), key: \(Swift.String(describing: key)), partNumber: \(Swift.String(describing: partNumber)), requestPayer: \(Swift.String(describing: requestPayer)), sseCustomerAlgorithm: \(Swift.String(describing: sseCustomerAlgorithm)), sseCustomerKeyMD5: \(Swift.String(describing: sseCustomerKeyMD5)), uploadId: \(Swift.String(describing: uploadId)), sseCustomerKey: \"CONTENT_REDACTED\")"}
-}
-
-extension UploadPartInput {
-    static func writingClosure(_ value: UploadPartInput?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["Body"].write(value.body)
-    }
 }
 
 extension UploadPartInput {
@@ -22197,7 +21301,7 @@ extension UploadPartInput {
         builder.retryStrategy(ClientRuntime.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UploadPartOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UploadPartOutput>(responseClosure(UploadPartOutput.httpBinding, responseDocumentBinding), responseErrorClosure(UploadPartOutputError.httpBinding, responseDocumentBinding)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UploadPartOutput>(UploadPartOutput.httpOutput(from:), UploadPartOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UploadPartInput, UploadPartOutput>(clientLogMode: config.clientLogMode))
         builder.interceptors.add(AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<UploadPartInput, UploadPartOutput>())
         let op = builder.attributes(context)
@@ -22235,6 +21339,14 @@ extension UploadPartInput {
             return nil
         }
         return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
+    }
+}
+
+extension UploadPartInput {
+
+    static func write(value: UploadPartInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Body"].write(value.body)
     }
 }
 
@@ -22325,44 +21437,42 @@ extension UploadPartOutput: Swift.CustomDebugStringConvertible {
 
 extension UploadPartOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<UploadPartOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            var value = UploadPartOutput()
-            if let bucketKeyEnabledHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption-bucket-key-enabled") {
-                value.bucketKeyEnabled = Swift.Bool(bucketKeyEnabledHeaderValue) ?? false
-            }
-            if let checksumCRC32HeaderValue = httpResponse.headers.value(for: "x-amz-checksum-crc32") {
-                value.checksumCRC32 = checksumCRC32HeaderValue
-            }
-            if let checksumCRC32CHeaderValue = httpResponse.headers.value(for: "x-amz-checksum-crc32c") {
-                value.checksumCRC32C = checksumCRC32CHeaderValue
-            }
-            if let checksumSHA1HeaderValue = httpResponse.headers.value(for: "x-amz-checksum-sha1") {
-                value.checksumSHA1 = checksumSHA1HeaderValue
-            }
-            if let checksumSHA256HeaderValue = httpResponse.headers.value(for: "x-amz-checksum-sha256") {
-                value.checksumSHA256 = checksumSHA256HeaderValue
-            }
-            if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
-                value.eTag = eTagHeaderValue
-            }
-            if let requestChargedHeaderValue = httpResponse.headers.value(for: "x-amz-request-charged") {
-                value.requestCharged = S3ClientTypes.RequestCharged(rawValue: requestChargedHeaderValue)
-            }
-            if let sseCustomerAlgorithmHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption-customer-algorithm") {
-                value.sseCustomerAlgorithm = sseCustomerAlgorithmHeaderValue
-            }
-            if let sseCustomerKeyMD5HeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption-customer-key-MD5") {
-                value.sseCustomerKeyMD5 = sseCustomerKeyMD5HeaderValue
-            }
-            if let ssekmsKeyIdHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption-aws-kms-key-id") {
-                value.ssekmsKeyId = ssekmsKeyIdHeaderValue
-            }
-            if let serverSideEncryptionHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption") {
-                value.serverSideEncryption = S3ClientTypes.ServerSideEncryption(rawValue: serverSideEncryptionHeaderValue)
-            }
-            return value
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UploadPartOutput {
+        var value = UploadPartOutput()
+        if let bucketKeyEnabledHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption-bucket-key-enabled") {
+            value.bucketKeyEnabled = Swift.Bool(bucketKeyEnabledHeaderValue) ?? false
         }
+        if let checksumCRC32HeaderValue = httpResponse.headers.value(for: "x-amz-checksum-crc32") {
+            value.checksumCRC32 = checksumCRC32HeaderValue
+        }
+        if let checksumCRC32CHeaderValue = httpResponse.headers.value(for: "x-amz-checksum-crc32c") {
+            value.checksumCRC32C = checksumCRC32CHeaderValue
+        }
+        if let checksumSHA1HeaderValue = httpResponse.headers.value(for: "x-amz-checksum-sha1") {
+            value.checksumSHA1 = checksumSHA1HeaderValue
+        }
+        if let checksumSHA256HeaderValue = httpResponse.headers.value(for: "x-amz-checksum-sha256") {
+            value.checksumSHA256 = checksumSHA256HeaderValue
+        }
+        if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
+            value.eTag = eTagHeaderValue
+        }
+        if let requestChargedHeaderValue = httpResponse.headers.value(for: "x-amz-request-charged") {
+            value.requestCharged = S3ClientTypes.RequestCharged(rawValue: requestChargedHeaderValue)
+        }
+        if let sseCustomerAlgorithmHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption-customer-algorithm") {
+            value.sseCustomerAlgorithm = sseCustomerAlgorithmHeaderValue
+        }
+        if let sseCustomerKeyMD5HeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption-customer-key-MD5") {
+            value.sseCustomerKeyMD5 = sseCustomerKeyMD5HeaderValue
+        }
+        if let ssekmsKeyIdHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption-aws-kms-key-id") {
+            value.ssekmsKeyId = ssekmsKeyIdHeaderValue
+        }
+        if let serverSideEncryptionHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption") {
+            value.serverSideEncryption = S3ClientTypes.ServerSideEncryption(rawValue: serverSideEncryptionHeaderValue)
+        }
+        return value
     }
 }
 
@@ -22420,33 +21530,24 @@ public struct UploadPartOutput {
 
 enum UploadPartOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
 
 extension S3ClientTypes.VersioningConfiguration {
 
-    static func writingClosure(_ value: S3ClientTypes.VersioningConfiguration?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ClientTypes.VersioningConfiguration?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["MfaDelete"].write(value.mfaDelete)
         try writer["Status"].write(value.status)
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.VersioningConfiguration, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.VersioningConfiguration()
-            value.mfaDelete = try reader["MfaDelete"].readIfPresent()
-            value.status = try reader["Status"].readIfPresent()
-            return value
-        }
     }
 }
 
@@ -22472,24 +21573,12 @@ extension S3ClientTypes {
 
 extension S3ClientTypes.WebsiteConfiguration {
 
-    static func writingClosure(_ value: S3ClientTypes.WebsiteConfiguration?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["ErrorDocument"].write(value.errorDocument, writingClosure: S3ClientTypes.ErrorDocument.writingClosure(_:to:))
-        try writer["IndexDocument"].write(value.indexDocument, writingClosure: S3ClientTypes.IndexDocument.writingClosure(_:to:))
-        try writer["RedirectAllRequestsTo"].write(value.redirectAllRequestsTo, writingClosure: S3ClientTypes.RedirectAllRequestsTo.writingClosure(_:to:))
-        try writer["RoutingRules"].writeList(value.routingRules, memberWritingClosure: S3ClientTypes.RoutingRule.writingClosure(_:to:), memberNodeInfo: "RoutingRule", isFlattened: false)
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.WebsiteConfiguration, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ClientTypes.WebsiteConfiguration()
-            value.errorDocument = try reader["ErrorDocument"].readIfPresent(readingClosure: S3ClientTypes.ErrorDocument.readingClosure)
-            value.indexDocument = try reader["IndexDocument"].readIfPresent(readingClosure: S3ClientTypes.IndexDocument.readingClosure)
-            value.redirectAllRequestsTo = try reader["RedirectAllRequestsTo"].readIfPresent(readingClosure: S3ClientTypes.RedirectAllRequestsTo.readingClosure)
-            value.routingRules = try reader["RoutingRules"].readListIfPresent(memberReadingClosure: S3ClientTypes.RoutingRule.readingClosure, memberNodeInfo: "RoutingRule", isFlattened: false)
-            return value
-        }
+    static func write(value: S3ClientTypes.WebsiteConfiguration?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["ErrorDocument"].write(value.errorDocument, with: S3ClientTypes.ErrorDocument.write(value:to:))
+        try writer["IndexDocument"].write(value.indexDocument, with: S3ClientTypes.IndexDocument.write(value:to:))
+        try writer["RedirectAllRequestsTo"].write(value.redirectAllRequestsTo, with: S3ClientTypes.RedirectAllRequestsTo.write(value:to:))
+        try writer["RoutingRules"].writeList(value.routingRules, memberWritingClosure: S3ClientTypes.RoutingRule.write(value:to:), memberNodeInfo: "RoutingRule", isFlattened: false)
     }
 }
 
@@ -22524,13 +21613,6 @@ extension S3ClientTypes {
 extension WriteGetObjectResponseInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "WriteGetObjectResponseInput(acceptRanges: \(Swift.String(describing: acceptRanges)), body: \(Swift.String(describing: body)), bucketKeyEnabled: \(Swift.String(describing: bucketKeyEnabled)), cacheControl: \(Swift.String(describing: cacheControl)), checksumCRC32: \(Swift.String(describing: checksumCRC32)), checksumCRC32C: \(Swift.String(describing: checksumCRC32C)), checksumSHA1: \(Swift.String(describing: checksumSHA1)), checksumSHA256: \(Swift.String(describing: checksumSHA256)), contentDisposition: \(Swift.String(describing: contentDisposition)), contentEncoding: \(Swift.String(describing: contentEncoding)), contentLanguage: \(Swift.String(describing: contentLanguage)), contentLength: \(Swift.String(describing: contentLength)), contentRange: \(Swift.String(describing: contentRange)), contentType: \(Swift.String(describing: contentType)), deleteMarker: \(Swift.String(describing: deleteMarker)), eTag: \(Swift.String(describing: eTag)), errorCode: \(Swift.String(describing: errorCode)), errorMessage: \(Swift.String(describing: errorMessage)), expiration: \(Swift.String(describing: expiration)), expires: \(Swift.String(describing: expires)), lastModified: \(Swift.String(describing: lastModified)), metadata: \(Swift.String(describing: metadata)), missingMeta: \(Swift.String(describing: missingMeta)), objectLockLegalHoldStatus: \(Swift.String(describing: objectLockLegalHoldStatus)), objectLockMode: \(Swift.String(describing: objectLockMode)), objectLockRetainUntilDate: \(Swift.String(describing: objectLockRetainUntilDate)), partsCount: \(Swift.String(describing: partsCount)), replicationStatus: \(Swift.String(describing: replicationStatus)), requestCharged: \(Swift.String(describing: requestCharged)), requestRoute: \(Swift.String(describing: requestRoute)), requestToken: \(Swift.String(describing: requestToken)), restore: \(Swift.String(describing: restore)), sseCustomerAlgorithm: \(Swift.String(describing: sseCustomerAlgorithm)), sseCustomerKeyMD5: \(Swift.String(describing: sseCustomerKeyMD5)), serverSideEncryption: \(Swift.String(describing: serverSideEncryption)), statusCode: \(Swift.String(describing: statusCode)), storageClass: \(Swift.String(describing: storageClass)), tagCount: \(Swift.String(describing: tagCount)), versionId: \(Swift.String(describing: versionId)), ssekmsKeyId: \"CONTENT_REDACTED\")"}
-}
-
-extension WriteGetObjectResponseInput {
-    static func writingClosure(_ value: WriteGetObjectResponseInput?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["Body"].write(value.body)
-    }
 }
 
 extension WriteGetObjectResponseInput {
@@ -22673,6 +21755,14 @@ extension WriteGetObjectResponseInput {
 
     static func urlPathProvider(_ value: WriteGetObjectResponseInput) -> Swift.String? {
         return "/WriteGetObjectResponse"
+    }
+}
+
+extension WriteGetObjectResponseInput {
+
+    static func write(value: WriteGetObjectResponseInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Body"].write(value.body)
     }
 }
 
@@ -22876,10 +21966,8 @@ public struct WriteGetObjectResponseInput {
 
 extension WriteGetObjectResponseOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<WriteGetObjectResponseOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            return WriteGetObjectResponseOutput()
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> WriteGetObjectResponseOutput {
+        return WriteGetObjectResponseOutput()
     }
 }
 
@@ -22890,13 +21978,14 @@ public struct WriteGetObjectResponseOutput {
 
 enum WriteGetObjectResponseOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }

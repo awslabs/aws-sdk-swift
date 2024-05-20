@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test
 import software.amazon.smithy.aws.swift.codegen.TestContext
 import software.amazon.smithy.aws.swift.codegen.TestUtils
 import software.amazon.smithy.aws.swift.codegen.TestUtils.Companion.getFileContents
+import software.amazon.smithy.aws.swift.codegen.protocols.awsquery.AWSQueryProtocolGenerator
 import software.amazon.smithy.aws.traits.protocols.AwsQueryTrait
 
 class StructDecodeWrappedXMLGeneratorTests {
@@ -21,14 +22,13 @@ class StructDecodeWrappedXMLGeneratorTests {
         val expectedContents = """
 extension FlattenedXmlMapOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<FlattenedXmlMapOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader["FlattenedXmlMapResult"]
-            var value = FlattenedXmlMapOutput()
-            value.myMap = try reader["myMap"].readMapIfPresent(valueReadingClosure: Swift.String.readingClosure, keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: true)
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> FlattenedXmlMapOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader["FlattenedXmlMapResult"]
+        var value = FlattenedXmlMapOutput()
+        value.myMap = try reader["myMap"].readMapIfPresent(valueReadingClosure: Swift.String.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: true)
+        return value
     }
 }
 """
@@ -38,7 +38,7 @@ extension FlattenedXmlMapOutput {
     private fun setupTests(smithyFile: String, serviceShapeId: String): TestContext {
         val context =
             TestUtils.executeDirectedCodegen(smithyFile, serviceShapeId, AwsQueryTrait.ID)
-        val generator = AwsQueryProtocolGenerator()
+        val generator = AWSQueryProtocolGenerator()
         generator.generateCodableConformanceForNestedTypes(context.ctx)
         generator.generateDeserializers(context.ctx)
         context.ctx.delegator.flushWriters()

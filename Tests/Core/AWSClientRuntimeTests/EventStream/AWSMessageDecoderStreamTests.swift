@@ -17,7 +17,7 @@ final class AWSMessageDecoderStreamTests: XCTestCase {
         let sut = EventStream.DefaultMessageDecoderStream<TestEvent>(
             stream: bufferedStream,
             messageDecoder: messageDecoder,
-            unmarshalClosure: jsonUnmarshalClosure(responseDecoder: JSONDecoder())
+            unmarshalClosure: TestEvent.unmarshal
         )
 
         var events: [TestEvent] = []

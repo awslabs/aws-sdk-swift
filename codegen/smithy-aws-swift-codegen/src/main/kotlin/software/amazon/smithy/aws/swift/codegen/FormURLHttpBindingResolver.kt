@@ -11,8 +11,8 @@ import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.protocols.core.StaticHttpBindingResolver
 
 class FormURLHttpBindingResolver(
-    private val context: ProtocolGenerator.GenerationContext,
-    private val contentType: String
+    context: ProtocolGenerator.GenerationContext,
+    contentType: String
 ) : StaticHttpBindingResolver(context, httpTrait, contentType) {
 
     companion object {

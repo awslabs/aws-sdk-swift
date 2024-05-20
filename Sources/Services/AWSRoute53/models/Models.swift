@@ -6,20 +6,12 @@ import SmithyXML
 
 extension Route53ClientTypes.AccountLimit {
 
-    static func writingClosure(_ value: Route53ClientTypes.AccountLimit?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["Type"].write(value.type)
-        try writer["Value"].write(value.value)
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<Route53ClientTypes.AccountLimit, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = Route53ClientTypes.AccountLimit()
-            value.type = try reader["Type"].readIfPresent()
-            value.value = try reader["Value"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.AccountLimit {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Route53ClientTypes.AccountLimit()
+        value.type = try reader["Type"].readIfPresent()
+        value.value = try reader["Value"].readIfPresent()
+        return value
     }
 }
 
@@ -56,7 +48,8 @@ extension Route53ClientTypes {
 }
 
 extension Route53ClientTypes {
-    public enum AccountLimitType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum AccountLimitType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case maxHealthChecksByOwner
         case maxHostedZonesByOwner
         case maxReusableDelegationSetsByOwner
@@ -74,10 +67,12 @@ extension Route53ClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .maxHealthChecksByOwner: return "MAX_HEALTH_CHECKS_BY_OWNER"
@@ -87,11 +82,6 @@ extension Route53ClientTypes {
             case .maxTrafficPolicyInstancesByOwner: return "MAX_TRAFFIC_POLICY_INSTANCES_BY_OWNER"
             case let .sdkUnknown(s): return s
             }
-        }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = AccountLimitType(rawValue: rawValue) ?? AccountLimitType.sdkUnknown(rawValue)
         }
     }
 }
@@ -129,14 +119,13 @@ public struct ActivateKeySigningKeyInput {
 
 extension ActivateKeySigningKeyOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<ActivateKeySigningKeyOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = ActivateKeySigningKeyOutput()
-            value.changeInfo = try reader["ChangeInfo"].readIfPresent(readingClosure: Route53ClientTypes.ChangeInfo.readingClosure)
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ActivateKeySigningKeyOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = ActivateKeySigningKeyOutput()
+        value.changeInfo = try reader["ChangeInfo"].readIfPresent(with: Route53ClientTypes.ChangeInfo.read(from:))
+        return value
     }
 }
 
@@ -155,40 +144,37 @@ public struct ActivateKeySigningKeyOutput {
 
 enum ActivateKeySigningKeyOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let errorBodyReader = AWSClientRuntime.RestXMLError.errorBodyReader(responseReader: responseReader, noErrorWrapping: false)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                case "ConcurrentModification": return try await ConcurrentModification.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "InvalidInput": return try await InvalidInput.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "InvalidKeySigningKeyStatus": return try await InvalidKeySigningKeyStatus.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "InvalidKMSArn": return try await InvalidKMSArn.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "InvalidSigningStatus": return try await InvalidSigningStatus.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "NoSuchKeySigningKey": return try await NoSuchKeySigningKey.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConcurrentModification": return try ConcurrentModification.makeError(baseError: baseError)
+            case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
+            case "InvalidKeySigningKeyStatus": return try InvalidKeySigningKeyStatus.makeError(baseError: baseError)
+            case "InvalidKMSArn": return try InvalidKMSArn.makeError(baseError: baseError)
+            case "InvalidSigningStatus": return try InvalidSigningStatus.makeError(baseError: baseError)
+            case "NoSuchKeySigningKey": return try NoSuchKeySigningKey.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
 
 extension Route53ClientTypes.AlarmIdentifier {
 
-    static func writingClosure(_ value: Route53ClientTypes.AlarmIdentifier?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: Route53ClientTypes.AlarmIdentifier?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["Name"].write(value.name)
         try writer["Region"].write(value.region)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<Route53ClientTypes.AlarmIdentifier, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = Route53ClientTypes.AlarmIdentifier()
-            value.region = try reader["Region"].readIfPresent()
-            value.name = try reader["Name"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.AlarmIdentifier {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Route53ClientTypes.AlarmIdentifier()
+        value.region = try reader["Region"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        return value
     }
 }
 
@@ -220,22 +206,20 @@ extension Route53ClientTypes {
 
 extension Route53ClientTypes.AliasTarget {
 
-    static func writingClosure(_ value: Route53ClientTypes.AliasTarget?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: Route53ClientTypes.AliasTarget?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["DNSName"].write(value.dnsName)
         try writer["EvaluateTargetHealth"].write(value.evaluateTargetHealth)
         try writer["HostedZoneId"].write(value.hostedZoneId)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<Route53ClientTypes.AliasTarget, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = Route53ClientTypes.AliasTarget()
-            value.hostedZoneId = try reader["HostedZoneId"].readIfPresent()
-            value.dnsName = try reader["DNSName"].readIfPresent()
-            value.evaluateTargetHealth = try reader["EvaluateTargetHealth"].readIfPresent() ?? false
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.AliasTarget {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Route53ClientTypes.AliasTarget()
+        value.hostedZoneId = try reader["HostedZoneId"].readIfPresent()
+        value.dnsName = try reader["DNSName"].readIfPresent()
+        value.evaluateTargetHealth = try reader["EvaluateTargetHealth"].readIfPresent() ?? false
+        return value
     }
 }
 
@@ -361,20 +345,21 @@ extension Route53ClientTypes {
 }
 
 extension AssociateVPCWithHostedZoneInput {
-    static func writingClosure(_ value: AssociateVPCWithHostedZoneInput?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["Comment"].write(value.comment)
-        try writer["VPC"].write(value.vpc, writingClosure: Route53ClientTypes.VPC.writingClosure(_:to:))
-    }
-}
-
-extension AssociateVPCWithHostedZoneInput {
 
     static func urlPathProvider(_ value: AssociateVPCWithHostedZoneInput) -> Swift.String? {
         guard let hostedZoneId = value.hostedZoneId else {
             return nil
         }
         return "/2013-04-01/hostedzone/\(hostedZoneId.urlPercentEncoding())/associatevpc"
+    }
+}
+
+extension AssociateVPCWithHostedZoneInput {
+
+    static func write(value: AssociateVPCWithHostedZoneInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Comment"].write(value.comment)
+        try writer["VPC"].write(value.vpc, with: Route53ClientTypes.VPC.write(value:to:))
     }
 }
 
@@ -403,14 +388,13 @@ public struct AssociateVPCWithHostedZoneInput {
 
 extension AssociateVPCWithHostedZoneOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<AssociateVPCWithHostedZoneOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = AssociateVPCWithHostedZoneOutput()
-            value.changeInfo = try reader["ChangeInfo"].readIfPresent(readingClosure: Route53ClientTypes.ChangeInfo.readingClosure)
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> AssociateVPCWithHostedZoneOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = AssociateVPCWithHostedZoneOutput()
+        value.changeInfo = try reader["ChangeInfo"].readIfPresent(with: Route53ClientTypes.ChangeInfo.read(from:))
+        return value
     }
 }
 
@@ -430,42 +414,31 @@ public struct AssociateVPCWithHostedZoneOutput {
 
 enum AssociateVPCWithHostedZoneOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let errorBodyReader = AWSClientRuntime.RestXMLError.errorBodyReader(responseReader: responseReader, noErrorWrapping: false)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                case "ConflictingDomainExists": return try await ConflictingDomainExists.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "InvalidInput": return try await InvalidInput.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "InvalidVPCId": return try await InvalidVPCId.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "LimitsExceeded": return try await LimitsExceeded.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "NoSuchHostedZone": return try await NoSuchHostedZone.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "NotAuthorizedException": return try await NotAuthorizedException.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "PriorRequestNotComplete": return try await PriorRequestNotComplete.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "PublicZoneVPCAssociation": return try await PublicZoneVPCAssociation.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConflictingDomainExists": return try ConflictingDomainExists.makeError(baseError: baseError)
+            case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
+            case "InvalidVPCId": return try InvalidVPCId.makeError(baseError: baseError)
+            case "LimitsExceeded": return try LimitsExceeded.makeError(baseError: baseError)
+            case "NoSuchHostedZone": return try NoSuchHostedZone.makeError(baseError: baseError)
+            case "NotAuthorizedException": return try NotAuthorizedException.makeError(baseError: baseError)
+            case "PriorRequestNotComplete": return try PriorRequestNotComplete.makeError(baseError: baseError)
+            case "PublicZoneVPCAssociation": return try PublicZoneVPCAssociation.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
 
 extension Route53ClientTypes.Change {
 
-    static func writingClosure(_ value: Route53ClientTypes.Change?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: Route53ClientTypes.Change?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["Action"].write(value.action)
-        try writer["ResourceRecordSet"].write(value.resourceRecordSet, writingClosure: Route53ClientTypes.ResourceRecordSet.writingClosure(_:to:))
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<Route53ClientTypes.Change, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = Route53ClientTypes.Change()
-            value.action = try reader["Action"].readIfPresent()
-            value.resourceRecordSet = try reader["ResourceRecordSet"].readIfPresent(readingClosure: Route53ClientTypes.ResourceRecordSet.readingClosure)
-            return value
-        }
+        try writer["ResourceRecordSet"].write(value.resourceRecordSet, with: Route53ClientTypes.ResourceRecordSet.write(value:to:))
     }
 }
 
@@ -498,7 +471,8 @@ extension Route53ClientTypes {
 }
 
 extension Route53ClientTypes {
-    public enum ChangeAction: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum ChangeAction: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case create
         case delete
         case upsert
@@ -512,10 +486,12 @@ extension Route53ClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .create: return "CREATE"
@@ -524,30 +500,15 @@ extension Route53ClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = ChangeAction(rawValue: rawValue) ?? ChangeAction.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension Route53ClientTypes.ChangeBatch {
 
-    static func writingClosure(_ value: Route53ClientTypes.ChangeBatch?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["Changes"].writeList(value.changes, memberWritingClosure: Route53ClientTypes.Change.writingClosure(_:to:), memberNodeInfo: "Change", isFlattened: false)
+    static func write(value: Route53ClientTypes.ChangeBatch?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Changes"].writeList(value.changes, memberWritingClosure: Route53ClientTypes.Change.write(value:to:), memberNodeInfo: "Change", isFlattened: false)
         try writer["Comment"].write(value.comment)
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<Route53ClientTypes.ChangeBatch, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = Route53ClientTypes.ChangeBatch()
-            value.comment = try reader["Comment"].readIfPresent()
-            value.changes = try reader["Changes"].readListIfPresent(memberReadingClosure: Route53ClientTypes.Change.readingClosure, memberNodeInfo: "Change", isFlattened: false)
-            return value
-        }
     }
 }
 
@@ -573,20 +534,21 @@ extension Route53ClientTypes {
 }
 
 extension ChangeCidrCollectionInput {
-    static func writingClosure(_ value: ChangeCidrCollectionInput?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["Changes"].writeList(value.changes, memberWritingClosure: Route53ClientTypes.CidrCollectionChange.writingClosure(_:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["CollectionVersion"].write(value.collectionVersion)
-    }
-}
-
-extension ChangeCidrCollectionInput {
 
     static func urlPathProvider(_ value: ChangeCidrCollectionInput) -> Swift.String? {
         guard let id = value.id else {
             return nil
         }
         return "/2013-04-01/cidrcollection/\(id.urlPercentEncoding())"
+    }
+}
+
+extension ChangeCidrCollectionInput {
+
+    static func write(value: ChangeCidrCollectionInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Changes"].writeList(value.changes, memberWritingClosure: Route53ClientTypes.CidrCollectionChange.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["CollectionVersion"].write(value.collectionVersion)
     }
 }
 
@@ -618,14 +580,13 @@ public struct ChangeCidrCollectionInput {
 
 extension ChangeCidrCollectionOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<ChangeCidrCollectionOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = ChangeCidrCollectionOutput()
-            value.id = try reader["Id"].readIfPresent()
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ChangeCidrCollectionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = ChangeCidrCollectionOutput()
+        value.id = try reader["Id"].readIfPresent()
+        return value
     }
 }
 
@@ -644,44 +605,33 @@ public struct ChangeCidrCollectionOutput {
 
 enum ChangeCidrCollectionOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let errorBodyReader = AWSClientRuntime.RestXMLError.errorBodyReader(responseReader: responseReader, noErrorWrapping: false)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                case "CidrBlockInUseException": return try await CidrBlockInUseException.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "CidrCollectionVersionMismatchException": return try await CidrCollectionVersionMismatchException.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "ConcurrentModification": return try await ConcurrentModification.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "InvalidInput": return try await InvalidInput.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "LimitsExceeded": return try await LimitsExceeded.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "NoSuchCidrCollectionException": return try await NoSuchCidrCollectionException.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "CidrBlockInUseException": return try CidrBlockInUseException.makeError(baseError: baseError)
+            case "CidrCollectionVersionMismatchException": return try CidrCollectionVersionMismatchException.makeError(baseError: baseError)
+            case "ConcurrentModification": return try ConcurrentModification.makeError(baseError: baseError)
+            case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
+            case "LimitsExceeded": return try LimitsExceeded.makeError(baseError: baseError)
+            case "NoSuchCidrCollectionException": return try NoSuchCidrCollectionException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
 
 extension Route53ClientTypes.ChangeInfo {
 
-    static func writingClosure(_ value: Route53ClientTypes.ChangeInfo?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["Comment"].write(value.comment)
-        try writer["Id"].write(value.id)
-        try writer["Status"].write(value.status)
-        try writer["SubmittedAt"].writeTimestamp(value.submittedAt, format: .dateTime)
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<Route53ClientTypes.ChangeInfo, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = Route53ClientTypes.ChangeInfo()
-            value.id = try reader["Id"].readIfPresent()
-            value.status = try reader["Status"].readIfPresent()
-            value.submittedAt = try reader["SubmittedAt"].readTimestampIfPresent(format: .dateTime)
-            value.comment = try reader["Comment"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.ChangeInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Route53ClientTypes.ChangeInfo()
+        value.id = try reader["Id"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.submittedAt = try reader["SubmittedAt"].readTimestampIfPresent(format: .dateTime)
+        value.comment = try reader["Comment"].readIfPresent()
+        return value
     }
 }
 
@@ -717,19 +667,20 @@ extension Route53ClientTypes {
 }
 
 extension ChangeResourceRecordSetsInput {
-    static func writingClosure(_ value: ChangeResourceRecordSetsInput?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["ChangeBatch"].write(value.changeBatch, writingClosure: Route53ClientTypes.ChangeBatch.writingClosure(_:to:))
-    }
-}
-
-extension ChangeResourceRecordSetsInput {
 
     static func urlPathProvider(_ value: ChangeResourceRecordSetsInput) -> Swift.String? {
         guard let hostedZoneId = value.hostedZoneId else {
             return nil
         }
         return "/2013-04-01/hostedzone/\(hostedZoneId.urlPercentEncoding())/rrset"
+    }
+}
+
+extension ChangeResourceRecordSetsInput {
+
+    static func write(value: ChangeResourceRecordSetsInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["ChangeBatch"].write(value.changeBatch, with: Route53ClientTypes.ChangeBatch.write(value:to:))
     }
 }
 
@@ -754,14 +705,13 @@ public struct ChangeResourceRecordSetsInput {
 
 extension ChangeResourceRecordSetsOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<ChangeResourceRecordSetsOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = ChangeResourceRecordSetsOutput()
-            value.changeInfo = try reader["ChangeInfo"].readIfPresent(readingClosure: Route53ClientTypes.ChangeInfo.readingClosure)
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ChangeResourceRecordSetsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = ChangeResourceRecordSetsOutput()
+        value.changeInfo = try reader["ChangeInfo"].readIfPresent(with: Route53ClientTypes.ChangeInfo.read(from:))
+        return value
     }
 }
 
@@ -779,79 +729,27 @@ public struct ChangeResourceRecordSetsOutput {
     }
 }
 
-struct CustomInvalidBatchError {
-
-    struct Message {
-        var message: String?
-
-        init() {}
-
-        static func readingClosure(from reader: SmithyXML.Reader) throws -> Message? {
-            guard reader.content != nil else { return nil }
-            var value = Message()
-            value.message = try reader["Message"].readIfPresent()
-            return value
-        }
-    }
-
-    var requestID: String?
-    var message: String?
-    var messages: [String]?
-
-    init() {}
-
-    static func readingClosure(from reader: SmithyXML.Reader) throws -> CustomInvalidBatchError? {
-        guard reader.content != nil else { return nil }
-        var value = CustomInvalidBatchError()
-        value.requestID = try reader["RequestId"].readIfPresent()
-        value.message = try reader["Message"].readIfPresent()
-        value.messages = try reader["Messages"].readListIfPresent(memberReadingClosure: Message.readingClosure(from:), memberNodeInfo: "Message", isFlattened: false)?.compactMap(\.message)
-        return value
-    }
-
-    static func makeFromHttpResponse(_ httpResponse: ClientRuntime.HttpResponse) async throws -> CustomInvalidBatchError? {
-        guard let data = try await httpResponse.body.readData() else { return nil }
-        let reader = try SmithyXML.Reader.from(data: data)
-        return try Self.readingClosure(from: reader)
-    }
-}
-
-extension InvalidChangeBatch {
-    init(customError: CustomInvalidBatchError, httpResponse: ClientRuntime.HttpResponse) {
-        self.init(messages: customError.messages)
-        self.message = customError.message
-        self.requestID = customError.requestID
-        self.httpResponse = httpResponse
-    }
-}
-
 enum ChangeResourceRecordSetsOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            if let customBatchError = try await CustomInvalidBatchError.makeFromHttpResponse(httpResponse) {
-                return InvalidChangeBatch(
-                    customError: customBatchError,
-                    httpResponse: httpResponse
-                )
-            }
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let errorBodyReader = AWSClientRuntime.RestXMLError.errorBodyReader(responseReader: responseReader, noErrorWrapping: false)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                case "InvalidChangeBatch": return try await InvalidChangeBatch.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "InvalidInput": return try await InvalidInput.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "NoSuchHealthCheck": return try await NoSuchHealthCheck.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "NoSuchHostedZone": return try await NoSuchHostedZone.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "PriorRequestNotComplete": return try await PriorRequestNotComplete.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidChangeBatch": return try InvalidChangeBatch.makeError(baseError: baseError)
+            case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
+            case "NoSuchHealthCheck": return try NoSuchHealthCheck.makeError(baseError: baseError)
+            case "NoSuchHostedZone": return try NoSuchHostedZone.makeError(baseError: baseError)
+            case "PriorRequestNotComplete": return try PriorRequestNotComplete.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
 
 extension Route53ClientTypes {
-    public enum ChangeStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum ChangeStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case insync
         case pending
         case sdkUnknown(Swift.String)
@@ -863,10 +761,12 @@ extension Route53ClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .insync: return "INSYNC"
@@ -874,19 +774,6 @@ extension Route53ClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = ChangeStatus(rawValue: rawValue) ?? ChangeStatus.sdkUnknown(rawValue)
-        }
-    }
-}
-
-extension ChangeTagsForResourceInput {
-    static func writingClosure(_ value: ChangeTagsForResourceInput?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["AddTags"].writeList(value.addTags, memberWritingClosure: Route53ClientTypes.Tag.writingClosure(_:to:), memberNodeInfo: "Tag", isFlattened: false)
-        try writer["RemoveTagKeys"].writeList(value.removeTagKeys, memberWritingClosure: Swift.String.writingClosure(_:to:), memberNodeInfo: "Key", isFlattened: false)
     }
 }
 
@@ -900,6 +787,15 @@ extension ChangeTagsForResourceInput {
             return nil
         }
         return "/2013-04-01/tags/\(resourceType.rawValue.urlPercentEncoding())/\(resourceId.urlPercentEncoding())"
+    }
+}
+
+extension ChangeTagsForResourceInput {
+
+    static func write(value: ChangeTagsForResourceInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["AddTags"].writeList(value.addTags, memberWritingClosure: Route53ClientTypes.Tag.write(value:to:), memberNodeInfo: "Tag", isFlattened: false)
+        try writer["RemoveTagKeys"].writeList(value.removeTagKeys, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "Key", isFlattened: false)
     }
 }
 
@@ -936,10 +832,8 @@ public struct ChangeTagsForResourceInput {
 
 extension ChangeTagsForResourceOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<ChangeTagsForResourceOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            return ChangeTagsForResourceOutput()
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ChangeTagsForResourceOutput {
+        return ChangeTagsForResourceOutput()
     }
 }
 
@@ -951,43 +845,31 @@ public struct ChangeTagsForResourceOutput {
 
 enum ChangeTagsForResourceOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let errorBodyReader = AWSClientRuntime.RestXMLError.errorBodyReader(responseReader: responseReader, noErrorWrapping: false)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                case "InvalidInput": return try await InvalidInput.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "NoSuchHealthCheck": return try await NoSuchHealthCheck.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "NoSuchHostedZone": return try await NoSuchHostedZone.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "PriorRequestNotComplete": return try await PriorRequestNotComplete.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "ThrottlingException": return try await ThrottlingException.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
+            case "NoSuchHealthCheck": return try NoSuchHealthCheck.makeError(baseError: baseError)
+            case "NoSuchHostedZone": return try NoSuchHostedZone.makeError(baseError: baseError)
+            case "PriorRequestNotComplete": return try PriorRequestNotComplete.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
 
 extension CidrBlockInUseException {
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<CidrBlockInUseException, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = CidrBlockInUseException()
-            value.properties.message = try reader["Message"].readIfPresent()
-            return value
-        }
-    }
-}
-
-extension CidrBlockInUseException {
-
-    static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws -> Swift.Error {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> CidrBlockInUseException {
+        let reader = baseError.errorBodyReader
         var value = CidrBlockInUseException()
         value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = httpResponse
-        value.requestID = requestID
-        value.message = message
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
         return value
     }
 }
@@ -1018,20 +900,12 @@ public struct CidrBlockInUseException: ClientRuntime.ModeledError, AWSClientRunt
 
 extension Route53ClientTypes.CidrBlockSummary {
 
-    static func writingClosure(_ value: Route53ClientTypes.CidrBlockSummary?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["CidrBlock"].write(value.cidrBlock)
-        try writer["LocationName"].write(value.locationName)
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<Route53ClientTypes.CidrBlockSummary, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = Route53ClientTypes.CidrBlockSummary()
-            value.cidrBlock = try reader["CidrBlock"].readIfPresent()
-            value.locationName = try reader["LocationName"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.CidrBlockSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Route53ClientTypes.CidrBlockSummary()
+        value.cidrBlock = try reader["CidrBlock"].readIfPresent()
+        value.locationName = try reader["LocationName"].readIfPresent()
+        return value
     }
 }
 
@@ -1057,24 +931,14 @@ extension Route53ClientTypes {
 
 extension Route53ClientTypes.CidrCollection {
 
-    static func writingClosure(_ value: Route53ClientTypes.CidrCollection?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["Arn"].write(value.arn)
-        try writer["Id"].write(value.id)
-        try writer["Name"].write(value.name)
-        try writer["Version"].write(value.version)
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<Route53ClientTypes.CidrCollection, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = Route53ClientTypes.CidrCollection()
-            value.arn = try reader["Arn"].readIfPresent()
-            value.id = try reader["Id"].readIfPresent()
-            value.name = try reader["Name"].readIfPresent()
-            value.version = try reader["Version"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.CidrCollection {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Route53ClientTypes.CidrCollection()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.id = try reader["Id"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.version = try reader["Version"].readIfPresent()
+        return value
     }
 }
 
@@ -1108,24 +972,13 @@ extension Route53ClientTypes {
 
 extension CidrCollectionAlreadyExistsException {
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<CidrCollectionAlreadyExistsException, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = CidrCollectionAlreadyExistsException()
-            value.properties.message = try reader["Message"].readIfPresent()
-            return value
-        }
-    }
-}
-
-extension CidrCollectionAlreadyExistsException {
-
-    static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws -> Swift.Error {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> CidrCollectionAlreadyExistsException {
+        let reader = baseError.errorBodyReader
         var value = CidrCollectionAlreadyExistsException()
         value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = httpResponse
-        value.requestID = requestID
-        value.message = message
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
         return value
     }
 }
@@ -1156,22 +1009,11 @@ public struct CidrCollectionAlreadyExistsException: ClientRuntime.ModeledError, 
 
 extension Route53ClientTypes.CidrCollectionChange {
 
-    static func writingClosure(_ value: Route53ClientTypes.CidrCollectionChange?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: Route53ClientTypes.CidrCollectionChange?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["Action"].write(value.action)
-        try writer["CidrList"].writeList(value.cidrList, memberWritingClosure: Swift.String.writingClosure(_:to:), memberNodeInfo: "Cidr", isFlattened: false)
+        try writer["CidrList"].writeList(value.cidrList, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "Cidr", isFlattened: false)
         try writer["LocationName"].write(value.locationName)
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<Route53ClientTypes.CidrCollectionChange, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = Route53ClientTypes.CidrCollectionChange()
-            value.locationName = try reader["LocationName"].readIfPresent()
-            value.action = try reader["Action"].readIfPresent()
-            value.cidrList = try reader["CidrList"].readListIfPresent(memberReadingClosure: Swift.String.readingClosure, memberNodeInfo: "Cidr", isFlattened: false)
-            return value
-        }
     }
 }
 
@@ -1203,7 +1045,8 @@ extension Route53ClientTypes {
 }
 
 extension Route53ClientTypes {
-    public enum CidrCollectionChangeAction: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum CidrCollectionChangeAction: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case deleteIfExists
         case put
         case sdkUnknown(Swift.String)
@@ -1215,10 +1058,12 @@ extension Route53ClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .deleteIfExists: return "DELETE_IF_EXISTS"
@@ -1226,34 +1071,18 @@ extension Route53ClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = CidrCollectionChangeAction(rawValue: rawValue) ?? CidrCollectionChangeAction.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension CidrCollectionInUseException {
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<CidrCollectionInUseException, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = CidrCollectionInUseException()
-            value.properties.message = try reader["Message"].readIfPresent()
-            return value
-        }
-    }
-}
-
-extension CidrCollectionInUseException {
-
-    static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws -> Swift.Error {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> CidrCollectionInUseException {
+        let reader = baseError.errorBodyReader
         var value = CidrCollectionInUseException()
         value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = httpResponse
-        value.requestID = requestID
-        value.message = message
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
         return value
     }
 }
@@ -1284,24 +1113,13 @@ public struct CidrCollectionInUseException: ClientRuntime.ModeledError, AWSClien
 
 extension CidrCollectionVersionMismatchException {
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<CidrCollectionVersionMismatchException, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = CidrCollectionVersionMismatchException()
-            value.properties.message = try reader["Message"].readIfPresent()
-            return value
-        }
-    }
-}
-
-extension CidrCollectionVersionMismatchException {
-
-    static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws -> Swift.Error {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> CidrCollectionVersionMismatchException {
+        let reader = baseError.errorBodyReader
         var value = CidrCollectionVersionMismatchException()
         value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = httpResponse
-        value.requestID = requestID
-        value.message = message
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
         return value
     }
 }
@@ -1332,20 +1150,18 @@ public struct CidrCollectionVersionMismatchException: ClientRuntime.ModeledError
 
 extension Route53ClientTypes.CidrRoutingConfig {
 
-    static func writingClosure(_ value: Route53ClientTypes.CidrRoutingConfig?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: Route53ClientTypes.CidrRoutingConfig?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["CollectionId"].write(value.collectionId)
         try writer["LocationName"].write(value.locationName)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<Route53ClientTypes.CidrRoutingConfig, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = Route53ClientTypes.CidrRoutingConfig()
-            value.collectionId = try reader["CollectionId"].readIfPresent()
-            value.locationName = try reader["LocationName"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.CidrRoutingConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Route53ClientTypes.CidrRoutingConfig()
+        value.collectionId = try reader["CollectionId"].readIfPresent()
+        value.locationName = try reader["LocationName"].readIfPresent()
+        return value
     }
 }
 
@@ -1373,32 +1189,18 @@ extension Route53ClientTypes {
 
 extension Route53ClientTypes.CloudWatchAlarmConfiguration {
 
-    static func writingClosure(_ value: Route53ClientTypes.CloudWatchAlarmConfiguration?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["ComparisonOperator"].write(value.comparisonOperator)
-        try writer["Dimensions"].writeList(value.dimensions, memberWritingClosure: Route53ClientTypes.Dimension.writingClosure(_:to:), memberNodeInfo: "Dimension", isFlattened: false)
-        try writer["EvaluationPeriods"].write(value.evaluationPeriods)
-        try writer["MetricName"].write(value.metricName)
-        try writer["Namespace"].write(value.namespace)
-        try writer["Period"].write(value.period)
-        try writer["Statistic"].write(value.statistic)
-        try writer["Threshold"].write(value.threshold)
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<Route53ClientTypes.CloudWatchAlarmConfiguration, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = Route53ClientTypes.CloudWatchAlarmConfiguration()
-            value.evaluationPeriods = try reader["EvaluationPeriods"].readIfPresent()
-            value.threshold = try reader["Threshold"].readIfPresent()
-            value.comparisonOperator = try reader["ComparisonOperator"].readIfPresent()
-            value.period = try reader["Period"].readIfPresent()
-            value.metricName = try reader["MetricName"].readIfPresent()
-            value.namespace = try reader["Namespace"].readIfPresent()
-            value.statistic = try reader["Statistic"].readIfPresent()
-            value.dimensions = try reader["Dimensions"].readListIfPresent(memberReadingClosure: Route53ClientTypes.Dimension.readingClosure, memberNodeInfo: "Dimension", isFlattened: false)
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.CloudWatchAlarmConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Route53ClientTypes.CloudWatchAlarmConfiguration()
+        value.evaluationPeriods = try reader["EvaluationPeriods"].readIfPresent()
+        value.threshold = try reader["Threshold"].readIfPresent()
+        value.comparisonOperator = try reader["ComparisonOperator"].readIfPresent()
+        value.period = try reader["Period"].readIfPresent()
+        value.metricName = try reader["MetricName"].readIfPresent()
+        value.namespace = try reader["Namespace"].readIfPresent()
+        value.statistic = try reader["Statistic"].readIfPresent()
+        value.dimensions = try reader["Dimensions"].readListIfPresent(memberReadingClosure: Route53ClientTypes.Dimension.read(from:), memberNodeInfo: "Dimension", isFlattened: false)
+        return value
     }
 }
 
@@ -1454,7 +1256,8 @@ extension Route53ClientTypes {
 }
 
 extension Route53ClientTypes {
-    public enum CloudWatchRegion: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum CloudWatchRegion: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case afSouth1
         case apEast1
         case apNortheast1
@@ -1534,10 +1337,12 @@ extension Route53ClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .afSouth1: return "af-south-1"
@@ -1579,34 +1384,19 @@ extension Route53ClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = CloudWatchRegion(rawValue: rawValue) ?? CloudWatchRegion.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension Route53ClientTypes.CollectionSummary {
 
-    static func writingClosure(_ value: Route53ClientTypes.CollectionSummary?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["Arn"].write(value.arn)
-        try writer["Id"].write(value.id)
-        try writer["Name"].write(value.name)
-        try writer["Version"].write(value.version)
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<Route53ClientTypes.CollectionSummary, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = Route53ClientTypes.CollectionSummary()
-            value.arn = try reader["Arn"].readIfPresent()
-            value.id = try reader["Id"].readIfPresent()
-            value.name = try reader["Name"].readIfPresent()
-            value.version = try reader["Version"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.CollectionSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Route53ClientTypes.CollectionSummary()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.id = try reader["Id"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.version = try reader["Version"].readIfPresent()
+        return value
     }
 }
 
@@ -1639,7 +1429,8 @@ extension Route53ClientTypes {
 }
 
 extension Route53ClientTypes {
-    public enum ComparisonOperator: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum ComparisonOperator: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case greaterthanorequaltothreshold
         case greaterthanthreshold
         case lessthanorequaltothreshold
@@ -1655,10 +1446,12 @@ extension Route53ClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .greaterthanorequaltothreshold: return "GreaterThanOrEqualToThreshold"
@@ -1668,34 +1461,18 @@ extension Route53ClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = ComparisonOperator(rawValue: rawValue) ?? ComparisonOperator.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension ConcurrentModification {
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<ConcurrentModification, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = ConcurrentModification()
-            value.properties.message = try reader["message"].readIfPresent()
-            return value
-        }
-    }
-}
-
-extension ConcurrentModification {
-
-    static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws -> Swift.Error {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> ConcurrentModification {
+        let reader = baseError.errorBodyReader
         var value = ConcurrentModification()
         value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = httpResponse
-        value.requestID = requestID
-        value.message = message
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
         return value
     }
 }
@@ -1727,24 +1504,13 @@ public struct ConcurrentModification: ClientRuntime.ModeledError, AWSClientRunti
 
 extension ConflictingDomainExists {
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<ConflictingDomainExists, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = ConflictingDomainExists()
-            value.properties.message = try reader["message"].readIfPresent()
-            return value
-        }
-    }
-}
-
-extension ConflictingDomainExists {
-
-    static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws -> Swift.Error {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> ConflictingDomainExists {
+        let reader = baseError.errorBodyReader
         var value = ConflictingDomainExists()
         value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = httpResponse
-        value.requestID = requestID
-        value.message = message
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
         return value
     }
 }
@@ -1781,24 +1547,13 @@ public struct ConflictingDomainExists: ClientRuntime.ModeledError, AWSClientRunt
 
 extension ConflictingTypes {
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<ConflictingTypes, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = ConflictingTypes()
-            value.properties.message = try reader["message"].readIfPresent()
-            return value
-        }
-    }
-}
-
-extension ConflictingTypes {
-
-    static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws -> Swift.Error {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> ConflictingTypes {
+        let reader = baseError.errorBodyReader
         var value = ConflictingTypes()
         value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = httpResponse
-        value.requestID = requestID
-        value.message = message
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
         return value
     }
 }
@@ -1830,20 +1585,18 @@ public struct ConflictingTypes: ClientRuntime.ModeledError, AWSClientRuntime.AWS
 
 extension Route53ClientTypes.Coordinates {
 
-    static func writingClosure(_ value: Route53ClientTypes.Coordinates?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: Route53ClientTypes.Coordinates?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["Latitude"].write(value.latitude)
         try writer["Longitude"].write(value.longitude)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<Route53ClientTypes.Coordinates, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = Route53ClientTypes.Coordinates()
-            value.latitude = try reader["Latitude"].readIfPresent()
-            value.longitude = try reader["Longitude"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.Coordinates {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Route53ClientTypes.Coordinates()
+        value.latitude = try reader["Latitude"].readIfPresent()
+        value.longitude = try reader["Longitude"].readIfPresent()
+        return value
     }
 }
 
@@ -1870,17 +1623,18 @@ extension Route53ClientTypes {
 }
 
 extension CreateCidrCollectionInput {
-    static func writingClosure(_ value: CreateCidrCollectionInput?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["CallerReference"].write(value.callerReference)
-        try writer["Name"].write(value.name)
+
+    static func urlPathProvider(_ value: CreateCidrCollectionInput) -> Swift.String? {
+        return "/2013-04-01/cidrcollection"
     }
 }
 
 extension CreateCidrCollectionInput {
 
-    static func urlPathProvider(_ value: CreateCidrCollectionInput) -> Swift.String? {
-        return "/2013-04-01/cidrcollection"
+    static func write(value: CreateCidrCollectionInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["CallerReference"].write(value.callerReference)
+        try writer["Name"].write(value.name)
     }
 }
 
@@ -1904,17 +1658,16 @@ public struct CreateCidrCollectionInput {
 
 extension CreateCidrCollectionOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<CreateCidrCollectionOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = CreateCidrCollectionOutput()
-            if let locationHeaderValue = httpResponse.headers.value(for: "Location") {
-                value.location = locationHeaderValue
-            }
-            value.collection = try reader["Collection"].readIfPresent(readingClosure: Route53ClientTypes.CidrCollection.readingClosure)
-            return value
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateCidrCollectionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateCidrCollectionOutput()
+        if let locationHeaderValue = httpResponse.headers.value(for: "Location") {
+            value.location = locationHeaderValue
         }
+        value.collection = try reader["Collection"].readIfPresent(with: Route53ClientTypes.CidrCollection.read(from:))
+        return value
     }
 }
 
@@ -1936,27 +1689,18 @@ public struct CreateCidrCollectionOutput {
 
 enum CreateCidrCollectionOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let errorBodyReader = AWSClientRuntime.RestXMLError.errorBodyReader(responseReader: responseReader, noErrorWrapping: false)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                case "CidrCollectionAlreadyExistsException": return try await CidrCollectionAlreadyExistsException.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "ConcurrentModification": return try await ConcurrentModification.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "InvalidInput": return try await InvalidInput.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "LimitsExceeded": return try await LimitsExceeded.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "CidrCollectionAlreadyExistsException": return try CidrCollectionAlreadyExistsException.makeError(baseError: baseError)
+            case "ConcurrentModification": return try ConcurrentModification.makeError(baseError: baseError)
+            case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
+            case "LimitsExceeded": return try LimitsExceeded.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
-    }
-}
-
-extension CreateHealthCheckInput {
-    static func writingClosure(_ value: CreateHealthCheckInput?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["CallerReference"].write(value.callerReference)
-        try writer["HealthCheckConfig"].write(value.healthCheckConfig, writingClosure: Route53ClientTypes.HealthCheckConfig.writingClosure(_:to:))
     }
 }
 
@@ -1964,6 +1708,15 @@ extension CreateHealthCheckInput {
 
     static func urlPathProvider(_ value: CreateHealthCheckInput) -> Swift.String? {
         return "/2013-04-01/healthcheck"
+    }
+}
+
+extension CreateHealthCheckInput {
+
+    static func write(value: CreateHealthCheckInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["CallerReference"].write(value.callerReference)
+        try writer["HealthCheckConfig"].write(value.healthCheckConfig, with: Route53ClientTypes.HealthCheckConfig.write(value:to:))
     }
 }
 
@@ -1999,17 +1752,16 @@ public struct CreateHealthCheckInput {
 
 extension CreateHealthCheckOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<CreateHealthCheckOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = CreateHealthCheckOutput()
-            if let locationHeaderValue = httpResponse.headers.value(for: "Location") {
-                value.location = locationHeaderValue
-            }
-            value.healthCheck = try reader["HealthCheck"].readIfPresent(readingClosure: Route53ClientTypes.HealthCheck.readingClosure)
-            return value
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateHealthCheckOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateHealthCheckOutput()
+        if let locationHeaderValue = httpResponse.headers.value(for: "Location") {
+            value.location = locationHeaderValue
         }
+        value.healthCheck = try reader["HealthCheck"].readIfPresent(with: Route53ClientTypes.HealthCheck.read(from:))
+        return value
     }
 }
 
@@ -2034,29 +1786,17 @@ public struct CreateHealthCheckOutput {
 
 enum CreateHealthCheckOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let errorBodyReader = AWSClientRuntime.RestXMLError.errorBodyReader(responseReader: responseReader, noErrorWrapping: false)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                case "HealthCheckAlreadyExists": return try await HealthCheckAlreadyExists.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "InvalidInput": return try await InvalidInput.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "TooManyHealthChecks": return try await TooManyHealthChecks.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "HealthCheckAlreadyExists": return try HealthCheckAlreadyExists.makeError(baseError: baseError)
+            case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
+            case "TooManyHealthChecks": return try TooManyHealthChecks.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
-    }
-}
-
-extension CreateHostedZoneInput {
-    static func writingClosure(_ value: CreateHostedZoneInput?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["CallerReference"].write(value.callerReference)
-        try writer["DelegationSetId"].write(value.delegationSetId)
-        try writer["HostedZoneConfig"].write(value.hostedZoneConfig, writingClosure: Route53ClientTypes.HostedZoneConfig.writingClosure(_:to:))
-        try writer["Name"].write(value.name)
-        try writer["VPC"].write(value.vpc, writingClosure: Route53ClientTypes.VPC.writingClosure(_:to:))
     }
 }
 
@@ -2064,6 +1804,18 @@ extension CreateHostedZoneInput {
 
     static func urlPathProvider(_ value: CreateHostedZoneInput) -> Swift.String? {
         return "/2013-04-01/hostedzone"
+    }
+}
+
+extension CreateHostedZoneInput {
+
+    static func write(value: CreateHostedZoneInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["CallerReference"].write(value.callerReference)
+        try writer["DelegationSetId"].write(value.delegationSetId)
+        try writer["HostedZoneConfig"].write(value.hostedZoneConfig, with: Route53ClientTypes.HostedZoneConfig.write(value:to:))
+        try writer["Name"].write(value.name)
+        try writer["VPC"].write(value.vpc, with: Route53ClientTypes.VPC.write(value:to:))
     }
 }
 
@@ -2107,20 +1859,19 @@ public struct CreateHostedZoneInput {
 
 extension CreateHostedZoneOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<CreateHostedZoneOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = CreateHostedZoneOutput()
-            if let locationHeaderValue = httpResponse.headers.value(for: "Location") {
-                value.location = locationHeaderValue
-            }
-            value.changeInfo = try reader["ChangeInfo"].readIfPresent(readingClosure: Route53ClientTypes.ChangeInfo.readingClosure)
-            value.delegationSet = try reader["DelegationSet"].readIfPresent(readingClosure: Route53ClientTypes.DelegationSet.readingClosure)
-            value.hostedZone = try reader["HostedZone"].readIfPresent(readingClosure: Route53ClientTypes.HostedZone.readingClosure)
-            value.vpc = try reader["VPC"].readIfPresent(readingClosure: Route53ClientTypes.VPC.readingClosure)
-            return value
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateHostedZoneOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateHostedZoneOutput()
+        if let locationHeaderValue = httpResponse.headers.value(for: "Location") {
+            value.location = locationHeaderValue
         }
+        value.changeInfo = try reader["ChangeInfo"].readIfPresent(with: Route53ClientTypes.ChangeInfo.read(from:))
+        value.delegationSet = try reader["DelegationSet"].readIfPresent(with: Route53ClientTypes.DelegationSet.read(from:))
+        value.hostedZone = try reader["HostedZone"].readIfPresent(with: Route53ClientTypes.HostedZone.read(from:))
+        value.vpc = try reader["VPC"].readIfPresent(with: Route53ClientTypes.VPC.read(from:))
+        return value
     }
 }
 
@@ -2159,35 +1910,23 @@ public struct CreateHostedZoneOutput {
 
 enum CreateHostedZoneOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let errorBodyReader = AWSClientRuntime.RestXMLError.errorBodyReader(responseReader: responseReader, noErrorWrapping: false)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                case "ConflictingDomainExists": return try await ConflictingDomainExists.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "DelegationSetNotAvailable": return try await DelegationSetNotAvailable.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "DelegationSetNotReusable": return try await DelegationSetNotReusable.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "HostedZoneAlreadyExists": return try await HostedZoneAlreadyExists.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "InvalidDomainName": return try await InvalidDomainName.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "InvalidInput": return try await InvalidInput.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "InvalidVPCId": return try await InvalidVPCId.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "NoSuchDelegationSet": return try await NoSuchDelegationSet.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "TooManyHostedZones": return try await TooManyHostedZones.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConflictingDomainExists": return try ConflictingDomainExists.makeError(baseError: baseError)
+            case "DelegationSetNotAvailable": return try DelegationSetNotAvailable.makeError(baseError: baseError)
+            case "DelegationSetNotReusable": return try DelegationSetNotReusable.makeError(baseError: baseError)
+            case "HostedZoneAlreadyExists": return try HostedZoneAlreadyExists.makeError(baseError: baseError)
+            case "InvalidDomainName": return try InvalidDomainName.makeError(baseError: baseError)
+            case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
+            case "InvalidVPCId": return try InvalidVPCId.makeError(baseError: baseError)
+            case "NoSuchDelegationSet": return try NoSuchDelegationSet.makeError(baseError: baseError)
+            case "TooManyHostedZones": return try TooManyHostedZones.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
-    }
-}
-
-extension CreateKeySigningKeyInput {
-    static func writingClosure(_ value: CreateKeySigningKeyInput?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["CallerReference"].write(value.callerReference)
-        try writer["HostedZoneId"].write(value.hostedZoneId)
-        try writer["KeyManagementServiceArn"].write(value.keyManagementServiceArn)
-        try writer["Name"].write(value.name)
-        try writer["Status"].write(value.status)
     }
 }
 
@@ -2195,6 +1934,18 @@ extension CreateKeySigningKeyInput {
 
     static func urlPathProvider(_ value: CreateKeySigningKeyInput) -> Swift.String? {
         return "/2013-04-01/keysigningkey"
+    }
+}
+
+extension CreateKeySigningKeyInput {
+
+    static func write(value: CreateKeySigningKeyInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["CallerReference"].write(value.callerReference)
+        try writer["HostedZoneId"].write(value.hostedZoneId)
+        try writer["KeyManagementServiceArn"].write(value.keyManagementServiceArn)
+        try writer["Name"].write(value.name)
+        try writer["Status"].write(value.status)
     }
 }
 
@@ -2247,18 +1998,17 @@ public struct CreateKeySigningKeyInput {
 
 extension CreateKeySigningKeyOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<CreateKeySigningKeyOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = CreateKeySigningKeyOutput()
-            if let locationHeaderValue = httpResponse.headers.value(for: "Location") {
-                value.location = locationHeaderValue
-            }
-            value.changeInfo = try reader["ChangeInfo"].readIfPresent(readingClosure: Route53ClientTypes.ChangeInfo.readingClosure)
-            value.keySigningKey = try reader["KeySigningKey"].readIfPresent(readingClosure: Route53ClientTypes.KeySigningKey.readingClosure)
-            return value
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateKeySigningKeyOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateKeySigningKeyOutput()
+        if let locationHeaderValue = httpResponse.headers.value(for: "Location") {
+            value.location = locationHeaderValue
         }
+        value.changeInfo = try reader["ChangeInfo"].readIfPresent(with: Route53ClientTypes.ChangeInfo.read(from:))
+        value.keySigningKey = try reader["KeySigningKey"].readIfPresent(with: Route53ClientTypes.KeySigningKey.read(from:))
+        return value
     }
 }
 
@@ -2287,33 +2037,24 @@ public struct CreateKeySigningKeyOutput {
 
 enum CreateKeySigningKeyOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let errorBodyReader = AWSClientRuntime.RestXMLError.errorBodyReader(responseReader: responseReader, noErrorWrapping: false)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                case "ConcurrentModification": return try await ConcurrentModification.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "InvalidArgument": return try await InvalidArgument.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "InvalidInput": return try await InvalidInput.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "InvalidKeySigningKeyName": return try await InvalidKeySigningKeyName.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "InvalidKeySigningKeyStatus": return try await InvalidKeySigningKeyStatus.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "InvalidKMSArn": return try await InvalidKMSArn.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "InvalidSigningStatus": return try await InvalidSigningStatus.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "KeySigningKeyAlreadyExists": return try await KeySigningKeyAlreadyExists.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "NoSuchHostedZone": return try await NoSuchHostedZone.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "TooManyKeySigningKeys": return try await TooManyKeySigningKeys.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConcurrentModification": return try ConcurrentModification.makeError(baseError: baseError)
+            case "InvalidArgument": return try InvalidArgument.makeError(baseError: baseError)
+            case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
+            case "InvalidKeySigningKeyName": return try InvalidKeySigningKeyName.makeError(baseError: baseError)
+            case "InvalidKeySigningKeyStatus": return try InvalidKeySigningKeyStatus.makeError(baseError: baseError)
+            case "InvalidKMSArn": return try InvalidKMSArn.makeError(baseError: baseError)
+            case "InvalidSigningStatus": return try InvalidSigningStatus.makeError(baseError: baseError)
+            case "KeySigningKeyAlreadyExists": return try KeySigningKeyAlreadyExists.makeError(baseError: baseError)
+            case "NoSuchHostedZone": return try NoSuchHostedZone.makeError(baseError: baseError)
+            case "TooManyKeySigningKeys": return try TooManyKeySigningKeys.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
-    }
-}
-
-extension CreateQueryLoggingConfigInput {
-    static func writingClosure(_ value: CreateQueryLoggingConfigInput?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["CloudWatchLogsLogGroupArn"].write(value.cloudWatchLogsLogGroupArn)
-        try writer["HostedZoneId"].write(value.hostedZoneId)
     }
 }
 
@@ -2321,6 +2062,15 @@ extension CreateQueryLoggingConfigInput {
 
     static func urlPathProvider(_ value: CreateQueryLoggingConfigInput) -> Swift.String? {
         return "/2013-04-01/queryloggingconfig"
+    }
+}
+
+extension CreateQueryLoggingConfigInput {
+
+    static func write(value: CreateQueryLoggingConfigInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["CloudWatchLogsLogGroupArn"].write(value.cloudWatchLogsLogGroupArn)
+        try writer["HostedZoneId"].write(value.hostedZoneId)
     }
 }
 
@@ -2344,17 +2094,16 @@ public struct CreateQueryLoggingConfigInput {
 
 extension CreateQueryLoggingConfigOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<CreateQueryLoggingConfigOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = CreateQueryLoggingConfigOutput()
-            if let locationHeaderValue = httpResponse.headers.value(for: "Location") {
-                value.location = locationHeaderValue
-            }
-            value.queryLoggingConfig = try reader["QueryLoggingConfig"].readIfPresent(readingClosure: Route53ClientTypes.QueryLoggingConfig.readingClosure)
-            return value
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateQueryLoggingConfigOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateQueryLoggingConfigOutput()
+        if let locationHeaderValue = httpResponse.headers.value(for: "Location") {
+            value.location = locationHeaderValue
         }
+        value.queryLoggingConfig = try reader["QueryLoggingConfig"].readIfPresent(with: Route53ClientTypes.QueryLoggingConfig.read(from:))
+        return value
     }
 }
 
@@ -2378,29 +2127,20 @@ public struct CreateQueryLoggingConfigOutput {
 
 enum CreateQueryLoggingConfigOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let errorBodyReader = AWSClientRuntime.RestXMLError.errorBodyReader(responseReader: responseReader, noErrorWrapping: false)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                case "ConcurrentModification": return try await ConcurrentModification.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "InsufficientCloudWatchLogsResourcePolicy": return try await InsufficientCloudWatchLogsResourcePolicy.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "InvalidInput": return try await InvalidInput.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "NoSuchCloudWatchLogsLogGroup": return try await NoSuchCloudWatchLogsLogGroup.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "NoSuchHostedZone": return try await NoSuchHostedZone.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "QueryLoggingConfigAlreadyExists": return try await QueryLoggingConfigAlreadyExists.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConcurrentModification": return try ConcurrentModification.makeError(baseError: baseError)
+            case "InsufficientCloudWatchLogsResourcePolicy": return try InsufficientCloudWatchLogsResourcePolicy.makeError(baseError: baseError)
+            case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
+            case "NoSuchCloudWatchLogsLogGroup": return try NoSuchCloudWatchLogsLogGroup.makeError(baseError: baseError)
+            case "NoSuchHostedZone": return try NoSuchHostedZone.makeError(baseError: baseError)
+            case "QueryLoggingConfigAlreadyExists": return try QueryLoggingConfigAlreadyExists.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
-    }
-}
-
-extension CreateReusableDelegationSetInput {
-    static func writingClosure(_ value: CreateReusableDelegationSetInput?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["CallerReference"].write(value.callerReference)
-        try writer["HostedZoneId"].write(value.hostedZoneId)
     }
 }
 
@@ -2408,6 +2148,15 @@ extension CreateReusableDelegationSetInput {
 
     static func urlPathProvider(_ value: CreateReusableDelegationSetInput) -> Swift.String? {
         return "/2013-04-01/delegationset"
+    }
+}
+
+extension CreateReusableDelegationSetInput {
+
+    static func write(value: CreateReusableDelegationSetInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["CallerReference"].write(value.callerReference)
+        try writer["HostedZoneId"].write(value.hostedZoneId)
     }
 }
 
@@ -2430,17 +2179,16 @@ public struct CreateReusableDelegationSetInput {
 
 extension CreateReusableDelegationSetOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<CreateReusableDelegationSetOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = CreateReusableDelegationSetOutput()
-            if let locationHeaderValue = httpResponse.headers.value(for: "Location") {
-                value.location = locationHeaderValue
-            }
-            value.delegationSet = try reader["DelegationSet"].readIfPresent(readingClosure: Route53ClientTypes.DelegationSet.readingClosure)
-            return value
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateReusableDelegationSetOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateReusableDelegationSetOutput()
+        if let locationHeaderValue = httpResponse.headers.value(for: "Location") {
+            value.location = locationHeaderValue
         }
+        value.delegationSet = try reader["DelegationSet"].readIfPresent(with: Route53ClientTypes.DelegationSet.read(from:))
+        return value
     }
 }
 
@@ -2464,31 +2212,21 @@ public struct CreateReusableDelegationSetOutput {
 
 enum CreateReusableDelegationSetOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let errorBodyReader = AWSClientRuntime.RestXMLError.errorBodyReader(responseReader: responseReader, noErrorWrapping: false)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                case "DelegationSetAlreadyCreated": return try await DelegationSetAlreadyCreated.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "DelegationSetAlreadyReusable": return try await DelegationSetAlreadyReusable.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "DelegationSetNotAvailable": return try await DelegationSetNotAvailable.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "HostedZoneNotFound": return try await HostedZoneNotFound.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "InvalidArgument": return try await InvalidArgument.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "InvalidInput": return try await InvalidInput.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "LimitsExceeded": return try await LimitsExceeded.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "DelegationSetAlreadyCreated": return try DelegationSetAlreadyCreated.makeError(baseError: baseError)
+            case "DelegationSetAlreadyReusable": return try DelegationSetAlreadyReusable.makeError(baseError: baseError)
+            case "DelegationSetNotAvailable": return try DelegationSetNotAvailable.makeError(baseError: baseError)
+            case "HostedZoneNotFound": return try HostedZoneNotFound.makeError(baseError: baseError)
+            case "InvalidArgument": return try InvalidArgument.makeError(baseError: baseError)
+            case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
+            case "LimitsExceeded": return try LimitsExceeded.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
-    }
-}
-
-extension CreateTrafficPolicyInput {
-    static func writingClosure(_ value: CreateTrafficPolicyInput?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["Comment"].write(value.comment)
-        try writer["Document"].write(value.document)
-        try writer["Name"].write(value.name)
     }
 }
 
@@ -2496,6 +2234,16 @@ extension CreateTrafficPolicyInput {
 
     static func urlPathProvider(_ value: CreateTrafficPolicyInput) -> Swift.String? {
         return "/2013-04-01/trafficpolicy"
+    }
+}
+
+extension CreateTrafficPolicyInput {
+
+    static func write(value: CreateTrafficPolicyInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Comment"].write(value.comment)
+        try writer["Document"].write(value.document)
+        try writer["Name"].write(value.name)
     }
 }
 
@@ -2523,20 +2271,21 @@ public struct CreateTrafficPolicyInput {
 }
 
 extension CreateTrafficPolicyInstanceInput {
-    static func writingClosure(_ value: CreateTrafficPolicyInstanceInput?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["HostedZoneId"].write(value.hostedZoneId)
-        try writer["Name"].write(value.name)
-        try writer["TTL"].write(value.ttl)
-        try writer["TrafficPolicyId"].write(value.trafficPolicyId)
-        try writer["TrafficPolicyVersion"].write(value.trafficPolicyVersion)
+
+    static func urlPathProvider(_ value: CreateTrafficPolicyInstanceInput) -> Swift.String? {
+        return "/2013-04-01/trafficpolicyinstance"
     }
 }
 
 extension CreateTrafficPolicyInstanceInput {
 
-    static func urlPathProvider(_ value: CreateTrafficPolicyInstanceInput) -> Swift.String? {
-        return "/2013-04-01/trafficpolicyinstance"
+    static func write(value: CreateTrafficPolicyInstanceInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["HostedZoneId"].write(value.hostedZoneId)
+        try writer["Name"].write(value.name)
+        try writer["TTL"].write(value.ttl)
+        try writer["TrafficPolicyId"].write(value.trafficPolicyId)
+        try writer["TrafficPolicyVersion"].write(value.trafficPolicyVersion)
     }
 }
 
@@ -2576,17 +2325,16 @@ public struct CreateTrafficPolicyInstanceInput {
 
 extension CreateTrafficPolicyInstanceOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<CreateTrafficPolicyInstanceOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = CreateTrafficPolicyInstanceOutput()
-            if let locationHeaderValue = httpResponse.headers.value(for: "Location") {
-                value.location = locationHeaderValue
-            }
-            value.trafficPolicyInstance = try reader["TrafficPolicyInstance"].readIfPresent(readingClosure: Route53ClientTypes.TrafficPolicyInstance.readingClosure)
-            return value
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateTrafficPolicyInstanceOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateTrafficPolicyInstanceOutput()
+        if let locationHeaderValue = httpResponse.headers.value(for: "Location") {
+            value.location = locationHeaderValue
         }
+        value.trafficPolicyInstance = try reader["TrafficPolicyInstance"].readIfPresent(with: Route53ClientTypes.TrafficPolicyInstance.read(from:))
+        return value
     }
 }
 
@@ -2611,36 +2359,34 @@ public struct CreateTrafficPolicyInstanceOutput {
 
 enum CreateTrafficPolicyInstanceOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let errorBodyReader = AWSClientRuntime.RestXMLError.errorBodyReader(responseReader: responseReader, noErrorWrapping: false)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                case "InvalidInput": return try await InvalidInput.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "NoSuchHostedZone": return try await NoSuchHostedZone.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "NoSuchTrafficPolicy": return try await NoSuchTrafficPolicy.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "TooManyTrafficPolicyInstances": return try await TooManyTrafficPolicyInstances.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "TrafficPolicyInstanceAlreadyExists": return try await TrafficPolicyInstanceAlreadyExists.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
+            case "NoSuchHostedZone": return try NoSuchHostedZone.makeError(baseError: baseError)
+            case "NoSuchTrafficPolicy": return try NoSuchTrafficPolicy.makeError(baseError: baseError)
+            case "TooManyTrafficPolicyInstances": return try TooManyTrafficPolicyInstances.makeError(baseError: baseError)
+            case "TrafficPolicyInstanceAlreadyExists": return try TrafficPolicyInstanceAlreadyExists.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
 
 extension CreateTrafficPolicyOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<CreateTrafficPolicyOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = CreateTrafficPolicyOutput()
-            if let locationHeaderValue = httpResponse.headers.value(for: "Location") {
-                value.location = locationHeaderValue
-            }
-            value.trafficPolicy = try reader["TrafficPolicy"].readIfPresent(readingClosure: Route53ClientTypes.TrafficPolicy.readingClosure)
-            return value
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateTrafficPolicyOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateTrafficPolicyOutput()
+        if let locationHeaderValue = httpResponse.headers.value(for: "Location") {
+            value.location = locationHeaderValue
         }
+        value.trafficPolicy = try reader["TrafficPolicy"].readIfPresent(with: Route53ClientTypes.TrafficPolicy.read(from:))
+        return value
     }
 }
 
@@ -2665,27 +2411,18 @@ public struct CreateTrafficPolicyOutput {
 
 enum CreateTrafficPolicyOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let errorBodyReader = AWSClientRuntime.RestXMLError.errorBodyReader(responseReader: responseReader, noErrorWrapping: false)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                case "InvalidInput": return try await InvalidInput.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "InvalidTrafficPolicyDocument": return try await InvalidTrafficPolicyDocument.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "TooManyTrafficPolicies": return try await TooManyTrafficPolicies.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "TrafficPolicyAlreadyExists": return try await TrafficPolicyAlreadyExists.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
+            case "InvalidTrafficPolicyDocument": return try InvalidTrafficPolicyDocument.makeError(baseError: baseError)
+            case "TooManyTrafficPolicies": return try TooManyTrafficPolicies.makeError(baseError: baseError)
+            case "TrafficPolicyAlreadyExists": return try TrafficPolicyAlreadyExists.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
-    }
-}
-
-extension CreateTrafficPolicyVersionInput {
-    static func writingClosure(_ value: CreateTrafficPolicyVersionInput?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["Comment"].write(value.comment)
-        try writer["Document"].write(value.document)
     }
 }
 
@@ -2696,6 +2433,15 @@ extension CreateTrafficPolicyVersionInput {
             return nil
         }
         return "/2013-04-01/trafficpolicy/\(id.urlPercentEncoding())"
+    }
+}
+
+extension CreateTrafficPolicyVersionInput {
+
+    static func write(value: CreateTrafficPolicyVersionInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Comment"].write(value.comment)
+        try writer["Document"].write(value.document)
     }
 }
 
@@ -2724,17 +2470,16 @@ public struct CreateTrafficPolicyVersionInput {
 
 extension CreateTrafficPolicyVersionOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<CreateTrafficPolicyVersionOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = CreateTrafficPolicyVersionOutput()
-            if let locationHeaderValue = httpResponse.headers.value(for: "Location") {
-                value.location = locationHeaderValue
-            }
-            value.trafficPolicy = try reader["TrafficPolicy"].readIfPresent(readingClosure: Route53ClientTypes.TrafficPolicy.readingClosure)
-            return value
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateTrafficPolicyVersionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateTrafficPolicyVersionOutput()
+        if let locationHeaderValue = httpResponse.headers.value(for: "Location") {
+            value.location = locationHeaderValue
         }
+        value.trafficPolicy = try reader["TrafficPolicy"].readIfPresent(with: Route53ClientTypes.TrafficPolicy.read(from:))
+        return value
     }
 }
 
@@ -2759,27 +2504,19 @@ public struct CreateTrafficPolicyVersionOutput {
 
 enum CreateTrafficPolicyVersionOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let errorBodyReader = AWSClientRuntime.RestXMLError.errorBodyReader(responseReader: responseReader, noErrorWrapping: false)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                case "ConcurrentModification": return try await ConcurrentModification.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "InvalidInput": return try await InvalidInput.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "InvalidTrafficPolicyDocument": return try await InvalidTrafficPolicyDocument.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "NoSuchTrafficPolicy": return try await NoSuchTrafficPolicy.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "TooManyTrafficPolicyVersionsForCurrentPolicy": return try await TooManyTrafficPolicyVersionsForCurrentPolicy.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConcurrentModification": return try ConcurrentModification.makeError(baseError: baseError)
+            case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
+            case "InvalidTrafficPolicyDocument": return try InvalidTrafficPolicyDocument.makeError(baseError: baseError)
+            case "NoSuchTrafficPolicy": return try NoSuchTrafficPolicy.makeError(baseError: baseError)
+            case "TooManyTrafficPolicyVersionsForCurrentPolicy": return try TooManyTrafficPolicyVersionsForCurrentPolicy.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
-    }
-}
-
-extension CreateVPCAssociationAuthorizationInput {
-    static func writingClosure(_ value: CreateVPCAssociationAuthorizationInput?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["VPC"].write(value.vpc, writingClosure: Route53ClientTypes.VPC.writingClosure(_:to:))
     }
 }
 
@@ -2790,6 +2527,14 @@ extension CreateVPCAssociationAuthorizationInput {
             return nil
         }
         return "/2013-04-01/hostedzone/\(hostedZoneId.urlPercentEncoding())/authorizevpcassociation"
+    }
+}
+
+extension CreateVPCAssociationAuthorizationInput {
+
+    static func write(value: CreateVPCAssociationAuthorizationInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["VPC"].write(value.vpc, with: Route53ClientTypes.VPC.write(value:to:))
     }
 }
 
@@ -2814,15 +2559,14 @@ public struct CreateVPCAssociationAuthorizationInput {
 
 extension CreateVPCAssociationAuthorizationOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<CreateVPCAssociationAuthorizationOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = CreateVPCAssociationAuthorizationOutput()
-            value.hostedZoneId = try reader["HostedZoneId"].readIfPresent()
-            value.vpc = try reader["VPC"].readIfPresent(readingClosure: Route53ClientTypes.VPC.readingClosure)
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateVPCAssociationAuthorizationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateVPCAssociationAuthorizationOutput()
+        value.hostedZoneId = try reader["HostedZoneId"].readIfPresent()
+        value.vpc = try reader["VPC"].readIfPresent(with: Route53ClientTypes.VPC.read(from:))
+        return value
     }
 }
 
@@ -2847,43 +2591,31 @@ public struct CreateVPCAssociationAuthorizationOutput {
 
 enum CreateVPCAssociationAuthorizationOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let errorBodyReader = AWSClientRuntime.RestXMLError.errorBodyReader(responseReader: responseReader, noErrorWrapping: false)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                case "ConcurrentModification": return try await ConcurrentModification.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "InvalidInput": return try await InvalidInput.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "InvalidVPCId": return try await InvalidVPCId.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "NoSuchHostedZone": return try await NoSuchHostedZone.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "TooManyVPCAssociationAuthorizations": return try await TooManyVPCAssociationAuthorizations.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConcurrentModification": return try ConcurrentModification.makeError(baseError: baseError)
+            case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
+            case "InvalidVPCId": return try InvalidVPCId.makeError(baseError: baseError)
+            case "NoSuchHostedZone": return try NoSuchHostedZone.makeError(baseError: baseError)
+            case "TooManyVPCAssociationAuthorizations": return try TooManyVPCAssociationAuthorizations.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
 
 extension DNSSECNotFound {
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<DNSSECNotFound, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = DNSSECNotFound()
-            value.properties.message = try reader["message"].readIfPresent()
-            return value
-        }
-    }
-}
-
-extension DNSSECNotFound {
-
-    static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws -> Swift.Error {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> DNSSECNotFound {
+        let reader = baseError.errorBodyReader
         var value = DNSSECNotFound()
         value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = httpResponse
-        value.requestID = requestID
-        value.message = message
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
         return value
     }
 }
@@ -2914,20 +2646,12 @@ public struct DNSSECNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSSe
 
 extension Route53ClientTypes.DNSSECStatus {
 
-    static func writingClosure(_ value: Route53ClientTypes.DNSSECStatus?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["ServeSignature"].write(value.serveSignature)
-        try writer["StatusMessage"].write(value.statusMessage)
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<Route53ClientTypes.DNSSECStatus, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = Route53ClientTypes.DNSSECStatus()
-            value.serveSignature = try reader["ServeSignature"].readIfPresent()
-            value.statusMessage = try reader["StatusMessage"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.DNSSECStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Route53ClientTypes.DNSSECStatus()
+        value.serveSignature = try reader["ServeSignature"].readIfPresent()
+        value.statusMessage = try reader["StatusMessage"].readIfPresent()
+        return value
     }
 }
 
@@ -2984,14 +2708,13 @@ public struct DeactivateKeySigningKeyInput {
 
 extension DeactivateKeySigningKeyOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<DeactivateKeySigningKeyOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = DeactivateKeySigningKeyOutput()
-            value.changeInfo = try reader["ChangeInfo"].readIfPresent(readingClosure: Route53ClientTypes.ChangeInfo.readingClosure)
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeactivateKeySigningKeyOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeactivateKeySigningKeyOutput()
+        value.changeInfo = try reader["ChangeInfo"].readIfPresent(with: Route53ClientTypes.ChangeInfo.read(from:))
+        return value
     }
 }
 
@@ -3010,43 +2733,33 @@ public struct DeactivateKeySigningKeyOutput {
 
 enum DeactivateKeySigningKeyOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let errorBodyReader = AWSClientRuntime.RestXMLError.errorBodyReader(responseReader: responseReader, noErrorWrapping: false)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                case "ConcurrentModification": return try await ConcurrentModification.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "InvalidInput": return try await InvalidInput.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "InvalidKeySigningKeyStatus": return try await InvalidKeySigningKeyStatus.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "InvalidSigningStatus": return try await InvalidSigningStatus.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "KeySigningKeyInParentDSRecord": return try await KeySigningKeyInParentDSRecord.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "KeySigningKeyInUse": return try await KeySigningKeyInUse.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "NoSuchKeySigningKey": return try await NoSuchKeySigningKey.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConcurrentModification": return try ConcurrentModification.makeError(baseError: baseError)
+            case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
+            case "InvalidKeySigningKeyStatus": return try InvalidKeySigningKeyStatus.makeError(baseError: baseError)
+            case "InvalidSigningStatus": return try InvalidSigningStatus.makeError(baseError: baseError)
+            case "KeySigningKeyInParentDSRecord": return try KeySigningKeyInParentDSRecord.makeError(baseError: baseError)
+            case "KeySigningKeyInUse": return try KeySigningKeyInUse.makeError(baseError: baseError)
+            case "NoSuchKeySigningKey": return try NoSuchKeySigningKey.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
 
 extension Route53ClientTypes.DelegationSet {
 
-    static func writingClosure(_ value: Route53ClientTypes.DelegationSet?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["CallerReference"].write(value.callerReference)
-        try writer["Id"].write(value.id)
-        try writer["NameServers"].writeList(value.nameServers, memberWritingClosure: Swift.String.writingClosure(_:to:), memberNodeInfo: "NameServer", isFlattened: false)
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<Route53ClientTypes.DelegationSet, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = Route53ClientTypes.DelegationSet()
-            value.id = try reader["Id"].readIfPresent()
-            value.callerReference = try reader["CallerReference"].readIfPresent()
-            value.nameServers = try reader["NameServers"].readListIfPresent(memberReadingClosure: Swift.String.readingClosure, memberNodeInfo: "NameServer", isFlattened: false)
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.DelegationSet {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Route53ClientTypes.DelegationSet()
+        value.id = try reader["Id"].readIfPresent()
+        value.callerReference = try reader["CallerReference"].readIfPresent()
+        value.nameServers = try reader["NameServers"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "NameServer", isFlattened: false)
+        return value
     }
 }
 
@@ -3077,24 +2790,13 @@ extension Route53ClientTypes {
 
 extension DelegationSetAlreadyCreated {
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<DelegationSetAlreadyCreated, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = DelegationSetAlreadyCreated()
-            value.properties.message = try reader["message"].readIfPresent()
-            return value
-        }
-    }
-}
-
-extension DelegationSetAlreadyCreated {
-
-    static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws -> Swift.Error {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> DelegationSetAlreadyCreated {
+        let reader = baseError.errorBodyReader
         var value = DelegationSetAlreadyCreated()
         value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = httpResponse
-        value.requestID = requestID
-        value.message = message
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
         return value
     }
 }
@@ -3126,24 +2828,13 @@ public struct DelegationSetAlreadyCreated: ClientRuntime.ModeledError, AWSClient
 
 extension DelegationSetAlreadyReusable {
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<DelegationSetAlreadyReusable, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = DelegationSetAlreadyReusable()
-            value.properties.message = try reader["message"].readIfPresent()
-            return value
-        }
-    }
-}
-
-extension DelegationSetAlreadyReusable {
-
-    static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws -> Swift.Error {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> DelegationSetAlreadyReusable {
+        let reader = baseError.errorBodyReader
         var value = DelegationSetAlreadyReusable()
         value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = httpResponse
-        value.requestID = requestID
-        value.message = message
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
         return value
     }
 }
@@ -3175,24 +2866,13 @@ public struct DelegationSetAlreadyReusable: ClientRuntime.ModeledError, AWSClien
 
 extension DelegationSetInUse {
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<DelegationSetInUse, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = DelegationSetInUse()
-            value.properties.message = try reader["message"].readIfPresent()
-            return value
-        }
-    }
-}
-
-extension DelegationSetInUse {
-
-    static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws -> Swift.Error {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> DelegationSetInUse {
+        let reader = baseError.errorBodyReader
         var value = DelegationSetInUse()
         value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = httpResponse
-        value.requestID = requestID
-        value.message = message
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
         return value
     }
 }
@@ -3224,24 +2904,13 @@ public struct DelegationSetInUse: ClientRuntime.ModeledError, AWSClientRuntime.A
 
 extension DelegationSetNotAvailable {
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<DelegationSetNotAvailable, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = DelegationSetNotAvailable()
-            value.properties.message = try reader["message"].readIfPresent()
-            return value
-        }
-    }
-}
-
-extension DelegationSetNotAvailable {
-
-    static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws -> Swift.Error {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> DelegationSetNotAvailable {
+        let reader = baseError.errorBodyReader
         var value = DelegationSetNotAvailable()
         value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = httpResponse
-        value.requestID = requestID
-        value.message = message
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
         return value
     }
 }
@@ -3273,24 +2942,13 @@ public struct DelegationSetNotAvailable: ClientRuntime.ModeledError, AWSClientRu
 
 extension DelegationSetNotReusable {
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<DelegationSetNotReusable, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = DelegationSetNotReusable()
-            value.properties.message = try reader["message"].readIfPresent()
-            return value
-        }
-    }
-}
-
-extension DelegationSetNotReusable {
-
-    static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws -> Swift.Error {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> DelegationSetNotReusable {
+        let reader = baseError.errorBodyReader
         var value = DelegationSetNotReusable()
         value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = httpResponse
-        value.requestID = requestID
-        value.message = message
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
         return value
     }
 }
@@ -3345,10 +3003,8 @@ public struct DeleteCidrCollectionInput {
 
 extension DeleteCidrCollectionOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<DeleteCidrCollectionOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            return DeleteCidrCollectionOutput()
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteCidrCollectionOutput {
+        return DeleteCidrCollectionOutput()
     }
 }
 
@@ -3359,18 +3015,17 @@ public struct DeleteCidrCollectionOutput {
 
 enum DeleteCidrCollectionOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let errorBodyReader = AWSClientRuntime.RestXMLError.errorBodyReader(responseReader: responseReader, noErrorWrapping: false)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                case "CidrCollectionInUseException": return try await CidrCollectionInUseException.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "ConcurrentModification": return try await ConcurrentModification.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "InvalidInput": return try await InvalidInput.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "NoSuchCidrCollectionException": return try await NoSuchCidrCollectionException.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "CidrCollectionInUseException": return try CidrCollectionInUseException.makeError(baseError: baseError)
+            case "ConcurrentModification": return try ConcurrentModification.makeError(baseError: baseError)
+            case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
+            case "NoSuchCidrCollectionException": return try NoSuchCidrCollectionException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -3401,10 +3056,8 @@ public struct DeleteHealthCheckInput {
 
 extension DeleteHealthCheckOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<DeleteHealthCheckOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            return DeleteHealthCheckOutput()
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteHealthCheckOutput {
+        return DeleteHealthCheckOutput()
     }
 }
 
@@ -3416,17 +3069,16 @@ public struct DeleteHealthCheckOutput {
 
 enum DeleteHealthCheckOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let errorBodyReader = AWSClientRuntime.RestXMLError.errorBodyReader(responseReader: responseReader, noErrorWrapping: false)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                case "HealthCheckInUse": return try await HealthCheckInUse.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "InvalidInput": return try await InvalidInput.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "NoSuchHealthCheck": return try await NoSuchHealthCheck.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "HealthCheckInUse": return try HealthCheckInUse.makeError(baseError: baseError)
+            case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
+            case "NoSuchHealthCheck": return try NoSuchHealthCheck.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -3457,14 +3109,13 @@ public struct DeleteHostedZoneInput {
 
 extension DeleteHostedZoneOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<DeleteHostedZoneOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = DeleteHostedZoneOutput()
-            value.changeInfo = try reader["ChangeInfo"].readIfPresent(readingClosure: Route53ClientTypes.ChangeInfo.readingClosure)
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteHostedZoneOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteHostedZoneOutput()
+        value.changeInfo = try reader["ChangeInfo"].readIfPresent(with: Route53ClientTypes.ChangeInfo.read(from:))
+        return value
     }
 }
 
@@ -3484,19 +3135,18 @@ public struct DeleteHostedZoneOutput {
 
 enum DeleteHostedZoneOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let errorBodyReader = AWSClientRuntime.RestXMLError.errorBodyReader(responseReader: responseReader, noErrorWrapping: false)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                case "HostedZoneNotEmpty": return try await HostedZoneNotEmpty.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "InvalidDomainName": return try await InvalidDomainName.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "InvalidInput": return try await InvalidInput.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "NoSuchHostedZone": return try await NoSuchHostedZone.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "PriorRequestNotComplete": return try await PriorRequestNotComplete.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "HostedZoneNotEmpty": return try HostedZoneNotEmpty.makeError(baseError: baseError)
+            case "InvalidDomainName": return try InvalidDomainName.makeError(baseError: baseError)
+            case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
+            case "NoSuchHostedZone": return try NoSuchHostedZone.makeError(baseError: baseError)
+            case "PriorRequestNotComplete": return try PriorRequestNotComplete.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -3534,14 +3184,13 @@ public struct DeleteKeySigningKeyInput {
 
 extension DeleteKeySigningKeyOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<DeleteKeySigningKeyOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = DeleteKeySigningKeyOutput()
-            value.changeInfo = try reader["ChangeInfo"].readIfPresent(readingClosure: Route53ClientTypes.ChangeInfo.readingClosure)
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteKeySigningKeyOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteKeySigningKeyOutput()
+        value.changeInfo = try reader["ChangeInfo"].readIfPresent(with: Route53ClientTypes.ChangeInfo.read(from:))
+        return value
     }
 }
 
@@ -3560,20 +3209,19 @@ public struct DeleteKeySigningKeyOutput {
 
 enum DeleteKeySigningKeyOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let errorBodyReader = AWSClientRuntime.RestXMLError.errorBodyReader(responseReader: responseReader, noErrorWrapping: false)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                case "ConcurrentModification": return try await ConcurrentModification.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "InvalidInput": return try await InvalidInput.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "InvalidKeySigningKeyStatus": return try await InvalidKeySigningKeyStatus.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "InvalidKMSArn": return try await InvalidKMSArn.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "InvalidSigningStatus": return try await InvalidSigningStatus.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "NoSuchKeySigningKey": return try await NoSuchKeySigningKey.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConcurrentModification": return try ConcurrentModification.makeError(baseError: baseError)
+            case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
+            case "InvalidKeySigningKeyStatus": return try InvalidKeySigningKeyStatus.makeError(baseError: baseError)
+            case "InvalidKMSArn": return try InvalidKMSArn.makeError(baseError: baseError)
+            case "InvalidSigningStatus": return try InvalidSigningStatus.makeError(baseError: baseError)
+            case "NoSuchKeySigningKey": return try NoSuchKeySigningKey.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -3603,10 +3251,8 @@ public struct DeleteQueryLoggingConfigInput {
 
 extension DeleteQueryLoggingConfigOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<DeleteQueryLoggingConfigOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            return DeleteQueryLoggingConfigOutput()
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteQueryLoggingConfigOutput {
+        return DeleteQueryLoggingConfigOutput()
     }
 }
 
@@ -3617,17 +3263,16 @@ public struct DeleteQueryLoggingConfigOutput {
 
 enum DeleteQueryLoggingConfigOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let errorBodyReader = AWSClientRuntime.RestXMLError.errorBodyReader(responseReader: responseReader, noErrorWrapping: false)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                case "ConcurrentModification": return try await ConcurrentModification.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "InvalidInput": return try await InvalidInput.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "NoSuchQueryLoggingConfig": return try await NoSuchQueryLoggingConfig.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConcurrentModification": return try ConcurrentModification.makeError(baseError: baseError)
+            case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
+            case "NoSuchQueryLoggingConfig": return try NoSuchQueryLoggingConfig.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -3658,10 +3303,8 @@ public struct DeleteReusableDelegationSetInput {
 
 extension DeleteReusableDelegationSetOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<DeleteReusableDelegationSetOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            return DeleteReusableDelegationSetOutput()
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteReusableDelegationSetOutput {
+        return DeleteReusableDelegationSetOutput()
     }
 }
 
@@ -3673,18 +3316,17 @@ public struct DeleteReusableDelegationSetOutput {
 
 enum DeleteReusableDelegationSetOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let errorBodyReader = AWSClientRuntime.RestXMLError.errorBodyReader(responseReader: responseReader, noErrorWrapping: false)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                case "DelegationSetInUse": return try await DelegationSetInUse.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "DelegationSetNotReusable": return try await DelegationSetNotReusable.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "InvalidInput": return try await InvalidInput.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "NoSuchDelegationSet": return try await NoSuchDelegationSet.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "DelegationSetInUse": return try DelegationSetInUse.makeError(baseError: baseError)
+            case "DelegationSetNotReusable": return try DelegationSetNotReusable.makeError(baseError: baseError)
+            case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
+            case "NoSuchDelegationSet": return try NoSuchDelegationSet.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -3747,10 +3389,8 @@ public struct DeleteTrafficPolicyInstanceInput {
 
 extension DeleteTrafficPolicyInstanceOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<DeleteTrafficPolicyInstanceOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            return DeleteTrafficPolicyInstanceOutput()
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteTrafficPolicyInstanceOutput {
+        return DeleteTrafficPolicyInstanceOutput()
     }
 }
 
@@ -3762,27 +3402,24 @@ public struct DeleteTrafficPolicyInstanceOutput {
 
 enum DeleteTrafficPolicyInstanceOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let errorBodyReader = AWSClientRuntime.RestXMLError.errorBodyReader(responseReader: responseReader, noErrorWrapping: false)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                case "InvalidInput": return try await InvalidInput.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "NoSuchTrafficPolicyInstance": return try await NoSuchTrafficPolicyInstance.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "PriorRequestNotComplete": return try await PriorRequestNotComplete.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
+            case "NoSuchTrafficPolicyInstance": return try NoSuchTrafficPolicyInstance.makeError(baseError: baseError)
+            case "PriorRequestNotComplete": return try PriorRequestNotComplete.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
 
 extension DeleteTrafficPolicyOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<DeleteTrafficPolicyOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            return DeleteTrafficPolicyOutput()
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteTrafficPolicyOutput {
+        return DeleteTrafficPolicyOutput()
     }
 }
 
@@ -3794,26 +3431,18 @@ public struct DeleteTrafficPolicyOutput {
 
 enum DeleteTrafficPolicyOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let errorBodyReader = AWSClientRuntime.RestXMLError.errorBodyReader(responseReader: responseReader, noErrorWrapping: false)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                case "ConcurrentModification": return try await ConcurrentModification.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "InvalidInput": return try await InvalidInput.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "NoSuchTrafficPolicy": return try await NoSuchTrafficPolicy.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "TrafficPolicyInUse": return try await TrafficPolicyInUse.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConcurrentModification": return try ConcurrentModification.makeError(baseError: baseError)
+            case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
+            case "NoSuchTrafficPolicy": return try NoSuchTrafficPolicy.makeError(baseError: baseError)
+            case "TrafficPolicyInUse": return try TrafficPolicyInUse.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
-    }
-}
-
-extension DeleteVPCAssociationAuthorizationInput {
-    static func writingClosure(_ value: DeleteVPCAssociationAuthorizationInput?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["VPC"].write(value.vpc, writingClosure: Route53ClientTypes.VPC.writingClosure(_:to:))
     }
 }
 
@@ -3824,6 +3453,14 @@ extension DeleteVPCAssociationAuthorizationInput {
             return nil
         }
         return "/2013-04-01/hostedzone/\(hostedZoneId.urlPercentEncoding())/deauthorizevpcassociation"
+    }
+}
+
+extension DeleteVPCAssociationAuthorizationInput {
+
+    static func write(value: DeleteVPCAssociationAuthorizationInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["VPC"].write(value.vpc, with: Route53ClientTypes.VPC.write(value:to:))
     }
 }
 
@@ -3848,10 +3485,8 @@ public struct DeleteVPCAssociationAuthorizationInput {
 
 extension DeleteVPCAssociationAuthorizationOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<DeleteVPCAssociationAuthorizationOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            return DeleteVPCAssociationAuthorizationOutput()
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteVPCAssociationAuthorizationOutput {
+        return DeleteVPCAssociationAuthorizationOutput()
     }
 }
 
@@ -3863,39 +3498,30 @@ public struct DeleteVPCAssociationAuthorizationOutput {
 
 enum DeleteVPCAssociationAuthorizationOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let errorBodyReader = AWSClientRuntime.RestXMLError.errorBodyReader(responseReader: responseReader, noErrorWrapping: false)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                case "ConcurrentModification": return try await ConcurrentModification.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "InvalidInput": return try await InvalidInput.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "InvalidVPCId": return try await InvalidVPCId.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "NoSuchHostedZone": return try await NoSuchHostedZone.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "VPCAssociationAuthorizationNotFound": return try await VPCAssociationAuthorizationNotFound.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConcurrentModification": return try ConcurrentModification.makeError(baseError: baseError)
+            case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
+            case "InvalidVPCId": return try InvalidVPCId.makeError(baseError: baseError)
+            case "NoSuchHostedZone": return try NoSuchHostedZone.makeError(baseError: baseError)
+            case "VPCAssociationAuthorizationNotFound": return try VPCAssociationAuthorizationNotFound.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
 
 extension Route53ClientTypes.Dimension {
 
-    static func writingClosure(_ value: Route53ClientTypes.Dimension?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["Name"].write(value.name)
-        try writer["Value"].write(value.value)
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<Route53ClientTypes.Dimension, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = Route53ClientTypes.Dimension()
-            value.name = try reader["Name"].readIfPresent()
-            value.value = try reader["Value"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.Dimension {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Route53ClientTypes.Dimension()
+        value.name = try reader["Name"].readIfPresent()
+        value.value = try reader["Value"].readIfPresent()
+        return value
     }
 }
 
@@ -3946,14 +3572,13 @@ public struct DisableHostedZoneDNSSECInput {
 
 extension DisableHostedZoneDNSSECOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<DisableHostedZoneDNSSECOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = DisableHostedZoneDNSSECOutput()
-            value.changeInfo = try reader["ChangeInfo"].readIfPresent(readingClosure: Route53ClientTypes.ChangeInfo.readingClosure)
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DisableHostedZoneDNSSECOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = DisableHostedZoneDNSSECOutput()
+        value.changeInfo = try reader["ChangeInfo"].readIfPresent(with: Route53ClientTypes.ChangeInfo.read(from:))
+        return value
     }
 }
 
@@ -3972,31 +3597,22 @@ public struct DisableHostedZoneDNSSECOutput {
 
 enum DisableHostedZoneDNSSECOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let errorBodyReader = AWSClientRuntime.RestXMLError.errorBodyReader(responseReader: responseReader, noErrorWrapping: false)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                case "ConcurrentModification": return try await ConcurrentModification.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "DNSSECNotFound": return try await DNSSECNotFound.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "InvalidArgument": return try await InvalidArgument.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "InvalidInput": return try await InvalidInput.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "InvalidKeySigningKeyStatus": return try await InvalidKeySigningKeyStatus.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "InvalidKMSArn": return try await InvalidKMSArn.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "KeySigningKeyInParentDSRecord": return try await KeySigningKeyInParentDSRecord.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "NoSuchHostedZone": return try await NoSuchHostedZone.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConcurrentModification": return try ConcurrentModification.makeError(baseError: baseError)
+            case "DNSSECNotFound": return try DNSSECNotFound.makeError(baseError: baseError)
+            case "InvalidArgument": return try InvalidArgument.makeError(baseError: baseError)
+            case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
+            case "InvalidKeySigningKeyStatus": return try InvalidKeySigningKeyStatus.makeError(baseError: baseError)
+            case "InvalidKMSArn": return try InvalidKMSArn.makeError(baseError: baseError)
+            case "KeySigningKeyInParentDSRecord": return try KeySigningKeyInParentDSRecord.makeError(baseError: baseError)
+            case "NoSuchHostedZone": return try NoSuchHostedZone.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
-    }
-}
-
-extension DisassociateVPCFromHostedZoneInput {
-    static func writingClosure(_ value: DisassociateVPCFromHostedZoneInput?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["Comment"].write(value.comment)
-        try writer["VPC"].write(value.vpc, writingClosure: Route53ClientTypes.VPC.writingClosure(_:to:))
     }
 }
 
@@ -4007,6 +3623,15 @@ extension DisassociateVPCFromHostedZoneInput {
             return nil
         }
         return "/2013-04-01/hostedzone/\(hostedZoneId.urlPercentEncoding())/disassociatevpc"
+    }
+}
+
+extension DisassociateVPCFromHostedZoneInput {
+
+    static func write(value: DisassociateVPCFromHostedZoneInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Comment"].write(value.comment)
+        try writer["VPC"].write(value.vpc, with: Route53ClientTypes.VPC.write(value:to:))
     }
 }
 
@@ -4035,14 +3660,13 @@ public struct DisassociateVPCFromHostedZoneInput {
 
 extension DisassociateVPCFromHostedZoneOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<DisassociateVPCFromHostedZoneOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = DisassociateVPCFromHostedZoneOutput()
-            value.changeInfo = try reader["ChangeInfo"].readIfPresent(readingClosure: Route53ClientTypes.ChangeInfo.readingClosure)
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DisassociateVPCFromHostedZoneOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = DisassociateVPCFromHostedZoneOutput()
+        value.changeInfo = try reader["ChangeInfo"].readIfPresent(with: Route53ClientTypes.ChangeInfo.read(from:))
+        return value
     }
 }
 
@@ -4062,19 +3686,18 @@ public struct DisassociateVPCFromHostedZoneOutput {
 
 enum DisassociateVPCFromHostedZoneOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let errorBodyReader = AWSClientRuntime.RestXMLError.errorBodyReader(responseReader: responseReader, noErrorWrapping: false)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                case "InvalidInput": return try await InvalidInput.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "InvalidVPCId": return try await InvalidVPCId.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "LastVPCAssociation": return try await LastVPCAssociation.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "NoSuchHostedZone": return try await NoSuchHostedZone.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "VPCAssociationNotFound": return try await VPCAssociationNotFound.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
+            case "InvalidVPCId": return try InvalidVPCId.makeError(baseError: baseError)
+            case "LastVPCAssociation": return try LastVPCAssociation.makeError(baseError: baseError)
+            case "NoSuchHostedZone": return try NoSuchHostedZone.makeError(baseError: baseError)
+            case "VPCAssociationNotFound": return try VPCAssociationNotFound.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -4104,14 +3727,13 @@ public struct EnableHostedZoneDNSSECInput {
 
 extension EnableHostedZoneDNSSECOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<EnableHostedZoneDNSSECOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = EnableHostedZoneDNSSECOutput()
-            value.changeInfo = try reader["ChangeInfo"].readIfPresent(readingClosure: Route53ClientTypes.ChangeInfo.readingClosure)
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> EnableHostedZoneDNSSECOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = EnableHostedZoneDNSSECOutput()
+        value.changeInfo = try reader["ChangeInfo"].readIfPresent(with: Route53ClientTypes.ChangeInfo.read(from:))
+        return value
     }
 }
 
@@ -4130,45 +3752,42 @@ public struct EnableHostedZoneDNSSECOutput {
 
 enum EnableHostedZoneDNSSECOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let errorBodyReader = AWSClientRuntime.RestXMLError.errorBodyReader(responseReader: responseReader, noErrorWrapping: false)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                case "ConcurrentModification": return try await ConcurrentModification.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "DNSSECNotFound": return try await DNSSECNotFound.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "HostedZonePartiallyDelegated": return try await HostedZonePartiallyDelegated.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "InvalidArgument": return try await InvalidArgument.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "InvalidInput": return try await InvalidInput.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "InvalidKeySigningKeyStatus": return try await InvalidKeySigningKeyStatus.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "InvalidKMSArn": return try await InvalidKMSArn.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "KeySigningKeyWithActiveStatusNotFound": return try await KeySigningKeyWithActiveStatusNotFound.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "NoSuchHostedZone": return try await NoSuchHostedZone.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConcurrentModification": return try ConcurrentModification.makeError(baseError: baseError)
+            case "DNSSECNotFound": return try DNSSECNotFound.makeError(baseError: baseError)
+            case "HostedZonePartiallyDelegated": return try HostedZonePartiallyDelegated.makeError(baseError: baseError)
+            case "InvalidArgument": return try InvalidArgument.makeError(baseError: baseError)
+            case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
+            case "InvalidKeySigningKeyStatus": return try InvalidKeySigningKeyStatus.makeError(baseError: baseError)
+            case "InvalidKMSArn": return try InvalidKMSArn.makeError(baseError: baseError)
+            case "KeySigningKeyWithActiveStatusNotFound": return try KeySigningKeyWithActiveStatusNotFound.makeError(baseError: baseError)
+            case "NoSuchHostedZone": return try NoSuchHostedZone.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
 
 extension Route53ClientTypes.GeoLocation {
 
-    static func writingClosure(_ value: Route53ClientTypes.GeoLocation?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: Route53ClientTypes.GeoLocation?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["ContinentCode"].write(value.continentCode)
         try writer["CountryCode"].write(value.countryCode)
         try writer["SubdivisionCode"].write(value.subdivisionCode)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<Route53ClientTypes.GeoLocation, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = Route53ClientTypes.GeoLocation()
-            value.continentCode = try reader["ContinentCode"].readIfPresent()
-            value.countryCode = try reader["CountryCode"].readIfPresent()
-            value.subdivisionCode = try reader["SubdivisionCode"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.GeoLocation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Route53ClientTypes.GeoLocation()
+        value.continentCode = try reader["ContinentCode"].readIfPresent()
+        value.countryCode = try reader["CountryCode"].readIfPresent()
+        value.subdivisionCode = try reader["SubdivisionCode"].readIfPresent()
+        return value
     }
 }
 
@@ -4215,28 +3834,16 @@ extension Route53ClientTypes {
 
 extension Route53ClientTypes.GeoLocationDetails {
 
-    static func writingClosure(_ value: Route53ClientTypes.GeoLocationDetails?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["ContinentCode"].write(value.continentCode)
-        try writer["ContinentName"].write(value.continentName)
-        try writer["CountryCode"].write(value.countryCode)
-        try writer["CountryName"].write(value.countryName)
-        try writer["SubdivisionCode"].write(value.subdivisionCode)
-        try writer["SubdivisionName"].write(value.subdivisionName)
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<Route53ClientTypes.GeoLocationDetails, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = Route53ClientTypes.GeoLocationDetails()
-            value.continentCode = try reader["ContinentCode"].readIfPresent()
-            value.continentName = try reader["ContinentName"].readIfPresent()
-            value.countryCode = try reader["CountryCode"].readIfPresent()
-            value.countryName = try reader["CountryName"].readIfPresent()
-            value.subdivisionCode = try reader["SubdivisionCode"].readIfPresent()
-            value.subdivisionName = try reader["SubdivisionName"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.GeoLocationDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Route53ClientTypes.GeoLocationDetails()
+        value.continentCode = try reader["ContinentCode"].readIfPresent()
+        value.continentName = try reader["ContinentName"].readIfPresent()
+        value.countryCode = try reader["CountryCode"].readIfPresent()
+        value.countryName = try reader["CountryName"].readIfPresent()
+        value.subdivisionCode = try reader["SubdivisionCode"].readIfPresent()
+        value.subdivisionName = try reader["SubdivisionName"].readIfPresent()
+        return value
     }
 }
 
@@ -4278,24 +3885,22 @@ extension Route53ClientTypes {
 
 extension Route53ClientTypes.GeoProximityLocation {
 
-    static func writingClosure(_ value: Route53ClientTypes.GeoProximityLocation?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: Route53ClientTypes.GeoProximityLocation?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["AWSRegion"].write(value.awsRegion)
         try writer["Bias"].write(value.bias)
-        try writer["Coordinates"].write(value.coordinates, writingClosure: Route53ClientTypes.Coordinates.writingClosure(_:to:))
+        try writer["Coordinates"].write(value.coordinates, with: Route53ClientTypes.Coordinates.write(value:to:))
         try writer["LocalZoneGroup"].write(value.localZoneGroup)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<Route53ClientTypes.GeoProximityLocation, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = Route53ClientTypes.GeoProximityLocation()
-            value.awsRegion = try reader["AWSRegion"].readIfPresent()
-            value.localZoneGroup = try reader["LocalZoneGroup"].readIfPresent()
-            value.coordinates = try reader["Coordinates"].readIfPresent(readingClosure: Route53ClientTypes.Coordinates.readingClosure)
-            value.bias = try reader["Bias"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.GeoProximityLocation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Route53ClientTypes.GeoProximityLocation()
+        value.awsRegion = try reader["AWSRegion"].readIfPresent()
+        value.localZoneGroup = try reader["LocalZoneGroup"].readIfPresent()
+        value.coordinates = try reader["Coordinates"].readIfPresent(with: Route53ClientTypes.Coordinates.read(from:))
+        value.bias = try reader["Bias"].readIfPresent()
+        return value
     }
 }
 
@@ -4367,15 +3972,14 @@ public struct GetAccountLimitInput {
 
 extension GetAccountLimitOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<GetAccountLimitOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = GetAccountLimitOutput()
-            value.count = try reader["Count"].readIfPresent() ?? 0
-            value.limit = try reader["Limit"].readIfPresent(readingClosure: Route53ClientTypes.AccountLimit.readingClosure)
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetAccountLimitOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetAccountLimitOutput()
+        value.count = try reader["Count"].readIfPresent() ?? 0
+        value.limit = try reader["Limit"].readIfPresent(with: Route53ClientTypes.AccountLimit.read(from:))
+        return value
     }
 }
 
@@ -4400,15 +4004,14 @@ public struct GetAccountLimitOutput {
 
 enum GetAccountLimitOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let errorBodyReader = AWSClientRuntime.RestXMLError.errorBodyReader(responseReader: responseReader, noErrorWrapping: false)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                case "InvalidInput": return try await InvalidInput.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -4439,14 +4042,13 @@ public struct GetChangeInput {
 
 extension GetChangeOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<GetChangeOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = GetChangeOutput()
-            value.changeInfo = try reader["ChangeInfo"].readIfPresent(readingClosure: Route53ClientTypes.ChangeInfo.readingClosure)
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetChangeOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetChangeOutput()
+        value.changeInfo = try reader["ChangeInfo"].readIfPresent(with: Route53ClientTypes.ChangeInfo.read(from:))
+        return value
     }
 }
 
@@ -4466,16 +4068,15 @@ public struct GetChangeOutput {
 
 enum GetChangeOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let errorBodyReader = AWSClientRuntime.RestXMLError.errorBodyReader(responseReader: responseReader, noErrorWrapping: false)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                case "InvalidInput": return try await InvalidInput.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "NoSuchChange": return try await NoSuchChange.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
+            case "NoSuchChange": return try NoSuchChange.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -4495,14 +4096,13 @@ public struct GetCheckerIpRangesInput {
 
 extension GetCheckerIpRangesOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<GetCheckerIpRangesOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = GetCheckerIpRangesOutput()
-            value.checkerIpRanges = try reader["CheckerIpRanges"].readListIfPresent(memberReadingClosure: Swift.String.readingClosure, memberNodeInfo: "member", isFlattened: false)
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetCheckerIpRangesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetCheckerIpRangesOutput()
+        value.checkerIpRanges = try reader["CheckerIpRanges"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
     }
 }
 
@@ -4522,13 +4122,13 @@ public struct GetCheckerIpRangesOutput {
 
 enum GetCheckerIpRangesOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -4558,15 +4158,14 @@ public struct GetDNSSECInput {
 
 extension GetDNSSECOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<GetDNSSECOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = GetDNSSECOutput()
-            value.keySigningKeys = try reader["KeySigningKeys"].readListIfPresent(memberReadingClosure: Route53ClientTypes.KeySigningKey.readingClosure, memberNodeInfo: "member", isFlattened: false)
-            value.status = try reader["Status"].readIfPresent(readingClosure: Route53ClientTypes.DNSSECStatus.readingClosure)
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetDNSSECOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetDNSSECOutput()
+        value.keySigningKeys = try reader["KeySigningKeys"].readListIfPresent(memberReadingClosure: Route53ClientTypes.KeySigningKey.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.status = try reader["Status"].readIfPresent(with: Route53ClientTypes.DNSSECStatus.read(from:))
+        return value
     }
 }
 
@@ -4590,17 +4189,16 @@ public struct GetDNSSECOutput {
 
 enum GetDNSSECOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let errorBodyReader = AWSClientRuntime.RestXMLError.errorBodyReader(responseReader: responseReader, noErrorWrapping: false)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                case "InvalidArgument": return try await InvalidArgument.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "InvalidInput": return try await InvalidInput.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "NoSuchHostedZone": return try await NoSuchHostedZone.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidArgument": return try InvalidArgument.makeError(baseError: baseError)
+            case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
+            case "NoSuchHostedZone": return try NoSuchHostedZone.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -4669,14 +4267,13 @@ public struct GetGeoLocationInput {
 
 extension GetGeoLocationOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<GetGeoLocationOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = GetGeoLocationOutput()
-            value.geoLocationDetails = try reader["GeoLocationDetails"].readIfPresent(readingClosure: Route53ClientTypes.GeoLocationDetails.readingClosure)
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetGeoLocationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetGeoLocationOutput()
+        value.geoLocationDetails = try reader["GeoLocationDetails"].readIfPresent(with: Route53ClientTypes.GeoLocationDetails.read(from:))
+        return value
     }
 }
 
@@ -4696,16 +4293,15 @@ public struct GetGeoLocationOutput {
 
 enum GetGeoLocationOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let errorBodyReader = AWSClientRuntime.RestXMLError.errorBodyReader(responseReader: responseReader, noErrorWrapping: false)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                case "InvalidInput": return try await InvalidInput.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "NoSuchGeoLocation": return try await NoSuchGeoLocation.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
+            case "NoSuchGeoLocation": return try NoSuchGeoLocation.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -4725,14 +4321,13 @@ public struct GetHealthCheckCountInput {
 
 extension GetHealthCheckCountOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<GetHealthCheckCountOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = GetHealthCheckCountOutput()
-            value.healthCheckCount = try reader["HealthCheckCount"].readIfPresent()
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetHealthCheckCountOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetHealthCheckCountOutput()
+        value.healthCheckCount = try reader["HealthCheckCount"].readIfPresent()
+        return value
     }
 }
 
@@ -4752,13 +4347,13 @@ public struct GetHealthCheckCountOutput {
 
 enum GetHealthCheckCountOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -4813,14 +4408,13 @@ public struct GetHealthCheckLastFailureReasonInput {
 
 extension GetHealthCheckLastFailureReasonOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<GetHealthCheckLastFailureReasonOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = GetHealthCheckLastFailureReasonOutput()
-            value.healthCheckObservations = try reader["HealthCheckObservations"].readListIfPresent(memberReadingClosure: Route53ClientTypes.HealthCheckObservation.readingClosure, memberNodeInfo: "HealthCheckObservation", isFlattened: false)
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetHealthCheckLastFailureReasonOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetHealthCheckLastFailureReasonOutput()
+        value.healthCheckObservations = try reader["HealthCheckObservations"].readListIfPresent(memberReadingClosure: Route53ClientTypes.HealthCheckObservation.read(from:), memberNodeInfo: "HealthCheckObservation", isFlattened: false)
+        return value
     }
 }
 
@@ -4840,30 +4434,28 @@ public struct GetHealthCheckLastFailureReasonOutput {
 
 enum GetHealthCheckLastFailureReasonOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let errorBodyReader = AWSClientRuntime.RestXMLError.errorBodyReader(responseReader: responseReader, noErrorWrapping: false)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                case "InvalidInput": return try await InvalidInput.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "NoSuchHealthCheck": return try await NoSuchHealthCheck.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
+            case "NoSuchHealthCheck": return try NoSuchHealthCheck.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
 
 extension GetHealthCheckOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<GetHealthCheckOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = GetHealthCheckOutput()
-            value.healthCheck = try reader["HealthCheck"].readIfPresent(readingClosure: Route53ClientTypes.HealthCheck.readingClosure)
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetHealthCheckOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetHealthCheckOutput()
+        value.healthCheck = try reader["HealthCheck"].readIfPresent(with: Route53ClientTypes.HealthCheck.read(from:))
+        return value
     }
 }
 
@@ -4883,17 +4475,16 @@ public struct GetHealthCheckOutput {
 
 enum GetHealthCheckOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let errorBodyReader = AWSClientRuntime.RestXMLError.errorBodyReader(responseReader: responseReader, noErrorWrapping: false)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                case "IncompatibleVersion": return try await IncompatibleVersion.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "InvalidInput": return try await InvalidInput.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "NoSuchHealthCheck": return try await NoSuchHealthCheck.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "IncompatibleVersion": return try IncompatibleVersion.makeError(baseError: baseError)
+            case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
+            case "NoSuchHealthCheck": return try NoSuchHealthCheck.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -4924,14 +4515,13 @@ public struct GetHealthCheckStatusInput {
 
 extension GetHealthCheckStatusOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<GetHealthCheckStatusOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = GetHealthCheckStatusOutput()
-            value.healthCheckObservations = try reader["HealthCheckObservations"].readListIfPresent(memberReadingClosure: Route53ClientTypes.HealthCheckObservation.readingClosure, memberNodeInfo: "HealthCheckObservation", isFlattened: false)
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetHealthCheckStatusOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetHealthCheckStatusOutput()
+        value.healthCheckObservations = try reader["HealthCheckObservations"].readListIfPresent(memberReadingClosure: Route53ClientTypes.HealthCheckObservation.read(from:), memberNodeInfo: "HealthCheckObservation", isFlattened: false)
+        return value
     }
 }
 
@@ -4951,16 +4541,15 @@ public struct GetHealthCheckStatusOutput {
 
 enum GetHealthCheckStatusOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let errorBodyReader = AWSClientRuntime.RestXMLError.errorBodyReader(responseReader: responseReader, noErrorWrapping: false)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                case "InvalidInput": return try await InvalidInput.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "NoSuchHealthCheck": return try await NoSuchHealthCheck.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
+            case "NoSuchHealthCheck": return try NoSuchHealthCheck.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -4980,14 +4569,13 @@ public struct GetHostedZoneCountInput {
 
 extension GetHostedZoneCountOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<GetHostedZoneCountOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = GetHostedZoneCountOutput()
-            value.hostedZoneCount = try reader["HostedZoneCount"].readIfPresent()
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetHostedZoneCountOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetHostedZoneCountOutput()
+        value.hostedZoneCount = try reader["HostedZoneCount"].readIfPresent()
+        return value
     }
 }
 
@@ -5007,15 +4595,14 @@ public struct GetHostedZoneCountOutput {
 
 enum GetHostedZoneCountOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let errorBodyReader = AWSClientRuntime.RestXMLError.errorBodyReader(responseReader: responseReader, noErrorWrapping: false)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                case "InvalidInput": return try await InvalidInput.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -5082,15 +4669,14 @@ public struct GetHostedZoneLimitInput {
 
 extension GetHostedZoneLimitOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<GetHostedZoneLimitOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = GetHostedZoneLimitOutput()
-            value.count = try reader["Count"].readIfPresent() ?? 0
-            value.limit = try reader["Limit"].readIfPresent(readingClosure: Route53ClientTypes.HostedZoneLimit.readingClosure)
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetHostedZoneLimitOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetHostedZoneLimitOutput()
+        value.count = try reader["Count"].readIfPresent() ?? 0
+        value.limit = try reader["Limit"].readIfPresent(with: Route53ClientTypes.HostedZoneLimit.read(from:))
+        return value
     }
 }
 
@@ -5115,33 +4701,31 @@ public struct GetHostedZoneLimitOutput {
 
 enum GetHostedZoneLimitOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let errorBodyReader = AWSClientRuntime.RestXMLError.errorBodyReader(responseReader: responseReader, noErrorWrapping: false)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                case "HostedZoneNotPrivate": return try await HostedZoneNotPrivate.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "InvalidInput": return try await InvalidInput.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "NoSuchHostedZone": return try await NoSuchHostedZone.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "HostedZoneNotPrivate": return try HostedZoneNotPrivate.makeError(baseError: baseError)
+            case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
+            case "NoSuchHostedZone": return try NoSuchHostedZone.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
 
 extension GetHostedZoneOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<GetHostedZoneOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = GetHostedZoneOutput()
-            value.delegationSet = try reader["DelegationSet"].readIfPresent(readingClosure: Route53ClientTypes.DelegationSet.readingClosure)
-            value.hostedZone = try reader["HostedZone"].readIfPresent(readingClosure: Route53ClientTypes.HostedZone.readingClosure)
-            value.vpCs = try reader["VPCs"].readListIfPresent(memberReadingClosure: Route53ClientTypes.VPC.readingClosure, memberNodeInfo: "VPC", isFlattened: false)
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetHostedZoneOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetHostedZoneOutput()
+        value.delegationSet = try reader["DelegationSet"].readIfPresent(with: Route53ClientTypes.DelegationSet.read(from:))
+        value.hostedZone = try reader["HostedZone"].readIfPresent(with: Route53ClientTypes.HostedZone.read(from:))
+        value.vpCs = try reader["VPCs"].readListIfPresent(memberReadingClosure: Route53ClientTypes.VPC.read(from:), memberNodeInfo: "VPC", isFlattened: false)
+        return value
     }
 }
 
@@ -5169,16 +4753,15 @@ public struct GetHostedZoneOutput {
 
 enum GetHostedZoneOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let errorBodyReader = AWSClientRuntime.RestXMLError.errorBodyReader(responseReader: responseReader, noErrorWrapping: false)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                case "InvalidInput": return try await InvalidInput.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "NoSuchHostedZone": return try await NoSuchHostedZone.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
+            case "NoSuchHostedZone": return try NoSuchHostedZone.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -5208,14 +4791,13 @@ public struct GetQueryLoggingConfigInput {
 
 extension GetQueryLoggingConfigOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<GetQueryLoggingConfigOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = GetQueryLoggingConfigOutput()
-            value.queryLoggingConfig = try reader["QueryLoggingConfig"].readIfPresent(readingClosure: Route53ClientTypes.QueryLoggingConfig.readingClosure)
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetQueryLoggingConfigOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetQueryLoggingConfigOutput()
+        value.queryLoggingConfig = try reader["QueryLoggingConfig"].readIfPresent(with: Route53ClientTypes.QueryLoggingConfig.read(from:))
+        return value
     }
 }
 
@@ -5234,16 +4816,15 @@ public struct GetQueryLoggingConfigOutput {
 
 enum GetQueryLoggingConfigOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let errorBodyReader = AWSClientRuntime.RestXMLError.errorBodyReader(responseReader: responseReader, noErrorWrapping: false)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                case "InvalidInput": return try await InvalidInput.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "NoSuchQueryLoggingConfig": return try await NoSuchQueryLoggingConfig.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
+            case "NoSuchQueryLoggingConfig": return try NoSuchQueryLoggingConfig.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -5306,15 +4887,14 @@ public struct GetReusableDelegationSetLimitInput {
 
 extension GetReusableDelegationSetLimitOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<GetReusableDelegationSetLimitOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = GetReusableDelegationSetLimitOutput()
-            value.count = try reader["Count"].readIfPresent() ?? 0
-            value.limit = try reader["Limit"].readIfPresent(readingClosure: Route53ClientTypes.ReusableDelegationSetLimit.readingClosure)
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetReusableDelegationSetLimitOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetReusableDelegationSetLimitOutput()
+        value.count = try reader["Count"].readIfPresent() ?? 0
+        value.limit = try reader["Limit"].readIfPresent(with: Route53ClientTypes.ReusableDelegationSetLimit.read(from:))
+        return value
     }
 }
 
@@ -5339,30 +4919,28 @@ public struct GetReusableDelegationSetLimitOutput {
 
 enum GetReusableDelegationSetLimitOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let errorBodyReader = AWSClientRuntime.RestXMLError.errorBodyReader(responseReader: responseReader, noErrorWrapping: false)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                case "InvalidInput": return try await InvalidInput.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "NoSuchDelegationSet": return try await NoSuchDelegationSet.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
+            case "NoSuchDelegationSet": return try NoSuchDelegationSet.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
 
 extension GetReusableDelegationSetOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<GetReusableDelegationSetOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = GetReusableDelegationSetOutput()
-            value.delegationSet = try reader["DelegationSet"].readIfPresent(readingClosure: Route53ClientTypes.DelegationSet.readingClosure)
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetReusableDelegationSetOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetReusableDelegationSetOutput()
+        value.delegationSet = try reader["DelegationSet"].readIfPresent(with: Route53ClientTypes.DelegationSet.read(from:))
+        return value
     }
 }
 
@@ -5382,17 +4960,16 @@ public struct GetReusableDelegationSetOutput {
 
 enum GetReusableDelegationSetOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let errorBodyReader = AWSClientRuntime.RestXMLError.errorBodyReader(responseReader: responseReader, noErrorWrapping: false)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                case "DelegationSetNotReusable": return try await DelegationSetNotReusable.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "InvalidInput": return try await InvalidInput.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "NoSuchDelegationSet": return try await NoSuchDelegationSet.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "DelegationSetNotReusable": return try DelegationSetNotReusable.makeError(baseError: baseError)
+            case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
+            case "NoSuchDelegationSet": return try NoSuchDelegationSet.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -5444,14 +5021,13 @@ public struct GetTrafficPolicyInstanceCountInput {
 
 extension GetTrafficPolicyInstanceCountOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<GetTrafficPolicyInstanceCountOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = GetTrafficPolicyInstanceCountOutput()
-            value.trafficPolicyInstanceCount = try reader["TrafficPolicyInstanceCount"].readIfPresent()
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetTrafficPolicyInstanceCountOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetTrafficPolicyInstanceCountOutput()
+        value.trafficPolicyInstanceCount = try reader["TrafficPolicyInstanceCount"].readIfPresent()
+        return value
     }
 }
 
@@ -5471,13 +5047,13 @@ public struct GetTrafficPolicyInstanceCountOutput {
 
 enum GetTrafficPolicyInstanceCountOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -5508,14 +5084,13 @@ public struct GetTrafficPolicyInstanceInput {
 
 extension GetTrafficPolicyInstanceOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<GetTrafficPolicyInstanceOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = GetTrafficPolicyInstanceOutput()
-            value.trafficPolicyInstance = try reader["TrafficPolicyInstance"].readIfPresent(readingClosure: Route53ClientTypes.TrafficPolicyInstance.readingClosure)
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetTrafficPolicyInstanceOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetTrafficPolicyInstanceOutput()
+        value.trafficPolicyInstance = try reader["TrafficPolicyInstance"].readIfPresent(with: Route53ClientTypes.TrafficPolicyInstance.read(from:))
+        return value
     }
 }
 
@@ -5535,30 +5110,28 @@ public struct GetTrafficPolicyInstanceOutput {
 
 enum GetTrafficPolicyInstanceOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let errorBodyReader = AWSClientRuntime.RestXMLError.errorBodyReader(responseReader: responseReader, noErrorWrapping: false)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                case "InvalidInput": return try await InvalidInput.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "NoSuchTrafficPolicyInstance": return try await NoSuchTrafficPolicyInstance.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
+            case "NoSuchTrafficPolicyInstance": return try NoSuchTrafficPolicyInstance.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
 
 extension GetTrafficPolicyOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<GetTrafficPolicyOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = GetTrafficPolicyOutput()
-            value.trafficPolicy = try reader["TrafficPolicy"].readIfPresent(readingClosure: Route53ClientTypes.TrafficPolicy.readingClosure)
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetTrafficPolicyOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetTrafficPolicyOutput()
+        value.trafficPolicy = try reader["TrafficPolicy"].readIfPresent(with: Route53ClientTypes.TrafficPolicy.read(from:))
+        return value
     }
 }
 
@@ -5578,44 +5151,31 @@ public struct GetTrafficPolicyOutput {
 
 enum GetTrafficPolicyOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let errorBodyReader = AWSClientRuntime.RestXMLError.errorBodyReader(responseReader: responseReader, noErrorWrapping: false)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                case "InvalidInput": return try await InvalidInput.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "NoSuchTrafficPolicy": return try await NoSuchTrafficPolicy.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
+            case "NoSuchTrafficPolicy": return try NoSuchTrafficPolicy.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
 
 extension Route53ClientTypes.HealthCheck {
 
-    static func writingClosure(_ value: Route53ClientTypes.HealthCheck?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["CallerReference"].write(value.callerReference)
-        try writer["CloudWatchAlarmConfiguration"].write(value.cloudWatchAlarmConfiguration, writingClosure: Route53ClientTypes.CloudWatchAlarmConfiguration.writingClosure(_:to:))
-        try writer["HealthCheckConfig"].write(value.healthCheckConfig, writingClosure: Route53ClientTypes.HealthCheckConfig.writingClosure(_:to:))
-        try writer["HealthCheckVersion"].write(value.healthCheckVersion)
-        try writer["Id"].write(value.id)
-        try writer["LinkedService"].write(value.linkedService, writingClosure: Route53ClientTypes.LinkedService.writingClosure(_:to:))
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<Route53ClientTypes.HealthCheck, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = Route53ClientTypes.HealthCheck()
-            value.id = try reader["Id"].readIfPresent()
-            value.callerReference = try reader["CallerReference"].readIfPresent()
-            value.linkedService = try reader["LinkedService"].readIfPresent(readingClosure: Route53ClientTypes.LinkedService.readingClosure)
-            value.healthCheckConfig = try reader["HealthCheckConfig"].readIfPresent(readingClosure: Route53ClientTypes.HealthCheckConfig.readingClosure)
-            value.healthCheckVersion = try reader["HealthCheckVersion"].readIfPresent()
-            value.cloudWatchAlarmConfiguration = try reader["CloudWatchAlarmConfiguration"].readIfPresent(readingClosure: Route53ClientTypes.CloudWatchAlarmConfiguration.readingClosure)
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.HealthCheck {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Route53ClientTypes.HealthCheck()
+        value.id = try reader["Id"].readIfPresent()
+        value.callerReference = try reader["CallerReference"].readIfPresent()
+        value.linkedService = try reader["LinkedService"].readIfPresent(with: Route53ClientTypes.LinkedService.read(from:))
+        value.healthCheckConfig = try reader["HealthCheckConfig"].readIfPresent(with: Route53ClientTypes.HealthCheckConfig.read(from:))
+        value.healthCheckVersion = try reader["HealthCheckVersion"].readIfPresent()
+        value.cloudWatchAlarmConfiguration = try reader["CloudWatchAlarmConfiguration"].readIfPresent(with: Route53ClientTypes.CloudWatchAlarmConfiguration.read(from:))
+        return value
     }
 }
 
@@ -5661,24 +5221,13 @@ extension Route53ClientTypes {
 
 extension HealthCheckAlreadyExists {
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<HealthCheckAlreadyExists, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = HealthCheckAlreadyExists()
-            value.properties.message = try reader["message"].readIfPresent()
-            return value
-        }
-    }
-}
-
-extension HealthCheckAlreadyExists {
-
-    static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws -> Swift.Error {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> HealthCheckAlreadyExists {
+        let reader = baseError.errorBodyReader
         var value = HealthCheckAlreadyExists()
         value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = httpResponse
-        value.requestID = requestID
-        value.message = message
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
         return value
     }
 }
@@ -5714,10 +5263,10 @@ public struct HealthCheckAlreadyExists: ClientRuntime.ModeledError, AWSClientRun
 
 extension Route53ClientTypes.HealthCheckConfig {
 
-    static func writingClosure(_ value: Route53ClientTypes.HealthCheckConfig?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["AlarmIdentifier"].write(value.alarmIdentifier, writingClosure: Route53ClientTypes.AlarmIdentifier.writingClosure(_:to:))
-        try writer["ChildHealthChecks"].writeList(value.childHealthChecks, memberWritingClosure: Swift.String.writingClosure(_:to:), memberNodeInfo: "ChildHealthCheck", isFlattened: false)
+    static func write(value: Route53ClientTypes.HealthCheckConfig?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["AlarmIdentifier"].write(value.alarmIdentifier, with: Route53ClientTypes.AlarmIdentifier.write(value:to:))
+        try writer["ChildHealthChecks"].writeList(value.childHealthChecks, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "ChildHealthCheck", isFlattened: false)
         try writer["Disabled"].write(value.disabled)
         try writer["EnableSNI"].write(value.enableSNI)
         try writer["FailureThreshold"].write(value.failureThreshold)
@@ -5728,7 +5277,7 @@ extension Route53ClientTypes.HealthCheckConfig {
         try writer["Inverted"].write(value.inverted)
         try writer["MeasureLatency"].write(value.measureLatency)
         try writer["Port"].write(value.port)
-        try writer["Regions"].writeList(value.regions, memberWritingClosure: Route53ClientTypes.HealthCheckRegion.writingClosure(_:to:), memberNodeInfo: "Region", isFlattened: false)
+        try writer["Regions"].writeList(value.regions, memberWritingClosure: Route53ClientTypes.HealthCheckRegion.write(value:to:), memberNodeInfo: "Region", isFlattened: false)
         try writer["RequestInterval"].write(value.requestInterval)
         try writer["ResourcePath"].write(value.resourcePath)
         try writer["RoutingControlArn"].write(value.routingControlArn)
@@ -5736,30 +5285,28 @@ extension Route53ClientTypes.HealthCheckConfig {
         try writer["Type"].write(value.type)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<Route53ClientTypes.HealthCheckConfig, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = Route53ClientTypes.HealthCheckConfig()
-            value.ipAddress = try reader["IPAddress"].readIfPresent()
-            value.port = try reader["Port"].readIfPresent()
-            value.type = try reader["Type"].readIfPresent()
-            value.resourcePath = try reader["ResourcePath"].readIfPresent()
-            value.fullyQualifiedDomainName = try reader["FullyQualifiedDomainName"].readIfPresent()
-            value.searchString = try reader["SearchString"].readIfPresent()
-            value.requestInterval = try reader["RequestInterval"].readIfPresent()
-            value.failureThreshold = try reader["FailureThreshold"].readIfPresent()
-            value.measureLatency = try reader["MeasureLatency"].readIfPresent()
-            value.inverted = try reader["Inverted"].readIfPresent()
-            value.disabled = try reader["Disabled"].readIfPresent()
-            value.healthThreshold = try reader["HealthThreshold"].readIfPresent()
-            value.childHealthChecks = try reader["ChildHealthChecks"].readListIfPresent(memberReadingClosure: Swift.String.readingClosure, memberNodeInfo: "ChildHealthCheck", isFlattened: false)
-            value.enableSNI = try reader["EnableSNI"].readIfPresent()
-            value.regions = try reader["Regions"].readListIfPresent(memberReadingClosure: Route53ClientTypes.HealthCheckRegion.readingClosure, memberNodeInfo: "Region", isFlattened: false)
-            value.alarmIdentifier = try reader["AlarmIdentifier"].readIfPresent(readingClosure: Route53ClientTypes.AlarmIdentifier.readingClosure)
-            value.insufficientDataHealthStatus = try reader["InsufficientDataHealthStatus"].readIfPresent()
-            value.routingControlArn = try reader["RoutingControlArn"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.HealthCheckConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Route53ClientTypes.HealthCheckConfig()
+        value.ipAddress = try reader["IPAddress"].readIfPresent()
+        value.port = try reader["Port"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent()
+        value.resourcePath = try reader["ResourcePath"].readIfPresent()
+        value.fullyQualifiedDomainName = try reader["FullyQualifiedDomainName"].readIfPresent()
+        value.searchString = try reader["SearchString"].readIfPresent()
+        value.requestInterval = try reader["RequestInterval"].readIfPresent()
+        value.failureThreshold = try reader["FailureThreshold"].readIfPresent()
+        value.measureLatency = try reader["MeasureLatency"].readIfPresent()
+        value.inverted = try reader["Inverted"].readIfPresent()
+        value.disabled = try reader["Disabled"].readIfPresent()
+        value.healthThreshold = try reader["HealthThreshold"].readIfPresent()
+        value.childHealthChecks = try reader["ChildHealthChecks"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "ChildHealthCheck", isFlattened: false)
+        value.enableSNI = try reader["EnableSNI"].readIfPresent()
+        value.regions = try reader["Regions"].readListIfPresent(memberReadingClosure: Route53ClientTypes.HealthCheckRegion.read(from:), memberNodeInfo: "Region", isFlattened: false)
+        value.alarmIdentifier = try reader["AlarmIdentifier"].readIfPresent(with: Route53ClientTypes.AlarmIdentifier.read(from:))
+        value.insufficientDataHealthStatus = try reader["InsufficientDataHealthStatus"].readIfPresent()
+        value.routingControlArn = try reader["RoutingControlArn"].readIfPresent()
+        return value
     }
 }
 
@@ -5913,24 +5460,13 @@ extension Route53ClientTypes {
 
 extension HealthCheckInUse {
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<HealthCheckInUse, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = HealthCheckInUse()
-            value.properties.message = try reader["message"].readIfPresent()
-            return value
-        }
-    }
-}
-
-extension HealthCheckInUse {
-
-    static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws -> Swift.Error {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> HealthCheckInUse {
+        let reader = baseError.errorBodyReader
         var value = HealthCheckInUse()
         value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = httpResponse
-        value.requestID = requestID
-        value.message = message
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
         return value
     }
 }
@@ -5963,22 +5499,13 @@ public struct HealthCheckInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWS
 
 extension Route53ClientTypes.HealthCheckObservation {
 
-    static func writingClosure(_ value: Route53ClientTypes.HealthCheckObservation?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["IPAddress"].write(value.ipAddress)
-        try writer["Region"].write(value.region)
-        try writer["StatusReport"].write(value.statusReport, writingClosure: Route53ClientTypes.StatusReport.writingClosure(_:to:))
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<Route53ClientTypes.HealthCheckObservation, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = Route53ClientTypes.HealthCheckObservation()
-            value.region = try reader["Region"].readIfPresent()
-            value.ipAddress = try reader["IPAddress"].readIfPresent()
-            value.statusReport = try reader["StatusReport"].readIfPresent(readingClosure: Route53ClientTypes.StatusReport.readingClosure)
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.HealthCheckObservation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Route53ClientTypes.HealthCheckObservation()
+        value.region = try reader["Region"].readIfPresent()
+        value.ipAddress = try reader["IPAddress"].readIfPresent()
+        value.statusReport = try reader["StatusReport"].readIfPresent(with: Route53ClientTypes.StatusReport.read(from:))
+        return value
     }
 }
 
@@ -6007,7 +5534,8 @@ extension Route53ClientTypes {
 }
 
 extension Route53ClientTypes {
-    public enum HealthCheckRegion: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum HealthCheckRegion: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case apNortheast1
         case apSoutheast1
         case apSoutheast2
@@ -6031,10 +5559,12 @@ extension Route53ClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .apNortheast1: return "ap-northeast-1"
@@ -6048,16 +5578,12 @@ extension Route53ClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = HealthCheckRegion(rawValue: rawValue) ?? HealthCheckRegion.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension Route53ClientTypes {
-    public enum HealthCheckType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum HealthCheckType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case calculated
         case cloudwatchMetric
         case http
@@ -6081,10 +5607,12 @@ extension Route53ClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .calculated: return "CALCULATED"
@@ -6098,34 +5626,18 @@ extension Route53ClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = HealthCheckType(rawValue: rawValue) ?? HealthCheckType.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension HealthCheckVersionMismatch {
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<HealthCheckVersionMismatch, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = HealthCheckVersionMismatch()
-            value.properties.message = try reader["message"].readIfPresent()
-            return value
-        }
-    }
-}
-
-extension HealthCheckVersionMismatch {
-
-    static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws -> Swift.Error {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> HealthCheckVersionMismatch {
+        let reader = baseError.errorBodyReader
         var value = HealthCheckVersionMismatch()
         value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = httpResponse
-        value.requestID = requestID
-        value.message = message
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
         return value
     }
 }
@@ -6156,28 +5668,16 @@ public struct HealthCheckVersionMismatch: ClientRuntime.ModeledError, AWSClientR
 
 extension Route53ClientTypes.HostedZone {
 
-    static func writingClosure(_ value: Route53ClientTypes.HostedZone?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["CallerReference"].write(value.callerReference)
-        try writer["Config"].write(value.config, writingClosure: Route53ClientTypes.HostedZoneConfig.writingClosure(_:to:))
-        try writer["Id"].write(value.id)
-        try writer["LinkedService"].write(value.linkedService, writingClosure: Route53ClientTypes.LinkedService.writingClosure(_:to:))
-        try writer["Name"].write(value.name)
-        try writer["ResourceRecordSetCount"].write(value.resourceRecordSetCount)
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<Route53ClientTypes.HostedZone, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = Route53ClientTypes.HostedZone()
-            value.id = try reader["Id"].readIfPresent()
-            value.name = try reader["Name"].readIfPresent()
-            value.callerReference = try reader["CallerReference"].readIfPresent()
-            value.config = try reader["Config"].readIfPresent(readingClosure: Route53ClientTypes.HostedZoneConfig.readingClosure)
-            value.resourceRecordSetCount = try reader["ResourceRecordSetCount"].readIfPresent()
-            value.linkedService = try reader["LinkedService"].readIfPresent(readingClosure: Route53ClientTypes.LinkedService.readingClosure)
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.HostedZone {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Route53ClientTypes.HostedZone()
+        value.id = try reader["Id"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.callerReference = try reader["CallerReference"].readIfPresent()
+        value.config = try reader["Config"].readIfPresent(with: Route53ClientTypes.HostedZoneConfig.read(from:))
+        value.resourceRecordSetCount = try reader["ResourceRecordSetCount"].readIfPresent()
+        value.linkedService = try reader["LinkedService"].readIfPresent(with: Route53ClientTypes.LinkedService.read(from:))
+        return value
     }
 }
 
@@ -6222,24 +5722,13 @@ extension Route53ClientTypes {
 
 extension HostedZoneAlreadyExists {
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<HostedZoneAlreadyExists, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = HostedZoneAlreadyExists()
-            value.properties.message = try reader["message"].readIfPresent()
-            return value
-        }
-    }
-}
-
-extension HostedZoneAlreadyExists {
-
-    static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws -> Swift.Error {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> HostedZoneAlreadyExists {
+        let reader = baseError.errorBodyReader
         var value = HostedZoneAlreadyExists()
         value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = httpResponse
-        value.requestID = requestID
-        value.message = message
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
         return value
     }
 }
@@ -6271,20 +5760,18 @@ public struct HostedZoneAlreadyExists: ClientRuntime.ModeledError, AWSClientRunt
 
 extension Route53ClientTypes.HostedZoneConfig {
 
-    static func writingClosure(_ value: Route53ClientTypes.HostedZoneConfig?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: Route53ClientTypes.HostedZoneConfig?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["Comment"].write(value.comment)
         try writer["PrivateZone"].write(value.privateZone)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<Route53ClientTypes.HostedZoneConfig, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = Route53ClientTypes.HostedZoneConfig()
-            value.comment = try reader["Comment"].readIfPresent()
-            value.privateZone = try reader["PrivateZone"].readIfPresent() ?? false
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.HostedZoneConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Route53ClientTypes.HostedZoneConfig()
+        value.comment = try reader["Comment"].readIfPresent()
+        value.privateZone = try reader["PrivateZone"].readIfPresent() ?? false
+        return value
     }
 }
 
@@ -6310,20 +5797,12 @@ extension Route53ClientTypes {
 
 extension Route53ClientTypes.HostedZoneLimit {
 
-    static func writingClosure(_ value: Route53ClientTypes.HostedZoneLimit?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["Type"].write(value.type)
-        try writer["Value"].write(value.value)
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<Route53ClientTypes.HostedZoneLimit, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = Route53ClientTypes.HostedZoneLimit()
-            value.type = try reader["Type"].readIfPresent()
-            value.value = try reader["Value"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.HostedZoneLimit {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Route53ClientTypes.HostedZoneLimit()
+        value.type = try reader["Type"].readIfPresent()
+        value.value = try reader["Value"].readIfPresent()
+        return value
     }
 }
 
@@ -6354,7 +5833,8 @@ extension Route53ClientTypes {
 }
 
 extension Route53ClientTypes {
-    public enum HostedZoneLimitType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum HostedZoneLimitType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case maxRrsetsByZone
         case maxVpcsAssociatedByZone
         case sdkUnknown(Swift.String)
@@ -6366,10 +5846,12 @@ extension Route53ClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .maxRrsetsByZone: return "MAX_RRSETS_BY_ZONE"
@@ -6377,34 +5859,18 @@ extension Route53ClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = HostedZoneLimitType(rawValue: rawValue) ?? HostedZoneLimitType.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension HostedZoneNotEmpty {
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<HostedZoneNotEmpty, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = HostedZoneNotEmpty()
-            value.properties.message = try reader["message"].readIfPresent()
-            return value
-        }
-    }
-}
-
-extension HostedZoneNotEmpty {
-
-    static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws -> Swift.Error {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> HostedZoneNotEmpty {
+        let reader = baseError.errorBodyReader
         var value = HostedZoneNotEmpty()
         value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = httpResponse
-        value.requestID = requestID
-        value.message = message
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
         return value
     }
 }
@@ -6436,24 +5902,13 @@ public struct HostedZoneNotEmpty: ClientRuntime.ModeledError, AWSClientRuntime.A
 
 extension HostedZoneNotFound {
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<HostedZoneNotFound, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = HostedZoneNotFound()
-            value.properties.message = try reader["message"].readIfPresent()
-            return value
-        }
-    }
-}
-
-extension HostedZoneNotFound {
-
-    static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws -> Swift.Error {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> HostedZoneNotFound {
+        let reader = baseError.errorBodyReader
         var value = HostedZoneNotFound()
         value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = httpResponse
-        value.requestID = requestID
-        value.message = message
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
         return value
     }
 }
@@ -6485,24 +5940,13 @@ public struct HostedZoneNotFound: ClientRuntime.ModeledError, AWSClientRuntime.A
 
 extension HostedZoneNotPrivate {
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<HostedZoneNotPrivate, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = HostedZoneNotPrivate()
-            value.properties.message = try reader["message"].readIfPresent()
-            return value
-        }
-    }
-}
-
-extension HostedZoneNotPrivate {
-
-    static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws -> Swift.Error {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> HostedZoneNotPrivate {
+        let reader = baseError.errorBodyReader
         var value = HostedZoneNotPrivate()
         value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = httpResponse
-        value.requestID = requestID
-        value.message = message
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
         return value
     }
 }
@@ -6534,20 +5978,12 @@ public struct HostedZoneNotPrivate: ClientRuntime.ModeledError, AWSClientRuntime
 
 extension Route53ClientTypes.HostedZoneOwner {
 
-    static func writingClosure(_ value: Route53ClientTypes.HostedZoneOwner?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["OwningAccount"].write(value.owningAccount)
-        try writer["OwningService"].write(value.owningService)
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<Route53ClientTypes.HostedZoneOwner, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = Route53ClientTypes.HostedZoneOwner()
-            value.owningAccount = try reader["OwningAccount"].readIfPresent()
-            value.owningService = try reader["OwningService"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.HostedZoneOwner {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Route53ClientTypes.HostedZoneOwner()
+        value.owningAccount = try reader["OwningAccount"].readIfPresent()
+        value.owningService = try reader["OwningService"].readIfPresent()
+        return value
     }
 }
 
@@ -6573,24 +6009,13 @@ extension Route53ClientTypes {
 
 extension HostedZonePartiallyDelegated {
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<HostedZonePartiallyDelegated, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = HostedZonePartiallyDelegated()
-            value.properties.message = try reader["message"].readIfPresent()
-            return value
-        }
-    }
-}
-
-extension HostedZonePartiallyDelegated {
-
-    static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws -> Swift.Error {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> HostedZonePartiallyDelegated {
+        let reader = baseError.errorBodyReader
         var value = HostedZonePartiallyDelegated()
         value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = httpResponse
-        value.requestID = requestID
-        value.message = message
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
         return value
     }
 }
@@ -6621,22 +6046,13 @@ public struct HostedZonePartiallyDelegated: ClientRuntime.ModeledError, AWSClien
 
 extension Route53ClientTypes.HostedZoneSummary {
 
-    static func writingClosure(_ value: Route53ClientTypes.HostedZoneSummary?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["HostedZoneId"].write(value.hostedZoneId)
-        try writer["Name"].write(value.name)
-        try writer["Owner"].write(value.owner, writingClosure: Route53ClientTypes.HostedZoneOwner.writingClosure(_:to:))
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<Route53ClientTypes.HostedZoneSummary, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = Route53ClientTypes.HostedZoneSummary()
-            value.hostedZoneId = try reader["HostedZoneId"].readIfPresent()
-            value.name = try reader["Name"].readIfPresent()
-            value.owner = try reader["Owner"].readIfPresent(readingClosure: Route53ClientTypes.HostedZoneOwner.readingClosure)
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.HostedZoneSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Route53ClientTypes.HostedZoneSummary()
+        value.hostedZoneId = try reader["HostedZoneId"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.owner = try reader["Owner"].readIfPresent(with: Route53ClientTypes.HostedZoneOwner.read(from:))
+        return value
     }
 }
 
@@ -6668,7 +6084,8 @@ extension Route53ClientTypes {
 }
 
 extension Route53ClientTypes {
-    public enum HostedZoneType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum HostedZoneType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case privateHostedZone
         case sdkUnknown(Swift.String)
 
@@ -6678,44 +6095,30 @@ extension Route53ClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .privateHostedZone: return "PrivateHostedZone"
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = HostedZoneType(rawValue: rawValue) ?? HostedZoneType.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension IncompatibleVersion {
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<IncompatibleVersion, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = IncompatibleVersion()
-            value.properties.message = try reader["message"].readIfPresent()
-            return value
-        }
-    }
-}
-
-extension IncompatibleVersion {
-
-    static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws -> Swift.Error {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> IncompatibleVersion {
+        let reader = baseError.errorBodyReader
         var value = IncompatibleVersion()
         value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = httpResponse
-        value.requestID = requestID
-        value.message = message
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
         return value
     }
 }
@@ -6746,24 +6149,13 @@ public struct IncompatibleVersion: ClientRuntime.ModeledError, AWSClientRuntime.
 
 extension InsufficientCloudWatchLogsResourcePolicy {
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<InsufficientCloudWatchLogsResourcePolicy, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = InsufficientCloudWatchLogsResourcePolicy()
-            value.properties.message = try reader["message"].readIfPresent()
-            return value
-        }
-    }
-}
-
-extension InsufficientCloudWatchLogsResourcePolicy {
-
-    static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws -> Swift.Error {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InsufficientCloudWatchLogsResourcePolicy {
+        let reader = baseError.errorBodyReader
         var value = InsufficientCloudWatchLogsResourcePolicy()
         value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = httpResponse
-        value.requestID = requestID
-        value.message = message
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
         return value
     }
 }
@@ -6803,7 +6195,8 @@ public struct InsufficientCloudWatchLogsResourcePolicy: ClientRuntime.ModeledErr
 }
 
 extension Route53ClientTypes {
-    public enum InsufficientDataHealthStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum InsufficientDataHealthStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case healthy
         case lastknownstatus
         case unhealthy
@@ -6817,10 +6210,12 @@ extension Route53ClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .healthy: return "Healthy"
@@ -6829,34 +6224,18 @@ extension Route53ClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = InsufficientDataHealthStatus(rawValue: rawValue) ?? InsufficientDataHealthStatus.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension InvalidArgument {
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<InvalidArgument, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = InvalidArgument()
-            value.properties.message = try reader["message"].readIfPresent()
-            return value
-        }
-    }
-}
-
-extension InvalidArgument {
-
-    static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws -> Swift.Error {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidArgument {
+        let reader = baseError.errorBodyReader
         var value = InvalidArgument()
         value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = httpResponse
-        value.requestID = requestID
-        value.message = message
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
         return value
     }
 }
@@ -6888,26 +6267,14 @@ public struct InvalidArgument: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
 
 extension InvalidChangeBatch {
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<InvalidChangeBatch, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = InvalidChangeBatch()
-            value.properties.messages = try reader["messages"].readListIfPresent(memberReadingClosure: Swift.String.readingClosure, memberNodeInfo: "Message", isFlattened: false)
-            value.properties.message = try reader["message"].readIfPresent()
-            return value
-        }
-    }
-}
-
-extension InvalidChangeBatch {
-
-    static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws -> Swift.Error {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidChangeBatch {
+        let reader = baseError.errorBodyReader
         var value = InvalidChangeBatch()
         value.properties.message = try reader["message"].readIfPresent()
-        value.properties.messages = try reader["messages"].readListIfPresent(memberReadingClosure: Swift.String.readingClosure, memberNodeInfo: "Message", isFlattened: false)
-        value.httpResponse = httpResponse
-        value.requestID = requestID
-        value.message = message
+        value.properties.messages = try reader["messages"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "Message", isFlattened: false)
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
         return value
     }
 }
@@ -6942,24 +6309,13 @@ public struct InvalidChangeBatch: ClientRuntime.ModeledError, AWSClientRuntime.A
 
 extension InvalidDomainName {
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<InvalidDomainName, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = InvalidDomainName()
-            value.properties.message = try reader["message"].readIfPresent()
-            return value
-        }
-    }
-}
-
-extension InvalidDomainName {
-
-    static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws -> Swift.Error {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidDomainName {
+        let reader = baseError.errorBodyReader
         var value = InvalidDomainName()
         value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = httpResponse
-        value.requestID = requestID
-        value.message = message
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
         return value
     }
 }
@@ -6991,24 +6347,13 @@ public struct InvalidDomainName: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
 extension InvalidInput {
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<InvalidInput, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = InvalidInput()
-            value.properties.message = try reader["message"].readIfPresent()
-            return value
-        }
-    }
-}
-
-extension InvalidInput {
-
-    static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws -> Swift.Error {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidInput {
+        let reader = baseError.errorBodyReader
         var value = InvalidInput()
         value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = httpResponse
-        value.requestID = requestID
-        value.message = message
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
         return value
     }
 }
@@ -7040,24 +6385,13 @@ public struct InvalidInput: ClientRuntime.ModeledError, AWSClientRuntime.AWSServ
 
 extension InvalidKMSArn {
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<InvalidKMSArn, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = InvalidKMSArn()
-            value.properties.message = try reader["message"].readIfPresent()
-            return value
-        }
-    }
-}
-
-extension InvalidKMSArn {
-
-    static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws -> Swift.Error {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidKMSArn {
+        let reader = baseError.errorBodyReader
         var value = InvalidKMSArn()
         value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = httpResponse
-        value.requestID = requestID
-        value.message = message
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
         return value
     }
 }
@@ -7088,24 +6422,13 @@ public struct InvalidKMSArn: ClientRuntime.ModeledError, AWSClientRuntime.AWSSer
 
 extension InvalidKeySigningKeyName {
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<InvalidKeySigningKeyName, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = InvalidKeySigningKeyName()
-            value.properties.message = try reader["message"].readIfPresent()
-            return value
-        }
-    }
-}
-
-extension InvalidKeySigningKeyName {
-
-    static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws -> Swift.Error {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidKeySigningKeyName {
+        let reader = baseError.errorBodyReader
         var value = InvalidKeySigningKeyName()
         value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = httpResponse
-        value.requestID = requestID
-        value.message = message
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
         return value
     }
 }
@@ -7136,24 +6459,13 @@ public struct InvalidKeySigningKeyName: ClientRuntime.ModeledError, AWSClientRun
 
 extension InvalidKeySigningKeyStatus {
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<InvalidKeySigningKeyStatus, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = InvalidKeySigningKeyStatus()
-            value.properties.message = try reader["message"].readIfPresent()
-            return value
-        }
-    }
-}
-
-extension InvalidKeySigningKeyStatus {
-
-    static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws -> Swift.Error {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidKeySigningKeyStatus {
+        let reader = baseError.errorBodyReader
         var value = InvalidKeySigningKeyStatus()
         value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = httpResponse
-        value.requestID = requestID
-        value.message = message
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
         return value
     }
 }
@@ -7184,24 +6496,13 @@ public struct InvalidKeySigningKeyStatus: ClientRuntime.ModeledError, AWSClientR
 
 extension InvalidPaginationToken {
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<InvalidPaginationToken, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = InvalidPaginationToken()
-            value.properties.message = try reader["message"].readIfPresent()
-            return value
-        }
-    }
-}
-
-extension InvalidPaginationToken {
-
-    static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws -> Swift.Error {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidPaginationToken {
+        let reader = baseError.errorBodyReader
         var value = InvalidPaginationToken()
         value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = httpResponse
-        value.requestID = requestID
-        value.message = message
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
         return value
     }
 }
@@ -7232,24 +6533,13 @@ public struct InvalidPaginationToken: ClientRuntime.ModeledError, AWSClientRunti
 
 extension InvalidSigningStatus {
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<InvalidSigningStatus, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = InvalidSigningStatus()
-            value.properties.message = try reader["message"].readIfPresent()
-            return value
-        }
-    }
-}
-
-extension InvalidSigningStatus {
-
-    static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws -> Swift.Error {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidSigningStatus {
+        let reader = baseError.errorBodyReader
         var value = InvalidSigningStatus()
         value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = httpResponse
-        value.requestID = requestID
-        value.message = message
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
         return value
     }
 }
@@ -7280,24 +6570,13 @@ public struct InvalidSigningStatus: ClientRuntime.ModeledError, AWSClientRuntime
 
 extension InvalidTrafficPolicyDocument {
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<InvalidTrafficPolicyDocument, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = InvalidTrafficPolicyDocument()
-            value.properties.message = try reader["message"].readIfPresent()
-            return value
-        }
-    }
-}
-
-extension InvalidTrafficPolicyDocument {
-
-    static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws -> Swift.Error {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidTrafficPolicyDocument {
+        let reader = baseError.errorBodyReader
         var value = InvalidTrafficPolicyDocument()
         value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = httpResponse
-        value.requestID = requestID
-        value.message = message
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
         return value
     }
 }
@@ -7329,24 +6608,13 @@ public struct InvalidTrafficPolicyDocument: ClientRuntime.ModeledError, AWSClien
 
 extension InvalidVPCId {
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<InvalidVPCId, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = InvalidVPCId()
-            value.properties.message = try reader["message"].readIfPresent()
-            return value
-        }
-    }
-}
-
-extension InvalidVPCId {
-
-    static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws -> Swift.Error {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidVPCId {
+        let reader = baseError.errorBodyReader
         var value = InvalidVPCId()
         value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = httpResponse
-        value.requestID = requestID
-        value.message = message
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
         return value
     }
 }
@@ -7378,48 +6646,26 @@ public struct InvalidVPCId: ClientRuntime.ModeledError, AWSClientRuntime.AWSServ
 
 extension Route53ClientTypes.KeySigningKey {
 
-    static func writingClosure(_ value: Route53ClientTypes.KeySigningKey?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["CreatedDate"].writeTimestamp(value.createdDate, format: .dateTime)
-        try writer["DNSKEYRecord"].write(value.dnskeyRecord)
-        try writer["DSRecord"].write(value.dsRecord)
-        try writer["DigestAlgorithmMnemonic"].write(value.digestAlgorithmMnemonic)
-        try writer["DigestAlgorithmType"].write(value.digestAlgorithmType)
-        try writer["DigestValue"].write(value.digestValue)
-        try writer["Flag"].write(value.flag)
-        try writer["KeyTag"].write(value.keyTag)
-        try writer["KmsArn"].write(value.kmsArn)
-        try writer["LastModifiedDate"].writeTimestamp(value.lastModifiedDate, format: .dateTime)
-        try writer["Name"].write(value.name)
-        try writer["PublicKey"].write(value.publicKey)
-        try writer["SigningAlgorithmMnemonic"].write(value.signingAlgorithmMnemonic)
-        try writer["SigningAlgorithmType"].write(value.signingAlgorithmType)
-        try writer["Status"].write(value.status)
-        try writer["StatusMessage"].write(value.statusMessage)
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<Route53ClientTypes.KeySigningKey, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = Route53ClientTypes.KeySigningKey()
-            value.name = try reader["Name"].readIfPresent()
-            value.kmsArn = try reader["KmsArn"].readIfPresent()
-            value.flag = try reader["Flag"].readIfPresent() ?? 0
-            value.signingAlgorithmMnemonic = try reader["SigningAlgorithmMnemonic"].readIfPresent()
-            value.signingAlgorithmType = try reader["SigningAlgorithmType"].readIfPresent() ?? 0
-            value.digestAlgorithmMnemonic = try reader["DigestAlgorithmMnemonic"].readIfPresent()
-            value.digestAlgorithmType = try reader["DigestAlgorithmType"].readIfPresent() ?? 0
-            value.keyTag = try reader["KeyTag"].readIfPresent() ?? 0
-            value.digestValue = try reader["DigestValue"].readIfPresent()
-            value.publicKey = try reader["PublicKey"].readIfPresent()
-            value.dsRecord = try reader["DSRecord"].readIfPresent()
-            value.dnskeyRecord = try reader["DNSKEYRecord"].readIfPresent()
-            value.status = try reader["Status"].readIfPresent()
-            value.statusMessage = try reader["StatusMessage"].readIfPresent()
-            value.createdDate = try reader["CreatedDate"].readTimestampIfPresent(format: .dateTime)
-            value.lastModifiedDate = try reader["LastModifiedDate"].readTimestampIfPresent(format: .dateTime)
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.KeySigningKey {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Route53ClientTypes.KeySigningKey()
+        value.name = try reader["Name"].readIfPresent()
+        value.kmsArn = try reader["KmsArn"].readIfPresent()
+        value.flag = try reader["Flag"].readIfPresent() ?? 0
+        value.signingAlgorithmMnemonic = try reader["SigningAlgorithmMnemonic"].readIfPresent()
+        value.signingAlgorithmType = try reader["SigningAlgorithmType"].readIfPresent() ?? 0
+        value.digestAlgorithmMnemonic = try reader["DigestAlgorithmMnemonic"].readIfPresent()
+        value.digestAlgorithmType = try reader["DigestAlgorithmType"].readIfPresent() ?? 0
+        value.keyTag = try reader["KeyTag"].readIfPresent() ?? 0
+        value.digestValue = try reader["DigestValue"].readIfPresent()
+        value.publicKey = try reader["PublicKey"].readIfPresent()
+        value.dsRecord = try reader["DSRecord"].readIfPresent()
+        value.dnskeyRecord = try reader["DNSKEYRecord"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.statusMessage = try reader["StatusMessage"].readIfPresent()
+        value.createdDate = try reader["CreatedDate"].readTimestampIfPresent(format: .dateTime)
+        value.lastModifiedDate = try reader["LastModifiedDate"].readTimestampIfPresent(format: .dateTime)
+        return value
     }
 }
 
@@ -7515,24 +6761,13 @@ extension Route53ClientTypes {
 
 extension KeySigningKeyAlreadyExists {
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<KeySigningKeyAlreadyExists, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = KeySigningKeyAlreadyExists()
-            value.properties.message = try reader["message"].readIfPresent()
-            return value
-        }
-    }
-}
-
-extension KeySigningKeyAlreadyExists {
-
-    static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws -> Swift.Error {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> KeySigningKeyAlreadyExists {
+        let reader = baseError.errorBodyReader
         var value = KeySigningKeyAlreadyExists()
         value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = httpResponse
-        value.requestID = requestID
-        value.message = message
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
         return value
     }
 }
@@ -7563,24 +6798,13 @@ public struct KeySigningKeyAlreadyExists: ClientRuntime.ModeledError, AWSClientR
 
 extension KeySigningKeyInParentDSRecord {
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<KeySigningKeyInParentDSRecord, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = KeySigningKeyInParentDSRecord()
-            value.properties.message = try reader["message"].readIfPresent()
-            return value
-        }
-    }
-}
-
-extension KeySigningKeyInParentDSRecord {
-
-    static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws -> Swift.Error {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> KeySigningKeyInParentDSRecord {
+        let reader = baseError.errorBodyReader
         var value = KeySigningKeyInParentDSRecord()
         value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = httpResponse
-        value.requestID = requestID
-        value.message = message
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
         return value
     }
 }
@@ -7611,24 +6835,13 @@ public struct KeySigningKeyInParentDSRecord: ClientRuntime.ModeledError, AWSClie
 
 extension KeySigningKeyInUse {
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<KeySigningKeyInUse, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = KeySigningKeyInUse()
-            value.properties.message = try reader["message"].readIfPresent()
-            return value
-        }
-    }
-}
-
-extension KeySigningKeyInUse {
-
-    static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws -> Swift.Error {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> KeySigningKeyInUse {
+        let reader = baseError.errorBodyReader
         var value = KeySigningKeyInUse()
         value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = httpResponse
-        value.requestID = requestID
-        value.message = message
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
         return value
     }
 }
@@ -7659,24 +6872,13 @@ public struct KeySigningKeyInUse: ClientRuntime.ModeledError, AWSClientRuntime.A
 
 extension KeySigningKeyWithActiveStatusNotFound {
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<KeySigningKeyWithActiveStatusNotFound, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = KeySigningKeyWithActiveStatusNotFound()
-            value.properties.message = try reader["message"].readIfPresent()
-            return value
-        }
-    }
-}
-
-extension KeySigningKeyWithActiveStatusNotFound {
-
-    static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws -> Swift.Error {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> KeySigningKeyWithActiveStatusNotFound {
+        let reader = baseError.errorBodyReader
         var value = KeySigningKeyWithActiveStatusNotFound()
         value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = httpResponse
-        value.requestID = requestID
-        value.message = message
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
         return value
     }
 }
@@ -7707,24 +6909,13 @@ public struct KeySigningKeyWithActiveStatusNotFound: ClientRuntime.ModeledError,
 
 extension LastVPCAssociation {
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<LastVPCAssociation, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = LastVPCAssociation()
-            value.properties.message = try reader["message"].readIfPresent()
-            return value
-        }
-    }
-}
-
-extension LastVPCAssociation {
-
-    static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws -> Swift.Error {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> LastVPCAssociation {
+        let reader = baseError.errorBodyReader
         var value = LastVPCAssociation()
         value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = httpResponse
-        value.requestID = requestID
-        value.message = message
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
         return value
     }
 }
@@ -7756,24 +6947,13 @@ public struct LastVPCAssociation: ClientRuntime.ModeledError, AWSClientRuntime.A
 
 extension LimitsExceeded {
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<LimitsExceeded, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = LimitsExceeded()
-            value.properties.message = try reader["message"].readIfPresent()
-            return value
-        }
-    }
-}
-
-extension LimitsExceeded {
-
-    static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws -> Swift.Error {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> LimitsExceeded {
+        let reader = baseError.errorBodyReader
         var value = LimitsExceeded()
         value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = httpResponse
-        value.requestID = requestID
-        value.message = message
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
         return value
     }
 }
@@ -7805,20 +6985,12 @@ public struct LimitsExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSSe
 
 extension Route53ClientTypes.LinkedService {
 
-    static func writingClosure(_ value: Route53ClientTypes.LinkedService?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["Description"].write(value.description)
-        try writer["ServicePrincipal"].write(value.servicePrincipal)
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<Route53ClientTypes.LinkedService, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = Route53ClientTypes.LinkedService()
-            value.servicePrincipal = try reader["ServicePrincipal"].readIfPresent()
-            value.description = try reader["Description"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.LinkedService {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Route53ClientTypes.LinkedService()
+        value.servicePrincipal = try reader["ServicePrincipal"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        return value
     }
 }
 
@@ -7899,15 +7071,14 @@ public struct ListCidrBlocksInput {
 
 extension ListCidrBlocksOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<ListCidrBlocksOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = ListCidrBlocksOutput()
-            value.cidrBlocks = try reader["CidrBlocks"].readListIfPresent(memberReadingClosure: Route53ClientTypes.CidrBlockSummary.readingClosure, memberNodeInfo: "member", isFlattened: false)
-            value.nextToken = try reader["NextToken"].readIfPresent()
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListCidrBlocksOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListCidrBlocksOutput()
+        value.cidrBlocks = try reader["CidrBlocks"].readListIfPresent(memberReadingClosure: Route53ClientTypes.CidrBlockSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
     }
 }
 
@@ -7929,17 +7100,16 @@ public struct ListCidrBlocksOutput {
 
 enum ListCidrBlocksOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let errorBodyReader = AWSClientRuntime.RestXMLError.errorBodyReader(responseReader: responseReader, noErrorWrapping: false)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                case "InvalidInput": return try await InvalidInput.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "NoSuchCidrCollectionException": return try await NoSuchCidrCollectionException.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "NoSuchCidrLocationException": return try await NoSuchCidrLocationException.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
+            case "NoSuchCidrCollectionException": return try NoSuchCidrCollectionException.makeError(baseError: baseError)
+            case "NoSuchCidrLocationException": return try NoSuchCidrLocationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -7985,15 +7155,14 @@ public struct ListCidrCollectionsInput {
 
 extension ListCidrCollectionsOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<ListCidrCollectionsOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = ListCidrCollectionsOutput()
-            value.cidrCollections = try reader["CidrCollections"].readListIfPresent(memberReadingClosure: Route53ClientTypes.CollectionSummary.readingClosure, memberNodeInfo: "member", isFlattened: false)
-            value.nextToken = try reader["NextToken"].readIfPresent()
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListCidrCollectionsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListCidrCollectionsOutput()
+        value.cidrCollections = try reader["CidrCollections"].readListIfPresent(memberReadingClosure: Route53ClientTypes.CollectionSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
     }
 }
 
@@ -8015,15 +7184,14 @@ public struct ListCidrCollectionsOutput {
 
 enum ListCidrCollectionsOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let errorBodyReader = AWSClientRuntime.RestXMLError.errorBodyReader(responseReader: responseReader, noErrorWrapping: false)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                case "InvalidInput": return try await InvalidInput.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -8077,15 +7245,14 @@ public struct ListCidrLocationsInput {
 
 extension ListCidrLocationsOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<ListCidrLocationsOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = ListCidrLocationsOutput()
-            value.cidrLocations = try reader["CidrLocations"].readListIfPresent(memberReadingClosure: Route53ClientTypes.LocationSummary.readingClosure, memberNodeInfo: "member", isFlattened: false)
-            value.nextToken = try reader["NextToken"].readIfPresent()
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListCidrLocationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListCidrLocationsOutput()
+        value.cidrLocations = try reader["CidrLocations"].readListIfPresent(memberReadingClosure: Route53ClientTypes.LocationSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
     }
 }
 
@@ -8107,16 +7274,15 @@ public struct ListCidrLocationsOutput {
 
 enum ListCidrLocationsOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let errorBodyReader = AWSClientRuntime.RestXMLError.errorBodyReader(responseReader: responseReader, noErrorWrapping: false)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                case "InvalidInput": return try await InvalidInput.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "NoSuchCidrCollectionException": return try await NoSuchCidrCollectionException.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
+            case "NoSuchCidrCollectionException": return try NoSuchCidrCollectionException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -8179,19 +7345,18 @@ public struct ListGeoLocationsInput {
 
 extension ListGeoLocationsOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<ListGeoLocationsOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = ListGeoLocationsOutput()
-            value.geoLocationDetailsList = try reader["GeoLocationDetailsList"].readListIfPresent(memberReadingClosure: Route53ClientTypes.GeoLocationDetails.readingClosure, memberNodeInfo: "GeoLocationDetails", isFlattened: false)
-            value.isTruncated = try reader["IsTruncated"].readIfPresent() ?? false
-            value.maxItems = try reader["MaxItems"].readIfPresent()
-            value.nextContinentCode = try reader["NextContinentCode"].readIfPresent()
-            value.nextCountryCode = try reader["NextCountryCode"].readIfPresent()
-            value.nextSubdivisionCode = try reader["NextSubdivisionCode"].readIfPresent()
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListGeoLocationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListGeoLocationsOutput()
+        value.geoLocationDetailsList = try reader["GeoLocationDetailsList"].readListIfPresent(memberReadingClosure: Route53ClientTypes.GeoLocationDetails.read(from:), memberNodeInfo: "GeoLocationDetails", isFlattened: false)
+        value.isTruncated = try reader["IsTruncated"].readIfPresent() ?? false
+        value.maxItems = try reader["MaxItems"].readIfPresent()
+        value.nextContinentCode = try reader["NextContinentCode"].readIfPresent()
+        value.nextCountryCode = try reader["NextCountryCode"].readIfPresent()
+        value.nextSubdivisionCode = try reader["NextSubdivisionCode"].readIfPresent()
+        return value
     }
 }
 
@@ -8233,15 +7398,14 @@ public struct ListGeoLocationsOutput {
 
 enum ListGeoLocationsOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let errorBodyReader = AWSClientRuntime.RestXMLError.errorBodyReader(responseReader: responseReader, noErrorWrapping: false)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                case "InvalidInput": return try await InvalidInput.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -8288,18 +7452,17 @@ public struct ListHealthChecksInput {
 
 extension ListHealthChecksOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<ListHealthChecksOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = ListHealthChecksOutput()
-            value.healthChecks = try reader["HealthChecks"].readListIfPresent(memberReadingClosure: Route53ClientTypes.HealthCheck.readingClosure, memberNodeInfo: "HealthCheck", isFlattened: false)
-            value.isTruncated = try reader["IsTruncated"].readIfPresent() ?? false
-            value.marker = try reader["Marker"].readIfPresent()
-            value.maxItems = try reader["MaxItems"].readIfPresent()
-            value.nextMarker = try reader["NextMarker"].readIfPresent()
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListHealthChecksOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListHealthChecksOutput()
+        value.healthChecks = try reader["HealthChecks"].readListIfPresent(memberReadingClosure: Route53ClientTypes.HealthCheck.read(from:), memberNodeInfo: "HealthCheck", isFlattened: false)
+        value.isTruncated = try reader["IsTruncated"].readIfPresent() ?? false
+        value.marker = try reader["Marker"].readIfPresent()
+        value.maxItems = try reader["MaxItems"].readIfPresent()
+        value.nextMarker = try reader["NextMarker"].readIfPresent()
+        return value
     }
 }
 
@@ -8338,16 +7501,15 @@ public struct ListHealthChecksOutput {
 
 enum ListHealthChecksOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let errorBodyReader = AWSClientRuntime.RestXMLError.errorBodyReader(responseReader: responseReader, noErrorWrapping: false)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                case "IncompatibleVersion": return try await IncompatibleVersion.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "InvalidInput": return try await InvalidInput.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "IncompatibleVersion": return try IncompatibleVersion.makeError(baseError: baseError)
+            case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -8402,20 +7564,19 @@ public struct ListHostedZonesByNameInput {
 
 extension ListHostedZonesByNameOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<ListHostedZonesByNameOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = ListHostedZonesByNameOutput()
-            value.dnsName = try reader["DNSName"].readIfPresent()
-            value.hostedZoneId = try reader["HostedZoneId"].readIfPresent()
-            value.hostedZones = try reader["HostedZones"].readListIfPresent(memberReadingClosure: Route53ClientTypes.HostedZone.readingClosure, memberNodeInfo: "HostedZone", isFlattened: false)
-            value.isTruncated = try reader["IsTruncated"].readIfPresent() ?? false
-            value.maxItems = try reader["MaxItems"].readIfPresent()
-            value.nextDNSName = try reader["NextDNSName"].readIfPresent()
-            value.nextHostedZoneId = try reader["NextHostedZoneId"].readIfPresent()
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListHostedZonesByNameOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListHostedZonesByNameOutput()
+        value.dnsName = try reader["DNSName"].readIfPresent()
+        value.hostedZoneId = try reader["HostedZoneId"].readIfPresent()
+        value.hostedZones = try reader["HostedZones"].readListIfPresent(memberReadingClosure: Route53ClientTypes.HostedZone.read(from:), memberNodeInfo: "HostedZone", isFlattened: false)
+        value.isTruncated = try reader["IsTruncated"].readIfPresent() ?? false
+        value.maxItems = try reader["MaxItems"].readIfPresent()
+        value.nextDNSName = try reader["NextDNSName"].readIfPresent()
+        value.nextHostedZoneId = try reader["NextHostedZoneId"].readIfPresent()
+        return value
     }
 }
 
@@ -8461,16 +7622,15 @@ public struct ListHostedZonesByNameOutput {
 
 enum ListHostedZonesByNameOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let errorBodyReader = AWSClientRuntime.RestXMLError.errorBodyReader(responseReader: responseReader, noErrorWrapping: false)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                case "InvalidDomainName": return try await InvalidDomainName.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "InvalidInput": return try await InvalidInput.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidDomainName": return try InvalidDomainName.makeError(baseError: baseError)
+            case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -8539,16 +7699,15 @@ public struct ListHostedZonesByVPCInput {
 
 extension ListHostedZonesByVPCOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<ListHostedZonesByVPCOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = ListHostedZonesByVPCOutput()
-            value.hostedZoneSummaries = try reader["HostedZoneSummaries"].readListIfPresent(memberReadingClosure: Route53ClientTypes.HostedZoneSummary.readingClosure, memberNodeInfo: "HostedZoneSummary", isFlattened: false)
-            value.maxItems = try reader["MaxItems"].readIfPresent()
-            value.nextToken = try reader["NextToken"].readIfPresent()
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListHostedZonesByVPCOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListHostedZonesByVPCOutput()
+        value.hostedZoneSummaries = try reader["HostedZoneSummaries"].readListIfPresent(memberReadingClosure: Route53ClientTypes.HostedZoneSummary.read(from:), memberNodeInfo: "HostedZoneSummary", isFlattened: false)
+        value.maxItems = try reader["MaxItems"].readIfPresent()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
     }
 }
 
@@ -8576,16 +7735,15 @@ public struct ListHostedZonesByVPCOutput {
 
 enum ListHostedZonesByVPCOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let errorBodyReader = AWSClientRuntime.RestXMLError.errorBodyReader(responseReader: responseReader, noErrorWrapping: false)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                case "InvalidInput": return try await InvalidInput.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "InvalidPaginationToken": return try await InvalidPaginationToken.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
+            case "InvalidPaginationToken": return try InvalidPaginationToken.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -8648,18 +7806,17 @@ public struct ListHostedZonesInput {
 
 extension ListHostedZonesOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<ListHostedZonesOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = ListHostedZonesOutput()
-            value.hostedZones = try reader["HostedZones"].readListIfPresent(memberReadingClosure: Route53ClientTypes.HostedZone.readingClosure, memberNodeInfo: "HostedZone", isFlattened: false)
-            value.isTruncated = try reader["IsTruncated"].readIfPresent() ?? false
-            value.marker = try reader["Marker"].readIfPresent()
-            value.maxItems = try reader["MaxItems"].readIfPresent()
-            value.nextMarker = try reader["NextMarker"].readIfPresent()
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListHostedZonesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListHostedZonesOutput()
+        value.hostedZones = try reader["HostedZones"].readListIfPresent(memberReadingClosure: Route53ClientTypes.HostedZone.read(from:), memberNodeInfo: "HostedZone", isFlattened: false)
+        value.isTruncated = try reader["IsTruncated"].readIfPresent() ?? false
+        value.marker = try reader["Marker"].readIfPresent()
+        value.maxItems = try reader["MaxItems"].readIfPresent()
+        value.nextMarker = try reader["NextMarker"].readIfPresent()
+        return value
     }
 }
 
@@ -8697,17 +7854,16 @@ public struct ListHostedZonesOutput {
 
 enum ListHostedZonesOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let errorBodyReader = AWSClientRuntime.RestXMLError.errorBodyReader(responseReader: responseReader, noErrorWrapping: false)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                case "DelegationSetNotReusable": return try await DelegationSetNotReusable.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "InvalidInput": return try await InvalidInput.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "NoSuchDelegationSet": return try await NoSuchDelegationSet.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "DelegationSetNotReusable": return try DelegationSetNotReusable.makeError(baseError: baseError)
+            case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
+            case "NoSuchDelegationSet": return try NoSuchDelegationSet.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -8761,15 +7917,14 @@ public struct ListQueryLoggingConfigsInput {
 
 extension ListQueryLoggingConfigsOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<ListQueryLoggingConfigsOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = ListQueryLoggingConfigsOutput()
-            value.nextToken = try reader["NextToken"].readIfPresent()
-            value.queryLoggingConfigs = try reader["QueryLoggingConfigs"].readListIfPresent(memberReadingClosure: Route53ClientTypes.QueryLoggingConfig.readingClosure, memberNodeInfo: "QueryLoggingConfig", isFlattened: false)
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListQueryLoggingConfigsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListQueryLoggingConfigsOutput()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.queryLoggingConfigs = try reader["QueryLoggingConfigs"].readListIfPresent(memberReadingClosure: Route53ClientTypes.QueryLoggingConfig.read(from:), memberNodeInfo: "QueryLoggingConfig", isFlattened: false)
+        return value
     }
 }
 
@@ -8792,17 +7947,16 @@ public struct ListQueryLoggingConfigsOutput {
 
 enum ListQueryLoggingConfigsOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let errorBodyReader = AWSClientRuntime.RestXMLError.errorBodyReader(responseReader: responseReader, noErrorWrapping: false)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                case "InvalidInput": return try await InvalidInput.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "InvalidPaginationToken": return try await InvalidPaginationToken.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "NoSuchHostedZone": return try await NoSuchHostedZone.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
+            case "InvalidPaginationToken": return try InvalidPaginationToken.makeError(baseError: baseError)
+            case "NoSuchHostedZone": return try NoSuchHostedZone.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -8890,19 +8044,18 @@ public struct ListResourceRecordSetsInput {
 
 extension ListResourceRecordSetsOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<ListResourceRecordSetsOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = ListResourceRecordSetsOutput()
-            value.isTruncated = try reader["IsTruncated"].readIfPresent() ?? false
-            value.maxItems = try reader["MaxItems"].readIfPresent()
-            value.nextRecordIdentifier = try reader["NextRecordIdentifier"].readIfPresent()
-            value.nextRecordName = try reader["NextRecordName"].readIfPresent()
-            value.nextRecordType = try reader["NextRecordType"].readIfPresent()
-            value.resourceRecordSets = try reader["ResourceRecordSets"].readListIfPresent(memberReadingClosure: Route53ClientTypes.ResourceRecordSet.readingClosure, memberNodeInfo: "ResourceRecordSet", isFlattened: false)
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListResourceRecordSetsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListResourceRecordSetsOutput()
+        value.isTruncated = try reader["IsTruncated"].readIfPresent() ?? false
+        value.maxItems = try reader["MaxItems"].readIfPresent()
+        value.nextRecordIdentifier = try reader["NextRecordIdentifier"].readIfPresent()
+        value.nextRecordName = try reader["NextRecordName"].readIfPresent()
+        value.nextRecordType = try reader["NextRecordType"].readIfPresent()
+        value.resourceRecordSets = try reader["ResourceRecordSets"].readListIfPresent(memberReadingClosure: Route53ClientTypes.ResourceRecordSet.read(from:), memberNodeInfo: "ResourceRecordSet", isFlattened: false)
+        return value
     }
 }
 
@@ -8944,16 +8097,15 @@ public struct ListResourceRecordSetsOutput {
 
 enum ListResourceRecordSetsOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let errorBodyReader = AWSClientRuntime.RestXMLError.errorBodyReader(responseReader: responseReader, noErrorWrapping: false)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                case "InvalidInput": return try await InvalidInput.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "NoSuchHostedZone": return try await NoSuchHostedZone.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
+            case "NoSuchHostedZone": return try NoSuchHostedZone.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -9000,18 +8152,17 @@ public struct ListReusableDelegationSetsInput {
 
 extension ListReusableDelegationSetsOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<ListReusableDelegationSetsOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = ListReusableDelegationSetsOutput()
-            value.delegationSets = try reader["DelegationSets"].readListIfPresent(memberReadingClosure: Route53ClientTypes.DelegationSet.readingClosure, memberNodeInfo: "DelegationSet", isFlattened: false)
-            value.isTruncated = try reader["IsTruncated"].readIfPresent() ?? false
-            value.marker = try reader["Marker"].readIfPresent()
-            value.maxItems = try reader["MaxItems"].readIfPresent()
-            value.nextMarker = try reader["NextMarker"].readIfPresent()
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListReusableDelegationSetsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListReusableDelegationSetsOutput()
+        value.delegationSets = try reader["DelegationSets"].readListIfPresent(memberReadingClosure: Route53ClientTypes.DelegationSet.read(from:), memberNodeInfo: "DelegationSet", isFlattened: false)
+        value.isTruncated = try reader["IsTruncated"].readIfPresent() ?? false
+        value.marker = try reader["Marker"].readIfPresent()
+        value.maxItems = try reader["MaxItems"].readIfPresent()
+        value.nextMarker = try reader["NextMarker"].readIfPresent()
+        return value
     }
 }
 
@@ -9050,15 +8201,14 @@ public struct ListReusableDelegationSetsOutput {
 
 enum ListReusableDelegationSetsOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let errorBodyReader = AWSClientRuntime.RestXMLError.errorBodyReader(responseReader: responseReader, noErrorWrapping: false)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                case "InvalidInput": return try await InvalidInput.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -9101,14 +8251,13 @@ public struct ListTagsForResourceInput {
 
 extension ListTagsForResourceOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<ListTagsForResourceOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = ListTagsForResourceOutput()
-            value.resourceTagSet = try reader["ResourceTagSet"].readIfPresent(readingClosure: Route53ClientTypes.ResourceTagSet.readingClosure)
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTagsForResourceOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListTagsForResourceOutput()
+        value.resourceTagSet = try reader["ResourceTagSet"].readIfPresent(with: Route53ClientTypes.ResourceTagSet.read(from:))
+        return value
     }
 }
 
@@ -9128,27 +8277,19 @@ public struct ListTagsForResourceOutput {
 
 enum ListTagsForResourceOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let errorBodyReader = AWSClientRuntime.RestXMLError.errorBodyReader(responseReader: responseReader, noErrorWrapping: false)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                case "InvalidInput": return try await InvalidInput.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "NoSuchHealthCheck": return try await NoSuchHealthCheck.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "NoSuchHostedZone": return try await NoSuchHostedZone.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "PriorRequestNotComplete": return try await PriorRequestNotComplete.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "ThrottlingException": return try await ThrottlingException.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
+            case "NoSuchHealthCheck": return try NoSuchHealthCheck.makeError(baseError: baseError)
+            case "NoSuchHostedZone": return try NoSuchHostedZone.makeError(baseError: baseError)
+            case "PriorRequestNotComplete": return try PriorRequestNotComplete.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
-    }
-}
-
-extension ListTagsForResourcesInput {
-    static func writingClosure(_ value: ListTagsForResourcesInput?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["ResourceIds"].writeList(value.resourceIds, memberWritingClosure: Swift.String.writingClosure(_:to:), memberNodeInfo: "ResourceId", isFlattened: false)
     }
 }
 
@@ -9159,6 +8300,14 @@ extension ListTagsForResourcesInput {
             return nil
         }
         return "/2013-04-01/tags/\(resourceType.rawValue.urlPercentEncoding())"
+    }
+}
+
+extension ListTagsForResourcesInput {
+
+    static func write(value: ListTagsForResourcesInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["ResourceIds"].writeList(value.resourceIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "ResourceId", isFlattened: false)
     }
 }
 
@@ -9187,14 +8336,13 @@ public struct ListTagsForResourcesInput {
 
 extension ListTagsForResourcesOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<ListTagsForResourcesOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = ListTagsForResourcesOutput()
-            value.resourceTagSets = try reader["ResourceTagSets"].readListIfPresent(memberReadingClosure: Route53ClientTypes.ResourceTagSet.readingClosure, memberNodeInfo: "ResourceTagSet", isFlattened: false)
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTagsForResourcesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListTagsForResourcesOutput()
+        value.resourceTagSets = try reader["ResourceTagSets"].readListIfPresent(memberReadingClosure: Route53ClientTypes.ResourceTagSet.read(from:), memberNodeInfo: "ResourceTagSet", isFlattened: false)
+        return value
     }
 }
 
@@ -9214,19 +8362,18 @@ public struct ListTagsForResourcesOutput {
 
 enum ListTagsForResourcesOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let errorBodyReader = AWSClientRuntime.RestXMLError.errorBodyReader(responseReader: responseReader, noErrorWrapping: false)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                case "InvalidInput": return try await InvalidInput.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "NoSuchHealthCheck": return try await NoSuchHealthCheck.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "NoSuchHostedZone": return try await NoSuchHostedZone.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "PriorRequestNotComplete": return try await PriorRequestNotComplete.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "ThrottlingException": return try await ThrottlingException.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
+            case "NoSuchHealthCheck": return try NoSuchHealthCheck.makeError(baseError: baseError)
+            case "NoSuchHostedZone": return try NoSuchHostedZone.makeError(baseError: baseError)
+            case "PriorRequestNotComplete": return try PriorRequestNotComplete.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -9273,17 +8420,16 @@ public struct ListTrafficPoliciesInput {
 
 extension ListTrafficPoliciesOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<ListTrafficPoliciesOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = ListTrafficPoliciesOutput()
-            value.isTruncated = try reader["IsTruncated"].readIfPresent() ?? false
-            value.maxItems = try reader["MaxItems"].readIfPresent()
-            value.trafficPolicyIdMarker = try reader["TrafficPolicyIdMarker"].readIfPresent()
-            value.trafficPolicySummaries = try reader["TrafficPolicySummaries"].readListIfPresent(memberReadingClosure: Route53ClientTypes.TrafficPolicySummary.readingClosure, memberNodeInfo: "TrafficPolicySummary", isFlattened: false)
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTrafficPoliciesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListTrafficPoliciesOutput()
+        value.isTruncated = try reader["IsTruncated"].readIfPresent() ?? false
+        value.maxItems = try reader["MaxItems"].readIfPresent()
+        value.trafficPolicyIdMarker = try reader["TrafficPolicyIdMarker"].readIfPresent()
+        value.trafficPolicySummaries = try reader["TrafficPolicySummaries"].readListIfPresent(memberReadingClosure: Route53ClientTypes.TrafficPolicySummary.read(from:), memberNodeInfo: "TrafficPolicySummary", isFlattened: false)
+        return value
     }
 }
 
@@ -9318,15 +8464,14 @@ public struct ListTrafficPoliciesOutput {
 
 enum ListTrafficPoliciesOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let errorBodyReader = AWSClientRuntime.RestXMLError.errorBodyReader(responseReader: responseReader, noErrorWrapping: false)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                case "InvalidInput": return try await InvalidInput.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -9392,18 +8537,17 @@ public struct ListTrafficPolicyInstancesByHostedZoneInput {
 
 extension ListTrafficPolicyInstancesByHostedZoneOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<ListTrafficPolicyInstancesByHostedZoneOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = ListTrafficPolicyInstancesByHostedZoneOutput()
-            value.isTruncated = try reader["IsTruncated"].readIfPresent() ?? false
-            value.maxItems = try reader["MaxItems"].readIfPresent()
-            value.trafficPolicyInstanceNameMarker = try reader["TrafficPolicyInstanceNameMarker"].readIfPresent()
-            value.trafficPolicyInstanceTypeMarker = try reader["TrafficPolicyInstanceTypeMarker"].readIfPresent()
-            value.trafficPolicyInstances = try reader["TrafficPolicyInstances"].readListIfPresent(memberReadingClosure: Route53ClientTypes.TrafficPolicyInstance.readingClosure, memberNodeInfo: "TrafficPolicyInstance", isFlattened: false)
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTrafficPolicyInstancesByHostedZoneOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListTrafficPolicyInstancesByHostedZoneOutput()
+        value.isTruncated = try reader["IsTruncated"].readIfPresent() ?? false
+        value.maxItems = try reader["MaxItems"].readIfPresent()
+        value.trafficPolicyInstanceNameMarker = try reader["TrafficPolicyInstanceNameMarker"].readIfPresent()
+        value.trafficPolicyInstanceTypeMarker = try reader["TrafficPolicyInstanceTypeMarker"].readIfPresent()
+        value.trafficPolicyInstances = try reader["TrafficPolicyInstances"].readListIfPresent(memberReadingClosure: Route53ClientTypes.TrafficPolicyInstance.read(from:), memberNodeInfo: "TrafficPolicyInstance", isFlattened: false)
+        return value
     }
 }
 
@@ -9441,17 +8585,16 @@ public struct ListTrafficPolicyInstancesByHostedZoneOutput {
 
 enum ListTrafficPolicyInstancesByHostedZoneOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let errorBodyReader = AWSClientRuntime.RestXMLError.errorBodyReader(responseReader: responseReader, noErrorWrapping: false)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                case "InvalidInput": return try await InvalidInput.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "NoSuchHostedZone": return try await NoSuchHostedZone.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "NoSuchTrafficPolicyInstance": return try await NoSuchTrafficPolicyInstance.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
+            case "NoSuchHostedZone": return try NoSuchHostedZone.makeError(baseError: baseError)
+            case "NoSuchTrafficPolicyInstance": return try NoSuchTrafficPolicyInstance.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -9536,19 +8679,18 @@ public struct ListTrafficPolicyInstancesByPolicyInput {
 
 extension ListTrafficPolicyInstancesByPolicyOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<ListTrafficPolicyInstancesByPolicyOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = ListTrafficPolicyInstancesByPolicyOutput()
-            value.hostedZoneIdMarker = try reader["HostedZoneIdMarker"].readIfPresent()
-            value.isTruncated = try reader["IsTruncated"].readIfPresent() ?? false
-            value.maxItems = try reader["MaxItems"].readIfPresent()
-            value.trafficPolicyInstanceNameMarker = try reader["TrafficPolicyInstanceNameMarker"].readIfPresent()
-            value.trafficPolicyInstanceTypeMarker = try reader["TrafficPolicyInstanceTypeMarker"].readIfPresent()
-            value.trafficPolicyInstances = try reader["TrafficPolicyInstances"].readListIfPresent(memberReadingClosure: Route53ClientTypes.TrafficPolicyInstance.readingClosure, memberNodeInfo: "TrafficPolicyInstance", isFlattened: false)
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTrafficPolicyInstancesByPolicyOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListTrafficPolicyInstancesByPolicyOutput()
+        value.hostedZoneIdMarker = try reader["HostedZoneIdMarker"].readIfPresent()
+        value.isTruncated = try reader["IsTruncated"].readIfPresent() ?? false
+        value.maxItems = try reader["MaxItems"].readIfPresent()
+        value.trafficPolicyInstanceNameMarker = try reader["TrafficPolicyInstanceNameMarker"].readIfPresent()
+        value.trafficPolicyInstanceTypeMarker = try reader["TrafficPolicyInstanceTypeMarker"].readIfPresent()
+        value.trafficPolicyInstances = try reader["TrafficPolicyInstances"].readListIfPresent(memberReadingClosure: Route53ClientTypes.TrafficPolicyInstance.read(from:), memberNodeInfo: "TrafficPolicyInstance", isFlattened: false)
+        return value
     }
 }
 
@@ -9590,17 +8732,16 @@ public struct ListTrafficPolicyInstancesByPolicyOutput {
 
 enum ListTrafficPolicyInstancesByPolicyOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let errorBodyReader = AWSClientRuntime.RestXMLError.errorBodyReader(responseReader: responseReader, noErrorWrapping: false)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                case "InvalidInput": return try await InvalidInput.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "NoSuchTrafficPolicy": return try await NoSuchTrafficPolicy.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "NoSuchTrafficPolicyInstance": return try await NoSuchTrafficPolicyInstance.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
+            case "NoSuchTrafficPolicy": return try NoSuchTrafficPolicy.makeError(baseError: baseError)
+            case "NoSuchTrafficPolicyInstance": return try NoSuchTrafficPolicyInstance.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -9663,19 +8804,18 @@ public struct ListTrafficPolicyInstancesInput {
 
 extension ListTrafficPolicyInstancesOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<ListTrafficPolicyInstancesOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = ListTrafficPolicyInstancesOutput()
-            value.hostedZoneIdMarker = try reader["HostedZoneIdMarker"].readIfPresent()
-            value.isTruncated = try reader["IsTruncated"].readIfPresent() ?? false
-            value.maxItems = try reader["MaxItems"].readIfPresent()
-            value.trafficPolicyInstanceNameMarker = try reader["TrafficPolicyInstanceNameMarker"].readIfPresent()
-            value.trafficPolicyInstanceTypeMarker = try reader["TrafficPolicyInstanceTypeMarker"].readIfPresent()
-            value.trafficPolicyInstances = try reader["TrafficPolicyInstances"].readListIfPresent(memberReadingClosure: Route53ClientTypes.TrafficPolicyInstance.readingClosure, memberNodeInfo: "TrafficPolicyInstance", isFlattened: false)
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTrafficPolicyInstancesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListTrafficPolicyInstancesOutput()
+        value.hostedZoneIdMarker = try reader["HostedZoneIdMarker"].readIfPresent()
+        value.isTruncated = try reader["IsTruncated"].readIfPresent() ?? false
+        value.maxItems = try reader["MaxItems"].readIfPresent()
+        value.trafficPolicyInstanceNameMarker = try reader["TrafficPolicyInstanceNameMarker"].readIfPresent()
+        value.trafficPolicyInstanceTypeMarker = try reader["TrafficPolicyInstanceTypeMarker"].readIfPresent()
+        value.trafficPolicyInstances = try reader["TrafficPolicyInstances"].readListIfPresent(memberReadingClosure: Route53ClientTypes.TrafficPolicyInstance.read(from:), memberNodeInfo: "TrafficPolicyInstance", isFlattened: false)
+        return value
     }
 }
 
@@ -9717,16 +8857,15 @@ public struct ListTrafficPolicyInstancesOutput {
 
 enum ListTrafficPolicyInstancesOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let errorBodyReader = AWSClientRuntime.RestXMLError.errorBodyReader(responseReader: responseReader, noErrorWrapping: false)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                case "InvalidInput": return try await InvalidInput.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "NoSuchTrafficPolicyInstance": return try await NoSuchTrafficPolicyInstance.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
+            case "NoSuchTrafficPolicyInstance": return try NoSuchTrafficPolicyInstance.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -9781,17 +8920,16 @@ public struct ListTrafficPolicyVersionsInput {
 
 extension ListTrafficPolicyVersionsOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<ListTrafficPolicyVersionsOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = ListTrafficPolicyVersionsOutput()
-            value.isTruncated = try reader["IsTruncated"].readIfPresent() ?? false
-            value.maxItems = try reader["MaxItems"].readIfPresent()
-            value.trafficPolicies = try reader["TrafficPolicies"].readListIfPresent(memberReadingClosure: Route53ClientTypes.TrafficPolicy.readingClosure, memberNodeInfo: "TrafficPolicy", isFlattened: false)
-            value.trafficPolicyVersionMarker = try reader["TrafficPolicyVersionMarker"].readIfPresent()
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTrafficPolicyVersionsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListTrafficPolicyVersionsOutput()
+        value.isTruncated = try reader["IsTruncated"].readIfPresent() ?? false
+        value.maxItems = try reader["MaxItems"].readIfPresent()
+        value.trafficPolicies = try reader["TrafficPolicies"].readListIfPresent(memberReadingClosure: Route53ClientTypes.TrafficPolicy.read(from:), memberNodeInfo: "TrafficPolicy", isFlattened: false)
+        value.trafficPolicyVersionMarker = try reader["TrafficPolicyVersionMarker"].readIfPresent()
+        return value
     }
 }
 
@@ -9826,16 +8964,15 @@ public struct ListTrafficPolicyVersionsOutput {
 
 enum ListTrafficPolicyVersionsOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let errorBodyReader = AWSClientRuntime.RestXMLError.errorBodyReader(responseReader: responseReader, noErrorWrapping: false)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                case "InvalidInput": return try await InvalidInput.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "NoSuchTrafficPolicy": return try await NoSuchTrafficPolicy.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
+            case "NoSuchTrafficPolicy": return try NoSuchTrafficPolicy.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -9890,16 +9027,15 @@ public struct ListVPCAssociationAuthorizationsInput {
 
 extension ListVPCAssociationAuthorizationsOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<ListVPCAssociationAuthorizationsOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = ListVPCAssociationAuthorizationsOutput()
-            value.hostedZoneId = try reader["HostedZoneId"].readIfPresent()
-            value.nextToken = try reader["NextToken"].readIfPresent()
-            value.vpCs = try reader["VPCs"].readListIfPresent(memberReadingClosure: Route53ClientTypes.VPC.readingClosure, memberNodeInfo: "VPC", isFlattened: false)
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListVPCAssociationAuthorizationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListVPCAssociationAuthorizationsOutput()
+        value.hostedZoneId = try reader["HostedZoneId"].readIfPresent()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.vpCs = try reader["VPCs"].readListIfPresent(memberReadingClosure: Route53ClientTypes.VPC.read(from:), memberNodeInfo: "VPC", isFlattened: false)
+        return value
     }
 }
 
@@ -9928,35 +9064,27 @@ public struct ListVPCAssociationAuthorizationsOutput {
 
 enum ListVPCAssociationAuthorizationsOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let errorBodyReader = AWSClientRuntime.RestXMLError.errorBodyReader(responseReader: responseReader, noErrorWrapping: false)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                case "InvalidInput": return try await InvalidInput.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "InvalidPaginationToken": return try await InvalidPaginationToken.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "NoSuchHostedZone": return try await NoSuchHostedZone.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
+            case "InvalidPaginationToken": return try InvalidPaginationToken.makeError(baseError: baseError)
+            case "NoSuchHostedZone": return try NoSuchHostedZone.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
 
 extension Route53ClientTypes.LocationSummary {
 
-    static func writingClosure(_ value: Route53ClientTypes.LocationSummary?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["LocationName"].write(value.locationName)
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<Route53ClientTypes.LocationSummary, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = Route53ClientTypes.LocationSummary()
-            value.locationName = try reader["LocationName"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.LocationSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Route53ClientTypes.LocationSummary()
+        value.locationName = try reader["LocationName"].readIfPresent()
+        return value
     }
 }
 
@@ -9978,24 +9106,13 @@ extension Route53ClientTypes {
 
 extension NoSuchChange {
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<NoSuchChange, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = NoSuchChange()
-            value.properties.message = try reader["message"].readIfPresent()
-            return value
-        }
-    }
-}
-
-extension NoSuchChange {
-
-    static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws -> Swift.Error {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchChange {
+        let reader = baseError.errorBodyReader
         var value = NoSuchChange()
         value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = httpResponse
-        value.requestID = requestID
-        value.message = message
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
         return value
     }
 }
@@ -10026,24 +9143,13 @@ public struct NoSuchChange: ClientRuntime.ModeledError, AWSClientRuntime.AWSServ
 
 extension NoSuchCidrCollectionException {
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<NoSuchCidrCollectionException, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = NoSuchCidrCollectionException()
-            value.properties.message = try reader["Message"].readIfPresent()
-            return value
-        }
-    }
-}
-
-extension NoSuchCidrCollectionException {
-
-    static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws -> Swift.Error {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchCidrCollectionException {
+        let reader = baseError.errorBodyReader
         var value = NoSuchCidrCollectionException()
         value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = httpResponse
-        value.requestID = requestID
-        value.message = message
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
         return value
     }
 }
@@ -10074,24 +9180,13 @@ public struct NoSuchCidrCollectionException: ClientRuntime.ModeledError, AWSClie
 
 extension NoSuchCidrLocationException {
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<NoSuchCidrLocationException, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = NoSuchCidrLocationException()
-            value.properties.message = try reader["Message"].readIfPresent()
-            return value
-        }
-    }
-}
-
-extension NoSuchCidrLocationException {
-
-    static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws -> Swift.Error {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchCidrLocationException {
+        let reader = baseError.errorBodyReader
         var value = NoSuchCidrLocationException()
         value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = httpResponse
-        value.requestID = requestID
-        value.message = message
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
         return value
     }
 }
@@ -10122,24 +9217,13 @@ public struct NoSuchCidrLocationException: ClientRuntime.ModeledError, AWSClient
 
 extension NoSuchCloudWatchLogsLogGroup {
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<NoSuchCloudWatchLogsLogGroup, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = NoSuchCloudWatchLogsLogGroup()
-            value.properties.message = try reader["message"].readIfPresent()
-            return value
-        }
-    }
-}
-
-extension NoSuchCloudWatchLogsLogGroup {
-
-    static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws -> Swift.Error {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchCloudWatchLogsLogGroup {
+        let reader = baseError.errorBodyReader
         var value = NoSuchCloudWatchLogsLogGroup()
         value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = httpResponse
-        value.requestID = requestID
-        value.message = message
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
         return value
     }
 }
@@ -10170,24 +9254,13 @@ public struct NoSuchCloudWatchLogsLogGroup: ClientRuntime.ModeledError, AWSClien
 
 extension NoSuchDelegationSet {
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<NoSuchDelegationSet, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = NoSuchDelegationSet()
-            value.properties.message = try reader["message"].readIfPresent()
-            return value
-        }
-    }
-}
-
-extension NoSuchDelegationSet {
-
-    static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws -> Swift.Error {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchDelegationSet {
+        let reader = baseError.errorBodyReader
         var value = NoSuchDelegationSet()
         value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = httpResponse
-        value.requestID = requestID
-        value.message = message
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
         return value
     }
 }
@@ -10219,24 +9292,13 @@ public struct NoSuchDelegationSet: ClientRuntime.ModeledError, AWSClientRuntime.
 
 extension NoSuchGeoLocation {
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<NoSuchGeoLocation, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = NoSuchGeoLocation()
-            value.properties.message = try reader["message"].readIfPresent()
-            return value
-        }
-    }
-}
-
-extension NoSuchGeoLocation {
-
-    static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws -> Swift.Error {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchGeoLocation {
+        let reader = baseError.errorBodyReader
         var value = NoSuchGeoLocation()
         value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = httpResponse
-        value.requestID = requestID
-        value.message = message
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
         return value
     }
 }
@@ -10268,24 +9330,13 @@ public struct NoSuchGeoLocation: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
 extension NoSuchHealthCheck {
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<NoSuchHealthCheck, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = NoSuchHealthCheck()
-            value.properties.message = try reader["message"].readIfPresent()
-            return value
-        }
-    }
-}
-
-extension NoSuchHealthCheck {
-
-    static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws -> Swift.Error {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchHealthCheck {
+        let reader = baseError.errorBodyReader
         var value = NoSuchHealthCheck()
         value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = httpResponse
-        value.requestID = requestID
-        value.message = message
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
         return value
     }
 }
@@ -10317,24 +9368,13 @@ public struct NoSuchHealthCheck: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
 extension NoSuchHostedZone {
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<NoSuchHostedZone, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = NoSuchHostedZone()
-            value.properties.message = try reader["message"].readIfPresent()
-            return value
-        }
-    }
-}
-
-extension NoSuchHostedZone {
-
-    static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws -> Swift.Error {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchHostedZone {
+        let reader = baseError.errorBodyReader
         var value = NoSuchHostedZone()
         value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = httpResponse
-        value.requestID = requestID
-        value.message = message
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
         return value
     }
 }
@@ -10366,24 +9406,13 @@ public struct NoSuchHostedZone: ClientRuntime.ModeledError, AWSClientRuntime.AWS
 
 extension NoSuchKeySigningKey {
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<NoSuchKeySigningKey, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = NoSuchKeySigningKey()
-            value.properties.message = try reader["message"].readIfPresent()
-            return value
-        }
-    }
-}
-
-extension NoSuchKeySigningKey {
-
-    static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws -> Swift.Error {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchKeySigningKey {
+        let reader = baseError.errorBodyReader
         var value = NoSuchKeySigningKey()
         value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = httpResponse
-        value.requestID = requestID
-        value.message = message
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
         return value
     }
 }
@@ -10414,24 +9443,13 @@ public struct NoSuchKeySigningKey: ClientRuntime.ModeledError, AWSClientRuntime.
 
 extension NoSuchQueryLoggingConfig {
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<NoSuchQueryLoggingConfig, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = NoSuchQueryLoggingConfig()
-            value.properties.message = try reader["message"].readIfPresent()
-            return value
-        }
-    }
-}
-
-extension NoSuchQueryLoggingConfig {
-
-    static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws -> Swift.Error {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchQueryLoggingConfig {
+        let reader = baseError.errorBodyReader
         var value = NoSuchQueryLoggingConfig()
         value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = httpResponse
-        value.requestID = requestID
-        value.message = message
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
         return value
     }
 }
@@ -10462,24 +9480,13 @@ public struct NoSuchQueryLoggingConfig: ClientRuntime.ModeledError, AWSClientRun
 
 extension NoSuchTrafficPolicy {
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<NoSuchTrafficPolicy, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = NoSuchTrafficPolicy()
-            value.properties.message = try reader["message"].readIfPresent()
-            return value
-        }
-    }
-}
-
-extension NoSuchTrafficPolicy {
-
-    static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws -> Swift.Error {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchTrafficPolicy {
+        let reader = baseError.errorBodyReader
         var value = NoSuchTrafficPolicy()
         value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = httpResponse
-        value.requestID = requestID
-        value.message = message
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
         return value
     }
 }
@@ -10511,24 +9518,13 @@ public struct NoSuchTrafficPolicy: ClientRuntime.ModeledError, AWSClientRuntime.
 
 extension NoSuchTrafficPolicyInstance {
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<NoSuchTrafficPolicyInstance, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = NoSuchTrafficPolicyInstance()
-            value.properties.message = try reader["message"].readIfPresent()
-            return value
-        }
-    }
-}
-
-extension NoSuchTrafficPolicyInstance {
-
-    static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws -> Swift.Error {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchTrafficPolicyInstance {
+        let reader = baseError.errorBodyReader
         var value = NoSuchTrafficPolicyInstance()
         value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = httpResponse
-        value.requestID = requestID
-        value.message = message
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
         return value
     }
 }
@@ -10560,24 +9556,13 @@ public struct NoSuchTrafficPolicyInstance: ClientRuntime.ModeledError, AWSClient
 
 extension NotAuthorizedException {
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<NotAuthorizedException, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = NotAuthorizedException()
-            value.properties.message = try reader["message"].readIfPresent()
-            return value
-        }
-    }
-}
-
-extension NotAuthorizedException {
-
-    static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws -> Swift.Error {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NotAuthorizedException {
+        let reader = baseError.errorBodyReader
         var value = NotAuthorizedException()
         value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = httpResponse
-        value.requestID = requestID
-        value.message = message
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
         return value
     }
 }
@@ -10609,24 +9594,13 @@ public struct NotAuthorizedException: ClientRuntime.ModeledError, AWSClientRunti
 
 extension PriorRequestNotComplete {
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<PriorRequestNotComplete, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = PriorRequestNotComplete()
-            value.properties.message = try reader["message"].readIfPresent()
-            return value
-        }
-    }
-}
-
-extension PriorRequestNotComplete {
-
-    static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws -> Swift.Error {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> PriorRequestNotComplete {
+        let reader = baseError.errorBodyReader
         var value = PriorRequestNotComplete()
         value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = httpResponse
-        value.requestID = requestID
-        value.message = message
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
         return value
     }
 }
@@ -10657,24 +9631,13 @@ public struct PriorRequestNotComplete: ClientRuntime.ModeledError, AWSClientRunt
 
 extension PublicZoneVPCAssociation {
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<PublicZoneVPCAssociation, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = PublicZoneVPCAssociation()
-            value.properties.message = try reader["message"].readIfPresent()
-            return value
-        }
-    }
-}
-
-extension PublicZoneVPCAssociation {
-
-    static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws -> Swift.Error {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> PublicZoneVPCAssociation {
+        let reader = baseError.errorBodyReader
         var value = PublicZoneVPCAssociation()
         value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = httpResponse
-        value.requestID = requestID
-        value.message = message
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
         return value
     }
 }
@@ -10706,22 +9669,13 @@ public struct PublicZoneVPCAssociation: ClientRuntime.ModeledError, AWSClientRun
 
 extension Route53ClientTypes.QueryLoggingConfig {
 
-    static func writingClosure(_ value: Route53ClientTypes.QueryLoggingConfig?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["CloudWatchLogsLogGroupArn"].write(value.cloudWatchLogsLogGroupArn)
-        try writer["HostedZoneId"].write(value.hostedZoneId)
-        try writer["Id"].write(value.id)
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<Route53ClientTypes.QueryLoggingConfig, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = Route53ClientTypes.QueryLoggingConfig()
-            value.id = try reader["Id"].readIfPresent()
-            value.hostedZoneId = try reader["HostedZoneId"].readIfPresent()
-            value.cloudWatchLogsLogGroupArn = try reader["CloudWatchLogsLogGroupArn"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.QueryLoggingConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Route53ClientTypes.QueryLoggingConfig()
+        value.id = try reader["Id"].readIfPresent()
+        value.hostedZoneId = try reader["HostedZoneId"].readIfPresent()
+        value.cloudWatchLogsLogGroupArn = try reader["CloudWatchLogsLogGroupArn"].readIfPresent()
+        return value
     }
 }
 
@@ -10754,24 +9708,13 @@ extension Route53ClientTypes {
 
 extension QueryLoggingConfigAlreadyExists {
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<QueryLoggingConfigAlreadyExists, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = QueryLoggingConfigAlreadyExists()
-            value.properties.message = try reader["message"].readIfPresent()
-            return value
-        }
-    }
-}
-
-extension QueryLoggingConfigAlreadyExists {
-
-    static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws -> Swift.Error {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> QueryLoggingConfigAlreadyExists {
+        let reader = baseError.errorBodyReader
         var value = QueryLoggingConfigAlreadyExists()
         value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = httpResponse
-        value.requestID = requestID
-        value.message = message
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
         return value
     }
 }
@@ -10801,7 +9744,8 @@ public struct QueryLoggingConfigAlreadyExists: ClientRuntime.ModeledError, AWSCl
 }
 
 extension Route53ClientTypes {
-    public enum RRType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum RRType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case a
         case aaaa
         case caa
@@ -10835,10 +9779,12 @@ extension Route53ClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .a: return "A"
@@ -10857,16 +9803,12 @@ extension Route53ClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = RRType(rawValue: rawValue) ?? RRType.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension Route53ClientTypes {
-    public enum ResettableElementName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum ResettableElementName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case childhealthchecks
         case fullyqualifieddomainname
         case regions
@@ -10882,10 +9824,12 @@ extension Route53ClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .childhealthchecks: return "ChildHealthChecks"
@@ -10895,28 +9839,21 @@ extension Route53ClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = ResettableElementName(rawValue: rawValue) ?? ResettableElementName.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension Route53ClientTypes.ResourceRecord {
 
-    static func writingClosure(_ value: Route53ClientTypes.ResourceRecord?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: Route53ClientTypes.ResourceRecord?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["Value"].write(value.value)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<Route53ClientTypes.ResourceRecord, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = Route53ClientTypes.ResourceRecord()
-            value.value = try reader["Value"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.ResourceRecord {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Route53ClientTypes.ResourceRecord()
+        value.value = try reader["Value"].readIfPresent()
+        return value
     }
 }
 
@@ -10939,18 +9876,18 @@ extension Route53ClientTypes {
 
 extension Route53ClientTypes.ResourceRecordSet {
 
-    static func writingClosure(_ value: Route53ClientTypes.ResourceRecordSet?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["AliasTarget"].write(value.aliasTarget, writingClosure: Route53ClientTypes.AliasTarget.writingClosure(_:to:))
-        try writer["CidrRoutingConfig"].write(value.cidrRoutingConfig, writingClosure: Route53ClientTypes.CidrRoutingConfig.writingClosure(_:to:))
+    static func write(value: Route53ClientTypes.ResourceRecordSet?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["AliasTarget"].write(value.aliasTarget, with: Route53ClientTypes.AliasTarget.write(value:to:))
+        try writer["CidrRoutingConfig"].write(value.cidrRoutingConfig, with: Route53ClientTypes.CidrRoutingConfig.write(value:to:))
         try writer["Failover"].write(value.failover)
-        try writer["GeoLocation"].write(value.geoLocation, writingClosure: Route53ClientTypes.GeoLocation.writingClosure(_:to:))
-        try writer["GeoProximityLocation"].write(value.geoProximityLocation, writingClosure: Route53ClientTypes.GeoProximityLocation.writingClosure(_:to:))
+        try writer["GeoLocation"].write(value.geoLocation, with: Route53ClientTypes.GeoLocation.write(value:to:))
+        try writer["GeoProximityLocation"].write(value.geoProximityLocation, with: Route53ClientTypes.GeoProximityLocation.write(value:to:))
         try writer["HealthCheckId"].write(value.healthCheckId)
         try writer["MultiValueAnswer"].write(value.multiValueAnswer)
         try writer["Name"].write(value.name)
         try writer["Region"].write(value.region)
-        try writer["ResourceRecords"].writeList(value.resourceRecords, memberWritingClosure: Route53ClientTypes.ResourceRecord.writingClosure(_:to:), memberNodeInfo: "ResourceRecord", isFlattened: false)
+        try writer["ResourceRecords"].writeList(value.resourceRecords, memberWritingClosure: Route53ClientTypes.ResourceRecord.write(value:to:), memberNodeInfo: "ResourceRecord", isFlattened: false)
         try writer["SetIdentifier"].write(value.setIdentifier)
         try writer["TTL"].write(value.ttl)
         try writer["TrafficPolicyInstanceId"].write(value.trafficPolicyInstanceId)
@@ -10958,27 +9895,25 @@ extension Route53ClientTypes.ResourceRecordSet {
         try writer["Weight"].write(value.weight)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<Route53ClientTypes.ResourceRecordSet, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = Route53ClientTypes.ResourceRecordSet()
-            value.name = try reader["Name"].readIfPresent()
-            value.type = try reader["Type"].readIfPresent()
-            value.setIdentifier = try reader["SetIdentifier"].readIfPresent()
-            value.weight = try reader["Weight"].readIfPresent()
-            value.region = try reader["Region"].readIfPresent()
-            value.geoLocation = try reader["GeoLocation"].readIfPresent(readingClosure: Route53ClientTypes.GeoLocation.readingClosure)
-            value.failover = try reader["Failover"].readIfPresent()
-            value.multiValueAnswer = try reader["MultiValueAnswer"].readIfPresent()
-            value.ttl = try reader["TTL"].readIfPresent()
-            value.resourceRecords = try reader["ResourceRecords"].readListIfPresent(memberReadingClosure: Route53ClientTypes.ResourceRecord.readingClosure, memberNodeInfo: "ResourceRecord", isFlattened: false)
-            value.aliasTarget = try reader["AliasTarget"].readIfPresent(readingClosure: Route53ClientTypes.AliasTarget.readingClosure)
-            value.healthCheckId = try reader["HealthCheckId"].readIfPresent()
-            value.trafficPolicyInstanceId = try reader["TrafficPolicyInstanceId"].readIfPresent()
-            value.cidrRoutingConfig = try reader["CidrRoutingConfig"].readIfPresent(readingClosure: Route53ClientTypes.CidrRoutingConfig.readingClosure)
-            value.geoProximityLocation = try reader["GeoProximityLocation"].readIfPresent(readingClosure: Route53ClientTypes.GeoProximityLocation.readingClosure)
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.ResourceRecordSet {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Route53ClientTypes.ResourceRecordSet()
+        value.name = try reader["Name"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent()
+        value.setIdentifier = try reader["SetIdentifier"].readIfPresent()
+        value.weight = try reader["Weight"].readIfPresent()
+        value.region = try reader["Region"].readIfPresent()
+        value.geoLocation = try reader["GeoLocation"].readIfPresent(with: Route53ClientTypes.GeoLocation.read(from:))
+        value.failover = try reader["Failover"].readIfPresent()
+        value.multiValueAnswer = try reader["MultiValueAnswer"].readIfPresent()
+        value.ttl = try reader["TTL"].readIfPresent()
+        value.resourceRecords = try reader["ResourceRecords"].readListIfPresent(memberReadingClosure: Route53ClientTypes.ResourceRecord.read(from:), memberNodeInfo: "ResourceRecord", isFlattened: false)
+        value.aliasTarget = try reader["AliasTarget"].readIfPresent(with: Route53ClientTypes.AliasTarget.read(from:))
+        value.healthCheckId = try reader["HealthCheckId"].readIfPresent()
+        value.trafficPolicyInstanceId = try reader["TrafficPolicyInstanceId"].readIfPresent()
+        value.cidrRoutingConfig = try reader["CidrRoutingConfig"].readIfPresent(with: Route53ClientTypes.CidrRoutingConfig.read(from:))
+        value.geoProximityLocation = try reader["GeoProximityLocation"].readIfPresent(with: Route53ClientTypes.GeoProximityLocation.read(from:))
+        return value
     }
 }
 
@@ -11184,7 +10119,8 @@ extension Route53ClientTypes {
 }
 
 extension Route53ClientTypes {
-    public enum ResourceRecordSetFailover: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum ResourceRecordSetFailover: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case primary
         case secondary
         case sdkUnknown(Swift.String)
@@ -11196,10 +10132,12 @@ extension Route53ClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .primary: return "PRIMARY"
@@ -11207,16 +10145,12 @@ extension Route53ClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = ResourceRecordSetFailover(rawValue: rawValue) ?? ResourceRecordSetFailover.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension Route53ClientTypes {
-    public enum ResourceRecordSetRegion: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum ResourceRecordSetRegion: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case afSouth1
         case apEast1
         case apNortheast1
@@ -11286,10 +10220,12 @@ extension Route53ClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .afSouth1: return "af-south-1"
@@ -11326,32 +10262,18 @@ extension Route53ClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = ResourceRecordSetRegion(rawValue: rawValue) ?? ResourceRecordSetRegion.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension Route53ClientTypes.ResourceTagSet {
 
-    static func writingClosure(_ value: Route53ClientTypes.ResourceTagSet?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["ResourceId"].write(value.resourceId)
-        try writer["ResourceType"].write(value.resourceType)
-        try writer["Tags"].writeList(value.tags, memberWritingClosure: Route53ClientTypes.Tag.writingClosure(_:to:), memberNodeInfo: "Tag", isFlattened: false)
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<Route53ClientTypes.ResourceTagSet, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = Route53ClientTypes.ResourceTagSet()
-            value.resourceType = try reader["ResourceType"].readIfPresent()
-            value.resourceId = try reader["ResourceId"].readIfPresent()
-            value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: Route53ClientTypes.Tag.readingClosure, memberNodeInfo: "Tag", isFlattened: false)
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.ResourceTagSet {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Route53ClientTypes.ResourceTagSet()
+        value.resourceType = try reader["ResourceType"].readIfPresent()
+        value.resourceId = try reader["ResourceId"].readIfPresent()
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: Route53ClientTypes.Tag.read(from:), memberNodeInfo: "Tag", isFlattened: false)
+        return value
     }
 }
 
@@ -11385,20 +10307,12 @@ extension Route53ClientTypes {
 
 extension Route53ClientTypes.ReusableDelegationSetLimit {
 
-    static func writingClosure(_ value: Route53ClientTypes.ReusableDelegationSetLimit?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["Type"].write(value.type)
-        try writer["Value"].write(value.value)
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<Route53ClientTypes.ReusableDelegationSetLimit, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = Route53ClientTypes.ReusableDelegationSetLimit()
-            value.type = try reader["Type"].readIfPresent()
-            value.value = try reader["Value"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.ReusableDelegationSetLimit {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Route53ClientTypes.ReusableDelegationSetLimit()
+        value.type = try reader["Type"].readIfPresent()
+        value.value = try reader["Value"].readIfPresent()
+        return value
     }
 }
 
@@ -11425,7 +10339,8 @@ extension Route53ClientTypes {
 }
 
 extension Route53ClientTypes {
-    public enum ReusableDelegationSetLimitType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum ReusableDelegationSetLimitType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case maxZonesByReusableDelegationSet
         case sdkUnknown(Swift.String)
 
@@ -11435,20 +10350,17 @@ extension Route53ClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .maxZonesByReusableDelegationSet: return "MAX_ZONES_BY_REUSABLE_DELEGATION_SET"
             case let .sdkUnknown(s): return s
             }
-        }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = ReusableDelegationSetLimitType(rawValue: rawValue) ?? ReusableDelegationSetLimitType.sdkUnknown(rawValue)
         }
     }
 }
@@ -11456,7 +10368,8 @@ extension Route53ClientTypes {
 public enum Route53ClientTypes {}
 
 extension Route53ClientTypes {
-    public enum Statistic: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum Statistic: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case average
         case maximum
         case minimum
@@ -11474,10 +10387,12 @@ extension Route53ClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .average: return "Average"
@@ -11488,30 +10403,17 @@ extension Route53ClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = Statistic(rawValue: rawValue) ?? Statistic.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension Route53ClientTypes.StatusReport {
 
-    static func writingClosure(_ value: Route53ClientTypes.StatusReport?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["CheckedTime"].writeTimestamp(value.checkedTime, format: .dateTime)
-        try writer["Status"].write(value.status)
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<Route53ClientTypes.StatusReport, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = Route53ClientTypes.StatusReport()
-            value.status = try reader["Status"].readIfPresent()
-            value.checkedTime = try reader["CheckedTime"].readTimestampIfPresent(format: .dateTime)
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.StatusReport {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Route53ClientTypes.StatusReport()
+        value.status = try reader["Status"].readIfPresent()
+        value.checkedTime = try reader["CheckedTime"].readTimestampIfPresent(format: .dateTime)
+        return value
     }
 }
 
@@ -11537,20 +10439,18 @@ extension Route53ClientTypes {
 
 extension Route53ClientTypes.Tag {
 
-    static func writingClosure(_ value: Route53ClientTypes.Tag?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: Route53ClientTypes.Tag?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["Key"].write(value.key)
         try writer["Value"].write(value.value)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<Route53ClientTypes.Tag, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = Route53ClientTypes.Tag()
-            value.key = try reader["Key"].readIfPresent()
-            value.value = try reader["Value"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.Tag {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Route53ClientTypes.Tag()
+        value.key = try reader["Key"].readIfPresent()
+        value.value = try reader["Value"].readIfPresent()
+        return value
     }
 }
 
@@ -11587,7 +10487,8 @@ extension Route53ClientTypes {
 }
 
 extension Route53ClientTypes {
-    public enum TagResourceType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum TagResourceType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case healthcheck
         case hostedzone
         case sdkUnknown(Swift.String)
@@ -11599,21 +10500,18 @@ extension Route53ClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .healthcheck: return "healthcheck"
             case .hostedzone: return "hostedzone"
             case let .sdkUnknown(s): return s
             }
-        }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = TagResourceType(rawValue: rawValue) ?? TagResourceType.sdkUnknown(rawValue)
         }
     }
 }
@@ -11705,19 +10603,18 @@ public struct TestDNSAnswerInput {
 
 extension TestDNSAnswerOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<TestDNSAnswerOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = TestDNSAnswerOutput()
-            value.nameserver = try reader["Nameserver"].readIfPresent()
-            value.`protocol` = try reader["Protocol"].readIfPresent()
-            value.recordData = try reader["RecordData"].readListIfPresent(memberReadingClosure: Swift.String.readingClosure, memberNodeInfo: "RecordDataEntry", isFlattened: false)
-            value.recordName = try reader["RecordName"].readIfPresent()
-            value.recordType = try reader["RecordType"].readIfPresent()
-            value.responseCode = try reader["ResponseCode"].readIfPresent()
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> TestDNSAnswerOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = TestDNSAnswerOutput()
+        value.nameserver = try reader["Nameserver"].readIfPresent()
+        value.`protocol` = try reader["Protocol"].readIfPresent()
+        value.recordData = try reader["RecordData"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "RecordDataEntry", isFlattened: false)
+        value.recordName = try reader["RecordName"].readIfPresent()
+        value.recordType = try reader["RecordType"].readIfPresent()
+        value.responseCode = try reader["ResponseCode"].readIfPresent()
+        return value
     }
 }
 
@@ -11762,40 +10659,28 @@ public struct TestDNSAnswerOutput {
 
 enum TestDNSAnswerOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let errorBodyReader = AWSClientRuntime.RestXMLError.errorBodyReader(responseReader: responseReader, noErrorWrapping: false)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                case "InvalidInput": return try await InvalidInput.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "NoSuchHostedZone": return try await NoSuchHostedZone.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
+            case "NoSuchHostedZone": return try NoSuchHostedZone.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
 
 extension ThrottlingException {
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<ThrottlingException, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = ThrottlingException()
-            value.properties.message = try reader["message"].readIfPresent()
-            return value
-        }
-    }
-}
-
-extension ThrottlingException {
-
-    static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws -> Swift.Error {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> ThrottlingException {
+        let reader = baseError.errorBodyReader
         var value = ThrottlingException()
         value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = httpResponse
-        value.requestID = requestID
-        value.message = message
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
         return value
     }
 }
@@ -11826,24 +10711,13 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
 extension TooManyHealthChecks {
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<TooManyHealthChecks, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = TooManyHealthChecks()
-            value.properties.message = try reader["message"].readIfPresent()
-            return value
-        }
-    }
-}
-
-extension TooManyHealthChecks {
-
-    static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws -> Swift.Error {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyHealthChecks {
+        let reader = baseError.errorBodyReader
         var value = TooManyHealthChecks()
         value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = httpResponse
-        value.requestID = requestID
-        value.message = message
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
         return value
     }
 }
@@ -11874,24 +10748,13 @@ public struct TooManyHealthChecks: ClientRuntime.ModeledError, AWSClientRuntime.
 
 extension TooManyHostedZones {
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<TooManyHostedZones, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = TooManyHostedZones()
-            value.properties.message = try reader["message"].readIfPresent()
-            return value
-        }
-    }
-}
-
-extension TooManyHostedZones {
-
-    static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws -> Swift.Error {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyHostedZones {
+        let reader = baseError.errorBodyReader
         var value = TooManyHostedZones()
         value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = httpResponse
-        value.requestID = requestID
-        value.message = message
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
         return value
     }
 }
@@ -11923,24 +10786,13 @@ public struct TooManyHostedZones: ClientRuntime.ModeledError, AWSClientRuntime.A
 
 extension TooManyKeySigningKeys {
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<TooManyKeySigningKeys, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = TooManyKeySigningKeys()
-            value.properties.message = try reader["message"].readIfPresent()
-            return value
-        }
-    }
-}
-
-extension TooManyKeySigningKeys {
-
-    static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws -> Swift.Error {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyKeySigningKeys {
+        let reader = baseError.errorBodyReader
         var value = TooManyKeySigningKeys()
         value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = httpResponse
-        value.requestID = requestID
-        value.message = message
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
         return value
     }
 }
@@ -11971,24 +10823,13 @@ public struct TooManyKeySigningKeys: ClientRuntime.ModeledError, AWSClientRuntim
 
 extension TooManyTrafficPolicies {
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<TooManyTrafficPolicies, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = TooManyTrafficPolicies()
-            value.properties.message = try reader["message"].readIfPresent()
-            return value
-        }
-    }
-}
-
-extension TooManyTrafficPolicies {
-
-    static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws -> Swift.Error {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyTrafficPolicies {
+        let reader = baseError.errorBodyReader
         var value = TooManyTrafficPolicies()
         value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = httpResponse
-        value.requestID = requestID
-        value.message = message
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
         return value
     }
 }
@@ -12020,24 +10861,13 @@ public struct TooManyTrafficPolicies: ClientRuntime.ModeledError, AWSClientRunti
 
 extension TooManyTrafficPolicyInstances {
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<TooManyTrafficPolicyInstances, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = TooManyTrafficPolicyInstances()
-            value.properties.message = try reader["message"].readIfPresent()
-            return value
-        }
-    }
-}
-
-extension TooManyTrafficPolicyInstances {
-
-    static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws -> Swift.Error {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyTrafficPolicyInstances {
+        let reader = baseError.errorBodyReader
         var value = TooManyTrafficPolicyInstances()
         value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = httpResponse
-        value.requestID = requestID
-        value.message = message
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
         return value
     }
 }
@@ -12069,24 +10899,13 @@ public struct TooManyTrafficPolicyInstances: ClientRuntime.ModeledError, AWSClie
 
 extension TooManyTrafficPolicyVersionsForCurrentPolicy {
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<TooManyTrafficPolicyVersionsForCurrentPolicy, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = TooManyTrafficPolicyVersionsForCurrentPolicy()
-            value.properties.message = try reader["message"].readIfPresent()
-            return value
-        }
-    }
-}
-
-extension TooManyTrafficPolicyVersionsForCurrentPolicy {
-
-    static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws -> Swift.Error {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyTrafficPolicyVersionsForCurrentPolicy {
+        let reader = baseError.errorBodyReader
         var value = TooManyTrafficPolicyVersionsForCurrentPolicy()
         value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = httpResponse
-        value.requestID = requestID
-        value.message = message
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
         return value
     }
 }
@@ -12118,24 +10937,13 @@ public struct TooManyTrafficPolicyVersionsForCurrentPolicy: ClientRuntime.Modele
 
 extension TooManyVPCAssociationAuthorizations {
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<TooManyVPCAssociationAuthorizations, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = TooManyVPCAssociationAuthorizations()
-            value.properties.message = try reader["message"].readIfPresent()
-            return value
-        }
-    }
-}
-
-extension TooManyVPCAssociationAuthorizations {
-
-    static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws -> Swift.Error {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyVPCAssociationAuthorizations {
+        let reader = baseError.errorBodyReader
         var value = TooManyVPCAssociationAuthorizations()
         value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = httpResponse
-        value.requestID = requestID
-        value.message = message
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
         return value
     }
 }
@@ -12167,28 +10975,16 @@ public struct TooManyVPCAssociationAuthorizations: ClientRuntime.ModeledError, A
 
 extension Route53ClientTypes.TrafficPolicy {
 
-    static func writingClosure(_ value: Route53ClientTypes.TrafficPolicy?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["Comment"].write(value.comment)
-        try writer["Document"].write(value.document)
-        try writer["Id"].write(value.id)
-        try writer["Name"].write(value.name)
-        try writer["Type"].write(value.type)
-        try writer["Version"].write(value.version)
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<Route53ClientTypes.TrafficPolicy, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = Route53ClientTypes.TrafficPolicy()
-            value.id = try reader["Id"].readIfPresent()
-            value.version = try reader["Version"].readIfPresent()
-            value.name = try reader["Name"].readIfPresent()
-            value.type = try reader["Type"].readIfPresent()
-            value.document = try reader["Document"].readIfPresent()
-            value.comment = try reader["Comment"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.TrafficPolicy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Route53ClientTypes.TrafficPolicy()
+        value.id = try reader["Id"].readIfPresent()
+        value.version = try reader["Version"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent()
+        value.document = try reader["Document"].readIfPresent()
+        value.comment = try reader["Comment"].readIfPresent()
+        return value
     }
 }
 
@@ -12235,24 +11031,13 @@ extension Route53ClientTypes {
 
 extension TrafficPolicyAlreadyExists {
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<TrafficPolicyAlreadyExists, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = TrafficPolicyAlreadyExists()
-            value.properties.message = try reader["message"].readIfPresent()
-            return value
-        }
-    }
-}
-
-extension TrafficPolicyAlreadyExists {
-
-    static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws -> Swift.Error {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TrafficPolicyAlreadyExists {
+        let reader = baseError.errorBodyReader
         var value = TrafficPolicyAlreadyExists()
         value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = httpResponse
-        value.requestID = requestID
-        value.message = message
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
         return value
     }
 }
@@ -12284,24 +11069,13 @@ public struct TrafficPolicyAlreadyExists: ClientRuntime.ModeledError, AWSClientR
 
 extension TrafficPolicyInUse {
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<TrafficPolicyInUse, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = TrafficPolicyInUse()
-            value.properties.message = try reader["message"].readIfPresent()
-            return value
-        }
-    }
-}
-
-extension TrafficPolicyInUse {
-
-    static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws -> Swift.Error {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TrafficPolicyInUse {
+        let reader = baseError.errorBodyReader
         var value = TrafficPolicyInUse()
         value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = httpResponse
-        value.requestID = requestID
-        value.message = message
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
         return value
     }
 }
@@ -12333,34 +11107,19 @@ public struct TrafficPolicyInUse: ClientRuntime.ModeledError, AWSClientRuntime.A
 
 extension Route53ClientTypes.TrafficPolicyInstance {
 
-    static func writingClosure(_ value: Route53ClientTypes.TrafficPolicyInstance?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["HostedZoneId"].write(value.hostedZoneId)
-        try writer["Id"].write(value.id)
-        try writer["Message"].write(value.message)
-        try writer["Name"].write(value.name)
-        try writer["State"].write(value.state)
-        try writer["TTL"].write(value.ttl)
-        try writer["TrafficPolicyId"].write(value.trafficPolicyId)
-        try writer["TrafficPolicyType"].write(value.trafficPolicyType)
-        try writer["TrafficPolicyVersion"].write(value.trafficPolicyVersion)
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<Route53ClientTypes.TrafficPolicyInstance, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = Route53ClientTypes.TrafficPolicyInstance()
-            value.id = try reader["Id"].readIfPresent()
-            value.hostedZoneId = try reader["HostedZoneId"].readIfPresent()
-            value.name = try reader["Name"].readIfPresent()
-            value.ttl = try reader["TTL"].readIfPresent()
-            value.state = try reader["State"].readIfPresent()
-            value.message = try reader["Message"].readIfPresent()
-            value.trafficPolicyId = try reader["TrafficPolicyId"].readIfPresent()
-            value.trafficPolicyVersion = try reader["TrafficPolicyVersion"].readIfPresent()
-            value.trafficPolicyType = try reader["TrafficPolicyType"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.TrafficPolicyInstance {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Route53ClientTypes.TrafficPolicyInstance()
+        value.id = try reader["Id"].readIfPresent()
+        value.hostedZoneId = try reader["HostedZoneId"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.ttl = try reader["TTL"].readIfPresent()
+        value.state = try reader["State"].readIfPresent()
+        value.message = try reader["Message"].readIfPresent()
+        value.trafficPolicyId = try reader["TrafficPolicyId"].readIfPresent()
+        value.trafficPolicyVersion = try reader["TrafficPolicyVersion"].readIfPresent()
+        value.trafficPolicyType = try reader["TrafficPolicyType"].readIfPresent()
+        return value
     }
 }
 
@@ -12423,24 +11182,13 @@ extension Route53ClientTypes {
 
 extension TrafficPolicyInstanceAlreadyExists {
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<TrafficPolicyInstanceAlreadyExists, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = TrafficPolicyInstanceAlreadyExists()
-            value.properties.message = try reader["message"].readIfPresent()
-            return value
-        }
-    }
-}
-
-extension TrafficPolicyInstanceAlreadyExists {
-
-    static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws -> Swift.Error {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TrafficPolicyInstanceAlreadyExists {
+        let reader = baseError.errorBodyReader
         var value = TrafficPolicyInstanceAlreadyExists()
         value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = httpResponse
-        value.requestID = requestID
-        value.message = message
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
         return value
     }
 }
@@ -12472,26 +11220,15 @@ public struct TrafficPolicyInstanceAlreadyExists: ClientRuntime.ModeledError, AW
 
 extension Route53ClientTypes.TrafficPolicySummary {
 
-    static func writingClosure(_ value: Route53ClientTypes.TrafficPolicySummary?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["Id"].write(value.id)
-        try writer["LatestVersion"].write(value.latestVersion)
-        try writer["Name"].write(value.name)
-        try writer["TrafficPolicyCount"].write(value.trafficPolicyCount)
-        try writer["Type"].write(value.type)
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<Route53ClientTypes.TrafficPolicySummary, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = Route53ClientTypes.TrafficPolicySummary()
-            value.id = try reader["Id"].readIfPresent()
-            value.name = try reader["Name"].readIfPresent()
-            value.type = try reader["Type"].readIfPresent()
-            value.latestVersion = try reader["LatestVersion"].readIfPresent()
-            value.trafficPolicyCount = try reader["TrafficPolicyCount"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.TrafficPolicySummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Route53ClientTypes.TrafficPolicySummary()
+        value.id = try reader["Id"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent()
+        value.latestVersion = try reader["LatestVersion"].readIfPresent()
+        value.trafficPolicyCount = try reader["TrafficPolicyCount"].readIfPresent()
+        return value
     }
 }
 
@@ -12533,10 +11270,21 @@ extension Route53ClientTypes {
 }
 
 extension UpdateHealthCheckInput {
-    static func writingClosure(_ value: UpdateHealthCheckInput?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["AlarmIdentifier"].write(value.alarmIdentifier, writingClosure: Route53ClientTypes.AlarmIdentifier.writingClosure(_:to:))
-        try writer["ChildHealthChecks"].writeList(value.childHealthChecks, memberWritingClosure: Swift.String.writingClosure(_:to:), memberNodeInfo: "ChildHealthCheck", isFlattened: false)
+
+    static func urlPathProvider(_ value: UpdateHealthCheckInput) -> Swift.String? {
+        guard let healthCheckId = value.healthCheckId else {
+            return nil
+        }
+        return "/2013-04-01/healthcheck/\(healthCheckId.urlPercentEncoding())"
+    }
+}
+
+extension UpdateHealthCheckInput {
+
+    static func write(value: UpdateHealthCheckInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["AlarmIdentifier"].write(value.alarmIdentifier, with: Route53ClientTypes.AlarmIdentifier.write(value:to:))
+        try writer["ChildHealthChecks"].writeList(value.childHealthChecks, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "ChildHealthCheck", isFlattened: false)
         try writer["Disabled"].write(value.disabled)
         try writer["EnableSNI"].write(value.enableSNI)
         try writer["FailureThreshold"].write(value.failureThreshold)
@@ -12547,20 +11295,10 @@ extension UpdateHealthCheckInput {
         try writer["InsufficientDataHealthStatus"].write(value.insufficientDataHealthStatus)
         try writer["Inverted"].write(value.inverted)
         try writer["Port"].write(value.port)
-        try writer["Regions"].writeList(value.regions, memberWritingClosure: Route53ClientTypes.HealthCheckRegion.writingClosure(_:to:), memberNodeInfo: "Region", isFlattened: false)
-        try writer["ResetElements"].writeList(value.resetElements, memberWritingClosure: Route53ClientTypes.ResettableElementName.writingClosure(_:to:), memberNodeInfo: "ResettableElementName", isFlattened: false)
+        try writer["Regions"].writeList(value.regions, memberWritingClosure: Route53ClientTypes.HealthCheckRegion.write(value:to:), memberNodeInfo: "Region", isFlattened: false)
+        try writer["ResetElements"].writeList(value.resetElements, memberWritingClosure: Route53ClientTypes.ResettableElementName.write(value:to:), memberNodeInfo: "ResettableElementName", isFlattened: false)
         try writer["ResourcePath"].write(value.resourcePath)
         try writer["SearchString"].write(value.searchString)
-    }
-}
-
-extension UpdateHealthCheckInput {
-
-    static func urlPathProvider(_ value: UpdateHealthCheckInput) -> Swift.String? {
-        guard let healthCheckId = value.healthCheckId else {
-            return nil
-        }
-        return "/2013-04-01/healthcheck/\(healthCheckId.urlPercentEncoding())"
     }
 }
 
@@ -12704,14 +11442,13 @@ public struct UpdateHealthCheckInput {
 
 extension UpdateHealthCheckOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<UpdateHealthCheckOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = UpdateHealthCheckOutput()
-            value.healthCheck = try reader["HealthCheck"].readIfPresent(readingClosure: Route53ClientTypes.HealthCheck.readingClosure)
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateHealthCheckOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateHealthCheckOutput()
+        value.healthCheck = try reader["HealthCheck"].readIfPresent(with: Route53ClientTypes.HealthCheck.read(from:))
+        return value
     }
 }
 
@@ -12731,25 +11468,17 @@ public struct UpdateHealthCheckOutput {
 
 enum UpdateHealthCheckOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let errorBodyReader = AWSClientRuntime.RestXMLError.errorBodyReader(responseReader: responseReader, noErrorWrapping: false)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                case "HealthCheckVersionMismatch": return try await HealthCheckVersionMismatch.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "InvalidInput": return try await InvalidInput.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "NoSuchHealthCheck": return try await NoSuchHealthCheck.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "HealthCheckVersionMismatch": return try HealthCheckVersionMismatch.makeError(baseError: baseError)
+            case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
+            case "NoSuchHealthCheck": return try NoSuchHealthCheck.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
-    }
-}
-
-extension UpdateHostedZoneCommentInput {
-    static func writingClosure(_ value: UpdateHostedZoneCommentInput?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["Comment"].write(value.comment)
     }
 }
 
@@ -12760,6 +11489,14 @@ extension UpdateHostedZoneCommentInput {
             return nil
         }
         return "/2013-04-01/hostedzone/\(id.urlPercentEncoding())"
+    }
+}
+
+extension UpdateHostedZoneCommentInput {
+
+    static func write(value: UpdateHostedZoneCommentInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Comment"].write(value.comment)
     }
 }
 
@@ -12783,14 +11520,13 @@ public struct UpdateHostedZoneCommentInput {
 
 extension UpdateHostedZoneCommentOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<UpdateHostedZoneCommentOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = UpdateHostedZoneCommentOutput()
-            value.hostedZone = try reader["HostedZone"].readIfPresent(readingClosure: Route53ClientTypes.HostedZone.readingClosure)
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateHostedZoneCommentOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateHostedZoneCommentOutput()
+        value.hostedZone = try reader["HostedZone"].readIfPresent(with: Route53ClientTypes.HostedZone.read(from:))
+        return value
     }
 }
 
@@ -12810,25 +11546,17 @@ public struct UpdateHostedZoneCommentOutput {
 
 enum UpdateHostedZoneCommentOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let errorBodyReader = AWSClientRuntime.RestXMLError.errorBodyReader(responseReader: responseReader, noErrorWrapping: false)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                case "InvalidInput": return try await InvalidInput.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "NoSuchHostedZone": return try await NoSuchHostedZone.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "PriorRequestNotComplete": return try await PriorRequestNotComplete.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
+            case "NoSuchHostedZone": return try NoSuchHostedZone.makeError(baseError: baseError)
+            case "PriorRequestNotComplete": return try PriorRequestNotComplete.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
-    }
-}
-
-extension UpdateTrafficPolicyCommentInput {
-    static func writingClosure(_ value: UpdateTrafficPolicyCommentInput?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["Comment"].write(value.comment)
     }
 }
 
@@ -12842,6 +11570,14 @@ extension UpdateTrafficPolicyCommentInput {
             return nil
         }
         return "/2013-04-01/trafficpolicy/\(id.urlPercentEncoding())/\(version)"
+    }
+}
+
+extension UpdateTrafficPolicyCommentInput {
+
+    static func write(value: UpdateTrafficPolicyCommentInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Comment"].write(value.comment)
     }
 }
 
@@ -12871,14 +11607,13 @@ public struct UpdateTrafficPolicyCommentInput {
 
 extension UpdateTrafficPolicyCommentOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<UpdateTrafficPolicyCommentOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = UpdateTrafficPolicyCommentOutput()
-            value.trafficPolicy = try reader["TrafficPolicy"].readIfPresent(readingClosure: Route53ClientTypes.TrafficPolicy.readingClosure)
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateTrafficPolicyCommentOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateTrafficPolicyCommentOutput()
+        value.trafficPolicy = try reader["TrafficPolicy"].readIfPresent(with: Route53ClientTypes.TrafficPolicy.read(from:))
+        return value
     }
 }
 
@@ -12898,27 +11633,17 @@ public struct UpdateTrafficPolicyCommentOutput {
 
 enum UpdateTrafficPolicyCommentOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let errorBodyReader = AWSClientRuntime.RestXMLError.errorBodyReader(responseReader: responseReader, noErrorWrapping: false)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                case "ConcurrentModification": return try await ConcurrentModification.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "InvalidInput": return try await InvalidInput.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "NoSuchTrafficPolicy": return try await NoSuchTrafficPolicy.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConcurrentModification": return try ConcurrentModification.makeError(baseError: baseError)
+            case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
+            case "NoSuchTrafficPolicy": return try NoSuchTrafficPolicy.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
-    }
-}
-
-extension UpdateTrafficPolicyInstanceInput {
-    static func writingClosure(_ value: UpdateTrafficPolicyInstanceInput?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["TTL"].write(value.ttl)
-        try writer["TrafficPolicyId"].write(value.trafficPolicyId)
-        try writer["TrafficPolicyVersion"].write(value.trafficPolicyVersion)
     }
 }
 
@@ -12929,6 +11654,16 @@ extension UpdateTrafficPolicyInstanceInput {
             return nil
         }
         return "/2013-04-01/trafficpolicyinstance/\(id.urlPercentEncoding())"
+    }
+}
+
+extension UpdateTrafficPolicyInstanceInput {
+
+    static func write(value: UpdateTrafficPolicyInstanceInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["TTL"].write(value.ttl)
+        try writer["TrafficPolicyId"].write(value.trafficPolicyId)
+        try writer["TrafficPolicyVersion"].write(value.trafficPolicyVersion)
     }
 }
 
@@ -12963,14 +11698,13 @@ public struct UpdateTrafficPolicyInstanceInput {
 
 extension UpdateTrafficPolicyInstanceOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<UpdateTrafficPolicyInstanceOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = UpdateTrafficPolicyInstanceOutput()
-            value.trafficPolicyInstance = try reader["TrafficPolicyInstance"].readIfPresent(readingClosure: Route53ClientTypes.TrafficPolicyInstance.readingClosure)
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateTrafficPolicyInstanceOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateTrafficPolicyInstanceOutput()
+        value.trafficPolicyInstance = try reader["TrafficPolicyInstance"].readIfPresent(with: Route53ClientTypes.TrafficPolicyInstance.read(from:))
+        return value
     }
 }
 
@@ -12990,39 +11724,36 @@ public struct UpdateTrafficPolicyInstanceOutput {
 
 enum UpdateTrafficPolicyInstanceOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let errorBodyReader = AWSClientRuntime.RestXMLError.errorBodyReader(responseReader: responseReader, noErrorWrapping: false)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                case "ConflictingTypes": return try await ConflictingTypes.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "InvalidInput": return try await InvalidInput.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "NoSuchTrafficPolicy": return try await NoSuchTrafficPolicy.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "NoSuchTrafficPolicyInstance": return try await NoSuchTrafficPolicyInstance.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "PriorRequestNotComplete": return try await PriorRequestNotComplete.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConflictingTypes": return try ConflictingTypes.makeError(baseError: baseError)
+            case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
+            case "NoSuchTrafficPolicy": return try NoSuchTrafficPolicy.makeError(baseError: baseError)
+            case "NoSuchTrafficPolicyInstance": return try NoSuchTrafficPolicyInstance.makeError(baseError: baseError)
+            case "PriorRequestNotComplete": return try PriorRequestNotComplete.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
 
 extension Route53ClientTypes.VPC {
 
-    static func writingClosure(_ value: Route53ClientTypes.VPC?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: Route53ClientTypes.VPC?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["VPCId"].write(value.vpcId)
         try writer["VPCRegion"].write(value.vpcRegion)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<Route53ClientTypes.VPC, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = Route53ClientTypes.VPC()
-            value.vpcRegion = try reader["VPCRegion"].readIfPresent()
-            value.vpcId = try reader["VPCId"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.VPC {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Route53ClientTypes.VPC()
+        value.vpcRegion = try reader["VPCRegion"].readIfPresent()
+        value.vpcId = try reader["VPCId"].readIfPresent()
+        return value
     }
 }
 
@@ -13048,24 +11779,13 @@ extension Route53ClientTypes {
 
 extension VPCAssociationAuthorizationNotFound {
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<VPCAssociationAuthorizationNotFound, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = VPCAssociationAuthorizationNotFound()
-            value.properties.message = try reader["message"].readIfPresent()
-            return value
-        }
-    }
-}
-
-extension VPCAssociationAuthorizationNotFound {
-
-    static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws -> Swift.Error {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> VPCAssociationAuthorizationNotFound {
+        let reader = baseError.errorBodyReader
         var value = VPCAssociationAuthorizationNotFound()
         value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = httpResponse
-        value.requestID = requestID
-        value.message = message
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
         return value
     }
 }
@@ -13097,24 +11817,13 @@ public struct VPCAssociationAuthorizationNotFound: ClientRuntime.ModeledError, A
 
 extension VPCAssociationNotFound {
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<VPCAssociationNotFound, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = VPCAssociationNotFound()
-            value.properties.message = try reader["message"].readIfPresent()
-            return value
-        }
-    }
-}
-
-extension VPCAssociationNotFound {
-
-    static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws -> Swift.Error {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> VPCAssociationNotFound {
+        let reader = baseError.errorBodyReader
         var value = VPCAssociationNotFound()
         value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = httpResponse
-        value.requestID = requestID
-        value.message = message
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
         return value
     }
 }
@@ -13145,7 +11854,8 @@ public struct VPCAssociationNotFound: ClientRuntime.ModeledError, AWSClientRunti
 }
 
 extension Route53ClientTypes {
-    public enum VPCRegion: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum VPCRegion: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case afSouth1
         case apEast1
         case apNortheast1
@@ -13223,10 +11933,12 @@ extension Route53ClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .afSouth1: return "af-south-1"
@@ -13266,11 +11978,6 @@ extension Route53ClientTypes {
             case .usWest2: return "us-west-2"
             case let .sdkUnknown(s): return s
             }
-        }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = VPCRegion(rawValue: rawValue) ?? VPCRegion.sdkUnknown(rawValue)
         }
     }
 }

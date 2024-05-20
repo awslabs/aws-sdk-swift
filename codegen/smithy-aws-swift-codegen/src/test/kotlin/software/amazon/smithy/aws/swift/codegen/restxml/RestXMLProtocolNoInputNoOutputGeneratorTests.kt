@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test
 import software.amazon.smithy.aws.swift.codegen.TestContext
 import software.amazon.smithy.aws.swift.codegen.TestUtils.Companion.executeDirectedCodegen
 import software.amazon.smithy.aws.swift.codegen.TestUtils.Companion.getClientFileContents
+import software.amazon.smithy.aws.swift.codegen.protocols.restxml.RestXMLProtocolGenerator
 import software.amazon.smithy.aws.swift.codegen.shouldSyntacticSanityCheck
 import software.amazon.smithy.aws.traits.protocols.RestXmlTrait
 
@@ -31,7 +32,7 @@ class RestXMLProtocolNoInputNoOutputGeneratorTests {
     private fun setupTests(smithyFile: String, serviceShapeId: String): TestContext {
         val context = executeDirectedCodegen(smithyFile, serviceShapeId, RestXmlTrait.ID)
 
-        val generator = RestXmlProtocolGenerator()
+        val generator = RestXMLProtocolGenerator()
         generator.generateProtocolUnitTests(context.ctx)
         context.ctx.delegator.flushWriters()
         return context

@@ -126,17 +126,11 @@ class PresignableUrlIntegration(private val presignedOperations: Map<String, Set
                     )
                 }
                 val operationStackName = "operation"
-                for (prop in protocolGenerator.httpProtocolCustomizable.getClientProperties()) {
-                    prop.addImportsAndDependencies(writer)
-                    prop.renderInstantiation(writer)
-                    prop.renderConfiguration(writer)
-                }
-
                 val generator = MiddlewareExecutionGenerator(
                     protocolGeneratorContext,
                     writer,
                     httpBindingResolver,
-                    protocolGenerator.httpProtocolCustomizable,
+                    protocolGenerator.customizations,
                     operationMiddleware,
                     operationStackName,
                     ::overrideHttpMethod

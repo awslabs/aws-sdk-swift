@@ -6,18 +6,16 @@ import SmithyXML
 
 extension S3ControlClientTypes.AbortIncompleteMultipartUpload {
 
-    static func writingClosure(_ value: S3ControlClientTypes.AbortIncompleteMultipartUpload?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ControlClientTypes.AbortIncompleteMultipartUpload?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["DaysAfterInitiation"].write(value.daysAfterInitiation)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.AbortIncompleteMultipartUpload, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.AbortIncompleteMultipartUpload()
-            value.daysAfterInitiation = try reader["DaysAfterInitiation"].readIfPresent() ?? 0
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.AbortIncompleteMultipartUpload {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.AbortIncompleteMultipartUpload()
+        value.daysAfterInitiation = try reader["DaysAfterInitiation"].readIfPresent() ?? 0
+        return value
     }
 }
 
@@ -39,18 +37,16 @@ extension S3ControlClientTypes {
 
 extension S3ControlClientTypes.AccessControlTranslation {
 
-    static func writingClosure(_ value: S3ControlClientTypes.AccessControlTranslation?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ControlClientTypes.AccessControlTranslation?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["Owner"].write(value.owner)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.AccessControlTranslation, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.AccessControlTranslation()
-            value.owner = try reader["Owner"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.AccessControlTranslation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.AccessControlTranslation()
+        value.owner = try reader["Owner"].readIfPresent()
+        return value
     }
 }
 
@@ -73,18 +69,16 @@ extension S3ControlClientTypes {
 
 extension S3ControlClientTypes.AccessGrantsLocationConfiguration {
 
-    static func writingClosure(_ value: S3ControlClientTypes.AccessGrantsLocationConfiguration?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ControlClientTypes.AccessGrantsLocationConfiguration?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["S3SubPrefix"].write(value.s3SubPrefix)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.AccessGrantsLocationConfiguration, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.AccessGrantsLocationConfiguration()
-            value.s3SubPrefix = try reader["S3SubPrefix"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.AccessGrantsLocationConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.AccessGrantsLocationConfiguration()
+        value.s3SubPrefix = try reader["S3SubPrefix"].readIfPresent()
+        return value
     }
 }
 
@@ -106,30 +100,17 @@ extension S3ControlClientTypes {
 
 extension S3ControlClientTypes.AccessPoint {
 
-    static func writingClosure(_ value: S3ControlClientTypes.AccessPoint?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["AccessPointArn"].write(value.accessPointArn)
-        try writer["Alias"].write(value.alias)
-        try writer["Bucket"].write(value.bucket)
-        try writer["BucketAccountId"].write(value.bucketAccountId)
-        try writer["Name"].write(value.name)
-        try writer["NetworkOrigin"].write(value.networkOrigin)
-        try writer["VpcConfiguration"].write(value.vpcConfiguration, writingClosure: S3ControlClientTypes.VpcConfiguration.writingClosure(_:to:))
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.AccessPoint, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.AccessPoint()
-            value.name = try reader["Name"].readIfPresent()
-            value.networkOrigin = try reader["NetworkOrigin"].readIfPresent()
-            value.vpcConfiguration = try reader["VpcConfiguration"].readIfPresent(readingClosure: S3ControlClientTypes.VpcConfiguration.readingClosure)
-            value.bucket = try reader["Bucket"].readIfPresent()
-            value.accessPointArn = try reader["AccessPointArn"].readIfPresent()
-            value.alias = try reader["Alias"].readIfPresent()
-            value.bucketAccountId = try reader["BucketAccountId"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.AccessPoint {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.AccessPoint()
+        value.name = try reader["Name"].readIfPresent()
+        value.networkOrigin = try reader["NetworkOrigin"].readIfPresent()
+        value.vpcConfiguration = try reader["VpcConfiguration"].readIfPresent(with: S3ControlClientTypes.VpcConfiguration.read(from:))
+        value.bucket = try reader["Bucket"].readIfPresent()
+        value.accessPointArn = try reader["AccessPointArn"].readIfPresent()
+        value.alias = try reader["Alias"].readIfPresent()
+        value.bucketAccountId = try reader["BucketAccountId"].readIfPresent()
+        return value
     }
 }
 
@@ -178,28 +159,26 @@ extension S3ControlClientTypes {
 
 extension S3ControlClientTypes.AccountLevel {
 
-    static func writingClosure(_ value: S3ControlClientTypes.AccountLevel?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["ActivityMetrics"].write(value.activityMetrics, writingClosure: S3ControlClientTypes.ActivityMetrics.writingClosure(_:to:))
-        try writer["AdvancedCostOptimizationMetrics"].write(value.advancedCostOptimizationMetrics, writingClosure: S3ControlClientTypes.AdvancedCostOptimizationMetrics.writingClosure(_:to:))
-        try writer["AdvancedDataProtectionMetrics"].write(value.advancedDataProtectionMetrics, writingClosure: S3ControlClientTypes.AdvancedDataProtectionMetrics.writingClosure(_:to:))
-        try writer["BucketLevel"].write(value.bucketLevel, writingClosure: S3ControlClientTypes.BucketLevel.writingClosure(_:to:))
-        try writer["DetailedStatusCodesMetrics"].write(value.detailedStatusCodesMetrics, writingClosure: S3ControlClientTypes.DetailedStatusCodesMetrics.writingClosure(_:to:))
-        try writer["StorageLensGroupLevel"].write(value.storageLensGroupLevel, writingClosure: S3ControlClientTypes.StorageLensGroupLevel.writingClosure(_:to:))
+    static func write(value: S3ControlClientTypes.AccountLevel?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["ActivityMetrics"].write(value.activityMetrics, with: S3ControlClientTypes.ActivityMetrics.write(value:to:))
+        try writer["AdvancedCostOptimizationMetrics"].write(value.advancedCostOptimizationMetrics, with: S3ControlClientTypes.AdvancedCostOptimizationMetrics.write(value:to:))
+        try writer["AdvancedDataProtectionMetrics"].write(value.advancedDataProtectionMetrics, with: S3ControlClientTypes.AdvancedDataProtectionMetrics.write(value:to:))
+        try writer["BucketLevel"].write(value.bucketLevel, with: S3ControlClientTypes.BucketLevel.write(value:to:))
+        try writer["DetailedStatusCodesMetrics"].write(value.detailedStatusCodesMetrics, with: S3ControlClientTypes.DetailedStatusCodesMetrics.write(value:to:))
+        try writer["StorageLensGroupLevel"].write(value.storageLensGroupLevel, with: S3ControlClientTypes.StorageLensGroupLevel.write(value:to:))
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.AccountLevel, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.AccountLevel()
-            value.activityMetrics = try reader["ActivityMetrics"].readIfPresent(readingClosure: S3ControlClientTypes.ActivityMetrics.readingClosure)
-            value.bucketLevel = try reader["BucketLevel"].readIfPresent(readingClosure: S3ControlClientTypes.BucketLevel.readingClosure)
-            value.advancedCostOptimizationMetrics = try reader["AdvancedCostOptimizationMetrics"].readIfPresent(readingClosure: S3ControlClientTypes.AdvancedCostOptimizationMetrics.readingClosure)
-            value.advancedDataProtectionMetrics = try reader["AdvancedDataProtectionMetrics"].readIfPresent(readingClosure: S3ControlClientTypes.AdvancedDataProtectionMetrics.readingClosure)
-            value.detailedStatusCodesMetrics = try reader["DetailedStatusCodesMetrics"].readIfPresent(readingClosure: S3ControlClientTypes.DetailedStatusCodesMetrics.readingClosure)
-            value.storageLensGroupLevel = try reader["StorageLensGroupLevel"].readIfPresent(readingClosure: S3ControlClientTypes.StorageLensGroupLevel.readingClosure)
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.AccountLevel {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.AccountLevel()
+        value.activityMetrics = try reader["ActivityMetrics"].readIfPresent(with: S3ControlClientTypes.ActivityMetrics.read(from:))
+        value.bucketLevel = try reader["BucketLevel"].readIfPresent(with: S3ControlClientTypes.BucketLevel.read(from:))
+        value.advancedCostOptimizationMetrics = try reader["AdvancedCostOptimizationMetrics"].readIfPresent(with: S3ControlClientTypes.AdvancedCostOptimizationMetrics.read(from:))
+        value.advancedDataProtectionMetrics = try reader["AdvancedDataProtectionMetrics"].readIfPresent(with: S3ControlClientTypes.AdvancedDataProtectionMetrics.read(from:))
+        value.detailedStatusCodesMetrics = try reader["DetailedStatusCodesMetrics"].readIfPresent(with: S3ControlClientTypes.DetailedStatusCodesMetrics.read(from:))
+        value.storageLensGroupLevel = try reader["StorageLensGroupLevel"].readIfPresent(with: S3ControlClientTypes.StorageLensGroupLevel.read(from:))
+        return value
     }
 }
 
@@ -242,18 +221,16 @@ extension S3ControlClientTypes {
 
 extension S3ControlClientTypes.ActivityMetrics {
 
-    static func writingClosure(_ value: S3ControlClientTypes.ActivityMetrics?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ControlClientTypes.ActivityMetrics?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["IsEnabled"].write(value.isEnabled)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.ActivityMetrics, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.ActivityMetrics()
-            value.isEnabled = try reader["IsEnabled"].readIfPresent() ?? false
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.ActivityMetrics {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.ActivityMetrics()
+        value.isEnabled = try reader["IsEnabled"].readIfPresent() ?? false
+        return value
     }
 }
 
@@ -275,18 +252,16 @@ extension S3ControlClientTypes {
 
 extension S3ControlClientTypes.AdvancedCostOptimizationMetrics {
 
-    static func writingClosure(_ value: S3ControlClientTypes.AdvancedCostOptimizationMetrics?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ControlClientTypes.AdvancedCostOptimizationMetrics?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["IsEnabled"].write(value.isEnabled)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.AdvancedCostOptimizationMetrics, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.AdvancedCostOptimizationMetrics()
-            value.isEnabled = try reader["IsEnabled"].readIfPresent() ?? false
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.AdvancedCostOptimizationMetrics {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.AdvancedCostOptimizationMetrics()
+        value.isEnabled = try reader["IsEnabled"].readIfPresent() ?? false
+        return value
     }
 }
 
@@ -308,18 +283,16 @@ extension S3ControlClientTypes {
 
 extension S3ControlClientTypes.AdvancedDataProtectionMetrics {
 
-    static func writingClosure(_ value: S3ControlClientTypes.AdvancedDataProtectionMetrics?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ControlClientTypes.AdvancedDataProtectionMetrics?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["IsEnabled"].write(value.isEnabled)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.AdvancedDataProtectionMetrics, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.AdvancedDataProtectionMetrics()
-            value.isEnabled = try reader["IsEnabled"].readIfPresent() ?? false
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.AdvancedDataProtectionMetrics {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.AdvancedDataProtectionMetrics()
+        value.isEnabled = try reader["IsEnabled"].readIfPresent() ?? false
+        return value
     }
 }
 
@@ -340,13 +313,6 @@ extension S3ControlClientTypes {
 }
 
 extension AssociateAccessGrantsIdentityCenterInput {
-    static func writingClosure(_ value: AssociateAccessGrantsIdentityCenterInput?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["IdentityCenterArn"].write(value.identityCenterArn)
-    }
-}
-
-extension AssociateAccessGrantsIdentityCenterInput {
 
     static func headerProvider(_ value: AssociateAccessGrantsIdentityCenterInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
@@ -361,6 +327,14 @@ extension AssociateAccessGrantsIdentityCenterInput {
 
     static func urlPathProvider(_ value: AssociateAccessGrantsIdentityCenterInput) -> Swift.String? {
         return "/v20180820/accessgrantsinstance/identitycenter"
+    }
+}
+
+extension AssociateAccessGrantsIdentityCenterInput {
+
+    static func write(value: AssociateAccessGrantsIdentityCenterInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["IdentityCenterArn"].write(value.identityCenterArn)
     }
 }
 
@@ -384,10 +358,8 @@ public struct AssociateAccessGrantsIdentityCenterInput {
 
 extension AssociateAccessGrantsIdentityCenterOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<AssociateAccessGrantsIdentityCenterOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            return AssociateAccessGrantsIdentityCenterOutput()
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> AssociateAccessGrantsIdentityCenterOutput {
+        return AssociateAccessGrantsIdentityCenterOutput()
     }
 }
 
@@ -398,37 +370,27 @@ public struct AssociateAccessGrantsIdentityCenterOutput {
 
 enum AssociateAccessGrantsIdentityCenterOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
 
 extension S3ControlClientTypes.AsyncErrorDetails {
 
-    static func writingClosure(_ value: S3ControlClientTypes.AsyncErrorDetails?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["Code"].write(value.code)
-        try writer["Message"].write(value.message)
-        try writer["RequestId"].write(value.requestId)
-        try writer["Resource"].write(value.resource)
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.AsyncErrorDetails, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.AsyncErrorDetails()
-            value.code = try reader["Code"].readIfPresent()
-            value.message = try reader["Message"].readIfPresent()
-            value.resource = try reader["Resource"].readIfPresent()
-            value.requestId = try reader["RequestId"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.AsyncErrorDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.AsyncErrorDetails()
+        value.code = try reader["Code"].readIfPresent()
+        value.message = try reader["Message"].readIfPresent()
+        value.resource = try reader["Resource"].readIfPresent()
+        value.requestId = try reader["RequestId"].readIfPresent()
+        return value
     }
 }
 
@@ -462,28 +424,16 @@ extension S3ControlClientTypes {
 
 extension S3ControlClientTypes.AsyncOperation {
 
-    static func writingClosure(_ value: S3ControlClientTypes.AsyncOperation?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .dateTime)
-        try writer["Operation"].write(value.operation)
-        try writer["RequestParameters"].write(value.requestParameters, writingClosure: S3ControlClientTypes.AsyncRequestParameters.writingClosure(_:to:))
-        try writer["RequestStatus"].write(value.requestStatus)
-        try writer["RequestTokenARN"].write(value.requestTokenARN)
-        try writer["ResponseDetails"].write(value.responseDetails, writingClosure: S3ControlClientTypes.AsyncResponseDetails.writingClosure(_:to:))
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.AsyncOperation, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.AsyncOperation()
-            value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: .dateTime)
-            value.operation = try reader["Operation"].readIfPresent()
-            value.requestTokenARN = try reader["RequestTokenARN"].readIfPresent()
-            value.requestParameters = try reader["RequestParameters"].readIfPresent(readingClosure: S3ControlClientTypes.AsyncRequestParameters.readingClosure)
-            value.requestStatus = try reader["RequestStatus"].readIfPresent()
-            value.responseDetails = try reader["ResponseDetails"].readIfPresent(readingClosure: S3ControlClientTypes.AsyncResponseDetails.readingClosure)
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.AsyncOperation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.AsyncOperation()
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: .dateTime)
+        value.operation = try reader["Operation"].readIfPresent()
+        value.requestTokenARN = try reader["RequestTokenARN"].readIfPresent()
+        value.requestParameters = try reader["RequestParameters"].readIfPresent(with: S3ControlClientTypes.AsyncRequestParameters.read(from:))
+        value.requestStatus = try reader["RequestStatus"].readIfPresent()
+        value.responseDetails = try reader["ResponseDetails"].readIfPresent(with: S3ControlClientTypes.AsyncResponseDetails.read(from:))
+        return value
     }
 }
 
@@ -524,7 +474,8 @@ extension S3ControlClientTypes {
 }
 
 extension S3ControlClientTypes {
-    public enum AsyncOperationName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum AsyncOperationName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case createmultiregionaccesspoint
         case deletemultiregionaccesspoint
         case putmultiregionaccesspointpolicy
@@ -538,10 +489,12 @@ extension S3ControlClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .createmultiregionaccesspoint: return "CreateMultiRegionAccessPoint"
@@ -550,32 +503,18 @@ extension S3ControlClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = AsyncOperationName(rawValue: rawValue) ?? AsyncOperationName.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension S3ControlClientTypes.AsyncRequestParameters {
 
-    static func writingClosure(_ value: S3ControlClientTypes.AsyncRequestParameters?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["CreateMultiRegionAccessPointRequest"].write(value.createMultiRegionAccessPointRequest, writingClosure: S3ControlClientTypes.CreateMultiRegionAccessPointInput.writingClosure(_:to:))
-        try writer["DeleteMultiRegionAccessPointRequest"].write(value.deleteMultiRegionAccessPointRequest, writingClosure: S3ControlClientTypes.DeleteMultiRegionAccessPointInput.writingClosure(_:to:))
-        try writer["PutMultiRegionAccessPointPolicyRequest"].write(value.putMultiRegionAccessPointPolicyRequest, writingClosure: S3ControlClientTypes.PutMultiRegionAccessPointPolicyInput.writingClosure(_:to:))
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.AsyncRequestParameters, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.AsyncRequestParameters()
-            value.createMultiRegionAccessPointRequest = try reader["CreateMultiRegionAccessPointRequest"].readIfPresent(readingClosure: S3ControlClientTypes.CreateMultiRegionAccessPointInput.readingClosure)
-            value.deleteMultiRegionAccessPointRequest = try reader["DeleteMultiRegionAccessPointRequest"].readIfPresent(readingClosure: S3ControlClientTypes.DeleteMultiRegionAccessPointInput.readingClosure)
-            value.putMultiRegionAccessPointPolicyRequest = try reader["PutMultiRegionAccessPointPolicyRequest"].readIfPresent(readingClosure: S3ControlClientTypes.PutMultiRegionAccessPointPolicyInput.readingClosure)
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.AsyncRequestParameters {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.AsyncRequestParameters()
+        value.createMultiRegionAccessPointRequest = try reader["CreateMultiRegionAccessPointRequest"].readIfPresent(with: S3ControlClientTypes.CreateMultiRegionAccessPointInput.read(from:))
+        value.deleteMultiRegionAccessPointRequest = try reader["DeleteMultiRegionAccessPointRequest"].readIfPresent(with: S3ControlClientTypes.DeleteMultiRegionAccessPointInput.read(from:))
+        value.putMultiRegionAccessPointPolicyRequest = try reader["PutMultiRegionAccessPointPolicyRequest"].readIfPresent(with: S3ControlClientTypes.PutMultiRegionAccessPointPolicyInput.read(from:))
+        return value
     }
 }
 
@@ -605,20 +544,12 @@ extension S3ControlClientTypes {
 
 extension S3ControlClientTypes.AsyncResponseDetails {
 
-    static func writingClosure(_ value: S3ControlClientTypes.AsyncResponseDetails?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["ErrorDetails"].write(value.errorDetails, writingClosure: S3ControlClientTypes.AsyncErrorDetails.writingClosure(_:to:))
-        try writer["MultiRegionAccessPointDetails"].write(value.multiRegionAccessPointDetails, writingClosure: S3ControlClientTypes.MultiRegionAccessPointsAsyncResponse.writingClosure(_:to:))
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.AsyncResponseDetails, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.AsyncResponseDetails()
-            value.multiRegionAccessPointDetails = try reader["MultiRegionAccessPointDetails"].readIfPresent(readingClosure: S3ControlClientTypes.MultiRegionAccessPointsAsyncResponse.readingClosure)
-            value.errorDetails = try reader["ErrorDetails"].readIfPresent(readingClosure: S3ControlClientTypes.AsyncErrorDetails.readingClosure)
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.AsyncResponseDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.AsyncResponseDetails()
+        value.multiRegionAccessPointDetails = try reader["MultiRegionAccessPointDetails"].readIfPresent(with: S3ControlClientTypes.MultiRegionAccessPointsAsyncResponse.read(from:))
+        value.errorDetails = try reader["ErrorDetails"].readIfPresent(with: S3ControlClientTypes.AsyncErrorDetails.read(from:))
+        return value
     }
 }
 
@@ -644,20 +575,18 @@ extension S3ControlClientTypes {
 
 extension S3ControlClientTypes.AwsLambdaTransformation {
 
-    static func writingClosure(_ value: S3ControlClientTypes.AwsLambdaTransformation?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ControlClientTypes.AwsLambdaTransformation?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["FunctionArn"].write(value.functionArn)
         try writer["FunctionPayload"].write(value.functionPayload)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.AwsLambdaTransformation, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.AwsLambdaTransformation()
-            value.functionArn = try reader["FunctionArn"].readIfPresent()
-            value.functionPayload = try reader["FunctionPayload"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.AwsLambdaTransformation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.AwsLambdaTransformation()
+        value.functionArn = try reader["FunctionArn"].readIfPresent()
+        value.functionPayload = try reader["FunctionPayload"].readIfPresent()
+        return value
     }
 }
 
@@ -684,24 +613,13 @@ extension S3ControlClientTypes {
 
 extension BadRequestException {
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<BadRequestException, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = BadRequestException()
-            value.properties.message = try reader["Message"].readIfPresent()
-            return value
-        }
-    }
-}
-
-extension BadRequestException {
-
-    static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws -> Swift.Error {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> BadRequestException {
+        let reader = baseError.errorBodyReader
         var value = BadRequestException()
         value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = httpResponse
-        value.requestID = requestID
-        value.message = message
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
         return value
     }
 }
@@ -732,11 +650,11 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
 
 extension BucketAlreadyExists {
 
-    static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws -> Swift.Error {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> BucketAlreadyExists {
         var value = BucketAlreadyExists()
-        value.httpResponse = httpResponse
-        value.requestID = requestID
-        value.message = message
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
         return value
     }
 }
@@ -756,11 +674,11 @@ public struct BucketAlreadyExists: ClientRuntime.ModeledError, AWSClientRuntime.
 
 extension BucketAlreadyOwnedByYou {
 
-    static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws -> Swift.Error {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> BucketAlreadyOwnedByYou {
         var value = BucketAlreadyOwnedByYou()
-        value.httpResponse = httpResponse
-        value.requestID = requestID
-        value.message = message
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
         return value
     }
 }
@@ -779,7 +697,8 @@ public struct BucketAlreadyOwnedByYou: ClientRuntime.ModeledError, AWSClientRunt
 }
 
 extension S3ControlClientTypes {
-    public enum BucketCannedACL: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum BucketCannedACL: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case authenticatedRead
         case `private`
         case publicRead
@@ -795,10 +714,12 @@ extension S3ControlClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .authenticatedRead: return "authenticated-read"
@@ -808,36 +729,29 @@ extension S3ControlClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = BucketCannedACL(rawValue: rawValue) ?? BucketCannedACL.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension S3ControlClientTypes.BucketLevel {
 
-    static func writingClosure(_ value: S3ControlClientTypes.BucketLevel?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["ActivityMetrics"].write(value.activityMetrics, writingClosure: S3ControlClientTypes.ActivityMetrics.writingClosure(_:to:))
-        try writer["AdvancedCostOptimizationMetrics"].write(value.advancedCostOptimizationMetrics, writingClosure: S3ControlClientTypes.AdvancedCostOptimizationMetrics.writingClosure(_:to:))
-        try writer["AdvancedDataProtectionMetrics"].write(value.advancedDataProtectionMetrics, writingClosure: S3ControlClientTypes.AdvancedDataProtectionMetrics.writingClosure(_:to:))
-        try writer["DetailedStatusCodesMetrics"].write(value.detailedStatusCodesMetrics, writingClosure: S3ControlClientTypes.DetailedStatusCodesMetrics.writingClosure(_:to:))
-        try writer["PrefixLevel"].write(value.prefixLevel, writingClosure: S3ControlClientTypes.PrefixLevel.writingClosure(_:to:))
+    static func write(value: S3ControlClientTypes.BucketLevel?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["ActivityMetrics"].write(value.activityMetrics, with: S3ControlClientTypes.ActivityMetrics.write(value:to:))
+        try writer["AdvancedCostOptimizationMetrics"].write(value.advancedCostOptimizationMetrics, with: S3ControlClientTypes.AdvancedCostOptimizationMetrics.write(value:to:))
+        try writer["AdvancedDataProtectionMetrics"].write(value.advancedDataProtectionMetrics, with: S3ControlClientTypes.AdvancedDataProtectionMetrics.write(value:to:))
+        try writer["DetailedStatusCodesMetrics"].write(value.detailedStatusCodesMetrics, with: S3ControlClientTypes.DetailedStatusCodesMetrics.write(value:to:))
+        try writer["PrefixLevel"].write(value.prefixLevel, with: S3ControlClientTypes.PrefixLevel.write(value:to:))
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.BucketLevel, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.BucketLevel()
-            value.activityMetrics = try reader["ActivityMetrics"].readIfPresent(readingClosure: S3ControlClientTypes.ActivityMetrics.readingClosure)
-            value.prefixLevel = try reader["PrefixLevel"].readIfPresent(readingClosure: S3ControlClientTypes.PrefixLevel.readingClosure)
-            value.advancedCostOptimizationMetrics = try reader["AdvancedCostOptimizationMetrics"].readIfPresent(readingClosure: S3ControlClientTypes.AdvancedCostOptimizationMetrics.readingClosure)
-            value.advancedDataProtectionMetrics = try reader["AdvancedDataProtectionMetrics"].readIfPresent(readingClosure: S3ControlClientTypes.AdvancedDataProtectionMetrics.readingClosure)
-            value.detailedStatusCodesMetrics = try reader["DetailedStatusCodesMetrics"].readIfPresent(readingClosure: S3ControlClientTypes.DetailedStatusCodesMetrics.readingClosure)
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.BucketLevel {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.BucketLevel()
+        value.activityMetrics = try reader["ActivityMetrics"].readIfPresent(with: S3ControlClientTypes.ActivityMetrics.read(from:))
+        value.prefixLevel = try reader["PrefixLevel"].readIfPresent(with: S3ControlClientTypes.PrefixLevel.read(from:))
+        value.advancedCostOptimizationMetrics = try reader["AdvancedCostOptimizationMetrics"].readIfPresent(with: S3ControlClientTypes.AdvancedCostOptimizationMetrics.read(from:))
+        value.advancedDataProtectionMetrics = try reader["AdvancedDataProtectionMetrics"].readIfPresent(with: S3ControlClientTypes.AdvancedDataProtectionMetrics.read(from:))
+        value.detailedStatusCodesMetrics = try reader["DetailedStatusCodesMetrics"].readIfPresent(with: S3ControlClientTypes.DetailedStatusCodesMetrics.read(from:))
+        return value
     }
 }
 
@@ -874,7 +788,8 @@ extension S3ControlClientTypes {
 }
 
 extension S3ControlClientTypes {
-    public enum BucketLocationConstraint: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum BucketLocationConstraint: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case eu
         case apNortheast1
         case apSouth1
@@ -904,10 +819,12 @@ extension S3ControlClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .eu: return "EU"
@@ -924,16 +841,12 @@ extension S3ControlClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = BucketLocationConstraint(rawValue: rawValue) ?? BucketLocationConstraint.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension S3ControlClientTypes {
-    public enum BucketVersioningStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum BucketVersioningStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case enabled
         case suspended
         case sdkUnknown(Swift.String)
@@ -945,10 +858,12 @@ extension S3ControlClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .enabled: return "Enabled"
@@ -956,28 +871,21 @@ extension S3ControlClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = BucketVersioningStatus(rawValue: rawValue) ?? BucketVersioningStatus.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension S3ControlClientTypes.CloudWatchMetrics {
 
-    static func writingClosure(_ value: S3ControlClientTypes.CloudWatchMetrics?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ControlClientTypes.CloudWatchMetrics?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["IsEnabled"].write(value.isEnabled)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.CloudWatchMetrics, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.CloudWatchMetrics()
-            value.isEnabled = try reader["IsEnabled"].readIfPresent() ?? false
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.CloudWatchMetrics {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.CloudWatchMetrics()
+        value.isEnabled = try reader["IsEnabled"].readIfPresent() ?? false
+        return value
     }
 }
 
@@ -999,19 +907,6 @@ extension S3ControlClientTypes {
 }
 
 extension CreateAccessGrantInput {
-    static func writingClosure(_ value: CreateAccessGrantInput?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["AccessGrantsLocationConfiguration"].write(value.accessGrantsLocationConfiguration, writingClosure: S3ControlClientTypes.AccessGrantsLocationConfiguration.writingClosure(_:to:))
-        try writer["AccessGrantsLocationId"].write(value.accessGrantsLocationId)
-        try writer["ApplicationArn"].write(value.applicationArn)
-        try writer["Grantee"].write(value.grantee, writingClosure: S3ControlClientTypes.Grantee.writingClosure(_:to:))
-        try writer["Permission"].write(value.permission)
-        try writer["S3PrefixType"].write(value.s3PrefixType)
-        try writer["Tags"].writeList(value.tags, memberWritingClosure: S3ControlClientTypes.Tag.writingClosure(_:to:), memberNodeInfo: "Tag", isFlattened: false)
-    }
-}
-
-extension CreateAccessGrantInput {
 
     static func headerProvider(_ value: CreateAccessGrantInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
@@ -1026,6 +921,20 @@ extension CreateAccessGrantInput {
 
     static func urlPathProvider(_ value: CreateAccessGrantInput) -> Swift.String? {
         return "/v20180820/accessgrantsinstance/grant"
+    }
+}
+
+extension CreateAccessGrantInput {
+
+    static func write(value: CreateAccessGrantInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["AccessGrantsLocationConfiguration"].write(value.accessGrantsLocationConfiguration, with: S3ControlClientTypes.AccessGrantsLocationConfiguration.write(value:to:))
+        try writer["AccessGrantsLocationId"].write(value.accessGrantsLocationId)
+        try writer["ApplicationArn"].write(value.applicationArn)
+        try writer["Grantee"].write(value.grantee, with: S3ControlClientTypes.Grantee.write(value:to:))
+        try writer["Permission"].write(value.permission)
+        try writer["S3PrefixType"].write(value.s3PrefixType)
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: S3ControlClientTypes.Tag.write(value:to:), memberNodeInfo: "Tag", isFlattened: false)
     }
 }
 
@@ -1081,22 +990,21 @@ public struct CreateAccessGrantInput {
 
 extension CreateAccessGrantOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<CreateAccessGrantOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = CreateAccessGrantOutput()
-            value.accessGrantArn = try reader["AccessGrantArn"].readIfPresent()
-            value.accessGrantId = try reader["AccessGrantId"].readIfPresent()
-            value.accessGrantsLocationConfiguration = try reader["AccessGrantsLocationConfiguration"].readIfPresent(readingClosure: S3ControlClientTypes.AccessGrantsLocationConfiguration.readingClosure)
-            value.accessGrantsLocationId = try reader["AccessGrantsLocationId"].readIfPresent()
-            value.applicationArn = try reader["ApplicationArn"].readIfPresent()
-            value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: .dateTime)
-            value.grantScope = try reader["GrantScope"].readIfPresent()
-            value.grantee = try reader["Grantee"].readIfPresent(readingClosure: S3ControlClientTypes.Grantee.readingClosure)
-            value.permission = try reader["Permission"].readIfPresent()
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateAccessGrantOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateAccessGrantOutput()
+        value.accessGrantArn = try reader["AccessGrantArn"].readIfPresent()
+        value.accessGrantId = try reader["AccessGrantId"].readIfPresent()
+        value.accessGrantsLocationConfiguration = try reader["AccessGrantsLocationConfiguration"].readIfPresent(with: S3ControlClientTypes.AccessGrantsLocationConfiguration.read(from:))
+        value.accessGrantsLocationId = try reader["AccessGrantsLocationId"].readIfPresent()
+        value.applicationArn = try reader["ApplicationArn"].readIfPresent()
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: .dateTime)
+        value.grantScope = try reader["GrantScope"].readIfPresent()
+        value.grantee = try reader["Grantee"].readIfPresent(with: S3ControlClientTypes.Grantee.read(from:))
+        value.permission = try reader["Permission"].readIfPresent()
+        return value
     }
 }
 
@@ -1152,22 +1060,14 @@ public struct CreateAccessGrantOutput {
 
 enum CreateAccessGrantOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
-    }
-}
-
-extension CreateAccessGrantsInstanceInput {
-    static func writingClosure(_ value: CreateAccessGrantsInstanceInput?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["IdentityCenterArn"].write(value.identityCenterArn)
-        try writer["Tags"].writeList(value.tags, memberWritingClosure: S3ControlClientTypes.Tag.writingClosure(_:to:), memberNodeInfo: "Tag", isFlattened: false)
     }
 }
 
@@ -1186,6 +1086,15 @@ extension CreateAccessGrantsInstanceInput {
 
     static func urlPathProvider(_ value: CreateAccessGrantsInstanceInput) -> Swift.String? {
         return "/v20180820/accessgrantsinstance"
+    }
+}
+
+extension CreateAccessGrantsInstanceInput {
+
+    static func write(value: CreateAccessGrantsInstanceInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["IdentityCenterArn"].write(value.identityCenterArn)
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: S3ControlClientTypes.Tag.write(value:to:), memberNodeInfo: "Tag", isFlattened: false)
     }
 }
 
@@ -1212,17 +1121,16 @@ public struct CreateAccessGrantsInstanceInput {
 
 extension CreateAccessGrantsInstanceOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<CreateAccessGrantsInstanceOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = CreateAccessGrantsInstanceOutput()
-            value.accessGrantsInstanceArn = try reader["AccessGrantsInstanceArn"].readIfPresent()
-            value.accessGrantsInstanceId = try reader["AccessGrantsInstanceId"].readIfPresent()
-            value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: .dateTime)
-            value.identityCenterArn = try reader["IdentityCenterArn"].readIfPresent()
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateAccessGrantsInstanceOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateAccessGrantsInstanceOutput()
+        value.accessGrantsInstanceArn = try reader["AccessGrantsInstanceArn"].readIfPresent()
+        value.accessGrantsInstanceId = try reader["AccessGrantsInstanceId"].readIfPresent()
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: .dateTime)
+        value.identityCenterArn = try reader["IdentityCenterArn"].readIfPresent()
+        return value
     }
 }
 
@@ -1252,23 +1160,14 @@ public struct CreateAccessGrantsInstanceOutput {
 
 enum CreateAccessGrantsInstanceOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
-    }
-}
-
-extension CreateAccessGrantsLocationInput {
-    static func writingClosure(_ value: CreateAccessGrantsLocationInput?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["IAMRoleArn"].write(value.iamRoleArn)
-        try writer["LocationScope"].write(value.locationScope)
-        try writer["Tags"].writeList(value.tags, memberWritingClosure: S3ControlClientTypes.Tag.writingClosure(_:to:), memberNodeInfo: "Tag", isFlattened: false)
     }
 }
 
@@ -1287,6 +1186,16 @@ extension CreateAccessGrantsLocationInput {
 
     static func urlPathProvider(_ value: CreateAccessGrantsLocationInput) -> Swift.String? {
         return "/v20180820/accessgrantsinstance/location"
+    }
+}
+
+extension CreateAccessGrantsLocationInput {
+
+    static func write(value: CreateAccessGrantsLocationInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["IAMRoleArn"].write(value.iamRoleArn)
+        try writer["LocationScope"].write(value.locationScope)
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: S3ControlClientTypes.Tag.write(value:to:), memberNodeInfo: "Tag", isFlattened: false)
     }
 }
 
@@ -1319,18 +1228,17 @@ public struct CreateAccessGrantsLocationInput {
 
 extension CreateAccessGrantsLocationOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<CreateAccessGrantsLocationOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = CreateAccessGrantsLocationOutput()
-            value.accessGrantsLocationArn = try reader["AccessGrantsLocationArn"].readIfPresent()
-            value.accessGrantsLocationId = try reader["AccessGrantsLocationId"].readIfPresent()
-            value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: .dateTime)
-            value.iamRoleArn = try reader["IAMRoleArn"].readIfPresent()
-            value.locationScope = try reader["LocationScope"].readIfPresent()
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateAccessGrantsLocationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateAccessGrantsLocationOutput()
+        value.accessGrantsLocationArn = try reader["AccessGrantsLocationArn"].readIfPresent()
+        value.accessGrantsLocationId = try reader["AccessGrantsLocationId"].readIfPresent()
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: .dateTime)
+        value.iamRoleArn = try reader["IAMRoleArn"].readIfPresent()
+        value.locationScope = try reader["LocationScope"].readIfPresent()
+        return value
     }
 }
 
@@ -1364,21 +1272,14 @@ public struct CreateAccessGrantsLocationOutput {
 
 enum CreateAccessGrantsLocationOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
-    }
-}
-
-extension CreateAccessPointForObjectLambdaInput {
-    static func writingClosure(_ value: CreateAccessPointForObjectLambdaInput?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["Configuration"].write(value.configuration, writingClosure: S3ControlClientTypes.ObjectLambdaConfiguration.writingClosure(_:to:))
     }
 }
 
@@ -1400,6 +1301,14 @@ extension CreateAccessPointForObjectLambdaInput {
             return nil
         }
         return "/v20180820/accesspointforobjectlambda/\(name.urlPercentEncoding())"
+    }
+}
+
+extension CreateAccessPointForObjectLambdaInput {
+
+    static func write(value: CreateAccessPointForObjectLambdaInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Configuration"].write(value.configuration, with: S3ControlClientTypes.ObjectLambdaConfiguration.write(value:to:))
     }
 }
 
@@ -1428,15 +1337,14 @@ public struct CreateAccessPointForObjectLambdaInput {
 
 extension CreateAccessPointForObjectLambdaOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<CreateAccessPointForObjectLambdaOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = CreateAccessPointForObjectLambdaOutput()
-            value.alias = try reader["Alias"].readIfPresent(readingClosure: S3ControlClientTypes.ObjectLambdaAccessPointAlias.readingClosure)
-            value.objectLambdaAccessPointArn = try reader["ObjectLambdaAccessPointArn"].readIfPresent()
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateAccessPointForObjectLambdaOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateAccessPointForObjectLambdaOutput()
+        value.alias = try reader["Alias"].readIfPresent(with: S3ControlClientTypes.ObjectLambdaAccessPointAlias.read(from:))
+        value.objectLambdaAccessPointArn = try reader["ObjectLambdaAccessPointArn"].readIfPresent()
+        return value
     }
 }
 
@@ -1458,24 +1366,14 @@ public struct CreateAccessPointForObjectLambdaOutput {
 
 enum CreateAccessPointForObjectLambdaOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
-    }
-}
-
-extension CreateAccessPointInput {
-    static func writingClosure(_ value: CreateAccessPointInput?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["Bucket"].write(value.bucket)
-        try writer["BucketAccountId"].write(value.bucketAccountId)
-        try writer["PublicAccessBlockConfiguration"].write(value.publicAccessBlockConfiguration, writingClosure: S3ControlClientTypes.PublicAccessBlockConfiguration.writingClosure(_:to:))
-        try writer["VpcConfiguration"].write(value.vpcConfiguration, writingClosure: S3ControlClientTypes.VpcConfiguration.writingClosure(_:to:))
     }
 }
 
@@ -1497,6 +1395,17 @@ extension CreateAccessPointInput {
             return nil
         }
         return "/v20180820/accesspoint/\(name.urlPercentEncoding())"
+    }
+}
+
+extension CreateAccessPointInput {
+
+    static func write(value: CreateAccessPointInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Bucket"].write(value.bucket)
+        try writer["BucketAccountId"].write(value.bucketAccountId)
+        try writer["PublicAccessBlockConfiguration"].write(value.publicAccessBlockConfiguration, with: S3ControlClientTypes.PublicAccessBlockConfiguration.write(value:to:))
+        try writer["VpcConfiguration"].write(value.vpcConfiguration, with: S3ControlClientTypes.VpcConfiguration.write(value:to:))
     }
 }
 
@@ -1537,15 +1446,14 @@ public struct CreateAccessPointInput {
 
 extension CreateAccessPointOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<CreateAccessPointOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = CreateAccessPointOutput()
-            value.accessPointArn = try reader["AccessPointArn"].readIfPresent()
-            value.alias = try reader["Alias"].readIfPresent()
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateAccessPointOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateAccessPointOutput()
+        value.accessPointArn = try reader["AccessPointArn"].readIfPresent()
+        value.alias = try reader["Alias"].readIfPresent()
+        return value
     }
 }
 
@@ -1567,31 +1475,22 @@ public struct CreateAccessPointOutput {
 
 enum CreateAccessPointOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
 
 extension S3ControlClientTypes.CreateBucketConfiguration {
 
-    static func writingClosure(_ value: S3ControlClientTypes.CreateBucketConfiguration?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ControlClientTypes.CreateBucketConfiguration?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["LocationConstraint"].write(value.locationConstraint)
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.CreateBucketConfiguration, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.CreateBucketConfiguration()
-            value.locationConstraint = try reader["LocationConstraint"].readIfPresent()
-            return value
-        }
     }
 }
 
@@ -1609,13 +1508,6 @@ extension S3ControlClientTypes {
         }
     }
 
-}
-
-extension CreateBucketInput {
-    static func writingClosure(_ value: CreateBucketInput?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["CreateBucketConfiguration"].write(value.createBucketConfiguration, writingClosure: S3ControlClientTypes.CreateBucketConfiguration.writingClosure(_:to:))
-    }
 }
 
 extension CreateBucketInput {
@@ -1657,6 +1549,14 @@ extension CreateBucketInput {
             return nil
         }
         return "/v20180820/bucket/\(bucket.urlPercentEncoding())"
+    }
+}
+
+extension CreateBucketInput {
+
+    static func write(value: CreateBucketInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["CreateBucketConfiguration"].write(value.createBucketConfiguration, with: S3ControlClientTypes.CreateBucketConfiguration.write(value:to:))
     }
 }
 
@@ -1711,17 +1611,16 @@ public struct CreateBucketInput {
 
 extension CreateBucketOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<CreateBucketOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = CreateBucketOutput()
-            if let locationHeaderValue = httpResponse.headers.value(for: "Location") {
-                value.location = locationHeaderValue
-            }
-            value.bucketArn = try reader["BucketArn"].readIfPresent()
-            return value
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateBucketOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateBucketOutput()
+        if let locationHeaderValue = httpResponse.headers.value(for: "Location") {
+            value.location = locationHeaderValue
         }
+        value.bucketArn = try reader["BucketArn"].readIfPresent()
+        return value
     }
 }
 
@@ -1743,33 +1642,16 @@ public struct CreateBucketOutput {
 
 enum CreateBucketOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let errorBodyReader = AWSClientRuntime.RestXMLError.errorBodyReader(responseReader: responseReader, noErrorWrapping: false)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                case "BucketAlreadyExists": return try await BucketAlreadyExists.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "BucketAlreadyOwnedByYou": return try await BucketAlreadyOwnedByYou.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BucketAlreadyExists": return try BucketAlreadyExists.makeError(baseError: baseError)
+            case "BucketAlreadyOwnedByYou": return try BucketAlreadyOwnedByYou.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
-    }
-}
-
-extension CreateJobInput {
-    static func writingClosure(_ value: CreateJobInput?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["ClientRequestToken"].write(value.clientRequestToken)
-        try writer["ConfirmationRequired"].write(value.confirmationRequired)
-        try writer["Description"].write(value.description)
-        try writer["Manifest"].write(value.manifest, writingClosure: S3ControlClientTypes.JobManifest.writingClosure(_:to:))
-        try writer["ManifestGenerator"].write(value.manifestGenerator, writingClosure: S3ControlClientTypes.JobManifestGenerator.writingClosure(_:to:))
-        try writer["Operation"].write(value.operation, writingClosure: S3ControlClientTypes.JobOperation.writingClosure(_:to:))
-        try writer["Priority"].write(value.priority)
-        try writer["Report"].write(value.report, writingClosure: S3ControlClientTypes.JobReport.writingClosure(_:to:))
-        try writer["RoleArn"].write(value.roleArn)
-        try writer["Tags"].writeList(value.tags, memberWritingClosure: S3ControlClientTypes.S3Tag.writingClosure(_:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -1788,6 +1670,23 @@ extension CreateJobInput {
 
     static func urlPathProvider(_ value: CreateJobInput) -> Swift.String? {
         return "/v20180820/jobs"
+    }
+}
+
+extension CreateJobInput {
+
+    static func write(value: CreateJobInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["ClientRequestToken"].write(value.clientRequestToken)
+        try writer["ConfirmationRequired"].write(value.confirmationRequired)
+        try writer["Description"].write(value.description)
+        try writer["Manifest"].write(value.manifest, with: S3ControlClientTypes.JobManifest.write(value:to:))
+        try writer["ManifestGenerator"].write(value.manifestGenerator, with: S3ControlClientTypes.JobManifestGenerator.write(value:to:))
+        try writer["Operation"].write(value.operation, with: S3ControlClientTypes.JobOperation.write(value:to:))
+        try writer["Priority"].write(value.priority)
+        try writer["Report"].write(value.report, with: S3ControlClientTypes.JobReport.write(value:to:))
+        try writer["RoleArn"].write(value.roleArn)
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: S3ControlClientTypes.S3Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -1851,14 +1750,13 @@ public struct CreateJobInput {
 
 extension CreateJobOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<CreateJobOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = CreateJobOutput()
-            value.jobId = try reader["JobId"].readIfPresent()
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateJobOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateJobOutput()
+        value.jobId = try reader["JobId"].readIfPresent()
+        return value
     }
 }
 
@@ -1876,48 +1774,18 @@ public struct CreateJobOutput {
 
 enum CreateJobOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let errorBodyReader = AWSClientRuntime.RestXMLError.errorBodyReader(responseReader: responseReader, noErrorWrapping: false)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                case "BadRequestException": return try await BadRequestException.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "IdempotencyException": return try await IdempotencyException.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "InternalServiceException": return try await InternalServiceException.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "TooManyRequestsException": return try await TooManyRequestsException.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "IdempotencyException": return try IdempotencyException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
-    }
-}
-
-extension S3ControlClientTypes.CreateMultiRegionAccessPointInput {
-
-    static func writingClosure(_ value: S3ControlClientTypes.CreateMultiRegionAccessPointInput?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["Name"].write(value.name)
-        try writer["PublicAccessBlock"].write(value.publicAccessBlock, writingClosure: S3ControlClientTypes.PublicAccessBlockConfiguration.writingClosure(_:to:))
-        try writer["Regions"].writeList(value.regions, memberWritingClosure: S3ControlClientTypes.Region.writingClosure(_:to:), memberNodeInfo: "Region", isFlattened: false)
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.CreateMultiRegionAccessPointInput, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.CreateMultiRegionAccessPointInput()
-            value.name = try reader["Name"].readIfPresent()
-            value.publicAccessBlock = try reader["PublicAccessBlock"].readIfPresent(readingClosure: S3ControlClientTypes.PublicAccessBlockConfiguration.readingClosure)
-            value.regions = try reader["Regions"].readListIfPresent(memberReadingClosure: S3ControlClientTypes.Region.readingClosure, memberNodeInfo: "Region", isFlattened: false)
-            return value
-        }
-    }
-}
-
-extension CreateMultiRegionAccessPointInput {
-    static func writingClosure(_ value: CreateMultiRegionAccessPointInput?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["ClientToken"].write(value.clientToken)
-        try writer["Details"].write(value.details, writingClosure: S3ControlClientTypes.CreateMultiRegionAccessPointInput.writingClosure(_:to:))
     }
 }
 
@@ -1932,10 +1800,38 @@ extension CreateMultiRegionAccessPointInput {
     }
 }
 
+extension S3ControlClientTypes.CreateMultiRegionAccessPointInput {
+
+    static func write(value: S3ControlClientTypes.CreateMultiRegionAccessPointInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["PublicAccessBlock"].write(value.publicAccessBlock, with: S3ControlClientTypes.PublicAccessBlockConfiguration.write(value:to:))
+        try writer["Regions"].writeList(value.regions, memberWritingClosure: S3ControlClientTypes.Region.write(value:to:), memberNodeInfo: "Region", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.CreateMultiRegionAccessPointInput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.CreateMultiRegionAccessPointInput()
+        value.name = try reader["Name"].readIfPresent()
+        value.publicAccessBlock = try reader["PublicAccessBlock"].readIfPresent(with: S3ControlClientTypes.PublicAccessBlockConfiguration.read(from:))
+        value.regions = try reader["Regions"].readListIfPresent(memberReadingClosure: S3ControlClientTypes.Region.read(from:), memberNodeInfo: "Region", isFlattened: false)
+        return value
+    }
+}
+
 extension CreateMultiRegionAccessPointInput {
 
     static func urlPathProvider(_ value: CreateMultiRegionAccessPointInput) -> Swift.String? {
         return "/v20180820/async-requests/mrap/create"
+    }
+}
+
+extension CreateMultiRegionAccessPointInput {
+
+    static func write(value: CreateMultiRegionAccessPointInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["ClientToken"].write(value.clientToken)
+        try writer["Details"].write(value.details, with: S3ControlClientTypes.CreateMultiRegionAccessPointInput.write(value:to:))
     }
 }
 
@@ -1990,14 +1886,13 @@ public struct CreateMultiRegionAccessPointInput {
 
 extension CreateMultiRegionAccessPointOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<CreateMultiRegionAccessPointOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = CreateMultiRegionAccessPointOutput()
-            value.requestTokenARN = try reader["RequestTokenARN"].readIfPresent()
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateMultiRegionAccessPointOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateMultiRegionAccessPointOutput()
+        value.requestTokenARN = try reader["RequestTokenARN"].readIfPresent()
+        return value
     }
 }
 
@@ -2015,22 +1910,14 @@ public struct CreateMultiRegionAccessPointOutput {
 
 enum CreateMultiRegionAccessPointOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
-    }
-}
-
-extension CreateStorageLensGroupInput {
-    static func writingClosure(_ value: CreateStorageLensGroupInput?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["StorageLensGroup"].write(value.storageLensGroup, writingClosure: S3ControlClientTypes.StorageLensGroup.writingClosure(_:to:))
-        try writer["Tags"].writeList(value.tags, memberWritingClosure: S3ControlClientTypes.Tag.writingClosure(_:to:), memberNodeInfo: "Tag", isFlattened: false)
     }
 }
 
@@ -2049,6 +1936,15 @@ extension CreateStorageLensGroupInput {
 
     static func urlPathProvider(_ value: CreateStorageLensGroupInput) -> Swift.String? {
         return "/v20180820/storagelensgroup"
+    }
+}
+
+extension CreateStorageLensGroupInput {
+
+    static func write(value: CreateStorageLensGroupInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["StorageLensGroup"].write(value.storageLensGroup, with: S3ControlClientTypes.StorageLensGroup.write(value:to:))
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: S3ControlClientTypes.Tag.write(value:to:), memberNodeInfo: "Tag", isFlattened: false)
     }
 }
 
@@ -2076,10 +1972,8 @@ public struct CreateStorageLensGroupInput {
 
 extension CreateStorageLensGroupOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<CreateStorageLensGroupOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            return CreateStorageLensGroupOutput()
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateStorageLensGroupOutput {
+        return CreateStorageLensGroupOutput()
     }
 }
 
@@ -2090,36 +1984,13 @@ public struct CreateStorageLensGroupOutput {
 
 enum CreateStorageLensGroupOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
-        }
-    }
-}
-
-extension S3ControlClientTypes.Credentials {
-
-    static func writingClosure(_ value: S3ControlClientTypes.Credentials?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["AccessKeyId"].write(value.accessKeyId)
-        try writer["Expiration"].writeTimestamp(value.expiration, format: .dateTime)
-        try writer["SecretAccessKey"].write(value.secretAccessKey)
-        try writer["SessionToken"].write(value.sessionToken)
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.Credentials, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.Credentials()
-            value.accessKeyId = try reader["AccessKeyId"].readIfPresent()
-            value.secretAccessKey = try reader["SecretAccessKey"].readIfPresent()
-            value.sessionToken = try reader["SessionToken"].readIfPresent()
-            value.expiration = try reader["Expiration"].readTimestampIfPresent(format: .dateTime)
-            return value
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -2127,6 +1998,19 @@ extension S3ControlClientTypes.Credentials {
 extension S3ControlClientTypes.Credentials: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "CONTENT_REDACTED"
+    }
+}
+
+extension S3ControlClientTypes.Credentials {
+
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.Credentials {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.Credentials()
+        value.accessKeyId = try reader["AccessKeyId"].readIfPresent()
+        value.secretAccessKey = try reader["SecretAccessKey"].readIfPresent()
+        value.sessionToken = try reader["SessionToken"].readIfPresent()
+        value.expiration = try reader["Expiration"].readTimestampIfPresent(format: .dateTime)
+        return value
     }
 }
 
@@ -2199,10 +2083,8 @@ public struct DeleteAccessGrantInput {
 
 extension DeleteAccessGrantOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<DeleteAccessGrantOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            return DeleteAccessGrantOutput()
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteAccessGrantOutput {
+        return DeleteAccessGrantOutput()
     }
 }
 
@@ -2213,13 +2095,13 @@ public struct DeleteAccessGrantOutput {
 
 enum DeleteAccessGrantOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -2257,10 +2139,8 @@ public struct DeleteAccessGrantsInstanceInput {
 
 extension DeleteAccessGrantsInstanceOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<DeleteAccessGrantsInstanceOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            return DeleteAccessGrantsInstanceOutput()
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteAccessGrantsInstanceOutput {
+        return DeleteAccessGrantsInstanceOutput()
     }
 }
 
@@ -2271,13 +2151,13 @@ public struct DeleteAccessGrantsInstanceOutput {
 
 enum DeleteAccessGrantsInstanceOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -2315,10 +2195,8 @@ public struct DeleteAccessGrantsInstanceResourcePolicyInput {
 
 extension DeleteAccessGrantsInstanceResourcePolicyOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<DeleteAccessGrantsInstanceResourcePolicyOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            return DeleteAccessGrantsInstanceResourcePolicyOutput()
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteAccessGrantsInstanceResourcePolicyOutput {
+        return DeleteAccessGrantsInstanceResourcePolicyOutput()
     }
 }
 
@@ -2329,13 +2207,13 @@ public struct DeleteAccessGrantsInstanceResourcePolicyOutput {
 
 enum DeleteAccessGrantsInstanceResourcePolicyOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -2381,10 +2259,8 @@ public struct DeleteAccessGrantsLocationInput {
 
 extension DeleteAccessGrantsLocationOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<DeleteAccessGrantsLocationOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            return DeleteAccessGrantsLocationOutput()
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteAccessGrantsLocationOutput {
+        return DeleteAccessGrantsLocationOutput()
     }
 }
 
@@ -2395,13 +2271,13 @@ public struct DeleteAccessGrantsLocationOutput {
 
 enum DeleteAccessGrantsLocationOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -2447,10 +2323,8 @@ public struct DeleteAccessPointForObjectLambdaInput {
 
 extension DeleteAccessPointForObjectLambdaOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<DeleteAccessPointForObjectLambdaOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            return DeleteAccessPointForObjectLambdaOutput()
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteAccessPointForObjectLambdaOutput {
+        return DeleteAccessPointForObjectLambdaOutput()
     }
 }
 
@@ -2461,13 +2335,13 @@ public struct DeleteAccessPointForObjectLambdaOutput {
 
 enum DeleteAccessPointForObjectLambdaOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -2513,10 +2387,8 @@ public struct DeleteAccessPointInput {
 
 extension DeleteAccessPointOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<DeleteAccessPointOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            return DeleteAccessPointOutput()
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteAccessPointOutput {
+        return DeleteAccessPointOutput()
     }
 }
 
@@ -2527,13 +2399,13 @@ public struct DeleteAccessPointOutput {
 
 enum DeleteAccessPointOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -2579,10 +2451,8 @@ public struct DeleteAccessPointPolicyForObjectLambdaInput {
 
 extension DeleteAccessPointPolicyForObjectLambdaOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<DeleteAccessPointPolicyForObjectLambdaOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            return DeleteAccessPointPolicyForObjectLambdaOutput()
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteAccessPointPolicyForObjectLambdaOutput {
+        return DeleteAccessPointPolicyForObjectLambdaOutput()
     }
 }
 
@@ -2593,13 +2463,13 @@ public struct DeleteAccessPointPolicyForObjectLambdaOutput {
 
 enum DeleteAccessPointPolicyForObjectLambdaOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -2645,10 +2515,8 @@ public struct DeleteAccessPointPolicyInput {
 
 extension DeleteAccessPointPolicyOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<DeleteAccessPointPolicyOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            return DeleteAccessPointPolicyOutput()
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteAccessPointPolicyOutput {
+        return DeleteAccessPointPolicyOutput()
     }
 }
 
@@ -2659,13 +2527,13 @@ public struct DeleteAccessPointPolicyOutput {
 
 enum DeleteAccessPointPolicyOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -2750,10 +2618,8 @@ public struct DeleteBucketLifecycleConfigurationInput {
 
 extension DeleteBucketLifecycleConfigurationOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<DeleteBucketLifecycleConfigurationOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            return DeleteBucketLifecycleConfigurationOutput()
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteBucketLifecycleConfigurationOutput {
+        return DeleteBucketLifecycleConfigurationOutput()
     }
 }
 
@@ -2764,23 +2630,21 @@ public struct DeleteBucketLifecycleConfigurationOutput {
 
 enum DeleteBucketLifecycleConfigurationOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
 
 extension DeleteBucketOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<DeleteBucketOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            return DeleteBucketOutput()
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteBucketOutput {
+        return DeleteBucketOutput()
     }
 }
 
@@ -2791,13 +2655,13 @@ public struct DeleteBucketOutput {
 
 enum DeleteBucketOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -2843,10 +2707,8 @@ public struct DeleteBucketPolicyInput {
 
 extension DeleteBucketPolicyOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<DeleteBucketPolicyOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            return DeleteBucketPolicyOutput()
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteBucketPolicyOutput {
+        return DeleteBucketPolicyOutput()
     }
 }
 
@@ -2857,13 +2719,13 @@ public struct DeleteBucketPolicyOutput {
 
 enum DeleteBucketPolicyOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -2909,10 +2771,8 @@ public struct DeleteBucketReplicationInput {
 
 extension DeleteBucketReplicationOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<DeleteBucketReplicationOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            return DeleteBucketReplicationOutput()
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteBucketReplicationOutput {
+        return DeleteBucketReplicationOutput()
     }
 }
 
@@ -2923,13 +2783,13 @@ public struct DeleteBucketReplicationOutput {
 
 enum DeleteBucketReplicationOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -2975,10 +2835,8 @@ public struct DeleteBucketTaggingInput {
 
 extension DeleteBucketTaggingOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<DeleteBucketTaggingOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            return DeleteBucketTaggingOutput()
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteBucketTaggingOutput {
+        return DeleteBucketTaggingOutput()
     }
 }
 
@@ -2989,13 +2847,13 @@ public struct DeleteBucketTaggingOutput {
 
 enum DeleteBucketTaggingOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -3041,10 +2899,8 @@ public struct DeleteJobTaggingInput {
 
 extension DeleteJobTaggingOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<DeleteJobTaggingOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            return DeleteJobTaggingOutput()
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteJobTaggingOutput {
+        return DeleteJobTaggingOutput()
     }
 }
 
@@ -3055,35 +2911,32 @@ public struct DeleteJobTaggingOutput {
 
 enum DeleteJobTaggingOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let errorBodyReader = AWSClientRuntime.RestXMLError.errorBodyReader(responseReader: responseReader, noErrorWrapping: false)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                case "InternalServiceException": return try await InternalServiceException.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "NotFoundException": return try await NotFoundException.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "TooManyRequestsException": return try await TooManyRequestsException.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
 
 extension S3ControlClientTypes.DeleteMarkerReplication {
 
-    static func writingClosure(_ value: S3ControlClientTypes.DeleteMarkerReplication?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ControlClientTypes.DeleteMarkerReplication?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["Status"].write(value.status)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.DeleteMarkerReplication, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.DeleteMarkerReplication()
-            value.status = try reader["Status"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.DeleteMarkerReplication {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.DeleteMarkerReplication()
+        value.status = try reader["Status"].readIfPresent()
+        return value
     }
 }
 
@@ -3105,7 +2958,8 @@ extension S3ControlClientTypes {
 }
 
 extension S3ControlClientTypes {
-    public enum DeleteMarkerReplicationStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum DeleteMarkerReplicationStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case disabled
         case enabled
         case sdkUnknown(Swift.String)
@@ -3117,10 +2971,12 @@ extension S3ControlClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .disabled: return "Disabled"
@@ -3128,36 +2984,6 @@ extension S3ControlClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = DeleteMarkerReplicationStatus(rawValue: rawValue) ?? DeleteMarkerReplicationStatus.sdkUnknown(rawValue)
-        }
-    }
-}
-
-extension S3ControlClientTypes.DeleteMultiRegionAccessPointInput {
-
-    static func writingClosure(_ value: S3ControlClientTypes.DeleteMultiRegionAccessPointInput?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["Name"].write(value.name)
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.DeleteMultiRegionAccessPointInput, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.DeleteMultiRegionAccessPointInput()
-            value.name = try reader["Name"].readIfPresent()
-            return value
-        }
-    }
-}
-
-extension DeleteMultiRegionAccessPointInput {
-    static func writingClosure(_ value: DeleteMultiRegionAccessPointInput?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["ClientToken"].write(value.clientToken)
-        try writer["Details"].write(value.details, writingClosure: S3ControlClientTypes.DeleteMultiRegionAccessPointInput.writingClosure(_:to:))
     }
 }
 
@@ -3172,10 +2998,34 @@ extension DeleteMultiRegionAccessPointInput {
     }
 }
 
+extension S3ControlClientTypes.DeleteMultiRegionAccessPointInput {
+
+    static func write(value: S3ControlClientTypes.DeleteMultiRegionAccessPointInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.DeleteMultiRegionAccessPointInput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.DeleteMultiRegionAccessPointInput()
+        value.name = try reader["Name"].readIfPresent()
+        return value
+    }
+}
+
 extension DeleteMultiRegionAccessPointInput {
 
     static func urlPathProvider(_ value: DeleteMultiRegionAccessPointInput) -> Swift.String? {
         return "/v20180820/async-requests/mrap/delete"
+    }
+}
+
+extension DeleteMultiRegionAccessPointInput {
+
+    static func write(value: DeleteMultiRegionAccessPointInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["ClientToken"].write(value.clientToken)
+        try writer["Details"].write(value.details, with: S3ControlClientTypes.DeleteMultiRegionAccessPointInput.write(value:to:))
     }
 }
 
@@ -3221,14 +3071,13 @@ public struct DeleteMultiRegionAccessPointInput {
 
 extension DeleteMultiRegionAccessPointOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<DeleteMultiRegionAccessPointOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = DeleteMultiRegionAccessPointOutput()
-            value.requestTokenARN = try reader["RequestTokenARN"].readIfPresent()
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteMultiRegionAccessPointOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteMultiRegionAccessPointOutput()
+        value.requestTokenARN = try reader["RequestTokenARN"].readIfPresent()
+        return value
     }
 }
 
@@ -3246,13 +3095,13 @@ public struct DeleteMultiRegionAccessPointOutput {
 
 enum DeleteMultiRegionAccessPointOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -3290,10 +3139,8 @@ public struct DeletePublicAccessBlockInput {
 
 extension DeletePublicAccessBlockOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<DeletePublicAccessBlockOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            return DeletePublicAccessBlockOutput()
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeletePublicAccessBlockOutput {
+        return DeletePublicAccessBlockOutput()
     }
 }
 
@@ -3304,13 +3151,13 @@ public struct DeletePublicAccessBlockOutput {
 
 enum DeletePublicAccessBlockOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -3356,10 +3203,8 @@ public struct DeleteStorageLensConfigurationInput {
 
 extension DeleteStorageLensConfigurationOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<DeleteStorageLensConfigurationOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            return DeleteStorageLensConfigurationOutput()
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteStorageLensConfigurationOutput {
+        return DeleteStorageLensConfigurationOutput()
     }
 }
 
@@ -3370,13 +3215,13 @@ public struct DeleteStorageLensConfigurationOutput {
 
 enum DeleteStorageLensConfigurationOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -3422,10 +3267,8 @@ public struct DeleteStorageLensConfigurationTaggingInput {
 
 extension DeleteStorageLensConfigurationTaggingOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<DeleteStorageLensConfigurationTaggingOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            return DeleteStorageLensConfigurationTaggingOutput()
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteStorageLensConfigurationTaggingOutput {
+        return DeleteStorageLensConfigurationTaggingOutput()
     }
 }
 
@@ -3436,13 +3279,13 @@ public struct DeleteStorageLensConfigurationTaggingOutput {
 
 enum DeleteStorageLensConfigurationTaggingOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -3488,10 +3331,8 @@ public struct DeleteStorageLensGroupInput {
 
 extension DeleteStorageLensGroupOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<DeleteStorageLensGroupOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            return DeleteStorageLensGroupOutput()
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteStorageLensGroupOutput {
+        return DeleteStorageLensGroupOutput()
     }
 }
 
@@ -3502,13 +3343,13 @@ public struct DeleteStorageLensGroupOutput {
 
 enum DeleteStorageLensGroupOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -3554,14 +3395,13 @@ public struct DescribeJobInput {
 
 extension DescribeJobOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<DescribeJobOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = DescribeJobOutput()
-            value.job = try reader["Job"].readIfPresent(readingClosure: S3ControlClientTypes.JobDescriptor.readingClosure)
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeJobOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeJobOutput()
+        value.job = try reader["Job"].readIfPresent(with: S3ControlClientTypes.JobDescriptor.read(from:))
+        return value
     }
 }
 
@@ -3579,18 +3419,17 @@ public struct DescribeJobOutput {
 
 enum DescribeJobOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let errorBodyReader = AWSClientRuntime.RestXMLError.errorBodyReader(responseReader: responseReader, noErrorWrapping: false)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                case "BadRequestException": return try await BadRequestException.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "InternalServiceException": return try await InternalServiceException.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "NotFoundException": return try await NotFoundException.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "TooManyRequestsException": return try await TooManyRequestsException.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -3636,14 +3475,13 @@ public struct DescribeMultiRegionAccessPointOperationInput {
 
 extension DescribeMultiRegionAccessPointOperationOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<DescribeMultiRegionAccessPointOperationOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = DescribeMultiRegionAccessPointOperationOutput()
-            value.asyncOperation = try reader["AsyncOperation"].readIfPresent(readingClosure: S3ControlClientTypes.AsyncOperation.readingClosure)
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeMultiRegionAccessPointOperationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeMultiRegionAccessPointOperationOutput()
+        value.asyncOperation = try reader["AsyncOperation"].readIfPresent(with: S3ControlClientTypes.AsyncOperation.read(from:))
+        return value
     }
 }
 
@@ -3661,43 +3499,41 @@ public struct DescribeMultiRegionAccessPointOperationOutput {
 
 enum DescribeMultiRegionAccessPointOperationOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
 
 extension S3ControlClientTypes.Destination {
 
-    static func writingClosure(_ value: S3ControlClientTypes.Destination?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["AccessControlTranslation"].write(value.accessControlTranslation, writingClosure: S3ControlClientTypes.AccessControlTranslation.writingClosure(_:to:))
+    static func write(value: S3ControlClientTypes.Destination?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["AccessControlTranslation"].write(value.accessControlTranslation, with: S3ControlClientTypes.AccessControlTranslation.write(value:to:))
         try writer["Account"].write(value.account)
         try writer["Bucket"].write(value.bucket)
-        try writer["EncryptionConfiguration"].write(value.encryptionConfiguration, writingClosure: S3ControlClientTypes.EncryptionConfiguration.writingClosure(_:to:))
-        try writer["Metrics"].write(value.metrics, writingClosure: S3ControlClientTypes.Metrics.writingClosure(_:to:))
-        try writer["ReplicationTime"].write(value.replicationTime, writingClosure: S3ControlClientTypes.ReplicationTime.writingClosure(_:to:))
+        try writer["EncryptionConfiguration"].write(value.encryptionConfiguration, with: S3ControlClientTypes.EncryptionConfiguration.write(value:to:))
+        try writer["Metrics"].write(value.metrics, with: S3ControlClientTypes.Metrics.write(value:to:))
+        try writer["ReplicationTime"].write(value.replicationTime, with: S3ControlClientTypes.ReplicationTime.write(value:to:))
         try writer["StorageClass"].write(value.storageClass)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.Destination, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.Destination()
-            value.account = try reader["Account"].readIfPresent()
-            value.bucket = try reader["Bucket"].readIfPresent()
-            value.replicationTime = try reader["ReplicationTime"].readIfPresent(readingClosure: S3ControlClientTypes.ReplicationTime.readingClosure)
-            value.accessControlTranslation = try reader["AccessControlTranslation"].readIfPresent(readingClosure: S3ControlClientTypes.AccessControlTranslation.readingClosure)
-            value.encryptionConfiguration = try reader["EncryptionConfiguration"].readIfPresent(readingClosure: S3ControlClientTypes.EncryptionConfiguration.readingClosure)
-            value.metrics = try reader["Metrics"].readIfPresent(readingClosure: S3ControlClientTypes.Metrics.readingClosure)
-            value.storageClass = try reader["StorageClass"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.Destination {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.Destination()
+        value.account = try reader["Account"].readIfPresent()
+        value.bucket = try reader["Bucket"].readIfPresent()
+        value.replicationTime = try reader["ReplicationTime"].readIfPresent(with: S3ControlClientTypes.ReplicationTime.read(from:))
+        value.accessControlTranslation = try reader["AccessControlTranslation"].readIfPresent(with: S3ControlClientTypes.AccessControlTranslation.read(from:))
+        value.encryptionConfiguration = try reader["EncryptionConfiguration"].readIfPresent(with: S3ControlClientTypes.EncryptionConfiguration.read(from:))
+        value.metrics = try reader["Metrics"].readIfPresent(with: S3ControlClientTypes.Metrics.read(from:))
+        value.storageClass = try reader["StorageClass"].readIfPresent()
+        return value
     }
 }
 
@@ -3744,18 +3580,16 @@ extension S3ControlClientTypes {
 
 extension S3ControlClientTypes.DetailedStatusCodesMetrics {
 
-    static func writingClosure(_ value: S3ControlClientTypes.DetailedStatusCodesMetrics?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ControlClientTypes.DetailedStatusCodesMetrics?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["IsEnabled"].write(value.isEnabled)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.DetailedStatusCodesMetrics, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.DetailedStatusCodesMetrics()
-            value.isEnabled = try reader["IsEnabled"].readIfPresent() ?? false
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.DetailedStatusCodesMetrics {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.DetailedStatusCodesMetrics()
+        value.isEnabled = try reader["IsEnabled"].readIfPresent() ?? false
+        return value
     }
 }
 
@@ -3808,10 +3642,8 @@ public struct DissociateAccessGrantsIdentityCenterInput {
 
 extension DissociateAccessGrantsIdentityCenterOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<DissociateAccessGrantsIdentityCenterOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            return DissociateAccessGrantsIdentityCenterOutput()
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DissociateAccessGrantsIdentityCenterOutput {
+        return DissociateAccessGrantsIdentityCenterOutput()
     }
 }
 
@@ -3822,31 +3654,29 @@ public struct DissociateAccessGrantsIdentityCenterOutput {
 
 enum DissociateAccessGrantsIdentityCenterOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
 
 extension S3ControlClientTypes.EncryptionConfiguration {
 
-    static func writingClosure(_ value: S3ControlClientTypes.EncryptionConfiguration?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ControlClientTypes.EncryptionConfiguration?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["ReplicaKmsKeyID"].write(value.replicaKmsKeyID)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.EncryptionConfiguration, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.EncryptionConfiguration()
-            value.replicaKmsKeyID = try reader["ReplicaKmsKeyID"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.EncryptionConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.EncryptionConfiguration()
+        value.replicaKmsKeyID = try reader["ReplicaKmsKeyID"].readIfPresent()
+        return value
     }
 }
 
@@ -3868,18 +3698,11 @@ extension S3ControlClientTypes {
 
 extension S3ControlClientTypes.EstablishedMultiRegionAccessPointPolicy {
 
-    static func writingClosure(_ value: S3ControlClientTypes.EstablishedMultiRegionAccessPointPolicy?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["Policy"].write(value.policy)
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.EstablishedMultiRegionAccessPointPolicy, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.EstablishedMultiRegionAccessPointPolicy()
-            value.policy = try reader["Policy"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.EstablishedMultiRegionAccessPointPolicy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.EstablishedMultiRegionAccessPointPolicy()
+        value.policy = try reader["Policy"].readIfPresent()
+        return value
     }
 }
 
@@ -3901,20 +3724,18 @@ extension S3ControlClientTypes {
 
 extension S3ControlClientTypes.Exclude {
 
-    static func writingClosure(_ value: S3ControlClientTypes.Exclude?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["Buckets"].writeList(value.buckets, memberWritingClosure: Swift.String.writingClosure(_:to:), memberNodeInfo: "Arn", isFlattened: false)
-        try writer["Regions"].writeList(value.regions, memberWritingClosure: Swift.String.writingClosure(_:to:), memberNodeInfo: "Region", isFlattened: false)
+    static func write(value: S3ControlClientTypes.Exclude?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Buckets"].writeList(value.buckets, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "Arn", isFlattened: false)
+        try writer["Regions"].writeList(value.regions, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "Region", isFlattened: false)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.Exclude, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.Exclude()
-            value.buckets = try reader["Buckets"].readListIfPresent(memberReadingClosure: Swift.String.readingClosure, memberNodeInfo: "Arn", isFlattened: false)
-            value.regions = try reader["Regions"].readListIfPresent(memberReadingClosure: Swift.String.readingClosure, memberNodeInfo: "Region", isFlattened: false)
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.Exclude {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.Exclude()
+        value.buckets = try reader["Buckets"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "Arn", isFlattened: false)
+        value.regions = try reader["Regions"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "Region", isFlattened: false)
+        return value
     }
 }
 
@@ -3940,18 +3761,16 @@ extension S3ControlClientTypes {
 
 extension S3ControlClientTypes.ExistingObjectReplication {
 
-    static func writingClosure(_ value: S3ControlClientTypes.ExistingObjectReplication?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ControlClientTypes.ExistingObjectReplication?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["Status"].write(value.status)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.ExistingObjectReplication, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.ExistingObjectReplication()
-            value.status = try reader["Status"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.ExistingObjectReplication {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.ExistingObjectReplication()
+        value.status = try reader["Status"].readIfPresent()
+        return value
     }
 }
 
@@ -3973,7 +3792,8 @@ extension S3ControlClientTypes {
 }
 
 extension S3ControlClientTypes {
-    public enum ExistingObjectReplicationStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum ExistingObjectReplicationStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case disabled
         case enabled
         case sdkUnknown(Swift.String)
@@ -3985,10 +3805,12 @@ extension S3ControlClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .disabled: return "Disabled"
@@ -3996,16 +3818,12 @@ extension S3ControlClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = ExistingObjectReplicationStatus(rawValue: rawValue) ?? ExistingObjectReplicationStatus.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension S3ControlClientTypes {
-    public enum ExpirationStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum ExpirationStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case disabled
         case enabled
         case sdkUnknown(Swift.String)
@@ -4017,10 +3835,12 @@ extension S3ControlClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .disabled: return "Disabled"
@@ -4028,16 +3848,12 @@ extension S3ControlClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = ExpirationStatus(rawValue: rawValue) ?? ExpirationStatus.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension S3ControlClientTypes {
-    public enum Format: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum Format: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case csv
         case parquet
         case sdkUnknown(Swift.String)
@@ -4049,10 +3865,12 @@ extension S3ControlClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .csv: return "CSV"
@@ -4060,30 +3878,23 @@ extension S3ControlClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = Format(rawValue: rawValue) ?? Format.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension S3ControlClientTypes.GeneratedManifestEncryption {
 
-    static func writingClosure(_ value: S3ControlClientTypes.GeneratedManifestEncryption?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["SSE-KMS"].write(value.ssekms, writingClosure: S3ControlClientTypes.SSEKMSEncryption.writingClosure(_:to:))
-        try writer["SSE-S3"].write(value.sses3, writingClosure: S3ControlClientTypes.SSES3Encryption.writingClosure(_:to:))
+    static func write(value: S3ControlClientTypes.GeneratedManifestEncryption?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["SSE-KMS"].write(value.ssekms, with: S3ControlClientTypes.SSEKMSEncryption.write(value:to:))
+        try writer["SSE-S3"].write(value.sses3, with: S3ControlClientTypes.SSES3Encryption.write(value:to:))
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.GeneratedManifestEncryption, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.GeneratedManifestEncryption()
-            value.sses3 = try reader["SSE-S3"].readIfPresent(readingClosure: S3ControlClientTypes.SSES3Encryption.readingClosure)
-            value.ssekms = try reader["SSE-KMS"].readIfPresent(readingClosure: S3ControlClientTypes.SSEKMSEncryption.readingClosure)
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.GeneratedManifestEncryption {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.GeneratedManifestEncryption()
+        value.sses3 = try reader["SSE-S3"].readIfPresent(with: S3ControlClientTypes.SSES3Encryption.read(from:))
+        value.ssekms = try reader["SSE-KMS"].readIfPresent(with: S3ControlClientTypes.SSEKMSEncryption.read(from:))
+        return value
     }
 }
 
@@ -4108,7 +3919,8 @@ extension S3ControlClientTypes {
 }
 
 extension S3ControlClientTypes {
-    public enum GeneratedManifestFormat: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum GeneratedManifestFormat: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case s3inventoryreportCsv20211130
         case sdkUnknown(Swift.String)
 
@@ -4118,20 +3930,17 @@ extension S3ControlClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .s3inventoryreportCsv20211130: return "S3InventoryReport_CSV_20211130"
             case let .sdkUnknown(s): return s
             }
-        }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = GeneratedManifestFormat(rawValue: rawValue) ?? GeneratedManifestFormat.sdkUnknown(rawValue)
         }
     }
 }
@@ -4177,22 +3986,21 @@ public struct GetAccessGrantInput {
 
 extension GetAccessGrantOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<GetAccessGrantOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = GetAccessGrantOutput()
-            value.accessGrantArn = try reader["AccessGrantArn"].readIfPresent()
-            value.accessGrantId = try reader["AccessGrantId"].readIfPresent()
-            value.accessGrantsLocationConfiguration = try reader["AccessGrantsLocationConfiguration"].readIfPresent(readingClosure: S3ControlClientTypes.AccessGrantsLocationConfiguration.readingClosure)
-            value.accessGrantsLocationId = try reader["AccessGrantsLocationId"].readIfPresent()
-            value.applicationArn = try reader["ApplicationArn"].readIfPresent()
-            value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: .dateTime)
-            value.grantScope = try reader["GrantScope"].readIfPresent()
-            value.grantee = try reader["Grantee"].readIfPresent(readingClosure: S3ControlClientTypes.Grantee.readingClosure)
-            value.permission = try reader["Permission"].readIfPresent()
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetAccessGrantOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetAccessGrantOutput()
+        value.accessGrantArn = try reader["AccessGrantArn"].readIfPresent()
+        value.accessGrantId = try reader["AccessGrantId"].readIfPresent()
+        value.accessGrantsLocationConfiguration = try reader["AccessGrantsLocationConfiguration"].readIfPresent(with: S3ControlClientTypes.AccessGrantsLocationConfiguration.read(from:))
+        value.accessGrantsLocationId = try reader["AccessGrantsLocationId"].readIfPresent()
+        value.applicationArn = try reader["ApplicationArn"].readIfPresent()
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: .dateTime)
+        value.grantScope = try reader["GrantScope"].readIfPresent()
+        value.grantee = try reader["Grantee"].readIfPresent(with: S3ControlClientTypes.Grantee.read(from:))
+        value.permission = try reader["Permission"].readIfPresent()
+        return value
     }
 }
 
@@ -4248,13 +4056,13 @@ public struct GetAccessGrantOutput {
 
 enum GetAccessGrantOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -4311,15 +4119,14 @@ public struct GetAccessGrantsInstanceForPrefixInput {
 
 extension GetAccessGrantsInstanceForPrefixOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<GetAccessGrantsInstanceForPrefixOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = GetAccessGrantsInstanceForPrefixOutput()
-            value.accessGrantsInstanceArn = try reader["AccessGrantsInstanceArn"].readIfPresent()
-            value.accessGrantsInstanceId = try reader["AccessGrantsInstanceId"].readIfPresent()
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetAccessGrantsInstanceForPrefixOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetAccessGrantsInstanceForPrefixOutput()
+        value.accessGrantsInstanceArn = try reader["AccessGrantsInstanceArn"].readIfPresent()
+        value.accessGrantsInstanceId = try reader["AccessGrantsInstanceId"].readIfPresent()
+        return value
     }
 }
 
@@ -4341,13 +4148,13 @@ public struct GetAccessGrantsInstanceForPrefixOutput {
 
 enum GetAccessGrantsInstanceForPrefixOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -4385,17 +4192,16 @@ public struct GetAccessGrantsInstanceInput {
 
 extension GetAccessGrantsInstanceOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<GetAccessGrantsInstanceOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = GetAccessGrantsInstanceOutput()
-            value.accessGrantsInstanceArn = try reader["AccessGrantsInstanceArn"].readIfPresent()
-            value.accessGrantsInstanceId = try reader["AccessGrantsInstanceId"].readIfPresent()
-            value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: .dateTime)
-            value.identityCenterArn = try reader["IdentityCenterArn"].readIfPresent()
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetAccessGrantsInstanceOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetAccessGrantsInstanceOutput()
+        value.accessGrantsInstanceArn = try reader["AccessGrantsInstanceArn"].readIfPresent()
+        value.accessGrantsInstanceId = try reader["AccessGrantsInstanceId"].readIfPresent()
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: .dateTime)
+        value.identityCenterArn = try reader["IdentityCenterArn"].readIfPresent()
+        return value
     }
 }
 
@@ -4425,13 +4231,13 @@ public struct GetAccessGrantsInstanceOutput {
 
 enum GetAccessGrantsInstanceOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -4469,16 +4275,15 @@ public struct GetAccessGrantsInstanceResourcePolicyInput {
 
 extension GetAccessGrantsInstanceResourcePolicyOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<GetAccessGrantsInstanceResourcePolicyOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = GetAccessGrantsInstanceResourcePolicyOutput()
-            value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: .dateTime)
-            value.organization = try reader["Organization"].readIfPresent()
-            value.policy = try reader["Policy"].readIfPresent()
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetAccessGrantsInstanceResourcePolicyOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetAccessGrantsInstanceResourcePolicyOutput()
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: .dateTime)
+        value.organization = try reader["Organization"].readIfPresent()
+        value.policy = try reader["Policy"].readIfPresent()
+        return value
     }
 }
 
@@ -4504,13 +4309,13 @@ public struct GetAccessGrantsInstanceResourcePolicyOutput {
 
 enum GetAccessGrantsInstanceResourcePolicyOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -4556,18 +4361,17 @@ public struct GetAccessGrantsLocationInput {
 
 extension GetAccessGrantsLocationOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<GetAccessGrantsLocationOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = GetAccessGrantsLocationOutput()
-            value.accessGrantsLocationArn = try reader["AccessGrantsLocationArn"].readIfPresent()
-            value.accessGrantsLocationId = try reader["AccessGrantsLocationId"].readIfPresent()
-            value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: .dateTime)
-            value.iamRoleArn = try reader["IAMRoleArn"].readIfPresent()
-            value.locationScope = try reader["LocationScope"].readIfPresent()
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetAccessGrantsLocationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetAccessGrantsLocationOutput()
+        value.accessGrantsLocationArn = try reader["AccessGrantsLocationArn"].readIfPresent()
+        value.accessGrantsLocationId = try reader["AccessGrantsLocationId"].readIfPresent()
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: .dateTime)
+        value.iamRoleArn = try reader["IAMRoleArn"].readIfPresent()
+        value.locationScope = try reader["LocationScope"].readIfPresent()
+        return value
     }
 }
 
@@ -4601,13 +4405,13 @@ public struct GetAccessGrantsLocationOutput {
 
 enum GetAccessGrantsLocationOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -4653,14 +4457,13 @@ public struct GetAccessPointConfigurationForObjectLambdaInput {
 
 extension GetAccessPointConfigurationForObjectLambdaOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<GetAccessPointConfigurationForObjectLambdaOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = GetAccessPointConfigurationForObjectLambdaOutput()
-            value.configuration = try reader["Configuration"].readIfPresent(readingClosure: S3ControlClientTypes.ObjectLambdaConfiguration.readingClosure)
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetAccessPointConfigurationForObjectLambdaOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetAccessPointConfigurationForObjectLambdaOutput()
+        value.configuration = try reader["Configuration"].readIfPresent(with: S3ControlClientTypes.ObjectLambdaConfiguration.read(from:))
+        return value
     }
 }
 
@@ -4678,13 +4481,13 @@ public struct GetAccessPointConfigurationForObjectLambdaOutput {
 
 enum GetAccessPointConfigurationForObjectLambdaOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -4730,17 +4533,16 @@ public struct GetAccessPointForObjectLambdaInput {
 
 extension GetAccessPointForObjectLambdaOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<GetAccessPointForObjectLambdaOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = GetAccessPointForObjectLambdaOutput()
-            value.alias = try reader["Alias"].readIfPresent(readingClosure: S3ControlClientTypes.ObjectLambdaAccessPointAlias.readingClosure)
-            value.creationDate = try reader["CreationDate"].readTimestampIfPresent(format: .dateTime)
-            value.name = try reader["Name"].readIfPresent()
-            value.publicAccessBlockConfiguration = try reader["PublicAccessBlockConfiguration"].readIfPresent(readingClosure: S3ControlClientTypes.PublicAccessBlockConfiguration.readingClosure)
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetAccessPointForObjectLambdaOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetAccessPointForObjectLambdaOutput()
+        value.alias = try reader["Alias"].readIfPresent(with: S3ControlClientTypes.ObjectLambdaAccessPointAlias.read(from:))
+        value.creationDate = try reader["CreationDate"].readTimestampIfPresent(format: .dateTime)
+        value.name = try reader["Name"].readIfPresent()
+        value.publicAccessBlockConfiguration = try reader["PublicAccessBlockConfiguration"].readIfPresent(with: S3ControlClientTypes.PublicAccessBlockConfiguration.read(from:))
+        return value
     }
 }
 
@@ -4770,13 +4572,13 @@ public struct GetAccessPointForObjectLambdaOutput {
 
 enum GetAccessPointForObjectLambdaOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -4822,23 +4624,22 @@ public struct GetAccessPointInput {
 
 extension GetAccessPointOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<GetAccessPointOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = GetAccessPointOutput()
-            value.accessPointArn = try reader["AccessPointArn"].readIfPresent()
-            value.alias = try reader["Alias"].readIfPresent()
-            value.bucket = try reader["Bucket"].readIfPresent()
-            value.bucketAccountId = try reader["BucketAccountId"].readIfPresent()
-            value.creationDate = try reader["CreationDate"].readTimestampIfPresent(format: .dateTime)
-            value.endpoints = try reader["Endpoints"].readMapIfPresent(valueReadingClosure: Swift.String.readingClosure, keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-            value.name = try reader["Name"].readIfPresent()
-            value.networkOrigin = try reader["NetworkOrigin"].readIfPresent()
-            value.publicAccessBlockConfiguration = try reader["PublicAccessBlockConfiguration"].readIfPresent(readingClosure: S3ControlClientTypes.PublicAccessBlockConfiguration.readingClosure)
-            value.vpcConfiguration = try reader["VpcConfiguration"].readIfPresent(readingClosure: S3ControlClientTypes.VpcConfiguration.readingClosure)
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetAccessPointOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetAccessPointOutput()
+        value.accessPointArn = try reader["AccessPointArn"].readIfPresent()
+        value.alias = try reader["Alias"].readIfPresent()
+        value.bucket = try reader["Bucket"].readIfPresent()
+        value.bucketAccountId = try reader["BucketAccountId"].readIfPresent()
+        value.creationDate = try reader["CreationDate"].readTimestampIfPresent(format: .dateTime)
+        value.endpoints = try reader["Endpoints"].readMapIfPresent(valueReadingClosure: Swift.String.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.name = try reader["Name"].readIfPresent()
+        value.networkOrigin = try reader["NetworkOrigin"].readIfPresent()
+        value.publicAccessBlockConfiguration = try reader["PublicAccessBlockConfiguration"].readIfPresent(with: S3ControlClientTypes.PublicAccessBlockConfiguration.read(from:))
+        value.vpcConfiguration = try reader["VpcConfiguration"].readIfPresent(with: S3ControlClientTypes.VpcConfiguration.read(from:))
+        return value
     }
 }
 
@@ -4892,13 +4693,13 @@ public struct GetAccessPointOutput {
 
 enum GetAccessPointOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -4944,14 +4745,13 @@ public struct GetAccessPointPolicyForObjectLambdaInput {
 
 extension GetAccessPointPolicyForObjectLambdaOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<GetAccessPointPolicyForObjectLambdaOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = GetAccessPointPolicyForObjectLambdaOutput()
-            value.policy = try reader["Policy"].readIfPresent()
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetAccessPointPolicyForObjectLambdaOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetAccessPointPolicyForObjectLambdaOutput()
+        value.policy = try reader["Policy"].readIfPresent()
+        return value
     }
 }
 
@@ -4969,13 +4769,13 @@ public struct GetAccessPointPolicyForObjectLambdaOutput {
 
 enum GetAccessPointPolicyForObjectLambdaOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -5021,14 +4821,13 @@ public struct GetAccessPointPolicyInput {
 
 extension GetAccessPointPolicyOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<GetAccessPointPolicyOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = GetAccessPointPolicyOutput()
-            value.policy = try reader["Policy"].readIfPresent()
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetAccessPointPolicyOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetAccessPointPolicyOutput()
+        value.policy = try reader["Policy"].readIfPresent()
+        return value
     }
 }
 
@@ -5046,13 +4845,13 @@ public struct GetAccessPointPolicyOutput {
 
 enum GetAccessPointPolicyOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -5098,14 +4897,13 @@ public struct GetAccessPointPolicyStatusForObjectLambdaInput {
 
 extension GetAccessPointPolicyStatusForObjectLambdaOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<GetAccessPointPolicyStatusForObjectLambdaOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = GetAccessPointPolicyStatusForObjectLambdaOutput()
-            value.policyStatus = try reader["PolicyStatus"].readIfPresent(readingClosure: S3ControlClientTypes.PolicyStatus.readingClosure)
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetAccessPointPolicyStatusForObjectLambdaOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetAccessPointPolicyStatusForObjectLambdaOutput()
+        value.policyStatus = try reader["PolicyStatus"].readIfPresent(with: S3ControlClientTypes.PolicyStatus.read(from:))
+        return value
     }
 }
 
@@ -5123,13 +4921,13 @@ public struct GetAccessPointPolicyStatusForObjectLambdaOutput {
 
 enum GetAccessPointPolicyStatusForObjectLambdaOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -5175,14 +4973,13 @@ public struct GetAccessPointPolicyStatusInput {
 
 extension GetAccessPointPolicyStatusOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<GetAccessPointPolicyStatusOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = GetAccessPointPolicyStatusOutput()
-            value.policyStatus = try reader["PolicyStatus"].readIfPresent(readingClosure: S3ControlClientTypes.PolicyStatus.readingClosure)
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetAccessPointPolicyStatusOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetAccessPointPolicyStatusOutput()
+        value.policyStatus = try reader["PolicyStatus"].readIfPresent(with: S3ControlClientTypes.PolicyStatus.read(from:))
+        return value
     }
 }
 
@@ -5200,13 +4997,13 @@ public struct GetAccessPointPolicyStatusOutput {
 
 enum GetAccessPointPolicyStatusOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -5291,14 +5088,13 @@ public struct GetBucketLifecycleConfigurationInput {
 
 extension GetBucketLifecycleConfigurationOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<GetBucketLifecycleConfigurationOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = GetBucketLifecycleConfigurationOutput()
-            value.rules = try reader["Rules"].readListIfPresent(memberReadingClosure: S3ControlClientTypes.LifecycleRule.readingClosure, memberNodeInfo: "Rule", isFlattened: false)
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetBucketLifecycleConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetBucketLifecycleConfigurationOutput()
+        value.rules = try reader["Rules"].readListIfPresent(memberReadingClosure: S3ControlClientTypes.LifecycleRule.read(from:), memberNodeInfo: "Rule", isFlattened: false)
+        return value
     }
 }
 
@@ -5316,29 +5112,28 @@ public struct GetBucketLifecycleConfigurationOutput {
 
 enum GetBucketLifecycleConfigurationOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
 
 extension GetBucketOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<GetBucketOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = GetBucketOutput()
-            value.bucket = try reader["Bucket"].readIfPresent()
-            value.creationDate = try reader["CreationDate"].readTimestampIfPresent(format: .dateTime)
-            value.publicAccessBlockEnabled = try reader["PublicAccessBlockEnabled"].readIfPresent() ?? false
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetBucketOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetBucketOutput()
+        value.bucket = try reader["Bucket"].readIfPresent()
+        value.creationDate = try reader["CreationDate"].readTimestampIfPresent(format: .dateTime)
+        value.publicAccessBlockEnabled = try reader["PublicAccessBlockEnabled"].readIfPresent() ?? false
+        return value
     }
 }
 
@@ -5364,13 +5159,13 @@ public struct GetBucketOutput {
 
 enum GetBucketOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -5416,14 +5211,13 @@ public struct GetBucketPolicyInput {
 
 extension GetBucketPolicyOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<GetBucketPolicyOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = GetBucketPolicyOutput()
-            value.policy = try reader["Policy"].readIfPresent()
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetBucketPolicyOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetBucketPolicyOutput()
+        value.policy = try reader["Policy"].readIfPresent()
+        return value
     }
 }
 
@@ -5441,13 +5235,13 @@ public struct GetBucketPolicyOutput {
 
 enum GetBucketPolicyOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -5493,14 +5287,13 @@ public struct GetBucketReplicationInput {
 
 extension GetBucketReplicationOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<GetBucketReplicationOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = GetBucketReplicationOutput()
-            value.replicationConfiguration = try reader["ReplicationConfiguration"].readIfPresent(readingClosure: S3ControlClientTypes.ReplicationConfiguration.readingClosure)
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetBucketReplicationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetBucketReplicationOutput()
+        value.replicationConfiguration = try reader["ReplicationConfiguration"].readIfPresent(with: S3ControlClientTypes.ReplicationConfiguration.read(from:))
+        return value
     }
 }
 
@@ -5518,13 +5311,13 @@ public struct GetBucketReplicationOutput {
 
 enum GetBucketReplicationOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -5570,14 +5363,13 @@ public struct GetBucketTaggingInput {
 
 extension GetBucketTaggingOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<GetBucketTaggingOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = GetBucketTaggingOutput()
-            value.tagSet = try reader["TagSet"].readListIfPresent(memberReadingClosure: S3ControlClientTypes.S3Tag.readingClosure, memberNodeInfo: "member", isFlattened: false)
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetBucketTaggingOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetBucketTaggingOutput()
+        value.tagSet = try reader["TagSet"].readListIfPresent(memberReadingClosure: S3ControlClientTypes.S3Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
     }
 }
 
@@ -5596,13 +5388,13 @@ public struct GetBucketTaggingOutput {
 
 enum GetBucketTaggingOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -5648,15 +5440,14 @@ public struct GetBucketVersioningInput {
 
 extension GetBucketVersioningOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<GetBucketVersioningOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = GetBucketVersioningOutput()
-            value.mfaDelete = try reader["MfaDelete"].readIfPresent()
-            value.status = try reader["Status"].readIfPresent()
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetBucketVersioningOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetBucketVersioningOutput()
+        value.mfaDelete = try reader["MfaDelete"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        return value
     }
 }
 
@@ -5678,13 +5469,13 @@ public struct GetBucketVersioningOutput {
 
 enum GetBucketVersioningOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -5791,15 +5582,14 @@ extension GetDataAccessOutput: Swift.CustomDebugStringConvertible {
 
 extension GetDataAccessOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<GetDataAccessOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = GetDataAccessOutput()
-            value.credentials = try reader["Credentials"].readIfPresent(readingClosure: S3ControlClientTypes.Credentials.readingClosure)
-            value.matchedGrantTarget = try reader["MatchedGrantTarget"].readIfPresent()
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetDataAccessOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetDataAccessOutput()
+        value.credentials = try reader["Credentials"].readIfPresent(with: S3ControlClientTypes.Credentials.read(from:))
+        value.matchedGrantTarget = try reader["MatchedGrantTarget"].readIfPresent()
+        return value
     }
 }
 
@@ -5821,13 +5611,13 @@ public struct GetDataAccessOutput {
 
 enum GetDataAccessOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -5873,14 +5663,13 @@ public struct GetJobTaggingInput {
 
 extension GetJobTaggingOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<GetJobTaggingOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = GetJobTaggingOutput()
-            value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: S3ControlClientTypes.S3Tag.readingClosure, memberNodeInfo: "member", isFlattened: false)
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetJobTaggingOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetJobTaggingOutput()
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: S3ControlClientTypes.S3Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
     }
 }
 
@@ -5898,17 +5687,16 @@ public struct GetJobTaggingOutput {
 
 enum GetJobTaggingOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let errorBodyReader = AWSClientRuntime.RestXMLError.errorBodyReader(responseReader: responseReader, noErrorWrapping: false)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                case "InternalServiceException": return try await InternalServiceException.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "NotFoundException": return try await NotFoundException.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "TooManyRequestsException": return try await TooManyRequestsException.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -5954,14 +5742,13 @@ public struct GetMultiRegionAccessPointInput {
 
 extension GetMultiRegionAccessPointOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<GetMultiRegionAccessPointOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = GetMultiRegionAccessPointOutput()
-            value.accessPoint = try reader["AccessPoint"].readIfPresent(readingClosure: S3ControlClientTypes.MultiRegionAccessPointReport.readingClosure)
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetMultiRegionAccessPointOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetMultiRegionAccessPointOutput()
+        value.accessPoint = try reader["AccessPoint"].readIfPresent(with: S3ControlClientTypes.MultiRegionAccessPointReport.read(from:))
+        return value
     }
 }
 
@@ -5979,13 +5766,13 @@ public struct GetMultiRegionAccessPointOutput {
 
 enum GetMultiRegionAccessPointOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -6031,14 +5818,13 @@ public struct GetMultiRegionAccessPointPolicyInput {
 
 extension GetMultiRegionAccessPointPolicyOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<GetMultiRegionAccessPointPolicyOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = GetMultiRegionAccessPointPolicyOutput()
-            value.policy = try reader["Policy"].readIfPresent(readingClosure: S3ControlClientTypes.MultiRegionAccessPointPolicyDocument.readingClosure)
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetMultiRegionAccessPointPolicyOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetMultiRegionAccessPointPolicyOutput()
+        value.policy = try reader["Policy"].readIfPresent(with: S3ControlClientTypes.MultiRegionAccessPointPolicyDocument.read(from:))
+        return value
     }
 }
 
@@ -6056,13 +5842,13 @@ public struct GetMultiRegionAccessPointPolicyOutput {
 
 enum GetMultiRegionAccessPointPolicyOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -6108,14 +5894,13 @@ public struct GetMultiRegionAccessPointPolicyStatusInput {
 
 extension GetMultiRegionAccessPointPolicyStatusOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<GetMultiRegionAccessPointPolicyStatusOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = GetMultiRegionAccessPointPolicyStatusOutput()
-            value.established = try reader["Established"].readIfPresent(readingClosure: S3ControlClientTypes.PolicyStatus.readingClosure)
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetMultiRegionAccessPointPolicyStatusOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetMultiRegionAccessPointPolicyStatusOutput()
+        value.established = try reader["Established"].readIfPresent(with: S3ControlClientTypes.PolicyStatus.read(from:))
+        return value
     }
 }
 
@@ -6133,13 +5918,13 @@ public struct GetMultiRegionAccessPointPolicyStatusOutput {
 
 enum GetMultiRegionAccessPointPolicyStatusOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -6185,15 +5970,14 @@ public struct GetMultiRegionAccessPointRoutesInput {
 
 extension GetMultiRegionAccessPointRoutesOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<GetMultiRegionAccessPointRoutesOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = GetMultiRegionAccessPointRoutesOutput()
-            value.mrap = try reader["Mrap"].readIfPresent()
-            value.routes = try reader["Routes"].readListIfPresent(memberReadingClosure: S3ControlClientTypes.MultiRegionAccessPointRoute.readingClosure, memberNodeInfo: "Route", isFlattened: false)
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetMultiRegionAccessPointRoutesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetMultiRegionAccessPointRoutesOutput()
+        value.mrap = try reader["Mrap"].readIfPresent()
+        value.routes = try reader["Routes"].readListIfPresent(memberReadingClosure: S3ControlClientTypes.MultiRegionAccessPointRoute.read(from:), memberNodeInfo: "Route", isFlattened: false)
+        return value
     }
 }
 
@@ -6215,13 +5999,13 @@ public struct GetMultiRegionAccessPointRoutesOutput {
 
 enum GetMultiRegionAccessPointRoutesOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -6259,14 +6043,13 @@ public struct GetPublicAccessBlockInput {
 
 extension GetPublicAccessBlockOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<GetPublicAccessBlockOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = GetPublicAccessBlockOutput()
-            value.publicAccessBlockConfiguration = try reader.readIfPresent(readingClosure: S3ControlClientTypes.PublicAccessBlockConfiguration.readingClosure)
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetPublicAccessBlockOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetPublicAccessBlockOutput()
+        value.publicAccessBlockConfiguration = try reader.readIfPresent(with: S3ControlClientTypes.PublicAccessBlockConfiguration.read(from:))
+        return value
     }
 }
 
@@ -6284,15 +6067,14 @@ public struct GetPublicAccessBlockOutput {
 
 enum GetPublicAccessBlockOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let errorBodyReader = AWSClientRuntime.RestXMLError.errorBodyReader(responseReader: responseReader, noErrorWrapping: false)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                case "NoSuchPublicAccessBlockConfiguration": return try await NoSuchPublicAccessBlockConfiguration.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "NoSuchPublicAccessBlockConfiguration": return try NoSuchPublicAccessBlockConfiguration.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -6338,14 +6120,13 @@ public struct GetStorageLensConfigurationInput {
 
 extension GetStorageLensConfigurationOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<GetStorageLensConfigurationOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = GetStorageLensConfigurationOutput()
-            value.storageLensConfiguration = try reader.readIfPresent(readingClosure: S3ControlClientTypes.StorageLensConfiguration.readingClosure)
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetStorageLensConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetStorageLensConfigurationOutput()
+        value.storageLensConfiguration = try reader.readIfPresent(with: S3ControlClientTypes.StorageLensConfiguration.read(from:))
+        return value
     }
 }
 
@@ -6363,13 +6144,13 @@ public struct GetStorageLensConfigurationOutput {
 
 enum GetStorageLensConfigurationOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -6415,14 +6196,13 @@ public struct GetStorageLensConfigurationTaggingInput {
 
 extension GetStorageLensConfigurationTaggingOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<GetStorageLensConfigurationTaggingOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = GetStorageLensConfigurationTaggingOutput()
-            value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: S3ControlClientTypes.StorageLensTag.readingClosure, memberNodeInfo: "Tag", isFlattened: false)
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetStorageLensConfigurationTaggingOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetStorageLensConfigurationTaggingOutput()
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: S3ControlClientTypes.StorageLensTag.read(from:), memberNodeInfo: "Tag", isFlattened: false)
+        return value
     }
 }
 
@@ -6440,13 +6220,13 @@ public struct GetStorageLensConfigurationTaggingOutput {
 
 enum GetStorageLensConfigurationTaggingOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -6492,14 +6272,13 @@ public struct GetStorageLensGroupInput {
 
 extension GetStorageLensGroupOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<GetStorageLensGroupOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = GetStorageLensGroupOutput()
-            value.storageLensGroup = try reader.readIfPresent(readingClosure: S3ControlClientTypes.StorageLensGroup.readingClosure)
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetStorageLensGroupOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetStorageLensGroupOutput()
+        value.storageLensGroup = try reader.readIfPresent(with: S3ControlClientTypes.StorageLensGroup.read(from:))
+        return value
     }
 }
 
@@ -6517,33 +6296,31 @@ public struct GetStorageLensGroupOutput {
 
 enum GetStorageLensGroupOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
 
 extension S3ControlClientTypes.Grantee {
 
-    static func writingClosure(_ value: S3ControlClientTypes.Grantee?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ControlClientTypes.Grantee?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["GranteeIdentifier"].write(value.granteeIdentifier)
         try writer["GranteeType"].write(value.granteeType)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.Grantee, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.Grantee()
-            value.granteeType = try reader["GranteeType"].readIfPresent()
-            value.granteeIdentifier = try reader["GranteeIdentifier"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.Grantee {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.Grantee()
+        value.granteeType = try reader["GranteeType"].readIfPresent()
+        value.granteeIdentifier = try reader["GranteeIdentifier"].readIfPresent()
+        return value
     }
 }
 
@@ -6574,7 +6351,8 @@ extension S3ControlClientTypes {
 }
 
 extension S3ControlClientTypes {
-    public enum GranteeType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum GranteeType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case directoryGroup
         case directoryUser
         case iam
@@ -6588,10 +6366,12 @@ extension S3ControlClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .directoryGroup: return "DIRECTORY_GROUP"
@@ -6600,34 +6380,18 @@ extension S3ControlClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = GranteeType(rawValue: rawValue) ?? GranteeType.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension IdempotencyException {
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<IdempotencyException, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = IdempotencyException()
-            value.properties.message = try reader["Message"].readIfPresent()
-            return value
-        }
-    }
-}
-
-extension IdempotencyException {
-
-    static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws -> Swift.Error {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> IdempotencyException {
+        let reader = baseError.errorBodyReader
         var value = IdempotencyException()
         value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = httpResponse
-        value.requestID = requestID
-        value.message = message
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
         return value
     }
 }
@@ -6658,20 +6422,18 @@ public struct IdempotencyException: ClientRuntime.ModeledError, AWSClientRuntime
 
 extension S3ControlClientTypes.Include {
 
-    static func writingClosure(_ value: S3ControlClientTypes.Include?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["Buckets"].writeList(value.buckets, memberWritingClosure: Swift.String.writingClosure(_:to:), memberNodeInfo: "Arn", isFlattened: false)
-        try writer["Regions"].writeList(value.regions, memberWritingClosure: Swift.String.writingClosure(_:to:), memberNodeInfo: "Region", isFlattened: false)
+    static func write(value: S3ControlClientTypes.Include?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Buckets"].writeList(value.buckets, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "Arn", isFlattened: false)
+        try writer["Regions"].writeList(value.regions, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "Region", isFlattened: false)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.Include, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.Include()
-            value.buckets = try reader["Buckets"].readListIfPresent(memberReadingClosure: Swift.String.readingClosure, memberNodeInfo: "Arn", isFlattened: false)
-            value.regions = try reader["Regions"].readListIfPresent(memberReadingClosure: Swift.String.readingClosure, memberNodeInfo: "Region", isFlattened: false)
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.Include {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.Include()
+        value.buckets = try reader["Buckets"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "Arn", isFlattened: false)
+        value.regions = try reader["Regions"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "Region", isFlattened: false)
+        return value
     }
 }
 
@@ -6697,24 +6459,13 @@ extension S3ControlClientTypes {
 
 extension InternalServiceException {
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<InternalServiceException, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = InternalServiceException()
-            value.properties.message = try reader["Message"].readIfPresent()
-            return value
-        }
-    }
-}
-
-extension InternalServiceException {
-
-    static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws -> Swift.Error {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InternalServiceException {
+        let reader = baseError.errorBodyReader
         var value = InternalServiceException()
         value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = httpResponse
-        value.requestID = requestID
-        value.message = message
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
         return value
     }
 }
@@ -6745,24 +6496,13 @@ public struct InternalServiceException: ClientRuntime.ModeledError, AWSClientRun
 
 extension InvalidNextTokenException {
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<InvalidNextTokenException, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = InvalidNextTokenException()
-            value.properties.message = try reader["Message"].readIfPresent()
-            return value
-        }
-    }
-}
-
-extension InvalidNextTokenException {
-
-    static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws -> Swift.Error {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidNextTokenException {
+        let reader = baseError.errorBodyReader
         var value = InvalidNextTokenException()
         value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = httpResponse
-        value.requestID = requestID
-        value.message = message
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
         return value
     }
 }
@@ -6793,24 +6533,13 @@ public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRu
 
 extension InvalidRequestException {
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<InvalidRequestException, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = InvalidRequestException()
-            value.properties.message = try reader["Message"].readIfPresent()
-            return value
-        }
-    }
-}
-
-extension InvalidRequestException {
-
-    static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws -> Swift.Error {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidRequestException {
+        let reader = baseError.errorBodyReader
         var value = InvalidRequestException()
         value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = httpResponse
-        value.requestID = requestID
-        value.message = message
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
         return value
     }
 }
@@ -6841,54 +6570,29 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
 
 extension S3ControlClientTypes.JobDescriptor {
 
-    static func writingClosure(_ value: S3ControlClientTypes.JobDescriptor?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["ConfirmationRequired"].write(value.confirmationRequired)
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .dateTime)
-        try writer["Description"].write(value.description)
-        try writer["FailureReasons"].writeList(value.failureReasons, memberWritingClosure: S3ControlClientTypes.JobFailure.writingClosure(_:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["GeneratedManifestDescriptor"].write(value.generatedManifestDescriptor, writingClosure: S3ControlClientTypes.S3GeneratedManifestDescriptor.writingClosure(_:to:))
-        try writer["JobArn"].write(value.jobArn)
-        try writer["JobId"].write(value.jobId)
-        try writer["Manifest"].write(value.manifest, writingClosure: S3ControlClientTypes.JobManifest.writingClosure(_:to:))
-        try writer["ManifestGenerator"].write(value.manifestGenerator, writingClosure: S3ControlClientTypes.JobManifestGenerator.writingClosure(_:to:))
-        try writer["Operation"].write(value.operation, writingClosure: S3ControlClientTypes.JobOperation.writingClosure(_:to:))
-        try writer["Priority"].write(value.priority)
-        try writer["ProgressSummary"].write(value.progressSummary, writingClosure: S3ControlClientTypes.JobProgressSummary.writingClosure(_:to:))
-        try writer["Report"].write(value.report, writingClosure: S3ControlClientTypes.JobReport.writingClosure(_:to:))
-        try writer["RoleArn"].write(value.roleArn)
-        try writer["Status"].write(value.status)
-        try writer["StatusUpdateReason"].write(value.statusUpdateReason)
-        try writer["SuspendedCause"].write(value.suspendedCause)
-        try writer["SuspendedDate"].writeTimestamp(value.suspendedDate, format: .dateTime)
-        try writer["TerminationDate"].writeTimestamp(value.terminationDate, format: .dateTime)
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.JobDescriptor, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.JobDescriptor()
-            value.jobId = try reader["JobId"].readIfPresent()
-            value.confirmationRequired = try reader["ConfirmationRequired"].readIfPresent()
-            value.description = try reader["Description"].readIfPresent()
-            value.jobArn = try reader["JobArn"].readIfPresent()
-            value.status = try reader["Status"].readIfPresent()
-            value.manifest = try reader["Manifest"].readIfPresent(readingClosure: S3ControlClientTypes.JobManifest.readingClosure)
-            value.operation = try reader["Operation"].readIfPresent(readingClosure: S3ControlClientTypes.JobOperation.readingClosure)
-            value.priority = try reader["Priority"].readIfPresent() ?? 0
-            value.progressSummary = try reader["ProgressSummary"].readIfPresent(readingClosure: S3ControlClientTypes.JobProgressSummary.readingClosure)
-            value.statusUpdateReason = try reader["StatusUpdateReason"].readIfPresent()
-            value.failureReasons = try reader["FailureReasons"].readListIfPresent(memberReadingClosure: S3ControlClientTypes.JobFailure.readingClosure, memberNodeInfo: "member", isFlattened: false)
-            value.report = try reader["Report"].readIfPresent(readingClosure: S3ControlClientTypes.JobReport.readingClosure)
-            value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: .dateTime)
-            value.terminationDate = try reader["TerminationDate"].readTimestampIfPresent(format: .dateTime)
-            value.roleArn = try reader["RoleArn"].readIfPresent()
-            value.suspendedDate = try reader["SuspendedDate"].readTimestampIfPresent(format: .dateTime)
-            value.suspendedCause = try reader["SuspendedCause"].readIfPresent()
-            value.manifestGenerator = try reader["ManifestGenerator"].readIfPresent(readingClosure: S3ControlClientTypes.JobManifestGenerator.readingClosure)
-            value.generatedManifestDescriptor = try reader["GeneratedManifestDescriptor"].readIfPresent(readingClosure: S3ControlClientTypes.S3GeneratedManifestDescriptor.readingClosure)
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.JobDescriptor {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.JobDescriptor()
+        value.jobId = try reader["JobId"].readIfPresent()
+        value.confirmationRequired = try reader["ConfirmationRequired"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.jobArn = try reader["JobArn"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.manifest = try reader["Manifest"].readIfPresent(with: S3ControlClientTypes.JobManifest.read(from:))
+        value.operation = try reader["Operation"].readIfPresent(with: S3ControlClientTypes.JobOperation.read(from:))
+        value.priority = try reader["Priority"].readIfPresent() ?? 0
+        value.progressSummary = try reader["ProgressSummary"].readIfPresent(with: S3ControlClientTypes.JobProgressSummary.read(from:))
+        value.statusUpdateReason = try reader["StatusUpdateReason"].readIfPresent()
+        value.failureReasons = try reader["FailureReasons"].readListIfPresent(memberReadingClosure: S3ControlClientTypes.JobFailure.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.report = try reader["Report"].readIfPresent(with: S3ControlClientTypes.JobReport.read(from:))
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: .dateTime)
+        value.terminationDate = try reader["TerminationDate"].readTimestampIfPresent(format: .dateTime)
+        value.roleArn = try reader["RoleArn"].readIfPresent()
+        value.suspendedDate = try reader["SuspendedDate"].readTimestampIfPresent(format: .dateTime)
+        value.suspendedCause = try reader["SuspendedCause"].readIfPresent()
+        value.manifestGenerator = try reader["ManifestGenerator"].readIfPresent(with: S3ControlClientTypes.JobManifestGenerator.read(from:))
+        value.generatedManifestDescriptor = try reader["GeneratedManifestDescriptor"].readIfPresent(with: S3ControlClientTypes.S3GeneratedManifestDescriptor.read(from:))
+        return value
     }
 }
 
@@ -6982,20 +6686,12 @@ extension S3ControlClientTypes {
 
 extension S3ControlClientTypes.JobFailure {
 
-    static func writingClosure(_ value: S3ControlClientTypes.JobFailure?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["FailureCode"].write(value.failureCode)
-        try writer["FailureReason"].write(value.failureReason)
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.JobFailure, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.JobFailure()
-            value.failureCode = try reader["FailureCode"].readIfPresent()
-            value.failureReason = try reader["FailureReason"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.JobFailure {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.JobFailure()
+        value.failureCode = try reader["FailureCode"].readIfPresent()
+        value.failureReason = try reader["FailureReason"].readIfPresent()
+        return value
     }
 }
 
@@ -7021,32 +6717,18 @@ extension S3ControlClientTypes {
 
 extension S3ControlClientTypes.JobListDescriptor {
 
-    static func writingClosure(_ value: S3ControlClientTypes.JobListDescriptor?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["CreationTime"].writeTimestamp(value.creationTime, format: .dateTime)
-        try writer["Description"].write(value.description)
-        try writer["JobId"].write(value.jobId)
-        try writer["Operation"].write(value.operation)
-        try writer["Priority"].write(value.priority)
-        try writer["ProgressSummary"].write(value.progressSummary, writingClosure: S3ControlClientTypes.JobProgressSummary.writingClosure(_:to:))
-        try writer["Status"].write(value.status)
-        try writer["TerminationDate"].writeTimestamp(value.terminationDate, format: .dateTime)
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.JobListDescriptor, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.JobListDescriptor()
-            value.jobId = try reader["JobId"].readIfPresent()
-            value.description = try reader["Description"].readIfPresent()
-            value.operation = try reader["Operation"].readIfPresent()
-            value.priority = try reader["Priority"].readIfPresent() ?? 0
-            value.status = try reader["Status"].readIfPresent()
-            value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: .dateTime)
-            value.terminationDate = try reader["TerminationDate"].readTimestampIfPresent(format: .dateTime)
-            value.progressSummary = try reader["ProgressSummary"].readIfPresent(readingClosure: S3ControlClientTypes.JobProgressSummary.readingClosure)
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.JobListDescriptor {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.JobListDescriptor()
+        value.jobId = try reader["JobId"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.operation = try reader["Operation"].readIfPresent()
+        value.priority = try reader["Priority"].readIfPresent() ?? 0
+        value.status = try reader["Status"].readIfPresent()
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: .dateTime)
+        value.terminationDate = try reader["TerminationDate"].readTimestampIfPresent(format: .dateTime)
+        value.progressSummary = try reader["ProgressSummary"].readIfPresent(with: S3ControlClientTypes.JobProgressSummary.read(from:))
+        return value
     }
 }
 
@@ -7096,20 +6778,18 @@ extension S3ControlClientTypes {
 
 extension S3ControlClientTypes.JobManifest {
 
-    static func writingClosure(_ value: S3ControlClientTypes.JobManifest?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["Location"].write(value.location, writingClosure: S3ControlClientTypes.JobManifestLocation.writingClosure(_:to:))
-        try writer["Spec"].write(value.spec, writingClosure: S3ControlClientTypes.JobManifestSpec.writingClosure(_:to:))
+    static func write(value: S3ControlClientTypes.JobManifest?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Location"].write(value.location, with: S3ControlClientTypes.JobManifestLocation.write(value:to:))
+        try writer["Spec"].write(value.spec, with: S3ControlClientTypes.JobManifestSpec.write(value:to:))
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.JobManifest, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.JobManifest()
-            value.spec = try reader["Spec"].readIfPresent(readingClosure: S3ControlClientTypes.JobManifestSpec.readingClosure)
-            value.location = try reader["Location"].readIfPresent(readingClosure: S3ControlClientTypes.JobManifestLocation.readingClosure)
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.JobManifest {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.JobManifest()
+        value.spec = try reader["Spec"].readIfPresent(with: S3ControlClientTypes.JobManifestSpec.read(from:))
+        value.location = try reader["Location"].readIfPresent(with: S3ControlClientTypes.JobManifestLocation.read(from:))
+        return value
     }
 }
 
@@ -7136,7 +6816,8 @@ extension S3ControlClientTypes {
 }
 
 extension S3ControlClientTypes {
-    public enum JobManifestFieldName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum JobManifestFieldName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case bucket
         case ignore
         case key
@@ -7152,10 +6833,12 @@ extension S3ControlClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .bucket: return "Bucket"
@@ -7165,16 +6848,12 @@ extension S3ControlClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = JobManifestFieldName(rawValue: rawValue) ?? JobManifestFieldName.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension S3ControlClientTypes {
-    public enum JobManifestFormat: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum JobManifestFormat: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case s3batchoperationsCsv20180820
         case s3inventoryreportCsv20161130
         case sdkUnknown(Swift.String)
@@ -7186,10 +6865,12 @@ extension S3ControlClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .s3batchoperationsCsv20180820: return "S3BatchOperations_CSV_20180820"
@@ -7197,36 +6878,29 @@ extension S3ControlClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = JobManifestFormat(rawValue: rawValue) ?? JobManifestFormat.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension S3ControlClientTypes.JobManifestGenerator {
 
-    static func writingClosure(_ value: S3ControlClientTypes.JobManifestGenerator?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ControlClientTypes.JobManifestGenerator?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         switch value {
             case let .s3jobmanifestgenerator(s3jobmanifestgenerator):
-                try writer["S3JobManifestGenerator"].write(s3jobmanifestgenerator, writingClosure: S3ControlClientTypes.S3JobManifestGenerator.writingClosure(_:to:))
+                try writer["S3JobManifestGenerator"].write(s3jobmanifestgenerator, with: S3ControlClientTypes.S3JobManifestGenerator.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
-                try writer[.init("sdkUnknown")].write(sdkUnknown)
+                try writer["sdkUnknown"].write(sdkUnknown)
         }
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.JobManifestGenerator, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            let name = reader.children.first?.nodeInfo.name
-            switch name {
-                case "S3JobManifestGenerator":
-                    return .s3jobmanifestgenerator(try reader["S3JobManifestGenerator"].read(readingClosure: S3ControlClientTypes.S3JobManifestGenerator.readingClosure))
-                default:
-                    return .sdkUnknown(name ?? "")
-            }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.JobManifestGenerator {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "S3JobManifestGenerator":
+                return .s3jobmanifestgenerator(try reader["S3JobManifestGenerator"].read(with: S3ControlClientTypes.S3JobManifestGenerator.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
         }
     }
 }
@@ -7243,32 +6917,30 @@ extension S3ControlClientTypes {
 
 extension S3ControlClientTypes.JobManifestGeneratorFilter {
 
-    static func writingClosure(_ value: S3ControlClientTypes.JobManifestGeneratorFilter?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ControlClientTypes.JobManifestGeneratorFilter?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["CreatedAfter"].writeTimestamp(value.createdAfter, format: .dateTime)
         try writer["CreatedBefore"].writeTimestamp(value.createdBefore, format: .dateTime)
         try writer["EligibleForReplication"].write(value.eligibleForReplication)
-        try writer["KeyNameConstraint"].write(value.keyNameConstraint, writingClosure: S3ControlClientTypes.KeyNameConstraint.writingClosure(_:to:))
-        try writer["MatchAnyStorageClass"].writeList(value.matchAnyStorageClass, memberWritingClosure: S3ControlClientTypes.S3StorageClass.writingClosure(_:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ObjectReplicationStatuses"].writeList(value.objectReplicationStatuses, memberWritingClosure: S3ControlClientTypes.ReplicationStatus.writingClosure(_:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["KeyNameConstraint"].write(value.keyNameConstraint, with: S3ControlClientTypes.KeyNameConstraint.write(value:to:))
+        try writer["MatchAnyStorageClass"].writeList(value.matchAnyStorageClass, memberWritingClosure: S3ControlClientTypes.S3StorageClass.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ObjectReplicationStatuses"].writeList(value.objectReplicationStatuses, memberWritingClosure: S3ControlClientTypes.ReplicationStatus.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ObjectSizeGreaterThanBytes"].write(value.objectSizeGreaterThanBytes)
         try writer["ObjectSizeLessThanBytes"].write(value.objectSizeLessThanBytes)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.JobManifestGeneratorFilter, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.JobManifestGeneratorFilter()
-            value.eligibleForReplication = try reader["EligibleForReplication"].readIfPresent()
-            value.createdAfter = try reader["CreatedAfter"].readTimestampIfPresent(format: .dateTime)
-            value.createdBefore = try reader["CreatedBefore"].readTimestampIfPresent(format: .dateTime)
-            value.objectReplicationStatuses = try reader["ObjectReplicationStatuses"].readListIfPresent(memberReadingClosure: S3ControlClientTypes.ReplicationStatus.readingClosure, memberNodeInfo: "member", isFlattened: false)
-            value.keyNameConstraint = try reader["KeyNameConstraint"].readIfPresent(readingClosure: S3ControlClientTypes.KeyNameConstraint.readingClosure)
-            value.objectSizeGreaterThanBytes = try reader["ObjectSizeGreaterThanBytes"].readIfPresent()
-            value.objectSizeLessThanBytes = try reader["ObjectSizeLessThanBytes"].readIfPresent()
-            value.matchAnyStorageClass = try reader["MatchAnyStorageClass"].readListIfPresent(memberReadingClosure: S3ControlClientTypes.S3StorageClass.readingClosure, memberNodeInfo: "member", isFlattened: false)
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.JobManifestGeneratorFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.JobManifestGeneratorFilter()
+        value.eligibleForReplication = try reader["EligibleForReplication"].readIfPresent()
+        value.createdAfter = try reader["CreatedAfter"].readTimestampIfPresent(format: .dateTime)
+        value.createdBefore = try reader["CreatedBefore"].readTimestampIfPresent(format: .dateTime)
+        value.objectReplicationStatuses = try reader["ObjectReplicationStatuses"].readListIfPresent(memberReadingClosure: S3ControlClientTypes.ReplicationStatus.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.keyNameConstraint = try reader["KeyNameConstraint"].readIfPresent(with: S3ControlClientTypes.KeyNameConstraint.read(from:))
+        value.objectSizeGreaterThanBytes = try reader["ObjectSizeGreaterThanBytes"].readIfPresent()
+        value.objectSizeLessThanBytes = try reader["ObjectSizeLessThanBytes"].readIfPresent()
+        value.matchAnyStorageClass = try reader["MatchAnyStorageClass"].readListIfPresent(memberReadingClosure: S3ControlClientTypes.S3StorageClass.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
     }
 }
 
@@ -7318,22 +6990,20 @@ extension S3ControlClientTypes {
 
 extension S3ControlClientTypes.JobManifestLocation {
 
-    static func writingClosure(_ value: S3ControlClientTypes.JobManifestLocation?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ControlClientTypes.JobManifestLocation?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["ETag"].write(value.eTag)
         try writer["ObjectArn"].write(value.objectArn)
         try writer["ObjectVersionId"].write(value.objectVersionId)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.JobManifestLocation, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.JobManifestLocation()
-            value.objectArn = try reader["ObjectArn"].readIfPresent()
-            value.objectVersionId = try reader["ObjectVersionId"].readIfPresent()
-            value.eTag = try reader["ETag"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.JobManifestLocation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.JobManifestLocation()
+        value.objectArn = try reader["ObjectArn"].readIfPresent()
+        value.objectVersionId = try reader["ObjectVersionId"].readIfPresent()
+        value.eTag = try reader["ETag"].readIfPresent()
+        return value
     }
 }
 
@@ -7365,20 +7035,18 @@ extension S3ControlClientTypes {
 
 extension S3ControlClientTypes.JobManifestSpec {
 
-    static func writingClosure(_ value: S3ControlClientTypes.JobManifestSpec?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["Fields"].writeList(value.fields, memberWritingClosure: S3ControlClientTypes.JobManifestFieldName.writingClosure(_:to:), memberNodeInfo: "member", isFlattened: false)
+    static func write(value: S3ControlClientTypes.JobManifestSpec?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Fields"].writeList(value.fields, memberWritingClosure: S3ControlClientTypes.JobManifestFieldName.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Format"].write(value.format)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.JobManifestSpec, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.JobManifestSpec()
-            value.format = try reader["Format"].readIfPresent()
-            value.fields = try reader["Fields"].readListIfPresent(memberReadingClosure: S3ControlClientTypes.JobManifestFieldName.readingClosure, memberNodeInfo: "member", isFlattened: false)
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.JobManifestSpec {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.JobManifestSpec()
+        value.format = try reader["Format"].readIfPresent()
+        value.fields = try reader["Fields"].readListIfPresent(memberReadingClosure: S3ControlClientTypes.JobManifestFieldName.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
     }
 }
 
@@ -7405,34 +7073,32 @@ extension S3ControlClientTypes {
 
 extension S3ControlClientTypes.JobOperation {
 
-    static func writingClosure(_ value: S3ControlClientTypes.JobOperation?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["LambdaInvoke"].write(value.lambdaInvoke, writingClosure: S3ControlClientTypes.LambdaInvokeOperation.writingClosure(_:to:))
-        try writer["S3DeleteObjectTagging"].write(value.s3DeleteObjectTagging, writingClosure: S3ControlClientTypes.S3DeleteObjectTaggingOperation.writingClosure(_:to:))
-        try writer["S3InitiateRestoreObject"].write(value.s3InitiateRestoreObject, writingClosure: S3ControlClientTypes.S3InitiateRestoreObjectOperation.writingClosure(_:to:))
-        try writer["S3PutObjectAcl"].write(value.s3PutObjectAcl, writingClosure: S3ControlClientTypes.S3SetObjectAclOperation.writingClosure(_:to:))
-        try writer["S3PutObjectCopy"].write(value.s3PutObjectCopy, writingClosure: S3ControlClientTypes.S3CopyObjectOperation.writingClosure(_:to:))
-        try writer["S3PutObjectLegalHold"].write(value.s3PutObjectLegalHold, writingClosure: S3ControlClientTypes.S3SetObjectLegalHoldOperation.writingClosure(_:to:))
-        try writer["S3PutObjectRetention"].write(value.s3PutObjectRetention, writingClosure: S3ControlClientTypes.S3SetObjectRetentionOperation.writingClosure(_:to:))
-        try writer["S3PutObjectTagging"].write(value.s3PutObjectTagging, writingClosure: S3ControlClientTypes.S3SetObjectTaggingOperation.writingClosure(_:to:))
-        try writer["S3ReplicateObject"].write(value.s3ReplicateObject, writingClosure: S3ControlClientTypes.S3ReplicateObjectOperation.writingClosure(_:to:))
+    static func write(value: S3ControlClientTypes.JobOperation?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["LambdaInvoke"].write(value.lambdaInvoke, with: S3ControlClientTypes.LambdaInvokeOperation.write(value:to:))
+        try writer["S3DeleteObjectTagging"].write(value.s3DeleteObjectTagging, with: S3ControlClientTypes.S3DeleteObjectTaggingOperation.write(value:to:))
+        try writer["S3InitiateRestoreObject"].write(value.s3InitiateRestoreObject, with: S3ControlClientTypes.S3InitiateRestoreObjectOperation.write(value:to:))
+        try writer["S3PutObjectAcl"].write(value.s3PutObjectAcl, with: S3ControlClientTypes.S3SetObjectAclOperation.write(value:to:))
+        try writer["S3PutObjectCopy"].write(value.s3PutObjectCopy, with: S3ControlClientTypes.S3CopyObjectOperation.write(value:to:))
+        try writer["S3PutObjectLegalHold"].write(value.s3PutObjectLegalHold, with: S3ControlClientTypes.S3SetObjectLegalHoldOperation.write(value:to:))
+        try writer["S3PutObjectRetention"].write(value.s3PutObjectRetention, with: S3ControlClientTypes.S3SetObjectRetentionOperation.write(value:to:))
+        try writer["S3PutObjectTagging"].write(value.s3PutObjectTagging, with: S3ControlClientTypes.S3SetObjectTaggingOperation.write(value:to:))
+        try writer["S3ReplicateObject"].write(value.s3ReplicateObject, with: S3ControlClientTypes.S3ReplicateObjectOperation.write(value:to:))
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.JobOperation, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.JobOperation()
-            value.lambdaInvoke = try reader["LambdaInvoke"].readIfPresent(readingClosure: S3ControlClientTypes.LambdaInvokeOperation.readingClosure)
-            value.s3PutObjectCopy = try reader["S3PutObjectCopy"].readIfPresent(readingClosure: S3ControlClientTypes.S3CopyObjectOperation.readingClosure)
-            value.s3PutObjectAcl = try reader["S3PutObjectAcl"].readIfPresent(readingClosure: S3ControlClientTypes.S3SetObjectAclOperation.readingClosure)
-            value.s3PutObjectTagging = try reader["S3PutObjectTagging"].readIfPresent(readingClosure: S3ControlClientTypes.S3SetObjectTaggingOperation.readingClosure)
-            value.s3DeleteObjectTagging = try reader["S3DeleteObjectTagging"].readIfPresent(readingClosure: S3ControlClientTypes.S3DeleteObjectTaggingOperation.readingClosure)
-            value.s3InitiateRestoreObject = try reader["S3InitiateRestoreObject"].readIfPresent(readingClosure: S3ControlClientTypes.S3InitiateRestoreObjectOperation.readingClosure)
-            value.s3PutObjectLegalHold = try reader["S3PutObjectLegalHold"].readIfPresent(readingClosure: S3ControlClientTypes.S3SetObjectLegalHoldOperation.readingClosure)
-            value.s3PutObjectRetention = try reader["S3PutObjectRetention"].readIfPresent(readingClosure: S3ControlClientTypes.S3SetObjectRetentionOperation.readingClosure)
-            value.s3ReplicateObject = try reader["S3ReplicateObject"].readIfPresent(readingClosure: S3ControlClientTypes.S3ReplicateObjectOperation.readingClosure)
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.JobOperation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.JobOperation()
+        value.lambdaInvoke = try reader["LambdaInvoke"].readIfPresent(with: S3ControlClientTypes.LambdaInvokeOperation.read(from:))
+        value.s3PutObjectCopy = try reader["S3PutObjectCopy"].readIfPresent(with: S3ControlClientTypes.S3CopyObjectOperation.read(from:))
+        value.s3PutObjectAcl = try reader["S3PutObjectAcl"].readIfPresent(with: S3ControlClientTypes.S3SetObjectAclOperation.read(from:))
+        value.s3PutObjectTagging = try reader["S3PutObjectTagging"].readIfPresent(with: S3ControlClientTypes.S3SetObjectTaggingOperation.read(from:))
+        value.s3DeleteObjectTagging = try reader["S3DeleteObjectTagging"].readIfPresent(with: S3ControlClientTypes.S3DeleteObjectTaggingOperation.read(from:))
+        value.s3InitiateRestoreObject = try reader["S3InitiateRestoreObject"].readIfPresent(with: S3ControlClientTypes.S3InitiateRestoreObjectOperation.read(from:))
+        value.s3PutObjectLegalHold = try reader["S3PutObjectLegalHold"].readIfPresent(with: S3ControlClientTypes.S3SetObjectLegalHoldOperation.read(from:))
+        value.s3PutObjectRetention = try reader["S3PutObjectRetention"].readIfPresent(with: S3ControlClientTypes.S3SetObjectRetentionOperation.read(from:))
+        value.s3ReplicateObject = try reader["S3ReplicateObject"].readIfPresent(with: S3ControlClientTypes.S3ReplicateObjectOperation.read(from:))
+        return value
     }
 }
 
@@ -7486,24 +7152,14 @@ extension S3ControlClientTypes {
 
 extension S3ControlClientTypes.JobProgressSummary {
 
-    static func writingClosure(_ value: S3ControlClientTypes.JobProgressSummary?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["NumberOfTasksFailed"].write(value.numberOfTasksFailed)
-        try writer["NumberOfTasksSucceeded"].write(value.numberOfTasksSucceeded)
-        try writer["Timers"].write(value.timers, writingClosure: S3ControlClientTypes.JobTimers.writingClosure(_:to:))
-        try writer["TotalNumberOfTasks"].write(value.totalNumberOfTasks)
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.JobProgressSummary, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.JobProgressSummary()
-            value.totalNumberOfTasks = try reader["TotalNumberOfTasks"].readIfPresent()
-            value.numberOfTasksSucceeded = try reader["NumberOfTasksSucceeded"].readIfPresent()
-            value.numberOfTasksFailed = try reader["NumberOfTasksFailed"].readIfPresent()
-            value.timers = try reader["Timers"].readIfPresent(readingClosure: S3ControlClientTypes.JobTimers.readingClosure)
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.JobProgressSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.JobProgressSummary()
+        value.totalNumberOfTasks = try reader["TotalNumberOfTasks"].readIfPresent()
+        value.numberOfTasksSucceeded = try reader["NumberOfTasksSucceeded"].readIfPresent()
+        value.numberOfTasksFailed = try reader["NumberOfTasksFailed"].readIfPresent()
+        value.timers = try reader["Timers"].readIfPresent(with: S3ControlClientTypes.JobTimers.read(from:))
+        return value
     }
 }
 
@@ -7537,8 +7193,8 @@ extension S3ControlClientTypes {
 
 extension S3ControlClientTypes.JobReport {
 
-    static func writingClosure(_ value: S3ControlClientTypes.JobReport?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ControlClientTypes.JobReport?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["Bucket"].write(value.bucket)
         try writer["Enabled"].write(value.enabled)
         try writer["Format"].write(value.format)
@@ -7546,17 +7202,15 @@ extension S3ControlClientTypes.JobReport {
         try writer["ReportScope"].write(value.reportScope)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.JobReport, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.JobReport()
-            value.bucket = try reader["Bucket"].readIfPresent()
-            value.format = try reader["Format"].readIfPresent()
-            value.enabled = try reader["Enabled"].readIfPresent() ?? false
-            value.`prefix` = try reader["Prefix"].readIfPresent()
-            value.reportScope = try reader["ReportScope"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.JobReport {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.JobReport()
+        value.bucket = try reader["Bucket"].readIfPresent()
+        value.format = try reader["Format"].readIfPresent()
+        value.enabled = try reader["Enabled"].readIfPresent() ?? false
+        value.`prefix` = try reader["Prefix"].readIfPresent()
+        value.reportScope = try reader["ReportScope"].readIfPresent()
+        return value
     }
 }
 
@@ -7594,7 +7248,8 @@ extension S3ControlClientTypes {
 }
 
 extension S3ControlClientTypes {
-    public enum JobReportFormat: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum JobReportFormat: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case reportCsv20180820
         case sdkUnknown(Swift.String)
 
@@ -7604,26 +7259,24 @@ extension S3ControlClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .reportCsv20180820: return "Report_CSV_20180820"
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = JobReportFormat(rawValue: rawValue) ?? JobReportFormat.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension S3ControlClientTypes {
-    public enum JobReportScope: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum JobReportScope: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case alltasks
         case failedtasksonly
         case sdkUnknown(Swift.String)
@@ -7635,10 +7288,12 @@ extension S3ControlClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .alltasks: return "AllTasks"
@@ -7646,16 +7301,12 @@ extension S3ControlClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = JobReportScope(rawValue: rawValue) ?? JobReportScope.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension S3ControlClientTypes {
-    public enum JobStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum JobStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case active
         case cancelled
         case cancelling
@@ -7689,10 +7340,12 @@ extension S3ControlClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .active: return "Active"
@@ -7711,34 +7364,18 @@ extension S3ControlClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = JobStatus(rawValue: rawValue) ?? JobStatus.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension JobStatusException {
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<JobStatusException, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = JobStatusException()
-            value.properties.message = try reader["Message"].readIfPresent()
-            return value
-        }
-    }
-}
-
-extension JobStatusException {
-
-    static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws -> Swift.Error {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> JobStatusException {
+        let reader = baseError.errorBodyReader
         var value = JobStatusException()
         value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = httpResponse
-        value.requestID = requestID
-        value.message = message
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
         return value
     }
 }
@@ -7769,18 +7406,11 @@ public struct JobStatusException: ClientRuntime.ModeledError, AWSClientRuntime.A
 
 extension S3ControlClientTypes.JobTimers {
 
-    static func writingClosure(_ value: S3ControlClientTypes.JobTimers?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["ElapsedTimeInActiveSeconds"].write(value.elapsedTimeInActiveSeconds)
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.JobTimers, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.JobTimers()
-            value.elapsedTimeInActiveSeconds = try reader["ElapsedTimeInActiveSeconds"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.JobTimers {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.JobTimers()
+        value.elapsedTimeInActiveSeconds = try reader["ElapsedTimeInActiveSeconds"].readIfPresent()
+        return value
     }
 }
 
@@ -7802,22 +7432,20 @@ extension S3ControlClientTypes {
 
 extension S3ControlClientTypes.KeyNameConstraint {
 
-    static func writingClosure(_ value: S3ControlClientTypes.KeyNameConstraint?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["MatchAnyPrefix"].writeList(value.matchAnyPrefix, memberWritingClosure: Swift.String.writingClosure(_:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["MatchAnySubstring"].writeList(value.matchAnySubstring, memberWritingClosure: Swift.String.writingClosure(_:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["MatchAnySuffix"].writeList(value.matchAnySuffix, memberWritingClosure: Swift.String.writingClosure(_:to:), memberNodeInfo: "member", isFlattened: false)
+    static func write(value: S3ControlClientTypes.KeyNameConstraint?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["MatchAnyPrefix"].writeList(value.matchAnyPrefix, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["MatchAnySubstring"].writeList(value.matchAnySubstring, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["MatchAnySuffix"].writeList(value.matchAnySuffix, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.KeyNameConstraint, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.KeyNameConstraint()
-            value.matchAnyPrefix = try reader["MatchAnyPrefix"].readListIfPresent(memberReadingClosure: Swift.String.readingClosure, memberNodeInfo: "member", isFlattened: false)
-            value.matchAnySuffix = try reader["MatchAnySuffix"].readListIfPresent(memberReadingClosure: Swift.String.readingClosure, memberNodeInfo: "member", isFlattened: false)
-            value.matchAnySubstring = try reader["MatchAnySubstring"].readListIfPresent(memberReadingClosure: Swift.String.readingClosure, memberNodeInfo: "member", isFlattened: false)
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.KeyNameConstraint {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.KeyNameConstraint()
+        value.matchAnyPrefix = try reader["MatchAnyPrefix"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.matchAnySuffix = try reader["MatchAnySuffix"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.matchAnySubstring = try reader["MatchAnySubstring"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
     }
 }
 
@@ -7847,22 +7475,20 @@ extension S3ControlClientTypes {
 
 extension S3ControlClientTypes.LambdaInvokeOperation {
 
-    static func writingClosure(_ value: S3ControlClientTypes.LambdaInvokeOperation?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ControlClientTypes.LambdaInvokeOperation?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["FunctionArn"].write(value.functionArn)
         try writer["InvocationSchemaVersion"].write(value.invocationSchemaVersion)
-        try writer["UserArguments"].writeMap(value.userArguments, valueWritingClosure: Swift.String.writingClosure(_:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["UserArguments"].writeMap(value.userArguments, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.LambdaInvokeOperation, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.LambdaInvokeOperation()
-            value.functionArn = try reader["FunctionArn"].readIfPresent()
-            value.invocationSchemaVersion = try reader["InvocationSchemaVersion"].readIfPresent()
-            value.userArguments = try reader["UserArguments"].readMapIfPresent(valueReadingClosure: Swift.String.readingClosure, keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.LambdaInvokeOperation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.LambdaInvokeOperation()
+        value.functionArn = try reader["FunctionArn"].readIfPresent()
+        value.invocationSchemaVersion = try reader["InvocationSchemaVersion"].readIfPresent()
+        value.userArguments = try reader["UserArguments"].readMapIfPresent(valueReadingClosure: Swift.String.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
     }
 }
 
@@ -7892,18 +7518,9 @@ extension S3ControlClientTypes {
 
 extension S3ControlClientTypes.LifecycleConfiguration {
 
-    static func writingClosure(_ value: S3ControlClientTypes.LifecycleConfiguration?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["Rules"].writeList(value.rules, memberWritingClosure: S3ControlClientTypes.LifecycleRule.writingClosure(_:to:), memberNodeInfo: "Rule", isFlattened: false)
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.LifecycleConfiguration, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.LifecycleConfiguration()
-            value.rules = try reader["Rules"].readListIfPresent(memberReadingClosure: S3ControlClientTypes.LifecycleRule.readingClosure, memberNodeInfo: "Rule", isFlattened: false)
-            return value
-        }
+    static func write(value: S3ControlClientTypes.LifecycleConfiguration?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Rules"].writeList(value.rules, memberWritingClosure: S3ControlClientTypes.LifecycleRule.write(value:to:), memberNodeInfo: "Rule", isFlattened: false)
     }
 }
 
@@ -7925,22 +7542,20 @@ extension S3ControlClientTypes {
 
 extension S3ControlClientTypes.LifecycleExpiration {
 
-    static func writingClosure(_ value: S3ControlClientTypes.LifecycleExpiration?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ControlClientTypes.LifecycleExpiration?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["Date"].writeTimestamp(value.date, format: .dateTime)
         try writer["Days"].write(value.days)
         try writer["ExpiredObjectDeleteMarker"].write(value.expiredObjectDeleteMarker)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.LifecycleExpiration, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.LifecycleExpiration()
-            value.date = try reader["Date"].readTimestampIfPresent(format: .dateTime)
-            value.days = try reader["Days"].readIfPresent() ?? 0
-            value.expiredObjectDeleteMarker = try reader["ExpiredObjectDeleteMarker"].readIfPresent() ?? false
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.LifecycleExpiration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.LifecycleExpiration()
+        value.date = try reader["Date"].readTimestampIfPresent(format: .dateTime)
+        value.days = try reader["Days"].readIfPresent() ?? 0
+        value.expiredObjectDeleteMarker = try reader["ExpiredObjectDeleteMarker"].readIfPresent() ?? false
+        return value
     }
 }
 
@@ -7970,32 +7585,30 @@ extension S3ControlClientTypes {
 
 extension S3ControlClientTypes.LifecycleRule {
 
-    static func writingClosure(_ value: S3ControlClientTypes.LifecycleRule?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["AbortIncompleteMultipartUpload"].write(value.abortIncompleteMultipartUpload, writingClosure: S3ControlClientTypes.AbortIncompleteMultipartUpload.writingClosure(_:to:))
-        try writer["Expiration"].write(value.expiration, writingClosure: S3ControlClientTypes.LifecycleExpiration.writingClosure(_:to:))
-        try writer["Filter"].write(value.filter, writingClosure: S3ControlClientTypes.LifecycleRuleFilter.writingClosure(_:to:))
+    static func write(value: S3ControlClientTypes.LifecycleRule?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["AbortIncompleteMultipartUpload"].write(value.abortIncompleteMultipartUpload, with: S3ControlClientTypes.AbortIncompleteMultipartUpload.write(value:to:))
+        try writer["Expiration"].write(value.expiration, with: S3ControlClientTypes.LifecycleExpiration.write(value:to:))
+        try writer["Filter"].write(value.filter, with: S3ControlClientTypes.LifecycleRuleFilter.write(value:to:))
         try writer["ID"].write(value.id)
-        try writer["NoncurrentVersionExpiration"].write(value.noncurrentVersionExpiration, writingClosure: S3ControlClientTypes.NoncurrentVersionExpiration.writingClosure(_:to:))
-        try writer["NoncurrentVersionTransitions"].writeList(value.noncurrentVersionTransitions, memberWritingClosure: S3ControlClientTypes.NoncurrentVersionTransition.writingClosure(_:to:), memberNodeInfo: "NoncurrentVersionTransition", isFlattened: false)
+        try writer["NoncurrentVersionExpiration"].write(value.noncurrentVersionExpiration, with: S3ControlClientTypes.NoncurrentVersionExpiration.write(value:to:))
+        try writer["NoncurrentVersionTransitions"].writeList(value.noncurrentVersionTransitions, memberWritingClosure: S3ControlClientTypes.NoncurrentVersionTransition.write(value:to:), memberNodeInfo: "NoncurrentVersionTransition", isFlattened: false)
         try writer["Status"].write(value.status)
-        try writer["Transitions"].writeList(value.transitions, memberWritingClosure: S3ControlClientTypes.Transition.writingClosure(_:to:), memberNodeInfo: "Transition", isFlattened: false)
+        try writer["Transitions"].writeList(value.transitions, memberWritingClosure: S3ControlClientTypes.Transition.write(value:to:), memberNodeInfo: "Transition", isFlattened: false)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.LifecycleRule, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.LifecycleRule()
-            value.expiration = try reader["Expiration"].readIfPresent(readingClosure: S3ControlClientTypes.LifecycleExpiration.readingClosure)
-            value.id = try reader["ID"].readIfPresent()
-            value.filter = try reader["Filter"].readIfPresent(readingClosure: S3ControlClientTypes.LifecycleRuleFilter.readingClosure)
-            value.status = try reader["Status"].readIfPresent()
-            value.transitions = try reader["Transitions"].readListIfPresent(memberReadingClosure: S3ControlClientTypes.Transition.readingClosure, memberNodeInfo: "Transition", isFlattened: false)
-            value.noncurrentVersionTransitions = try reader["NoncurrentVersionTransitions"].readListIfPresent(memberReadingClosure: S3ControlClientTypes.NoncurrentVersionTransition.readingClosure, memberNodeInfo: "NoncurrentVersionTransition", isFlattened: false)
-            value.noncurrentVersionExpiration = try reader["NoncurrentVersionExpiration"].readIfPresent(readingClosure: S3ControlClientTypes.NoncurrentVersionExpiration.readingClosure)
-            value.abortIncompleteMultipartUpload = try reader["AbortIncompleteMultipartUpload"].readIfPresent(readingClosure: S3ControlClientTypes.AbortIncompleteMultipartUpload.readingClosure)
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.LifecycleRule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.LifecycleRule()
+        value.expiration = try reader["Expiration"].readIfPresent(with: S3ControlClientTypes.LifecycleExpiration.read(from:))
+        value.id = try reader["ID"].readIfPresent()
+        value.filter = try reader["Filter"].readIfPresent(with: S3ControlClientTypes.LifecycleRuleFilter.read(from:))
+        value.status = try reader["Status"].readIfPresent()
+        value.transitions = try reader["Transitions"].readListIfPresent(memberReadingClosure: S3ControlClientTypes.Transition.read(from:), memberNodeInfo: "Transition", isFlattened: false)
+        value.noncurrentVersionTransitions = try reader["NoncurrentVersionTransitions"].readListIfPresent(memberReadingClosure: S3ControlClientTypes.NoncurrentVersionTransition.read(from:), memberNodeInfo: "NoncurrentVersionTransition", isFlattened: false)
+        value.noncurrentVersionExpiration = try reader["NoncurrentVersionExpiration"].readIfPresent(with: S3ControlClientTypes.NoncurrentVersionExpiration.read(from:))
+        value.abortIncompleteMultipartUpload = try reader["AbortIncompleteMultipartUpload"].readIfPresent(with: S3ControlClientTypes.AbortIncompleteMultipartUpload.read(from:))
+        return value
     }
 }
 
@@ -8046,24 +7659,22 @@ extension S3ControlClientTypes {
 
 extension S3ControlClientTypes.LifecycleRuleAndOperator {
 
-    static func writingClosure(_ value: S3ControlClientTypes.LifecycleRuleAndOperator?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ControlClientTypes.LifecycleRuleAndOperator?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["ObjectSizeGreaterThan"].write(value.objectSizeGreaterThan)
         try writer["ObjectSizeLessThan"].write(value.objectSizeLessThan)
         try writer["Prefix"].write(value.`prefix`)
-        try writer["Tags"].writeList(value.tags, memberWritingClosure: S3ControlClientTypes.S3Tag.writingClosure(_:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: S3ControlClientTypes.S3Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.LifecycleRuleAndOperator, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.LifecycleRuleAndOperator()
-            value.`prefix` = try reader["Prefix"].readIfPresent()
-            value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: S3ControlClientTypes.S3Tag.readingClosure, memberNodeInfo: "member", isFlattened: false)
-            value.objectSizeGreaterThan = try reader["ObjectSizeGreaterThan"].readIfPresent()
-            value.objectSizeLessThan = try reader["ObjectSizeLessThan"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.LifecycleRuleAndOperator {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.LifecycleRuleAndOperator()
+        value.`prefix` = try reader["Prefix"].readIfPresent()
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: S3ControlClientTypes.S3Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.objectSizeGreaterThan = try reader["ObjectSizeGreaterThan"].readIfPresent()
+        value.objectSizeLessThan = try reader["ObjectSizeLessThan"].readIfPresent()
+        return value
     }
 }
 
@@ -8097,26 +7708,24 @@ extension S3ControlClientTypes {
 
 extension S3ControlClientTypes.LifecycleRuleFilter {
 
-    static func writingClosure(_ value: S3ControlClientTypes.LifecycleRuleFilter?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["And"].write(value.and, writingClosure: S3ControlClientTypes.LifecycleRuleAndOperator.writingClosure(_:to:))
+    static func write(value: S3ControlClientTypes.LifecycleRuleFilter?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["And"].write(value.and, with: S3ControlClientTypes.LifecycleRuleAndOperator.write(value:to:))
         try writer["ObjectSizeGreaterThan"].write(value.objectSizeGreaterThan)
         try writer["ObjectSizeLessThan"].write(value.objectSizeLessThan)
         try writer["Prefix"].write(value.`prefix`)
-        try writer["Tag"].write(value.tag, writingClosure: S3ControlClientTypes.S3Tag.writingClosure(_:to:))
+        try writer["Tag"].write(value.tag, with: S3ControlClientTypes.S3Tag.write(value:to:))
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.LifecycleRuleFilter, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.LifecycleRuleFilter()
-            value.`prefix` = try reader["Prefix"].readIfPresent()
-            value.tag = try reader["Tag"].readIfPresent(readingClosure: S3ControlClientTypes.S3Tag.readingClosure)
-            value.and = try reader["And"].readIfPresent(readingClosure: S3ControlClientTypes.LifecycleRuleAndOperator.readingClosure)
-            value.objectSizeGreaterThan = try reader["ObjectSizeGreaterThan"].readIfPresent()
-            value.objectSizeLessThan = try reader["ObjectSizeLessThan"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.LifecycleRuleFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.LifecycleRuleFilter()
+        value.`prefix` = try reader["Prefix"].readIfPresent()
+        value.tag = try reader["Tag"].readIfPresent(with: S3ControlClientTypes.S3Tag.read(from:))
+        value.and = try reader["And"].readIfPresent(with: S3ControlClientTypes.LifecycleRuleAndOperator.read(from:))
+        value.objectSizeGreaterThan = try reader["ObjectSizeGreaterThan"].readIfPresent()
+        value.objectSizeLessThan = try reader["ObjectSizeLessThan"].readIfPresent()
+        return value
     }
 }
 
@@ -8154,34 +7763,19 @@ extension S3ControlClientTypes {
 
 extension S3ControlClientTypes.ListAccessGrantEntry {
 
-    static func writingClosure(_ value: S3ControlClientTypes.ListAccessGrantEntry?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["AccessGrantArn"].write(value.accessGrantArn)
-        try writer["AccessGrantId"].write(value.accessGrantId)
-        try writer["AccessGrantsLocationConfiguration"].write(value.accessGrantsLocationConfiguration, writingClosure: S3ControlClientTypes.AccessGrantsLocationConfiguration.writingClosure(_:to:))
-        try writer["AccessGrantsLocationId"].write(value.accessGrantsLocationId)
-        try writer["ApplicationArn"].write(value.applicationArn)
-        try writer["CreatedAt"].writeTimestamp(value.createdAt, format: .dateTime)
-        try writer["GrantScope"].write(value.grantScope)
-        try writer["Grantee"].write(value.grantee, writingClosure: S3ControlClientTypes.Grantee.writingClosure(_:to:))
-        try writer["Permission"].write(value.permission)
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.ListAccessGrantEntry, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.ListAccessGrantEntry()
-            value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: .dateTime)
-            value.accessGrantId = try reader["AccessGrantId"].readIfPresent()
-            value.accessGrantArn = try reader["AccessGrantArn"].readIfPresent()
-            value.grantee = try reader["Grantee"].readIfPresent(readingClosure: S3ControlClientTypes.Grantee.readingClosure)
-            value.permission = try reader["Permission"].readIfPresent()
-            value.accessGrantsLocationId = try reader["AccessGrantsLocationId"].readIfPresent()
-            value.accessGrantsLocationConfiguration = try reader["AccessGrantsLocationConfiguration"].readIfPresent(readingClosure: S3ControlClientTypes.AccessGrantsLocationConfiguration.readingClosure)
-            value.grantScope = try reader["GrantScope"].readIfPresent()
-            value.applicationArn = try reader["ApplicationArn"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.ListAccessGrantEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.ListAccessGrantEntry()
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: .dateTime)
+        value.accessGrantId = try reader["AccessGrantId"].readIfPresent()
+        value.accessGrantArn = try reader["AccessGrantArn"].readIfPresent()
+        value.grantee = try reader["Grantee"].readIfPresent(with: S3ControlClientTypes.Grantee.read(from:))
+        value.permission = try reader["Permission"].readIfPresent()
+        value.accessGrantsLocationId = try reader["AccessGrantsLocationId"].readIfPresent()
+        value.accessGrantsLocationConfiguration = try reader["AccessGrantsLocationConfiguration"].readIfPresent(with: S3ControlClientTypes.AccessGrantsLocationConfiguration.read(from:))
+        value.grantScope = try reader["GrantScope"].readIfPresent()
+        value.applicationArn = try reader["ApplicationArn"].readIfPresent()
+        return value
     }
 }
 
@@ -8348,24 +7942,14 @@ public struct ListAccessGrantsInput {
 
 extension S3ControlClientTypes.ListAccessGrantsInstanceEntry {
 
-    static func writingClosure(_ value: S3ControlClientTypes.ListAccessGrantsInstanceEntry?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["AccessGrantsInstanceArn"].write(value.accessGrantsInstanceArn)
-        try writer["AccessGrantsInstanceId"].write(value.accessGrantsInstanceId)
-        try writer["CreatedAt"].writeTimestamp(value.createdAt, format: .dateTime)
-        try writer["IdentityCenterArn"].write(value.identityCenterArn)
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.ListAccessGrantsInstanceEntry, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.ListAccessGrantsInstanceEntry()
-            value.accessGrantsInstanceId = try reader["AccessGrantsInstanceId"].readIfPresent()
-            value.accessGrantsInstanceArn = try reader["AccessGrantsInstanceArn"].readIfPresent()
-            value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: .dateTime)
-            value.identityCenterArn = try reader["IdentityCenterArn"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.ListAccessGrantsInstanceEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.ListAccessGrantsInstanceEntry()
+        value.accessGrantsInstanceId = try reader["AccessGrantsInstanceId"].readIfPresent()
+        value.accessGrantsInstanceArn = try reader["AccessGrantsInstanceArn"].readIfPresent()
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: .dateTime)
+        value.identityCenterArn = try reader["IdentityCenterArn"].readIfPresent()
+        return value
     }
 }
 
@@ -8454,15 +8038,14 @@ public struct ListAccessGrantsInstancesInput {
 
 extension ListAccessGrantsInstancesOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<ListAccessGrantsInstancesOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = ListAccessGrantsInstancesOutput()
-            value.accessGrantsInstancesList = try reader["AccessGrantsInstancesList"].readListIfPresent(memberReadingClosure: S3ControlClientTypes.ListAccessGrantsInstanceEntry.readingClosure, memberNodeInfo: "AccessGrantsInstance", isFlattened: false)
-            value.nextToken = try reader["NextToken"].readIfPresent()
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListAccessGrantsInstancesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListAccessGrantsInstancesOutput()
+        value.accessGrantsInstancesList = try reader["AccessGrantsInstancesList"].readListIfPresent(memberReadingClosure: S3ControlClientTypes.ListAccessGrantsInstanceEntry.read(from:), memberNodeInfo: "AccessGrantsInstance", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
     }
 }
 
@@ -8484,39 +8067,28 @@ public struct ListAccessGrantsInstancesOutput {
 
 enum ListAccessGrantsInstancesOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
 
 extension S3ControlClientTypes.ListAccessGrantsLocationsEntry {
 
-    static func writingClosure(_ value: S3ControlClientTypes.ListAccessGrantsLocationsEntry?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["AccessGrantsLocationArn"].write(value.accessGrantsLocationArn)
-        try writer["AccessGrantsLocationId"].write(value.accessGrantsLocationId)
-        try writer["CreatedAt"].writeTimestamp(value.createdAt, format: .dateTime)
-        try writer["IAMRoleArn"].write(value.iamRoleArn)
-        try writer["LocationScope"].write(value.locationScope)
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.ListAccessGrantsLocationsEntry, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.ListAccessGrantsLocationsEntry()
-            value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: .dateTime)
-            value.accessGrantsLocationId = try reader["AccessGrantsLocationId"].readIfPresent()
-            value.accessGrantsLocationArn = try reader["AccessGrantsLocationArn"].readIfPresent()
-            value.locationScope = try reader["LocationScope"].readIfPresent()
-            value.iamRoleArn = try reader["IAMRoleArn"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.ListAccessGrantsLocationsEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.ListAccessGrantsLocationsEntry()
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: .dateTime)
+        value.accessGrantsLocationId = try reader["AccessGrantsLocationId"].readIfPresent()
+        value.accessGrantsLocationArn = try reader["AccessGrantsLocationArn"].readIfPresent()
+        value.locationScope = try reader["LocationScope"].readIfPresent()
+        value.iamRoleArn = try reader["IAMRoleArn"].readIfPresent()
+        return value
     }
 }
 
@@ -8617,15 +8189,14 @@ public struct ListAccessGrantsLocationsInput {
 
 extension ListAccessGrantsLocationsOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<ListAccessGrantsLocationsOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = ListAccessGrantsLocationsOutput()
-            value.accessGrantsLocationsList = try reader["AccessGrantsLocationsList"].readListIfPresent(memberReadingClosure: S3ControlClientTypes.ListAccessGrantsLocationsEntry.readingClosure, memberNodeInfo: "AccessGrantsLocation", isFlattened: false)
-            value.nextToken = try reader["NextToken"].readIfPresent()
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListAccessGrantsLocationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListAccessGrantsLocationsOutput()
+        value.accessGrantsLocationsList = try reader["AccessGrantsLocationsList"].readListIfPresent(memberReadingClosure: S3ControlClientTypes.ListAccessGrantsLocationsEntry.read(from:), memberNodeInfo: "AccessGrantsLocation", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
     }
 }
 
@@ -8647,28 +8218,27 @@ public struct ListAccessGrantsLocationsOutput {
 
 enum ListAccessGrantsLocationsOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
 
 extension ListAccessGrantsOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<ListAccessGrantsOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = ListAccessGrantsOutput()
-            value.accessGrantsList = try reader["AccessGrantsList"].readListIfPresent(memberReadingClosure: S3ControlClientTypes.ListAccessGrantEntry.readingClosure, memberNodeInfo: "AccessGrant", isFlattened: false)
-            value.nextToken = try reader["NextToken"].readIfPresent()
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListAccessGrantsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListAccessGrantsOutput()
+        value.accessGrantsList = try reader["AccessGrantsList"].readListIfPresent(memberReadingClosure: S3ControlClientTypes.ListAccessGrantEntry.read(from:), memberNodeInfo: "AccessGrant", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
     }
 }
 
@@ -8690,13 +8260,13 @@ public struct ListAccessGrantsOutput {
 
 enum ListAccessGrantsOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -8758,15 +8328,14 @@ public struct ListAccessPointsForObjectLambdaInput {
 
 extension ListAccessPointsForObjectLambdaOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<ListAccessPointsForObjectLambdaOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = ListAccessPointsForObjectLambdaOutput()
-            value.nextToken = try reader["NextToken"].readIfPresent()
-            value.objectLambdaAccessPointList = try reader["ObjectLambdaAccessPointList"].readListIfPresent(memberReadingClosure: S3ControlClientTypes.ObjectLambdaAccessPoint.readingClosure, memberNodeInfo: "ObjectLambdaAccessPoint", isFlattened: false)
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListAccessPointsForObjectLambdaOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListAccessPointsForObjectLambdaOutput()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.objectLambdaAccessPointList = try reader["ObjectLambdaAccessPointList"].readListIfPresent(memberReadingClosure: S3ControlClientTypes.ObjectLambdaAccessPoint.read(from:), memberNodeInfo: "ObjectLambdaAccessPoint", isFlattened: false)
+        return value
     }
 }
 
@@ -8788,13 +8357,13 @@ public struct ListAccessPointsForObjectLambdaOutput {
 
 enum ListAccessPointsForObjectLambdaOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -8864,15 +8433,14 @@ public struct ListAccessPointsInput {
 
 extension ListAccessPointsOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<ListAccessPointsOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = ListAccessPointsOutput()
-            value.accessPointList = try reader["AccessPointList"].readListIfPresent(memberReadingClosure: S3ControlClientTypes.AccessPoint.readingClosure, memberNodeInfo: "AccessPoint", isFlattened: false)
-            value.nextToken = try reader["NextToken"].readIfPresent()
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListAccessPointsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListAccessPointsOutput()
+        value.accessPointList = try reader["AccessPointList"].readListIfPresent(memberReadingClosure: S3ControlClientTypes.AccessPoint.read(from:), memberNodeInfo: "AccessPoint", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
     }
 }
 
@@ -8894,13 +8462,13 @@ public struct ListAccessPointsOutput {
 
 enum ListAccessPointsOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -8972,15 +8540,14 @@ public struct ListJobsInput {
 
 extension ListJobsOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<ListJobsOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = ListJobsOutput()
-            value.jobs = try reader["Jobs"].readListIfPresent(memberReadingClosure: S3ControlClientTypes.JobListDescriptor.readingClosure, memberNodeInfo: "member", isFlattened: false)
-            value.nextToken = try reader["NextToken"].readIfPresent()
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListJobsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListJobsOutput()
+        value.jobs = try reader["Jobs"].readListIfPresent(memberReadingClosure: S3ControlClientTypes.JobListDescriptor.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
     }
 }
 
@@ -9002,17 +8569,16 @@ public struct ListJobsOutput {
 
 enum ListJobsOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let errorBodyReader = AWSClientRuntime.RestXMLError.errorBodyReader(responseReader: responseReader, noErrorWrapping: false)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                case "InternalServiceException": return try await InternalServiceException.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "InvalidNextTokenException": return try await InvalidNextTokenException.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "InvalidRequestException": return try await InvalidRequestException.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidNextTokenException": return try InvalidNextTokenException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -9074,15 +8640,14 @@ public struct ListMultiRegionAccessPointsInput {
 
 extension ListMultiRegionAccessPointsOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<ListMultiRegionAccessPointsOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = ListMultiRegionAccessPointsOutput()
-            value.accessPoints = try reader["AccessPoints"].readListIfPresent(memberReadingClosure: S3ControlClientTypes.MultiRegionAccessPointReport.readingClosure, memberNodeInfo: "AccessPoint", isFlattened: false)
-            value.nextToken = try reader["NextToken"].readIfPresent()
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListMultiRegionAccessPointsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListMultiRegionAccessPointsOutput()
+        value.accessPoints = try reader["AccessPoints"].readListIfPresent(memberReadingClosure: S3ControlClientTypes.MultiRegionAccessPointReport.read(from:), memberNodeInfo: "AccessPoint", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
     }
 }
 
@@ -9104,13 +8669,13 @@ public struct ListMultiRegionAccessPointsOutput {
 
 enum ListMultiRegionAccessPointsOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -9179,15 +8744,14 @@ public struct ListRegionalBucketsInput {
 
 extension ListRegionalBucketsOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<ListRegionalBucketsOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = ListRegionalBucketsOutput()
-            value.nextToken = try reader["NextToken"].readIfPresent()
-            value.regionalBucketList = try reader["RegionalBucketList"].readListIfPresent(memberReadingClosure: S3ControlClientTypes.RegionalBucket.readingClosure, memberNodeInfo: "RegionalBucket", isFlattened: false)
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListRegionalBucketsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListRegionalBucketsOutput()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.regionalBucketList = try reader["RegionalBucketList"].readListIfPresent(memberReadingClosure: S3ControlClientTypes.RegionalBucket.read(from:), memberNodeInfo: "RegionalBucket", isFlattened: false)
+        return value
     }
 }
 
@@ -9209,37 +8773,27 @@ public struct ListRegionalBucketsOutput {
 
 enum ListRegionalBucketsOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
 
 extension S3ControlClientTypes.ListStorageLensConfigurationEntry {
 
-    static func writingClosure(_ value: S3ControlClientTypes.ListStorageLensConfigurationEntry?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["HomeRegion"].write(value.homeRegion)
-        try writer["Id"].write(value.id)
-        try writer["IsEnabled"].write(value.isEnabled)
-        try writer["StorageLensArn"].write(value.storageLensArn)
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.ListStorageLensConfigurationEntry, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.ListStorageLensConfigurationEntry()
-            value.id = try reader["Id"].readIfPresent()
-            value.storageLensArn = try reader["StorageLensArn"].readIfPresent()
-            value.homeRegion = try reader["HomeRegion"].readIfPresent()
-            value.isEnabled = try reader["IsEnabled"].readIfPresent() ?? false
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.ListStorageLensConfigurationEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.ListStorageLensConfigurationEntry()
+        value.id = try reader["Id"].readIfPresent()
+        value.storageLensArn = try reader["StorageLensArn"].readIfPresent()
+        value.homeRegion = try reader["HomeRegion"].readIfPresent()
+        value.isEnabled = try reader["IsEnabled"].readIfPresent() ?? false
+        return value
     }
 }
 
@@ -9323,15 +8877,14 @@ public struct ListStorageLensConfigurationsInput {
 
 extension ListStorageLensConfigurationsOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<ListStorageLensConfigurationsOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = ListStorageLensConfigurationsOutput()
-            value.nextToken = try reader["NextToken"].readIfPresent()
-            value.storageLensConfigurationList = try reader["StorageLensConfigurationList"].readListIfPresent(memberReadingClosure: S3ControlClientTypes.ListStorageLensConfigurationEntry.readingClosure, memberNodeInfo: "StorageLensConfiguration", isFlattened: true)
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListStorageLensConfigurationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListStorageLensConfigurationsOutput()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.storageLensConfigurationList = try reader["StorageLensConfigurationList"].readListIfPresent(memberReadingClosure: S3ControlClientTypes.ListStorageLensConfigurationEntry.read(from:), memberNodeInfo: "StorageLensConfiguration", isFlattened: true)
+        return value
     }
 }
 
@@ -9353,35 +8906,26 @@ public struct ListStorageLensConfigurationsOutput {
 
 enum ListStorageLensConfigurationsOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
 
 extension S3ControlClientTypes.ListStorageLensGroupEntry {
 
-    static func writingClosure(_ value: S3ControlClientTypes.ListStorageLensGroupEntry?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["HomeRegion"].write(value.homeRegion)
-        try writer["Name"].write(value.name)
-        try writer["StorageLensGroupArn"].write(value.storageLensGroupArn)
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.ListStorageLensGroupEntry, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.ListStorageLensGroupEntry()
-            value.name = try reader["Name"].readIfPresent()
-            value.storageLensGroupArn = try reader["StorageLensGroupArn"].readIfPresent()
-            value.homeRegion = try reader["HomeRegion"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.ListStorageLensGroupEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.ListStorageLensGroupEntry()
+        value.name = try reader["Name"].readIfPresent()
+        value.storageLensGroupArn = try reader["StorageLensGroupArn"].readIfPresent()
+        value.homeRegion = try reader["HomeRegion"].readIfPresent()
+        return value
     }
 }
 
@@ -9461,15 +9005,14 @@ public struct ListStorageLensGroupsInput {
 
 extension ListStorageLensGroupsOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<ListStorageLensGroupsOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = ListStorageLensGroupsOutput()
-            value.nextToken = try reader["NextToken"].readIfPresent()
-            value.storageLensGroupList = try reader["StorageLensGroupList"].readListIfPresent(memberReadingClosure: S3ControlClientTypes.ListStorageLensGroupEntry.readingClosure, memberNodeInfo: "StorageLensGroup", isFlattened: true)
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListStorageLensGroupsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListStorageLensGroupsOutput()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.storageLensGroupList = try reader["StorageLensGroupList"].readListIfPresent(memberReadingClosure: S3ControlClientTypes.ListStorageLensGroupEntry.read(from:), memberNodeInfo: "StorageLensGroup", isFlattened: true)
+        return value
     }
 }
 
@@ -9491,13 +9034,13 @@ public struct ListStorageLensGroupsOutput {
 
 enum ListStorageLensGroupsOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -9543,14 +9086,13 @@ public struct ListTagsForResourceInput {
 
 extension ListTagsForResourceOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<ListTagsForResourceOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = ListTagsForResourceOutput()
-            value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: S3ControlClientTypes.Tag.readingClosure, memberNodeInfo: "Tag", isFlattened: false)
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTagsForResourceOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListTagsForResourceOutput()
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: S3ControlClientTypes.Tag.read(from:), memberNodeInfo: "Tag", isFlattened: false)
+        return value
     }
 }
 
@@ -9568,19 +9110,20 @@ public struct ListTagsForResourceOutput {
 
 enum ListTagsForResourceOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
 
 extension S3ControlClientTypes {
-    public enum MFADelete: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum MFADelete: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case disabled
         case enabled
         case sdkUnknown(Swift.String)
@@ -9592,10 +9135,12 @@ extension S3ControlClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .disabled: return "Disabled"
@@ -9603,16 +9148,12 @@ extension S3ControlClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = MFADelete(rawValue: rawValue) ?? MFADelete.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension S3ControlClientTypes {
-    public enum MFADeleteStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum MFADeleteStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case disabled
         case enabled
         case sdkUnknown(Swift.String)
@@ -9624,10 +9165,12 @@ extension S3ControlClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .disabled: return "Disabled"
@@ -9635,30 +9178,23 @@ extension S3ControlClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = MFADeleteStatus(rawValue: rawValue) ?? MFADeleteStatus.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension S3ControlClientTypes.MatchObjectAge {
 
-    static func writingClosure(_ value: S3ControlClientTypes.MatchObjectAge?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ControlClientTypes.MatchObjectAge?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["DaysGreaterThan"].write(value.daysGreaterThan)
         try writer["DaysLessThan"].write(value.daysLessThan)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.MatchObjectAge, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.MatchObjectAge()
-            value.daysGreaterThan = try reader["DaysGreaterThan"].readIfPresent() ?? 0
-            value.daysLessThan = try reader["DaysLessThan"].readIfPresent() ?? 0
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.MatchObjectAge {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.MatchObjectAge()
+        value.daysGreaterThan = try reader["DaysGreaterThan"].readIfPresent() ?? 0
+        value.daysLessThan = try reader["DaysLessThan"].readIfPresent() ?? 0
+        return value
     }
 }
 
@@ -9684,20 +9220,18 @@ extension S3ControlClientTypes {
 
 extension S3ControlClientTypes.MatchObjectSize {
 
-    static func writingClosure(_ value: S3ControlClientTypes.MatchObjectSize?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ControlClientTypes.MatchObjectSize?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["BytesGreaterThan"].write(value.bytesGreaterThan)
         try writer["BytesLessThan"].write(value.bytesLessThan)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.MatchObjectSize, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.MatchObjectSize()
-            value.bytesGreaterThan = try reader["BytesGreaterThan"].readIfPresent() ?? 0
-            value.bytesLessThan = try reader["BytesLessThan"].readIfPresent() ?? 0
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.MatchObjectSize {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.MatchObjectSize()
+        value.bytesGreaterThan = try reader["BytesGreaterThan"].readIfPresent() ?? 0
+        value.bytesLessThan = try reader["BytesLessThan"].readIfPresent() ?? 0
+        return value
     }
 }
 
@@ -9723,20 +9257,18 @@ extension S3ControlClientTypes {
 
 extension S3ControlClientTypes.Metrics {
 
-    static func writingClosure(_ value: S3ControlClientTypes.Metrics?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["EventThreshold"].write(value.eventThreshold, writingClosure: S3ControlClientTypes.ReplicationTimeValue.writingClosure(_:to:))
+    static func write(value: S3ControlClientTypes.Metrics?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["EventThreshold"].write(value.eventThreshold, with: S3ControlClientTypes.ReplicationTimeValue.write(value:to:))
         try writer["Status"].write(value.status)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.Metrics, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.Metrics()
-            value.status = try reader["Status"].readIfPresent()
-            value.eventThreshold = try reader["EventThreshold"].readIfPresent(readingClosure: S3ControlClientTypes.ReplicationTimeValue.readingClosure)
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.Metrics {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.Metrics()
+        value.status = try reader["Status"].readIfPresent()
+        value.eventThreshold = try reader["EventThreshold"].readIfPresent(with: S3ControlClientTypes.ReplicationTimeValue.read(from:))
+        return value
     }
 }
 
@@ -9762,7 +9294,8 @@ extension S3ControlClientTypes {
 }
 
 extension S3ControlClientTypes {
-    public enum MetricsStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum MetricsStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case disabled
         case enabled
         case sdkUnknown(Swift.String)
@@ -9774,10 +9307,12 @@ extension S3ControlClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .disabled: return "Disabled"
@@ -9785,30 +9320,17 @@ extension S3ControlClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = MetricsStatus(rawValue: rawValue) ?? MetricsStatus.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension S3ControlClientTypes.MultiRegionAccessPointPolicyDocument {
 
-    static func writingClosure(_ value: S3ControlClientTypes.MultiRegionAccessPointPolicyDocument?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["Established"].write(value.established, writingClosure: S3ControlClientTypes.EstablishedMultiRegionAccessPointPolicy.writingClosure(_:to:))
-        try writer["Proposed"].write(value.proposed, writingClosure: S3ControlClientTypes.ProposedMultiRegionAccessPointPolicy.writingClosure(_:to:))
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.MultiRegionAccessPointPolicyDocument, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.MultiRegionAccessPointPolicyDocument()
-            value.established = try reader["Established"].readIfPresent(readingClosure: S3ControlClientTypes.EstablishedMultiRegionAccessPointPolicy.readingClosure)
-            value.proposed = try reader["Proposed"].readIfPresent(readingClosure: S3ControlClientTypes.ProposedMultiRegionAccessPointPolicy.readingClosure)
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.MultiRegionAccessPointPolicyDocument {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.MultiRegionAccessPointPolicyDocument()
+        value.established = try reader["Established"].readIfPresent(with: S3ControlClientTypes.EstablishedMultiRegionAccessPointPolicy.read(from:))
+        value.proposed = try reader["Proposed"].readIfPresent(with: S3ControlClientTypes.ProposedMultiRegionAccessPointPolicy.read(from:))
+        return value
     }
 }
 
@@ -9834,20 +9356,12 @@ extension S3ControlClientTypes {
 
 extension S3ControlClientTypes.MultiRegionAccessPointRegionalResponse {
 
-    static func writingClosure(_ value: S3ControlClientTypes.MultiRegionAccessPointRegionalResponse?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["Name"].write(value.name)
-        try writer["RequestStatus"].write(value.requestStatus)
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.MultiRegionAccessPointRegionalResponse, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.MultiRegionAccessPointRegionalResponse()
-            value.name = try reader["Name"].readIfPresent()
-            value.requestStatus = try reader["RequestStatus"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.MultiRegionAccessPointRegionalResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.MultiRegionAccessPointRegionalResponse()
+        value.name = try reader["Name"].readIfPresent()
+        value.requestStatus = try reader["RequestStatus"].readIfPresent()
+        return value
     }
 }
 
@@ -9873,28 +9387,16 @@ extension S3ControlClientTypes {
 
 extension S3ControlClientTypes.MultiRegionAccessPointReport {
 
-    static func writingClosure(_ value: S3ControlClientTypes.MultiRegionAccessPointReport?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["Alias"].write(value.alias)
-        try writer["CreatedAt"].writeTimestamp(value.createdAt, format: .dateTime)
-        try writer["Name"].write(value.name)
-        try writer["PublicAccessBlock"].write(value.publicAccessBlock, writingClosure: S3ControlClientTypes.PublicAccessBlockConfiguration.writingClosure(_:to:))
-        try writer["Regions"].writeList(value.regions, memberWritingClosure: S3ControlClientTypes.RegionReport.writingClosure(_:to:), memberNodeInfo: "Region", isFlattened: false)
-        try writer["Status"].write(value.status)
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.MultiRegionAccessPointReport, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.MultiRegionAccessPointReport()
-            value.name = try reader["Name"].readIfPresent()
-            value.alias = try reader["Alias"].readIfPresent()
-            value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: .dateTime)
-            value.publicAccessBlock = try reader["PublicAccessBlock"].readIfPresent(readingClosure: S3ControlClientTypes.PublicAccessBlockConfiguration.readingClosure)
-            value.status = try reader["Status"].readIfPresent()
-            value.regions = try reader["Regions"].readListIfPresent(memberReadingClosure: S3ControlClientTypes.RegionReport.readingClosure, memberNodeInfo: "Region", isFlattened: false)
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.MultiRegionAccessPointReport {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.MultiRegionAccessPointReport()
+        value.name = try reader["Name"].readIfPresent()
+        value.alias = try reader["Alias"].readIfPresent()
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: .dateTime)
+        value.publicAccessBlock = try reader["PublicAccessBlock"].readIfPresent(with: S3ControlClientTypes.PublicAccessBlockConfiguration.read(from:))
+        value.status = try reader["Status"].readIfPresent()
+        value.regions = try reader["Regions"].readListIfPresent(memberReadingClosure: S3ControlClientTypes.RegionReport.read(from:), memberNodeInfo: "Region", isFlattened: false)
+        return value
     }
 }
 
@@ -9936,22 +9438,20 @@ extension S3ControlClientTypes {
 
 extension S3ControlClientTypes.MultiRegionAccessPointRoute {
 
-    static func writingClosure(_ value: S3ControlClientTypes.MultiRegionAccessPointRoute?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ControlClientTypes.MultiRegionAccessPointRoute?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["Bucket"].write(value.bucket)
         try writer["Region"].write(value.region)
         try writer["TrafficDialPercentage"].write(value.trafficDialPercentage)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.MultiRegionAccessPointRoute, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.MultiRegionAccessPointRoute()
-            value.bucket = try reader["Bucket"].readIfPresent()
-            value.region = try reader["Region"].readIfPresent()
-            value.trafficDialPercentage = try reader["TrafficDialPercentage"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.MultiRegionAccessPointRoute {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.MultiRegionAccessPointRoute()
+        value.bucket = try reader["Bucket"].readIfPresent()
+        value.region = try reader["Region"].readIfPresent()
+        value.trafficDialPercentage = try reader["TrafficDialPercentage"].readIfPresent()
+        return value
     }
 }
 
@@ -9981,7 +9481,8 @@ extension S3ControlClientTypes {
 }
 
 extension S3ControlClientTypes {
-    public enum MultiRegionAccessPointStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum MultiRegionAccessPointStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case creating
         case deleting
         case inconsistentAcrossRegions
@@ -10001,10 +9502,12 @@ extension S3ControlClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .creating: return "CREATING"
@@ -10016,28 +9519,16 @@ extension S3ControlClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = MultiRegionAccessPointStatus(rawValue: rawValue) ?? MultiRegionAccessPointStatus.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension S3ControlClientTypes.MultiRegionAccessPointsAsyncResponse {
 
-    static func writingClosure(_ value: S3ControlClientTypes.MultiRegionAccessPointsAsyncResponse?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["Regions"].writeList(value.regions, memberWritingClosure: S3ControlClientTypes.MultiRegionAccessPointRegionalResponse.writingClosure(_:to:), memberNodeInfo: "Region", isFlattened: false)
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.MultiRegionAccessPointsAsyncResponse, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.MultiRegionAccessPointsAsyncResponse()
-            value.regions = try reader["Regions"].readListIfPresent(memberReadingClosure: S3ControlClientTypes.MultiRegionAccessPointRegionalResponse.readingClosure, memberNodeInfo: "Region", isFlattened: false)
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.MultiRegionAccessPointsAsyncResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.MultiRegionAccessPointsAsyncResponse()
+        value.regions = try reader["Regions"].readListIfPresent(memberReadingClosure: S3ControlClientTypes.MultiRegionAccessPointRegionalResponse.read(from:), memberNodeInfo: "Region", isFlattened: false)
+        return value
     }
 }
 
@@ -10058,7 +9549,8 @@ extension S3ControlClientTypes {
 }
 
 extension S3ControlClientTypes {
-    public enum NetworkOrigin: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum NetworkOrigin: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case internet
         case vpc
         case sdkUnknown(Swift.String)
@@ -10070,10 +9562,12 @@ extension S3ControlClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .internet: return "Internet"
@@ -10081,34 +9575,18 @@ extension S3ControlClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = NetworkOrigin(rawValue: rawValue) ?? NetworkOrigin.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension NoSuchPublicAccessBlockConfiguration {
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<NoSuchPublicAccessBlockConfiguration, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = NoSuchPublicAccessBlockConfiguration()
-            value.properties.message = try reader["Message"].readIfPresent()
-            return value
-        }
-    }
-}
-
-extension NoSuchPublicAccessBlockConfiguration {
-
-    static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws -> Swift.Error {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchPublicAccessBlockConfiguration {
+        let reader = baseError.errorBodyReader
         var value = NoSuchPublicAccessBlockConfiguration()
         value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = httpResponse
-        value.requestID = requestID
-        value.message = message
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
         return value
     }
 }
@@ -10139,20 +9617,18 @@ public struct NoSuchPublicAccessBlockConfiguration: ClientRuntime.ModeledError, 
 
 extension S3ControlClientTypes.NoncurrentVersionExpiration {
 
-    static func writingClosure(_ value: S3ControlClientTypes.NoncurrentVersionExpiration?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ControlClientTypes.NoncurrentVersionExpiration?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["NewerNoncurrentVersions"].write(value.newerNoncurrentVersions)
         try writer["NoncurrentDays"].write(value.noncurrentDays)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.NoncurrentVersionExpiration, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.NoncurrentVersionExpiration()
-            value.noncurrentDays = try reader["NoncurrentDays"].readIfPresent() ?? 0
-            value.newerNoncurrentVersions = try reader["NewerNoncurrentVersions"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.NoncurrentVersionExpiration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.NoncurrentVersionExpiration()
+        value.noncurrentDays = try reader["NoncurrentDays"].readIfPresent() ?? 0
+        value.newerNoncurrentVersions = try reader["NewerNoncurrentVersions"].readIfPresent()
+        return value
     }
 }
 
@@ -10178,20 +9654,18 @@ extension S3ControlClientTypes {
 
 extension S3ControlClientTypes.NoncurrentVersionTransition {
 
-    static func writingClosure(_ value: S3ControlClientTypes.NoncurrentVersionTransition?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ControlClientTypes.NoncurrentVersionTransition?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["NoncurrentDays"].write(value.noncurrentDays)
         try writer["StorageClass"].write(value.storageClass)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.NoncurrentVersionTransition, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.NoncurrentVersionTransition()
-            value.noncurrentDays = try reader["NoncurrentDays"].readIfPresent() ?? 0
-            value.storageClass = try reader["StorageClass"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.NoncurrentVersionTransition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.NoncurrentVersionTransition()
+        value.noncurrentDays = try reader["NoncurrentDays"].readIfPresent() ?? 0
+        value.storageClass = try reader["StorageClass"].readIfPresent()
+        return value
     }
 }
 
@@ -10217,24 +9691,13 @@ extension S3ControlClientTypes {
 
 extension NotFoundException {
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<NotFoundException, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = NotFoundException()
-            value.properties.message = try reader["Message"].readIfPresent()
-            return value
-        }
-    }
-}
-
-extension NotFoundException {
-
-    static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws -> Swift.Error {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NotFoundException {
+        let reader = baseError.errorBodyReader
         var value = NotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = httpResponse
-        value.requestID = requestID
-        value.message = message
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
         return value
     }
 }
@@ -10265,22 +9728,13 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
 extension S3ControlClientTypes.ObjectLambdaAccessPoint {
 
-    static func writingClosure(_ value: S3ControlClientTypes.ObjectLambdaAccessPoint?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["Alias"].write(value.alias, writingClosure: S3ControlClientTypes.ObjectLambdaAccessPointAlias.writingClosure(_:to:))
-        try writer["Name"].write(value.name)
-        try writer["ObjectLambdaAccessPointArn"].write(value.objectLambdaAccessPointArn)
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.ObjectLambdaAccessPoint, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.ObjectLambdaAccessPoint()
-            value.name = try reader["Name"].readIfPresent()
-            value.objectLambdaAccessPointArn = try reader["ObjectLambdaAccessPointArn"].readIfPresent()
-            value.alias = try reader["Alias"].readIfPresent(readingClosure: S3ControlClientTypes.ObjectLambdaAccessPointAlias.readingClosure)
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.ObjectLambdaAccessPoint {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.ObjectLambdaAccessPoint()
+        value.name = try reader["Name"].readIfPresent()
+        value.objectLambdaAccessPointArn = try reader["ObjectLambdaAccessPointArn"].readIfPresent()
+        value.alias = try reader["Alias"].readIfPresent(with: S3ControlClientTypes.ObjectLambdaAccessPointAlias.read(from:))
+        return value
     }
 }
 
@@ -10311,20 +9765,12 @@ extension S3ControlClientTypes {
 
 extension S3ControlClientTypes.ObjectLambdaAccessPointAlias {
 
-    static func writingClosure(_ value: S3ControlClientTypes.ObjectLambdaAccessPointAlias?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["Status"].write(value.status)
-        try writer["Value"].write(value.value)
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.ObjectLambdaAccessPointAlias, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.ObjectLambdaAccessPointAlias()
-            value.value = try reader["Value"].readIfPresent()
-            value.status = try reader["Status"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.ObjectLambdaAccessPointAlias {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.ObjectLambdaAccessPointAlias()
+        value.value = try reader["Value"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        return value
     }
 }
 
@@ -10349,7 +9795,8 @@ extension S3ControlClientTypes {
 }
 
 extension S3ControlClientTypes {
-    public enum ObjectLambdaAccessPointAliasStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum ObjectLambdaAccessPointAliasStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case provisioning
         case ready
         case sdkUnknown(Swift.String)
@@ -10361,10 +9808,12 @@ extension S3ControlClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .provisioning: return "PROVISIONING"
@@ -10372,16 +9821,12 @@ extension S3ControlClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = ObjectLambdaAccessPointAliasStatus(rawValue: rawValue) ?? ObjectLambdaAccessPointAliasStatus.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension S3ControlClientTypes {
-    public enum ObjectLambdaAllowedFeature: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum ObjectLambdaAllowedFeature: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case getobjectpartnumber
         case getobjectrange
         case headobjectpartnumber
@@ -10397,10 +9842,12 @@ extension S3ControlClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .getobjectpartnumber: return "GetObject-PartNumber"
@@ -10410,34 +9857,27 @@ extension S3ControlClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = ObjectLambdaAllowedFeature(rawValue: rawValue) ?? ObjectLambdaAllowedFeature.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension S3ControlClientTypes.ObjectLambdaConfiguration {
 
-    static func writingClosure(_ value: S3ControlClientTypes.ObjectLambdaConfiguration?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["AllowedFeatures"].writeList(value.allowedFeatures, memberWritingClosure: S3ControlClientTypes.ObjectLambdaAllowedFeature.writingClosure(_:to:), memberNodeInfo: "AllowedFeature", isFlattened: false)
+    static func write(value: S3ControlClientTypes.ObjectLambdaConfiguration?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["AllowedFeatures"].writeList(value.allowedFeatures, memberWritingClosure: S3ControlClientTypes.ObjectLambdaAllowedFeature.write(value:to:), memberNodeInfo: "AllowedFeature", isFlattened: false)
         try writer["CloudWatchMetricsEnabled"].write(value.cloudWatchMetricsEnabled)
         try writer["SupportingAccessPoint"].write(value.supportingAccessPoint)
-        try writer["TransformationConfigurations"].writeList(value.transformationConfigurations, memberWritingClosure: S3ControlClientTypes.ObjectLambdaTransformationConfiguration.writingClosure(_:to:), memberNodeInfo: "TransformationConfiguration", isFlattened: false)
+        try writer["TransformationConfigurations"].writeList(value.transformationConfigurations, memberWritingClosure: S3ControlClientTypes.ObjectLambdaTransformationConfiguration.write(value:to:), memberNodeInfo: "TransformationConfiguration", isFlattened: false)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.ObjectLambdaConfiguration, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.ObjectLambdaConfiguration()
-            value.supportingAccessPoint = try reader["SupportingAccessPoint"].readIfPresent()
-            value.cloudWatchMetricsEnabled = try reader["CloudWatchMetricsEnabled"].readIfPresent() ?? false
-            value.allowedFeatures = try reader["AllowedFeatures"].readListIfPresent(memberReadingClosure: S3ControlClientTypes.ObjectLambdaAllowedFeature.readingClosure, memberNodeInfo: "AllowedFeature", isFlattened: false)
-            value.transformationConfigurations = try reader["TransformationConfigurations"].readListIfPresent(memberReadingClosure: S3ControlClientTypes.ObjectLambdaTransformationConfiguration.readingClosure, memberNodeInfo: "TransformationConfiguration", isFlattened: false)
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.ObjectLambdaConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.ObjectLambdaConfiguration()
+        value.supportingAccessPoint = try reader["SupportingAccessPoint"].readIfPresent()
+        value.cloudWatchMetricsEnabled = try reader["CloudWatchMetricsEnabled"].readIfPresent() ?? false
+        value.allowedFeatures = try reader["AllowedFeatures"].readListIfPresent(memberReadingClosure: S3ControlClientTypes.ObjectLambdaAllowedFeature.read(from:), memberNodeInfo: "AllowedFeature", isFlattened: false)
+        value.transformationConfigurations = try reader["TransformationConfigurations"].readListIfPresent(memberReadingClosure: S3ControlClientTypes.ObjectLambdaTransformationConfiguration.read(from:), memberNodeInfo: "TransformationConfiguration", isFlattened: false)
+        return value
     }
 }
 
@@ -10473,26 +9913,24 @@ extension S3ControlClientTypes {
 
 extension S3ControlClientTypes.ObjectLambdaContentTransformation {
 
-    static func writingClosure(_ value: S3ControlClientTypes.ObjectLambdaContentTransformation?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ControlClientTypes.ObjectLambdaContentTransformation?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         switch value {
             case let .awslambda(awslambda):
-                try writer["AwsLambda"].write(awslambda, writingClosure: S3ControlClientTypes.AwsLambdaTransformation.writingClosure(_:to:))
+                try writer["AwsLambda"].write(awslambda, with: S3ControlClientTypes.AwsLambdaTransformation.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
-                try writer[.init("sdkUnknown")].write(sdkUnknown)
+                try writer["sdkUnknown"].write(sdkUnknown)
         }
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.ObjectLambdaContentTransformation, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            let name = reader.children.first?.nodeInfo.name
-            switch name {
-                case "AwsLambda":
-                    return .awslambda(try reader["AwsLambda"].read(readingClosure: S3ControlClientTypes.AwsLambdaTransformation.readingClosure))
-                default:
-                    return .sdkUnknown(name ?? "")
-            }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.ObjectLambdaContentTransformation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "AwsLambda":
+                return .awslambda(try reader["AwsLambda"].read(with: S3ControlClientTypes.AwsLambdaTransformation.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
         }
     }
 }
@@ -10509,20 +9947,18 @@ extension S3ControlClientTypes {
 
 extension S3ControlClientTypes.ObjectLambdaTransformationConfiguration {
 
-    static func writingClosure(_ value: S3ControlClientTypes.ObjectLambdaTransformationConfiguration?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["Actions"].writeList(value.actions, memberWritingClosure: S3ControlClientTypes.ObjectLambdaTransformationConfigurationAction.writingClosure(_:to:), memberNodeInfo: "Action", isFlattened: false)
-        try writer["ContentTransformation"].write(value.contentTransformation, writingClosure: S3ControlClientTypes.ObjectLambdaContentTransformation.writingClosure(_:to:))
+    static func write(value: S3ControlClientTypes.ObjectLambdaTransformationConfiguration?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Actions"].writeList(value.actions, memberWritingClosure: S3ControlClientTypes.ObjectLambdaTransformationConfigurationAction.write(value:to:), memberNodeInfo: "Action", isFlattened: false)
+        try writer["ContentTransformation"].write(value.contentTransformation, with: S3ControlClientTypes.ObjectLambdaContentTransformation.write(value:to:))
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.ObjectLambdaTransformationConfiguration, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.ObjectLambdaTransformationConfiguration()
-            value.actions = try reader["Actions"].readListIfPresent(memberReadingClosure: S3ControlClientTypes.ObjectLambdaTransformationConfigurationAction.readingClosure, memberNodeInfo: "Action", isFlattened: false)
-            value.contentTransformation = try reader["ContentTransformation"].readIfPresent(readingClosure: S3ControlClientTypes.ObjectLambdaContentTransformation.readingClosure)
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.ObjectLambdaTransformationConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.ObjectLambdaTransformationConfiguration()
+        value.actions = try reader["Actions"].readListIfPresent(memberReadingClosure: S3ControlClientTypes.ObjectLambdaTransformationConfigurationAction.read(from:), memberNodeInfo: "Action", isFlattened: false)
+        value.contentTransformation = try reader["ContentTransformation"].readIfPresent(with: S3ControlClientTypes.ObjectLambdaContentTransformation.read(from:))
+        return value
     }
 }
 
@@ -10549,7 +9985,8 @@ extension S3ControlClientTypes {
 }
 
 extension S3ControlClientTypes {
-    public enum ObjectLambdaTransformationConfigurationAction: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum ObjectLambdaTransformationConfigurationAction: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case getobject
         case headobject
         case listobjects
@@ -10565,10 +10002,12 @@ extension S3ControlClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .getobject: return "GetObject"
@@ -10578,16 +10017,12 @@ extension S3ControlClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = ObjectLambdaTransformationConfigurationAction(rawValue: rawValue) ?? ObjectLambdaTransformationConfigurationAction.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension S3ControlClientTypes {
-    public enum OperationName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum OperationName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case lambdainvoke
         case s3deleteobjecttagging
         case s3initiaterestoreobject
@@ -10613,10 +10048,12 @@ extension S3ControlClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .lambdainvoke: return "LambdaInvoke"
@@ -10631,16 +10068,12 @@ extension S3ControlClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = OperationName(rawValue: rawValue) ?? OperationName.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension S3ControlClientTypes {
-    public enum OutputSchemaVersion: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum OutputSchemaVersion: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case v1
         case sdkUnknown(Swift.String)
 
@@ -10650,26 +10083,24 @@ extension S3ControlClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .v1: return "V_1"
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = OutputSchemaVersion(rawValue: rawValue) ?? OutputSchemaVersion.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension S3ControlClientTypes {
-    public enum OwnerOverride: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum OwnerOverride: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case destination
         case sdkUnknown(Swift.String)
 
@@ -10679,26 +10110,24 @@ extension S3ControlClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .destination: return "Destination"
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = OwnerOverride(rawValue: rawValue) ?? OwnerOverride.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension S3ControlClientTypes {
-    public enum Permission: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum Permission: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case read
         case readwrite
         case write
@@ -10712,10 +10141,12 @@ extension S3ControlClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .read: return "READ"
@@ -10724,28 +10155,16 @@ extension S3ControlClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = Permission(rawValue: rawValue) ?? Permission.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension S3ControlClientTypes.PolicyStatus {
 
-    static func writingClosure(_ value: S3ControlClientTypes.PolicyStatus?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["IsPublic"].write(value.isPublic)
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.PolicyStatus, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.PolicyStatus()
-            value.isPublic = try reader["IsPublic"].readIfPresent() ?? false
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.PolicyStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.PolicyStatus()
+        value.isPublic = try reader["IsPublic"].readIfPresent() ?? false
+        return value
     }
 }
 
@@ -10767,18 +10186,16 @@ extension S3ControlClientTypes {
 
 extension S3ControlClientTypes.PrefixLevel {
 
-    static func writingClosure(_ value: S3ControlClientTypes.PrefixLevel?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["StorageMetrics"].write(value.storageMetrics, writingClosure: S3ControlClientTypes.PrefixLevelStorageMetrics.writingClosure(_:to:))
+    static func write(value: S3ControlClientTypes.PrefixLevel?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["StorageMetrics"].write(value.storageMetrics, with: S3ControlClientTypes.PrefixLevelStorageMetrics.write(value:to:))
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.PrefixLevel, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.PrefixLevel()
-            value.storageMetrics = try reader["StorageMetrics"].readIfPresent(readingClosure: S3ControlClientTypes.PrefixLevelStorageMetrics.readingClosure)
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.PrefixLevel {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.PrefixLevel()
+        value.storageMetrics = try reader["StorageMetrics"].readIfPresent(with: S3ControlClientTypes.PrefixLevelStorageMetrics.read(from:))
+        return value
     }
 }
 
@@ -10801,20 +10218,18 @@ extension S3ControlClientTypes {
 
 extension S3ControlClientTypes.PrefixLevelStorageMetrics {
 
-    static func writingClosure(_ value: S3ControlClientTypes.PrefixLevelStorageMetrics?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ControlClientTypes.PrefixLevelStorageMetrics?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["IsEnabled"].write(value.isEnabled)
-        try writer["SelectionCriteria"].write(value.selectionCriteria, writingClosure: S3ControlClientTypes.SelectionCriteria.writingClosure(_:to:))
+        try writer["SelectionCriteria"].write(value.selectionCriteria, with: S3ControlClientTypes.SelectionCriteria.write(value:to:))
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.PrefixLevelStorageMetrics, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.PrefixLevelStorageMetrics()
-            value.isEnabled = try reader["IsEnabled"].readIfPresent() ?? false
-            value.selectionCriteria = try reader["SelectionCriteria"].readIfPresent(readingClosure: S3ControlClientTypes.SelectionCriteria.readingClosure)
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.PrefixLevelStorageMetrics {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.PrefixLevelStorageMetrics()
+        value.isEnabled = try reader["IsEnabled"].readIfPresent() ?? false
+        value.selectionCriteria = try reader["SelectionCriteria"].readIfPresent(with: S3ControlClientTypes.SelectionCriteria.read(from:))
+        return value
     }
 }
 
@@ -10839,7 +10254,8 @@ extension S3ControlClientTypes {
 }
 
 extension S3ControlClientTypes {
-    public enum Privilege: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum Privilege: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case `default`
         case minimal
         case sdkUnknown(Swift.String)
@@ -10851,10 +10267,12 @@ extension S3ControlClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .default: return "Default"
@@ -10862,28 +10280,16 @@ extension S3ControlClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = Privilege(rawValue: rawValue) ?? Privilege.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension S3ControlClientTypes.ProposedMultiRegionAccessPointPolicy {
 
-    static func writingClosure(_ value: S3ControlClientTypes.ProposedMultiRegionAccessPointPolicy?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["Policy"].write(value.policy)
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.ProposedMultiRegionAccessPointPolicy, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.ProposedMultiRegionAccessPointPolicy()
-            value.policy = try reader["Policy"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.ProposedMultiRegionAccessPointPolicy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.ProposedMultiRegionAccessPointPolicy()
+        value.policy = try reader["Policy"].readIfPresent()
+        return value
     }
 }
 
@@ -10905,24 +10311,22 @@ extension S3ControlClientTypes {
 
 extension S3ControlClientTypes.PublicAccessBlockConfiguration {
 
-    static func writingClosure(_ value: S3ControlClientTypes.PublicAccessBlockConfiguration?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ControlClientTypes.PublicAccessBlockConfiguration?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["BlockPublicAcls"].write(value.blockPublicAcls)
         try writer["BlockPublicPolicy"].write(value.blockPublicPolicy)
         try writer["IgnorePublicAcls"].write(value.ignorePublicAcls)
         try writer["RestrictPublicBuckets"].write(value.restrictPublicBuckets)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.PublicAccessBlockConfiguration, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.PublicAccessBlockConfiguration()
-            value.blockPublicAcls = try reader["BlockPublicAcls"].readIfPresent() ?? false
-            value.ignorePublicAcls = try reader["IgnorePublicAcls"].readIfPresent() ?? false
-            value.blockPublicPolicy = try reader["BlockPublicPolicy"].readIfPresent() ?? false
-            value.restrictPublicBuckets = try reader["RestrictPublicBuckets"].readIfPresent() ?? false
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.PublicAccessBlockConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.PublicAccessBlockConfiguration()
+        value.blockPublicAcls = try reader["BlockPublicAcls"].readIfPresent() ?? false
+        value.ignorePublicAcls = try reader["IgnorePublicAcls"].readIfPresent() ?? false
+        value.blockPublicPolicy = try reader["BlockPublicPolicy"].readIfPresent() ?? false
+        value.restrictPublicBuckets = try reader["RestrictPublicBuckets"].readIfPresent() ?? false
+        return value
     }
 }
 
@@ -10964,14 +10368,6 @@ extension S3ControlClientTypes {
 }
 
 extension PutAccessGrantsInstanceResourcePolicyInput {
-    static func writingClosure(_ value: PutAccessGrantsInstanceResourcePolicyInput?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["Organization"].write(value.organization)
-        try writer["Policy"].write(value.policy)
-    }
-}
-
-extension PutAccessGrantsInstanceResourcePolicyInput {
 
     static func headerProvider(_ value: PutAccessGrantsInstanceResourcePolicyInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
@@ -10986,6 +10382,15 @@ extension PutAccessGrantsInstanceResourcePolicyInput {
 
     static func urlPathProvider(_ value: PutAccessGrantsInstanceResourcePolicyInput) -> Swift.String? {
         return "/v20180820/accessgrantsinstance/resourcepolicy"
+    }
+}
+
+extension PutAccessGrantsInstanceResourcePolicyInput {
+
+    static func write(value: PutAccessGrantsInstanceResourcePolicyInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Organization"].write(value.organization)
+        try writer["Policy"].write(value.policy)
     }
 }
 
@@ -11013,16 +10418,15 @@ public struct PutAccessGrantsInstanceResourcePolicyInput {
 
 extension PutAccessGrantsInstanceResourcePolicyOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<PutAccessGrantsInstanceResourcePolicyOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = PutAccessGrantsInstanceResourcePolicyOutput()
-            value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: .dateTime)
-            value.organization = try reader["Organization"].readIfPresent()
-            value.policy = try reader["Policy"].readIfPresent()
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutAccessGrantsInstanceResourcePolicyOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = PutAccessGrantsInstanceResourcePolicyOutput()
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: .dateTime)
+        value.organization = try reader["Organization"].readIfPresent()
+        value.policy = try reader["Policy"].readIfPresent()
+        return value
     }
 }
 
@@ -11048,21 +10452,14 @@ public struct PutAccessGrantsInstanceResourcePolicyOutput {
 
 enum PutAccessGrantsInstanceResourcePolicyOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
-    }
-}
-
-extension PutAccessPointConfigurationForObjectLambdaInput {
-    static func writingClosure(_ value: PutAccessPointConfigurationForObjectLambdaInput?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["Configuration"].write(value.configuration, writingClosure: S3ControlClientTypes.ObjectLambdaConfiguration.writingClosure(_:to:))
     }
 }
 
@@ -11084,6 +10481,14 @@ extension PutAccessPointConfigurationForObjectLambdaInput {
             return nil
         }
         return "/v20180820/accesspointforobjectlambda/\(name.urlPercentEncoding())/configuration"
+    }
+}
+
+extension PutAccessPointConfigurationForObjectLambdaInput {
+
+    static func write(value: PutAccessPointConfigurationForObjectLambdaInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Configuration"].write(value.configuration, with: S3ControlClientTypes.ObjectLambdaConfiguration.write(value:to:))
     }
 }
 
@@ -11112,10 +10517,8 @@ public struct PutAccessPointConfigurationForObjectLambdaInput {
 
 extension PutAccessPointConfigurationForObjectLambdaOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<PutAccessPointConfigurationForObjectLambdaOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            return PutAccessPointConfigurationForObjectLambdaOutput()
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutAccessPointConfigurationForObjectLambdaOutput {
+        return PutAccessPointConfigurationForObjectLambdaOutput()
     }
 }
 
@@ -11126,21 +10529,14 @@ public struct PutAccessPointConfigurationForObjectLambdaOutput {
 
 enum PutAccessPointConfigurationForObjectLambdaOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
-    }
-}
-
-extension PutAccessPointPolicyForObjectLambdaInput {
-    static func writingClosure(_ value: PutAccessPointPolicyForObjectLambdaInput?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["Policy"].write(value.policy)
     }
 }
 
@@ -11162,6 +10558,14 @@ extension PutAccessPointPolicyForObjectLambdaInput {
             return nil
         }
         return "/v20180820/accesspointforobjectlambda/\(name.urlPercentEncoding())/policy"
+    }
+}
+
+extension PutAccessPointPolicyForObjectLambdaInput {
+
+    static func write(value: PutAccessPointPolicyForObjectLambdaInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Policy"].write(value.policy)
     }
 }
 
@@ -11190,10 +10594,8 @@ public struct PutAccessPointPolicyForObjectLambdaInput {
 
 extension PutAccessPointPolicyForObjectLambdaOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<PutAccessPointPolicyForObjectLambdaOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            return PutAccessPointPolicyForObjectLambdaOutput()
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutAccessPointPolicyForObjectLambdaOutput {
+        return PutAccessPointPolicyForObjectLambdaOutput()
     }
 }
 
@@ -11204,21 +10606,14 @@ public struct PutAccessPointPolicyForObjectLambdaOutput {
 
 enum PutAccessPointPolicyForObjectLambdaOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
-    }
-}
-
-extension PutAccessPointPolicyInput {
-    static func writingClosure(_ value: PutAccessPointPolicyInput?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["Policy"].write(value.policy)
     }
 }
 
@@ -11240,6 +10635,14 @@ extension PutAccessPointPolicyInput {
             return nil
         }
         return "/v20180820/accesspoint/\(name.urlPercentEncoding())/policy"
+    }
+}
+
+extension PutAccessPointPolicyInput {
+
+    static func write(value: PutAccessPointPolicyInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Policy"].write(value.policy)
     }
 }
 
@@ -11268,10 +10671,8 @@ public struct PutAccessPointPolicyInput {
 
 extension PutAccessPointPolicyOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<PutAccessPointPolicyOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            return PutAccessPointPolicyOutput()
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutAccessPointPolicyOutput {
+        return PutAccessPointPolicyOutput()
     }
 }
 
@@ -11282,21 +10683,14 @@ public struct PutAccessPointPolicyOutput {
 
 enum PutAccessPointPolicyOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
-    }
-}
-
-extension PutBucketLifecycleConfigurationInput {
-    static func writingClosure(_ value: PutBucketLifecycleConfigurationInput?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["LifecycleConfiguration"].write(value.lifecycleConfiguration, writingClosure: S3ControlClientTypes.LifecycleConfiguration.writingClosure(_:to:))
     }
 }
 
@@ -11318,6 +10712,14 @@ extension PutBucketLifecycleConfigurationInput {
             return nil
         }
         return "/v20180820/bucket/\(bucket.urlPercentEncoding())/lifecycleconfiguration"
+    }
+}
+
+extension PutBucketLifecycleConfigurationInput {
+
+    static func write(value: PutBucketLifecycleConfigurationInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["LifecycleConfiguration"].write(value.lifecycleConfiguration, with: S3ControlClientTypes.LifecycleConfiguration.write(value:to:))
     }
 }
 
@@ -11345,10 +10747,8 @@ public struct PutBucketLifecycleConfigurationInput {
 
 extension PutBucketLifecycleConfigurationOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<PutBucketLifecycleConfigurationOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            return PutBucketLifecycleConfigurationOutput()
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutBucketLifecycleConfigurationOutput {
+        return PutBucketLifecycleConfigurationOutput()
     }
 }
 
@@ -11359,21 +10759,14 @@ public struct PutBucketLifecycleConfigurationOutput {
 
 enum PutBucketLifecycleConfigurationOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
-    }
-}
-
-extension PutBucketPolicyInput {
-    static func writingClosure(_ value: PutBucketPolicyInput?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["Policy"].write(value.policy)
     }
 }
 
@@ -11398,6 +10791,14 @@ extension PutBucketPolicyInput {
             return nil
         }
         return "/v20180820/bucket/\(bucket.urlPercentEncoding())/policy"
+    }
+}
+
+extension PutBucketPolicyInput {
+
+    static func write(value: PutBucketPolicyInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Policy"].write(value.policy)
     }
 }
 
@@ -11430,10 +10831,8 @@ public struct PutBucketPolicyInput {
 
 extension PutBucketPolicyOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<PutBucketPolicyOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            return PutBucketPolicyOutput()
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutBucketPolicyOutput {
+        return PutBucketPolicyOutput()
     }
 }
 
@@ -11444,21 +10843,14 @@ public struct PutBucketPolicyOutput {
 
 enum PutBucketPolicyOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
-    }
-}
-
-extension PutBucketReplicationInput {
-    static func writingClosure(_ value: PutBucketReplicationInput?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["ReplicationConfiguration"].write(value.replicationConfiguration, writingClosure: S3ControlClientTypes.ReplicationConfiguration.writingClosure(_:to:))
     }
 }
 
@@ -11480,6 +10872,14 @@ extension PutBucketReplicationInput {
             return nil
         }
         return "/v20180820/bucket/\(bucket.urlPercentEncoding())/replication"
+    }
+}
+
+extension PutBucketReplicationInput {
+
+    static func write(value: PutBucketReplicationInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["ReplicationConfiguration"].write(value.replicationConfiguration, with: S3ControlClientTypes.ReplicationConfiguration.write(value:to:))
     }
 }
 
@@ -11508,10 +10908,8 @@ public struct PutBucketReplicationInput {
 
 extension PutBucketReplicationOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<PutBucketReplicationOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            return PutBucketReplicationOutput()
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutBucketReplicationOutput {
+        return PutBucketReplicationOutput()
     }
 }
 
@@ -11522,21 +10920,14 @@ public struct PutBucketReplicationOutput {
 
 enum PutBucketReplicationOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
-    }
-}
-
-extension PutBucketTaggingInput {
-    static func writingClosure(_ value: PutBucketTaggingInput?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["Tagging"].write(value.tagging, writingClosure: S3ControlClientTypes.Tagging.writingClosure(_:to:))
     }
 }
 
@@ -11558,6 +10949,14 @@ extension PutBucketTaggingInput {
             return nil
         }
         return "/v20180820/bucket/\(bucket.urlPercentEncoding())/tagging"
+    }
+}
+
+extension PutBucketTaggingInput {
+
+    static func write(value: PutBucketTaggingInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Tagging"].write(value.tagging, with: S3ControlClientTypes.Tagging.write(value:to:))
     }
 }
 
@@ -11586,10 +10985,8 @@ public struct PutBucketTaggingInput {
 
 extension PutBucketTaggingOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<PutBucketTaggingOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            return PutBucketTaggingOutput()
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutBucketTaggingOutput {
+        return PutBucketTaggingOutput()
     }
 }
 
@@ -11600,21 +10997,14 @@ public struct PutBucketTaggingOutput {
 
 enum PutBucketTaggingOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
-    }
-}
-
-extension PutBucketVersioningInput {
-    static func writingClosure(_ value: PutBucketVersioningInput?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["VersioningConfiguration"].write(value.versioningConfiguration, writingClosure: S3ControlClientTypes.VersioningConfiguration.writingClosure(_:to:))
     }
 }
 
@@ -11639,6 +11029,14 @@ extension PutBucketVersioningInput {
             return nil
         }
         return "/v20180820/bucket/\(bucket.urlPercentEncoding())/versioning"
+    }
+}
+
+extension PutBucketVersioningInput {
+
+    static func write(value: PutBucketVersioningInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["VersioningConfiguration"].write(value.versioningConfiguration, with: S3ControlClientTypes.VersioningConfiguration.write(value:to:))
     }
 }
 
@@ -11671,10 +11069,8 @@ public struct PutBucketVersioningInput {
 
 extension PutBucketVersioningOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<PutBucketVersioningOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            return PutBucketVersioningOutput()
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutBucketVersioningOutput {
+        return PutBucketVersioningOutput()
     }
 }
 
@@ -11685,21 +11081,14 @@ public struct PutBucketVersioningOutput {
 
 enum PutBucketVersioningOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
-    }
-}
-
-extension PutJobTaggingInput {
-    static func writingClosure(_ value: PutJobTaggingInput?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["Tags"].writeList(value.tags, memberWritingClosure: S3ControlClientTypes.S3Tag.writingClosure(_:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -11721,6 +11110,14 @@ extension PutJobTaggingInput {
             return nil
         }
         return "/v20180820/jobs/\(jobId.urlPercentEncoding())/tagging"
+    }
+}
+
+extension PutJobTaggingInput {
+
+    static func write(value: PutJobTaggingInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: S3ControlClientTypes.S3Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -11749,10 +11146,8 @@ public struct PutJobTaggingInput {
 
 extension PutJobTaggingOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<PutJobTaggingOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            return PutJobTaggingOutput()
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutJobTaggingOutput {
+        return PutJobTaggingOutput()
     }
 }
 
@@ -11763,46 +11158,18 @@ public struct PutJobTaggingOutput {
 
 enum PutJobTaggingOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let errorBodyReader = AWSClientRuntime.RestXMLError.errorBodyReader(responseReader: responseReader, noErrorWrapping: false)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                case "InternalServiceException": return try await InternalServiceException.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "NotFoundException": return try await NotFoundException.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "TooManyRequestsException": return try await TooManyRequestsException.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "TooManyTagsException": return try await TooManyTagsException.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            case "TooManyTagsException": return try TooManyTagsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
-    }
-}
-
-extension S3ControlClientTypes.PutMultiRegionAccessPointPolicyInput {
-
-    static func writingClosure(_ value: S3ControlClientTypes.PutMultiRegionAccessPointPolicyInput?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["Name"].write(value.name)
-        try writer["Policy"].write(value.policy)
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.PutMultiRegionAccessPointPolicyInput, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.PutMultiRegionAccessPointPolicyInput()
-            value.name = try reader["Name"].readIfPresent()
-            value.policy = try reader["Policy"].readIfPresent()
-            return value
-        }
-    }
-}
-
-extension PutMultiRegionAccessPointPolicyInput {
-    static func writingClosure(_ value: PutMultiRegionAccessPointPolicyInput?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["ClientToken"].write(value.clientToken)
-        try writer["Details"].write(value.details, writingClosure: S3ControlClientTypes.PutMultiRegionAccessPointPolicyInput.writingClosure(_:to:))
     }
 }
 
@@ -11817,10 +11184,36 @@ extension PutMultiRegionAccessPointPolicyInput {
     }
 }
 
+extension S3ControlClientTypes.PutMultiRegionAccessPointPolicyInput {
+
+    static func write(value: S3ControlClientTypes.PutMultiRegionAccessPointPolicyInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["Policy"].write(value.policy)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.PutMultiRegionAccessPointPolicyInput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.PutMultiRegionAccessPointPolicyInput()
+        value.name = try reader["Name"].readIfPresent()
+        value.policy = try reader["Policy"].readIfPresent()
+        return value
+    }
+}
+
 extension PutMultiRegionAccessPointPolicyInput {
 
     static func urlPathProvider(_ value: PutMultiRegionAccessPointPolicyInput) -> Swift.String? {
         return "/v20180820/async-requests/mrap/put-policy"
+    }
+}
+
+extension PutMultiRegionAccessPointPolicyInput {
+
+    static func write(value: PutMultiRegionAccessPointPolicyInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["ClientToken"].write(value.clientToken)
+        try writer["Details"].write(value.details, with: S3ControlClientTypes.PutMultiRegionAccessPointPolicyInput.write(value:to:))
     }
 }
 
@@ -11871,14 +11264,13 @@ public struct PutMultiRegionAccessPointPolicyInput {
 
 extension PutMultiRegionAccessPointPolicyOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<PutMultiRegionAccessPointPolicyOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = PutMultiRegionAccessPointPolicyOutput()
-            value.requestTokenARN = try reader["RequestTokenARN"].readIfPresent()
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutMultiRegionAccessPointPolicyOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = PutMultiRegionAccessPointPolicyOutput()
+        value.requestTokenARN = try reader["RequestTokenARN"].readIfPresent()
+        return value
     }
 }
 
@@ -11896,21 +11288,14 @@ public struct PutMultiRegionAccessPointPolicyOutput {
 
 enum PutMultiRegionAccessPointPolicyOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
-    }
-}
-
-extension PutPublicAccessBlockInput {
-    static func writingClosure(_ value: PutPublicAccessBlockInput?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["PublicAccessBlockConfiguration"].write(value.publicAccessBlockConfiguration, writingClosure: S3ControlClientTypes.PublicAccessBlockConfiguration.writingClosure(_:to:))
     }
 }
 
@@ -11929,6 +11314,14 @@ extension PutPublicAccessBlockInput {
 
     static func urlPathProvider(_ value: PutPublicAccessBlockInput) -> Swift.String? {
         return "/v20180820/configuration/publicAccessBlock"
+    }
+}
+
+extension PutPublicAccessBlockInput {
+
+    static func write(value: PutPublicAccessBlockInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["PublicAccessBlockConfiguration"].write(value.publicAccessBlockConfiguration, with: S3ControlClientTypes.PublicAccessBlockConfiguration.write(value:to:))
     }
 }
 
@@ -11952,10 +11345,8 @@ public struct PutPublicAccessBlockInput {
 
 extension PutPublicAccessBlockOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<PutPublicAccessBlockOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            return PutPublicAccessBlockOutput()
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutPublicAccessBlockOutput {
+        return PutPublicAccessBlockOutput()
     }
 }
 
@@ -11966,22 +11357,14 @@ public struct PutPublicAccessBlockOutput {
 
 enum PutPublicAccessBlockOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
-    }
-}
-
-extension PutStorageLensConfigurationInput {
-    static func writingClosure(_ value: PutStorageLensConfigurationInput?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["StorageLensConfiguration"].write(value.storageLensConfiguration, writingClosure: S3ControlClientTypes.StorageLensConfiguration.writingClosure(_:to:))
-        try writer["Tags"].writeList(value.tags, memberWritingClosure: S3ControlClientTypes.StorageLensTag.writingClosure(_:to:), memberNodeInfo: "Tag", isFlattened: false)
     }
 }
 
@@ -12003,6 +11386,15 @@ extension PutStorageLensConfigurationInput {
             return nil
         }
         return "/v20180820/storagelens/\(configId.urlPercentEncoding())"
+    }
+}
+
+extension PutStorageLensConfigurationInput {
+
+    static func write(value: PutStorageLensConfigurationInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["StorageLensConfiguration"].write(value.storageLensConfiguration, with: S3ControlClientTypes.StorageLensConfiguration.write(value:to:))
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: S3ControlClientTypes.StorageLensTag.write(value:to:), memberNodeInfo: "Tag", isFlattened: false)
     }
 }
 
@@ -12035,10 +11427,8 @@ public struct PutStorageLensConfigurationInput {
 
 extension PutStorageLensConfigurationOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<PutStorageLensConfigurationOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            return PutStorageLensConfigurationOutput()
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutStorageLensConfigurationOutput {
+        return PutStorageLensConfigurationOutput()
     }
 }
 
@@ -12049,21 +11439,14 @@ public struct PutStorageLensConfigurationOutput {
 
 enum PutStorageLensConfigurationOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
-    }
-}
-
-extension PutStorageLensConfigurationTaggingInput {
-    static func writingClosure(_ value: PutStorageLensConfigurationTaggingInput?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["Tags"].writeList(value.tags, memberWritingClosure: S3ControlClientTypes.StorageLensTag.writingClosure(_:to:), memberNodeInfo: "Tag", isFlattened: false)
     }
 }
 
@@ -12085,6 +11468,14 @@ extension PutStorageLensConfigurationTaggingInput {
             return nil
         }
         return "/v20180820/storagelens/\(configId.urlPercentEncoding())/tagging"
+    }
+}
+
+extension PutStorageLensConfigurationTaggingInput {
+
+    static func write(value: PutStorageLensConfigurationTaggingInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: S3ControlClientTypes.StorageLensTag.write(value:to:), memberNodeInfo: "Tag", isFlattened: false)
     }
 }
 
@@ -12113,10 +11504,8 @@ public struct PutStorageLensConfigurationTaggingInput {
 
 extension PutStorageLensConfigurationTaggingOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<PutStorageLensConfigurationTaggingOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            return PutStorageLensConfigurationTaggingOutput()
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutStorageLensConfigurationTaggingOutput {
+        return PutStorageLensConfigurationTaggingOutput()
     }
 }
 
@@ -12127,33 +11516,31 @@ public struct PutStorageLensConfigurationTaggingOutput {
 
 enum PutStorageLensConfigurationTaggingOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
 
 extension S3ControlClientTypes.Region {
 
-    static func writingClosure(_ value: S3ControlClientTypes.Region?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ControlClientTypes.Region?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["Bucket"].write(value.bucket)
         try writer["BucketAccountId"].write(value.bucketAccountId)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.Region, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.Region()
-            value.bucket = try reader["Bucket"].readIfPresent()
-            value.bucketAccountId = try reader["BucketAccountId"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.Region {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.Region()
+        value.bucket = try reader["Bucket"].readIfPresent()
+        value.bucketAccountId = try reader["BucketAccountId"].readIfPresent()
+        return value
     }
 }
 
@@ -12180,22 +11567,13 @@ extension S3ControlClientTypes {
 
 extension S3ControlClientTypes.RegionReport {
 
-    static func writingClosure(_ value: S3ControlClientTypes.RegionReport?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["Bucket"].write(value.bucket)
-        try writer["BucketAccountId"].write(value.bucketAccountId)
-        try writer["Region"].write(value.region)
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.RegionReport, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.RegionReport()
-            value.bucket = try reader["Bucket"].readIfPresent()
-            value.region = try reader["Region"].readIfPresent()
-            value.bucketAccountId = try reader["BucketAccountId"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.RegionReport {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.RegionReport()
+        value.bucket = try reader["Bucket"].readIfPresent()
+        value.region = try reader["Region"].readIfPresent()
+        value.bucketAccountId = try reader["BucketAccountId"].readIfPresent()
+        return value
     }
 }
 
@@ -12225,26 +11603,15 @@ extension S3ControlClientTypes {
 
 extension S3ControlClientTypes.RegionalBucket {
 
-    static func writingClosure(_ value: S3ControlClientTypes.RegionalBucket?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["Bucket"].write(value.bucket)
-        try writer["BucketArn"].write(value.bucketArn)
-        try writer["CreationDate"].writeTimestamp(value.creationDate, format: .dateTime)
-        try writer["OutpostId"].write(value.outpostId)
-        try writer["PublicAccessBlockEnabled"].write(value.publicAccessBlockEnabled)
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.RegionalBucket, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.RegionalBucket()
-            value.bucket = try reader["Bucket"].readIfPresent()
-            value.bucketArn = try reader["BucketArn"].readIfPresent()
-            value.publicAccessBlockEnabled = try reader["PublicAccessBlockEnabled"].readIfPresent() ?? false
-            value.creationDate = try reader["CreationDate"].readTimestampIfPresent(format: .dateTime)
-            value.outpostId = try reader["OutpostId"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.RegionalBucket {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.RegionalBucket()
+        value.bucket = try reader["Bucket"].readIfPresent()
+        value.bucketArn = try reader["BucketArn"].readIfPresent()
+        value.publicAccessBlockEnabled = try reader["PublicAccessBlockEnabled"].readIfPresent() ?? false
+        value.creationDate = try reader["CreationDate"].readTimestampIfPresent(format: .dateTime)
+        value.outpostId = try reader["OutpostId"].readIfPresent()
+        return value
     }
 }
 
@@ -12285,18 +11652,16 @@ extension S3ControlClientTypes {
 
 extension S3ControlClientTypes.ReplicaModifications {
 
-    static func writingClosure(_ value: S3ControlClientTypes.ReplicaModifications?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ControlClientTypes.ReplicaModifications?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["Status"].write(value.status)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.ReplicaModifications, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.ReplicaModifications()
-            value.status = try reader["Status"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.ReplicaModifications {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.ReplicaModifications()
+        value.status = try reader["Status"].readIfPresent()
+        return value
     }
 }
 
@@ -12318,7 +11683,8 @@ extension S3ControlClientTypes {
 }
 
 extension S3ControlClientTypes {
-    public enum ReplicaModificationsStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum ReplicaModificationsStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case disabled
         case enabled
         case sdkUnknown(Swift.String)
@@ -12330,10 +11696,12 @@ extension S3ControlClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .disabled: return "Disabled"
@@ -12341,30 +11709,23 @@ extension S3ControlClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = ReplicaModificationsStatus(rawValue: rawValue) ?? ReplicaModificationsStatus.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension S3ControlClientTypes.ReplicationConfiguration {
 
-    static func writingClosure(_ value: S3ControlClientTypes.ReplicationConfiguration?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ControlClientTypes.ReplicationConfiguration?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["Role"].write(value.role)
-        try writer["Rules"].writeList(value.rules, memberWritingClosure: S3ControlClientTypes.ReplicationRule.writingClosure(_:to:), memberNodeInfo: "Rule", isFlattened: false)
+        try writer["Rules"].writeList(value.rules, memberWritingClosure: S3ControlClientTypes.ReplicationRule.write(value:to:), memberNodeInfo: "Rule", isFlattened: false)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.ReplicationConfiguration, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.ReplicationConfiguration()
-            value.role = try reader["Role"].readIfPresent()
-            value.rules = try reader["Rules"].readListIfPresent(memberReadingClosure: S3ControlClientTypes.ReplicationRule.readingClosure, memberNodeInfo: "Rule", isFlattened: false)
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.ReplicationConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.ReplicationConfiguration()
+        value.role = try reader["Role"].readIfPresent()
+        value.rules = try reader["Rules"].readListIfPresent(memberReadingClosure: S3ControlClientTypes.ReplicationRule.read(from:), memberNodeInfo: "Rule", isFlattened: false)
+        return value
     }
 }
 
@@ -12392,36 +11753,34 @@ extension S3ControlClientTypes {
 
 extension S3ControlClientTypes.ReplicationRule {
 
-    static func writingClosure(_ value: S3ControlClientTypes.ReplicationRule?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ControlClientTypes.ReplicationRule?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["Bucket"].write(value.bucket)
-        try writer["DeleteMarkerReplication"].write(value.deleteMarkerReplication, writingClosure: S3ControlClientTypes.DeleteMarkerReplication.writingClosure(_:to:))
-        try writer["Destination"].write(value.destination, writingClosure: S3ControlClientTypes.Destination.writingClosure(_:to:))
-        try writer["ExistingObjectReplication"].write(value.existingObjectReplication, writingClosure: S3ControlClientTypes.ExistingObjectReplication.writingClosure(_:to:))
-        try writer["Filter"].write(value.filter, writingClosure: S3ControlClientTypes.ReplicationRuleFilter.writingClosure(_:to:))
+        try writer["DeleteMarkerReplication"].write(value.deleteMarkerReplication, with: S3ControlClientTypes.DeleteMarkerReplication.write(value:to:))
+        try writer["Destination"].write(value.destination, with: S3ControlClientTypes.Destination.write(value:to:))
+        try writer["ExistingObjectReplication"].write(value.existingObjectReplication, with: S3ControlClientTypes.ExistingObjectReplication.write(value:to:))
+        try writer["Filter"].write(value.filter, with: S3ControlClientTypes.ReplicationRuleFilter.write(value:to:))
         try writer["ID"].write(value.id)
         try writer["Prefix"].write(value.`prefix`)
         try writer["Priority"].write(value.priority)
-        try writer["SourceSelectionCriteria"].write(value.sourceSelectionCriteria, writingClosure: S3ControlClientTypes.SourceSelectionCriteria.writingClosure(_:to:))
+        try writer["SourceSelectionCriteria"].write(value.sourceSelectionCriteria, with: S3ControlClientTypes.SourceSelectionCriteria.write(value:to:))
         try writer["Status"].write(value.status)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.ReplicationRule, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.ReplicationRule()
-            value.id = try reader["ID"].readIfPresent()
-            value.priority = try reader["Priority"].readIfPresent()
-            value.`prefix` = try reader["Prefix"].readIfPresent()
-            value.filter = try reader["Filter"].readIfPresent(readingClosure: S3ControlClientTypes.ReplicationRuleFilter.readingClosure)
-            value.status = try reader["Status"].readIfPresent()
-            value.sourceSelectionCriteria = try reader["SourceSelectionCriteria"].readIfPresent(readingClosure: S3ControlClientTypes.SourceSelectionCriteria.readingClosure)
-            value.existingObjectReplication = try reader["ExistingObjectReplication"].readIfPresent(readingClosure: S3ControlClientTypes.ExistingObjectReplication.readingClosure)
-            value.destination = try reader["Destination"].readIfPresent(readingClosure: S3ControlClientTypes.Destination.readingClosure)
-            value.deleteMarkerReplication = try reader["DeleteMarkerReplication"].readIfPresent(readingClosure: S3ControlClientTypes.DeleteMarkerReplication.readingClosure)
-            value.bucket = try reader["Bucket"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.ReplicationRule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.ReplicationRule()
+        value.id = try reader["ID"].readIfPresent()
+        value.priority = try reader["Priority"].readIfPresent()
+        value.`prefix` = try reader["Prefix"].readIfPresent()
+        value.filter = try reader["Filter"].readIfPresent(with: S3ControlClientTypes.ReplicationRuleFilter.read(from:))
+        value.status = try reader["Status"].readIfPresent()
+        value.sourceSelectionCriteria = try reader["SourceSelectionCriteria"].readIfPresent(with: S3ControlClientTypes.SourceSelectionCriteria.read(from:))
+        value.existingObjectReplication = try reader["ExistingObjectReplication"].readIfPresent(with: S3ControlClientTypes.ExistingObjectReplication.read(from:))
+        value.destination = try reader["Destination"].readIfPresent(with: S3ControlClientTypes.Destination.read(from:))
+        value.deleteMarkerReplication = try reader["DeleteMarkerReplication"].readIfPresent(with: S3ControlClientTypes.DeleteMarkerReplication.read(from:))
+        value.bucket = try reader["Bucket"].readIfPresent()
+        return value
     }
 }
 
@@ -12483,20 +11842,18 @@ extension S3ControlClientTypes {
 
 extension S3ControlClientTypes.ReplicationRuleAndOperator {
 
-    static func writingClosure(_ value: S3ControlClientTypes.ReplicationRuleAndOperator?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ControlClientTypes.ReplicationRuleAndOperator?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["Prefix"].write(value.`prefix`)
-        try writer["Tags"].writeList(value.tags, memberWritingClosure: S3ControlClientTypes.S3Tag.writingClosure(_:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: S3ControlClientTypes.S3Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.ReplicationRuleAndOperator, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.ReplicationRuleAndOperator()
-            value.`prefix` = try reader["Prefix"].readIfPresent()
-            value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: S3ControlClientTypes.S3Tag.readingClosure, memberNodeInfo: "member", isFlattened: false)
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.ReplicationRuleAndOperator {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.ReplicationRuleAndOperator()
+        value.`prefix` = try reader["Prefix"].readIfPresent()
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: S3ControlClientTypes.S3Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
     }
 }
 
@@ -12526,22 +11883,20 @@ extension S3ControlClientTypes {
 
 extension S3ControlClientTypes.ReplicationRuleFilter {
 
-    static func writingClosure(_ value: S3ControlClientTypes.ReplicationRuleFilter?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["And"].write(value.and, writingClosure: S3ControlClientTypes.ReplicationRuleAndOperator.writingClosure(_:to:))
+    static func write(value: S3ControlClientTypes.ReplicationRuleFilter?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["And"].write(value.and, with: S3ControlClientTypes.ReplicationRuleAndOperator.write(value:to:))
         try writer["Prefix"].write(value.`prefix`)
-        try writer["Tag"].write(value.tag, writingClosure: S3ControlClientTypes.S3Tag.writingClosure(_:to:))
+        try writer["Tag"].write(value.tag, with: S3ControlClientTypes.S3Tag.write(value:to:))
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.ReplicationRuleFilter, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.ReplicationRuleFilter()
-            value.`prefix` = try reader["Prefix"].readIfPresent()
-            value.tag = try reader["Tag"].readIfPresent(readingClosure: S3ControlClientTypes.S3Tag.readingClosure)
-            value.and = try reader["And"].readIfPresent(readingClosure: S3ControlClientTypes.ReplicationRuleAndOperator.readingClosure)
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.ReplicationRuleFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.ReplicationRuleFilter()
+        value.`prefix` = try reader["Prefix"].readIfPresent()
+        value.tag = try reader["Tag"].readIfPresent(with: S3ControlClientTypes.S3Tag.read(from:))
+        value.and = try reader["And"].readIfPresent(with: S3ControlClientTypes.ReplicationRuleAndOperator.read(from:))
+        return value
     }
 }
 
@@ -12574,7 +11929,8 @@ extension S3ControlClientTypes {
 }
 
 extension S3ControlClientTypes {
-    public enum ReplicationRuleStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum ReplicationRuleStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case disabled
         case enabled
         case sdkUnknown(Swift.String)
@@ -12586,10 +11942,12 @@ extension S3ControlClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .disabled: return "Disabled"
@@ -12597,16 +11955,12 @@ extension S3ControlClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = ReplicationRuleStatus(rawValue: rawValue) ?? ReplicationRuleStatus.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension S3ControlClientTypes {
-    public enum ReplicationStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum ReplicationStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case completed
         case failed
         case `none`
@@ -12622,10 +11976,12 @@ extension S3ControlClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .completed: return "COMPLETED"
@@ -12635,16 +11991,12 @@ extension S3ControlClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = ReplicationStatus(rawValue: rawValue) ?? ReplicationStatus.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension S3ControlClientTypes {
-    public enum ReplicationStorageClass: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum ReplicationStorageClass: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case deepArchive
         case glacier
         case glacierIr
@@ -12670,10 +12022,12 @@ extension S3ControlClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .deepArchive: return "DEEP_ARCHIVE"
@@ -12688,30 +12042,23 @@ extension S3ControlClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = ReplicationStorageClass(rawValue: rawValue) ?? ReplicationStorageClass.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension S3ControlClientTypes.ReplicationTime {
 
-    static func writingClosure(_ value: S3ControlClientTypes.ReplicationTime?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ControlClientTypes.ReplicationTime?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["Status"].write(value.status)
-        try writer["Time"].write(value.time, writingClosure: S3ControlClientTypes.ReplicationTimeValue.writingClosure(_:to:))
+        try writer["Time"].write(value.time, with: S3ControlClientTypes.ReplicationTimeValue.write(value:to:))
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.ReplicationTime, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.ReplicationTime()
-            value.status = try reader["Status"].readIfPresent()
-            value.time = try reader["Time"].readIfPresent(readingClosure: S3ControlClientTypes.ReplicationTimeValue.readingClosure)
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.ReplicationTime {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.ReplicationTime()
+        value.status = try reader["Status"].readIfPresent()
+        value.time = try reader["Time"].readIfPresent(with: S3ControlClientTypes.ReplicationTimeValue.read(from:))
+        return value
     }
 }
 
@@ -12738,7 +12085,8 @@ extension S3ControlClientTypes {
 }
 
 extension S3ControlClientTypes {
-    public enum ReplicationTimeStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum ReplicationTimeStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case disabled
         case enabled
         case sdkUnknown(Swift.String)
@@ -12750,10 +12098,12 @@ extension S3ControlClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .disabled: return "Disabled"
@@ -12761,28 +12111,21 @@ extension S3ControlClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = ReplicationTimeStatus(rawValue: rawValue) ?? ReplicationTimeStatus.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension S3ControlClientTypes.ReplicationTimeValue {
 
-    static func writingClosure(_ value: S3ControlClientTypes.ReplicationTimeValue?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ControlClientTypes.ReplicationTimeValue?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["Minutes"].write(value.minutes)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.ReplicationTimeValue, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.ReplicationTimeValue()
-            value.minutes = try reader["Minutes"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.ReplicationTimeValue {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.ReplicationTimeValue()
+        value.minutes = try reader["Minutes"].readIfPresent()
+        return value
     }
 }
 
@@ -12803,7 +12146,8 @@ extension S3ControlClientTypes {
 }
 
 extension S3ControlClientTypes {
-    public enum RequestedJobStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum RequestedJobStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case cancelled
         case ready
         case sdkUnknown(Swift.String)
@@ -12815,10 +12159,12 @@ extension S3ControlClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .cancelled: return "Cancelled"
@@ -12826,30 +12172,23 @@ extension S3ControlClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = RequestedJobStatus(rawValue: rawValue) ?? RequestedJobStatus.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension S3ControlClientTypes.S3AccessControlList {
 
-    static func writingClosure(_ value: S3ControlClientTypes.S3AccessControlList?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["Grants"].writeList(value.grants, memberWritingClosure: S3ControlClientTypes.S3Grant.writingClosure(_:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Owner"].write(value.owner, writingClosure: S3ControlClientTypes.S3ObjectOwner.writingClosure(_:to:))
+    static func write(value: S3ControlClientTypes.S3AccessControlList?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Grants"].writeList(value.grants, memberWritingClosure: S3ControlClientTypes.S3Grant.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Owner"].write(value.owner, with: S3ControlClientTypes.S3ObjectOwner.write(value:to:))
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.S3AccessControlList, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.S3AccessControlList()
-            value.owner = try reader["Owner"].readIfPresent(readingClosure: S3ControlClientTypes.S3ObjectOwner.readingClosure)
-            value.grants = try reader["Grants"].readListIfPresent(memberReadingClosure: S3ControlClientTypes.S3Grant.readingClosure, memberNodeInfo: "member", isFlattened: false)
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.S3AccessControlList {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.S3AccessControlList()
+        value.owner = try reader["Owner"].readIfPresent(with: S3ControlClientTypes.S3ObjectOwner.read(from:))
+        value.grants = try reader["Grants"].readListIfPresent(memberReadingClosure: S3ControlClientTypes.S3Grant.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
     }
 }
 
@@ -12876,20 +12215,18 @@ extension S3ControlClientTypes {
 
 extension S3ControlClientTypes.S3AccessControlPolicy {
 
-    static func writingClosure(_ value: S3ControlClientTypes.S3AccessControlPolicy?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["AccessControlList"].write(value.accessControlList, writingClosure: S3ControlClientTypes.S3AccessControlList.writingClosure(_:to:))
+    static func write(value: S3ControlClientTypes.S3AccessControlPolicy?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["AccessControlList"].write(value.accessControlList, with: S3ControlClientTypes.S3AccessControlList.write(value:to:))
         try writer["CannedAccessControlList"].write(value.cannedAccessControlList)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.S3AccessControlPolicy, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.S3AccessControlPolicy()
-            value.accessControlList = try reader["AccessControlList"].readIfPresent(readingClosure: S3ControlClientTypes.S3AccessControlList.readingClosure)
-            value.cannedAccessControlList = try reader["CannedAccessControlList"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.S3AccessControlPolicy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.S3AccessControlPolicy()
+        value.accessControlList = try reader["AccessControlList"].readIfPresent(with: S3ControlClientTypes.S3AccessControlList.read(from:))
+        value.cannedAccessControlList = try reader["CannedAccessControlList"].readIfPresent()
+        return value
     }
 }
 
@@ -12915,28 +12252,26 @@ extension S3ControlClientTypes {
 
 extension S3ControlClientTypes.S3BucketDestination {
 
-    static func writingClosure(_ value: S3ControlClientTypes.S3BucketDestination?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ControlClientTypes.S3BucketDestination?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["AccountId"].write(value.accountId)
         try writer["Arn"].write(value.arn)
-        try writer["Encryption"].write(value.encryption, writingClosure: S3ControlClientTypes.StorageLensDataExportEncryption.writingClosure(_:to:))
+        try writer["Encryption"].write(value.encryption, with: S3ControlClientTypes.StorageLensDataExportEncryption.write(value:to:))
         try writer["Format"].write(value.format)
         try writer["OutputSchemaVersion"].write(value.outputSchemaVersion)
         try writer["Prefix"].write(value.`prefix`)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.S3BucketDestination, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.S3BucketDestination()
-            value.format = try reader["Format"].readIfPresent()
-            value.outputSchemaVersion = try reader["OutputSchemaVersion"].readIfPresent()
-            value.accountId = try reader["AccountId"].readIfPresent()
-            value.arn = try reader["Arn"].readIfPresent()
-            value.`prefix` = try reader["Prefix"].readIfPresent()
-            value.encryption = try reader["Encryption"].readIfPresent(readingClosure: S3ControlClientTypes.StorageLensDataExportEncryption.readingClosure)
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.S3BucketDestination {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.S3BucketDestination()
+        value.format = try reader["Format"].readIfPresent()
+        value.outputSchemaVersion = try reader["OutputSchemaVersion"].readIfPresent()
+        value.accountId = try reader["AccountId"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.`prefix` = try reader["Prefix"].readIfPresent()
+        value.encryption = try reader["Encryption"].readIfPresent(with: S3ControlClientTypes.StorageLensDataExportEncryption.read(from:))
+        return value
     }
 }
 
@@ -12981,7 +12316,8 @@ extension S3ControlClientTypes {
 }
 
 extension S3ControlClientTypes {
-    public enum S3CannedAccessControlList: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum S3CannedAccessControlList: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case authenticatedRead
         case awsExecRead
         case bucketOwnerFullControl
@@ -13003,10 +12339,12 @@ extension S3ControlClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .authenticatedRead: return "authenticated-read"
@@ -13019,16 +12357,12 @@ extension S3ControlClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = S3CannedAccessControlList(rawValue: rawValue) ?? S3CannedAccessControlList.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension S3ControlClientTypes {
-    public enum S3ChecksumAlgorithm: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum S3ChecksumAlgorithm: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case crc32
         case crc32c
         case sha1
@@ -13044,10 +12378,12 @@ extension S3ControlClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .crc32: return "CRC32"
@@ -13057,11 +12393,6 @@ extension S3ControlClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = S3ChecksumAlgorithm(rawValue: rawValue) ?? S3ChecksumAlgorithm.sdkUnknown(rawValue)
-        }
     }
 }
 
@@ -13069,16 +12400,16 @@ public enum S3ControlClientTypes {}
 
 extension S3ControlClientTypes.S3CopyObjectOperation {
 
-    static func writingClosure(_ value: S3ControlClientTypes.S3CopyObjectOperation?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["AccessControlGrants"].writeList(value.accessControlGrants, memberWritingClosure: S3ControlClientTypes.S3Grant.writingClosure(_:to:), memberNodeInfo: "member", isFlattened: false)
+    static func write(value: S3ControlClientTypes.S3CopyObjectOperation?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["AccessControlGrants"].writeList(value.accessControlGrants, memberWritingClosure: S3ControlClientTypes.S3Grant.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["BucketKeyEnabled"].write(value.bucketKeyEnabled)
         try writer["CannedAccessControlList"].write(value.cannedAccessControlList)
         try writer["ChecksumAlgorithm"].write(value.checksumAlgorithm)
         try writer["MetadataDirective"].write(value.metadataDirective)
         try writer["ModifiedSinceConstraint"].writeTimestamp(value.modifiedSinceConstraint, format: .dateTime)
-        try writer["NewObjectMetadata"].write(value.newObjectMetadata, writingClosure: S3ControlClientTypes.S3ObjectMetadata.writingClosure(_:to:))
-        try writer["NewObjectTagging"].writeList(value.newObjectTagging, memberWritingClosure: S3ControlClientTypes.S3Tag.writingClosure(_:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["NewObjectMetadata"].write(value.newObjectMetadata, with: S3ControlClientTypes.S3ObjectMetadata.write(value:to:))
+        try writer["NewObjectTagging"].writeList(value.newObjectTagging, memberWritingClosure: S3ControlClientTypes.S3Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ObjectLockLegalHoldStatus"].write(value.objectLockLegalHoldStatus)
         try writer["ObjectLockMode"].write(value.objectLockMode)
         try writer["ObjectLockRetainUntilDate"].writeTimestamp(value.objectLockRetainUntilDate, format: .dateTime)
@@ -13091,30 +12422,28 @@ extension S3ControlClientTypes.S3CopyObjectOperation {
         try writer["UnModifiedSinceConstraint"].writeTimestamp(value.unModifiedSinceConstraint, format: .dateTime)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.S3CopyObjectOperation, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.S3CopyObjectOperation()
-            value.targetResource = try reader["TargetResource"].readIfPresent()
-            value.cannedAccessControlList = try reader["CannedAccessControlList"].readIfPresent()
-            value.accessControlGrants = try reader["AccessControlGrants"].readListIfPresent(memberReadingClosure: S3ControlClientTypes.S3Grant.readingClosure, memberNodeInfo: "member", isFlattened: false)
-            value.metadataDirective = try reader["MetadataDirective"].readIfPresent()
-            value.modifiedSinceConstraint = try reader["ModifiedSinceConstraint"].readTimestampIfPresent(format: .dateTime)
-            value.newObjectMetadata = try reader["NewObjectMetadata"].readIfPresent(readingClosure: S3ControlClientTypes.S3ObjectMetadata.readingClosure)
-            value.newObjectTagging = try reader["NewObjectTagging"].readListIfPresent(memberReadingClosure: S3ControlClientTypes.S3Tag.readingClosure, memberNodeInfo: "member", isFlattened: false)
-            value.redirectLocation = try reader["RedirectLocation"].readIfPresent()
-            value.requesterPays = try reader["RequesterPays"].readIfPresent() ?? false
-            value.storageClass = try reader["StorageClass"].readIfPresent()
-            value.unModifiedSinceConstraint = try reader["UnModifiedSinceConstraint"].readTimestampIfPresent(format: .dateTime)
-            value.sseAwsKmsKeyId = try reader["SSEAwsKmsKeyId"].readIfPresent()
-            value.targetKeyPrefix = try reader["TargetKeyPrefix"].readIfPresent()
-            value.objectLockLegalHoldStatus = try reader["ObjectLockLegalHoldStatus"].readIfPresent()
-            value.objectLockMode = try reader["ObjectLockMode"].readIfPresent()
-            value.objectLockRetainUntilDate = try reader["ObjectLockRetainUntilDate"].readTimestampIfPresent(format: .dateTime)
-            value.bucketKeyEnabled = try reader["BucketKeyEnabled"].readIfPresent() ?? false
-            value.checksumAlgorithm = try reader["ChecksumAlgorithm"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.S3CopyObjectOperation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.S3CopyObjectOperation()
+        value.targetResource = try reader["TargetResource"].readIfPresent()
+        value.cannedAccessControlList = try reader["CannedAccessControlList"].readIfPresent()
+        value.accessControlGrants = try reader["AccessControlGrants"].readListIfPresent(memberReadingClosure: S3ControlClientTypes.S3Grant.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.metadataDirective = try reader["MetadataDirective"].readIfPresent()
+        value.modifiedSinceConstraint = try reader["ModifiedSinceConstraint"].readTimestampIfPresent(format: .dateTime)
+        value.newObjectMetadata = try reader["NewObjectMetadata"].readIfPresent(with: S3ControlClientTypes.S3ObjectMetadata.read(from:))
+        value.newObjectTagging = try reader["NewObjectTagging"].readListIfPresent(memberReadingClosure: S3ControlClientTypes.S3Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.redirectLocation = try reader["RedirectLocation"].readIfPresent()
+        value.requesterPays = try reader["RequesterPays"].readIfPresent() ?? false
+        value.storageClass = try reader["StorageClass"].readIfPresent()
+        value.unModifiedSinceConstraint = try reader["UnModifiedSinceConstraint"].readTimestampIfPresent(format: .dateTime)
+        value.sseAwsKmsKeyId = try reader["SSEAwsKmsKeyId"].readIfPresent()
+        value.targetKeyPrefix = try reader["TargetKeyPrefix"].readIfPresent()
+        value.objectLockLegalHoldStatus = try reader["ObjectLockLegalHoldStatus"].readIfPresent()
+        value.objectLockMode = try reader["ObjectLockMode"].readIfPresent()
+        value.objectLockRetainUntilDate = try reader["ObjectLockRetainUntilDate"].readTimestampIfPresent(format: .dateTime)
+        value.bucketKeyEnabled = try reader["BucketKeyEnabled"].readIfPresent() ?? false
+        value.checksumAlgorithm = try reader["ChecksumAlgorithm"].readIfPresent()
+        return value
     }
 }
 
@@ -13208,15 +12537,14 @@ extension S3ControlClientTypes {
 
 extension S3ControlClientTypes.S3DeleteObjectTaggingOperation {
 
-    static func writingClosure(_ value: S3ControlClientTypes.S3DeleteObjectTaggingOperation?, to writer: SmithyXML.Writer) throws {
-        guard value != nil else { writer.detach(); return }
+    static func write(value: S3ControlClientTypes.S3DeleteObjectTaggingOperation?, to writer: SmithyXML.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.S3DeleteObjectTaggingOperation, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            return S3ControlClientTypes.S3DeleteObjectTaggingOperation()
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.S3DeleteObjectTaggingOperation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return S3ControlClientTypes.S3DeleteObjectTaggingOperation()
     }
 }
 
@@ -13231,20 +12559,12 @@ extension S3ControlClientTypes {
 
 extension S3ControlClientTypes.S3GeneratedManifestDescriptor {
 
-    static func writingClosure(_ value: S3ControlClientTypes.S3GeneratedManifestDescriptor?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["Format"].write(value.format)
-        try writer["Location"].write(value.location, writingClosure: S3ControlClientTypes.JobManifestLocation.writingClosure(_:to:))
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.S3GeneratedManifestDescriptor, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.S3GeneratedManifestDescriptor()
-            value.format = try reader["Format"].readIfPresent()
-            value.location = try reader["Location"].readIfPresent(readingClosure: S3ControlClientTypes.JobManifestLocation.readingClosure)
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.S3GeneratedManifestDescriptor {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.S3GeneratedManifestDescriptor()
+        value.format = try reader["Format"].readIfPresent()
+        value.location = try reader["Location"].readIfPresent(with: S3ControlClientTypes.JobManifestLocation.read(from:))
+        return value
     }
 }
 
@@ -13269,7 +12589,8 @@ extension S3ControlClientTypes {
 }
 
 extension S3ControlClientTypes {
-    public enum S3GlacierJobTier: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum S3GlacierJobTier: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case bulk
         case standard
         case sdkUnknown(Swift.String)
@@ -13281,10 +12602,12 @@ extension S3ControlClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .bulk: return "BULK"
@@ -13292,30 +12615,23 @@ extension S3ControlClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = S3GlacierJobTier(rawValue: rawValue) ?? S3GlacierJobTier.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension S3ControlClientTypes.S3Grant {
 
-    static func writingClosure(_ value: S3ControlClientTypes.S3Grant?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["Grantee"].write(value.grantee, writingClosure: S3ControlClientTypes.S3Grantee.writingClosure(_:to:))
+    static func write(value: S3ControlClientTypes.S3Grant?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Grantee"].write(value.grantee, with: S3ControlClientTypes.S3Grantee.write(value:to:))
         try writer["Permission"].write(value.permission)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.S3Grant, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.S3Grant()
-            value.grantee = try reader["Grantee"].readIfPresent(readingClosure: S3ControlClientTypes.S3Grantee.readingClosure)
-            value.permission = try reader["Permission"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.S3Grant {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.S3Grant()
+        value.grantee = try reader["Grantee"].readIfPresent(with: S3ControlClientTypes.S3Grantee.read(from:))
+        value.permission = try reader["Permission"].readIfPresent()
+        return value
     }
 }
 
@@ -13341,22 +12657,20 @@ extension S3ControlClientTypes {
 
 extension S3ControlClientTypes.S3Grantee {
 
-    static func writingClosure(_ value: S3ControlClientTypes.S3Grantee?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ControlClientTypes.S3Grantee?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["DisplayName"].write(value.displayName)
         try writer["Identifier"].write(value.identifier)
         try writer["TypeIdentifier"].write(value.typeIdentifier)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.S3Grantee, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.S3Grantee()
-            value.typeIdentifier = try reader["TypeIdentifier"].readIfPresent()
-            value.identifier = try reader["Identifier"].readIfPresent()
-            value.displayName = try reader["DisplayName"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.S3Grantee {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.S3Grantee()
+        value.typeIdentifier = try reader["TypeIdentifier"].readIfPresent()
+        value.identifier = try reader["Identifier"].readIfPresent()
+        value.displayName = try reader["DisplayName"].readIfPresent()
+        return value
     }
 }
 
@@ -13385,7 +12699,8 @@ extension S3ControlClientTypes {
 }
 
 extension S3ControlClientTypes {
-    public enum S3GranteeTypeIdentifier: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum S3GranteeTypeIdentifier: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case canonical
         case emailAddress
         case group
@@ -13399,10 +12714,12 @@ extension S3ControlClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .canonical: return "id"
@@ -13411,30 +12728,23 @@ extension S3ControlClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = S3GranteeTypeIdentifier(rawValue: rawValue) ?? S3GranteeTypeIdentifier.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension S3ControlClientTypes.S3InitiateRestoreObjectOperation {
 
-    static func writingClosure(_ value: S3ControlClientTypes.S3InitiateRestoreObjectOperation?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ControlClientTypes.S3InitiateRestoreObjectOperation?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["ExpirationInDays"].write(value.expirationInDays)
         try writer["GlacierJobTier"].write(value.glacierJobTier)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.S3InitiateRestoreObjectOperation, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.S3InitiateRestoreObjectOperation()
-            value.expirationInDays = try reader["ExpirationInDays"].readIfPresent()
-            value.glacierJobTier = try reader["GlacierJobTier"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.S3InitiateRestoreObjectOperation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.S3InitiateRestoreObjectOperation()
+        value.expirationInDays = try reader["ExpirationInDays"].readIfPresent()
+        value.glacierJobTier = try reader["GlacierJobTier"].readIfPresent()
+        return value
     }
 }
 
@@ -13460,26 +12770,24 @@ extension S3ControlClientTypes {
 
 extension S3ControlClientTypes.S3JobManifestGenerator {
 
-    static func writingClosure(_ value: S3ControlClientTypes.S3JobManifestGenerator?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ControlClientTypes.S3JobManifestGenerator?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["EnableManifestOutput"].write(value.enableManifestOutput)
         try writer["ExpectedBucketOwner"].write(value.expectedBucketOwner)
-        try writer["Filter"].write(value.filter, writingClosure: S3ControlClientTypes.JobManifestGeneratorFilter.writingClosure(_:to:))
-        try writer["ManifestOutputLocation"].write(value.manifestOutputLocation, writingClosure: S3ControlClientTypes.S3ManifestOutputLocation.writingClosure(_:to:))
+        try writer["Filter"].write(value.filter, with: S3ControlClientTypes.JobManifestGeneratorFilter.write(value:to:))
+        try writer["ManifestOutputLocation"].write(value.manifestOutputLocation, with: S3ControlClientTypes.S3ManifestOutputLocation.write(value:to:))
         try writer["SourceBucket"].write(value.sourceBucket)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.S3JobManifestGenerator, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.S3JobManifestGenerator()
-            value.expectedBucketOwner = try reader["ExpectedBucketOwner"].readIfPresent()
-            value.sourceBucket = try reader["SourceBucket"].readIfPresent()
-            value.manifestOutputLocation = try reader["ManifestOutputLocation"].readIfPresent(readingClosure: S3ControlClientTypes.S3ManifestOutputLocation.readingClosure)
-            value.filter = try reader["Filter"].readIfPresent(readingClosure: S3ControlClientTypes.JobManifestGeneratorFilter.readingClosure)
-            value.enableManifestOutput = try reader["EnableManifestOutput"].readIfPresent() ?? false
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.S3JobManifestGenerator {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.S3JobManifestGenerator()
+        value.expectedBucketOwner = try reader["ExpectedBucketOwner"].readIfPresent()
+        value.sourceBucket = try reader["SourceBucket"].readIfPresent()
+        value.manifestOutputLocation = try reader["ManifestOutputLocation"].readIfPresent(with: S3ControlClientTypes.S3ManifestOutputLocation.read(from:))
+        value.filter = try reader["Filter"].readIfPresent(with: S3ControlClientTypes.JobManifestGeneratorFilter.read(from:))
+        value.enableManifestOutput = try reader["EnableManifestOutput"].readIfPresent() ?? false
+        return value
     }
 }
 
@@ -13519,26 +12827,24 @@ extension S3ControlClientTypes {
 
 extension S3ControlClientTypes.S3ManifestOutputLocation {
 
-    static func writingClosure(_ value: S3ControlClientTypes.S3ManifestOutputLocation?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ControlClientTypes.S3ManifestOutputLocation?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["Bucket"].write(value.bucket)
         try writer["ExpectedManifestBucketOwner"].write(value.expectedManifestBucketOwner)
-        try writer["ManifestEncryption"].write(value.manifestEncryption, writingClosure: S3ControlClientTypes.GeneratedManifestEncryption.writingClosure(_:to:))
+        try writer["ManifestEncryption"].write(value.manifestEncryption, with: S3ControlClientTypes.GeneratedManifestEncryption.write(value:to:))
         try writer["ManifestFormat"].write(value.manifestFormat)
         try writer["ManifestPrefix"].write(value.manifestPrefix)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.S3ManifestOutputLocation, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.S3ManifestOutputLocation()
-            value.expectedManifestBucketOwner = try reader["ExpectedManifestBucketOwner"].readIfPresent()
-            value.bucket = try reader["Bucket"].readIfPresent()
-            value.manifestPrefix = try reader["ManifestPrefix"].readIfPresent()
-            value.manifestEncryption = try reader["ManifestEncryption"].readIfPresent(readingClosure: S3ControlClientTypes.GeneratedManifestEncryption.readingClosure)
-            value.manifestFormat = try reader["ManifestFormat"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.S3ManifestOutputLocation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.S3ManifestOutputLocation()
+        value.expectedManifestBucketOwner = try reader["ExpectedManifestBucketOwner"].readIfPresent()
+        value.bucket = try reader["Bucket"].readIfPresent()
+        value.manifestPrefix = try reader["ManifestPrefix"].readIfPresent()
+        value.manifestEncryption = try reader["ManifestEncryption"].readIfPresent(with: S3ControlClientTypes.GeneratedManifestEncryption.read(from:))
+        value.manifestFormat = try reader["ManifestFormat"].readIfPresent()
+        return value
     }
 }
 
@@ -13577,7 +12883,8 @@ extension S3ControlClientTypes {
 }
 
 extension S3ControlClientTypes {
-    public enum S3MetadataDirective: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum S3MetadataDirective: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case copy
         case replace
         case sdkUnknown(Swift.String)
@@ -13589,10 +12896,12 @@ extension S3ControlClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .copy: return "COPY"
@@ -13600,28 +12909,21 @@ extension S3ControlClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = S3MetadataDirective(rawValue: rawValue) ?? S3MetadataDirective.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension S3ControlClientTypes.S3ObjectLockLegalHold {
 
-    static func writingClosure(_ value: S3ControlClientTypes.S3ObjectLockLegalHold?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ControlClientTypes.S3ObjectLockLegalHold?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["Status"].write(value.status)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.S3ObjectLockLegalHold, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.S3ObjectLockLegalHold()
-            value.status = try reader["Status"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.S3ObjectLockLegalHold {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.S3ObjectLockLegalHold()
+        value.status = try reader["Status"].readIfPresent()
+        return value
     }
 }
 
@@ -13643,7 +12945,8 @@ extension S3ControlClientTypes {
 }
 
 extension S3ControlClientTypes {
-    public enum S3ObjectLockLegalHoldStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum S3ObjectLockLegalHoldStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case off
         case on
         case sdkUnknown(Swift.String)
@@ -13655,10 +12958,12 @@ extension S3ControlClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .off: return "OFF"
@@ -13666,16 +12971,12 @@ extension S3ControlClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = S3ObjectLockLegalHoldStatus(rawValue: rawValue) ?? S3ObjectLockLegalHoldStatus.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension S3ControlClientTypes {
-    public enum S3ObjectLockMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum S3ObjectLockMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case compliance
         case governance
         case sdkUnknown(Swift.String)
@@ -13687,10 +12988,12 @@ extension S3ControlClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .compliance: return "COMPLIANCE"
@@ -13698,16 +13001,12 @@ extension S3ControlClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = S3ObjectLockMode(rawValue: rawValue) ?? S3ObjectLockMode.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension S3ControlClientTypes {
-    public enum S3ObjectLockRetentionMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum S3ObjectLockRetentionMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case compliance
         case governance
         case sdkUnknown(Swift.String)
@@ -13719,10 +13018,12 @@ extension S3ControlClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .compliance: return "COMPLIANCE"
@@ -13730,18 +13031,13 @@ extension S3ControlClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = S3ObjectLockRetentionMode(rawValue: rawValue) ?? S3ObjectLockRetentionMode.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension S3ControlClientTypes.S3ObjectMetadata {
 
-    static func writingClosure(_ value: S3ControlClientTypes.S3ObjectMetadata?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ControlClientTypes.S3ObjectMetadata?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["CacheControl"].write(value.cacheControl)
         try writer["ContentDisposition"].write(value.contentDisposition)
         try writer["ContentEncoding"].write(value.contentEncoding)
@@ -13752,26 +13048,24 @@ extension S3ControlClientTypes.S3ObjectMetadata {
         try writer["HttpExpiresDate"].writeTimestamp(value.httpExpiresDate, format: .dateTime)
         try writer["RequesterCharged"].write(value.requesterCharged)
         try writer["SSEAlgorithm"].write(value.sseAlgorithm)
-        try writer["UserMetadata"].writeMap(value.userMetadata, valueWritingClosure: Swift.String.writingClosure(_:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["UserMetadata"].writeMap(value.userMetadata, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.S3ObjectMetadata, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.S3ObjectMetadata()
-            value.cacheControl = try reader["CacheControl"].readIfPresent()
-            value.contentDisposition = try reader["ContentDisposition"].readIfPresent()
-            value.contentEncoding = try reader["ContentEncoding"].readIfPresent()
-            value.contentLanguage = try reader["ContentLanguage"].readIfPresent()
-            value.userMetadata = try reader["UserMetadata"].readMapIfPresent(valueReadingClosure: Swift.String.readingClosure, keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-            value.contentLength = try reader["ContentLength"].readIfPresent()
-            value.contentMD5 = try reader["ContentMD5"].readIfPresent()
-            value.contentType = try reader["ContentType"].readIfPresent()
-            value.httpExpiresDate = try reader["HttpExpiresDate"].readTimestampIfPresent(format: .dateTime)
-            value.requesterCharged = try reader["RequesterCharged"].readIfPresent() ?? false
-            value.sseAlgorithm = try reader["SSEAlgorithm"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.S3ObjectMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.S3ObjectMetadata()
+        value.cacheControl = try reader["CacheControl"].readIfPresent()
+        value.contentDisposition = try reader["ContentDisposition"].readIfPresent()
+        value.contentEncoding = try reader["ContentEncoding"].readIfPresent()
+        value.contentLanguage = try reader["ContentLanguage"].readIfPresent()
+        value.userMetadata = try reader["UserMetadata"].readMapIfPresent(valueReadingClosure: Swift.String.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.contentLength = try reader["ContentLength"].readIfPresent()
+        value.contentMD5 = try reader["ContentMD5"].readIfPresent()
+        value.contentType = try reader["ContentType"].readIfPresent()
+        value.httpExpiresDate = try reader["HttpExpiresDate"].readTimestampIfPresent(format: .dateTime)
+        value.requesterCharged = try reader["RequesterCharged"].readIfPresent() ?? false
+        value.sseAlgorithm = try reader["SSEAlgorithm"].readIfPresent()
+        return value
     }
 }
 
@@ -13833,20 +13127,18 @@ extension S3ControlClientTypes {
 
 extension S3ControlClientTypes.S3ObjectOwner {
 
-    static func writingClosure(_ value: S3ControlClientTypes.S3ObjectOwner?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ControlClientTypes.S3ObjectOwner?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["DisplayName"].write(value.displayName)
         try writer["ID"].write(value.id)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.S3ObjectOwner, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.S3ObjectOwner()
-            value.id = try reader["ID"].readIfPresent()
-            value.displayName = try reader["DisplayName"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.S3ObjectOwner {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.S3ObjectOwner()
+        value.id = try reader["ID"].readIfPresent()
+        value.displayName = try reader["DisplayName"].readIfPresent()
+        return value
     }
 }
 
@@ -13871,7 +13163,8 @@ extension S3ControlClientTypes {
 }
 
 extension S3ControlClientTypes {
-    public enum S3Permission: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum S3Permission: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case fullControl
         case read
         case readAcp
@@ -13889,10 +13182,12 @@ extension S3ControlClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .fullControl: return "FULL_CONTROL"
@@ -13903,16 +13198,12 @@ extension S3ControlClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = S3Permission(rawValue: rawValue) ?? S3Permission.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension S3ControlClientTypes {
-    public enum S3PrefixType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum S3PrefixType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case object
         case sdkUnknown(Swift.String)
 
@@ -13922,35 +13213,31 @@ extension S3ControlClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .object: return "Object"
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = S3PrefixType(rawValue: rawValue) ?? S3PrefixType.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension S3ControlClientTypes.S3ReplicateObjectOperation {
 
-    static func writingClosure(_ value: S3ControlClientTypes.S3ReplicateObjectOperation?, to writer: SmithyXML.Writer) throws {
-        guard value != nil else { writer.detach(); return }
+    static func write(value: S3ControlClientTypes.S3ReplicateObjectOperation?, to writer: SmithyXML.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.S3ReplicateObjectOperation, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            return S3ControlClientTypes.S3ReplicateObjectOperation()
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.S3ReplicateObjectOperation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return S3ControlClientTypes.S3ReplicateObjectOperation()
     }
 }
 
@@ -13965,20 +13252,18 @@ extension S3ControlClientTypes {
 
 extension S3ControlClientTypes.S3Retention {
 
-    static func writingClosure(_ value: S3ControlClientTypes.S3Retention?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ControlClientTypes.S3Retention?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["Mode"].write(value.mode)
         try writer["RetainUntilDate"].writeTimestamp(value.retainUntilDate, format: .dateTime)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.S3Retention, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.S3Retention()
-            value.retainUntilDate = try reader["RetainUntilDate"].readTimestampIfPresent(format: .dateTime)
-            value.mode = try reader["Mode"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.S3Retention {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.S3Retention()
+        value.retainUntilDate = try reader["RetainUntilDate"].readTimestampIfPresent(format: .dateTime)
+        value.mode = try reader["Mode"].readIfPresent()
+        return value
     }
 }
 
@@ -14003,7 +13288,8 @@ extension S3ControlClientTypes {
 }
 
 extension S3ControlClientTypes {
-    public enum S3SSEAlgorithm: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum S3SSEAlgorithm: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case aes256
         case kms
         case sdkUnknown(Swift.String)
@@ -14015,10 +13301,12 @@ extension S3ControlClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .aes256: return "AES256"
@@ -14026,28 +13314,21 @@ extension S3ControlClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = S3SSEAlgorithm(rawValue: rawValue) ?? S3SSEAlgorithm.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension S3ControlClientTypes.S3SetObjectAclOperation {
 
-    static func writingClosure(_ value: S3ControlClientTypes.S3SetObjectAclOperation?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["AccessControlPolicy"].write(value.accessControlPolicy, writingClosure: S3ControlClientTypes.S3AccessControlPolicy.writingClosure(_:to:))
+    static func write(value: S3ControlClientTypes.S3SetObjectAclOperation?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["AccessControlPolicy"].write(value.accessControlPolicy, with: S3ControlClientTypes.S3AccessControlPolicy.write(value:to:))
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.S3SetObjectAclOperation, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.S3SetObjectAclOperation()
-            value.accessControlPolicy = try reader["AccessControlPolicy"].readIfPresent(readingClosure: S3ControlClientTypes.S3AccessControlPolicy.readingClosure)
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.S3SetObjectAclOperation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.S3SetObjectAclOperation()
+        value.accessControlPolicy = try reader["AccessControlPolicy"].readIfPresent(with: S3ControlClientTypes.S3AccessControlPolicy.read(from:))
+        return value
     }
 }
 
@@ -14069,18 +13350,16 @@ extension S3ControlClientTypes {
 
 extension S3ControlClientTypes.S3SetObjectLegalHoldOperation {
 
-    static func writingClosure(_ value: S3ControlClientTypes.S3SetObjectLegalHoldOperation?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["LegalHold"].write(value.legalHold, writingClosure: S3ControlClientTypes.S3ObjectLockLegalHold.writingClosure(_:to:))
+    static func write(value: S3ControlClientTypes.S3SetObjectLegalHoldOperation?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["LegalHold"].write(value.legalHold, with: S3ControlClientTypes.S3ObjectLockLegalHold.write(value:to:))
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.S3SetObjectLegalHoldOperation, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.S3SetObjectLegalHoldOperation()
-            value.legalHold = try reader["LegalHold"].readIfPresent(readingClosure: S3ControlClientTypes.S3ObjectLockLegalHold.readingClosure)
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.S3SetObjectLegalHoldOperation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.S3SetObjectLegalHoldOperation()
+        value.legalHold = try reader["LegalHold"].readIfPresent(with: S3ControlClientTypes.S3ObjectLockLegalHold.read(from:))
+        return value
     }
 }
 
@@ -14103,20 +13382,18 @@ extension S3ControlClientTypes {
 
 extension S3ControlClientTypes.S3SetObjectRetentionOperation {
 
-    static func writingClosure(_ value: S3ControlClientTypes.S3SetObjectRetentionOperation?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ControlClientTypes.S3SetObjectRetentionOperation?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["BypassGovernanceRetention"].write(value.bypassGovernanceRetention)
-        try writer["Retention"].write(value.retention, writingClosure: S3ControlClientTypes.S3Retention.writingClosure(_:to:))
+        try writer["Retention"].write(value.retention, with: S3ControlClientTypes.S3Retention.write(value:to:))
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.S3SetObjectRetentionOperation, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.S3SetObjectRetentionOperation()
-            value.bypassGovernanceRetention = try reader["BypassGovernanceRetention"].readIfPresent()
-            value.retention = try reader["Retention"].readIfPresent(readingClosure: S3ControlClientTypes.S3Retention.readingClosure)
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.S3SetObjectRetentionOperation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.S3SetObjectRetentionOperation()
+        value.bypassGovernanceRetention = try reader["BypassGovernanceRetention"].readIfPresent()
+        value.retention = try reader["Retention"].readIfPresent(with: S3ControlClientTypes.S3Retention.read(from:))
+        return value
     }
 }
 
@@ -14143,18 +13420,16 @@ extension S3ControlClientTypes {
 
 extension S3ControlClientTypes.S3SetObjectTaggingOperation {
 
-    static func writingClosure(_ value: S3ControlClientTypes.S3SetObjectTaggingOperation?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["TagSet"].writeList(value.tagSet, memberWritingClosure: S3ControlClientTypes.S3Tag.writingClosure(_:to:), memberNodeInfo: "member", isFlattened: false)
+    static func write(value: S3ControlClientTypes.S3SetObjectTaggingOperation?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["TagSet"].writeList(value.tagSet, memberWritingClosure: S3ControlClientTypes.S3Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.S3SetObjectTaggingOperation, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.S3SetObjectTaggingOperation()
-            value.tagSet = try reader["TagSet"].readListIfPresent(memberReadingClosure: S3ControlClientTypes.S3Tag.readingClosure, memberNodeInfo: "member", isFlattened: false)
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.S3SetObjectTaggingOperation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.S3SetObjectTaggingOperation()
+        value.tagSet = try reader["TagSet"].readListIfPresent(memberReadingClosure: S3ControlClientTypes.S3Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
     }
 }
 
@@ -14175,7 +13450,8 @@ extension S3ControlClientTypes {
 }
 
 extension S3ControlClientTypes {
-    public enum S3StorageClass: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum S3StorageClass: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case deepArchive
         case glacier
         case glacierIr
@@ -14197,10 +13473,12 @@ extension S3ControlClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .deepArchive: return "DEEP_ARCHIVE"
@@ -14213,30 +13491,23 @@ extension S3ControlClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = S3StorageClass(rawValue: rawValue) ?? S3StorageClass.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension S3ControlClientTypes.S3Tag {
 
-    static func writingClosure(_ value: S3ControlClientTypes.S3Tag?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ControlClientTypes.S3Tag?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["Key"].write(value.key)
         try writer["Value"].write(value.value)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.S3Tag, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.S3Tag()
-            value.key = try reader["Key"].readIfPresent()
-            value.value = try reader["Value"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.S3Tag {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.S3Tag()
+        value.key = try reader["Key"].readIfPresent()
+        value.value = try reader["Value"].readIfPresent()
+        return value
     }
 }
 
@@ -14264,18 +13535,16 @@ extension S3ControlClientTypes {
 
 extension S3ControlClientTypes.SSEKMS {
 
-    static func writingClosure(_ value: S3ControlClientTypes.SSEKMS?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ControlClientTypes.SSEKMS?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["KeyId"].write(value.keyId)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.SSEKMS, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.SSEKMS()
-            value.keyId = try reader["KeyId"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.SSEKMS {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.SSEKMS()
+        value.keyId = try reader["KeyId"].readIfPresent()
+        return value
     }
 }
 
@@ -14298,18 +13567,16 @@ extension S3ControlClientTypes {
 
 extension S3ControlClientTypes.SSEKMSEncryption {
 
-    static func writingClosure(_ value: S3ControlClientTypes.SSEKMSEncryption?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ControlClientTypes.SSEKMSEncryption?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["KeyId"].write(value.keyId)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.SSEKMSEncryption, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.SSEKMSEncryption()
-            value.keyId = try reader["KeyId"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.SSEKMSEncryption {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.SSEKMSEncryption()
+        value.keyId = try reader["KeyId"].readIfPresent()
+        return value
     }
 }
 
@@ -14332,15 +13599,14 @@ extension S3ControlClientTypes {
 
 extension S3ControlClientTypes.SSES3 {
 
-    static func writingClosure(_ value: S3ControlClientTypes.SSES3?, to writer: SmithyXML.Writer) throws {
-        guard value != nil else { writer.detach(); return }
+    static func write(value: S3ControlClientTypes.SSES3?, to writer: SmithyXML.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.SSES3, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            return S3ControlClientTypes.SSES3()
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.SSES3 {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return S3ControlClientTypes.SSES3()
     }
 }
 
@@ -14355,15 +13621,14 @@ extension S3ControlClientTypes {
 
 extension S3ControlClientTypes.SSES3Encryption {
 
-    static func writingClosure(_ value: S3ControlClientTypes.SSES3Encryption?, to writer: SmithyXML.Writer) throws {
-        guard value != nil else { writer.detach(); return }
+    static func write(value: S3ControlClientTypes.SSES3Encryption?, to writer: SmithyXML.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.SSES3Encryption, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            return S3ControlClientTypes.SSES3Encryption()
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.SSES3Encryption {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return S3ControlClientTypes.SSES3Encryption()
     }
 }
 
@@ -14378,22 +13643,20 @@ extension S3ControlClientTypes {
 
 extension S3ControlClientTypes.SelectionCriteria {
 
-    static func writingClosure(_ value: S3ControlClientTypes.SelectionCriteria?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ControlClientTypes.SelectionCriteria?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["Delimiter"].write(value.delimiter)
         try writer["MaxDepth"].write(value.maxDepth)
         try writer["MinStorageBytesPercentage"].write(value.minStorageBytesPercentage)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.SelectionCriteria, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.SelectionCriteria()
-            value.delimiter = try reader["Delimiter"].readIfPresent()
-            value.maxDepth = try reader["MaxDepth"].readIfPresent()
-            value.minStorageBytesPercentage = try reader["MinStorageBytesPercentage"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.SelectionCriteria {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.SelectionCriteria()
+        value.delimiter = try reader["Delimiter"].readIfPresent()
+        value.maxDepth = try reader["MaxDepth"].readIfPresent()
+        value.minStorageBytesPercentage = try reader["MinStorageBytesPercentage"].readIfPresent()
+        return value
     }
 }
 
@@ -14423,20 +13686,18 @@ extension S3ControlClientTypes {
 
 extension S3ControlClientTypes.SourceSelectionCriteria {
 
-    static func writingClosure(_ value: S3ControlClientTypes.SourceSelectionCriteria?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["ReplicaModifications"].write(value.replicaModifications, writingClosure: S3ControlClientTypes.ReplicaModifications.writingClosure(_:to:))
-        try writer["SseKmsEncryptedObjects"].write(value.sseKmsEncryptedObjects, writingClosure: S3ControlClientTypes.SseKmsEncryptedObjects.writingClosure(_:to:))
+    static func write(value: S3ControlClientTypes.SourceSelectionCriteria?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["ReplicaModifications"].write(value.replicaModifications, with: S3ControlClientTypes.ReplicaModifications.write(value:to:))
+        try writer["SseKmsEncryptedObjects"].write(value.sseKmsEncryptedObjects, with: S3ControlClientTypes.SseKmsEncryptedObjects.write(value:to:))
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.SourceSelectionCriteria, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.SourceSelectionCriteria()
-            value.sseKmsEncryptedObjects = try reader["SseKmsEncryptedObjects"].readIfPresent(readingClosure: S3ControlClientTypes.SseKmsEncryptedObjects.readingClosure)
-            value.replicaModifications = try reader["ReplicaModifications"].readIfPresent(readingClosure: S3ControlClientTypes.ReplicaModifications.readingClosure)
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.SourceSelectionCriteria {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.SourceSelectionCriteria()
+        value.sseKmsEncryptedObjects = try reader["SseKmsEncryptedObjects"].readIfPresent(with: S3ControlClientTypes.SseKmsEncryptedObjects.read(from:))
+        value.replicaModifications = try reader["ReplicaModifications"].readIfPresent(with: S3ControlClientTypes.ReplicaModifications.read(from:))
+        return value
     }
 }
 
@@ -14462,18 +13723,16 @@ extension S3ControlClientTypes {
 
 extension S3ControlClientTypes.SseKmsEncryptedObjects {
 
-    static func writingClosure(_ value: S3ControlClientTypes.SseKmsEncryptedObjects?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ControlClientTypes.SseKmsEncryptedObjects?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["Status"].write(value.status)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.SseKmsEncryptedObjects, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.SseKmsEncryptedObjects()
-            value.status = try reader["Status"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.SseKmsEncryptedObjects {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.SseKmsEncryptedObjects()
+        value.status = try reader["Status"].readIfPresent()
+        return value
     }
 }
 
@@ -14495,7 +13754,8 @@ extension S3ControlClientTypes {
 }
 
 extension S3ControlClientTypes {
-    public enum SseKmsEncryptedObjectsStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum SseKmsEncryptedObjectsStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case disabled
         case enabled
         case sdkUnknown(Swift.String)
@@ -14507,10 +13767,12 @@ extension S3ControlClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .disabled: return "Disabled"
@@ -14518,28 +13780,21 @@ extension S3ControlClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = SseKmsEncryptedObjectsStatus(rawValue: rawValue) ?? SseKmsEncryptedObjectsStatus.sdkUnknown(rawValue)
-        }
     }
 }
 
 extension S3ControlClientTypes.StorageLensAwsOrg {
 
-    static func writingClosure(_ value: S3ControlClientTypes.StorageLensAwsOrg?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ControlClientTypes.StorageLensAwsOrg?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["Arn"].write(value.arn)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.StorageLensAwsOrg, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.StorageLensAwsOrg()
-            value.arn = try reader["Arn"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.StorageLensAwsOrg {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.StorageLensAwsOrg()
+        value.arn = try reader["Arn"].readIfPresent()
+        return value
     }
 }
 
@@ -14562,32 +13817,30 @@ extension S3ControlClientTypes {
 
 extension S3ControlClientTypes.StorageLensConfiguration {
 
-    static func writingClosure(_ value: S3ControlClientTypes.StorageLensConfiguration?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["AccountLevel"].write(value.accountLevel, writingClosure: S3ControlClientTypes.AccountLevel.writingClosure(_:to:))
-        try writer["AwsOrg"].write(value.awsOrg, writingClosure: S3ControlClientTypes.StorageLensAwsOrg.writingClosure(_:to:))
-        try writer["DataExport"].write(value.dataExport, writingClosure: S3ControlClientTypes.StorageLensDataExport.writingClosure(_:to:))
-        try writer["Exclude"].write(value.exclude, writingClosure: S3ControlClientTypes.Exclude.writingClosure(_:to:))
+    static func write(value: S3ControlClientTypes.StorageLensConfiguration?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["AccountLevel"].write(value.accountLevel, with: S3ControlClientTypes.AccountLevel.write(value:to:))
+        try writer["AwsOrg"].write(value.awsOrg, with: S3ControlClientTypes.StorageLensAwsOrg.write(value:to:))
+        try writer["DataExport"].write(value.dataExport, with: S3ControlClientTypes.StorageLensDataExport.write(value:to:))
+        try writer["Exclude"].write(value.exclude, with: S3ControlClientTypes.Exclude.write(value:to:))
         try writer["Id"].write(value.id)
-        try writer["Include"].write(value.include, writingClosure: S3ControlClientTypes.Include.writingClosure(_:to:))
+        try writer["Include"].write(value.include, with: S3ControlClientTypes.Include.write(value:to:))
         try writer["IsEnabled"].write(value.isEnabled)
         try writer["StorageLensArn"].write(value.storageLensArn)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.StorageLensConfiguration, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.StorageLensConfiguration()
-            value.id = try reader["Id"].readIfPresent()
-            value.accountLevel = try reader["AccountLevel"].readIfPresent(readingClosure: S3ControlClientTypes.AccountLevel.readingClosure)
-            value.include = try reader["Include"].readIfPresent(readingClosure: S3ControlClientTypes.Include.readingClosure)
-            value.exclude = try reader["Exclude"].readIfPresent(readingClosure: S3ControlClientTypes.Exclude.readingClosure)
-            value.dataExport = try reader["DataExport"].readIfPresent(readingClosure: S3ControlClientTypes.StorageLensDataExport.readingClosure)
-            value.isEnabled = try reader["IsEnabled"].readIfPresent() ?? false
-            value.awsOrg = try reader["AwsOrg"].readIfPresent(readingClosure: S3ControlClientTypes.StorageLensAwsOrg.readingClosure)
-            value.storageLensArn = try reader["StorageLensArn"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.StorageLensConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.StorageLensConfiguration()
+        value.id = try reader["Id"].readIfPresent()
+        value.accountLevel = try reader["AccountLevel"].readIfPresent(with: S3ControlClientTypes.AccountLevel.read(from:))
+        value.include = try reader["Include"].readIfPresent(with: S3ControlClientTypes.Include.read(from:))
+        value.exclude = try reader["Exclude"].readIfPresent(with: S3ControlClientTypes.Exclude.read(from:))
+        value.dataExport = try reader["DataExport"].readIfPresent(with: S3ControlClientTypes.StorageLensDataExport.read(from:))
+        value.isEnabled = try reader["IsEnabled"].readIfPresent() ?? false
+        value.awsOrg = try reader["AwsOrg"].readIfPresent(with: S3ControlClientTypes.StorageLensAwsOrg.read(from:))
+        value.storageLensArn = try reader["StorageLensArn"].readIfPresent()
+        return value
     }
 }
 
@@ -14640,20 +13893,18 @@ extension S3ControlClientTypes {
 
 extension S3ControlClientTypes.StorageLensDataExport {
 
-    static func writingClosure(_ value: S3ControlClientTypes.StorageLensDataExport?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["CloudWatchMetrics"].write(value.cloudWatchMetrics, writingClosure: S3ControlClientTypes.CloudWatchMetrics.writingClosure(_:to:))
-        try writer["S3BucketDestination"].write(value.s3BucketDestination, writingClosure: S3ControlClientTypes.S3BucketDestination.writingClosure(_:to:))
+    static func write(value: S3ControlClientTypes.StorageLensDataExport?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["CloudWatchMetrics"].write(value.cloudWatchMetrics, with: S3ControlClientTypes.CloudWatchMetrics.write(value:to:))
+        try writer["S3BucketDestination"].write(value.s3BucketDestination, with: S3ControlClientTypes.S3BucketDestination.write(value:to:))
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.StorageLensDataExport, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.StorageLensDataExport()
-            value.s3BucketDestination = try reader["S3BucketDestination"].readIfPresent(readingClosure: S3ControlClientTypes.S3BucketDestination.readingClosure)
-            value.cloudWatchMetrics = try reader["CloudWatchMetrics"].readIfPresent(readingClosure: S3ControlClientTypes.CloudWatchMetrics.readingClosure)
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.StorageLensDataExport {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.StorageLensDataExport()
+        value.s3BucketDestination = try reader["S3BucketDestination"].readIfPresent(with: S3ControlClientTypes.S3BucketDestination.read(from:))
+        value.cloudWatchMetrics = try reader["CloudWatchMetrics"].readIfPresent(with: S3ControlClientTypes.CloudWatchMetrics.read(from:))
+        return value
     }
 }
 
@@ -14679,20 +13930,18 @@ extension S3ControlClientTypes {
 
 extension S3ControlClientTypes.StorageLensDataExportEncryption {
 
-    static func writingClosure(_ value: S3ControlClientTypes.StorageLensDataExportEncryption?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["SSE-KMS"].write(value.ssekms, writingClosure: S3ControlClientTypes.SSEKMS.writingClosure(_:to:))
-        try writer["SSE-S3"].write(value.sses3, writingClosure: S3ControlClientTypes.SSES3.writingClosure(_:to:))
+    static func write(value: S3ControlClientTypes.StorageLensDataExportEncryption?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["SSE-KMS"].write(value.ssekms, with: S3ControlClientTypes.SSEKMS.write(value:to:))
+        try writer["SSE-S3"].write(value.sses3, with: S3ControlClientTypes.SSES3.write(value:to:))
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.StorageLensDataExportEncryption, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.StorageLensDataExportEncryption()
-            value.sses3 = try reader["SSE-S3"].readIfPresent(readingClosure: S3ControlClientTypes.SSES3.readingClosure)
-            value.ssekms = try reader["SSE-KMS"].readIfPresent(readingClosure: S3ControlClientTypes.SSEKMS.readingClosure)
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.StorageLensDataExportEncryption {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.StorageLensDataExportEncryption()
+        value.sses3 = try reader["SSE-S3"].readIfPresent(with: S3ControlClientTypes.SSES3.read(from:))
+        value.ssekms = try reader["SSE-KMS"].readIfPresent(with: S3ControlClientTypes.SSEKMS.read(from:))
+        return value
     }
 }
 
@@ -14718,22 +13967,20 @@ extension S3ControlClientTypes {
 
 extension S3ControlClientTypes.StorageLensGroup {
 
-    static func writingClosure(_ value: S3ControlClientTypes.StorageLensGroup?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["Filter"].write(value.filter, writingClosure: S3ControlClientTypes.StorageLensGroupFilter.writingClosure(_:to:))
+    static func write(value: S3ControlClientTypes.StorageLensGroup?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Filter"].write(value.filter, with: S3ControlClientTypes.StorageLensGroupFilter.write(value:to:))
         try writer["Name"].write(value.name)
         try writer["StorageLensGroupArn"].write(value.storageLensGroupArn)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.StorageLensGroup, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.StorageLensGroup()
-            value.name = try reader["Name"].readIfPresent()
-            value.filter = try reader["Filter"].readIfPresent(readingClosure: S3ControlClientTypes.StorageLensGroupFilter.readingClosure)
-            value.storageLensGroupArn = try reader["StorageLensGroupArn"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.StorageLensGroup {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.StorageLensGroup()
+        value.name = try reader["Name"].readIfPresent()
+        value.filter = try reader["Filter"].readIfPresent(with: S3ControlClientTypes.StorageLensGroupFilter.read(from:))
+        value.storageLensGroupArn = try reader["StorageLensGroupArn"].readIfPresent()
+        return value
     }
 }
 
@@ -14765,26 +14012,24 @@ extension S3ControlClientTypes {
 
 extension S3ControlClientTypes.StorageLensGroupAndOperator {
 
-    static func writingClosure(_ value: S3ControlClientTypes.StorageLensGroupAndOperator?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["MatchAnyPrefix"].writeList(value.matchAnyPrefix, memberWritingClosure: Swift.String.writingClosure(_:to:), memberNodeInfo: "Prefix", isFlattened: false)
-        try writer["MatchAnySuffix"].writeList(value.matchAnySuffix, memberWritingClosure: Swift.String.writingClosure(_:to:), memberNodeInfo: "Suffix", isFlattened: false)
-        try writer["MatchAnyTag"].writeList(value.matchAnyTag, memberWritingClosure: S3ControlClientTypes.S3Tag.writingClosure(_:to:), memberNodeInfo: "Tag", isFlattened: false)
-        try writer["MatchObjectAge"].write(value.matchObjectAge, writingClosure: S3ControlClientTypes.MatchObjectAge.writingClosure(_:to:))
-        try writer["MatchObjectSize"].write(value.matchObjectSize, writingClosure: S3ControlClientTypes.MatchObjectSize.writingClosure(_:to:))
+    static func write(value: S3ControlClientTypes.StorageLensGroupAndOperator?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["MatchAnyPrefix"].writeList(value.matchAnyPrefix, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "Prefix", isFlattened: false)
+        try writer["MatchAnySuffix"].writeList(value.matchAnySuffix, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "Suffix", isFlattened: false)
+        try writer["MatchAnyTag"].writeList(value.matchAnyTag, memberWritingClosure: S3ControlClientTypes.S3Tag.write(value:to:), memberNodeInfo: "Tag", isFlattened: false)
+        try writer["MatchObjectAge"].write(value.matchObjectAge, with: S3ControlClientTypes.MatchObjectAge.write(value:to:))
+        try writer["MatchObjectSize"].write(value.matchObjectSize, with: S3ControlClientTypes.MatchObjectSize.write(value:to:))
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.StorageLensGroupAndOperator, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.StorageLensGroupAndOperator()
-            value.matchAnyPrefix = try reader["MatchAnyPrefix"].readListIfPresent(memberReadingClosure: Swift.String.readingClosure, memberNodeInfo: "Prefix", isFlattened: false)
-            value.matchAnySuffix = try reader["MatchAnySuffix"].readListIfPresent(memberReadingClosure: Swift.String.readingClosure, memberNodeInfo: "Suffix", isFlattened: false)
-            value.matchAnyTag = try reader["MatchAnyTag"].readListIfPresent(memberReadingClosure: S3ControlClientTypes.S3Tag.readingClosure, memberNodeInfo: "Tag", isFlattened: false)
-            value.matchObjectAge = try reader["MatchObjectAge"].readIfPresent(readingClosure: S3ControlClientTypes.MatchObjectAge.readingClosure)
-            value.matchObjectSize = try reader["MatchObjectSize"].readIfPresent(readingClosure: S3ControlClientTypes.MatchObjectSize.readingClosure)
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.StorageLensGroupAndOperator {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.StorageLensGroupAndOperator()
+        value.matchAnyPrefix = try reader["MatchAnyPrefix"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "Prefix", isFlattened: false)
+        value.matchAnySuffix = try reader["MatchAnySuffix"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "Suffix", isFlattened: false)
+        value.matchAnyTag = try reader["MatchAnyTag"].readListIfPresent(memberReadingClosure: S3ControlClientTypes.S3Tag.read(from:), memberNodeInfo: "Tag", isFlattened: false)
+        value.matchObjectAge = try reader["MatchObjectAge"].readIfPresent(with: S3ControlClientTypes.MatchObjectAge.read(from:))
+        value.matchObjectSize = try reader["MatchObjectSize"].readIfPresent(with: S3ControlClientTypes.MatchObjectSize.read(from:))
+        return value
     }
 }
 
@@ -14822,30 +14067,28 @@ extension S3ControlClientTypes {
 
 extension S3ControlClientTypes.StorageLensGroupFilter {
 
-    static func writingClosure(_ value: S3ControlClientTypes.StorageLensGroupFilter?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["And"].write(value.and, writingClosure: S3ControlClientTypes.StorageLensGroupAndOperator.writingClosure(_:to:))
-        try writer["MatchAnyPrefix"].writeList(value.matchAnyPrefix, memberWritingClosure: Swift.String.writingClosure(_:to:), memberNodeInfo: "Prefix", isFlattened: false)
-        try writer["MatchAnySuffix"].writeList(value.matchAnySuffix, memberWritingClosure: Swift.String.writingClosure(_:to:), memberNodeInfo: "Suffix", isFlattened: false)
-        try writer["MatchAnyTag"].writeList(value.matchAnyTag, memberWritingClosure: S3ControlClientTypes.S3Tag.writingClosure(_:to:), memberNodeInfo: "Tag", isFlattened: false)
-        try writer["MatchObjectAge"].write(value.matchObjectAge, writingClosure: S3ControlClientTypes.MatchObjectAge.writingClosure(_:to:))
-        try writer["MatchObjectSize"].write(value.matchObjectSize, writingClosure: S3ControlClientTypes.MatchObjectSize.writingClosure(_:to:))
-        try writer["Or"].write(value.or, writingClosure: S3ControlClientTypes.StorageLensGroupOrOperator.writingClosure(_:to:))
+    static func write(value: S3ControlClientTypes.StorageLensGroupFilter?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["And"].write(value.and, with: S3ControlClientTypes.StorageLensGroupAndOperator.write(value:to:))
+        try writer["MatchAnyPrefix"].writeList(value.matchAnyPrefix, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "Prefix", isFlattened: false)
+        try writer["MatchAnySuffix"].writeList(value.matchAnySuffix, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "Suffix", isFlattened: false)
+        try writer["MatchAnyTag"].writeList(value.matchAnyTag, memberWritingClosure: S3ControlClientTypes.S3Tag.write(value:to:), memberNodeInfo: "Tag", isFlattened: false)
+        try writer["MatchObjectAge"].write(value.matchObjectAge, with: S3ControlClientTypes.MatchObjectAge.write(value:to:))
+        try writer["MatchObjectSize"].write(value.matchObjectSize, with: S3ControlClientTypes.MatchObjectSize.write(value:to:))
+        try writer["Or"].write(value.or, with: S3ControlClientTypes.StorageLensGroupOrOperator.write(value:to:))
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.StorageLensGroupFilter, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.StorageLensGroupFilter()
-            value.matchAnyPrefix = try reader["MatchAnyPrefix"].readListIfPresent(memberReadingClosure: Swift.String.readingClosure, memberNodeInfo: "Prefix", isFlattened: false)
-            value.matchAnySuffix = try reader["MatchAnySuffix"].readListIfPresent(memberReadingClosure: Swift.String.readingClosure, memberNodeInfo: "Suffix", isFlattened: false)
-            value.matchAnyTag = try reader["MatchAnyTag"].readListIfPresent(memberReadingClosure: S3ControlClientTypes.S3Tag.readingClosure, memberNodeInfo: "Tag", isFlattened: false)
-            value.matchObjectAge = try reader["MatchObjectAge"].readIfPresent(readingClosure: S3ControlClientTypes.MatchObjectAge.readingClosure)
-            value.matchObjectSize = try reader["MatchObjectSize"].readIfPresent(readingClosure: S3ControlClientTypes.MatchObjectSize.readingClosure)
-            value.and = try reader["And"].readIfPresent(readingClosure: S3ControlClientTypes.StorageLensGroupAndOperator.readingClosure)
-            value.or = try reader["Or"].readIfPresent(readingClosure: S3ControlClientTypes.StorageLensGroupOrOperator.readingClosure)
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.StorageLensGroupFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.StorageLensGroupFilter()
+        value.matchAnyPrefix = try reader["MatchAnyPrefix"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "Prefix", isFlattened: false)
+        value.matchAnySuffix = try reader["MatchAnySuffix"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "Suffix", isFlattened: false)
+        value.matchAnyTag = try reader["MatchAnyTag"].readListIfPresent(memberReadingClosure: S3ControlClientTypes.S3Tag.read(from:), memberNodeInfo: "Tag", isFlattened: false)
+        value.matchObjectAge = try reader["MatchObjectAge"].readIfPresent(with: S3ControlClientTypes.MatchObjectAge.read(from:))
+        value.matchObjectSize = try reader["MatchObjectSize"].readIfPresent(with: S3ControlClientTypes.MatchObjectSize.read(from:))
+        value.and = try reader["And"].readIfPresent(with: S3ControlClientTypes.StorageLensGroupAndOperator.read(from:))
+        value.or = try reader["Or"].readIfPresent(with: S3ControlClientTypes.StorageLensGroupOrOperator.read(from:))
+        return value
     }
 }
 
@@ -14891,18 +14134,16 @@ extension S3ControlClientTypes {
 
 extension S3ControlClientTypes.StorageLensGroupLevel {
 
-    static func writingClosure(_ value: S3ControlClientTypes.StorageLensGroupLevel?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["SelectionCriteria"].write(value.selectionCriteria, writingClosure: S3ControlClientTypes.StorageLensGroupLevelSelectionCriteria.writingClosure(_:to:))
+    static func write(value: S3ControlClientTypes.StorageLensGroupLevel?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["SelectionCriteria"].write(value.selectionCriteria, with: S3ControlClientTypes.StorageLensGroupLevelSelectionCriteria.write(value:to:))
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.StorageLensGroupLevel, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.StorageLensGroupLevel()
-            value.selectionCriteria = try reader["SelectionCriteria"].readIfPresent(readingClosure: S3ControlClientTypes.StorageLensGroupLevelSelectionCriteria.readingClosure)
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.StorageLensGroupLevel {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.StorageLensGroupLevel()
+        value.selectionCriteria = try reader["SelectionCriteria"].readIfPresent(with: S3ControlClientTypes.StorageLensGroupLevelSelectionCriteria.read(from:))
+        return value
     }
 }
 
@@ -14924,20 +14165,18 @@ extension S3ControlClientTypes {
 
 extension S3ControlClientTypes.StorageLensGroupLevelSelectionCriteria {
 
-    static func writingClosure(_ value: S3ControlClientTypes.StorageLensGroupLevelSelectionCriteria?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["Exclude"].writeList(value.exclude, memberWritingClosure: Swift.String.writingClosure(_:to:), memberNodeInfo: "Arn", isFlattened: false)
-        try writer["Include"].writeList(value.include, memberWritingClosure: Swift.String.writingClosure(_:to:), memberNodeInfo: "Arn", isFlattened: false)
+    static func write(value: S3ControlClientTypes.StorageLensGroupLevelSelectionCriteria?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Exclude"].writeList(value.exclude, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "Arn", isFlattened: false)
+        try writer["Include"].writeList(value.include, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "Arn", isFlattened: false)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.StorageLensGroupLevelSelectionCriteria, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.StorageLensGroupLevelSelectionCriteria()
-            value.include = try reader["Include"].readListIfPresent(memberReadingClosure: Swift.String.readingClosure, memberNodeInfo: "Arn", isFlattened: false)
-            value.exclude = try reader["Exclude"].readListIfPresent(memberReadingClosure: Swift.String.readingClosure, memberNodeInfo: "Arn", isFlattened: false)
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.StorageLensGroupLevelSelectionCriteria {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.StorageLensGroupLevelSelectionCriteria()
+        value.include = try reader["Include"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "Arn", isFlattened: false)
+        value.exclude = try reader["Exclude"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "Arn", isFlattened: false)
+        return value
     }
 }
 
@@ -14963,26 +14202,24 @@ extension S3ControlClientTypes {
 
 extension S3ControlClientTypes.StorageLensGroupOrOperator {
 
-    static func writingClosure(_ value: S3ControlClientTypes.StorageLensGroupOrOperator?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["MatchAnyPrefix"].writeList(value.matchAnyPrefix, memberWritingClosure: Swift.String.writingClosure(_:to:), memberNodeInfo: "Prefix", isFlattened: false)
-        try writer["MatchAnySuffix"].writeList(value.matchAnySuffix, memberWritingClosure: Swift.String.writingClosure(_:to:), memberNodeInfo: "Suffix", isFlattened: false)
-        try writer["MatchAnyTag"].writeList(value.matchAnyTag, memberWritingClosure: S3ControlClientTypes.S3Tag.writingClosure(_:to:), memberNodeInfo: "Tag", isFlattened: false)
-        try writer["MatchObjectAge"].write(value.matchObjectAge, writingClosure: S3ControlClientTypes.MatchObjectAge.writingClosure(_:to:))
-        try writer["MatchObjectSize"].write(value.matchObjectSize, writingClosure: S3ControlClientTypes.MatchObjectSize.writingClosure(_:to:))
+    static func write(value: S3ControlClientTypes.StorageLensGroupOrOperator?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["MatchAnyPrefix"].writeList(value.matchAnyPrefix, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "Prefix", isFlattened: false)
+        try writer["MatchAnySuffix"].writeList(value.matchAnySuffix, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "Suffix", isFlattened: false)
+        try writer["MatchAnyTag"].writeList(value.matchAnyTag, memberWritingClosure: S3ControlClientTypes.S3Tag.write(value:to:), memberNodeInfo: "Tag", isFlattened: false)
+        try writer["MatchObjectAge"].write(value.matchObjectAge, with: S3ControlClientTypes.MatchObjectAge.write(value:to:))
+        try writer["MatchObjectSize"].write(value.matchObjectSize, with: S3ControlClientTypes.MatchObjectSize.write(value:to:))
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.StorageLensGroupOrOperator, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.StorageLensGroupOrOperator()
-            value.matchAnyPrefix = try reader["MatchAnyPrefix"].readListIfPresent(memberReadingClosure: Swift.String.readingClosure, memberNodeInfo: "Prefix", isFlattened: false)
-            value.matchAnySuffix = try reader["MatchAnySuffix"].readListIfPresent(memberReadingClosure: Swift.String.readingClosure, memberNodeInfo: "Suffix", isFlattened: false)
-            value.matchAnyTag = try reader["MatchAnyTag"].readListIfPresent(memberReadingClosure: S3ControlClientTypes.S3Tag.readingClosure, memberNodeInfo: "Tag", isFlattened: false)
-            value.matchObjectAge = try reader["MatchObjectAge"].readIfPresent(readingClosure: S3ControlClientTypes.MatchObjectAge.readingClosure)
-            value.matchObjectSize = try reader["MatchObjectSize"].readIfPresent(readingClosure: S3ControlClientTypes.MatchObjectSize.readingClosure)
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.StorageLensGroupOrOperator {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.StorageLensGroupOrOperator()
+        value.matchAnyPrefix = try reader["MatchAnyPrefix"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "Prefix", isFlattened: false)
+        value.matchAnySuffix = try reader["MatchAnySuffix"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "Suffix", isFlattened: false)
+        value.matchAnyTag = try reader["MatchAnyTag"].readListIfPresent(memberReadingClosure: S3ControlClientTypes.S3Tag.read(from:), memberNodeInfo: "Tag", isFlattened: false)
+        value.matchObjectAge = try reader["MatchObjectAge"].readIfPresent(with: S3ControlClientTypes.MatchObjectAge.read(from:))
+        value.matchObjectSize = try reader["MatchObjectSize"].readIfPresent(with: S3ControlClientTypes.MatchObjectSize.read(from:))
+        return value
     }
 }
 
@@ -15020,20 +14257,18 @@ extension S3ControlClientTypes {
 
 extension S3ControlClientTypes.StorageLensTag {
 
-    static func writingClosure(_ value: S3ControlClientTypes.StorageLensTag?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ControlClientTypes.StorageLensTag?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["Key"].write(value.key)
         try writer["Value"].write(value.value)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.StorageLensTag, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.StorageLensTag()
-            value.key = try reader["Key"].readIfPresent()
-            value.value = try reader["Value"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.StorageLensTag {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.StorageLensTag()
+        value.key = try reader["Key"].readIfPresent()
+        value.value = try reader["Value"].readIfPresent()
+        return value
     }
 }
 
@@ -15060,13 +14295,6 @@ extension S3ControlClientTypes {
 }
 
 extension SubmitMultiRegionAccessPointRoutesInput {
-    static func writingClosure(_ value: SubmitMultiRegionAccessPointRoutesInput?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["RouteUpdates"].writeList(value.routeUpdates, memberWritingClosure: S3ControlClientTypes.MultiRegionAccessPointRoute.writingClosure(_:to:), memberNodeInfo: "Route", isFlattened: false)
-    }
-}
-
-extension SubmitMultiRegionAccessPointRoutesInput {
 
     static func headerProvider(_ value: SubmitMultiRegionAccessPointRoutesInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
@@ -15084,6 +14312,14 @@ extension SubmitMultiRegionAccessPointRoutesInput {
             return nil
         }
         return "/v20180820/mrap/instances/\(mrap.urlPercentEncoding(encodeForwardSlash: false))/routes"
+    }
+}
+
+extension SubmitMultiRegionAccessPointRoutesInput {
+
+    static func write(value: SubmitMultiRegionAccessPointRoutesInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["RouteUpdates"].writeList(value.routeUpdates, memberWritingClosure: S3ControlClientTypes.MultiRegionAccessPointRoute.write(value:to:), memberNodeInfo: "Route", isFlattened: false)
     }
 }
 
@@ -15112,10 +14348,8 @@ public struct SubmitMultiRegionAccessPointRoutesInput {
 
 extension SubmitMultiRegionAccessPointRoutesOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<SubmitMultiRegionAccessPointRoutesOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            return SubmitMultiRegionAccessPointRoutesOutput()
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> SubmitMultiRegionAccessPointRoutesOutput {
+        return SubmitMultiRegionAccessPointRoutesOutput()
     }
 }
 
@@ -15126,33 +14360,31 @@ public struct SubmitMultiRegionAccessPointRoutesOutput {
 
 enum SubmitMultiRegionAccessPointRoutesOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
 
 extension S3ControlClientTypes.Tag {
 
-    static func writingClosure(_ value: S3ControlClientTypes.Tag?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ControlClientTypes.Tag?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["Key"].write(value.key)
         try writer["Value"].write(value.value)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.Tag, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.Tag()
-            value.key = try reader["Key"].readIfPresent()
-            value.value = try reader["Value"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.Tag {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.Tag()
+        value.key = try reader["Key"].readIfPresent()
+        value.value = try reader["Value"].readIfPresent()
+        return value
     }
 }
 
@@ -15179,13 +14411,6 @@ extension S3ControlClientTypes {
 }
 
 extension TagResourceInput {
-    static func writingClosure(_ value: TagResourceInput?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["Tags"].writeList(value.tags, memberWritingClosure: S3ControlClientTypes.Tag.writingClosure(_:to:), memberNodeInfo: "Tag", isFlattened: false)
-    }
-}
-
-extension TagResourceInput {
 
     static func headerProvider(_ value: TagResourceInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
@@ -15203,6 +14428,14 @@ extension TagResourceInput {
             return nil
         }
         return "/v20180820/tags/\(resourceArn.urlPercentEncoding(encodeForwardSlash: false))"
+    }
+}
+
+extension TagResourceInput {
+
+    static func write(value: TagResourceInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: S3ControlClientTypes.Tag.write(value:to:), memberNodeInfo: "Tag", isFlattened: false)
     }
 }
 
@@ -15231,10 +14464,8 @@ public struct TagResourceInput {
 
 extension TagResourceOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<TagResourceOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            return TagResourceOutput()
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> TagResourceOutput {
+        return TagResourceOutput()
     }
 }
 
@@ -15245,31 +14476,22 @@ public struct TagResourceOutput {
 
 enum TagResourceOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
 
 extension S3ControlClientTypes.Tagging {
 
-    static func writingClosure(_ value: S3ControlClientTypes.Tagging?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["TagSet"].writeList(value.tagSet, memberWritingClosure: S3ControlClientTypes.S3Tag.writingClosure(_:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.Tagging, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.Tagging()
-            value.tagSet = try reader["TagSet"].readListIfPresent(memberReadingClosure: S3ControlClientTypes.S3Tag.readingClosure, memberNodeInfo: "member", isFlattened: false)
-            return value
-        }
+    static func write(value: S3ControlClientTypes.Tagging?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["TagSet"].writeList(value.tagSet, memberWritingClosure: S3ControlClientTypes.S3Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -15292,24 +14514,13 @@ extension S3ControlClientTypes {
 
 extension TooManyRequestsException {
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<TooManyRequestsException, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = TooManyRequestsException()
-            value.properties.message = try reader["Message"].readIfPresent()
-            return value
-        }
-    }
-}
-
-extension TooManyRequestsException {
-
-    static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws -> Swift.Error {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyRequestsException {
+        let reader = baseError.errorBodyReader
         var value = TooManyRequestsException()
         value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = httpResponse
-        value.requestID = requestID
-        value.message = message
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
         return value
     }
 }
@@ -15340,24 +14551,13 @@ public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRun
 
 extension TooManyTagsException {
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<TooManyTagsException, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = TooManyTagsException()
-            value.properties.message = try reader["Message"].readIfPresent()
-            return value
-        }
-    }
-}
-
-extension TooManyTagsException {
-
-    static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws -> Swift.Error {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyTagsException {
+        let reader = baseError.errorBodyReader
         var value = TooManyTagsException()
         value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = httpResponse
-        value.requestID = requestID
-        value.message = message
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
         return value
     }
 }
@@ -15388,22 +14588,20 @@ public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime
 
 extension S3ControlClientTypes.Transition {
 
-    static func writingClosure(_ value: S3ControlClientTypes.Transition?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ControlClientTypes.Transition?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["Date"].writeTimestamp(value.date, format: .dateTime)
         try writer["Days"].write(value.days)
         try writer["StorageClass"].write(value.storageClass)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.Transition, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.Transition()
-            value.date = try reader["Date"].readTimestampIfPresent(format: .dateTime)
-            value.days = try reader["Days"].readIfPresent() ?? 0
-            value.storageClass = try reader["StorageClass"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.Transition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.Transition()
+        value.date = try reader["Date"].readTimestampIfPresent(format: .dateTime)
+        value.days = try reader["Days"].readIfPresent() ?? 0
+        value.storageClass = try reader["StorageClass"].readIfPresent()
+        return value
     }
 }
 
@@ -15432,7 +14630,8 @@ extension S3ControlClientTypes {
 }
 
 extension S3ControlClientTypes {
-    public enum TransitionStorageClass: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+
+    public enum TransitionStorageClass: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case deepArchive
         case glacier
         case intelligentTiering
@@ -15450,10 +14649,12 @@ extension S3ControlClientTypes {
                 .sdkUnknown("")
             ]
         }
+
         public init?(rawValue: Swift.String) {
             let value = Self.allCases.first(where: { $0.rawValue == rawValue })
             self = value ?? Self.sdkUnknown(rawValue)
         }
+
         public var rawValue: Swift.String {
             switch self {
             case .deepArchive: return "DEEP_ARCHIVE"
@@ -15463,11 +14664,6 @@ extension S3ControlClientTypes {
             case .standardIa: return "STANDARD_IA"
             case let .sdkUnknown(s): return s
             }
-        }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = TransitionStorageClass(rawValue: rawValue) ?? TransitionStorageClass.sdkUnknown(rawValue)
         }
     }
 }
@@ -15534,10 +14730,8 @@ public struct UntagResourceInput {
 
 extension UntagResourceOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<UntagResourceOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            return UntagResourceOutput()
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UntagResourceOutput {
+        return UntagResourceOutput()
     }
 }
 
@@ -15548,21 +14742,14 @@ public struct UntagResourceOutput {
 
 enum UntagResourceOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
-    }
-}
-
-extension UpdateAccessGrantsLocationInput {
-    static func writingClosure(_ value: UpdateAccessGrantsLocationInput?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["IAMRoleArn"].write(value.iamRoleArn)
     }
 }
 
@@ -15584,6 +14771,14 @@ extension UpdateAccessGrantsLocationInput {
             return nil
         }
         return "/v20180820/accessgrantsinstance/location/\(accessGrantsLocationId.urlPercentEncoding())"
+    }
+}
+
+extension UpdateAccessGrantsLocationInput {
+
+    static func write(value: UpdateAccessGrantsLocationInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["IAMRoleArn"].write(value.iamRoleArn)
     }
 }
 
@@ -15612,18 +14807,17 @@ public struct UpdateAccessGrantsLocationInput {
 
 extension UpdateAccessGrantsLocationOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<UpdateAccessGrantsLocationOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = UpdateAccessGrantsLocationOutput()
-            value.accessGrantsLocationArn = try reader["AccessGrantsLocationArn"].readIfPresent()
-            value.accessGrantsLocationId = try reader["AccessGrantsLocationId"].readIfPresent()
-            value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: .dateTime)
-            value.iamRoleArn = try reader["IAMRoleArn"].readIfPresent()
-            value.locationScope = try reader["LocationScope"].readIfPresent()
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateAccessGrantsLocationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateAccessGrantsLocationOutput()
+        value.accessGrantsLocationArn = try reader["AccessGrantsLocationArn"].readIfPresent()
+        value.accessGrantsLocationId = try reader["AccessGrantsLocationId"].readIfPresent()
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: .dateTime)
+        value.iamRoleArn = try reader["IAMRoleArn"].readIfPresent()
+        value.locationScope = try reader["LocationScope"].readIfPresent()
+        return value
     }
 }
 
@@ -15657,13 +14851,13 @@ public struct UpdateAccessGrantsLocationOutput {
 
 enum UpdateAccessGrantsLocationOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -15728,15 +14922,14 @@ public struct UpdateJobPriorityInput {
 
 extension UpdateJobPriorityOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<UpdateJobPriorityOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = UpdateJobPriorityOutput()
-            value.jobId = try reader["JobId"].readIfPresent()
-            value.priority = try reader["Priority"].readIfPresent() ?? 0
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateJobPriorityOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateJobPriorityOutput()
+        value.jobId = try reader["JobId"].readIfPresent()
+        value.priority = try reader["Priority"].readIfPresent() ?? 0
+        return value
     }
 }
 
@@ -15760,18 +14953,17 @@ public struct UpdateJobPriorityOutput {
 
 enum UpdateJobPriorityOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let errorBodyReader = AWSClientRuntime.RestXMLError.errorBodyReader(responseReader: responseReader, noErrorWrapping: false)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                case "BadRequestException": return try await BadRequestException.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "InternalServiceException": return try await InternalServiceException.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "NotFoundException": return try await NotFoundException.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "TooManyRequestsException": return try await TooManyRequestsException.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
@@ -15844,16 +15036,15 @@ public struct UpdateJobStatusInput {
 
 extension UpdateJobStatusOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<UpdateJobStatusOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader
-            var value = UpdateJobStatusOutput()
-            value.jobId = try reader["JobId"].readIfPresent()
-            value.status = try reader["Status"].readIfPresent()
-            value.statusUpdateReason = try reader["StatusUpdateReason"].readIfPresent()
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateJobStatusOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateJobStatusOutput()
+        value.jobId = try reader["JobId"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.statusUpdateReason = try reader["StatusUpdateReason"].readIfPresent()
+        return value
     }
 }
 
@@ -15879,27 +15070,19 @@ public struct UpdateJobStatusOutput {
 
 enum UpdateJobStatusOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let errorBodyReader = AWSClientRuntime.RestXMLError.errorBodyReader(responseReader: responseReader, noErrorWrapping: false)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                case "BadRequestException": return try await BadRequestException.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "InternalServiceException": return try await InternalServiceException.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "JobStatusException": return try await JobStatusException.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "NotFoundException": return try await NotFoundException.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "TooManyRequestsException": return try await TooManyRequestsException.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "JobStatusException": return try JobStatusException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
-    }
-}
-
-extension UpdateStorageLensGroupInput {
-    static func writingClosure(_ value: UpdateStorageLensGroupInput?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
-        try writer["StorageLensGroup"].write(value.storageLensGroup, writingClosure: S3ControlClientTypes.StorageLensGroup.writingClosure(_:to:))
     }
 }
 
@@ -15921,6 +15104,14 @@ extension UpdateStorageLensGroupInput {
             return nil
         }
         return "/v20180820/storagelensgroup/\(name.urlPercentEncoding())"
+    }
+}
+
+extension UpdateStorageLensGroupInput {
+
+    static func write(value: UpdateStorageLensGroupInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["StorageLensGroup"].write(value.storageLensGroup, with: S3ControlClientTypes.StorageLensGroup.write(value:to:))
     }
 }
 
@@ -15949,10 +15140,8 @@ public struct UpdateStorageLensGroupInput {
 
 extension UpdateStorageLensGroupOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<UpdateStorageLensGroupOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            return UpdateStorageLensGroupOutput()
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateStorageLensGroupOutput {
+        return UpdateStorageLensGroupOutput()
     }
 }
 
@@ -15963,33 +15152,23 @@ public struct UpdateStorageLensGroupOutput {
 
 enum UpdateStorageLensGroupOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
 
 extension S3ControlClientTypes.VersioningConfiguration {
 
-    static func writingClosure(_ value: S3ControlClientTypes.VersioningConfiguration?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ControlClientTypes.VersioningConfiguration?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["MfaDelete"].write(value.mfaDelete)
         try writer["Status"].write(value.status)
-    }
-
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.VersioningConfiguration, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.VersioningConfiguration()
-            value.mfaDelete = try reader["MfaDelete"].readIfPresent()
-            value.status = try reader["Status"].readIfPresent()
-            return value
-        }
     }
 }
 
@@ -16015,18 +15194,16 @@ extension S3ControlClientTypes {
 
 extension S3ControlClientTypes.VpcConfiguration {
 
-    static func writingClosure(_ value: S3ControlClientTypes.VpcConfiguration?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+    static func write(value: S3ControlClientTypes.VpcConfiguration?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
         try writer["VpcId"].write(value.vpcId)
     }
 
-    static var readingClosure: SmithyReadWrite.ReadingClosure<S3ControlClientTypes.VpcConfiguration, SmithyXML.Reader> {
-        return { reader in
-            guard reader.content != nil else { return nil }
-            var value = S3ControlClientTypes.VpcConfiguration()
-            value.vpcId = try reader["VpcId"].readIfPresent()
-            return value
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.VpcConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.VpcConfiguration()
+        value.vpcId = try reader["VpcId"].readIfPresent()
+        return value
     }
 }
 
