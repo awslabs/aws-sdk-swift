@@ -118,7 +118,7 @@ jobs:
             -scheme AWSIntegrationTestsOnCI \
             -testPlan AWSIntegrationTestsOnCI \
             -destination '${{ matrix.destination }}' \
-            test \
+            test 2>&1 \
             | xcbeautify
 
   linux:

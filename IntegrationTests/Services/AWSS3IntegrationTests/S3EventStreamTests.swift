@@ -61,8 +61,17 @@ class S3EventStreamTests: S3XCTestCase {
     }
 
     func test_multi() async throws {
-        for _ in 1...100 {
-            try await self.testEventStreamOutput()
+        var errors = [Error]()
+        let n = 100
+        for _ in 1...n {
+            do {
+                try await self.testEventStreamOutput()
+            } catch {
+                errors.append(error)
+            }
+        }
+        if !errors.isEmpty {
+            XCTFail("Event stream failed \(errors.count)/\(n) times: \(errors)")
         }
     }
 }
