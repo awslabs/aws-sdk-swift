@@ -60,14 +60,9 @@ class S3EventStreamTests: S3XCTestCase {
         XCTAssertEqual(expectedOutput, actualOutput)
     }
 
-    func xtest_multi() async throws {
-        try await withThrowingTaskGroup(of: Void.self) { group in
-            for _ in 1...100 {
-                group.addTask {
-                    try await self.testEventStreamOutput()
-                }
-            }
-            try await group.waitForAll()
+    func test_multi() async throws {
+        for _ in 1...100 {
+            try await self.testEventStreamOutput()
         }
     }
 }

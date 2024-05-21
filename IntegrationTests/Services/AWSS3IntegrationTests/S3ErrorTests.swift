@@ -86,9 +86,13 @@ class S3ErrorTests: S3XCTestCase {
         }
     }
 
-    func xtest_repeat() async throws {
+    func test_repeat() async throws {
         for _ in 1...100 {
+            try await test_noSuchKey_throwsNoSuchKeyWhenUnknownKeyIsUsed()
+            try await test_noSuchBucket_throwsNoSuchBucketWhenUnknownBucketIsUsed()
             try await test_requestID_hasARequestIDAndRequestID2()
+            try await test_InvalidObjectState_hasReadableProperties()
+            try await test_InvalidAccessKeyID_isThrownWhenAppropriate()
         }
     }
 }
