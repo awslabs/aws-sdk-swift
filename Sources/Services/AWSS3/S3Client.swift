@@ -6220,7 +6220,6 @@ extension S3Client {
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<WriteGetObjectResponseInput, WriteGetObjectResponseOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<WriteGetObjectResponseOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<WriteGetObjectResponseInput, WriteGetObjectResponseOutput>(WriteGetObjectResponseInput.headerProvider(_:)))
-        builder.serialize(ClientRuntime.QueryItemMiddleware<WriteGetObjectResponseInput, WriteGetObjectResponseOutput>(WriteGetObjectResponseInput.queryItemProvider(_:)))
         builder.interceptors.add(ContentTypeMiddleware<WriteGetObjectResponseInput, WriteGetObjectResponseOutput>(contentType: "application/octet-stream"))
         builder.serialize(ClientRuntime.BlobStreamBodyMiddleware<WriteGetObjectResponseInput, WriteGetObjectResponseOutput>(keyPath: \.body))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<WriteGetObjectResponseInput, WriteGetObjectResponseOutput>(requiresLength: false, unsignedPayload: true))

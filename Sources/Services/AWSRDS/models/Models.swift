@@ -3136,6 +3136,7 @@ extension CreateDBClusterInput {
         try writer["EnableLocalWriteForwarding"].write(value.enableLocalWriteForwarding)
         try writer["EnablePerformanceInsights"].write(value.enablePerformanceInsights)
         try writer["Engine"].write(value.engine)
+        try writer["EngineLifecycleSupport"].write(value.engineLifecycleSupport)
         try writer["EngineMode"].write(value.engineMode)
         try writer["EngineVersion"].write(value.engineVersion)
         try writer["GlobalClusterIdentifier"].write(value.globalClusterIdentifier)
@@ -3175,7 +3176,9 @@ public struct CreateDBClusterInput {
     public var allocatedStorage: Swift.Int?
     /// Specifies whether minor engine upgrades are applied automatically to the DB cluster during the maintenance window. By default, minor engine upgrades are applied automatically. Valid for Cluster Type: Multi-AZ DB clusters only
     public var autoMinorVersionUpgrade: Swift.Bool?
-    /// A list of Availability Zones (AZs) where DB instances in the DB cluster can be created. For information on Amazon Web Services Regions and Availability Zones, see [Choosing the Regions and Availability Zones](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Concepts.RegionsAndAvailabilityZones.html) in the Amazon Aurora User Guide. Valid for Cluster Type: Aurora DB clusters only
+    /// A list of Availability Zones (AZs) where you specifically want to create DB instances in the DB cluster. For information on AZs, see [Availability Zones](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Concepts.RegionsAndAvailabilityZones.html#Concepts.RegionsAndAvailabilityZones.AvailabilityZones) in the Amazon Aurora User Guide. Valid for Cluster Type: Aurora DB clusters only Constraints:
+    ///
+    /// * Can't specify more than three AZs.
     public var availabilityZones: [Swift.String]?
     /// The target backtrack window, in seconds. To disable backtracking, set this value to 0. Valid for Cluster Type: Aurora MySQL DB clusters only Default: 0 Constraints:
     ///
@@ -3260,9 +3263,28 @@ public struct CreateDBClusterInput {
     public var enableLocalWriteForwarding: Swift.Bool?
     /// Specifies whether to turn on Performance Insights for the DB cluster. For more information, see [ Using Amazon Performance Insights](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_PerfInsights.html) in the Amazon RDS User Guide. Valid for Cluster Type: Multi-AZ DB clusters only
     public var enablePerformanceInsights: Swift.Bool?
-    /// The database engine to use for this DB cluster. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Valid Values: aurora-mysql | aurora-postgresql | mysql | postgres
+    /// The database engine to use for this DB cluster. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Valid Values:
+    ///
+    /// * aurora-mysql
+    ///
+    /// * aurora-postgresql
+    ///
+    /// * mysql
+    ///
+    /// * postgres
+    ///
+    /// * neptune - For information about using Amazon Neptune, see the [ Amazon Neptune User Guide ](https://docs.aws.amazon.com/neptune/latest/userguide/intro.html).
     /// This member is required.
     public var engine: Swift.String?
+    /// The life cycle type for this DB cluster. By default, this value is set to open-source-rds-extended-support, which enrolls your DB cluster into Amazon RDS Extended Support. At the end of standard support, you can avoid charges for Extended Support by setting the value to open-source-rds-extended-support-disabled. In this case, creating the DB cluster will fail if the DB major version is past its end of standard support date. You can use this setting to enroll your DB cluster into Amazon RDS Extended Support. With RDS Extended Support, you can run the selected major engine version on your DB cluster past the end of standard support for that engine version. For more information, see the following sections:
+    ///
+    /// * Amazon Aurora (PostgreSQL only) - [Using Amazon RDS Extended Support](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/extended-support.html) in the Amazon Aurora User Guide
+    ///
+    /// * Amazon RDS - [Using Amazon RDS Extended Support](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/extended-support.html) in the Amazon RDS User Guide
+    ///
+    ///
+    /// Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Valid Values: open-source-rds-extended-support | open-source-rds-extended-support-disabled Default: open-source-rds-extended-support
+    public var engineLifecycleSupport: Swift.String?
     /// The DB engine mode of the DB cluster, either provisioned or serverless. The serverless engine mode only applies for Aurora Serverless v1 DB clusters. Aurora Serverless v2 DB clusters use the provisioned engine mode. For information about limitations and requirements for Serverless DB clusters, see the following sections in the Amazon Aurora User Guide:
     ///
     /// * [Limitations of Aurora Serverless v1](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-serverless.html#aurora-serverless.limitations)
@@ -3450,6 +3472,7 @@ public struct CreateDBClusterInput {
         enableLocalWriteForwarding: Swift.Bool? = nil,
         enablePerformanceInsights: Swift.Bool? = nil,
         engine: Swift.String? = nil,
+        engineLifecycleSupport: Swift.String? = nil,
         engineMode: Swift.String? = nil,
         engineVersion: Swift.String? = nil,
         globalClusterIdentifier: Swift.String? = nil,
@@ -3505,6 +3528,7 @@ public struct CreateDBClusterInput {
         self.enableLocalWriteForwarding = enableLocalWriteForwarding
         self.enablePerformanceInsights = enablePerformanceInsights
         self.engine = engine
+        self.engineLifecycleSupport = engineLifecycleSupport
         self.engineMode = engineMode
         self.engineVersion = engineVersion
         self.globalClusterIdentifier = globalClusterIdentifier
@@ -3833,6 +3857,7 @@ extension CreateDBInstanceInput {
         try writer["EnableIAMDatabaseAuthentication"].write(value.enableIAMDatabaseAuthentication)
         try writer["EnablePerformanceInsights"].write(value.enablePerformanceInsights)
         try writer["Engine"].write(value.engine)
+        try writer["EngineLifecycleSupport"].write(value.engineLifecycleSupport)
         try writer["EngineVersion"].write(value.engineVersion)
         try writer["Iops"].write(value.iops)
         try writer["KmsKeyId"].write(value.kmsKeyId)
@@ -4222,6 +4247,8 @@ public struct CreateDBInstanceInput {
     /// * sqlserver-web
     /// This member is required.
     public var engine: Swift.String?
+    /// The life cycle type for this DB instance. By default, this value is set to open-source-rds-extended-support, which enrolls your DB instance into Amazon RDS Extended Support. At the end of standard support, you can avoid charges for Extended Support by setting the value to open-source-rds-extended-support-disabled. In this case, creating the DB instance will fail if the DB major version is past its end of standard support date. This setting applies only to RDS for MySQL and RDS for PostgreSQL. For Amazon Aurora DB instances, the life cycle type is managed by the DB cluster. You can use this setting to enroll your DB instance into Amazon RDS Extended Support. With RDS Extended Support, you can run the selected major engine version on your DB instance past the end of standard support for that engine version. For more information, see [Using Amazon RDS Extended Support](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/extended-support.html) in the Amazon RDS User Guide. Valid Values: open-source-rds-extended-support | open-source-rds-extended-support-disabled Default: open-source-rds-extended-support
+    public var engineLifecycleSupport: Swift.String?
     /// The version number of the database engine to use. This setting doesn't apply to Amazon Aurora DB instances. The version number of the database engine the DB instance uses is managed by the DB cluster. For a list of valid engine versions, use the DescribeDBEngineVersions operation. The following are the database engines and links to information about the major and minor versions that are available with Amazon RDS. Not every database engine is available for every Amazon Web Services Region. Amazon RDS Custom for Oracle A custom engine version (CEV) that you have previously created. This setting is required for RDS Custom for Oracle. The CEV name has the following format: 19.customized_string. A valid CEV name is 19.my_cev1. For more information, see [ Creating an RDS Custom for Oracle DB instance](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/custom-creating.html#custom-creating.create) in the Amazon RDS User Guide. Amazon RDS Custom for SQL Server See [RDS Custom for SQL Server general requirements](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/custom-reqs-limits-MS.html) in the Amazon RDS User Guide. RDS for Db2 For information, see [Db2 on Amazon RDS versions](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_Db2.html#Db2.Concepts.VersionMgmt) in the Amazon RDS User Guide. RDS for MariaDB For information, see [MariaDB on Amazon RDS versions](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_MariaDB.html#MariaDB.Concepts.VersionMgmt) in the Amazon RDS User Guide. RDS for Microsoft SQL Server For information, see [Microsoft SQL Server versions on Amazon RDS](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_SQLServer.html#SQLServer.Concepts.General.VersionSupport) in the Amazon RDS User Guide. RDS for MySQL For information, see [MySQL on Amazon RDS versions](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_MySQL.html#MySQL.Concepts.VersionMgmt) in the Amazon RDS User Guide. RDS for Oracle For information, see [Oracle Database Engine release notes](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Appendix.Oracle.PatchComposition.html) in the Amazon RDS User Guide. RDS for PostgreSQL For information, see [Amazon RDS for PostgreSQL versions and extensions](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_PostgreSQL.html#PostgreSQL.Concepts) in the Amazon RDS User Guide.
     public var engineVersion: Swift.String?
     /// The amount of Provisioned IOPS (input/output operations per second) to initially allocate for the DB instance. For information about valid IOPS values, see [Amazon RDS DB instance storage](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_Storage.html) in the Amazon RDS User Guide. This setting doesn't apply to Amazon Aurora DB instances. Storage is managed by the DB cluster. Constraints:
@@ -4428,6 +4455,7 @@ public struct CreateDBInstanceInput {
         enableIAMDatabaseAuthentication: Swift.Bool? = nil,
         enablePerformanceInsights: Swift.Bool? = nil,
         engine: Swift.String? = nil,
+        engineLifecycleSupport: Swift.String? = nil,
         engineVersion: Swift.String? = nil,
         iops: Swift.Int? = nil,
         kmsKeyId: Swift.String? = nil,
@@ -4492,6 +4520,7 @@ public struct CreateDBInstanceInput {
         self.enableIAMDatabaseAuthentication = enableIAMDatabaseAuthentication
         self.enablePerformanceInsights = enablePerformanceInsights
         self.engine = engine
+        self.engineLifecycleSupport = engineLifecycleSupport
         self.engineVersion = engineVersion
         self.iops = iops
         self.kmsKeyId = kmsKeyId
@@ -5826,7 +5855,7 @@ public struct CreateEventSubscriptionInput {
     ///
     /// * If the source type is an RDS Proxy, a DBProxyName value must be supplied.
     public var sourceIds: [Swift.String]?
-    /// The type of source that is generating the events. For example, if you want to be notified of events generated by a DB instance, you set this parameter to db-instance. For RDS Proxy events, specify db-proxy. If this value isn't specified, all events are returned. Valid Values: db-instance | db-cluster | db-parameter-group | db-security-group | db-snapshot | db-cluster-snapshot | db-proxy
+    /// The type of source that is generating the events. For example, if you want to be notified of events generated by a DB instance, you set this parameter to db-instance. For RDS Proxy events, specify db-proxy. If this value isn't specified, all events are returned. Valid Values: db-instance | db-cluster | db-parameter-group | db-security-group | db-snapshot | db-cluster-snapshot | db-proxy | zero-etl | custom-engine-version | blue-green-deployment
     public var sourceType: Swift.String?
     /// The name of the subscription. Constraints: The name must be less than 255 characters.
     /// This member is required.
@@ -5912,6 +5941,7 @@ extension CreateGlobalClusterInput {
         try writer["DatabaseName"].write(value.databaseName)
         try writer["DeletionProtection"].write(value.deletionProtection)
         try writer["Engine"].write(value.engine)
+        try writer["EngineLifecycleSupport"].write(value.engineLifecycleSupport)
         try writer["EngineVersion"].write(value.engineVersion)
         try writer["GlobalClusterIdentifier"].write(value.globalClusterIdentifier)
         try writer["SourceDBClusterIdentifier"].write(value.sourceDBClusterIdentifier)
@@ -5932,6 +5962,8 @@ public struct CreateGlobalClusterInput {
     ///
     /// * Can't be specified if SourceDBClusterIdentifier is specified. In this case, Amazon Aurora uses the engine of the source DB cluster.
     public var engine: Swift.String?
+    /// The life cycle type for this global database cluster. By default, this value is set to open-source-rds-extended-support, which enrolls your global cluster into Amazon RDS Extended Support. At the end of standard support, you can avoid charges for Extended Support by setting the value to open-source-rds-extended-support-disabled. In this case, creating the global cluster will fail if the DB major version is past its end of standard support date. This setting only applies to Aurora PostgreSQL-based global databases. You can use this setting to enroll your global cluster into Amazon RDS Extended Support. With RDS Extended Support, you can run the selected major engine version on your global cluster past the end of standard support for that engine version. For more information, see [Using Amazon RDS Extended Support](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/extended-support.html) in the Amazon Aurora User Guide. Valid Values: open-source-rds-extended-support | open-source-rds-extended-support-disabled Default: open-source-rds-extended-support
+    public var engineLifecycleSupport: Swift.String?
     /// The engine version to use for this global database cluster. Constraints:
     ///
     /// * Can't be specified if SourceDBClusterIdentifier is specified. In this case, Amazon Aurora uses the engine version of the source DB cluster.
@@ -5957,6 +5989,7 @@ public struct CreateGlobalClusterInput {
         databaseName: Swift.String? = nil,
         deletionProtection: Swift.Bool? = nil,
         engine: Swift.String? = nil,
+        engineLifecycleSupport: Swift.String? = nil,
         engineVersion: Swift.String? = nil,
         globalClusterIdentifier: Swift.String? = nil,
         sourceDBClusterIdentifier: Swift.String? = nil,
@@ -5966,6 +5999,7 @@ public struct CreateGlobalClusterInput {
         self.databaseName = databaseName
         self.deletionProtection = deletionProtection
         self.engine = engine
+        self.engineLifecycleSupport = engineLifecycleSupport
         self.engineVersion = engineVersion
         self.globalClusterIdentifier = globalClusterIdentifier
         self.sourceDBClusterIdentifier = sourceDBClusterIdentifier
@@ -6723,6 +6757,7 @@ extension RDSClientTypes.DBCluster {
         value.limitlessDatabase = try reader["LimitlessDatabase"].readIfPresent(with: RDSClientTypes.LimitlessDatabase.read(from:))
         value.storageThroughput = try reader["StorageThroughput"].readIfPresent()
         value.certificateDetails = try reader["CertificateDetails"].readIfPresent(with: RDSClientTypes.CertificateDetails.read(from:))
+        value.engineLifecycleSupport = try reader["EngineLifecycleSupport"].readIfPresent()
         return value
     }
 }
@@ -6806,6 +6841,8 @@ extension RDSClientTypes {
         public var endpoint: Swift.String?
         /// The database engine used for this DB cluster.
         public var engine: Swift.String?
+        /// The life cycle type for the DB cluster. For more information, see CreateDBCluster.
+        public var engineLifecycleSupport: Swift.String?
         /// The DB engine mode of the DB cluster, either provisioned or serverless. For more information, see [ CreateDBCluster](https://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_CreateDBCluster.html).
         public var engineMode: Swift.String?
         /// The version of the database engine.
@@ -6937,6 +6974,7 @@ extension RDSClientTypes {
             enabledCloudwatchLogsExports: [Swift.String]? = nil,
             endpoint: Swift.String? = nil,
             engine: Swift.String? = nil,
+            engineLifecycleSupport: Swift.String? = nil,
             engineMode: Swift.String? = nil,
             engineVersion: Swift.String? = nil,
             globalWriteForwardingRequested: Swift.Bool? = nil,
@@ -7018,6 +7056,7 @@ extension RDSClientTypes {
             self.enabledCloudwatchLogsExports = enabledCloudwatchLogsExports
             self.endpoint = endpoint
             self.engine = engine
+            self.engineLifecycleSupport = engineLifecycleSupport
             self.engineMode = engineMode
             self.engineVersion = engineVersion
             self.globalWriteForwardingRequested = globalWriteForwardingRequested
@@ -8604,6 +8643,7 @@ extension RDSClientTypes.DBInstance {
         value.dedicatedLogVolume = try reader["DedicatedLogVolume"].readIfPresent()
         value.isStorageConfigUpgradeAvailable = try reader["IsStorageConfigUpgradeAvailable"].readIfPresent()
         value.multiTenant = try reader["MultiTenant"].readIfPresent()
+        value.engineLifecycleSupport = try reader["EngineLifecycleSupport"].readIfPresent()
         return value
     }
 }
@@ -8700,6 +8740,8 @@ extension RDSClientTypes {
         public var endpoint: RDSClientTypes.Endpoint?
         /// The database engine used for this DB instance.
         public var engine: Swift.String?
+        /// The life cycle type for the DB instance. For more information, see CreateDBInstance.
+        public var engineLifecycleSupport: Swift.String?
         /// The version of the database engine.
         public var engineVersion: Swift.String?
         /// The Amazon Resource Name (ARN) of the Amazon CloudWatch Logs log stream that receives the Enhanced Monitoring metrics data for the DB instance.
@@ -8841,6 +8883,7 @@ extension RDSClientTypes {
             enabledCloudwatchLogsExports: [Swift.String]? = nil,
             endpoint: RDSClientTypes.Endpoint? = nil,
             engine: Swift.String? = nil,
+            engineLifecycleSupport: Swift.String? = nil,
             engineVersion: Swift.String? = nil,
             enhancedMonitoringResourceArn: Swift.String? = nil,
             iamDatabaseAuthenticationEnabled: Swift.Bool? = nil,
@@ -8928,6 +8971,7 @@ extension RDSClientTypes {
             self.enabledCloudwatchLogsExports = enabledCloudwatchLogsExports
             self.endpoint = endpoint
             self.engine = engine
+            self.engineLifecycleSupport = engineLifecycleSupport
             self.engineVersion = engineVersion
             self.enhancedMonitoringResourceArn = enhancedMonitoringResourceArn
             self.iamDatabaseAuthenticationEnabled = iamDatabaseAuthenticationEnabled
@@ -19868,6 +19912,7 @@ extension RDSClientTypes.GlobalCluster {
         value.status = try reader["Status"].readIfPresent()
         value.engine = try reader["Engine"].readIfPresent()
         value.engineVersion = try reader["EngineVersion"].readIfPresent()
+        value.engineLifecycleSupport = try reader["EngineLifecycleSupport"].readIfPresent()
         value.databaseName = try reader["DatabaseName"].readIfPresent()
         value.storageEncrypted = try reader["StorageEncrypted"].readIfPresent()
         value.deletionProtection = try reader["DeletionProtection"].readIfPresent()
@@ -19886,6 +19931,8 @@ extension RDSClientTypes {
         public var deletionProtection: Swift.Bool?
         /// The Aurora database engine used by the global database cluster.
         public var engine: Swift.String?
+        /// The life cycle type for the global cluster. For more information, see CreateGlobalCluster.
+        public var engineLifecycleSupport: Swift.String?
         /// Indicates the database engine version.
         public var engineVersion: Swift.String?
         /// A data object containing all properties for the current state of an in-process or pending switchover or failover process for this global cluster (Aurora global database). This object is empty unless the SwitchoverGlobalCluster or FailoverGlobalCluster operation was called on this global cluster.
@@ -19907,6 +19954,7 @@ extension RDSClientTypes {
             databaseName: Swift.String? = nil,
             deletionProtection: Swift.Bool? = nil,
             engine: Swift.String? = nil,
+            engineLifecycleSupport: Swift.String? = nil,
             engineVersion: Swift.String? = nil,
             failoverState: RDSClientTypes.FailoverState? = nil,
             globalClusterArn: Swift.String? = nil,
@@ -19920,6 +19968,7 @@ extension RDSClientTypes {
             self.databaseName = databaseName
             self.deletionProtection = deletionProtection
             self.engine = engine
+            self.engineLifecycleSupport = engineLifecycleSupport
             self.engineVersion = engineVersion
             self.failoverState = failoverState
             self.globalClusterArn = globalClusterArn
@@ -25044,7 +25093,7 @@ public struct ModifyEventSubscriptionInput {
     public var eventCategories: [Swift.String]?
     /// The Amazon Resource Name (ARN) of the SNS topic created for event notification. The ARN is created by Amazon SNS when you create a topic and subscribe to it.
     public var snsTopicArn: Swift.String?
-    /// The type of source that is generating the events. For example, if you want to be notified of events generated by a DB instance, you would set this parameter to db-instance. For RDS Proxy events, specify db-proxy. If this value isn't specified, all events are returned. Valid Values: db-instance | db-cluster | db-parameter-group | db-security-group | db-snapshot | db-cluster-snapshot | db-proxy
+    /// The type of source that is generating the events. For example, if you want to be notified of events generated by a DB instance, you would set this parameter to db-instance. For RDS Proxy events, specify db-proxy. If this value isn't specified, all events are returned. Valid Values: db-instance | db-cluster | db-parameter-group | db-security-group | db-snapshot | db-cluster-snapshot | db-proxy | zero-etl | custom-engine-version | blue-green-deployment
     public var sourceType: Swift.String?
     /// The name of the RDS event notification subscription.
     /// This member is required.
@@ -26558,7 +26607,7 @@ extension RDSClientTypes.PendingMaintenanceAction {
 extension RDSClientTypes {
     /// Provides information about a pending maintenance action for a resource.
     public struct PendingMaintenanceAction {
-        /// The type of pending maintenance action that is available for the resource. Valid actions are system-update, db-upgrade, hardware-maintenance, and ca-certificate-rotation.
+        /// The type of pending maintenance action that is available for the resource. For more information about maintenance actions, see [Maintaining a DB instance](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_UpgradeDBInstance.Maintenance.html). Valid Values: system-update | db-upgrade | hardware-maintenance | ca-certificate-rotation
         public var action: Swift.String?
         /// The date of the maintenance window when the action is applied. The maintenance action is applied to the resource during its first maintenance window after this date.
         public var autoAppliedAfterDate: ClientRuntime.Date?
@@ -28863,6 +28912,7 @@ extension RestoreDBClusterFromS3Input {
         try writer["EnableCloudwatchLogsExports"].writeList(value.enableCloudwatchLogsExports, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["EnableIAMDatabaseAuthentication"].write(value.enableIAMDatabaseAuthentication)
         try writer["Engine"].write(value.engine)
+        try writer["EngineLifecycleSupport"].write(value.engineLifecycleSupport)
         try writer["EngineVersion"].write(value.engineVersion)
         try writer["KmsKeyId"].write(value.kmsKeyId)
         try writer["ManageMasterUserPassword"].write(value.manageMasterUserPassword)
@@ -28937,6 +28987,15 @@ public struct RestoreDBClusterFromS3Input {
     /// The name of the database engine to be used for this DB cluster. Valid Values: aurora-mysql (for Aurora MySQL)
     /// This member is required.
     public var engine: Swift.String?
+    /// The life cycle type for this DB cluster. By default, this value is set to open-source-rds-extended-support, which enrolls your DB cluster into Amazon RDS Extended Support. At the end of standard support, you can avoid charges for Extended Support by setting the value to open-source-rds-extended-support-disabled. In this case, RDS automatically upgrades your restored DB cluster to a higher engine version, if the major engine version is past its end of standard support date. You can use this setting to enroll your DB cluster into Amazon RDS Extended Support. With RDS Extended Support, you can run the selected major engine version on your DB cluster past the end of standard support for that engine version. For more information, see the following sections:
+    ///
+    /// * Amazon Aurora (PostgreSQL only) - [Using Amazon RDS Extended Support](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/extended-support.html) in the Amazon Aurora User Guide
+    ///
+    /// * Amazon RDS - [Using Amazon RDS Extended Support](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/extended-support.html) in the Amazon RDS User Guide
+    ///
+    ///
+    /// Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Valid Values: open-source-rds-extended-support | open-source-rds-extended-support-disabled Default: open-source-rds-extended-support
+    public var engineLifecycleSupport: Swift.String?
     /// The version number of the database engine to use. To list all of the available engine versions for aurora-mysql (Aurora MySQL), use the following command: aws rds describe-db-engine-versions --engine aurora-mysql --query "DBEngineVersions[].EngineVersion" Aurora MySQL Examples: 5.7.mysql_aurora.2.12.0, 8.0.mysql_aurora.3.04.0
     public var engineVersion: Swift.String?
     /// The Amazon Web Services KMS key identifier for an encrypted DB cluster. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. To use a KMS key in a different Amazon Web Services account, specify the key ARN or alias ARN. If the StorageEncrypted parameter is enabled, and you do not specify a value for the KmsKeyId parameter, then Amazon RDS will use your default KMS key. There is a default KMS key for your Amazon Web Services account. Your Amazon Web Services account has a different default KMS key for each Amazon Web Services Region.
@@ -29028,6 +29087,7 @@ public struct RestoreDBClusterFromS3Input {
         enableCloudwatchLogsExports: [Swift.String]? = nil,
         enableIAMDatabaseAuthentication: Swift.Bool? = nil,
         engine: Swift.String? = nil,
+        engineLifecycleSupport: Swift.String? = nil,
         engineVersion: Swift.String? = nil,
         kmsKeyId: Swift.String? = nil,
         manageMasterUserPassword: Swift.Bool? = nil,
@@ -29066,6 +29126,7 @@ public struct RestoreDBClusterFromS3Input {
         self.enableCloudwatchLogsExports = enableCloudwatchLogsExports
         self.enableIAMDatabaseAuthentication = enableIAMDatabaseAuthentication
         self.engine = engine
+        self.engineLifecycleSupport = engineLifecycleSupport
         self.engineVersion = engineVersion
         self.kmsKeyId = kmsKeyId
         self.manageMasterUserPassword = manageMasterUserPassword
@@ -29167,6 +29228,7 @@ extension RestoreDBClusterFromSnapshotInput {
         try writer["EnableCloudwatchLogsExports"].writeList(value.enableCloudwatchLogsExports, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["EnableIAMDatabaseAuthentication"].write(value.enableIAMDatabaseAuthentication)
         try writer["Engine"].write(value.engine)
+        try writer["EngineLifecycleSupport"].write(value.engineLifecycleSupport)
         try writer["EngineMode"].write(value.engineMode)
         try writer["EngineVersion"].write(value.engineVersion)
         try writer["Iops"].write(value.iops)
@@ -29244,6 +29306,15 @@ public struct RestoreDBClusterFromSnapshotInput {
     /// The database engine to use for the new DB cluster. Default: The same as source Constraint: Must be compatible with the engine of the source Valid for: Aurora DB clusters and Multi-AZ DB clusters
     /// This member is required.
     public var engine: Swift.String?
+    /// The life cycle type for this DB cluster. By default, this value is set to open-source-rds-extended-support, which enrolls your DB cluster into Amazon RDS Extended Support. At the end of standard support, you can avoid charges for Extended Support by setting the value to open-source-rds-extended-support-disabled. In this case, RDS automatically upgrades your restored DB cluster to a higher engine version, if the major engine version is past its end of standard support date. You can use this setting to enroll your DB cluster into Amazon RDS Extended Support. With RDS Extended Support, you can run the selected major engine version on your DB cluster past the end of standard support for that engine version. For more information, see the following sections:
+    ///
+    /// * Amazon Aurora (PostgreSQL only) - [Using Amazon RDS Extended Support](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/extended-support.html) in the Amazon Aurora User Guide
+    ///
+    /// * Amazon RDS - [Using Amazon RDS Extended Support](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/extended-support.html) in the Amazon RDS User Guide
+    ///
+    ///
+    /// Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Valid Values: open-source-rds-extended-support | open-source-rds-extended-support-disabled Default: open-source-rds-extended-support
+    public var engineLifecycleSupport: Swift.String?
     /// The DB engine mode of the DB cluster, either provisioned or serverless. For more information, see [ CreateDBCluster](https://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_CreateDBCluster.html). Valid for: Aurora DB clusters only
     public var engineMode: Swift.String?
     /// The version of the database engine to use for the new DB cluster. If you don't specify an engine version, the default version for the database engine in the Amazon Web Services Region is used. To list all of the available engine versions for Aurora MySQL, use the following command: aws rds describe-db-engine-versions --engine aurora-mysql --query "DBEngineVersions[].EngineVersion" To list all of the available engine versions for Aurora PostgreSQL, use the following command: aws rds describe-db-engine-versions --engine aurora-postgresql --query "DBEngineVersions[].EngineVersion" To list all of the available engine versions for RDS for MySQL, use the following command: aws rds describe-db-engine-versions --engine mysql --query "DBEngineVersions[].EngineVersion" To list all of the available engine versions for RDS for PostgreSQL, use the following command: aws rds describe-db-engine-versions --engine postgres --query "DBEngineVersions[].EngineVersion" Aurora MySQL See [Database engine updates for Amazon Aurora MySQL](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/AuroraMySQL.Updates.html) in the Amazon Aurora User Guide. Aurora PostgreSQL See [Amazon Aurora PostgreSQL releases and engine versions](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/AuroraPostgreSQL.Updates.20180305.html) in the Amazon Aurora User Guide. MySQL See [Amazon RDS for MySQL](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_MySQL.html#MySQL.Concepts.VersionMgmt) in the Amazon RDS User Guide. PostgreSQL See [Amazon RDS for PostgreSQL versions and extensions](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_PostgreSQL.html#PostgreSQL.Concepts) in the Amazon RDS User Guide. Valid for: Aurora DB clusters and Multi-AZ DB clusters
@@ -29324,6 +29395,7 @@ public struct RestoreDBClusterFromSnapshotInput {
         enableCloudwatchLogsExports: [Swift.String]? = nil,
         enableIAMDatabaseAuthentication: Swift.Bool? = nil,
         engine: Swift.String? = nil,
+        engineLifecycleSupport: Swift.String? = nil,
         engineMode: Swift.String? = nil,
         engineVersion: Swift.String? = nil,
         iops: Swift.Int? = nil,
@@ -29355,6 +29427,7 @@ public struct RestoreDBClusterFromSnapshotInput {
         self.enableCloudwatchLogsExports = enableCloudwatchLogsExports
         self.enableIAMDatabaseAuthentication = enableIAMDatabaseAuthentication
         self.engine = engine
+        self.engineLifecycleSupport = engineLifecycleSupport
         self.engineMode = engineMode
         self.engineVersion = engineVersion
         self.iops = iops
@@ -29452,6 +29525,7 @@ extension RestoreDBClusterToPointInTimeInput {
         try writer["DomainIAMRoleName"].write(value.domainIAMRoleName)
         try writer["EnableCloudwatchLogsExports"].writeList(value.enableCloudwatchLogsExports, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["EnableIAMDatabaseAuthentication"].write(value.enableIAMDatabaseAuthentication)
+        try writer["EngineLifecycleSupport"].write(value.engineLifecycleSupport)
         try writer["EngineMode"].write(value.engineMode)
         try writer["Iops"].write(value.iops)
         try writer["KmsKeyId"].write(value.kmsKeyId)
@@ -29525,6 +29599,15 @@ public struct RestoreDBClusterToPointInTimeInput {
     public var enableCloudwatchLogsExports: [Swift.String]?
     /// Specifies whether to enable mapping of Amazon Web Services Identity and Access Management (IAM) accounts to database accounts. By default, mapping isn't enabled. For more information, see [ IAM Database Authentication](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/UsingWithRDS.IAMDBAuth.html) in the Amazon Aurora User Guide. Valid for: Aurora DB clusters only
     public var enableIAMDatabaseAuthentication: Swift.Bool?
+    /// The life cycle type for this DB cluster. By default, this value is set to open-source-rds-extended-support, which enrolls your DB cluster into Amazon RDS Extended Support. At the end of standard support, you can avoid charges for Extended Support by setting the value to open-source-rds-extended-support-disabled. In this case, RDS automatically upgrades your restored DB cluster to a higher engine version, if the major engine version is past its end of standard support date. You can use this setting to enroll your DB cluster into Amazon RDS Extended Support. With RDS Extended Support, you can run the selected major engine version on your DB cluster past the end of standard support for that engine version. For more information, see the following sections:
+    ///
+    /// * Amazon Aurora (PostgreSQL only) - [Using Amazon RDS Extended Support](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/extended-support.html) in the Amazon Aurora User Guide
+    ///
+    /// * Amazon RDS - [Using Amazon RDS Extended Support](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/extended-support.html) in the Amazon RDS User Guide
+    ///
+    ///
+    /// Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Valid Values: open-source-rds-extended-support | open-source-rds-extended-support-disabled Default: open-source-rds-extended-support
+    public var engineLifecycleSupport: Swift.String?
     /// The engine mode of the new cluster. Specify provisioned or serverless, depending on the type of the cluster you are creating. You can create an Aurora Serverless v1 clone from a provisioned cluster, or a provisioned clone from an Aurora Serverless v1 cluster. To create a clone that is an Aurora Serverless v1 cluster, the original cluster must be an Aurora Serverless v1 cluster or an encrypted provisioned cluster. Valid for: Aurora DB clusters only
     public var engineMode: Swift.String?
     /// The amount of Provisioned IOPS (input/output operations per second) to be initially allocated for each DB instance in the Multi-AZ DB cluster. For information about valid IOPS values, see [Amazon RDS Provisioned IOPS storage](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_Storage.html#USER_PIOPS) in the Amazon RDS User Guide. Constraints: Must be a multiple between .5 and 50 of the storage amount for the DB instance. Valid for: Multi-AZ DB clusters only
@@ -29625,6 +29708,7 @@ public struct RestoreDBClusterToPointInTimeInput {
         domainIAMRoleName: Swift.String? = nil,
         enableCloudwatchLogsExports: [Swift.String]? = nil,
         enableIAMDatabaseAuthentication: Swift.Bool? = nil,
+        engineLifecycleSupport: Swift.String? = nil,
         engineMode: Swift.String? = nil,
         iops: Swift.Int? = nil,
         kmsKeyId: Swift.String? = nil,
@@ -29656,6 +29740,7 @@ public struct RestoreDBClusterToPointInTimeInput {
         self.domainIAMRoleName = domainIAMRoleName
         self.enableCloudwatchLogsExports = enableCloudwatchLogsExports
         self.enableIAMDatabaseAuthentication = enableIAMDatabaseAuthentication
+        self.engineLifecycleSupport = engineLifecycleSupport
         self.engineMode = engineMode
         self.iops = iops
         self.kmsKeyId = kmsKeyId
@@ -29771,6 +29856,7 @@ extension RestoreDBInstanceFromDBSnapshotInput {
         try writer["EnableCustomerOwnedIp"].write(value.enableCustomerOwnedIp)
         try writer["EnableIAMDatabaseAuthentication"].write(value.enableIAMDatabaseAuthentication)
         try writer["Engine"].write(value.engine)
+        try writer["EngineLifecycleSupport"].write(value.engineLifecycleSupport)
         try writer["Iops"].write(value.iops)
         try writer["LicenseModel"].write(value.licenseModel)
         try writer["MultiAZ"].write(value.multiAZ)
@@ -29943,6 +30029,8 @@ public struct RestoreDBInstanceFromDBSnapshotInput {
     ///
     /// * sqlserver-web
     public var engine: Swift.String?
+    /// The life cycle type for this DB instance. By default, this value is set to open-source-rds-extended-support, which enrolls your DB instance into Amazon RDS Extended Support. At the end of standard support, you can avoid charges for Extended Support by setting the value to open-source-rds-extended-support-disabled. In this case, RDS automatically upgrades your restored DB instance to a higher engine version, if the major engine version is past its end of standard support date. You can use this setting to enroll your DB instance into Amazon RDS Extended Support. With RDS Extended Support, you can run the selected major engine version on your DB instance past the end of standard support for that engine version. For more information, see [Using Amazon RDS Extended Support](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/extended-support.html) in the Amazon RDS User Guide. This setting applies only to RDS for MySQL and RDS for PostgreSQL. For Amazon Aurora DB instances, the life cycle type is managed by the DB cluster. Valid Values: open-source-rds-extended-support | open-source-rds-extended-support-disabled Default: open-source-rds-extended-support
+    public var engineLifecycleSupport: Swift.String?
     /// Specifies the amount of provisioned IOPS for the DB instance, expressed in I/O operations per second. If this parameter isn't specified, the IOPS value is taken from the backup. If this parameter is set to 0, the new instance is converted to a non-PIOPS instance. The conversion takes additional time, though your DB instance is available for connections before the conversion starts. The provisioned IOPS value must follow the requirements for your database engine. For more information, see [Amazon RDS Provisioned IOPS storage](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_Storage.html#USER_PIOPS) in the Amazon RDS User Guide. Constraints: Must be an integer greater than 1000.
     public var iops: Swift.Int?
     /// License model information for the restored DB instance. This setting doesn't apply to RDS Custom. Default: Same as source. Valid Values: license-included | bring-your-own-license | general-public-license
@@ -30008,6 +30096,7 @@ public struct RestoreDBInstanceFromDBSnapshotInput {
         enableCustomerOwnedIp: Swift.Bool? = nil,
         enableIAMDatabaseAuthentication: Swift.Bool? = nil,
         engine: Swift.String? = nil,
+        engineLifecycleSupport: Swift.String? = nil,
         iops: Swift.Int? = nil,
         licenseModel: Swift.String? = nil,
         multiAZ: Swift.Bool? = nil,
@@ -30051,6 +30140,7 @@ public struct RestoreDBInstanceFromDBSnapshotInput {
         self.enableCustomerOwnedIp = enableCustomerOwnedIp
         self.enableIAMDatabaseAuthentication = enableIAMDatabaseAuthentication
         self.engine = engine
+        self.engineLifecycleSupport = engineLifecycleSupport
         self.iops = iops
         self.licenseModel = licenseModel
         self.multiAZ = multiAZ
@@ -30159,6 +30249,7 @@ extension RestoreDBInstanceFromS3Input {
         try writer["EnableIAMDatabaseAuthentication"].write(value.enableIAMDatabaseAuthentication)
         try writer["EnablePerformanceInsights"].write(value.enablePerformanceInsights)
         try writer["Engine"].write(value.engine)
+        try writer["EngineLifecycleSupport"].write(value.engineLifecycleSupport)
         try writer["EngineVersion"].write(value.engineVersion)
         try writer["Iops"].write(value.iops)
         try writer["KmsKeyId"].write(value.kmsKeyId)
@@ -30245,6 +30336,8 @@ public struct RestoreDBInstanceFromS3Input {
     /// The name of the database engine to be used for this instance. Valid Values: mysql
     /// This member is required.
     public var engine: Swift.String?
+    /// The life cycle type for this DB instance. By default, this value is set to open-source-rds-extended-support, which enrolls your DB instance into Amazon RDS Extended Support. At the end of standard support, you can avoid charges for Extended Support by setting the value to open-source-rds-extended-support-disabled. In this case, RDS automatically upgrades your restored DB instance to a higher engine version, if the major engine version is past its end of standard support date. You can use this setting to enroll your DB instance into Amazon RDS Extended Support. With RDS Extended Support, you can run the selected major engine version on your DB instance past the end of standard support for that engine version. For more information, see [Using Amazon RDS Extended Support](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/extended-support.html) in the Amazon RDS User Guide. This setting applies only to RDS for MySQL and RDS for PostgreSQL. For Amazon Aurora DB instances, the life cycle type is managed by the DB cluster. Valid Values: open-source-rds-extended-support | open-source-rds-extended-support-disabled Default: open-source-rds-extended-support
+    public var engineLifecycleSupport: Swift.String?
     /// The version number of the database engine to use. Choose the latest minor version of your database engine. For information about engine versions, see CreateDBInstance, or call DescribeDBEngineVersions.
     public var engineVersion: Swift.String?
     /// The amount of Provisioned IOPS (input/output operations per second) to allocate initially for the DB instance. For information about valid IOPS values, see [Amazon RDS Provisioned IOPS storage](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_Storage.html#USER_PIOPS) in the Amazon RDS User Guide.
@@ -30405,6 +30498,7 @@ public struct RestoreDBInstanceFromS3Input {
         enableIAMDatabaseAuthentication: Swift.Bool? = nil,
         enablePerformanceInsights: Swift.Bool? = nil,
         engine: Swift.String? = nil,
+        engineLifecycleSupport: Swift.String? = nil,
         engineVersion: Swift.String? = nil,
         iops: Swift.Int? = nil,
         kmsKeyId: Swift.String? = nil,
@@ -30457,6 +30551,7 @@ public struct RestoreDBInstanceFromS3Input {
         self.enableIAMDatabaseAuthentication = enableIAMDatabaseAuthentication
         self.enablePerformanceInsights = enablePerformanceInsights
         self.engine = engine
+        self.engineLifecycleSupport = engineLifecycleSupport
         self.engineVersion = engineVersion
         self.iops = iops
         self.kmsKeyId = kmsKeyId
@@ -30582,6 +30677,7 @@ extension RestoreDBInstanceToPointInTimeInput {
         try writer["EnableCustomerOwnedIp"].write(value.enableCustomerOwnedIp)
         try writer["EnableIAMDatabaseAuthentication"].write(value.enableIAMDatabaseAuthentication)
         try writer["Engine"].write(value.engine)
+        try writer["EngineLifecycleSupport"].write(value.engineLifecycleSupport)
         try writer["Iops"].write(value.iops)
         try writer["LicenseModel"].write(value.licenseModel)
         try writer["MaxAllocatedStorage"].write(value.maxAllocatedStorage)
@@ -30752,6 +30848,8 @@ public struct RestoreDBInstanceToPointInTimeInput {
     ///
     /// * Must be compatible with the engine of the source.
     public var engine: Swift.String?
+    /// The life cycle type for this DB instance. By default, this value is set to open-source-rds-extended-support, which enrolls your DB instance into Amazon RDS Extended Support. At the end of standard support, you can avoid charges for Extended Support by setting the value to open-source-rds-extended-support-disabled. In this case, RDS automatically upgrades your restored DB instance to a higher engine version, if the major engine version is past its end of standard support date. You can use this setting to enroll your DB instance into Amazon RDS Extended Support. With RDS Extended Support, you can run the selected major engine version on your DB instance past the end of standard support for that engine version. For more information, see [Using Amazon RDS Extended Support](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/extended-support.html) in the Amazon RDS User Guide. This setting applies only to RDS for MySQL and RDS for PostgreSQL. For Amazon Aurora DB instances, the life cycle type is managed by the DB cluster. Valid Values: open-source-rds-extended-support | open-source-rds-extended-support-disabled Default: open-source-rds-extended-support
+    public var engineLifecycleSupport: Swift.String?
     /// The amount of Provisioned IOPS (input/output operations per second) to initially allocate for the DB instance. This setting doesn't apply to SQL Server. Constraints:
     ///
     /// * Must be an integer greater than 1000.
@@ -30853,6 +30951,7 @@ public struct RestoreDBInstanceToPointInTimeInput {
         enableCustomerOwnedIp: Swift.Bool? = nil,
         enableIAMDatabaseAuthentication: Swift.Bool? = nil,
         engine: Swift.String? = nil,
+        engineLifecycleSupport: Swift.String? = nil,
         iops: Swift.Int? = nil,
         licenseModel: Swift.String? = nil,
         maxAllocatedStorage: Swift.Int? = nil,
@@ -30900,6 +30999,7 @@ public struct RestoreDBInstanceToPointInTimeInput {
         self.enableCustomerOwnedIp = enableCustomerOwnedIp
         self.enableIAMDatabaseAuthentication = enableIAMDatabaseAuthentication
         self.engine = engine
+        self.engineLifecycleSupport = engineLifecycleSupport
         self.iops = iops
         self.licenseModel = licenseModel
         self.maxAllocatedStorage = maxAllocatedStorage
@@ -33698,7 +33798,7 @@ extension RDSClientTypes.UpgradeTarget {
 extension RDSClientTypes {
     /// The version of the database engine that a DB instance can be upgraded to.
     public struct UpgradeTarget {
-        /// Indicates whether the target version is applied to any source DB instances that have AutoMinorVersionUpgrade set to true.
+        /// Indicates whether the target version is applied to any source DB instances that have AutoMinorVersionUpgrade set to true. This parameter is dynamic, and is set by RDS.
         public var autoUpgrade: Swift.Bool?
         /// The version of the database engine that a DB instance can be upgraded to.
         public var description: Swift.String?

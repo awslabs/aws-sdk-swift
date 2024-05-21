@@ -4653,10 +4653,10 @@ extension FMSClientTypes {
     public struct NetworkAclEntrySet {
         /// The rules that you want to run first in the Firewall Manager managed network ACLs. Provide these in the order in which you want them to run. Firewall Manager will assign the specific rule numbers for you, in the network ACLs that it creates. You must specify at least one first entry or one last entry in any network ACL policy.
         public var firstEntries: [FMSClientTypes.NetworkAclEntry]?
-        /// Applies only when remediation is enabled for the policy as a whole. Firewall Manager uses this setting when it finds policy violations that involve conflicts between the custom entries and the policy entries. If forced remediation is disabled, Firewall Manager marks the network ACL as noncompliant and does not try to remediate. For more information about the remediation behavior, see [Network access control list (ACL) policies](https://docs.aws.amazon.com/waf/latest/developerguide/network-acl-policies.html) in the Firewall Manager Developer Guide.
+        /// Applies only when remediation is enabled for the policy as a whole. Firewall Manager uses this setting when it finds policy violations that involve conflicts between the custom entries and the policy entries. If forced remediation is disabled, Firewall Manager marks the network ACL as noncompliant and does not try to remediate. For more information about the remediation behavior, see [Remediation for managed network ACLs](https://docs.aws.amazon.com/waf/latest/developerguide/network-acl-policies.html#network-acls-remediation) in the Firewall Manager Developer Guide.
         /// This member is required.
         public var forceRemediateForFirstEntries: Swift.Bool?
-        /// Applies only when remediation is enabled for the policy as a whole. Firewall Manager uses this setting when it finds policy violations that involve conflicts between the custom entries and the policy entries. If forced remediation is disabled, Firewall Manager marks the network ACL as noncompliant and does not try to remediate. For more information about the remediation behavior, see [Network access control list (ACL) policies](https://docs.aws.amazon.com/waf/latest/developerguide/network-acl-policies.html) in the Firewall Manager Developer Guide.
+        /// Applies only when remediation is enabled for the policy as a whole. Firewall Manager uses this setting when it finds policy violations that involve conflicts between the custom entries and the policy entries. If forced remediation is disabled, Firewall Manager marks the network ACL as noncompliant and does not try to remediate. For more information about the remediation behavior, see [Remediation for managed network ACLs](https://docs.aws.amazon.com/waf/latest/developerguide/network-acl-policies.html#network-acls-remediation) in the Firewall Manager Developer Guide.
         /// This member is required.
         public var forceRemediateForLastEntries: Swift.Bool?
         /// The rules that you want to run last in the Firewall Manager managed network ACLs. Provide these in the order in which you want them to run. Firewall Manager will assign the specific rule numbers for you, in the network ACLs that it creates. You must specify at least one first entry or one last entry in any network ACL policy.
@@ -5632,7 +5632,7 @@ extension FMSClientTypes {
         ///
         /// * Specify accounts and OUs together in a single map, separated with a comma. For example, the following is a valid map: {“ACCOUNT” : [“accountID1”, “accountID2”], “ORG_UNIT” : [“ouid111”, “ouid112”]}.
         public var includeMap: [Swift.String:[Swift.String]]?
-        /// The definition of the Network Firewall firewall policy.
+        /// Your description of the Firewall Manager policy.
         public var policyDescription: Swift.String?
         /// The ID of the Firewall Manager policy.
         public var policyId: Swift.String?
@@ -7091,12 +7091,12 @@ extension FMSClientTypes.ResourceTag {
 }
 
 extension FMSClientTypes {
-    /// The resource tags that Firewall Manager uses to determine if a particular resource should be included or excluded from the Firewall Manager policy. Tags enable you to categorize your Amazon Web Services resources in different ways, for example, by purpose, owner, or environment. Each tag consists of a key and an optional value. Firewall Manager combines the tags with "AND" so that, if you add more than one tag to a policy scope, a resource must have all the specified tags to be included or excluded. For more information, see [Working with Tag Editor](https://docs.aws.amazon.com/awsconsolehelpdocs/latest/gsg/tag-editor.html).
+    /// The resource tags that Firewall Manager uses to determine if a particular resource should be included or excluded from the Firewall Manager policy. Tags enable you to categorize your Amazon Web Services resources in different ways, for example, by purpose, owner, or environment. Each tag consists of a key and an optional value. Firewall Manager combines the tags with "AND" so that, if you add more than one tag to a policy scope, a resource must have all the specified tags to be included or excluded. For more information, see [Working with Tag Editor](https://docs.aws.amazon.com/awsconsolehelpdocs/latest/gsg/tag-editor.html). Every resource tag must have a string value, either a non-empty string or an empty string. If you don't provide a value for a resource tag, Firewall Manager saves the value as an empty string: "". When Firewall Manager compares tags, it only matches two tags if they have the same key and the same value. A tag with an empty string value only matches with tags that also have an empty string value.
     public struct ResourceTag {
         /// The resource tag key.
         /// This member is required.
         public var key: Swift.String?
-        /// The resource tag value.
+        /// The resource tag value. To specify an empty string value, either don't provide this or specify it as "".
         public var value: Swift.String?
 
         public init(

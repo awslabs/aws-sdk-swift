@@ -230,7 +230,7 @@ extension BedrockAgentClientTypes {
 
 extension BedrockAgentClientTypes.Agent: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "Agent(agentArn: \(Swift.String(describing: agentArn)), agentId: \(Swift.String(describing: agentId)), agentName: \(Swift.String(describing: agentName)), agentResourceRoleArn: \(Swift.String(describing: agentResourceRoleArn)), agentStatus: \(Swift.String(describing: agentStatus)), agentVersion: \(Swift.String(describing: agentVersion)), clientToken: \(Swift.String(describing: clientToken)), createdAt: \(Swift.String(describing: createdAt)), customerEncryptionKeyArn: \(Swift.String(describing: customerEncryptionKeyArn)), description: \(Swift.String(describing: description)), failureReasons: \(Swift.String(describing: failureReasons)), foundationModel: \(Swift.String(describing: foundationModel)), idleSessionTTLInSeconds: \(Swift.String(describing: idleSessionTTLInSeconds)), preparedAt: \(Swift.String(describing: preparedAt)), recommendedActions: \(Swift.String(describing: recommendedActions)), updatedAt: \(Swift.String(describing: updatedAt)), instruction: \"CONTENT_REDACTED\", promptOverrideConfiguration: \"CONTENT_REDACTED\")"}
+        "Agent(agentArn: \(Swift.String(describing: agentArn)), agentId: \(Swift.String(describing: agentId)), agentName: \(Swift.String(describing: agentName)), agentResourceRoleArn: \(Swift.String(describing: agentResourceRoleArn)), agentStatus: \(Swift.String(describing: agentStatus)), agentVersion: \(Swift.String(describing: agentVersion)), clientToken: \(Swift.String(describing: clientToken)), createdAt: \(Swift.String(describing: createdAt)), customerEncryptionKeyArn: \(Swift.String(describing: customerEncryptionKeyArn)), description: \(Swift.String(describing: description)), failureReasons: \(Swift.String(describing: failureReasons)), foundationModel: \(Swift.String(describing: foundationModel)), guardrailConfiguration: \(Swift.String(describing: guardrailConfiguration)), idleSessionTTLInSeconds: \(Swift.String(describing: idleSessionTTLInSeconds)), preparedAt: \(Swift.String(describing: preparedAt)), recommendedActions: \(Swift.String(describing: recommendedActions)), updatedAt: \(Swift.String(describing: updatedAt)), instruction: \"CONTENT_REDACTED\", promptOverrideConfiguration: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockAgentClientTypes.Agent {
@@ -256,6 +256,7 @@ extension BedrockAgentClientTypes.Agent {
         value.failureReasons = try reader["failureReasons"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.recommendedActions = try reader["recommendedActions"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.promptOverrideConfiguration = try reader["promptOverrideConfiguration"].readIfPresent(with: BedrockAgentClientTypes.PromptOverrideConfiguration.read(from:))
+        value.guardrailConfiguration = try reader["guardrailConfiguration"].readIfPresent(with: BedrockAgentClientTypes.GuardrailConfiguration.read(from:))
         return value
     }
 }
@@ -308,6 +309,8 @@ extension BedrockAgentClientTypes {
         public var failureReasons: [Swift.String]?
         /// The foundation model used for orchestration by the agent.
         public var foundationModel: Swift.String?
+        /// The guardrails configuration assigned to the agent.
+        public var guardrailConfiguration: BedrockAgentClientTypes.GuardrailConfiguration?
         /// The number of seconds for which Amazon Bedrock keeps information about a user's conversation with the agent. A user interaction remains active for the amount of time specified. If no conversation occurs during this time, the session expires and Amazon Bedrock deletes any data provided before the timeout.
         /// This member is required.
         public var idleSessionTTLInSeconds: Swift.Int?
@@ -336,6 +339,7 @@ extension BedrockAgentClientTypes {
             description: Swift.String? = nil,
             failureReasons: [Swift.String]? = nil,
             foundationModel: Swift.String? = nil,
+            guardrailConfiguration: BedrockAgentClientTypes.GuardrailConfiguration? = nil,
             idleSessionTTLInSeconds: Swift.Int? = nil,
             instruction: Swift.String? = nil,
             preparedAt: ClientRuntime.Date? = nil,
@@ -356,6 +360,7 @@ extension BedrockAgentClientTypes {
             self.description = description
             self.failureReasons = failureReasons
             self.foundationModel = foundationModel
+            self.guardrailConfiguration = guardrailConfiguration
             self.idleSessionTTLInSeconds = idleSessionTTLInSeconds
             self.instruction = instruction
             self.preparedAt = preparedAt
@@ -898,6 +903,7 @@ extension BedrockAgentClientTypes.AgentSummary {
         value.description = try reader["description"].readIfPresent()
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: .dateTime)
         value.latestAgentVersion = try reader["latestAgentVersion"].readIfPresent()
+        value.guardrailConfiguration = try reader["guardrailConfiguration"].readIfPresent(with: BedrockAgentClientTypes.GuardrailConfiguration.read(from:))
         return value
     }
 }
@@ -916,6 +922,8 @@ extension BedrockAgentClientTypes {
         public var agentStatus: BedrockAgentClientTypes.AgentStatus?
         /// The description of the agent.
         public var description: Swift.String?
+        /// The details of the guardrails configuration in the agent summary.
+        public var guardrailConfiguration: BedrockAgentClientTypes.GuardrailConfiguration?
         /// The latest version of the agent.
         public var latestAgentVersion: Swift.String?
         /// The time at which the agent was last updated.
@@ -927,6 +935,7 @@ extension BedrockAgentClientTypes {
             agentName: Swift.String? = nil,
             agentStatus: BedrockAgentClientTypes.AgentStatus? = nil,
             description: Swift.String? = nil,
+            guardrailConfiguration: BedrockAgentClientTypes.GuardrailConfiguration? = nil,
             latestAgentVersion: Swift.String? = nil,
             updatedAt: ClientRuntime.Date? = nil
         )
@@ -935,6 +944,7 @@ extension BedrockAgentClientTypes {
             self.agentName = agentName
             self.agentStatus = agentStatus
             self.description = description
+            self.guardrailConfiguration = guardrailConfiguration
             self.latestAgentVersion = latestAgentVersion
             self.updatedAt = updatedAt
         }
@@ -944,7 +954,7 @@ extension BedrockAgentClientTypes {
 
 extension BedrockAgentClientTypes.AgentVersion: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "AgentVersion(agentArn: \(Swift.String(describing: agentArn)), agentId: \(Swift.String(describing: agentId)), agentName: \(Swift.String(describing: agentName)), agentResourceRoleArn: \(Swift.String(describing: agentResourceRoleArn)), agentStatus: \(Swift.String(describing: agentStatus)), createdAt: \(Swift.String(describing: createdAt)), customerEncryptionKeyArn: \(Swift.String(describing: customerEncryptionKeyArn)), description: \(Swift.String(describing: description)), failureReasons: \(Swift.String(describing: failureReasons)), foundationModel: \(Swift.String(describing: foundationModel)), idleSessionTTLInSeconds: \(Swift.String(describing: idleSessionTTLInSeconds)), recommendedActions: \(Swift.String(describing: recommendedActions)), updatedAt: \(Swift.String(describing: updatedAt)), version: \(Swift.String(describing: version)), instruction: \"CONTENT_REDACTED\", promptOverrideConfiguration: \"CONTENT_REDACTED\")"}
+        "AgentVersion(agentArn: \(Swift.String(describing: agentArn)), agentId: \(Swift.String(describing: agentId)), agentName: \(Swift.String(describing: agentName)), agentResourceRoleArn: \(Swift.String(describing: agentResourceRoleArn)), agentStatus: \(Swift.String(describing: agentStatus)), createdAt: \(Swift.String(describing: createdAt)), customerEncryptionKeyArn: \(Swift.String(describing: customerEncryptionKeyArn)), description: \(Swift.String(describing: description)), failureReasons: \(Swift.String(describing: failureReasons)), foundationModel: \(Swift.String(describing: foundationModel)), guardrailConfiguration: \(Swift.String(describing: guardrailConfiguration)), idleSessionTTLInSeconds: \(Swift.String(describing: idleSessionTTLInSeconds)), recommendedActions: \(Swift.String(describing: recommendedActions)), updatedAt: \(Swift.String(describing: updatedAt)), version: \(Swift.String(describing: version)), instruction: \"CONTENT_REDACTED\", promptOverrideConfiguration: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockAgentClientTypes.AgentVersion {
@@ -968,6 +978,7 @@ extension BedrockAgentClientTypes.AgentVersion {
         value.failureReasons = try reader["failureReasons"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.recommendedActions = try reader["recommendedActions"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.promptOverrideConfiguration = try reader["promptOverrideConfiguration"].readIfPresent(with: BedrockAgentClientTypes.PromptOverrideConfiguration.read(from:))
+        value.guardrailConfiguration = try reader["guardrailConfiguration"].readIfPresent(with: BedrockAgentClientTypes.GuardrailConfiguration.read(from:))
         return value
     }
 }
@@ -1001,6 +1012,8 @@ extension BedrockAgentClientTypes {
         public var failureReasons: [Swift.String]?
         /// The foundation model that the version invokes.
         public var foundationModel: Swift.String?
+        /// The guardrails configuration assigned to the agent version.
+        public var guardrailConfiguration: BedrockAgentClientTypes.GuardrailConfiguration?
         /// The number of seconds for which Amazon Bedrock keeps information about a user's conversation with the agent. A user interaction remains active for the amount of time specified. If no conversation occurs during this time, the session expires and Amazon Bedrock deletes any data provided before the timeout.
         /// This member is required.
         public var idleSessionTTLInSeconds: Swift.Int?
@@ -1028,6 +1041,7 @@ extension BedrockAgentClientTypes {
             description: Swift.String? = nil,
             failureReasons: [Swift.String]? = nil,
             foundationModel: Swift.String? = nil,
+            guardrailConfiguration: BedrockAgentClientTypes.GuardrailConfiguration? = nil,
             idleSessionTTLInSeconds: Swift.Int? = nil,
             instruction: Swift.String? = nil,
             promptOverrideConfiguration: BedrockAgentClientTypes.PromptOverrideConfiguration? = nil,
@@ -1046,6 +1060,7 @@ extension BedrockAgentClientTypes {
             self.description = description
             self.failureReasons = failureReasons
             self.foundationModel = foundationModel
+            self.guardrailConfiguration = guardrailConfiguration
             self.idleSessionTTLInSeconds = idleSessionTTLInSeconds
             self.instruction = instruction
             self.promptOverrideConfiguration = promptOverrideConfiguration
@@ -1068,6 +1083,7 @@ extension BedrockAgentClientTypes.AgentVersionSummary {
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: .dateTime)
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: .dateTime)
         value.description = try reader["description"].readIfPresent()
+        value.guardrailConfiguration = try reader["guardrailConfiguration"].readIfPresent(with: BedrockAgentClientTypes.GuardrailConfiguration.read(from:))
         return value
     }
 }
@@ -1089,6 +1105,8 @@ extension BedrockAgentClientTypes {
         public var createdAt: ClientRuntime.Date?
         /// The description of the version of the agent.
         public var description: Swift.String?
+        /// The details of the guardrails configuration in the agent version summary.
+        public var guardrailConfiguration: BedrockAgentClientTypes.GuardrailConfiguration?
         /// The time at which the version was last updated.
         /// This member is required.
         public var updatedAt: ClientRuntime.Date?
@@ -1099,6 +1117,7 @@ extension BedrockAgentClientTypes {
             agentVersion: Swift.String? = nil,
             createdAt: ClientRuntime.Date? = nil,
             description: Swift.String? = nil,
+            guardrailConfiguration: BedrockAgentClientTypes.GuardrailConfiguration? = nil,
             updatedAt: ClientRuntime.Date? = nil
         )
         {
@@ -1107,6 +1126,7 @@ extension BedrockAgentClientTypes {
             self.agentVersion = agentVersion
             self.createdAt = createdAt
             self.description = description
+            self.guardrailConfiguration = guardrailConfiguration
             self.updatedAt = updatedAt
         }
     }
@@ -1551,7 +1571,7 @@ enum CreateAgentAliasOutputError {
 
 extension CreateAgentInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateAgentInput(agentName: \(Swift.String(describing: agentName)), agentResourceRoleArn: \(Swift.String(describing: agentResourceRoleArn)), clientToken: \(Swift.String(describing: clientToken)), customerEncryptionKeyArn: \(Swift.String(describing: customerEncryptionKeyArn)), description: \(Swift.String(describing: description)), foundationModel: \(Swift.String(describing: foundationModel)), idleSessionTTLInSeconds: \(Swift.String(describing: idleSessionTTLInSeconds)), tags: \(Swift.String(describing: tags)), instruction: \"CONTENT_REDACTED\", promptOverrideConfiguration: \"CONTENT_REDACTED\")"}
+        "CreateAgentInput(agentName: \(Swift.String(describing: agentName)), agentResourceRoleArn: \(Swift.String(describing: agentResourceRoleArn)), clientToken: \(Swift.String(describing: clientToken)), customerEncryptionKeyArn: \(Swift.String(describing: customerEncryptionKeyArn)), description: \(Swift.String(describing: description)), foundationModel: \(Swift.String(describing: foundationModel)), guardrailConfiguration: \(Swift.String(describing: guardrailConfiguration)), idleSessionTTLInSeconds: \(Swift.String(describing: idleSessionTTLInSeconds)), tags: \(Swift.String(describing: tags)), instruction: \"CONTENT_REDACTED\", promptOverrideConfiguration: \"CONTENT_REDACTED\")"}
 }
 
 extension CreateAgentInput {
@@ -1571,6 +1591,7 @@ extension CreateAgentInput {
         try writer["customerEncryptionKeyArn"].write(value.customerEncryptionKeyArn)
         try writer["description"].write(value.description)
         try writer["foundationModel"].write(value.foundationModel)
+        try writer["guardrailConfiguration"].write(value.guardrailConfiguration, with: BedrockAgentClientTypes.GuardrailConfiguration.write(value:to:))
         try writer["idleSessionTTLInSeconds"].write(value.idleSessionTTLInSeconds)
         try writer["instruction"].write(value.instruction)
         try writer["promptOverrideConfiguration"].write(value.promptOverrideConfiguration, with: BedrockAgentClientTypes.PromptOverrideConfiguration.write(value:to:))
@@ -1592,6 +1613,8 @@ public struct CreateAgentInput {
     public var description: Swift.String?
     /// The foundation model to be used for orchestration by the agent you create.
     public var foundationModel: Swift.String?
+    /// The unique Guardrail configuration assigned to the agent when it is created.
+    public var guardrailConfiguration: BedrockAgentClientTypes.GuardrailConfiguration?
     /// The number of seconds for which Amazon Bedrock keeps information about a user's conversation with the agent. A user interaction remains active for the amount of time specified. If no conversation occurs during this time, the session expires and Amazon Bedrock deletes any data provided before the timeout.
     public var idleSessionTTLInSeconds: Swift.Int?
     /// Instructions that tell the agent what it should do and how it should interact with users.
@@ -1608,6 +1631,7 @@ public struct CreateAgentInput {
         customerEncryptionKeyArn: Swift.String? = nil,
         description: Swift.String? = nil,
         foundationModel: Swift.String? = nil,
+        guardrailConfiguration: BedrockAgentClientTypes.GuardrailConfiguration? = nil,
         idleSessionTTLInSeconds: Swift.Int? = nil,
         instruction: Swift.String? = nil,
         promptOverrideConfiguration: BedrockAgentClientTypes.PromptOverrideConfiguration? = nil,
@@ -1620,6 +1644,7 @@ public struct CreateAgentInput {
         self.customerEncryptionKeyArn = customerEncryptionKeyArn
         self.description = description
         self.foundationModel = foundationModel
+        self.guardrailConfiguration = guardrailConfiguration
         self.idleSessionTTLInSeconds = idleSessionTTLInSeconds
         self.instruction = instruction
         self.promptOverrideConfiguration = promptOverrideConfiguration
@@ -3550,6 +3575,43 @@ enum GetKnowledgeBaseOutputError {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
+}
+
+extension BedrockAgentClientTypes.GuardrailConfiguration {
+
+    static func write(value: BedrockAgentClientTypes.GuardrailConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["guardrailIdentifier"].write(value.guardrailIdentifier)
+        try writer["guardrailVersion"].write(value.guardrailVersion)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.GuardrailConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentClientTypes.GuardrailConfiguration()
+        value.guardrailIdentifier = try reader["guardrailIdentifier"].readIfPresent()
+        value.guardrailVersion = try reader["guardrailVersion"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockAgentClientTypes {
+    /// The details of the guardrails configuration.
+    public struct GuardrailConfiguration {
+        /// The guardrails identifier assigned to the guardrails configuration.
+        public var guardrailIdentifier: Swift.String?
+        /// The guardrails version assigned to the guardrails configuration.
+        public var guardrailVersion: Swift.String?
+
+        public init(
+            guardrailIdentifier: Swift.String? = nil,
+            guardrailVersion: Swift.String? = nil
+        )
+        {
+            self.guardrailIdentifier = guardrailIdentifier
+            self.guardrailVersion = guardrailVersion
+        }
+    }
+
 }
 
 extension BedrockAgentClientTypes.InferenceConfiguration {
@@ -5609,7 +5671,7 @@ extension BedrockAgentClientTypes.PromptConfiguration {
 extension BedrockAgentClientTypes {
     /// Contains configurations to override a prompt template in one part of an agent sequence. For more information, see [Advanced prompts](https://docs.aws.amazon.com/bedrock/latest/userguide/advanced-prompts.html).
     public struct PromptConfiguration {
-        /// Defines the prompt template with which to replace the default prompt template. You can use placeholder variables in the base prompt template to customize the prompt. For more information, see [Prompt template placeholder variables](https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-placeholders.html).
+        /// Defines the prompt template with which to replace the default prompt template. You can use placeholder variables in the base prompt template to customize the prompt. For more information, see [Prompt template placeholder variables](https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-placeholders.html). For more information, see [Configure the prompt templates](https://docs.aws.amazon.com/bedrock/latest/userguide/advanced-prompts-configure.html).
         public var basePromptTemplate: Swift.String?
         /// Contains inference parameters to use when the agent invokes a foundation model in the part of the agent sequence defined by the promptType. For more information, see [Inference parameters for foundation models](https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters.html).
         public var inferenceConfiguration: BedrockAgentClientTypes.InferenceConfiguration?
@@ -5676,7 +5738,7 @@ extension BedrockAgentClientTypes.PromptOverrideConfiguration {
 extension BedrockAgentClientTypes {
     /// Contains configurations to override prompts in different parts of an agent sequence. For more information, see [Advanced prompts](https://docs.aws.amazon.com/bedrock/latest/userguide/advanced-prompts.html).
     public struct PromptOverrideConfiguration {
-        /// The ARN of the Lambda function to use when parsing the raw foundation model output in parts of the agent sequence. If you specify this field, at least one of the promptConfigurations must contain a parserMode value that is set to OVERRIDDEN.
+        /// The ARN of the Lambda function to use when parsing the raw foundation model output in parts of the agent sequence. If you specify this field, at least one of the promptConfigurations must contain a parserMode value that is set to OVERRIDDEN. For more information, see [Parser Lambda function in Agents for Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/lambda-parser.html).
         public var overrideLambda: Swift.String?
         /// Contains configurations to override a prompt template in one part of an agent sequence. For more information, see [Advanced prompts](https://docs.aws.amazon.com/bedrock/latest/userguide/advanced-prompts.html).
         /// This member is required.
@@ -6788,7 +6850,7 @@ enum UpdateAgentAliasOutputError {
 
 extension UpdateAgentInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateAgentInput(agentId: \(Swift.String(describing: agentId)), agentName: \(Swift.String(describing: agentName)), agentResourceRoleArn: \(Swift.String(describing: agentResourceRoleArn)), customerEncryptionKeyArn: \(Swift.String(describing: customerEncryptionKeyArn)), description: \(Swift.String(describing: description)), foundationModel: \(Swift.String(describing: foundationModel)), idleSessionTTLInSeconds: \(Swift.String(describing: idleSessionTTLInSeconds)), instruction: \"CONTENT_REDACTED\", promptOverrideConfiguration: \"CONTENT_REDACTED\")"}
+        "UpdateAgentInput(agentId: \(Swift.String(describing: agentId)), agentName: \(Swift.String(describing: agentName)), agentResourceRoleArn: \(Swift.String(describing: agentResourceRoleArn)), customerEncryptionKeyArn: \(Swift.String(describing: customerEncryptionKeyArn)), description: \(Swift.String(describing: description)), foundationModel: \(Swift.String(describing: foundationModel)), guardrailConfiguration: \(Swift.String(describing: guardrailConfiguration)), idleSessionTTLInSeconds: \(Swift.String(describing: idleSessionTTLInSeconds)), instruction: \"CONTENT_REDACTED\", promptOverrideConfiguration: \"CONTENT_REDACTED\")"}
 }
 
 extension UpdateAgentInput {
@@ -6810,6 +6872,7 @@ extension UpdateAgentInput {
         try writer["customerEncryptionKeyArn"].write(value.customerEncryptionKeyArn)
         try writer["description"].write(value.description)
         try writer["foundationModel"].write(value.foundationModel)
+        try writer["guardrailConfiguration"].write(value.guardrailConfiguration, with: BedrockAgentClientTypes.GuardrailConfiguration.write(value:to:))
         try writer["idleSessionTTLInSeconds"].write(value.idleSessionTTLInSeconds)
         try writer["instruction"].write(value.instruction)
         try writer["promptOverrideConfiguration"].write(value.promptOverrideConfiguration, with: BedrockAgentClientTypes.PromptOverrideConfiguration.write(value:to:))
@@ -6833,6 +6896,8 @@ public struct UpdateAgentInput {
     /// Specifies a new foundation model to be used for orchestration by the agent.
     /// This member is required.
     public var foundationModel: Swift.String?
+    /// The unique Guardrail configuration assigned to the agent when it is updated.
+    public var guardrailConfiguration: BedrockAgentClientTypes.GuardrailConfiguration?
     /// The number of seconds for which Amazon Bedrock keeps information about a user's conversation with the agent. A user interaction remains active for the amount of time specified. If no conversation occurs during this time, the session expires and Amazon Bedrock deletes any data provided before the timeout.
     public var idleSessionTTLInSeconds: Swift.Int?
     /// Specifies new instructions that tell the agent what it should do and how it should interact with users.
@@ -6847,6 +6912,7 @@ public struct UpdateAgentInput {
         customerEncryptionKeyArn: Swift.String? = nil,
         description: Swift.String? = nil,
         foundationModel: Swift.String? = nil,
+        guardrailConfiguration: BedrockAgentClientTypes.GuardrailConfiguration? = nil,
         idleSessionTTLInSeconds: Swift.Int? = nil,
         instruction: Swift.String? = nil,
         promptOverrideConfiguration: BedrockAgentClientTypes.PromptOverrideConfiguration? = nil
@@ -6858,6 +6924,7 @@ public struct UpdateAgentInput {
         self.customerEncryptionKeyArn = customerEncryptionKeyArn
         self.description = description
         self.foundationModel = foundationModel
+        self.guardrailConfiguration = guardrailConfiguration
         self.idleSessionTTLInSeconds = idleSessionTTLInSeconds
         self.instruction = instruction
         self.promptOverrideConfiguration = promptOverrideConfiguration

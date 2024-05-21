@@ -114,7 +114,7 @@ enum CreateCliTokenOutputError {
 
 extension CreateEnvironmentInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateEnvironmentInput(airflowVersion: \(Swift.String(describing: airflowVersion)), dagS3Path: \(Swift.String(describing: dagS3Path)), endpointManagement: \(Swift.String(describing: endpointManagement)), environmentClass: \(Swift.String(describing: environmentClass)), executionRoleArn: \(Swift.String(describing: executionRoleArn)), kmsKey: \(Swift.String(describing: kmsKey)), loggingConfiguration: \(Swift.String(describing: loggingConfiguration)), maxWorkers: \(Swift.String(describing: maxWorkers)), minWorkers: \(Swift.String(describing: minWorkers)), name: \(Swift.String(describing: name)), networkConfiguration: \(Swift.String(describing: networkConfiguration)), pluginsS3ObjectVersion: \(Swift.String(describing: pluginsS3ObjectVersion)), pluginsS3Path: \(Swift.String(describing: pluginsS3Path)), requirementsS3ObjectVersion: \(Swift.String(describing: requirementsS3ObjectVersion)), requirementsS3Path: \(Swift.String(describing: requirementsS3Path)), schedulers: \(Swift.String(describing: schedulers)), sourceBucketArn: \(Swift.String(describing: sourceBucketArn)), startupScriptS3ObjectVersion: \(Swift.String(describing: startupScriptS3ObjectVersion)), startupScriptS3Path: \(Swift.String(describing: startupScriptS3Path)), tags: \(Swift.String(describing: tags)), webserverAccessMode: \(Swift.String(describing: webserverAccessMode)), weeklyMaintenanceWindowStart: \(Swift.String(describing: weeklyMaintenanceWindowStart)), airflowConfigurationOptions: \"CONTENT_REDACTED\")"}
+        "CreateEnvironmentInput(airflowVersion: \(Swift.String(describing: airflowVersion)), dagS3Path: \(Swift.String(describing: dagS3Path)), endpointManagement: \(Swift.String(describing: endpointManagement)), environmentClass: \(Swift.String(describing: environmentClass)), executionRoleArn: \(Swift.String(describing: executionRoleArn)), kmsKey: \(Swift.String(describing: kmsKey)), loggingConfiguration: \(Swift.String(describing: loggingConfiguration)), maxWebservers: \(Swift.String(describing: maxWebservers)), maxWorkers: \(Swift.String(describing: maxWorkers)), minWebservers: \(Swift.String(describing: minWebservers)), minWorkers: \(Swift.String(describing: minWorkers)), name: \(Swift.String(describing: name)), networkConfiguration: \(Swift.String(describing: networkConfiguration)), pluginsS3ObjectVersion: \(Swift.String(describing: pluginsS3ObjectVersion)), pluginsS3Path: \(Swift.String(describing: pluginsS3Path)), requirementsS3ObjectVersion: \(Swift.String(describing: requirementsS3ObjectVersion)), requirementsS3Path: \(Swift.String(describing: requirementsS3Path)), schedulers: \(Swift.String(describing: schedulers)), sourceBucketArn: \(Swift.String(describing: sourceBucketArn)), startupScriptS3ObjectVersion: \(Swift.String(describing: startupScriptS3ObjectVersion)), startupScriptS3Path: \(Swift.String(describing: startupScriptS3Path)), tags: \(Swift.String(describing: tags)), webserverAccessMode: \(Swift.String(describing: webserverAccessMode)), weeklyMaintenanceWindowStart: \(Swift.String(describing: weeklyMaintenanceWindowStart)), airflowConfigurationOptions: \"CONTENT_REDACTED\")"}
 }
 
 extension CreateEnvironmentInput {
@@ -139,7 +139,9 @@ extension CreateEnvironmentInput {
         try writer["ExecutionRoleArn"].write(value.executionRoleArn)
         try writer["KmsKey"].write(value.kmsKey)
         try writer["LoggingConfiguration"].write(value.loggingConfiguration, with: MWAAClientTypes.LoggingConfigurationInput.write(value:to:))
+        try writer["MaxWebservers"].write(value.maxWebservers)
         try writer["MaxWorkers"].write(value.maxWorkers)
+        try writer["MinWebservers"].write(value.minWebservers)
         try writer["MinWorkers"].write(value.minWorkers)
         try writer["NetworkConfiguration"].write(value.networkConfiguration, with: MWAAClientTypes.NetworkConfiguration.write(value:to:))
         try writer["PluginsS3ObjectVersion"].write(value.pluginsS3ObjectVersion)
@@ -168,7 +170,7 @@ public struct CreateEnvironmentInput {
     public var dagS3Path: Swift.String?
     /// Defines whether the VPC endpoints configured for the environment are created, and managed, by the customer or by Amazon MWAA. If set to SERVICE, Amazon MWAA will create and manage the required VPC endpoints in your VPC. If set to CUSTOMER, you must create, and manage, the VPC endpoints for your VPC. If you choose to create an environment in a shared VPC, you must set this value to CUSTOMER. In a shared VPC deployment, the environment will remain in PENDING status until you create the VPC endpoints. If you do not take action to create the endpoints within 72 hours, the status will change to CREATE_FAILED. You can delete the failed environment and create a new one.
     public var endpointManagement: MWAAClientTypes.EndpointManagement?
-    /// The environment class type. Valid values: mw1.small, mw1.medium, mw1.large. For more information, see [Amazon MWAA environment class](https://docs.aws.amazon.com/mwaa/latest/userguide/environment-class.html).
+    /// The environment class type. Valid values: mw1.small, mw1.medium, mw1.large, mw1.xlarge, and mw1.2xlarge. For more information, see [Amazon MWAA environment class](https://docs.aws.amazon.com/mwaa/latest/userguide/environment-class.html).
     public var environmentClass: Swift.String?
     /// The Amazon Resource Name (ARN) of the execution role for your environment. An execution role is an Amazon Web Services Identity and Access Management (IAM) role that grants MWAA permission to access Amazon Web Services services and resources used by your environment. For example, arn:aws:iam::123456789:role/my-execution-role. For more information, see [Amazon MWAA Execution role](https://docs.aws.amazon.com/mwaa/latest/userguide/mwaa-create-role.html).
     /// This member is required.
@@ -177,8 +179,12 @@ public struct CreateEnvironmentInput {
     public var kmsKey: Swift.String?
     /// Defines the Apache Airflow logs to send to CloudWatch Logs.
     public var loggingConfiguration: MWAAClientTypes.LoggingConfigurationInput?
+    /// The maximum number of web servers that you want to run in your environment. Amazon MWAA scales the number of Apache Airflow web servers up to the number you specify for MaxWebservers when you interact with your Apache Airflow environment using Apache Airflow REST API, or the Apache Airflow CLI. For example, in scenarios where your workload requires network calls to the Apache Airflow REST API with a high transaction-per-second (TPS) rate, Amazon MWAA will increase the number of web servers up to the number set in MaxWebserers. As TPS rates decrease Amazon MWAA disposes of the additional web servers, and scales down to the number set in MinxWebserers. Valid values: Accepts between 2 and 5. Defaults to 2.
+    public var maxWebservers: Swift.Int?
     /// The maximum number of workers that you want to run in your environment. MWAA scales the number of Apache Airflow workers up to the number you specify in the MaxWorkers field. For example, 20. When there are no more tasks running, and no more in the queue, MWAA disposes of the extra workers leaving the one worker that is included with your environment, or the number you specify in MinWorkers.
     public var maxWorkers: Swift.Int?
+    /// The minimum number of web servers that you want to run in your environment. Amazon MWAA scales the number of Apache Airflow web servers up to the number you specify for MaxWebservers when you interact with your Apache Airflow environment using Apache Airflow REST API, or the Apache Airflow CLI. As the transaction-per-second rate, and the network load, decrease, Amazon MWAA disposes of the additional web servers, and scales down to the number set in MinxWebserers. Valid values: Accepts between 2 and 5. Defaults to 2.
+    public var minWebservers: Swift.Int?
     /// The minimum number of workers that you want to run in your environment. MWAA scales the number of Apache Airflow workers up to the number you specify in the MaxWorkers field. When there are no more tasks running, and no more in the queue, MWAA disposes of the extra workers leaving the worker count you specify in the MinWorkers field. For example, 2.
     public var minWorkers: Swift.Int?
     /// The name of the Amazon MWAA environment. For example, MyMWAAEnvironment.
@@ -224,7 +230,9 @@ public struct CreateEnvironmentInput {
         executionRoleArn: Swift.String? = nil,
         kmsKey: Swift.String? = nil,
         loggingConfiguration: MWAAClientTypes.LoggingConfigurationInput? = nil,
+        maxWebservers: Swift.Int? = nil,
         maxWorkers: Swift.Int? = nil,
+        minWebservers: Swift.Int? = nil,
         minWorkers: Swift.Int? = nil,
         name: Swift.String? = nil,
         networkConfiguration: MWAAClientTypes.NetworkConfiguration? = nil,
@@ -249,7 +257,9 @@ public struct CreateEnvironmentInput {
         self.executionRoleArn = executionRoleArn
         self.kmsKey = kmsKey
         self.loggingConfiguration = loggingConfiguration
+        self.maxWebservers = maxWebservers
         self.maxWorkers = maxWorkers
+        self.minWebservers = minWebservers
         self.minWorkers = minWorkers
         self.name = name
         self.networkConfiguration = networkConfiguration
@@ -505,7 +515,7 @@ extension MWAAClientTypes {
 
 extension MWAAClientTypes.Environment: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "Environment(airflowVersion: \(Swift.String(describing: airflowVersion)), arn: \(Swift.String(describing: arn)), celeryExecutorQueue: \(Swift.String(describing: celeryExecutorQueue)), createdAt: \(Swift.String(describing: createdAt)), dagS3Path: \(Swift.String(describing: dagS3Path)), databaseVpcEndpointService: \(Swift.String(describing: databaseVpcEndpointService)), endpointManagement: \(Swift.String(describing: endpointManagement)), environmentClass: \(Swift.String(describing: environmentClass)), executionRoleArn: \(Swift.String(describing: executionRoleArn)), kmsKey: \(Swift.String(describing: kmsKey)), lastUpdate: \(Swift.String(describing: lastUpdate)), loggingConfiguration: \(Swift.String(describing: loggingConfiguration)), maxWorkers: \(Swift.String(describing: maxWorkers)), minWorkers: \(Swift.String(describing: minWorkers)), name: \(Swift.String(describing: name)), networkConfiguration: \(Swift.String(describing: networkConfiguration)), pluginsS3ObjectVersion: \(Swift.String(describing: pluginsS3ObjectVersion)), pluginsS3Path: \(Swift.String(describing: pluginsS3Path)), requirementsS3ObjectVersion: \(Swift.String(describing: requirementsS3ObjectVersion)), requirementsS3Path: \(Swift.String(describing: requirementsS3Path)), schedulers: \(Swift.String(describing: schedulers)), serviceRoleArn: \(Swift.String(describing: serviceRoleArn)), sourceBucketArn: \(Swift.String(describing: sourceBucketArn)), startupScriptS3ObjectVersion: \(Swift.String(describing: startupScriptS3ObjectVersion)), startupScriptS3Path: \(Swift.String(describing: startupScriptS3Path)), status: \(Swift.String(describing: status)), tags: \(Swift.String(describing: tags)), webserverAccessMode: \(Swift.String(describing: webserverAccessMode)), webserverUrl: \(Swift.String(describing: webserverUrl)), webserverVpcEndpointService: \(Swift.String(describing: webserverVpcEndpointService)), weeklyMaintenanceWindowStart: \(Swift.String(describing: weeklyMaintenanceWindowStart)), airflowConfigurationOptions: \"CONTENT_REDACTED\")"}
+        "Environment(airflowVersion: \(Swift.String(describing: airflowVersion)), arn: \(Swift.String(describing: arn)), celeryExecutorQueue: \(Swift.String(describing: celeryExecutorQueue)), createdAt: \(Swift.String(describing: createdAt)), dagS3Path: \(Swift.String(describing: dagS3Path)), databaseVpcEndpointService: \(Swift.String(describing: databaseVpcEndpointService)), endpointManagement: \(Swift.String(describing: endpointManagement)), environmentClass: \(Swift.String(describing: environmentClass)), executionRoleArn: \(Swift.String(describing: executionRoleArn)), kmsKey: \(Swift.String(describing: kmsKey)), lastUpdate: \(Swift.String(describing: lastUpdate)), loggingConfiguration: \(Swift.String(describing: loggingConfiguration)), maxWebservers: \(Swift.String(describing: maxWebservers)), maxWorkers: \(Swift.String(describing: maxWorkers)), minWebservers: \(Swift.String(describing: minWebservers)), minWorkers: \(Swift.String(describing: minWorkers)), name: \(Swift.String(describing: name)), networkConfiguration: \(Swift.String(describing: networkConfiguration)), pluginsS3ObjectVersion: \(Swift.String(describing: pluginsS3ObjectVersion)), pluginsS3Path: \(Swift.String(describing: pluginsS3Path)), requirementsS3ObjectVersion: \(Swift.String(describing: requirementsS3ObjectVersion)), requirementsS3Path: \(Swift.String(describing: requirementsS3Path)), schedulers: \(Swift.String(describing: schedulers)), serviceRoleArn: \(Swift.String(describing: serviceRoleArn)), sourceBucketArn: \(Swift.String(describing: sourceBucketArn)), startupScriptS3ObjectVersion: \(Swift.String(describing: startupScriptS3ObjectVersion)), startupScriptS3Path: \(Swift.String(describing: startupScriptS3Path)), status: \(Swift.String(describing: status)), tags: \(Swift.String(describing: tags)), webserverAccessMode: \(Swift.String(describing: webserverAccessMode)), webserverUrl: \(Swift.String(describing: webserverUrl)), webserverVpcEndpointService: \(Swift.String(describing: webserverVpcEndpointService)), weeklyMaintenanceWindowStart: \(Swift.String(describing: weeklyMaintenanceWindowStart)), airflowConfigurationOptions: \"CONTENT_REDACTED\")"}
 }
 
 extension MWAAClientTypes.Environment {
@@ -545,6 +555,8 @@ extension MWAAClientTypes.Environment {
         value.databaseVpcEndpointService = try reader["DatabaseVpcEndpointService"].readIfPresent()
         value.celeryExecutorQueue = try reader["CeleryExecutorQueue"].readIfPresent()
         value.endpointManagement = try reader["EndpointManagement"].readIfPresent()
+        value.minWebservers = try reader["MinWebservers"].readIfPresent()
+        value.maxWebservers = try reader["MaxWebservers"].readIfPresent()
         return value
     }
 }
@@ -554,7 +566,7 @@ extension MWAAClientTypes {
     public struct Environment {
         /// A list of key-value pairs containing the Apache Airflow configuration options attached to your environment. For more information, see [Apache Airflow configuration options](https://docs.aws.amazon.com/mwaa/latest/userguide/configuring-env-variables.html).
         public var airflowConfigurationOptions: [Swift.String:Swift.String]?
-        /// The Apache Airflow version on your environment. Valid values: 1.10.12, 2.0.2, 2.2.2, 2.4.3, 2.5.1, 2.6.3, 2.7.2.
+        /// The Apache Airflow version on your environment. Valid values: 1.10.12, 2.0.2, 2.2.2, 2.4.3, 2.5.1, 2.6.3, 2.7.2, 2.8.1.
         public var airflowVersion: Swift.String?
         /// The Amazon Resource Name (ARN) of the Amazon MWAA environment.
         public var arn: Swift.String?
@@ -568,7 +580,7 @@ extension MWAAClientTypes {
         public var databaseVpcEndpointService: Swift.String?
         /// Defines whether the VPC endpoints configured for the environment are created, and managed, by the customer or by Amazon MWAA. If set to SERVICE, Amazon MWAA will create and manage the required VPC endpoints in your VPC. If set to CUSTOMER, you must create, and manage, the VPC endpoints in your VPC.
         public var endpointManagement: MWAAClientTypes.EndpointManagement?
-        /// The environment class type. Valid values: mw1.small, mw1.medium, mw1.large. For more information, see [Amazon MWAA environment class](https://docs.aws.amazon.com/mwaa/latest/userguide/environment-class.html).
+        /// The environment class type. Valid values: mw1.small, mw1.medium, mw1.large, mw1.xlarge, and mw1.2xlarge. For more information, see [Amazon MWAA environment class](https://docs.aws.amazon.com/mwaa/latest/userguide/environment-class.html).
         public var environmentClass: Swift.String?
         /// The Amazon Resource Name (ARN) of the execution role in IAM that allows MWAA to access Amazon Web Services resources in your environment. For example, arn:aws:iam::123456789:role/my-execution-role. For more information, see [Amazon MWAA Execution role](https://docs.aws.amazon.com/mwaa/latest/userguide/mwaa-create-role.html).
         public var executionRoleArn: Swift.String?
@@ -578,8 +590,12 @@ extension MWAAClientTypes {
         public var lastUpdate: MWAAClientTypes.LastUpdate?
         /// The Apache Airflow logs published to CloudWatch Logs.
         public var loggingConfiguration: MWAAClientTypes.LoggingConfiguration?
+        /// The maximum number of web servers that you want to run in your environment. Amazon MWAA scales the number of Apache Airflow web servers up to the number you specify for MaxWebservers when you interact with your Apache Airflow environment using Apache Airflow REST API, or the Apache Airflow CLI. For example, in scenarios where your workload requires network calls to the Apache Airflow REST API with a high transaction-per-second (TPS) rate, Amazon MWAA will increase the number of web servers up to the number set in MaxWebserers. As TPS rates decrease Amazon MWAA disposes of the additional web servers, and scales down to the number set in MinxWebserers. Valid values: Accepts between 2 and 5. Defaults to 2.
+        public var maxWebservers: Swift.Int?
         /// The maximum number of workers that run in your environment. For example, 20.
         public var maxWorkers: Swift.Int?
+        /// The minimum number of web servers that you want to run in your environment. Amazon MWAA scales the number of Apache Airflow web servers up to the number you specify for MaxWebservers when you interact with your Apache Airflow environment using Apache Airflow REST API, or the Apache Airflow CLI. As the transaction-per-second rate, and the network load, decrease, Amazon MWAA disposes of the additional web servers, and scales down to the number set in MinxWebserers. Valid values: Accepts between 2 and 5. Defaults to 2.
+        public var minWebservers: Swift.Int?
         /// The minimum number of workers that run in your environment. For example, 2.
         public var minWorkers: Swift.Int?
         /// The name of the Amazon MWAA environment. For example, MyMWAAEnvironment.
@@ -658,7 +674,9 @@ extension MWAAClientTypes {
             kmsKey: Swift.String? = nil,
             lastUpdate: MWAAClientTypes.LastUpdate? = nil,
             loggingConfiguration: MWAAClientTypes.LoggingConfiguration? = nil,
+            maxWebservers: Swift.Int? = nil,
             maxWorkers: Swift.Int? = nil,
+            minWebservers: Swift.Int? = nil,
             minWorkers: Swift.Int? = nil,
             name: Swift.String? = nil,
             networkConfiguration: MWAAClientTypes.NetworkConfiguration? = nil,
@@ -692,7 +710,9 @@ extension MWAAClientTypes {
             self.kmsKey = kmsKey
             self.lastUpdate = lastUpdate
             self.loggingConfiguration = loggingConfiguration
+            self.maxWebservers = maxWebservers
             self.maxWorkers = maxWorkers
+            self.minWebservers = minWebservers
             self.minWorkers = minWorkers
             self.name = name
             self.networkConfiguration = networkConfiguration
@@ -1739,7 +1759,7 @@ enum UntagResourceOutputError {
 
 extension UpdateEnvironmentInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateEnvironmentInput(airflowVersion: \(Swift.String(describing: airflowVersion)), dagS3Path: \(Swift.String(describing: dagS3Path)), environmentClass: \(Swift.String(describing: environmentClass)), executionRoleArn: \(Swift.String(describing: executionRoleArn)), loggingConfiguration: \(Swift.String(describing: loggingConfiguration)), maxWorkers: \(Swift.String(describing: maxWorkers)), minWorkers: \(Swift.String(describing: minWorkers)), name: \(Swift.String(describing: name)), networkConfiguration: \(Swift.String(describing: networkConfiguration)), pluginsS3ObjectVersion: \(Swift.String(describing: pluginsS3ObjectVersion)), pluginsS3Path: \(Swift.String(describing: pluginsS3Path)), requirementsS3ObjectVersion: \(Swift.String(describing: requirementsS3ObjectVersion)), requirementsS3Path: \(Swift.String(describing: requirementsS3Path)), schedulers: \(Swift.String(describing: schedulers)), sourceBucketArn: \(Swift.String(describing: sourceBucketArn)), startupScriptS3ObjectVersion: \(Swift.String(describing: startupScriptS3ObjectVersion)), startupScriptS3Path: \(Swift.String(describing: startupScriptS3Path)), webserverAccessMode: \(Swift.String(describing: webserverAccessMode)), weeklyMaintenanceWindowStart: \(Swift.String(describing: weeklyMaintenanceWindowStart)), airflowConfigurationOptions: \"CONTENT_REDACTED\")"}
+        "UpdateEnvironmentInput(airflowVersion: \(Swift.String(describing: airflowVersion)), dagS3Path: \(Swift.String(describing: dagS3Path)), environmentClass: \(Swift.String(describing: environmentClass)), executionRoleArn: \(Swift.String(describing: executionRoleArn)), loggingConfiguration: \(Swift.String(describing: loggingConfiguration)), maxWebservers: \(Swift.String(describing: maxWebservers)), maxWorkers: \(Swift.String(describing: maxWorkers)), minWebservers: \(Swift.String(describing: minWebservers)), minWorkers: \(Swift.String(describing: minWorkers)), name: \(Swift.String(describing: name)), networkConfiguration: \(Swift.String(describing: networkConfiguration)), pluginsS3ObjectVersion: \(Swift.String(describing: pluginsS3ObjectVersion)), pluginsS3Path: \(Swift.String(describing: pluginsS3Path)), requirementsS3ObjectVersion: \(Swift.String(describing: requirementsS3ObjectVersion)), requirementsS3Path: \(Swift.String(describing: requirementsS3Path)), schedulers: \(Swift.String(describing: schedulers)), sourceBucketArn: \(Swift.String(describing: sourceBucketArn)), startupScriptS3ObjectVersion: \(Swift.String(describing: startupScriptS3ObjectVersion)), startupScriptS3Path: \(Swift.String(describing: startupScriptS3Path)), webserverAccessMode: \(Swift.String(describing: webserverAccessMode)), weeklyMaintenanceWindowStart: \(Swift.String(describing: weeklyMaintenanceWindowStart)), airflowConfigurationOptions: \"CONTENT_REDACTED\")"}
 }
 
 extension UpdateEnvironmentInput {
@@ -1762,7 +1782,9 @@ extension UpdateEnvironmentInput {
         try writer["EnvironmentClass"].write(value.environmentClass)
         try writer["ExecutionRoleArn"].write(value.executionRoleArn)
         try writer["LoggingConfiguration"].write(value.loggingConfiguration, with: MWAAClientTypes.LoggingConfigurationInput.write(value:to:))
+        try writer["MaxWebservers"].write(value.maxWebservers)
         try writer["MaxWorkers"].write(value.maxWorkers)
+        try writer["MinWebservers"].write(value.minWebservers)
         try writer["MinWorkers"].write(value.minWorkers)
         try writer["NetworkConfiguration"].write(value.networkConfiguration, with: MWAAClientTypes.UpdateNetworkConfigurationInput.write(value:to:))
         try writer["PluginsS3ObjectVersion"].write(value.pluginsS3ObjectVersion)
@@ -1781,18 +1803,22 @@ extension UpdateEnvironmentInput {
 public struct UpdateEnvironmentInput {
     /// A list of key-value pairs containing the Apache Airflow configuration options you want to attach to your environment. For more information, see [Apache Airflow configuration options](https://docs.aws.amazon.com/mwaa/latest/userguide/configuring-env-variables.html).
     public var airflowConfigurationOptions: [Swift.String:Swift.String]?
-    /// The Apache Airflow version for your environment. To upgrade your environment, specify a newer version of Apache Airflow supported by Amazon MWAA. Before you upgrade an environment, make sure your requirements, DAGs, plugins, and other resources used in your workflows are compatible with the new Apache Airflow version. For more information about updating your resources, see [Upgrading an Amazon MWAA environment](https://docs.aws.amazon.com/mwaa/latest/userguide/upgrading-environment.html). Valid values: 1.10.12, 2.0.2, 2.2.2, 2.4.3, 2.5.1, 2.6.3, 2.7.2.
+    /// The Apache Airflow version for your environment. To upgrade your environment, specify a newer version of Apache Airflow supported by Amazon MWAA. Before you upgrade an environment, make sure your requirements, DAGs, plugins, and other resources used in your workflows are compatible with the new Apache Airflow version. For more information about updating your resources, see [Upgrading an Amazon MWAA environment](https://docs.aws.amazon.com/mwaa/latest/userguide/upgrading-environment.html). Valid values: 1.10.12, 2.0.2, 2.2.2, 2.4.3, 2.5.1, 2.6.3, 2.7.2, 2.8.1.
     public var airflowVersion: Swift.String?
     /// The relative path to the DAGs folder on your Amazon S3 bucket. For example, dags. For more information, see [Adding or updating DAGs](https://docs.aws.amazon.com/mwaa/latest/userguide/configuring-dag-folder.html).
     public var dagS3Path: Swift.String?
-    /// The environment class type. Valid values: mw1.small, mw1.medium, mw1.large. For more information, see [Amazon MWAA environment class](https://docs.aws.amazon.com/mwaa/latest/userguide/environment-class.html).
+    /// The environment class type. Valid values: mw1.small, mw1.medium, mw1.large, mw1.xlarge, and mw1.2xlarge. For more information, see [Amazon MWAA environment class](https://docs.aws.amazon.com/mwaa/latest/userguide/environment-class.html).
     public var environmentClass: Swift.String?
     /// The Amazon Resource Name (ARN) of the execution role in IAM that allows MWAA to access Amazon Web Services resources in your environment. For example, arn:aws:iam::123456789:role/my-execution-role. For more information, see [Amazon MWAA Execution role](https://docs.aws.amazon.com/mwaa/latest/userguide/mwaa-create-role.html).
     public var executionRoleArn: Swift.String?
     /// The Apache Airflow log types to send to CloudWatch Logs.
     public var loggingConfiguration: MWAAClientTypes.LoggingConfigurationInput?
+    /// The maximum number of web servers that you want to run in your environment. Amazon MWAA scales the number of Apache Airflow web servers up to the number you specify for MaxWebservers when you interact with your Apache Airflow environment using Apache Airflow REST API, or the Apache Airflow CLI. For example, in scenarios where your workload requires network calls to the Apache Airflow REST API with a high transaction-per-second (TPS) rate, Amazon MWAA will increase the number of web servers up to the number set in MaxWebserers. As TPS rates decrease Amazon MWAA disposes of the additional web servers, and scales down to the number set in MinxWebserers. Valid values: Accepts between 2 and 5. Defaults to 2.
+    public var maxWebservers: Swift.Int?
     /// The maximum number of workers that you want to run in your environment. MWAA scales the number of Apache Airflow workers up to the number you specify in the MaxWorkers field. For example, 20. When there are no more tasks running, and no more in the queue, MWAA disposes of the extra workers leaving the one worker that is included with your environment, or the number you specify in MinWorkers.
     public var maxWorkers: Swift.Int?
+    /// The minimum number of web servers that you want to run in your environment. Amazon MWAA scales the number of Apache Airflow web servers up to the number you specify for MaxWebservers when you interact with your Apache Airflow environment using Apache Airflow REST API, or the Apache Airflow CLI. As the transaction-per-second rate, and the network load, decrease, Amazon MWAA disposes of the additional web servers, and scales down to the number set in MinxWebserers. Valid values: Accepts between 2 and 5. Defaults to 2.
+    public var minWebservers: Swift.Int?
     /// The minimum number of workers that you want to run in your environment. MWAA scales the number of Apache Airflow workers up to the number you specify in the MaxWorkers field. When there are no more tasks running, and no more in the queue, MWAA disposes of the extra workers leaving the worker count you specify in the MinWorkers field. For example, 2.
     public var minWorkers: Swift.Int?
     /// The name of your Amazon MWAA environment. For example, MyMWAAEnvironment.
@@ -1828,7 +1854,9 @@ public struct UpdateEnvironmentInput {
         environmentClass: Swift.String? = nil,
         executionRoleArn: Swift.String? = nil,
         loggingConfiguration: MWAAClientTypes.LoggingConfigurationInput? = nil,
+        maxWebservers: Swift.Int? = nil,
         maxWorkers: Swift.Int? = nil,
+        minWebservers: Swift.Int? = nil,
         minWorkers: Swift.Int? = nil,
         name: Swift.String? = nil,
         networkConfiguration: MWAAClientTypes.UpdateNetworkConfigurationInput? = nil,
@@ -1850,7 +1878,9 @@ public struct UpdateEnvironmentInput {
         self.environmentClass = environmentClass
         self.executionRoleArn = executionRoleArn
         self.loggingConfiguration = loggingConfiguration
+        self.maxWebservers = maxWebservers
         self.maxWorkers = maxWorkers
+        self.minWebservers = minWebservers
         self.minWorkers = minWorkers
         self.name = name
         self.networkConfiguration = networkConfiguration

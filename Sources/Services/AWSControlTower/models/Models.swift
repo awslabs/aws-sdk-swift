@@ -248,6 +248,10 @@ extension ControlTowerClientTypes.ControlOperation {
         value.endTime = try reader["endTime"].readTimestampIfPresent(format: .dateTime)
         value.status = try reader["status"].readIfPresent()
         value.statusMessage = try reader["statusMessage"].readIfPresent()
+        value.operationIdentifier = try reader["operationIdentifier"].readIfPresent()
+        value.controlIdentifier = try reader["controlIdentifier"].readIfPresent()
+        value.targetIdentifier = try reader["targetIdentifier"].readIfPresent()
+        value.enabledControlIdentifier = try reader["enabledControlIdentifier"].readIfPresent()
         return value
     }
 }
@@ -255,8 +259,14 @@ extension ControlTowerClientTypes.ControlOperation {
 extension ControlTowerClientTypes {
     /// An operation performed by the control.
     public struct ControlOperation {
+        /// The controlIdentifier of the control for the operation.
+        public var controlIdentifier: Swift.String?
+        /// The controlIdentifier of the enabled control.
+        public var enabledControlIdentifier: Swift.String?
         /// The time that the operation finished.
         public var endTime: ClientRuntime.Date?
+        /// The identifier of the specified operation.
+        public var operationIdentifier: Swift.String?
         /// One of ENABLE_CONTROL or DISABLE_CONTROL.
         public var operationType: ControlTowerClientTypes.ControlOperationType?
         /// The time that the operation began.
@@ -265,20 +275,74 @@ extension ControlTowerClientTypes {
         public var status: ControlTowerClientTypes.ControlOperationStatus?
         /// If the operation result is FAILED, this string contains a message explaining why the operation failed.
         public var statusMessage: Swift.String?
+        /// The target upon which the control operation is working.
+        public var targetIdentifier: Swift.String?
 
         public init(
+            controlIdentifier: Swift.String? = nil,
+            enabledControlIdentifier: Swift.String? = nil,
             endTime: ClientRuntime.Date? = nil,
+            operationIdentifier: Swift.String? = nil,
             operationType: ControlTowerClientTypes.ControlOperationType? = nil,
             startTime: ClientRuntime.Date? = nil,
             status: ControlTowerClientTypes.ControlOperationStatus? = nil,
-            statusMessage: Swift.String? = nil
+            statusMessage: Swift.String? = nil,
+            targetIdentifier: Swift.String? = nil
         )
         {
+            self.controlIdentifier = controlIdentifier
+            self.enabledControlIdentifier = enabledControlIdentifier
             self.endTime = endTime
+            self.operationIdentifier = operationIdentifier
             self.operationType = operationType
             self.startTime = startTime
             self.status = status
             self.statusMessage = statusMessage
+            self.targetIdentifier = targetIdentifier
+        }
+    }
+
+}
+
+extension ControlTowerClientTypes.ControlOperationFilter {
+
+    static func write(value: ControlTowerClientTypes.ControlOperationFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["controlIdentifiers"].writeList(value.controlIdentifiers, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["controlOperationTypes"].writeList(value.controlOperationTypes, memberWritingClosure: ControlTowerClientTypes.ControlOperationType.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["enabledControlIdentifiers"].writeList(value.enabledControlIdentifiers, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["statuses"].writeList(value.statuses, memberWritingClosure: ControlTowerClientTypes.ControlOperationStatus.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["targetIdentifiers"].writeList(value.targetIdentifiers, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension ControlTowerClientTypes {
+    /// A filter object that lets you call ListCOntrolOperations with a specific filter.
+    public struct ControlOperationFilter {
+        /// The set of controlIdentifier returned by the filter.
+        public var controlIdentifiers: [Swift.String]?
+        /// The set of ControlOperation objects returned by the filter.
+        public var controlOperationTypes: [ControlTowerClientTypes.ControlOperationType]?
+        /// The set controlIdentifier of enabled controls selected by the filter.
+        public var enabledControlIdentifiers: [Swift.String]?
+        /// Lists the status of control operations.
+        public var statuses: [ControlTowerClientTypes.ControlOperationStatus]?
+        /// The set of targetIdentifier objects returned by the filter.
+        public var targetIdentifiers: [Swift.String]?
+
+        public init(
+            controlIdentifiers: [Swift.String]? = nil,
+            controlOperationTypes: [ControlTowerClientTypes.ControlOperationType]? = nil,
+            enabledControlIdentifiers: [Swift.String]? = nil,
+            statuses: [ControlTowerClientTypes.ControlOperationStatus]? = nil,
+            targetIdentifiers: [Swift.String]? = nil
+        )
+        {
+            self.controlIdentifiers = controlIdentifiers
+            self.controlOperationTypes = controlOperationTypes
+            self.enabledControlIdentifiers = enabledControlIdentifiers
+            self.statuses = statuses
+            self.targetIdentifiers = targetIdentifiers
         }
     }
 
@@ -315,6 +379,72 @@ extension ControlTowerClientTypes {
             }
         }
     }
+}
+
+extension ControlTowerClientTypes.ControlOperationSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ControlTowerClientTypes.ControlOperationSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ControlTowerClientTypes.ControlOperationSummary()
+        value.operationType = try reader["operationType"].readIfPresent()
+        value.startTime = try reader["startTime"].readTimestampIfPresent(format: .dateTime)
+        value.endTime = try reader["endTime"].readTimestampIfPresent(format: .dateTime)
+        value.status = try reader["status"].readIfPresent()
+        value.statusMessage = try reader["statusMessage"].readIfPresent()
+        value.operationIdentifier = try reader["operationIdentifier"].readIfPresent()
+        value.controlIdentifier = try reader["controlIdentifier"].readIfPresent()
+        value.targetIdentifier = try reader["targetIdentifier"].readIfPresent()
+        value.enabledControlIdentifier = try reader["enabledControlIdentifier"].readIfPresent()
+        return value
+    }
+}
+
+extension ControlTowerClientTypes {
+    /// A summary of information about the specified control operation.
+    public struct ControlOperationSummary {
+        /// The controlIdentifier of a control.
+        public var controlIdentifier: Swift.String?
+        /// The controlIdentifier of an enabled control.
+        public var enabledControlIdentifier: Swift.String?
+        /// The time at which the control operation was completed.
+        public var endTime: ClientRuntime.Date?
+        /// The unique identifier of a control operation.
+        public var operationIdentifier: Swift.String?
+        /// The type of operation.
+        public var operationType: ControlTowerClientTypes.ControlOperationType?
+        /// The time at which a control operation began.
+        public var startTime: ClientRuntime.Date?
+        /// The status of the specified control operation.
+        public var status: ControlTowerClientTypes.ControlOperationStatus?
+        /// A speficic message displayed as part of the control status.
+        public var statusMessage: Swift.String?
+        /// The unique identifier of the target of a control operation.
+        public var targetIdentifier: Swift.String?
+
+        public init(
+            controlIdentifier: Swift.String? = nil,
+            enabledControlIdentifier: Swift.String? = nil,
+            endTime: ClientRuntime.Date? = nil,
+            operationIdentifier: Swift.String? = nil,
+            operationType: ControlTowerClientTypes.ControlOperationType? = nil,
+            startTime: ClientRuntime.Date? = nil,
+            status: ControlTowerClientTypes.ControlOperationStatus? = nil,
+            statusMessage: Swift.String? = nil,
+            targetIdentifier: Swift.String? = nil
+        )
+        {
+            self.controlIdentifier = controlIdentifier
+            self.enabledControlIdentifier = enabledControlIdentifier
+            self.endTime = endTime
+            self.operationIdentifier = operationIdentifier
+            self.operationType = operationType
+            self.startTime = startTime
+            self.status = status
+            self.statusMessage = statusMessage
+            self.targetIdentifier = targetIdentifier
+        }
+    }
+
 }
 
 extension ControlTowerClientTypes {
@@ -370,7 +500,7 @@ extension CreateLandingZoneInput {
 }
 
 public struct CreateLandingZoneInput {
-    /// The manifest.yaml file is a text file that describes your Amazon Web Services resources. For examples, review [The manifest file](https://docs.aws.amazon.com/controltower/latest/userguide/the-manifest-file).
+    /// The manifest JSON file is a text file that describes your Amazon Web Services resources. For examples, review [Launch your landing zone](https://docs.aws.amazon.com/controltower/latest/userguide/lz-api-launch).
     /// This member is required.
     public var manifest: SmithyReadWrite.Document?
     /// Tags to be applied to the landing zone.
@@ -1183,6 +1313,40 @@ extension ControlTowerClientTypes {
 
 }
 
+extension ControlTowerClientTypes.EnabledControlFilter {
+
+    static func write(value: ControlTowerClientTypes.EnabledControlFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["controlIdentifiers"].writeList(value.controlIdentifiers, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["driftStatuses"].writeList(value.driftStatuses, memberWritingClosure: ControlTowerClientTypes.DriftStatus.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["statuses"].writeList(value.statuses, memberWritingClosure: ControlTowerClientTypes.EnablementStatus.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension ControlTowerClientTypes {
+    /// A structure that returns a set of control identifiers, the control status for each control in the set, and the drift status for each control in the set.
+    public struct EnabledControlFilter {
+        /// The set of controlIdentifier returned by the filter.
+        public var controlIdentifiers: [Swift.String]?
+        /// A list of DriftStatus items.
+        public var driftStatuses: [ControlTowerClientTypes.DriftStatus]?
+        /// A list of EnablementStatus items.
+        public var statuses: [ControlTowerClientTypes.EnablementStatus]?
+
+        public init(
+            controlIdentifiers: [Swift.String]? = nil,
+            driftStatuses: [ControlTowerClientTypes.DriftStatus]? = nil,
+            statuses: [ControlTowerClientTypes.EnablementStatus]? = nil
+        )
+        {
+            self.controlIdentifiers = controlIdentifiers
+            self.driftStatuses = driftStatuses
+            self.statuses = statuses
+        }
+    }
+
+}
+
 extension ControlTowerClientTypes.EnabledControlParameter {
 
     static func write(value: ControlTowerClientTypes.EnabledControlParameter?, to writer: SmithyJSON.Writer) throws {
@@ -1932,7 +2096,7 @@ extension ControlTowerClientTypes {
         public var driftStatus: ControlTowerClientTypes.LandingZoneDriftStatusSummary?
         /// The latest available version of the landing zone.
         public var latestAvailableVersion: Swift.String?
-        /// The landing zone manifest.yaml text file that specifies the landing zone configurations.
+        /// The landing zone manifest JSON text file that specifies the landing zone configurations.
         /// This member is required.
         public var manifest: SmithyReadWrite.Document?
         /// The landing zone deployment status. One of ACTIVE, PROCESSING, FAILED.
@@ -2288,6 +2452,90 @@ enum ListBaselinesOutputError {
     }
 }
 
+extension ListControlOperationsInput {
+
+    static func urlPathProvider(_ value: ListControlOperationsInput) -> Swift.String? {
+        return "/list-control-operations"
+    }
+}
+
+extension ListControlOperationsInput {
+
+    static func write(value: ListControlOperationsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["filter"].write(value.filter, with: ControlTowerClientTypes.ControlOperationFilter.write(value:to:))
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
+    }
+}
+
+public struct ListControlOperationsInput {
+    /// An input filter for the ListControlOperations API that lets you select the types of control operations to view.
+    public var filter: ControlTowerClientTypes.ControlOperationFilter?
+    /// The maximum number of results to be shown.
+    public var maxResults: Swift.Int?
+    /// A pagination token.
+    public var nextToken: Swift.String?
+
+    public init(
+        filter: ControlTowerClientTypes.ControlOperationFilter? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.filter = filter
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension ListControlOperationsOutput {
+
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListControlOperationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListControlOperationsOutput()
+        value.controlOperations = try reader["controlOperations"].readListIfPresent(memberReadingClosure: ControlTowerClientTypes.ControlOperationSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+public struct ListControlOperationsOutput {
+    /// Returns a list of output from control operations. PLACEHOLDER
+    /// This member is required.
+    public var controlOperations: [ControlTowerClientTypes.ControlOperationSummary]?
+    /// A pagination token.
+    public var nextToken: Swift.String?
+
+    public init(
+        controlOperations: [ControlTowerClientTypes.ControlOperationSummary]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.controlOperations = controlOperations
+        self.nextToken = nextToken
+    }
+}
+
+enum ListControlOperationsOutputError {
+
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 extension ListEnabledBaselinesInput {
 
     static func urlPathProvider(_ value: ListEnabledBaselinesInput) -> Swift.String? {
@@ -2383,6 +2631,7 @@ extension ListEnabledControlsInput {
 
     static func write(value: ListEnabledControlsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["filter"].write(value.filter, with: ControlTowerClientTypes.EnabledControlFilter.write(value:to:))
         try writer["maxResults"].write(value.maxResults)
         try writer["nextToken"].write(value.nextToken)
         try writer["targetIdentifier"].write(value.targetIdentifier)
@@ -2390,20 +2639,23 @@ extension ListEnabledControlsInput {
 }
 
 public struct ListEnabledControlsInput {
+    /// An input filter for the ListCEnabledControls API that lets you select the types of control operations to view.
+    public var filter: ControlTowerClientTypes.EnabledControlFilter?
     /// How many results to return per API call.
     public var maxResults: Swift.Int?
     /// The token to continue the list from a previous API call with the same parameters.
     public var nextToken: Swift.String?
     /// The ARN of the organizational unit. For information on how to find the targetIdentifier, see [the overview page](https://docs.aws.amazon.com/controltower/latest/APIReference/Welcome.html).
-    /// This member is required.
     public var targetIdentifier: Swift.String?
 
     public init(
+        filter: ControlTowerClientTypes.EnabledControlFilter? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         targetIdentifier: Swift.String? = nil
     )
     {
+        self.filter = filter
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.targetIdentifier = targetIdentifier
@@ -3224,7 +3476,7 @@ public struct UpdateLandingZoneInput {
     /// The unique identifier of the landing zone.
     /// This member is required.
     public var landingZoneIdentifier: Swift.String?
-    /// The manifest.yaml file is a text file that describes your Amazon Web Services resources. For examples, review [The manifest file](https://docs.aws.amazon.com/controltower/latest/userguide/the-manifest-file).
+    /// The manifest JSON file is a text file that describes your Amazon Web Services resources. For examples, review [Launch your landing zone](https://docs.aws.amazon.com/controltower/latest/userguide/lz-api-launch).
     /// This member is required.
     public var manifest: SmithyReadWrite.Document?
     /// The landing zone version, for example, 3.2.

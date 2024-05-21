@@ -773,6 +773,33 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
 extension SsmSapClientTypes {
 
+    public enum ConnectedEntityType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case dbms
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ConnectedEntityType] {
+            return [
+                .dbms,
+                .sdkUnknown("")
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .dbms: return "DBMS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SsmSapClientTypes {
+
     public enum CredentialType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case admin
         case sdkUnknown(Swift.String)
@@ -2065,6 +2092,93 @@ enum ListDatabasesOutputError {
     }
 }
 
+extension ListOperationEventsInput {
+
+    static func urlPathProvider(_ value: ListOperationEventsInput) -> Swift.String? {
+        return "/list-operation-events"
+    }
+}
+
+extension ListOperationEventsInput {
+
+    static func write(value: ListOperationEventsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Filters"].writeList(value.filters, memberWritingClosure: SsmSapClientTypes.Filter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["OperationId"].write(value.operationId)
+    }
+}
+
+public struct ListOperationEventsInput {
+    /// Optionally specify filters to narrow the returned operation event items. Valid filter names include status, resourceID, and resourceType. The valid operator for all three filters is Equals.
+    public var filters: [SsmSapClientTypes.Filter]?
+    /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value. If you do not specify a value for MaxResults, the request returns 50 items per page by default.
+    public var maxResults: Swift.Int?
+    /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+    public var nextToken: Swift.String?
+    /// The ID of the operation.
+    /// This member is required.
+    public var operationId: Swift.String?
+
+    public init(
+        filters: [SsmSapClientTypes.Filter]? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        operationId: Swift.String? = nil
+    )
+    {
+        self.filters = filters
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.operationId = operationId
+    }
+}
+
+extension ListOperationEventsOutput {
+
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListOperationEventsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListOperationEventsOutput()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.operationEvents = try reader["OperationEvents"].readListIfPresent(memberReadingClosure: SsmSapClientTypes.OperationEvent.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+public struct ListOperationEventsOutput {
+    /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+    public var nextToken: Swift.String?
+    /// A returned list of operation events that meet the filter criteria.
+    public var operationEvents: [SsmSapClientTypes.OperationEvent]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        operationEvents: [SsmSapClientTypes.OperationEvent]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.operationEvents = operationEvents
+    }
+}
+
+enum ListOperationEventsOutputError {
+
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 extension ListOperationsInput {
 
     static func urlPathProvider(_ value: ListOperationsInput) -> Swift.String? {
@@ -2289,6 +2403,98 @@ extension SsmSapClientTypes {
         }
     }
 
+}
+
+extension SsmSapClientTypes.OperationEvent {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SsmSapClientTypes.OperationEvent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SsmSapClientTypes.OperationEvent()
+        value.description = try reader["Description"].readIfPresent()
+        value.resource = try reader["Resource"].readIfPresent(with: SsmSapClientTypes.Resource.read(from:))
+        value.status = try reader["Status"].readIfPresent()
+        value.statusMessage = try reader["StatusMessage"].readIfPresent()
+        value.timestamp = try reader["Timestamp"].readTimestampIfPresent(format: .epochSeconds)
+        return value
+    }
+}
+
+extension SsmSapClientTypes {
+    /// An operation event returns details for an operation, including key milestones which can be used to monitor and track operations in progress. Operation events contain:
+    ///
+    /// * Description string
+    ///
+    /// * Resource, including its ARN and type
+    ///
+    /// * Status
+    ///
+    /// * StatusMessage string
+    ///
+    /// * TimeStamp
+    ///
+    ///
+    /// Operation event examples include StartApplication or StopApplication.
+    public struct OperationEvent {
+        /// A description of the operation event. For example, "Stop the EC2 instance i-abcdefgh987654321".
+        public var description: Swift.String?
+        /// The resource involved in the operations event. Contains ResourceArn ARN and ResourceType.
+        public var resource: SsmSapClientTypes.Resource?
+        /// The status of the operation event. The possible statuses are: IN_PROGRESS, COMPLETED, and FAILED.
+        public var status: SsmSapClientTypes.OperationEventStatus?
+        /// The status message relating to a specific operation event.
+        public var statusMessage: Swift.String?
+        /// The timestamp of the specified operation event.
+        public var timestamp: ClientRuntime.Date?
+
+        public init(
+            description: Swift.String? = nil,
+            resource: SsmSapClientTypes.Resource? = nil,
+            status: SsmSapClientTypes.OperationEventStatus? = nil,
+            statusMessage: Swift.String? = nil,
+            timestamp: ClientRuntime.Date? = nil
+        )
+        {
+            self.description = description
+            self.resource = resource
+            self.status = status
+            self.statusMessage = statusMessage
+            self.timestamp = timestamp
+        }
+    }
+
+}
+
+extension SsmSapClientTypes {
+
+    public enum OperationEventStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case completed
+        case failed
+        case inProgress
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [OperationEventStatus] {
+            return [
+                .completed,
+                .failed,
+                .inProgress,
+                .sdkUnknown("")
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .completed: return "COMPLETED"
+            case .failed: return "FAILED"
+            case .inProgress: return "IN_PROGRESS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
 }
 
 extension SsmSapClientTypes {
@@ -2666,6 +2872,37 @@ extension SsmSapClientTypes {
 
 }
 
+extension SsmSapClientTypes.Resource {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SsmSapClientTypes.Resource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SsmSapClientTypes.Resource()
+        value.resourceArn = try reader["ResourceArn"].readIfPresent()
+        value.resourceType = try reader["ResourceType"].readIfPresent()
+        return value
+    }
+}
+
+extension SsmSapClientTypes {
+    /// The resource contains a ResourceArn and the ResourceType.
+    public struct Resource {
+        /// The Amazon Resource Name (ARN) of the source resource. Example of ResourceArn: "arn:aws:ec2:us-east-1:111111111111:instance/i-abcdefgh987654321"
+        public var resourceArn: Swift.String?
+        /// The resource type. Example of ResourceType: "AWS::SystemsManagerSAP::Component" or "AWS::EC2::Instance".
+        public var resourceType: Swift.String?
+
+        public init(
+            resourceArn: Swift.String? = nil,
+            resourceType: Swift.String? = nil
+        )
+        {
+            self.resourceArn = resourceArn
+            self.resourceType = resourceType
+        }
+    }
+
+}
+
 extension ResourceNotFoundException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
@@ -2704,6 +2941,75 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 public enum SsmSapClientTypes {}
+
+extension StartApplicationInput {
+
+    static func urlPathProvider(_ value: StartApplicationInput) -> Swift.String? {
+        return "/start-application"
+    }
+}
+
+extension StartApplicationInput {
+
+    static func write(value: StartApplicationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ApplicationId"].write(value.applicationId)
+    }
+}
+
+public struct StartApplicationInput {
+    /// The ID of the application.
+    /// This member is required.
+    public var applicationId: Swift.String?
+
+    public init(
+        applicationId: Swift.String? = nil
+    )
+    {
+        self.applicationId = applicationId
+    }
+}
+
+extension StartApplicationOutput {
+
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StartApplicationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StartApplicationOutput()
+        value.operationId = try reader["OperationId"].readIfPresent()
+        return value
+    }
+}
+
+public struct StartApplicationOutput {
+    /// The ID of the operation.
+    public var operationId: Swift.String?
+
+    public init(
+        operationId: Swift.String? = nil
+    )
+    {
+        self.operationId = operationId
+    }
+}
+
+enum StartApplicationOutputError {
+
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
 
 extension StartApplicationRefreshInput {
 
@@ -2769,6 +3075,85 @@ enum StartApplicationRefreshOutputError {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+extension StopApplicationInput {
+
+    static func urlPathProvider(_ value: StopApplicationInput) -> Swift.String? {
+        return "/stop-application"
+    }
+}
+
+extension StopApplicationInput {
+
+    static func write(value: StopApplicationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ApplicationId"].write(value.applicationId)
+        try writer["IncludeEc2InstanceShutdown"].write(value.includeEc2InstanceShutdown)
+        try writer["StopConnectedEntity"].write(value.stopConnectedEntity)
+    }
+}
+
+public struct StopApplicationInput {
+    /// The ID of the application.
+    /// This member is required.
+    public var applicationId: Swift.String?
+    /// Boolean. If included and if set to True, the StopApplication operation will shut down the associated Amazon EC2 instance in addition to the application.
+    public var includeEc2InstanceShutdown: Swift.Bool?
+    /// Specify the ConnectedEntityType. Accepted type is DBMS. If this parameter is included, the connected DBMS (Database Management System) will be stopped.
+    public var stopConnectedEntity: SsmSapClientTypes.ConnectedEntityType?
+
+    public init(
+        applicationId: Swift.String? = nil,
+        includeEc2InstanceShutdown: Swift.Bool? = nil,
+        stopConnectedEntity: SsmSapClientTypes.ConnectedEntityType? = nil
+    )
+    {
+        self.applicationId = applicationId
+        self.includeEc2InstanceShutdown = includeEc2InstanceShutdown
+        self.stopConnectedEntity = stopConnectedEntity
+    }
+}
+
+extension StopApplicationOutput {
+
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StopApplicationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StopApplicationOutput()
+        value.operationId = try reader["OperationId"].readIfPresent()
+        return value
+    }
+}
+
+public struct StopApplicationOutput {
+    /// The ID of the operation.
+    public var operationId: Swift.String?
+
+    public init(
+        operationId: Swift.String? = nil
+    )
+    {
+        self.operationId = operationId
+    }
+}
+
+enum StopApplicationOutputError {
+
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }

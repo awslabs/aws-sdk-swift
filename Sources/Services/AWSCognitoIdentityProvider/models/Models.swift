@@ -15455,6 +15455,7 @@ extension CognitoIdentityProviderClientTypes {
         case archived
         case compromised
         case confirmed
+        case externalProvider
         case forceChangePassword
         case resetRequired
         case unconfirmed
@@ -15466,6 +15467,7 @@ extension CognitoIdentityProviderClientTypes {
                 .archived,
                 .compromised,
                 .confirmed,
+                .externalProvider,
                 .forceChangePassword,
                 .resetRequired,
                 .unconfirmed,
@@ -15484,6 +15486,7 @@ extension CognitoIdentityProviderClientTypes {
             case .archived: return "ARCHIVED"
             case .compromised: return "COMPROMISED"
             case .confirmed: return "CONFIRMED"
+            case .externalProvider: return "EXTERNAL_PROVIDER"
             case .forceChangePassword: return "FORCE_CHANGE_PASSWORD"
             case .resetRequired: return "RESET_REQUIRED"
             case .unconfirmed: return "UNCONFIRMED"

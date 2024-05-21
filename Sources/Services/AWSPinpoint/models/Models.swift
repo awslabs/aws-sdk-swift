@@ -2195,6 +2195,7 @@ extension PinpointClientTypes.CampaignEmailMessage {
         guard let value else { return }
         try writer["Body"].write(value.body)
         try writer["FromAddress"].write(value.fromAddress)
+        try writer["Headers"].writeList(value.headers, memberWritingClosure: PinpointClientTypes.MessageHeader.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["HtmlBody"].write(value.htmlBody)
         try writer["Title"].write(value.title)
     }
@@ -2204,6 +2205,7 @@ extension PinpointClientTypes.CampaignEmailMessage {
         var value = PinpointClientTypes.CampaignEmailMessage()
         value.body = try reader["Body"].readIfPresent()
         value.fromAddress = try reader["FromAddress"].readIfPresent()
+        value.headers = try reader["Headers"].readListIfPresent(memberReadingClosure: PinpointClientTypes.MessageHeader.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.htmlBody = try reader["HtmlBody"].readIfPresent()
         value.title = try reader["Title"].readIfPresent()
         return value
@@ -2217,6 +2219,8 @@ extension PinpointClientTypes {
         public var body: Swift.String?
         /// The verified email address to send the email from. The default address is the FromAddress specified for the email channel for the application.
         public var fromAddress: Swift.String?
+        /// The list of [MessageHeaders](https://docs.aws.amazon.com/pinpoint/latest/apireference/apps-application-id-campaigns-campaign-id.html#apps-application-id-campaigns-campaign-id-model-messageheader) for the email. You can have up to 15 MessageHeaders for each email.
+        public var headers: [PinpointClientTypes.MessageHeader]?
         /// The body of the email, in HTML format, for recipients whose email clients render HTML content.
         public var htmlBody: Swift.String?
         /// The subject line, or title, of the email.
@@ -2225,12 +2229,14 @@ extension PinpointClientTypes {
         public init(
             body: Swift.String? = nil,
             fromAddress: Swift.String? = nil,
+            headers: [PinpointClientTypes.MessageHeader]? = nil,
             htmlBody: Swift.String? = nil,
             title: Swift.String? = nil
         )
         {
             self.body = body
             self.fromAddress = fromAddress
+            self.headers = headers
             self.htmlBody = htmlBody
             self.title = title
         }
@@ -6762,6 +6768,7 @@ extension PinpointClientTypes.EmailTemplateRequest {
     static func write(value: PinpointClientTypes.EmailTemplateRequest?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["DefaultSubstitutions"].write(value.defaultSubstitutions)
+        try writer["Headers"].writeList(value.headers, memberWritingClosure: PinpointClientTypes.MessageHeader.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["HtmlPart"].write(value.htmlPart)
         try writer["RecommenderId"].write(value.recommenderId)
         try writer["Subject"].write(value.subject)
@@ -6776,6 +6783,8 @@ extension PinpointClientTypes {
     public struct EmailTemplateRequest {
         /// A JSON object that specifies the default values to use for message variables in the message template. This object is a set of key-value pairs. Each key defines a message variable in the template. The corresponding value defines the default value for that variable. When you create a message that's based on the template, you can override these defaults with message-specific and address-specific variables and values.
         public var defaultSubstitutions: Swift.String?
+        /// The list of [MessageHeaders](https://docs.aws.amazon.com/pinpoint/latest/apireference/templates-template-name-email.html#templates-template-name-email-model-messageheader) for the email. You can have up to 15 Headers.
+        public var headers: [PinpointClientTypes.MessageHeader]?
         /// The message body, in HTML format, to use in email messages that are based on the message template. We recommend using HTML format for email clients that render HTML content. You can include links, formatted text, and more in an HTML message.
         public var htmlPart: Swift.String?
         /// The unique identifier for the recommender model to use for the message template. Amazon Pinpoint uses this value to determine how to retrieve and process data from a recommender model when it sends messages that use the template, if the template contains message variables for recommendation data.
@@ -6791,6 +6800,7 @@ extension PinpointClientTypes {
 
         public init(
             defaultSubstitutions: Swift.String? = nil,
+            headers: [PinpointClientTypes.MessageHeader]? = nil,
             htmlPart: Swift.String? = nil,
             recommenderId: Swift.String? = nil,
             subject: Swift.String? = nil,
@@ -6800,6 +6810,7 @@ extension PinpointClientTypes {
         )
         {
             self.defaultSubstitutions = defaultSubstitutions
+            self.headers = headers
             self.htmlPart = htmlPart
             self.recommenderId = recommenderId
             self.subject = subject
@@ -6823,6 +6834,7 @@ extension PinpointClientTypes.EmailTemplateResponse {
         value.lastModifiedDate = try reader["LastModifiedDate"].readIfPresent()
         value.recommenderId = try reader["RecommenderId"].readIfPresent()
         value.subject = try reader["Subject"].readIfPresent()
+        value.headers = try reader["Headers"].readListIfPresent(memberReadingClosure: PinpointClientTypes.MessageHeader.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: Swift.String.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.templateDescription = try reader["TemplateDescription"].readIfPresent()
         value.templateName = try reader["TemplateName"].readIfPresent()
@@ -6843,6 +6855,8 @@ extension PinpointClientTypes {
         public var creationDate: Swift.String?
         /// The JSON object that specifies the default values that are used for message variables in the message template. This object is a set of key-value pairs. Each key defines a message variable in the template. The corresponding value defines the default value for that variable.
         public var defaultSubstitutions: Swift.String?
+        /// The list of [MessageHeaders](https://docs.aws.amazon.com/pinpoint/latest/apireference/templates-template-name-email.html#templates-template-name-email-model-messageheader) for the email. You can have up to 15 Headers.
+        public var headers: [PinpointClientTypes.MessageHeader]?
         /// The message body, in HTML format, that's used in email messages that are based on the message template.
         public var htmlPart: Swift.String?
         /// The date, in ISO 8601 format, when the message template was last modified.
@@ -6871,6 +6885,7 @@ extension PinpointClientTypes {
             arn: Swift.String? = nil,
             creationDate: Swift.String? = nil,
             defaultSubstitutions: Swift.String? = nil,
+            headers: [PinpointClientTypes.MessageHeader]? = nil,
             htmlPart: Swift.String? = nil,
             lastModifiedDate: Swift.String? = nil,
             recommenderId: Swift.String? = nil,
@@ -6886,6 +6901,7 @@ extension PinpointClientTypes {
             self.arn = arn
             self.creationDate = creationDate
             self.defaultSubstitutions = defaultSubstitutions
+            self.headers = headers
             self.htmlPart = htmlPart
             self.lastModifiedDate = lastModifiedDate
             self.recommenderId = recommenderId
@@ -15285,6 +15301,43 @@ extension PinpointClientTypes {
 
 }
 
+extension PinpointClientTypes.MessageHeader {
+
+    static func write(value: PinpointClientTypes.MessageHeader?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.MessageHeader {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PinpointClientTypes.MessageHeader()
+        value.name = try reader["Name"].readIfPresent()
+        value.value = try reader["Value"].readIfPresent()
+        return value
+    }
+}
+
+extension PinpointClientTypes {
+    /// Contains the name and value pair of an email header to add to your email. You can have up to 15 MessageHeaders. A header can contain information such as the sender, receiver, route, or timestamp.
+    public struct MessageHeader {
+        /// The name of the message header. The header name can contain up to 126 characters.
+        public var name: Swift.String?
+        /// The value of the message header. The header value can contain up to 870 characters, including the length of any rendered attributes. For example if you add the {CreationDate} attribute, it renders as YYYY-MM-DDTHH:MM:SS.SSSZ and is 24 characters in length.
+        public var value: Swift.String?
+
+        public init(
+            name: Swift.String? = nil,
+            value: Swift.String? = nil
+        )
+        {
+            self.name = name
+            self.value = value
+        }
+    }
+
+}
+
 extension PinpointClientTypes.MessageRequest {
 
     static func write(value: PinpointClientTypes.MessageRequest?, to writer: SmithyJSON.Writer) throws {
@@ -18531,6 +18584,7 @@ extension PinpointClientTypes.SimpleEmail {
 
     static func write(value: PinpointClientTypes.SimpleEmail?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["Headers"].writeList(value.headers, memberWritingClosure: PinpointClientTypes.MessageHeader.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["HtmlPart"].write(value.htmlPart, with: PinpointClientTypes.SimpleEmailPart.write(value:to:))
         try writer["Subject"].write(value.subject, with: PinpointClientTypes.SimpleEmailPart.write(value:to:))
         try writer["TextPart"].write(value.textPart, with: PinpointClientTypes.SimpleEmailPart.write(value:to:))
@@ -18540,6 +18594,8 @@ extension PinpointClientTypes.SimpleEmail {
 extension PinpointClientTypes {
     /// Specifies the contents of an email message, composed of a subject, a text part, and an HTML part.
     public struct SimpleEmail {
+        /// The list of MessageHeaders for the email. You can have up to 15 Headers.
+        public var headers: [PinpointClientTypes.MessageHeader]?
         /// The body of the email message, in HTML format. We recommend using HTML format for email clients that render HTML content. You can include links, formatted text, and more in an HTML message.
         public var htmlPart: PinpointClientTypes.SimpleEmailPart?
         /// The subject line, or title, of the email.
@@ -18548,11 +18604,13 @@ extension PinpointClientTypes {
         public var textPart: PinpointClientTypes.SimpleEmailPart?
 
         public init(
+            headers: [PinpointClientTypes.MessageHeader]? = nil,
             htmlPart: PinpointClientTypes.SimpleEmailPart? = nil,
             subject: PinpointClientTypes.SimpleEmailPart? = nil,
             textPart: PinpointClientTypes.SimpleEmailPart? = nil
         )
         {
+            self.headers = headers
             self.htmlPart = htmlPart
             self.subject = subject
             self.textPart = textPart

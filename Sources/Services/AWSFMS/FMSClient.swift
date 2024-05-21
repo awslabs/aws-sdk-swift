@@ -2058,7 +2058,7 @@ extension FMSClient {
     ///
     /// * DNS Firewall policy - This policy applies Amazon Route 53 Resolver DNS Firewall protections to your organization's VPCs.
     ///
-    /// * Third-party firewall policy - This policy applies third-party firewall protections. Third-party firewalls are available by subscription through the Amazon Web Services Marketplace console at [Amazon Web Services Marketplace](https://aws.amazon.com/marketplace).
+    /// * Third-party firewall policy - This policy applies third-party firewall protections. Third-party firewalls are available by subscription through the Amazon Web Services Marketplace console at [Amazon Web Services Marketplace](http://aws.amazon.com/marketplace).
     ///
     /// * Palo Alto Networks Cloud NGFW policy - This policy applies Palo Alto Networks Cloud Next Generation Firewall (NGFW) protections and Palo Alto Networks Cloud NGFW rulestacks to your organization's VPCs.
     ///

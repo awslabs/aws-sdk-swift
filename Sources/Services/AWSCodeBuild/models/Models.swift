@@ -911,7 +911,7 @@ extension CodeBuildClientTypes {
         public var sourceVersion: Swift.String?
         /// When the build process started, expressed in Unix time format.
         public var startTime: ClientRuntime.Date?
-        /// How long, in minutes, for CodeBuild to wait before timing out this build if it does not get marked as completed.
+        /// How long, in minutes, from 5 to 2160 (36 hours), for CodeBuild to wait before timing out this build if it does not get marked as completed.
         public var timeoutInMinutes: Swift.Int?
         /// If your CodeBuild project accesses resources in an Amazon VPC, you provide this parameter that identifies the VPC ID and the list of security group IDs and subnet IDs. The security groups and subnets must belong to the same VPC. You must provide at least one security group and one subnet ID.
         public var vpcConfig: CodeBuildClientTypes.VpcConfig?
@@ -1936,10 +1936,12 @@ extension CreateFleetInput {
         try writer["baseCapacity"].write(value.baseCapacity)
         try writer["computeType"].write(value.computeType)
         try writer["environmentType"].write(value.environmentType)
+        try writer["fleetServiceRole"].write(value.fleetServiceRole)
         try writer["name"].write(value.name)
         try writer["overflowBehavior"].write(value.overflowBehavior)
         try writer["scalingConfiguration"].write(value.scalingConfiguration, with: CodeBuildClientTypes.ScalingConfigurationInput.write(value:to:))
         try writer["tags"].writeList(value.tags, memberWritingClosure: CodeBuildClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["vpcConfig"].write(value.vpcConfig, with: CodeBuildClientTypes.VpcConfig.write(value:to:))
     }
 }
 
@@ -1997,6 +1999,8 @@ public struct CreateFleetInput {
     /// For more information, see [Build environment compute types](https://docs.aws.amazon.com/codebuild/latest/userguide/build-env-ref-compute-types.html) in the CodeBuild user guide.
     /// This member is required.
     public var environmentType: CodeBuildClientTypes.EnvironmentType?
+    /// The service role associated with the compute fleet.
+    public var fleetServiceRole: Swift.String?
     /// The name of the compute fleet.
     /// This member is required.
     public var name: Swift.String?
@@ -2004,30 +2008,36 @@ public struct CreateFleetInput {
     ///
     /// * For overflow behavior QUEUE, your overflow builds need to wait on the existing fleet instance to become available.
     ///
-    /// * For overflow behavior ON_DEMAND, your overflow builds run on CodeBuild on-demand.
+    /// * For overflow behavior ON_DEMAND, your overflow builds run on CodeBuild on-demand. If you choose to set your overflow behavior to on-demand while creating a VPC-connected fleet, make sure that you add the required VPC permissions to your project service role. For more information, see [Example policy statement to allow CodeBuild access to Amazon Web Services services required to create a VPC network interface](https://docs.aws.amazon.com/codebuild/latest/userguide/auth-and-access-control-iam-identity-based-access-control.html#customer-managed-policies-example-create-vpc-network-interface).
     public var overflowBehavior: CodeBuildClientTypes.FleetOverflowBehavior?
     /// The scaling configuration of the compute fleet.
     public var scalingConfiguration: CodeBuildClientTypes.ScalingConfigurationInput?
     /// A list of tag key and value pairs associated with this compute fleet. These tags are available for use by Amazon Web Services services that support CodeBuild build project tags.
     public var tags: [CodeBuildClientTypes.Tag]?
+    /// Information about the VPC configuration that CodeBuild accesses.
+    public var vpcConfig: CodeBuildClientTypes.VpcConfig?
 
     public init(
         baseCapacity: Swift.Int? = nil,
         computeType: CodeBuildClientTypes.ComputeType? = nil,
         environmentType: CodeBuildClientTypes.EnvironmentType? = nil,
+        fleetServiceRole: Swift.String? = nil,
         name: Swift.String? = nil,
         overflowBehavior: CodeBuildClientTypes.FleetOverflowBehavior? = nil,
         scalingConfiguration: CodeBuildClientTypes.ScalingConfigurationInput? = nil,
-        tags: [CodeBuildClientTypes.Tag]? = nil
+        tags: [CodeBuildClientTypes.Tag]? = nil,
+        vpcConfig: CodeBuildClientTypes.VpcConfig? = nil
     )
     {
         self.baseCapacity = baseCapacity
         self.computeType = computeType
         self.environmentType = environmentType
+        self.fleetServiceRole = fleetServiceRole
         self.name = name
         self.overflowBehavior = overflowBehavior
         self.scalingConfiguration = scalingConfiguration
         self.tags = tags
+        self.vpcConfig = vpcConfig
     }
 }
 
@@ -2152,6 +2162,8 @@ public struct CreateProjectInput {
     ///
     /// * For GitHub: the commit ID, pull request ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a pull request ID is specified, it must use the format pr/pull-request-ID (for example pr/25). If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.
     ///
+    /// * For GitLab: the commit ID, branch, or Git tag to use.
+    ///
     /// * For Bitbucket: the commit ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.
     ///
     /// * For Amazon S3: the version ID of the object that represents the build input ZIP file to use.
@@ -2161,9 +2173,9 @@ public struct CreateProjectInput {
     public var sourceVersion: Swift.String?
     /// A list of tag key and value pairs associated with this build project. These tags are available for use by Amazon Web Services services that support CodeBuild build project tags.
     public var tags: [CodeBuildClientTypes.Tag]?
-    /// How long, in minutes, from 5 to 480 (8 hours), for CodeBuild to wait before it times out any build that has not been marked as completed. The default is 60 minutes.
+    /// How long, in minutes, from 5 to 2160 (36 hours), for CodeBuild to wait before it times out any build that has not been marked as completed. The default is 60 minutes.
     public var timeoutInMinutes: Swift.Int?
-    /// VpcConfig enables CodeBuild to access resources in an Amazon VPC.
+    /// VpcConfig enables CodeBuild to access resources in an Amazon VPC. If you're using compute fleets during project creation, do not provide vpcConfig.
     public var vpcConfig: CodeBuildClientTypes.VpcConfig?
 
     public init(
@@ -3444,6 +3456,8 @@ extension CodeBuildClientTypes.Fleet {
         value.computeType = try reader["computeType"].readIfPresent()
         value.scalingConfiguration = try reader["scalingConfiguration"].readIfPresent(with: CodeBuildClientTypes.ScalingConfigurationOutput.read(from:))
         value.overflowBehavior = try reader["overflowBehavior"].readIfPresent()
+        value.vpcConfig = try reader["vpcConfig"].readIfPresent(with: CodeBuildClientTypes.VpcConfig.read(from:))
+        value.fleetServiceRole = try reader["fleetServiceRole"].readIfPresent()
         value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: CodeBuildClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -3506,6 +3520,8 @@ extension CodeBuildClientTypes {
         ///
         /// For more information, see [Build environment compute types](https://docs.aws.amazon.com/codebuild/latest/userguide/build-env-ref-compute-types.html) in the CodeBuild user guide.
         public var environmentType: CodeBuildClientTypes.EnvironmentType?
+        /// The service role associated with the compute fleet.
+        public var fleetServiceRole: Swift.String?
         /// The ID of the compute fleet.
         public var id: Swift.String?
         /// The time at which the compute fleet was last modified.
@@ -3516,7 +3532,7 @@ extension CodeBuildClientTypes {
         ///
         /// * For overflow behavior QUEUE, your overflow builds need to wait on the existing fleet instance to become available.
         ///
-        /// * For overflow behavior ON_DEMAND, your overflow builds run on CodeBuild on-demand.
+        /// * For overflow behavior ON_DEMAND, your overflow builds run on CodeBuild on-demand. If you choose to set your overflow behavior to on-demand while creating a VPC-connected fleet, make sure that you add the required VPC permissions to your project service role. For more information, see [Example policy statement to allow CodeBuild access to Amazon Web Services services required to create a VPC network interface](https://docs.aws.amazon.com/codebuild/latest/userguide/auth-and-access-control-iam-identity-based-access-control.html#customer-managed-policies-example-create-vpc-network-interface).
         public var overflowBehavior: CodeBuildClientTypes.FleetOverflowBehavior?
         /// The scaling configuration of the compute fleet.
         public var scalingConfiguration: CodeBuildClientTypes.ScalingConfigurationOutput?
@@ -3524,6 +3540,8 @@ extension CodeBuildClientTypes {
         public var status: CodeBuildClientTypes.FleetStatus?
         /// A list of tag key and value pairs associated with this compute fleet. These tags are available for use by Amazon Web Services services that support CodeBuild build project tags.
         public var tags: [CodeBuildClientTypes.Tag]?
+        /// Information about the VPC configuration that CodeBuild accesses.
+        public var vpcConfig: CodeBuildClientTypes.VpcConfig?
 
         public init(
             arn: Swift.String? = nil,
@@ -3531,13 +3549,15 @@ extension CodeBuildClientTypes {
             computeType: CodeBuildClientTypes.ComputeType? = nil,
             created: ClientRuntime.Date? = nil,
             environmentType: CodeBuildClientTypes.EnvironmentType? = nil,
+            fleetServiceRole: Swift.String? = nil,
             id: Swift.String? = nil,
             lastModified: ClientRuntime.Date? = nil,
             name: Swift.String? = nil,
             overflowBehavior: CodeBuildClientTypes.FleetOverflowBehavior? = nil,
             scalingConfiguration: CodeBuildClientTypes.ScalingConfigurationOutput? = nil,
             status: CodeBuildClientTypes.FleetStatus? = nil,
-            tags: [CodeBuildClientTypes.Tag]? = nil
+            tags: [CodeBuildClientTypes.Tag]? = nil,
+            vpcConfig: CodeBuildClientTypes.VpcConfig? = nil
         )
         {
             self.arn = arn
@@ -3545,6 +3565,7 @@ extension CodeBuildClientTypes {
             self.computeType = computeType
             self.created = created
             self.environmentType = environmentType
+            self.fleetServiceRole = fleetServiceRole
             self.id = id
             self.lastModified = lastModified
             self.name = name
@@ -3552,6 +3573,7 @@ extension CodeBuildClientTypes {
             self.scalingConfiguration = scalingConfiguration
             self.status = status
             self.tags = tags
+            self.vpcConfig = vpcConfig
         }
     }
 
@@ -3560,12 +3582,14 @@ extension CodeBuildClientTypes {
 extension CodeBuildClientTypes {
 
     public enum FleetContextCode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case actionRequired
         case createFailed
         case updateFailed
         case sdkUnknown(Swift.String)
 
         public static var allCases: [FleetContextCode] {
             return [
+                .actionRequired,
                 .createFailed,
                 .updateFailed,
                 .sdkUnknown("")
@@ -3579,6 +3603,7 @@ extension CodeBuildClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .actionRequired: return "ACTION_REQUIRED"
             case .createFailed: return "CREATE_FAILED"
             case .updateFailed: return "UPDATE_FAILED"
             case let .sdkUnknown(s): return s
@@ -4045,7 +4070,7 @@ extension ImportSourceCredentialsInput {
 }
 
 public struct ImportSourceCredentialsInput {
-    /// The type of authentication used to connect to a GitHub, GitHub Enterprise, or Bitbucket repository. An OAUTH connection is not supported by the API and must be created using the CodeBuild console.
+    /// The type of authentication used to connect to a GitHub, GitHub Enterprise, GitLab, GitLab Self Managed, or Bitbucket repository. An OAUTH connection is not supported by the API and must be created using the CodeBuild console. Note that CODECONNECTIONS is only valid for GitLab and GitLab Self Managed.
     /// This member is required.
     public var authType: CodeBuildClientTypes.AuthType?
     /// The source provider used for this project.
@@ -4053,7 +4078,7 @@ public struct ImportSourceCredentialsInput {
     public var serverType: CodeBuildClientTypes.ServerType?
     /// Set to false to prevent overwriting the repository source credentials. Set to true to overwrite the repository source credentials. The default value is true.
     public var shouldOverwrite: Swift.Bool?
-    /// For GitHub or GitHub Enterprise, this is the personal access token. For Bitbucket, this is either the access token or the app password.
+    /// For GitHub or GitHub Enterprise, this is the personal access token. For Bitbucket, this is either the access token or the app password. For the authType CODECONNECTIONS, this is the connectionArn.
     /// This member is required.
     public var token: Swift.String?
     /// The Bitbucket username when the authType is BASIC_AUTH. This parameter is not valid for other types of source providers or connections.
@@ -5743,6 +5768,8 @@ extension CodeBuildClientTypes {
         ///
         /// * For GitHub: the commit ID, pull request ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a pull request ID is specified, it must use the format pr/pull-request-ID (for example pr/25). If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.
         ///
+        /// * For GitLab: the commit ID, branch, or Git tag to use.
+        ///
         /// * For Bitbucket: the commit ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.
         ///
         /// * For Amazon S3: the version ID of the object that represents the build input ZIP file to use.
@@ -5752,7 +5779,7 @@ extension CodeBuildClientTypes {
         public var sourceVersion: Swift.String?
         /// A list of tag key and value pairs associated with this build project. These tags are available for use by Amazon Web Services services that support CodeBuild build project tags.
         public var tags: [CodeBuildClientTypes.Tag]?
-        /// How long, in minutes, from 5 to 480 (8 hours), for CodeBuild to wait before timing out any related build that did not get marked as completed. The default is 60 minutes.
+        /// How long, in minutes, from 5 to 2160 (36 hours), for CodeBuild to wait before timing out any related build that did not get marked as completed. The default is 60 minutes.
         public var timeoutInMinutes: Swift.Int?
         /// Information about the VPC configuration that CodeBuild accesses.
         public var vpcConfig: CodeBuildClientTypes.VpcConfig?
@@ -6562,7 +6589,9 @@ extension CodeBuildClientTypes {
         ///
         /// * For CodeCommit: the commit ID, branch, or Git tag to use.
         ///
-        /// * For GitHub or GitLab: the commit ID, pull request ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a pull request ID is specified, it must use the format pr/pull-request-ID (for example, pr/25). If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.
+        /// * For GitHub: the commit ID, pull request ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a pull request ID is specified, it must use the format pr/pull-request-ID (for example, pr/25). If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.
+        ///
+        /// * For GitLab: the commit ID, branch, or Git tag to use.
         ///
         /// * For Bitbucket: the commit ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.
         ///
@@ -8349,15 +8378,15 @@ public struct StartBuildInput {
     public var secondarySourcesVersionOverride: [CodeBuildClientTypes.ProjectSourceVersion]?
     /// The name of a service role for this build that overrides the one specified in the build project.
     public var serviceRoleOverride: Swift.String?
-    /// An authorization type for this build that overrides the one defined in the build project. This override applies only if the build project's source is BitBucket or GitHub.
+    /// An authorization type for this build that overrides the one defined in the build project. This override applies only if the build project's source is BitBucket, GitHub, GitLab, or GitLab Self Managed.
     public var sourceAuthOverride: CodeBuildClientTypes.SourceAuth?
     /// A location that overrides, for this build, the source location for the one defined in the build project.
     public var sourceLocationOverride: Swift.String?
     /// A source input type, for this build, that overrides the source input defined in the build project.
     public var sourceTypeOverride: CodeBuildClientTypes.SourceType?
-    /// The version of the build input to be built, for this build only. If not specified, the latest version is used. If specified, the contents depends on the source provider: CodeCommit The commit ID, branch, or Git tag to use. GitHub The commit ID, pull request ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a pull request ID is specified, it must use the format pr/pull-request-ID (for example pr/25). If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used. Bitbucket The commit ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used. Amazon S3 The version ID of the object that represents the build input ZIP file to use. If sourceVersion is specified at the project level, then this sourceVersion (at the build level) takes precedence. For more information, see [Source Version Sample with CodeBuild](https://docs.aws.amazon.com/codebuild/latest/userguide/sample-source-version.html) in the CodeBuild User Guide.
+    /// The version of the build input to be built, for this build only. If not specified, the latest version is used. If specified, the contents depends on the source provider: CodeCommit The commit ID, branch, or Git tag to use. GitHub The commit ID, pull request ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a pull request ID is specified, it must use the format pr/pull-request-ID (for example pr/25). If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used. GitLab The commit ID, branch, or Git tag to use. Bitbucket The commit ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used. Amazon S3 The version ID of the object that represents the build input ZIP file to use. If sourceVersion is specified at the project level, then this sourceVersion (at the build level) takes precedence. For more information, see [Source Version Sample with CodeBuild](https://docs.aws.amazon.com/codebuild/latest/userguide/sample-source-version.html) in the CodeBuild User Guide.
     public var sourceVersion: Swift.String?
-    /// The number of build timeout minutes, from 5 to 480 (8 hours), that overrides, for this build only, the latest setting already defined in the build project.
+    /// The number of build timeout minutes, from 5 to 2160 (36 hours), that overrides, for this build only, the latest setting already defined in the build project.
     public var timeoutInMinutesOverride: Swift.Int?
 
     public init(
@@ -8874,9 +8903,11 @@ extension UpdateFleetInput {
         try writer["baseCapacity"].write(value.baseCapacity)
         try writer["computeType"].write(value.computeType)
         try writer["environmentType"].write(value.environmentType)
+        try writer["fleetServiceRole"].write(value.fleetServiceRole)
         try writer["overflowBehavior"].write(value.overflowBehavior)
         try writer["scalingConfiguration"].write(value.scalingConfiguration, with: CodeBuildClientTypes.ScalingConfigurationInput.write(value:to:))
         try writer["tags"].writeList(value.tags, memberWritingClosure: CodeBuildClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["vpcConfig"].write(value.vpcConfig, with: CodeBuildClientTypes.VpcConfig.write(value:to:))
     }
 }
 
@@ -8934,34 +8965,42 @@ public struct UpdateFleetInput {
     ///
     /// For more information, see [Build environment compute types](https://docs.aws.amazon.com/codebuild/latest/userguide/build-env-ref-compute-types.html) in the CodeBuild user guide.
     public var environmentType: CodeBuildClientTypes.EnvironmentType?
+    /// The service role associated with the compute fleet.
+    public var fleetServiceRole: Swift.String?
     /// The compute fleet overflow behavior.
     ///
     /// * For overflow behavior QUEUE, your overflow builds need to wait on the existing fleet instance to become available.
     ///
-    /// * For overflow behavior ON_DEMAND, your overflow builds run on CodeBuild on-demand.
+    /// * For overflow behavior ON_DEMAND, your overflow builds run on CodeBuild on-demand. If you choose to set your overflow behavior to on-demand while creating a VPC-connected fleet, make sure that you add the required VPC permissions to your project service role. For more information, see [Example policy statement to allow CodeBuild access to Amazon Web Services services required to create a VPC network interface](https://docs.aws.amazon.com/codebuild/latest/userguide/auth-and-access-control-iam-identity-based-access-control.html#customer-managed-policies-example-create-vpc-network-interface).
     public var overflowBehavior: CodeBuildClientTypes.FleetOverflowBehavior?
     /// The scaling configuration of the compute fleet.
     public var scalingConfiguration: CodeBuildClientTypes.ScalingConfigurationInput?
     /// A list of tag key and value pairs associated with this compute fleet. These tags are available for use by Amazon Web Services services that support CodeBuild build project tags.
     public var tags: [CodeBuildClientTypes.Tag]?
+    /// Information about the VPC configuration that CodeBuild accesses.
+    public var vpcConfig: CodeBuildClientTypes.VpcConfig?
 
     public init(
         arn: Swift.String? = nil,
         baseCapacity: Swift.Int? = nil,
         computeType: CodeBuildClientTypes.ComputeType? = nil,
         environmentType: CodeBuildClientTypes.EnvironmentType? = nil,
+        fleetServiceRole: Swift.String? = nil,
         overflowBehavior: CodeBuildClientTypes.FleetOverflowBehavior? = nil,
         scalingConfiguration: CodeBuildClientTypes.ScalingConfigurationInput? = nil,
-        tags: [CodeBuildClientTypes.Tag]? = nil
+        tags: [CodeBuildClientTypes.Tag]? = nil,
+        vpcConfig: CodeBuildClientTypes.VpcConfig? = nil
     )
     {
         self.arn = arn
         self.baseCapacity = baseCapacity
         self.computeType = computeType
         self.environmentType = environmentType
+        self.fleetServiceRole = fleetServiceRole
         self.overflowBehavior = overflowBehavior
         self.scalingConfiguration = scalingConfiguration
         self.tags = tags
+        self.vpcConfig = vpcConfig
     }
 }
 
@@ -9082,6 +9121,8 @@ public struct UpdateProjectInput {
     ///
     /// * For GitHub: the commit ID, pull request ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a pull request ID is specified, it must use the format pr/pull-request-ID (for example pr/25). If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.
     ///
+    /// * For GitLab: the commit ID, branch, or Git tag to use.
+    ///
     /// * For Bitbucket: the commit ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.
     ///
     /// * For Amazon S3: the version ID of the object that represents the build input ZIP file to use.
@@ -9091,7 +9132,7 @@ public struct UpdateProjectInput {
     public var sourceVersion: Swift.String?
     /// An updated list of tag key and value pairs associated with this build project. These tags are available for use by Amazon Web Services services that support CodeBuild build project tags.
     public var tags: [CodeBuildClientTypes.Tag]?
-    /// The replacement value in minutes, from 5 to 480 (8 hours), for CodeBuild to wait before timing out any related build that did not get marked as completed.
+    /// The replacement value in minutes, from 5 to 2160 (36 hours), for CodeBuild to wait before timing out any related build that did not get marked as completed.
     public var timeoutInMinutes: Swift.Int?
     /// VpcConfig enables CodeBuild to access resources in an Amazon VPC.
     public var vpcConfig: CodeBuildClientTypes.VpcConfig?

@@ -2748,6 +2748,7 @@ extension StartDICOMImportJobInput {
         guard let value else { return }
         try writer["clientToken"].write(value.clientToken)
         try writer["dataAccessRoleArn"].write(value.dataAccessRoleArn)
+        try writer["inputOwnerAccountId"].write(value.inputOwnerAccountId)
         try writer["inputS3Uri"].write(value.inputS3Uri)
         try writer["jobName"].write(value.jobName)
         try writer["outputS3Uri"].write(value.outputS3Uri)
@@ -2764,6 +2765,8 @@ public struct StartDICOMImportJobInput {
     /// The data store identifier.
     /// This member is required.
     public var datastoreId: Swift.String?
+    /// The account ID of the source S3 bucket owner.
+    public var inputOwnerAccountId: Swift.String?
     /// The input prefix path for the S3 bucket that contains the DICOM files to be imported.
     /// This member is required.
     public var inputS3Uri: Swift.String?
@@ -2777,6 +2780,7 @@ public struct StartDICOMImportJobInput {
         clientToken: Swift.String? = nil,
         dataAccessRoleArn: Swift.String? = nil,
         datastoreId: Swift.String? = nil,
+        inputOwnerAccountId: Swift.String? = nil,
         inputS3Uri: Swift.String? = nil,
         jobName: Swift.String? = nil,
         outputS3Uri: Swift.String? = nil
@@ -2785,6 +2789,7 @@ public struct StartDICOMImportJobInput {
         self.clientToken = clientToken
         self.dataAccessRoleArn = dataAccessRoleArn
         self.datastoreId = datastoreId
+        self.inputOwnerAccountId = inputOwnerAccountId
         self.inputS3Uri = inputS3Uri
         self.jobName = jobName
         self.outputS3Uri = outputS3Uri

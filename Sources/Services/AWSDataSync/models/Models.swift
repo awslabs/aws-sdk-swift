@@ -8024,6 +8024,7 @@ extension DataSyncClientTypes {
 extension DataSyncClientTypes {
 
     public enum TaskExecutionStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case cancelling
         case error
         case launching
         case preparing
@@ -8035,6 +8036,7 @@ extension DataSyncClientTypes {
 
         public static var allCases: [TaskExecutionStatus] {
             return [
+                .cancelling,
                 .error,
                 .launching,
                 .preparing,
@@ -8053,6 +8055,7 @@ extension DataSyncClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .cancelling: return "CANCELLING"
             case .error: return "ERROR"
             case .launching: return "LAUNCHING"
             case .preparing: return "PREPARING"

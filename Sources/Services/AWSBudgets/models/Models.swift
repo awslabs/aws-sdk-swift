@@ -511,7 +511,7 @@ extension BudgetsClientTypes {
         public var budgetType: BudgetsClientTypes.BudgetType?
         /// The actual and forecasted cost or usage that the budget tracks.
         public var calculatedSpend: BudgetsClientTypes.CalculatedSpend?
-        /// The cost filters, such as Region, Service, member account, Tag, or Cost Category, that are applied to a budget. Amazon Web Services Budgets supports the following services as a Service filter for RI budgets:
+        /// The cost filters, such as Region, Service, LinkedAccount, Tag, or CostCategory, that are applied to a budget. Amazon Web Services Budgets supports the following services as a Service filter for RI budgets:
         ///
         /// * Amazon EC2
         ///
@@ -910,6 +910,7 @@ extension CreateBudgetActionInput {
         try writer["Definition"].write(value.definition, with: BudgetsClientTypes.Definition.write(value:to:))
         try writer["ExecutionRoleArn"].write(value.executionRoleArn)
         try writer["NotificationType"].write(value.notificationType)
+        try writer["ResourceTags"].writeList(value.resourceTags, memberWritingClosure: BudgetsClientTypes.ResourceTag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Subscribers"].writeList(value.subscribers, memberWritingClosure: BudgetsClientTypes.Subscriber.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
@@ -939,6 +940,8 @@ public struct CreateBudgetActionInput {
     /// The type of a notification. It must be ACTUAL or FORECASTED.
     /// This member is required.
     public var notificationType: BudgetsClientTypes.NotificationType?
+    /// An optional list of tags to associate with the specified budget action. Each tag consists of a key and a value, and each key must be unique for the resource.
+    public var resourceTags: [BudgetsClientTypes.ResourceTag]?
     /// A list of subscribers.
     /// This member is required.
     public var subscribers: [BudgetsClientTypes.Subscriber]?
@@ -952,6 +955,7 @@ public struct CreateBudgetActionInput {
         definition: BudgetsClientTypes.Definition? = nil,
         executionRoleArn: Swift.String? = nil,
         notificationType: BudgetsClientTypes.NotificationType? = nil,
+        resourceTags: [BudgetsClientTypes.ResourceTag]? = nil,
         subscribers: [BudgetsClientTypes.Subscriber]? = nil
     )
     {
@@ -963,6 +967,7 @@ public struct CreateBudgetActionInput {
         self.definition = definition
         self.executionRoleArn = executionRoleArn
         self.notificationType = notificationType
+        self.resourceTags = resourceTags
         self.subscribers = subscribers
     }
 }
@@ -1018,6 +1023,7 @@ enum CreateBudgetActionOutputError {
             case "InternalErrorException": return try InternalErrorException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -1038,6 +1044,7 @@ extension CreateBudgetInput {
         try writer["AccountId"].write(value.accountId)
         try writer["Budget"].write(value.budget, with: BudgetsClientTypes.Budget.write(value:to:))
         try writer["NotificationsWithSubscribers"].writeList(value.notificationsWithSubscribers, memberWritingClosure: BudgetsClientTypes.NotificationWithSubscribers.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ResourceTags"].writeList(value.resourceTags, memberWritingClosure: BudgetsClientTypes.ResourceTag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -1051,16 +1058,20 @@ public struct CreateBudgetInput {
     public var budget: BudgetsClientTypes.Budget?
     /// A notification that you want to associate with a budget. A budget can have up to five notifications, and each notification can have one SNS subscriber and up to 10 email subscribers. If you include notifications and subscribers in your CreateBudget call, Amazon Web Services creates the notifications and subscribers for you.
     public var notificationsWithSubscribers: [BudgetsClientTypes.NotificationWithSubscribers]?
+    /// An optional list of tags to associate with the specified budget. Each tag consists of a key and a value, and each key must be unique for the resource.
+    public var resourceTags: [BudgetsClientTypes.ResourceTag]?
 
     public init(
         accountId: Swift.String? = nil,
         budget: BudgetsClientTypes.Budget? = nil,
-        notificationsWithSubscribers: [BudgetsClientTypes.NotificationWithSubscribers]? = nil
+        notificationsWithSubscribers: [BudgetsClientTypes.NotificationWithSubscribers]? = nil,
+        resourceTags: [BudgetsClientTypes.ResourceTag]? = nil
     )
     {
         self.accountId = accountId
         self.budget = budget
         self.notificationsWithSubscribers = notificationsWithSubscribers
+        self.resourceTags = resourceTags
     }
 }
 
@@ -1090,6 +1101,7 @@ enum CreateBudgetOutputError {
             case "DuplicateRecordException": return try DuplicateRecordException.makeError(baseError: baseError)
             case "InternalErrorException": return try InternalErrorException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -3044,6 +3056,76 @@ public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension ListTagsForResourceInput {
+
+    static func write(value: ListTagsForResourceInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ResourceARN"].write(value.resourceARN)
+    }
+}
+
+public struct ListTagsForResourceInput {
+    /// The unique identifier for the resource.
+    /// This member is required.
+    public var resourceARN: Swift.String?
+
+    public init(
+        resourceARN: Swift.String? = nil
+    )
+    {
+        self.resourceARN = resourceARN
+    }
+}
+
+extension ListTagsForResourceOutput {
+
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTagsForResourceOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListTagsForResourceOutput()
+        value.resourceTags = try reader["ResourceTags"].readListIfPresent(memberReadingClosure: BudgetsClientTypes.ResourceTag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+public struct ListTagsForResourceOutput {
+    /// The tags associated with the resource.
+    public var resourceTags: [BudgetsClientTypes.ResourceTag]?
+
+    public init(
+        resourceTags: [BudgetsClientTypes.ResourceTag]? = nil
+    )
+    {
+        self.resourceTags = resourceTags
+    }
+}
+
+enum ListTagsForResourceOutputError {
+
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalErrorException": return try InternalErrorException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 extension NotFoundException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> NotFoundException {
@@ -3278,6 +3360,45 @@ public struct ResourceLockedException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
+extension BudgetsClientTypes.ResourceTag {
+
+    static func write(value: BudgetsClientTypes.ResourceTag?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Key"].write(value.key)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BudgetsClientTypes.ResourceTag {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BudgetsClientTypes.ResourceTag()
+        value.key = try reader["Key"].readIfPresent()
+        value.value = try reader["Value"].readIfPresent()
+        return value
+    }
+}
+
+extension BudgetsClientTypes {
+    /// The tag structure that contains a tag key and value.
+    public struct ResourceTag {
+        /// The key that's associated with the tag.
+        /// This member is required.
+        public var key: Swift.String?
+        /// The value that's associated with the tag.
+        /// This member is required.
+        public var value: Swift.String?
+
+        public init(
+            key: Swift.String? = nil,
+            value: Swift.String? = nil
+        )
+        {
+            self.key = key
+            self.value = value
+        }
+    }
+
+}
+
 extension BudgetsClientTypes.ScpActionDefinition {
 
     static func write(value: BudgetsClientTypes.ScpActionDefinition?, to writer: SmithyJSON.Writer) throws {
@@ -3315,6 +3436,44 @@ extension BudgetsClientTypes {
         }
     }
 
+}
+
+extension ServiceQuotaExceededException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceQuotaExceededException {
+        let reader = baseError.errorBodyReader
+        var value = ServiceQuotaExceededException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+/// You've reached the limit on the number of tags you can associate with a resource.
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        /// The error message the exception carries.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServiceQuotaExceededException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
 }
 
 extension BudgetsClientTypes.Spend {
@@ -3492,6 +3651,71 @@ extension BudgetsClientTypes {
     }
 }
 
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension TagResourceInput {
+
+    static func write(value: TagResourceInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ResourceARN"].write(value.resourceARN)
+        try writer["ResourceTags"].writeList(value.resourceTags, memberWritingClosure: BudgetsClientTypes.ResourceTag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+public struct TagResourceInput {
+    /// The unique identifier for the resource.
+    /// This member is required.
+    public var resourceARN: Swift.String?
+    /// The tags associated with the resource.
+    /// This member is required.
+    public var resourceTags: [BudgetsClientTypes.ResourceTag]?
+
+    public init(
+        resourceARN: Swift.String? = nil,
+        resourceTags: [BudgetsClientTypes.ResourceTag]? = nil
+    )
+    {
+        self.resourceARN = resourceARN
+        self.resourceTags = resourceTags
+    }
+}
+
+extension TagResourceOutput {
+
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> TagResourceOutput {
+        return TagResourceOutput()
+    }
+}
+
+public struct TagResourceOutput {
+
+    public init() { }
+}
+
+enum TagResourceOutputError {
+
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalErrorException": return try InternalErrorException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 extension BudgetsClientTypes {
 
     /// The type of threshold for a notification.
@@ -3631,6 +3855,70 @@ extension BudgetsClientTypes {
             case .quarterly: return "QUARTERLY"
             case let .sdkUnknown(s): return s
             }
+        }
+    }
+}
+
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension UntagResourceInput {
+
+    static func write(value: UntagResourceInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ResourceARN"].write(value.resourceARN)
+        try writer["ResourceTagKeys"].writeList(value.resourceTagKeys, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+public struct UntagResourceInput {
+    /// The unique identifier for the resource.
+    /// This member is required.
+    public var resourceARN: Swift.String?
+    /// The key that's associated with the tag.
+    /// This member is required.
+    public var resourceTagKeys: [Swift.String]?
+
+    public init(
+        resourceARN: Swift.String? = nil,
+        resourceTagKeys: [Swift.String]? = nil
+    )
+    {
+        self.resourceARN = resourceARN
+        self.resourceTagKeys = resourceTagKeys
+    }
+}
+
+extension UntagResourceOutput {
+
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UntagResourceOutput {
+        return UntagResourceOutput()
+    }
+}
+
+public struct UntagResourceOutput {
+
+    public init() { }
+}
+
+enum UntagResourceOutputError {
+
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalErrorException": return try InternalErrorException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }

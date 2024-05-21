@@ -664,100 +664,6 @@ extension RDSDataClientTypes {
     }
 }
 
-extension ExecuteSqlInput {
-
-    static func urlPathProvider(_ value: ExecuteSqlInput) -> Swift.String? {
-        return "/ExecuteSql"
-    }
-}
-
-extension ExecuteSqlInput {
-
-    static func write(value: ExecuteSqlInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["awsSecretStoreArn"].write(value.awsSecretStoreArn)
-        try writer["database"].write(value.database)
-        try writer["dbClusterOrInstanceArn"].write(value.dbClusterOrInstanceArn)
-        try writer["schema"].write(value.schema)
-        try writer["sqlStatements"].write(value.sqlStatements)
-    }
-}
-
-/// The request parameters represent the input of a request to run one or more SQL statements.
-public struct ExecuteSqlInput {
-    /// The Amazon Resource Name (ARN) of the secret that enables access to the DB cluster. Enter the database user name and password for the credentials in the secret. For information about creating the secret, see [Create a database secret](https://docs.aws.amazon.com/secretsmanager/latest/userguide/create_database_secret.html).
-    /// This member is required.
-    public var awsSecretStoreArn: Swift.String?
-    /// The name of the database.
-    public var database: Swift.String?
-    /// The ARN of the Aurora Serverless DB cluster.
-    /// This member is required.
-    public var dbClusterOrInstanceArn: Swift.String?
-    /// The name of the database schema.
-    public var schema: Swift.String?
-    /// One or more SQL statements to run on the DB cluster. You can separate SQL statements from each other with a semicolon (;). Any valid SQL statement is permitted, including data definition, data manipulation, and commit statements.
-    /// This member is required.
-    public var sqlStatements: Swift.String?
-
-    public init(
-        awsSecretStoreArn: Swift.String? = nil,
-        database: Swift.String? = nil,
-        dbClusterOrInstanceArn: Swift.String? = nil,
-        schema: Swift.String? = nil,
-        sqlStatements: Swift.String? = nil
-    )
-    {
-        self.awsSecretStoreArn = awsSecretStoreArn
-        self.database = database
-        self.dbClusterOrInstanceArn = dbClusterOrInstanceArn
-        self.schema = schema
-        self.sqlStatements = sqlStatements
-    }
-}
-
-extension ExecuteSqlOutput {
-
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ExecuteSqlOutput {
-        let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let reader = responseReader
-        var value = ExecuteSqlOutput()
-        value.sqlStatementResults = try reader["sqlStatementResults"].readListIfPresent(memberReadingClosure: RDSDataClientTypes.SqlStatementResult.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-/// The response elements represent the output of a request to run one or more SQL statements.
-public struct ExecuteSqlOutput {
-    /// The results of the SQL statement or statements.
-    public var sqlStatementResults: [RDSDataClientTypes.SqlStatementResult]?
-
-    public init(
-        sqlStatementResults: [RDSDataClientTypes.SqlStatementResult]? = nil
-    )
-    {
-        self.sqlStatementResults = sqlStatementResults
-    }
-}
-
-enum ExecuteSqlOutputError {
-
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
-        let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
-        if let error = baseError.customError() { return error }
-        switch baseError.code {
-            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
-            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
-            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
-            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
-            case "ServiceUnavailableError": return try ServiceUnavailableError.makeError(baseError: baseError)
-            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
-        }
-    }
-}
-
 extension ExecuteStatementInput {
 
     static func urlPathProvider(_ value: ExecuteStatementInput) -> Swift.String? {
@@ -1187,32 +1093,6 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
 public enum RDSDataClientTypes {}
 
-extension RDSDataClientTypes.Record {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RDSDataClientTypes.Record {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSDataClientTypes.Record()
-        value.values = try reader["values"].readListIfPresent(memberReadingClosure: RDSDataClientTypes.Value.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension RDSDataClientTypes {
-    /// A record returned by a call. This data structure is only used with the deprecated ExecuteSql operation. Use the BatchExecuteStatement or ExecuteStatement operation instead.
-    public struct Record {
-        /// The values returned in the record.
-        public var values: [RDSDataClientTypes.Value]?
-
-        public init(
-            values: [RDSDataClientTypes.Value]? = nil
-        )
-        {
-            self.values = values
-        }
-    }
-
-}
-
 extension RDSDataClientTypes {
 
     public enum RecordsFormatType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -1241,68 +1121,6 @@ extension RDSDataClientTypes {
             }
         }
     }
-}
-
-extension RDSDataClientTypes.ResultFrame {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RDSDataClientTypes.ResultFrame {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSDataClientTypes.ResultFrame()
-        value.resultSetMetadata = try reader["resultSetMetadata"].readIfPresent(with: RDSDataClientTypes.ResultSetMetadata.read(from:))
-        value.records = try reader["records"].readListIfPresent(memberReadingClosure: RDSDataClientTypes.Record.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension RDSDataClientTypes {
-    /// The result set returned by a SQL statement. This data structure is only used with the deprecated ExecuteSql operation. Use the BatchExecuteStatement or ExecuteStatement operation instead.
-    public struct ResultFrame {
-        /// The records in the result set.
-        public var records: [RDSDataClientTypes.Record]?
-        /// The result-set metadata in the result set.
-        public var resultSetMetadata: RDSDataClientTypes.ResultSetMetadata?
-
-        public init(
-            records: [RDSDataClientTypes.Record]? = nil,
-            resultSetMetadata: RDSDataClientTypes.ResultSetMetadata? = nil
-        )
-        {
-            self.records = records
-            self.resultSetMetadata = resultSetMetadata
-        }
-    }
-
-}
-
-extension RDSDataClientTypes.ResultSetMetadata {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RDSDataClientTypes.ResultSetMetadata {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSDataClientTypes.ResultSetMetadata()
-        value.columnCount = try reader["columnCount"].readIfPresent() ?? 0
-        value.columnMetadata = try reader["columnMetadata"].readListIfPresent(memberReadingClosure: RDSDataClientTypes.ColumnMetadata.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension RDSDataClientTypes {
-    /// The metadata of the result set returned by a SQL statement.
-    public struct ResultSetMetadata {
-        /// The number of columns in the result set.
-        public var columnCount: Swift.Int
-        /// The metadata of the columns in the result set.
-        public var columnMetadata: [RDSDataClientTypes.ColumnMetadata]?
-
-        public init(
-            columnCount: Swift.Int = 0,
-            columnMetadata: [RDSDataClientTypes.ColumnMetadata]? = nil
-        )
-        {
-            self.columnCount = columnCount
-            self.columnMetadata = columnMetadata
-        }
-    }
-
 }
 
 extension RDSDataClientTypes.ResultSetOptions {
@@ -1540,37 +1358,6 @@ extension RDSDataClientTypes {
 
 }
 
-extension RDSDataClientTypes.SqlStatementResult {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RDSDataClientTypes.SqlStatementResult {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSDataClientTypes.SqlStatementResult()
-        value.resultFrame = try reader["resultFrame"].readIfPresent(with: RDSDataClientTypes.ResultFrame.read(from:))
-        value.numberOfRecordsUpdated = try reader["numberOfRecordsUpdated"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension RDSDataClientTypes {
-    /// The result of a SQL statement. This data structure is only used with the deprecated ExecuteSql operation. Use the BatchExecuteStatement or ExecuteStatement operation instead.
-    public struct SqlStatementResult {
-        /// The number of records updated by a SQL statement.
-        public var numberOfRecordsUpdated: Swift.Int
-        /// The result set of the SQL statement.
-        public var resultFrame: RDSDataClientTypes.ResultFrame?
-
-        public init(
-            numberOfRecordsUpdated: Swift.Int = 0,
-            resultFrame: RDSDataClientTypes.ResultFrame? = nil
-        )
-        {
-            self.numberOfRecordsUpdated = numberOfRecordsUpdated
-            self.resultFrame = resultFrame
-        }
-    }
-
-}
-
 extension StatementTimeoutException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> StatementTimeoutException {
@@ -1612,32 +1399,6 @@ public struct StatementTimeoutException: ClientRuntime.ModeledError, AWSClientRu
         self.properties.dbConnectionId = dbConnectionId
         self.properties.message = message
     }
-}
-
-extension RDSDataClientTypes.StructValue {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RDSDataClientTypes.StructValue {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSDataClientTypes.StructValue()
-        value.attributes = try reader["attributes"].readListIfPresent(memberReadingClosure: RDSDataClientTypes.Value.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension RDSDataClientTypes {
-    /// A structure value returned by a call. This data structure is only used with the deprecated ExecuteSql operation. Use the BatchExecuteStatement or ExecuteStatement operation instead.
-    public struct StructValue {
-        /// The attributes returned in the record.
-        public var attributes: [RDSDataClientTypes.Value]?
-
-        public init(
-            attributes: [RDSDataClientTypes.Value]? = nil
-        )
-        {
-            self.attributes = attributes
-        }
-    }
-
 }
 
 extension TransactionNotFoundException {
@@ -1784,66 +1545,6 @@ extension RDSDataClientTypes {
         {
             self.generatedFields = generatedFields
         }
-    }
-
-}
-
-extension RDSDataClientTypes.Value {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RDSDataClientTypes.Value {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "isNull":
-                return .isnull(try reader["isNull"].read())
-            case "bitValue":
-                return .bitvalue(try reader["bitValue"].read())
-            case "bigIntValue":
-                return .bigintvalue(try reader["bigIntValue"].read())
-            case "intValue":
-                return .intvalue(try reader["intValue"].read())
-            case "doubleValue":
-                return .doublevalue(try reader["doubleValue"].read())
-            case "realValue":
-                return .realvalue(try reader["realValue"].read())
-            case "stringValue":
-                return .stringvalue(try reader["stringValue"].read())
-            case "blobValue":
-                return .blobvalue(try reader["blobValue"].read())
-            case "arrayValues":
-                return .arrayvalues(try reader["arrayValues"].readList(memberReadingClosure: RDSDataClientTypes.Value.read(from:), memberNodeInfo: "member", isFlattened: false))
-            case "structValue":
-                return .structvalue(try reader["structValue"].read(with: RDSDataClientTypes.StructValue.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension RDSDataClientTypes {
-    /// Contains the value of a column. This data structure is only used with the deprecated ExecuteSql operation. Use the BatchExecuteStatement or ExecuteStatement operation instead.
-    public indirect enum Value {
-        /// A NULL value.
-        case isnull(Swift.Bool)
-        /// A value for a column of BIT data type.
-        case bitvalue(Swift.Bool)
-        /// A value for a column of big integer data type.
-        case bigintvalue(Swift.Int)
-        /// A value for a column of integer data type.
-        case intvalue(Swift.Int)
-        /// A value for a column of double data type.
-        case doublevalue(Swift.Double)
-        /// A value for a column of real data type.
-        case realvalue(Swift.Float)
-        /// A value for a column of string data type.
-        case stringvalue(Swift.String)
-        /// A value for a column of BLOB data type.
-        case blobvalue(ClientRuntime.Data)
-        /// An array of column values.
-        case arrayvalues([RDSDataClientTypes.Value])
-        /// A value for a column of STRUCT data type.
-        case structvalue(RDSDataClientTypes.StructValue)
-        case sdkUnknown(Swift.String)
     }
 
 }

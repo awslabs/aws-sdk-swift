@@ -1118,7 +1118,7 @@ extension CreateLoadBalancerInput {
 public struct CreateLoadBalancerInput {
     /// [Application Load Balancers on Outposts] The ID of the customer-owned address pool (CoIP pool).
     public var customerOwnedIpv4Pool: Swift.String?
-    /// The type of IP addresses used by the subnets for your load balancer. The possible values are ipv4 (for IPv4 addresses) and dualstack (for IPv4 and IPv6 addresses).
+    /// Note: Internal load balancers must use the ipv4 IP address type. [Application Load Balancers] The IP address type. The possible values are ipv4 (for only IPv4 addresses), dualstack (for IPv4 and IPv6 addresses), and dualstack-without-public-ipv4 (for IPv6 only public addresses, with private IPv4 and IPv6 addresses). [Network Load Balancers] The IP address type. The possible values are ipv4 (for only IPv4 addresses) and dualstack (for IPv4 and IPv6 addresses). You can’t specify dualstack for a load balancer with a UDP or TCP_UDP listener. [Gateway Load Balancers] The IP address type. The possible values are ipv4 (for only IPv4 addresses) and dualstack (for IPv4 and IPv6 addresses).
     public var ipAddressType: ElasticLoadBalancingv2ClientTypes.IpAddressType?
     /// The name of the load balancer. This name must be unique per region per account, can have a maximum of 32 characters, must contain only alphanumeric characters or hyphens, must not begin or end with a hyphen, and must not begin with "internal-".
     /// This member is required.
@@ -4053,12 +4053,14 @@ extension ElasticLoadBalancingv2ClientTypes {
 
     public enum IpAddressType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case dualstack
+        case dualstackWithoutPublicIpv4
         case ipv4
         case sdkUnknown(Swift.String)
 
         public static var allCases: [IpAddressType] {
             return [
                 .dualstack,
+                .dualstackWithoutPublicIpv4,
                 .ipv4,
                 .sdkUnknown("")
             ]
@@ -4072,6 +4074,7 @@ extension ElasticLoadBalancingv2ClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .dualstack: return "dualstack"
+            case .dualstackWithoutPublicIpv4: return "dualstack-without-public-ipv4"
             case .ipv4: return "ipv4"
             case let .sdkUnknown(s): return s
             }
@@ -4293,7 +4296,7 @@ extension ElasticLoadBalancingv2ClientTypes {
         public var dnsName: Swift.String?
         /// Indicates whether to evaluate inbound security group rules for traffic sent to a Network Load Balancer through Amazon Web Services PrivateLink.
         public var enforceSecurityGroupInboundRulesOnPrivateLinkTraffic: Swift.String?
-        /// The type of IP addresses used by the subnets for your load balancer. The possible values are ipv4 (for IPv4 addresses) and dualstack (for IPv4 and IPv6 addresses).
+        /// [Application Load Balancers] The type of IP addresses used for public or private connections by the subnets attached to your load balancer. The possible values are ipv4 (for only IPv4 addresses), dualstack (for IPv4 and IPv6 addresses), and dualstack-without-public-ipv4 (for IPv6 only public addresses, with private IPv4 and IPv6 addresses). [Network Load Balancers and Gateway Load Balancers] The type of IP addresses used for public or private connections by the subnets attached to your load balancer. The possible values are ipv4 (for only IPv4 addresses) and dualstack (for IPv4 and IPv6 addresses).
         public var ipAddressType: ElasticLoadBalancingv2ClientTypes.IpAddressType?
         /// The Amazon Resource Name (ARN) of the load balancer.
         public var loadBalancerArn: Swift.String?
@@ -6364,7 +6367,7 @@ extension SetIpAddressTypeInput {
 }
 
 public struct SetIpAddressTypeInput {
-    /// The IP address type. The possible values are ipv4 (for IPv4 addresses) and dualstack (for IPv4 and IPv6 addresses). You can’t specify dualstack for a load balancer with a UDP or TCP_UDP listener.
+    /// Note: Internal load balancers must use the ipv4 IP address type. [Application Load Balancers] The IP address type. The possible values are ipv4 (for only IPv4 addresses), dualstack (for IPv4 and IPv6 addresses), and dualstack-without-public-ipv4 (for IPv6 only public addresses, with private IPv4 and IPv6 addresses). [Network Load Balancers] The IP address type. The possible values are ipv4 (for only IPv4 addresses) and dualstack (for IPv4 and IPv6 addresses). You can’t specify dualstack for a load balancer with a UDP or TCP_UDP listener. [Gateway Load Balancers] The IP address type. The possible values are ipv4 (for only IPv4 addresses) and dualstack (for IPv4 and IPv6 addresses).
     /// This member is required.
     public var ipAddressType: ElasticLoadBalancingv2ClientTypes.IpAddressType?
     /// The Amazon Resource Name (ARN) of the load balancer.
@@ -6598,7 +6601,7 @@ extension SetSubnetsInput {
 }
 
 public struct SetSubnetsInput {
-    /// [Network Load Balancers] The type of IP addresses used by the subnets for your load balancer. The possible values are ipv4 (for IPv4 addresses) and dualstack (for IPv4 and IPv6 addresses). You can’t specify dualstack for a load balancer with a UDP or TCP_UDP listener. [Gateway Load Balancers] The type of IP addresses used by the subnets for your load balancer. The possible values are ipv4 (for IPv4 addresses) and dualstack (for IPv4 and IPv6 addresses).
+    /// [Application Load Balancers] The IP address type. The possible values are ipv4 (for only IPv4 addresses), dualstack (for IPv4 and IPv6 addresses), and dualstack-without-public-ipv4 (for IPv6 only public addresses, with private IPv4 and IPv6 addresses). [Network Load Balancers] The type of IP addresses used by the subnets for your load balancer. The possible values are ipv4 (for IPv4 addresses) and dualstack (for IPv4 and IPv6 addresses). You can’t specify dualstack for a load balancer with a UDP or TCP_UDP listener. [Gateway Load Balancers] The type of IP addresses used by the subnets for your load balancer. The possible values are ipv4 (for IPv4 addresses) and dualstack (for IPv4 and IPv6 addresses).
     public var ipAddressType: ElasticLoadBalancingv2ClientTypes.IpAddressType?
     /// The Amazon Resource Name (ARN) of the load balancer.
     /// This member is required.
@@ -6638,7 +6641,7 @@ extension SetSubnetsOutput {
 public struct SetSubnetsOutput {
     /// Information about the subnets.
     public var availabilityZones: [ElasticLoadBalancingv2ClientTypes.AvailabilityZone]?
-    /// [Network Load Balancers] The IP address type. [Gateway Load Balancers] The IP address type.
+    /// [Application Load Balancers] The IP address type. [Network Load Balancers] The IP address type. [Gateway Load Balancers] The IP address type.
     public var ipAddressType: ElasticLoadBalancingv2ClientTypes.IpAddressType?
 
     public init(

@@ -159,7 +159,7 @@ public struct AssociateResourceToProfileInput {
     /// Amazon resource number, ARN, of the DNS resource.
     /// This member is required.
     public var resourceArn: Swift.String?
-    /// If you are adding a DNS Firewall rule group, include also a priority in this format: Key=FirewallRuleGroupPriority,Value=100
+    /// If you are adding a DNS Firewall rule group, include also a priority. The priority indicates the processing order for the rule groups, starting with the priority assinged the lowest value. The allowed values for priority are between 100 and 9900.
     public var resourceProperties: Swift.String?
 
     public init(
@@ -1911,7 +1911,7 @@ public struct UpdateProfileResourceAssociationInput {
     /// ID of the resource association.
     /// This member is required.
     public var profileResourceAssociationId: Swift.String?
-    /// If you are adding a DNS Firewall rule group, include also a priority in this format: Key=FirewallRuleGroupPriority,Value=100.
+    /// If you are adding a DNS Firewall rule group, include also a priority. The priority indicates the processing order for the rule groups, starting with the priority assinged the lowest value. The allowed values for priority are between 100 and 9900.
     public var resourceProperties: Swift.String?
 
     public init(

@@ -212,8 +212,6 @@ extension SQSClient {
     ///
     /// * This action is currently limited to supporting message redrive from [dead-letter queues (DLQs)](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-dead-letter-queues.html) only. In this context, the source queue is the dead-letter queue (DLQ), while the destination queue can be the original source queue (from which the messages were driven to the dead-letter-queue), or a custom destination queue.
     ///
-    /// * Currently, only standard queues are supported.
-    ///
     /// * Only one active message movement task is supported per queue at any given time.
     ///
     /// - Parameter CancelMessageMoveTaskInput : [no documentation found]
@@ -879,8 +877,6 @@ extension SQSClient {
     ///
     /// * This action is currently limited to supporting message redrive from [dead-letter queues (DLQs)](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-dead-letter-queues.html) only. In this context, the source queue is the dead-letter queue (DLQ), while the destination queue can be the original source queue (from which the messages were driven to the dead-letter-queue), or a custom destination queue.
     ///
-    /// * Currently, only standard queues are supported.
-    ///
     /// * Only one active message movement task is supported per queue at any given time.
     ///
     /// - Parameter ListMessageMoveTasksInput : [no documentation found]
@@ -1438,7 +1434,7 @@ extension SQSClient {
 
     /// Performs the `SetQueueAttributes` operation on the `AmazonSQS` service.
     ///
-    /// Sets the value of one or more queue attributes. When you change a queue's attributes, the change can take up to 60 seconds for most of the attributes to propagate throughout the Amazon SQS system. Changes made to the MessageRetentionPeriod attribute can take up to 15 minutes and will impact existing messages in the queue potentially causing them to be expired and deleted if the MessageRetentionPeriod is reduced below the age of existing messages.
+    /// Sets the value of one or more queue attributes, like a policy. When you change a queue's attributes, the change can take up to 60 seconds for most of the attributes to propagate throughout the Amazon SQS system. Changes made to the MessageRetentionPeriod attribute can take up to 15 minutes and will impact existing messages in the queue potentially causing them to be expired and deleted if the MessageRetentionPeriod is reduced below the age of existing messages.
     ///
     /// * In the future, new attributes might be added. If you write code that calls this action, we recommend that you structure your code so that it can handle new attributes gracefully.
     ///
@@ -1514,8 +1510,6 @@ extension SQSClient {
     /// * This action is currently limited to supporting message redrive from queues that are configured as [dead-letter queues (DLQs)](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-dead-letter-queues.html) of other Amazon SQS queues only. Non-SQS queue sources of dead-letter queues, such as Lambda or Amazon SNS topics, are currently not supported.
     ///
     /// * In dead-letter queues redrive context, the StartMessageMoveTask the source queue is the DLQ, while the destination queue can be the original source queue (from which the messages were driven to the dead-letter-queue), or a custom destination queue.
-    ///
-    /// * Currently, only standard queues support redrive. FIFO queues don't support redrive.
     ///
     /// * Only one active message movement task is supported per queue at any given time.
     ///

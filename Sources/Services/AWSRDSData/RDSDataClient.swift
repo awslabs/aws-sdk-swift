@@ -331,59 +331,6 @@ extension RDSDataClient {
         return result
     }
 
-    /// Performs the `ExecuteSql` operation on the `RdsDataService` service.
-    ///
-    /// Runs one or more SQL statements. This operation isn't supported for Aurora PostgreSQL Serverless v2 and provisioned DB clusters, and for Aurora Serverless v1 DB clusters, the operation is deprecated. Use the BatchExecuteStatement or ExecuteStatement operation.
-    @available(*, deprecated, message: "The ExecuteSql API is deprecated, please use the ExecuteStatement API. API deprecated since 2019-03-21")
-    ///
-    /// - Parameter ExecuteSqlInput : The request parameters represent the input of a request to run one or more SQL statements.
-    ///
-    /// - Returns: `ExecuteSqlOutput` : The response elements represent the output of a request to run one or more SQL statements.
-    ///
-    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
-    ///
-    /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have sufficient access to perform this action.
-    /// - `BadRequestException` : There is an error in the call or in a SQL statement. (This error only appears in calls from Aurora Serverless v1 databases.)
-    /// - `ForbiddenException` : There are insufficient privileges to make the call.
-    /// - `InternalServerErrorException` : An internal error occurred.
-    /// - `ServiceUnavailableError` : The service specified by the resourceArn parameter isn't available.
-    public func executeSql(input: ExecuteSqlInput) async throws -> ExecuteSqlOutput {
-        let context = ClientRuntime.HttpContextBuilder()
-                      .withMethod(value: .post)
-                      .withServiceName(value: serviceName)
-                      .withOperation(value: "executeSql")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
-                      .withRegion(value: config.region)
-                      .withSigningName(value: "rds-data")
-                      .withSigningRegion(value: config.signingRegion)
-                      .build()
-        var operation = ClientRuntime.OperationStack<ExecuteSqlInput, ExecuteSqlOutput>(id: "executeSql")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ExecuteSqlInput, ExecuteSqlOutput>(ExecuteSqlInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ExecuteSqlInput, ExecuteSqlOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ExecuteSqlOutput>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<ExecuteSqlInput, ExecuteSqlOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ExecuteSqlOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ExecuteSqlInput, ExecuteSqlOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ExecuteSqlInput, ExecuteSqlOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ExecuteSqlInput.write(value:to:)))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<ExecuteSqlInput, ExecuteSqlOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ExecuteSqlOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ExecuteSqlOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ExecuteSqlOutput>(ExecuteSqlOutput.httpOutput(from:), ExecuteSqlOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ExecuteSqlInput, ExecuteSqlOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
-    }
-
     /// Performs the `ExecuteStatement` operation on the `RdsDataService` service.
     ///
     /// Runs a SQL statement against a database. If a call isn't part of a transaction because it doesn't include the transactionID parameter, changes that result from the call are committed automatically. If the binary response data from the database is more than 1 MB, the call is terminated.

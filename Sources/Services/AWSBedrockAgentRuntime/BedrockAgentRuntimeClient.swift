@@ -134,7 +134,7 @@ public struct BedrockAgentRuntimeClientLogHandlerFactory: ClientRuntime.SDKLogHa
 extension BedrockAgentRuntimeClient {
     /// Performs the `InvokeAgent` operation on the `AmazonBedrockAgentRunTimeService` service.
     ///
-    /// Sends a prompt for the agent to process and respond to. Use return control event type for function calling. The CLI doesn't support InvokeAgent.
+    /// The CLI doesn't support InvokeAgent. Sends a prompt for the agent to process and respond to. Note the following fields for the request:
     ///
     /// * To continue the same conversation with an agent, use the same sessionId value in the request.
     ///
@@ -142,9 +142,7 @@ extension BedrockAgentRuntimeClient {
     ///
     /// * End a conversation by setting endSession to true.
     ///
-    /// * In the sessionState object, you can include attributes for the session or prompt or parameters returned from the action group.
-    ///
-    /// * Use return control event type for function calling.
+    /// * In the sessionState object, you can include attributes for the session or prompt or, if you configured an action group to return control, results from invocation of the action group.
     ///
     ///
     /// The response is returned in the bytes field of the chunk object.
@@ -152,6 +150,8 @@ extension BedrockAgentRuntimeClient {
     /// * The attribution object contains citations for parts of the response.
     ///
     /// * If you set enableTrace to true in the request, you can trace the agent's steps and reasoning process that led it to the response.
+    ///
+    /// * If the action predicted was configured to return control, the response returns parameters for the action, elicited from the user, in the returnControl field.
     ///
     /// * Errors are also surfaced in the response.
     ///
