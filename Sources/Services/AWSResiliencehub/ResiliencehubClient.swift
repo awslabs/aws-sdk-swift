@@ -1536,6 +1536,57 @@ extension ResiliencehubClient {
         return result
     }
 
+    /// Performs the `ListAppAssessmentResourceDrifts` operation on the `AwsResilienceHub` service.
+    ///
+    /// Indicates the list of resource drifts that were detected while running an assessment.
+    ///
+    /// - Parameter ListAppAssessmentResourceDriftsInput : [no documentation found]
+    ///
+    /// - Returns: `ListAppAssessmentResourceDriftsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions.
+    /// - `InternalServerException` : This exception occurs when there is an internal failure in the Resilience Hub service.
+    /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
+    /// - `ValidationException` : This exception occurs when a request is not valid.
+    public func listAppAssessmentResourceDrifts(input: ListAppAssessmentResourceDriftsInput) async throws -> ListAppAssessmentResourceDriftsOutput {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listAppAssessmentResourceDrifts")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "resiliencehub")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<ListAppAssessmentResourceDriftsInput, ListAppAssessmentResourceDriftsOutput>(id: "listAppAssessmentResourceDrifts")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAppAssessmentResourceDriftsInput, ListAppAssessmentResourceDriftsOutput>(ListAppAssessmentResourceDriftsInput.urlPathProvider(_:)))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAppAssessmentResourceDriftsInput, ListAppAssessmentResourceDriftsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListAppAssessmentResourceDriftsOutput>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<ListAppAssessmentResourceDriftsInput, ListAppAssessmentResourceDriftsOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListAppAssessmentResourceDriftsOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListAppAssessmentResourceDriftsInput, ListAppAssessmentResourceDriftsOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListAppAssessmentResourceDriftsInput, ListAppAssessmentResourceDriftsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListAppAssessmentResourceDriftsInput.write(value:to:)))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<ListAppAssessmentResourceDriftsInput, ListAppAssessmentResourceDriftsOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListAppAssessmentResourceDriftsOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListAppAssessmentResourceDriftsOutput>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAppAssessmentResourceDriftsOutput>(ListAppAssessmentResourceDriftsOutput.httpOutput(from:), ListAppAssessmentResourceDriftsOutputError.httpError(from:)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAppAssessmentResourceDriftsInput, ListAppAssessmentResourceDriftsOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Performs the `ListAppAssessments` operation on the `AwsResilienceHub` service.
     ///
     /// Lists the assessments for an Resilience Hub application. You can use request parameters to refine the results for the response object.

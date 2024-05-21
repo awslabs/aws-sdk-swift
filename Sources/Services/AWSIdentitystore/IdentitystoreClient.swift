@@ -144,15 +144,15 @@ extension IdentitystoreClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
-    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure with an internal server.
-    /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ConflictException` : This request cannot be completed for one of the following reasons:
     ///
     /// * Performing the requested operation would violate an existing uniqueness claim in the identity store. Resolve the conflict before retrying this request.
     ///
     /// * The requested resource was being concurrently modified by another request.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure with an internal server.
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
     /// - `ServiceQuotaExceededException` : The request would cause the number of users or groups in the identity store to exceed the maximum allowed.
+    /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ValidationException` : The request failed because it contains a syntax error.
     public func createGroup(input: CreateGroupInput) async throws -> CreateGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
@@ -203,15 +203,15 @@ extension IdentitystoreClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
-    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure with an internal server.
-    /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ConflictException` : This request cannot be completed for one of the following reasons:
     ///
     /// * Performing the requested operation would violate an existing uniqueness claim in the identity store. Resolve the conflict before retrying this request.
     ///
     /// * The requested resource was being concurrently modified by another request.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure with an internal server.
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
     /// - `ServiceQuotaExceededException` : The request would cause the number of users or groups in the identity store to exceed the maximum allowed.
+    /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ValidationException` : The request failed because it contains a syntax error.
     public func createGroupMembership(input: CreateGroupMembershipInput) async throws -> CreateGroupMembershipOutput {
         let context = ClientRuntime.HttpContextBuilder()
@@ -262,15 +262,15 @@ extension IdentitystoreClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
-    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure with an internal server.
-    /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ConflictException` : This request cannot be completed for one of the following reasons:
     ///
     /// * Performing the requested operation would violate an existing uniqueness claim in the identity store. Resolve the conflict before retrying this request.
     ///
     /// * The requested resource was being concurrently modified by another request.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure with an internal server.
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
     /// - `ServiceQuotaExceededException` : The request would cause the number of users or groups in the identity store to exceed the maximum allowed.
+    /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ValidationException` : The request failed because it contains a syntax error.
     public func createUser(input: CreateUserInput) async throws -> CreateUserOutput {
         let context = ClientRuntime.HttpContextBuilder()
@@ -321,14 +321,14 @@ extension IdentitystoreClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
-    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure with an internal server.
-    /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ConflictException` : This request cannot be completed for one of the following reasons:
     ///
     /// * Performing the requested operation would violate an existing uniqueness claim in the identity store. Resolve the conflict before retrying this request.
     ///
     /// * The requested resource was being concurrently modified by another request.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure with an internal server.
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
+    /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ValidationException` : The request failed because it contains a syntax error.
     public func deleteGroup(input: DeleteGroupInput) async throws -> DeleteGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
@@ -379,14 +379,14 @@ extension IdentitystoreClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
-    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure with an internal server.
-    /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ConflictException` : This request cannot be completed for one of the following reasons:
     ///
     /// * Performing the requested operation would violate an existing uniqueness claim in the identity store. Resolve the conflict before retrying this request.
     ///
     /// * The requested resource was being concurrently modified by another request.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure with an internal server.
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
+    /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ValidationException` : The request failed because it contains a syntax error.
     public func deleteGroupMembership(input: DeleteGroupMembershipInput) async throws -> DeleteGroupMembershipOutput {
         let context = ClientRuntime.HttpContextBuilder()
@@ -437,14 +437,14 @@ extension IdentitystoreClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
-    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure with an internal server.
-    /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ConflictException` : This request cannot be completed for one of the following reasons:
     ///
     /// * Performing the requested operation would violate an existing uniqueness claim in the identity store. Resolve the conflict before retrying this request.
     ///
     /// * The requested resource was being concurrently modified by another request.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure with an internal server.
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
+    /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ValidationException` : The request failed because it contains a syntax error.
     public func deleteUser(input: DeleteUserInput) async throws -> DeleteUserOutput {
         let context = ClientRuntime.HttpContextBuilder()
@@ -496,8 +496,8 @@ extension IdentitystoreClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure with an internal server.
-    /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
+    /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ValidationException` : The request failed because it contains a syntax error.
     public func describeGroup(input: DescribeGroupInput) async throws -> DescribeGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
@@ -549,8 +549,8 @@ extension IdentitystoreClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure with an internal server.
-    /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
+    /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ValidationException` : The request failed because it contains a syntax error.
     public func describeGroupMembership(input: DescribeGroupMembershipInput) async throws -> DescribeGroupMembershipOutput {
         let context = ClientRuntime.HttpContextBuilder()
@@ -602,8 +602,8 @@ extension IdentitystoreClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure with an internal server.
-    /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
+    /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ValidationException` : The request failed because it contains a syntax error.
     public func describeUser(input: DescribeUserInput) async throws -> DescribeUserOutput {
         let context = ClientRuntime.HttpContextBuilder()
@@ -655,8 +655,8 @@ extension IdentitystoreClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure with an internal server.
-    /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
+    /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ValidationException` : The request failed because it contains a syntax error.
     public func getGroupId(input: GetGroupIdInput) async throws -> GetGroupIdOutput {
         let context = ClientRuntime.HttpContextBuilder()
@@ -708,8 +708,8 @@ extension IdentitystoreClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure with an internal server.
-    /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
+    /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ValidationException` : The request failed because it contains a syntax error.
     public func getGroupMembershipId(input: GetGroupMembershipIdInput) async throws -> GetGroupMembershipIdOutput {
         let context = ClientRuntime.HttpContextBuilder()
@@ -761,8 +761,8 @@ extension IdentitystoreClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure with an internal server.
-    /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
+    /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ValidationException` : The request failed because it contains a syntax error.
     public func getUserId(input: GetUserIdInput) async throws -> GetUserIdOutput {
         let context = ClientRuntime.HttpContextBuilder()
@@ -814,8 +814,8 @@ extension IdentitystoreClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure with an internal server.
-    /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
+    /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ValidationException` : The request failed because it contains a syntax error.
     public func isMemberInGroups(input: IsMemberInGroupsInput) async throws -> IsMemberInGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
@@ -867,8 +867,8 @@ extension IdentitystoreClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure with an internal server.
-    /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
+    /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ValidationException` : The request failed because it contains a syntax error.
     public func listGroupMemberships(input: ListGroupMembershipsInput) async throws -> ListGroupMembershipsOutput {
         let context = ClientRuntime.HttpContextBuilder()
@@ -920,8 +920,8 @@ extension IdentitystoreClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure with an internal server.
-    /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
+    /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ValidationException` : The request failed because it contains a syntax error.
     public func listGroupMembershipsForMember(input: ListGroupMembershipsForMemberInput) async throws -> ListGroupMembershipsForMemberOutput {
         let context = ClientRuntime.HttpContextBuilder()
@@ -973,8 +973,8 @@ extension IdentitystoreClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure with an internal server.
-    /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
+    /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ValidationException` : The request failed because it contains a syntax error.
     public func listGroups(input: ListGroupsInput) async throws -> ListGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1026,8 +1026,8 @@ extension IdentitystoreClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure with an internal server.
-    /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
+    /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ValidationException` : The request failed because it contains a syntax error.
     public func listUsers(input: ListUsersInput) async throws -> ListUsersOutput {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1078,15 +1078,15 @@ extension IdentitystoreClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
-    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure with an internal server.
-    /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ConflictException` : This request cannot be completed for one of the following reasons:
     ///
     /// * Performing the requested operation would violate an existing uniqueness claim in the identity store. Resolve the conflict before retrying this request.
     ///
     /// * The requested resource was being concurrently modified by another request.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure with an internal server.
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
     /// - `ServiceQuotaExceededException` : The request would cause the number of users or groups in the identity store to exceed the maximum allowed.
+    /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ValidationException` : The request failed because it contains a syntax error.
     public func updateGroup(input: UpdateGroupInput) async throws -> UpdateGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1137,15 +1137,15 @@ extension IdentitystoreClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
-    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure with an internal server.
-    /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ConflictException` : This request cannot be completed for one of the following reasons:
     ///
     /// * Performing the requested operation would violate an existing uniqueness claim in the identity store. Resolve the conflict before retrying this request.
     ///
     /// * The requested resource was being concurrently modified by another request.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure with an internal server.
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
     /// - `ServiceQuotaExceededException` : The request would cause the number of users or groups in the identity store to exceed the maximum allowed.
+    /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ValidationException` : The request failed because it contains a syntax error.
     public func updateUser(input: UpdateUserInput) async throws -> UpdateUserOutput {
         let context = ClientRuntime.HttpContextBuilder()

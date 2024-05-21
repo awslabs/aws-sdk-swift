@@ -47,6 +47,37 @@ extension ListAppAssessmentComplianceDriftsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension ResiliencehubClient {
+    /// Paginate over `[ListAppAssessmentResourceDriftsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListAppAssessmentResourceDriftsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAppAssessmentResourceDriftsOutput`
+    public func listAppAssessmentResourceDriftsPaginated(input: ListAppAssessmentResourceDriftsInput) -> ClientRuntime.PaginatorSequence<ListAppAssessmentResourceDriftsInput, ListAppAssessmentResourceDriftsOutput> {
+        return ClientRuntime.PaginatorSequence<ListAppAssessmentResourceDriftsInput, ListAppAssessmentResourceDriftsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAppAssessmentResourceDrifts(input:))
+    }
+}
+
+extension ListAppAssessmentResourceDriftsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListAppAssessmentResourceDriftsInput {
+        return ListAppAssessmentResourceDriftsInput(
+            assessmentArn: self.assessmentArn,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListAppAssessmentResourceDriftsInput, OperationStackOutput == ListAppAssessmentResourceDriftsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listAppAssessmentResourceDriftsPaginated`
+    /// to access the nested member `[ResiliencehubClientTypes.ResourceDrift]`
+    /// - Returns: `[ResiliencehubClientTypes.ResourceDrift]`
+    public func resourceDrifts() async throws -> [ResiliencehubClientTypes.ResourceDrift] {
+        return try await self.asyncCompactMap { item in item.resourceDrifts }
+    }
+}
+extension ResiliencehubClient {
     /// Paginate over `[ListAppAssessmentsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

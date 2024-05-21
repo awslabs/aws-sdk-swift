@@ -303,7 +303,16 @@ extension EventBridgeClient {
 
     /// Performs the `CreateArchive` operation on the `AWSEvents` service.
     ///
-    /// Creates an archive of events with the specified settings. When you create an archive, incoming events might not immediately start being sent to the archive. Allow a short period of time for changes to take effect. If you do not specify a pattern to filter events sent to the archive, all events are sent to the archive except replayed events. Replayed events are not sent to an archive.
+    /// Creates an archive of events with the specified settings. When you create an archive, incoming events might not immediately start being sent to the archive. Allow a short period of time for changes to take effect. If you do not specify a pattern to filter events sent to the archive, all events are sent to the archive except replayed events. Replayed events are not sent to an archive. Archives and schema discovery are not supported for event buses encrypted using a customer managed key. EventBridge returns an error if:
+    ///
+    /// * You call [CreateArchive](https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_CreateArchive.html) on an event bus set to use a customer managed key for encryption.
+    ///
+    /// * You call [CreateDiscoverer](https://docs.aws.amazon.com/eventbridge/latest/schema-reference/v1-discoverers.html#CreateDiscoverer) on an event bus set to use a customer managed key for encryption.
+    ///
+    /// * You call [UpdatedEventBus](https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_UpdatedEventBus.html) to set a customer managed key on an event bus with an archives or schema discovery enabled.
+    ///
+    ///
+    /// To enable archives or schema discovery on an event bus, choose to use an Amazon Web Services owned key. For more information, see [Data encryption in EventBridge](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-encryption.html) in the Amazon EventBridge User Guide.
     ///
     /// - Parameter CreateArchiveInput : [no documentation found]
     ///
@@ -873,7 +882,7 @@ extension EventBridgeClient {
 
     /// Performs the `DeleteEndpoint` operation on the `AWSEvents` service.
     ///
-    /// Delete an existing global endpoint. For more information about global endpoints, see [Making applications Regional-fault tolerant with global endpoints and event replication](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-global-endpoints.html) in the Amazon EventBridge User Guide.
+    /// Delete an existing global endpoint. For more information about global endpoints, see [Making applications Regional-fault tolerant with global endpoints and event replication](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-global-endpoints.html) in the Amazon EventBridge User Guide .
     ///
     /// - Parameter DeleteEndpointInput : [no documentation found]
     ///
@@ -1256,7 +1265,7 @@ extension EventBridgeClient {
 
     /// Performs the `DescribeEndpoint` operation on the `AWSEvents` service.
     ///
-    /// Get the information about an existing global endpoint. For more information about global endpoints, see [Making applications Regional-fault tolerant with global endpoints and event replication](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-global-endpoints.html) in the Amazon EventBridge User Guide.
+    /// Get the information about an existing global endpoint. For more information about global endpoints, see [Making applications Regional-fault tolerant with global endpoints and event replication](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-global-endpoints.html) in the Amazon EventBridge User Guide .
     ///
     /// - Parameter DescribeEndpointInput : [no documentation found]
     ///
@@ -1854,7 +1863,7 @@ extension EventBridgeClient {
 
     /// Performs the `ListEndpoints` operation on the `AWSEvents` service.
     ///
-    /// List the global endpoints associated with this account. For more information about global endpoints, see [Making applications Regional-fault tolerant with global endpoints and event replication](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-global-endpoints.html) in the Amazon EventBridge User Guide.
+    /// List the global endpoints associated with this account. For more information about global endpoints, see [Making applications Regional-fault tolerant with global endpoints and event replication](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-global-endpoints.html) in the Amazon EventBridge User Guide .
     ///
     /// - Parameter ListEndpointsInput : [no documentation found]
     ///
@@ -2614,7 +2623,7 @@ extension EventBridgeClient {
 
     /// Performs the `PutTargets` operation on the `AWSEvents` service.
     ///
-    /// Adds the specified targets to the specified rule, or updates the targets if they are already associated with the rule. Targets are the resources that are invoked when a rule is triggered. The maximum number of entries per request is 10. Each rule can have up to five (5) targets associated with it at one time. For a list of services you can configure as targets for events, see [EventBridge targets](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-targets.html) in the Amazon EventBridge User Guide. Creating rules with built-in targets is supported only in the Amazon Web Services Management Console. The built-in targets are:
+    /// Adds the specified targets to the specified rule, or updates the targets if they are already associated with the rule. Targets are the resources that are invoked when a rule is triggered. The maximum number of entries per request is 10. Each rule can have up to five (5) targets associated with it at one time. For a list of services you can configure as targets for events, see [EventBridge targets](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-targets.html) in the Amazon EventBridge User Guide . Creating rules with built-in targets is supported only in the Amazon Web Services Management Console. The built-in targets are:
     ///
     /// * Amazon EBS CreateSnapshot API call
     ///
@@ -2632,7 +2641,7 @@ extension EventBridgeClient {
     /// * For EC2 instances, Kinesis Data Streams, Step Functions state machines and API Gateway APIs, EventBridge relies on IAM roles that you specify in the RoleARN argument in PutTargets.
     ///
     ///
-    /// For more information, see [Authentication and Access Control](https://docs.aws.amazon.com/eventbridge/latest/userguide/auth-and-access-control-eventbridge.html) in the Amazon EventBridge User Guide. If another Amazon Web Services account is in the same region and has granted you permission (using PutPermission), you can send events to that account. Set that account's event bus as a target of the rules in your account. To send the matched events to the other account, specify that account's event bus as the Arn value when you run PutTargets. If your account sends events to another account, your account is charged for each sent event. Each event sent to another account is charged as a custom event. The account receiving the event is not charged. For more information, see [Amazon EventBridge Pricing](http://aws.amazon.com/eventbridge/pricing/). Input, InputPath, and InputTransformer are not available with PutTarget if the target is an event bus of a different Amazon Web Services account. If you are setting the event bus of another account as the target, and that account granted permission to your account through an organization instead of directly by the account ID, then you must specify a RoleArn with proper permissions in the Target structure. For more information, see [Sending and Receiving Events Between Amazon Web Services Accounts](https://docs.aws.amazon.com/eventbridge/latest/userguide/eventbridge-cross-account-event-delivery.html) in the Amazon EventBridge User Guide. If you have an IAM role on a cross-account event bus target, a PutTargets call without a role on the same target (same Id and Arn) will not remove the role. For more information about enabling cross-account events, see [PutPermission](https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_PutPermission.html). Input, InputPath, and InputTransformer are mutually exclusive and optional parameters of a target. When a rule is triggered due to a matched event:
+    /// For more information, see [Authentication and Access Control](https://docs.aws.amazon.com/eventbridge/latest/userguide/auth-and-access-control-eventbridge.html) in the Amazon EventBridge User Guide . If another Amazon Web Services account is in the same region and has granted you permission (using PutPermission), you can send events to that account. Set that account's event bus as a target of the rules in your account. To send the matched events to the other account, specify that account's event bus as the Arn value when you run PutTargets. If your account sends events to another account, your account is charged for each sent event. Each event sent to another account is charged as a custom event. The account receiving the event is not charged. For more information, see [Amazon EventBridge Pricing](http://aws.amazon.com/eventbridge/pricing/). Input, InputPath, and InputTransformer are not available with PutTarget if the target is an event bus of a different Amazon Web Services account. If you are setting the event bus of another account as the target, and that account granted permission to your account through an organization instead of directly by the account ID, then you must specify a RoleArn with proper permissions in the Target structure. For more information, see [Sending and Receiving Events Between Amazon Web Services Accounts](https://docs.aws.amazon.com/eventbridge/latest/userguide/eventbridge-cross-account-event-delivery.html) in the Amazon EventBridge User Guide. If you have an IAM role on a cross-account event bus target, a PutTargets call without a role on the same target (same Id and Arn) will not remove the role. For more information about enabling cross-account events, see [PutPermission](https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_PutPermission.html). Input, InputPath, and InputTransformer are mutually exclusive and optional parameters of a target. When a rule is triggered due to a matched event:
     ///
     /// * If none of the following arguments are specified for a target, then the entire event is passed to the target in JSON format (unless the target is Amazon EC2 Run Command or Amazon ECS task, in which case nothing from the event is passed to the target).
     ///
@@ -3204,7 +3213,7 @@ extension EventBridgeClient {
 
     /// Performs the `UpdateEndpoint` operation on the `AWSEvents` service.
     ///
-    /// Update an existing endpoint. For more information about global endpoints, see [Making applications Regional-fault tolerant with global endpoints and event replication](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-global-endpoints.html) in the Amazon EventBridge User Guide.
+    /// Update an existing endpoint. For more information about global endpoints, see [Making applications Regional-fault tolerant with global endpoints and event replication](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-global-endpoints.html) in the Amazon EventBridge User Guide .
     ///
     /// - Parameter UpdateEndpointInput : [no documentation found]
     ///
@@ -3251,6 +3260,62 @@ extension EventBridgeClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateEndpointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateEndpointOutput>(UpdateEndpointOutput.httpOutput(from:), UpdateEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateEndpointInput, UpdateEndpointOutput>(clientLogMode: config.clientLogMode))
+        let op = builder.attributes(context)
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateEventBus` operation on the `AWSEvents` service.
+    ///
+    /// Updates the specified event bus.
+    ///
+    /// - Parameter UpdateEventBusInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateEventBusOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModificationException` : There is concurrent modification on a rule, target, archive, or replay.
+    /// - `InternalException` : This exception occurs due to unexpected causes.
+    /// - `OperationDisabledException` : The operation you are attempting is not available in this region.
+    /// - `ResourceNotFoundException` : An entity that you specified does not exist.
+    public func updateEventBus(input: UpdateEventBusInput) async throws -> UpdateEventBusOutput {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateEventBus")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "events")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = OrchestratorBuilder<UpdateEventBusInput, UpdateEventBusOutput, ClientRuntime.SdkHttpRequest, ClientRuntime.HttpResponse, ClientRuntime.HttpContext>()
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateEventBusInput, UpdateEventBusOutput>(UpdateEventBusInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateEventBusInput, UpdateEventBusOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        context.attributes.set(key: AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
+        builder.applyEndpoint(EndpointResolverMiddleware<UpdateEventBusOutput>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateEventBusInput, UpdateEventBusOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateEventBusOutput>())
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateEventBusInput, UpdateEventBusOutput>(xAmzTarget: "AWSEvents.UpdateEventBus"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateEventBusInput, UpdateEventBusOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateEventBusInput.write(value:to:)))
+        builder.interceptors.add(ContentTypeMiddleware<UpdateEventBusInput, UpdateEventBusOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateEventBusInput, UpdateEventBusOutput>())
+        builder.retryStrategy(ClientRuntime.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateEventBusOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateEventBusOutput>(UpdateEventBusOutput.httpOutput(from:), UpdateEventBusOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateEventBusInput, UpdateEventBusOutput>(clientLogMode: config.clientLogMode))
         let op = builder.attributes(context)
             .executeRequest(client)
             .build()

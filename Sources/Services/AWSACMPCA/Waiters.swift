@@ -22,6 +22,10 @@ extension ACMPCAClient {
                 let auditReportStatus = output.auditReportStatus
                 return JMESUtils.compare(auditReportStatus, ==, "FAILED")
             }),
+            .init(state: .failure, matcher: { (input: DescribeCertificateAuthorityAuditReportInput, result: Result<DescribeCertificateAuthorityAuditReportOutput, Error>) -> Bool in
+                guard case .failure(let error) = result else { return false }
+                return (error as? ServiceError)?.typeName == "AccessDeniedException"
+            }),
         ]
         return try WaiterConfiguration<DescribeCertificateAuthorityAuditReportInput, DescribeCertificateAuthorityAuditReportOutput>(acceptors: acceptors, minDelay: 3.0, maxDelay: 120.0)
     }
@@ -54,6 +58,10 @@ extension ACMPCAClient {
                 guard case .failure(let error) = result else { return false }
                 return (error as? ServiceError)?.typeName == "RequestInProgressException"
             }),
+            .init(state: .failure, matcher: { (input: GetCertificateInput, result: Result<GetCertificateOutput, Error>) -> Bool in
+                guard case .failure(let error) = result else { return false }
+                return (error as? ServiceError)?.typeName == "AccessDeniedException"
+            }),
         ]
         return try WaiterConfiguration<GetCertificateInput, GetCertificateOutput>(acceptors: acceptors, minDelay: 1.0, maxDelay: 120.0)
     }
@@ -85,6 +93,10 @@ extension ACMPCAClient {
             .init(state: .retry, matcher: { (input: GetCertificateAuthorityCsrInput, result: Result<GetCertificateAuthorityCsrOutput, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
                 return (error as? ServiceError)?.typeName == "RequestInProgressException"
+            }),
+            .init(state: .failure, matcher: { (input: GetCertificateAuthorityCsrInput, result: Result<GetCertificateAuthorityCsrOutput, Error>) -> Bool in
+                guard case .failure(let error) = result else { return false }
+                return (error as? ServiceError)?.typeName == "AccessDeniedException"
             }),
         ]
         return try WaiterConfiguration<GetCertificateAuthorityCsrInput, GetCertificateAuthorityCsrOutput>(acceptors: acceptors, minDelay: 3.0, maxDelay: 120.0)

@@ -445,7 +445,7 @@ extension CreateListenerInput {
 public struct CreateListenerInput {
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you retry a request that completed successfully using the same client token and parameters, the retry succeeds without performing any actions. If the parameters aren't identical, the retry fails.
     public var clientToken: Swift.String?
-    /// The action for the default rule. Each listener has a default rule. Each rule consists of a priority, one or more actions, and one or more conditions. The default rule is the rule that's used if no other rules match. Each rule must include exactly one of the following types of actions: forward or fixed-response, and it must be the last action to be performed.
+    /// The action for the default rule. Each listener has a default rule. The default rule is used if no other rules match.
     /// This member is required.
     public var defaultAction: VPCLatticeClientTypes.RuleAction?
     /// The name of the listener. A listener name must be unique within a service. The valid characters are a-z, 0-9, and hyphens (-). You can't use a hyphen as the first or last character, or immediately after another hyphen.
@@ -453,7 +453,7 @@ public struct CreateListenerInput {
     public var name: Swift.String?
     /// The listener port. You can specify a value from 1 to 65535. For HTTP, the default is 80. For HTTPS, the default is 443.
     public var port: Swift.Int?
-    /// The listener protocol HTTP or HTTPS.
+    /// The listener protocol.
     /// This member is required.
     public var `protocol`: VPCLatticeClientTypes.ListenerProtocol?
     /// The ID or Amazon Resource Name (ARN) of the service.
@@ -651,7 +651,7 @@ extension CreateRuleOutput {
 }
 
 public struct CreateRuleOutput {
-    /// The rule action. Each rule must include exactly one of the following types of actions: forward or fixed-response, and it must be the last action to be performed.
+    /// The rule action.
     public var action: VPCLatticeClientTypes.RuleAction?
     /// The Amazon Resource Name (ARN) of the rule.
     public var arn: Swift.String?
@@ -937,7 +937,7 @@ public struct CreateServiceNetworkServiceAssociationOutput {
     public var dnsEntry: VPCLatticeClientTypes.DnsEntry?
     /// The ID of the association.
     public var id: Swift.String?
-    /// The operation's status.
+    /// The association status.
     public var status: VPCLatticeClientTypes.ServiceNetworkServiceAssociationStatus?
 
     public init(
@@ -1052,7 +1052,7 @@ public struct CreateServiceNetworkVpcAssociationOutput {
     public var id: Swift.String?
     /// The IDs of the security groups.
     public var securityGroupIds: [Swift.String]?
-    /// The operation's status.
+    /// The association status.
     public var status: VPCLatticeClientTypes.ServiceNetworkVpcAssociationStatus?
 
     public init(
@@ -1125,7 +1125,7 @@ public struct CreateServiceOutput {
     public var id: Swift.String?
     /// The name of the service.
     public var name: Swift.String?
-    /// The status. If the status is CREATE_FAILED, you will have to delete and recreate the service.
+    /// The status. If the status is CREATE_FAILED, you must delete and recreate the service.
     public var status: VPCLatticeClientTypes.ServiceStatus?
 
     public init(
@@ -1192,7 +1192,7 @@ extension CreateTargetGroupInput {
 public struct CreateTargetGroupInput {
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you retry a request that completed successfully using the same client token and parameters, the retry succeeds without performing any actions. If the parameters aren't identical, the retry fails.
     public var clientToken: Swift.String?
-    /// The target group configuration. If type is set to LAMBDA, this parameter doesn't apply.
+    /// The target group configuration.
     public var config: VPCLatticeClientTypes.TargetGroupConfig?
     /// The name of the target group. The name must be unique within the account. The valid characters are a-z, 0-9, and hyphens (-). You can't use a hyphen as the first or last character, or immediately after another hyphen.
     /// This member is required.
@@ -1239,13 +1239,13 @@ extension CreateTargetGroupOutput {
 public struct CreateTargetGroupOutput {
     /// The Amazon Resource Name (ARN) of the target group.
     public var arn: Swift.String?
-    /// The target group configuration. If type is set to LAMBDA, this parameter doesn't apply.
+    /// The target group configuration.
     public var config: VPCLatticeClientTypes.TargetGroupConfig?
     /// The ID of the target group.
     public var id: Swift.String?
     /// The name of the target group.
     public var name: Swift.String?
-    /// The operation's status. You can retry the operation if the status is CREATE_FAILED. However, if you retry it while the status is CREATE_IN_PROGRESS, there is no change in the status.
+    /// The status. You can retry the operation if the status is CREATE_FAILED. However, if you retry it while the status is CREATE_IN_PROGRESS, there is no change in the status.
     public var status: VPCLatticeClientTypes.TargetGroupStatus?
     /// The type of target group.
     public var type: VPCLatticeClientTypes.TargetGroupType?
@@ -1698,7 +1698,7 @@ public struct DeleteServiceNetworkServiceAssociationOutput {
     public var arn: Swift.String?
     /// The ID of the association.
     public var id: Swift.String?
-    /// The operation's status. You can retry the operation if the status is DELETE_FAILED. However, if you retry it when the status is DELETE_IN_PROGRESS, there is no change in the status.
+    /// The status. You can retry the operation if the status is DELETE_FAILED. However, if you retry it when the status is DELETE_IN_PROGRESS, there is no change in the status.
     public var status: VPCLatticeClientTypes.ServiceNetworkServiceAssociationStatus?
 
     public init(
@@ -1774,7 +1774,7 @@ public struct DeleteServiceNetworkVpcAssociationOutput {
     public var arn: Swift.String?
     /// The ID of the association.
     public var id: Swift.String?
-    /// The status. You can retry the operation if the status is DELETE_FAILED. However, if you retry it when the status is DELETE_IN_PROGRESS, there is no change in the status.
+    /// The status. You can retry the operation if the status is DELETE_FAILED. However, if you retry it while the status is DELETE_IN_PROGRESS, there is no change in the status.
     public var status: VPCLatticeClientTypes.ServiceNetworkVpcAssociationStatus?
 
     public init(
@@ -2072,7 +2072,7 @@ extension VPCLatticeClientTypes.FixedResponseAction {
 }
 
 extension VPCLatticeClientTypes {
-    /// Information about an action that returns a custom HTTP response.
+    /// Describes an action that returns a custom HTTP response.
     public struct FixedResponseAction {
         /// The HTTP response code.
         /// This member is required.
@@ -2106,7 +2106,7 @@ extension VPCLatticeClientTypes.ForwardAction {
 extension VPCLatticeClientTypes {
     /// Describes a forward action. You can use forward actions to route requests to one or more target groups.
     public struct ForwardAction {
-        /// The target groups. Traffic matching the rule is forwarded to the specified target groups. With forward actions, you can assign a weight that controls the prioritization and selection of each target group. This means that requests are distributed to individual target groups based on their weights. For example, if two target groups have the same weight, each target group receives half of the traffic. The default value is 1. This means that if only one target group is provided, there is no need to set the weight; 100% of traffic will go to that target group.
+        /// The target groups. Traffic matching the rule is forwarded to the specified target groups. With forward actions, you can assign a weight that controls the prioritization and selection of each target group. This means that requests are distributed to individual target groups based on their weights. For example, if two target groups have the same weight, each target group receives half of the traffic. The default value is 1. This means that if only one target group is provided, there is no need to set the weight; 100% of the traffic goes to that target group.
         /// This member is required.
         public var targetGroups: [VPCLatticeClientTypes.WeightedTargetGroup]?
 
@@ -2267,7 +2267,7 @@ public struct GetAuthPolicyOutput {
     public var lastUpdatedAt: ClientRuntime.Date?
     /// The auth policy.
     public var policy: Swift.String?
-    /// The state of the auth policy. The auth policy is only active when the auth type is set to Amazon Web Services_IAM. If you provide a policy, then authentication and authorization decisions are made based on this policy and the client's IAM policy. If the auth type is NONE, then any auth policy you provide will remain inactive. For more information, see [Create a service network](https://docs.aws.amazon.com/vpc-lattice/latest/ug/service-networks.html#create-service-network) in the Amazon VPC Lattice User Guide.
+    /// The state of the auth policy. The auth policy is only active when the auth type is set to AWS_IAM. If you provide a policy, then authentication and authorization decisions are made based on this policy and the client's IAM policy. If the auth type is NONE, then any auth policy that you provide remains inactive. For more information, see [Create a service network](https://docs.aws.amazon.com/vpc-lattice/latest/ug/service-networks.html#create-service-network) in the Amazon VPC Lattice User Guide.
     public var state: VPCLatticeClientTypes.AuthPolicyState?
 
     public init(
@@ -2431,7 +2431,7 @@ extension GetResourcePolicyInput {
 }
 
 public struct GetResourcePolicyInput {
-    /// An IAM policy.
+    /// The Amazon Resource Name (ARN) of the service network or service.
     /// This member is required.
     public var resourceArn: Swift.String?
 
@@ -2456,7 +2456,7 @@ extension GetResourcePolicyOutput {
 }
 
 public struct GetResourcePolicyOutput {
-    /// The Amazon Resource Name (ARN) of the service network or service.
+    /// An IAM policy.
     public var policy: Swift.String?
 
     public init(
@@ -3223,7 +3223,7 @@ extension VPCLatticeClientTypes.HeaderMatch {
 extension VPCLatticeClientTypes {
     /// Describes the constraints for a header match. Matches incoming requests with rule based on request header value before applying rule action.
     public struct HeaderMatch {
-        /// Indicates whether the match is case sensitive. Defaults to false.
+        /// Indicates whether the match is case sensitive.
         public var caseSensitive: Swift.Bool?
         /// The header match type.
         /// This member is required.
@@ -3279,13 +3279,13 @@ extension VPCLatticeClientTypes.HeaderMatchType {
 }
 
 extension VPCLatticeClientTypes {
-    /// Describes a header match type. Only one can be provided.
+    /// Describes a header match type.
     public enum HeaderMatchType {
-        /// Specifies an exact type match.
+        /// An exact type match.
         case exact(Swift.String)
-        /// Specifies a prefix type match. Matches the value with the prefix.
+        /// A prefix type match. Matches the value with the prefix.
         case `prefix`(Swift.String)
-        /// Specifies a contains type match.
+        /// A contains type match.
         case contains(Swift.String)
         case sdkUnknown(Swift.String)
     }
@@ -3326,7 +3326,7 @@ extension VPCLatticeClientTypes.HealthCheckConfig {
 }
 
 extension VPCLatticeClientTypes {
-    /// The health check configuration of a target group. Health check configurations aren't used for LAMBDA and ALB target groups.
+    /// Describes the health check configuration of a target group. Health check configurations aren't used for target groups of type LAMBDA or ALB.
     public struct HealthCheckConfig {
         /// Indicates whether health checking is enabled.
         public var enabled: Swift.Bool?
@@ -3336,7 +3336,7 @@ extension VPCLatticeClientTypes {
         public var healthCheckTimeoutSeconds: Swift.Int?
         /// The number of consecutive successful health checks required before considering an unhealthy target healthy. The range is 2–10. The default is 5.
         public var healthyThresholdCount: Swift.Int?
-        /// The codes to use when checking for a successful response from a target. These are called Success codes in the console.
+        /// The codes to use when checking for a successful response from a target.
         public var matcher: VPCLatticeClientTypes.Matcher?
         /// The destination for health checks on the targets. If the protocol version is HTTP/1.1 or HTTP/2, specify a valid URI (for example, /path?query). The default path is /. Health checks are not supported if the protocol version is gRPC, however, you can choose HTTP/1.1 or HTTP/2 and specify a valid URI.
         public var path: Swift.String?
@@ -3626,7 +3626,7 @@ extension ListAccessLogSubscriptionsOutput {
 }
 
 public struct ListAccessLogSubscriptionsOutput {
-    /// The access log subscriptions.
+    /// Information about the access log subscriptions.
     /// This member is required.
     public var items: [VPCLatticeClientTypes.AccessLogSubscriptionSummary]?
     /// A pagination token for the next page of results.
@@ -4200,7 +4200,7 @@ extension ListServicesOutput {
 }
 
 public struct ListServicesOutput {
-    /// The services.
+    /// Information about the services.
     public var items: [VPCLatticeClientTypes.ServiceSummary]?
     /// If there are additional results, a pagination token for the next page of results.
     public var nextToken: Swift.String?
@@ -4268,7 +4268,7 @@ extension ListTagsForResourceOutput {
 }
 
 public struct ListTagsForResourceOutput {
-    /// The tags.
+    /// Information about the tags.
     public var tags: [Swift.String:Swift.String]?
 
     public init(
@@ -4334,7 +4334,7 @@ public struct ListTargetGroupsInput {
     public var nextToken: Swift.String?
     /// The target group type.
     public var targetGroupType: VPCLatticeClientTypes.TargetGroupType?
-    /// The ID or Amazon Resource Name (ARN) of the service.
+    /// The ID or Amazon Resource Name (ARN) of the VPC.
     public var vpcIdentifier: Swift.String?
 
     public init(
@@ -4439,7 +4439,7 @@ public struct ListTargetsInput {
     /// The ID or Amazon Resource Name (ARN) of the target group.
     /// This member is required.
     public var targetGroupIdentifier: Swift.String?
-    /// The targets to list.
+    /// The targets.
     public var targets: [VPCLatticeClientTypes.Target]?
 
     public init(
@@ -4511,12 +4511,15 @@ extension VPCLatticeClientTypes {
         case http
         /// Indicates HTTPS protocol
         case https
+        /// Indicates TLS_PASSTHROUGH protocol
+        case tlsPassthrough
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ListenerProtocol] {
             return [
                 .http,
                 .https,
+                .tlsPassthrough,
                 .sdkUnknown("")
             ]
         }
@@ -4530,6 +4533,7 @@ extension VPCLatticeClientTypes {
             switch self {
             case .http: return "HTTP"
             case .https: return "HTTPS"
+            case .tlsPassthrough: return "TLS_PASSTHROUGH"
             case let .sdkUnknown(s): return s
             }
         }
@@ -4617,7 +4621,7 @@ extension VPCLatticeClientTypes.Matcher {
 }
 
 extension VPCLatticeClientTypes {
-    /// The codes to use when checking for a successful response from a target for health checks.
+    /// Describes the codes to use when checking for a successful response from a target for health checks.
     public enum Matcher {
         /// The HTTP code to use when checking for a successful response from a target.
         case httpcode(Swift.String)
@@ -4646,7 +4650,7 @@ extension VPCLatticeClientTypes.PathMatch {
 extension VPCLatticeClientTypes {
     /// Describes the conditions that can be applied when matching a path for incoming requests.
     public struct PathMatch {
-        /// Indicates whether the match is case sensitive. Defaults to false.
+        /// Indicates whether the match is case sensitive.
         public var caseSensitive: Swift.Bool?
         /// The type of path match.
         /// This member is required.
@@ -4723,7 +4727,7 @@ extension PutAuthPolicyInput {
 }
 
 public struct PutAuthPolicyInput {
-    /// The auth policy.
+    /// The auth policy. The policy string in JSON must not contain newlines or blank lines.
     /// This member is required.
     public var policy: Swift.String?
     /// The ID or Amazon Resource Name (ARN) of the service network or service for which the policy is created.
@@ -4754,9 +4758,9 @@ extension PutAuthPolicyOutput {
 }
 
 public struct PutAuthPolicyOutput {
-    /// The auth policy.
+    /// The auth policy. The policy string in JSON must not contain newlines or blank lines.
     public var policy: Swift.String?
-    /// The state of the auth policy. The auth policy is only active when the auth type is set to Amazon Web Services_IAM. If you provide a policy, then authentication and authorization decisions are made based on this policy and the client's IAM policy. If the Auth type is NONE, then, any auth policy you provide will remain inactive. For more information, see [Create a service network](https://docs.aws.amazon.com/vpc-lattice/latest/ug/service-networks.html#create-service-network) in the Amazon VPC Lattice User Guide.
+    /// The state of the auth policy. The auth policy is only active when the auth type is set to AWS_IAM. If you provide a policy, then authentication and authorization decisions are made based on this policy and the client's IAM policy. If the Auth type is NONE, then, any auth policy that you provide remains inactive. For more information, see [Create a service network](https://docs.aws.amazon.com/vpc-lattice/latest/ug/service-networks.html#create-service-network) in the Amazon VPC Lattice User Guide.
     public var state: VPCLatticeClientTypes.AuthPolicyState?
 
     public init(
@@ -4806,7 +4810,7 @@ extension PutResourcePolicyInput {
 }
 
 public struct PutResourcePolicyInput {
-    /// An IAM policy.
+    /// An IAM policy. The policy string in JSON must not contain newlines or blank lines.
     /// This member is required.
     public var policy: Swift.String?
     /// The ID or Amazon Resource Name (ARN) of the service network or service for which the policy is created.
@@ -5017,11 +5021,11 @@ extension VPCLatticeClientTypes.RuleAction {
 }
 
 extension VPCLatticeClientTypes {
-    /// Describes the action for a rule. Each rule must include exactly one of the following types of actions: forward or fixed-response, and it must be the last action to be performed.
+    /// Describes the action for a rule.
     public enum RuleAction {
         /// The forward action. Traffic that matches the rule is forwarded to the specified target groups.
         case forward(VPCLatticeClientTypes.ForwardAction)
-        /// Describes the rule action that returns a custom HTTP response.
+        /// The fixed response action. The rule returns a custom HTTP response.
         case fixedresponse(VPCLatticeClientTypes.FixedResponseAction)
         case sdkUnknown(Swift.String)
     }
@@ -5087,7 +5091,7 @@ extension VPCLatticeClientTypes {
         public var createdAt: ClientRuntime.Date?
         /// The ID of the rule.
         public var id: Swift.String?
-        /// Indicates whether this is the default rule. Listener rules are created when you create a listener. Each listener has a default rule for checking connection requests.
+        /// Indicates whether this is the default listener rule.
         public var isDefault: Swift.Bool?
         /// The date and time that the listener rule was last updated, specified in ISO-8601 format.
         public var lastUpdatedAt: ClientRuntime.Date?
@@ -5130,7 +5134,7 @@ extension VPCLatticeClientTypes.RuleUpdate {
 }
 
 extension VPCLatticeClientTypes {
-    /// Represents an object when updating a rule.
+    /// Describes a rule update.
     public struct RuleUpdate {
         /// The rule action.
         public var action: VPCLatticeClientTypes.RuleAction?
@@ -5213,7 +5217,7 @@ extension VPCLatticeClientTypes.RuleUpdateSuccess {
 extension VPCLatticeClientTypes {
     /// Describes a successful rule update.
     public struct RuleUpdateSuccess {
-        /// The action for the default rule.
+        /// The action for the rule.
         public var action: VPCLatticeClientTypes.RuleAction?
         /// The Amazon Resource Name (ARN) of the listener.
         public var arn: Swift.String?
@@ -5327,7 +5331,7 @@ extension VPCLatticeClientTypes {
         public var createdBy: Swift.String?
         /// The custom domain name of the service.
         public var customDomainName: Swift.String?
-        /// DNS information about the service.
+        /// The DNS information.
         public var dnsEntry: VPCLatticeClientTypes.DnsEntry?
         /// The ID of the association.
         public var id: Swift.String?
@@ -5690,7 +5694,7 @@ extension VPCLatticeClientTypes {
         public var createdAt: ClientRuntime.Date?
         /// The custom domain name of the service.
         public var customDomainName: Swift.String?
-        /// DNS information about the service.
+        /// The DNS information.
         public var dnsEntry: VPCLatticeClientTypes.DnsEntry?
         /// The ID of the service.
         public var id: Swift.String?
@@ -5811,7 +5815,7 @@ extension VPCLatticeClientTypes.Target {
 extension VPCLatticeClientTypes {
     /// Describes a target.
     public struct Target {
-        /// The ID of the target. If the target type of the target group is INSTANCE, this is an instance ID. If the target type is IP , this is an IP address. If the target type is LAMBDA, this is the ARN of the Lambda function. If the target type is ALB, this is the ARN of the Application Load Balancer.
+        /// The ID of the target. If the target group type is INSTANCE, this is an instance ID. If the target group type is IP, this is an IP address. If the target group type is LAMBDA, this is the ARN of a Lambda function. If the target group type is ALB, this is the ARN of an Application Load Balancer.
         /// This member is required.
         public var id: Swift.String?
         /// The port on which the target is listening. For HTTP, the default is 80. For HTTPS, the default is 443.
@@ -5849,7 +5853,7 @@ extension VPCLatticeClientTypes {
         public var failureCode: Swift.String?
         /// The failure message.
         public var failureMessage: Swift.String?
-        /// The ID of the target. If the target type of the target group is INSTANCE, this is an instance ID. If the target type is IP , this is an IP address. If the target type is LAMBDA, this is the ARN of the Lambda function. If the target type is ALB, this is the ARN of the Application Load Balancer.
+        /// The ID of the target. If the target group type is INSTANCE, this is an instance ID. If the target group type is IP, this is an IP address. If the target group type is LAMBDA, this is the ARN of a Lambda function. If the target group type is ALB, this is the ARN of an Application Load Balancer.
         public var id: Swift.String?
         /// The port on which the target is listening. This parameter doesn't apply if the target is a Lambda function.
         public var port: Swift.Int?
@@ -5898,21 +5902,21 @@ extension VPCLatticeClientTypes.TargetGroupConfig {
 }
 
 extension VPCLatticeClientTypes {
-    /// Describes the configuration of a target group. Lambda functions don't support target group configuration.
+    /// Describes the configuration of a target group. For more information, see [Target groups](https://docs.aws.amazon.com/vpc-lattice/latest/ug/target-groups.html) in the Amazon VPC Lattice User Guide.
     public struct TargetGroupConfig {
-        /// The health check configuration.
+        /// The health check configuration. Not supported if the target group type is LAMBDA or ALB.
         public var healthCheck: VPCLatticeClientTypes.HealthCheckConfig?
-        /// The type of IP address used for the target group. The possible values are ipv4 and ipv6. This is an optional parameter. If not specified, the IP address type defaults to ipv4.
+        /// The type of IP address used for the target group. Supported only if the target group type is IP. The default is IPV4.
         public var ipAddressType: VPCLatticeClientTypes.IpAddressType?
-        /// Lambda event structure version
+        /// The version of the event structure that your Lambda function receives. Supported only if the target group type is LAMBDA. The default is V1.
         public var lambdaEventStructureVersion: VPCLatticeClientTypes.LambdaEventStructureVersion?
-        /// The port on which the targets are listening. For HTTP, the default is 80. For HTTPS, the default is 443
+        /// The port on which the targets are listening. For HTTP, the default is 80. For HTTPS, the default is 443. Not supported if the target group type is LAMBDA.
         public var port: Swift.Int?
-        /// The protocol to use for routing traffic to the targets. Default is the protocol of a target group.
+        /// The protocol to use for routing traffic to the targets. The default is the protocol of the target group. Not supported if the target group type is LAMBDA.
         public var `protocol`: VPCLatticeClientTypes.TargetGroupProtocol?
-        /// The protocol version. Default value is HTTP1.
+        /// The protocol version. The default is HTTP1. Not supported if the target group type is LAMBDA.
         public var protocolVersion: VPCLatticeClientTypes.TargetGroupProtocolVersion?
-        /// The ID of the VPC.
+        /// The ID of the VPC. Not supported if the target group type is LAMBDA.
         public var vpcIdentifier: Swift.String?
 
         public init(
@@ -5944,12 +5948,15 @@ extension VPCLatticeClientTypes {
         case http
         /// Indicates HTTPS protocol
         case https
+        /// Indicates TCP protocol
+        case tcp
         case sdkUnknown(Swift.String)
 
         public static var allCases: [TargetGroupProtocol] {
             return [
                 .http,
                 .https,
+                .tcp,
                 .sdkUnknown("")
             ]
         }
@@ -5963,6 +5970,7 @@ extension VPCLatticeClientTypes {
             switch self {
             case .http: return "HTTP"
             case .https: return "HTTPS"
+            case .tcp: return "TCP"
             case let .sdkUnknown(s): return s
             }
         }
@@ -6072,7 +6080,7 @@ extension VPCLatticeClientTypes.TargetGroupSummary {
 }
 
 extension VPCLatticeClientTypes {
-    /// Summary information about a target group.
+    /// Summary information about a target group. For more information, see [Target groups](https://docs.aws.amazon.com/vpc-lattice/latest/ug/target-groups.html) in the Amazon VPC Lattice User Guide.
     public struct TargetGroupSummary {
         /// The ARN (Amazon Resource Name) of the target group.
         public var arn: Swift.String?
@@ -6080,9 +6088,9 @@ extension VPCLatticeClientTypes {
         public var createdAt: ClientRuntime.Date?
         /// The ID of the target group.
         public var id: Swift.String?
-        /// The type of IP address used for the target group. The possible values are ipv4 and ipv6. This is an optional parameter. If not specified, the IP address type defaults to ipv4.
+        /// The type of IP address used for the target group. The possible values are IPV4 and IPV6. This is an optional parameter. If not specified, the default is IPV4.
         public var ipAddressType: VPCLatticeClientTypes.IpAddressType?
-        /// Lambda event structure version
+        /// The version of the event structure that your Lambda function receives. Supported only if the target group type is LAMBDA.
         public var lambdaEventStructureVersion: VPCLatticeClientTypes.LambdaEventStructureVersion?
         /// The date and time that the target group was last updated, specified in ISO-8601 format.
         public var lastUpdatedAt: ClientRuntime.Date?
@@ -6092,7 +6100,7 @@ extension VPCLatticeClientTypes {
         public var port: Swift.Int?
         /// The protocol of the target group.
         public var `protocol`: VPCLatticeClientTypes.TargetGroupProtocol?
-        /// The list of Amazon Resource Names (ARNs) of the service.
+        /// The Amazon Resource Names (ARNs) of the service.
         public var serviceArns: [Swift.String]?
         /// The status.
         public var status: VPCLatticeClientTypes.TargetGroupStatus?
@@ -6239,7 +6247,7 @@ extension VPCLatticeClientTypes.TargetSummary {
 extension VPCLatticeClientTypes {
     /// Summary information about a target.
     public struct TargetSummary {
-        /// The ID of the target. If the target type of the target group is INSTANCE, this is an instance ID. If the target type is IP , this is an IP address. If the target type is LAMBDA, this is the ARN of the Lambda function. If the target type is ALB, this is the ARN of the Application Load Balancer.
+        /// The ID of the target. If the target group type is INSTANCE, this is an instance ID. If the target group type is IP, this is an IP address. If the target group type is LAMBDA, this is the ARN of a Lambda function. If the target type is ALB, this is the ARN of an Application Load Balancer.
         public var id: Swift.String?
         /// The port on which the target is listening.
         public var port: Swift.Int?
@@ -6247,17 +6255,17 @@ extension VPCLatticeClientTypes {
         public var reasonCode: Swift.String?
         /// The status of the target.
         ///
-        /// * Draining: The target is being deregistered. No new connections will be sent to this target while current connections are being drained. Default draining time is 5 minutes.
+        /// * DRAINING: The target is being deregistered. No new connections are sent to this target while current connections are being drained. The default draining time is 5 minutes.
         ///
-        /// * Unavailable: Health checks are unavailable for the target group.
+        /// * UNAVAILABLE: Health checks are unavailable for the target group.
         ///
-        /// * Healthy: The target is healthy.
+        /// * HEALTHY: The target is healthy.
         ///
-        /// * Unhealthy: The target is unhealthy.
+        /// * UNHEALTHY: The target is unhealthy.
         ///
-        /// * Initial: Initial health checks on the target are being performed.
+        /// * INITIAL: Initial health checks on the target are being performed.
         ///
-        /// * Unused: Target group is not used in a service.
+        /// * UNUSED: Target group is not used in a service.
         public var status: VPCLatticeClientTypes.TargetStatus?
 
         public init(
@@ -6926,7 +6934,7 @@ extension UpdateServiceNetworkVpcAssociationInput {
 }
 
 public struct UpdateServiceNetworkVpcAssociationInput {
-    /// The IDs of the security groups. Once you add a security group, it cannot be removed.
+    /// The IDs of the security groups.
     /// This member is required.
     public var securityGroupIds: [Swift.String]?
     /// The ID or Amazon Resource Name (ARN) of the association.
@@ -7243,7 +7251,7 @@ extension VPCLatticeClientTypes.ValidationExceptionField {
 extension VPCLatticeClientTypes {
     /// Describes a validation failure.
     public struct ValidationExceptionField {
-        /// Additional details about why the validation failed.
+        /// Additional information about why the validation failed.
         /// This member is required.
         public var message: Swift.String?
         /// The name of the validation exception.
@@ -7321,7 +7329,7 @@ extension VPCLatticeClientTypes {
         /// The ID or Amazon Resource Name (ARN) of the target group.
         /// This member is required.
         public var targetGroupIdentifier: Swift.String?
-        /// Only required if you specify multiple target groups for a forward action. The "weight" determines how requests are distributed to the target group. For example, if you specify two target groups, each with a weight of 10, each target group receives half the requests. If you specify two target groups, one with a weight of 10 and the other with a weight of 20, the target group with a weight of 20 receives twice as many requests as the other target group. If there's only one target group specified, then the default value is 100.
+        /// Only required if you specify multiple target groups for a forward action. The weight determines how requests are distributed to the target group. For example, if you specify two target groups, each with a weight of 10, each target group receives half the requests. If you specify two target groups, one with a weight of 10 and the other with a weight of 20, the target group with a weight of 20 receives twice as many requests as the other target group. If there's only one target group specified, then the default value is 100.
         public var weight: Swift.Int?
 
         public init(

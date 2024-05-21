@@ -2688,7 +2688,7 @@ extension SageMakerClient {
 
     /// Performs the `CreateSpace` operation on the `SageMaker` service.
     ///
-    /// Creates a space used for real time collaboration in a domain.
+    /// Creates a private space or a space used for real time collaboration in a domain.
     ///
     /// - Parameter CreateSpaceInput : [no documentation found]
     ///

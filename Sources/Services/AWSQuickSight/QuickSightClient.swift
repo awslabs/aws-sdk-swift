@@ -4025,6 +4025,55 @@ extension QuickSightClient {
         return result
     }
 
+    /// Performs the `DescribeKeyRegistration` operation on the `QuickSight_20180401` service.
+    ///
+    /// Describes all customer managed key registrations in a Amazon QuickSight account.
+    ///
+    /// - Parameter DescribeKeyRegistrationInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeKeyRegistrationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `InternalFailureException` : An internal failure occurred.
+    /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
+    /// - `ThrottlingException` : Access is throttled.
+    public func describeKeyRegistration(input: DescribeKeyRegistrationInput) async throws -> DescribeKeyRegistrationOutput {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeKeyRegistration")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "quicksight")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<DescribeKeyRegistrationInput, DescribeKeyRegistrationOutput>(id: "describeKeyRegistration")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeKeyRegistrationInput, DescribeKeyRegistrationOutput>(DescribeKeyRegistrationInput.urlPathProvider(_:)))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeKeyRegistrationInput, DescribeKeyRegistrationOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeKeyRegistrationOutput>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<DescribeKeyRegistrationInput, DescribeKeyRegistrationOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DescribeKeyRegistrationOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DescribeKeyRegistrationInput, DescribeKeyRegistrationOutput>(DescribeKeyRegistrationInput.queryItemProvider(_:)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeKeyRegistrationOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DescribeKeyRegistrationOutput>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeKeyRegistrationOutput>(DescribeKeyRegistrationOutput.httpOutput(from:), DescribeKeyRegistrationOutputError.httpError(from:)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeKeyRegistrationInput, DescribeKeyRegistrationOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Performs the `DescribeNamespace` operation on the `QuickSight_20180401` service.
     ///
     /// Describes the current namespace.
@@ -8370,6 +8419,57 @@ extension QuickSightClient {
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<UpdateIpRestrictionOutput>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateIpRestrictionOutput>(UpdateIpRestrictionOutput.httpOutput(from:), UpdateIpRestrictionOutputError.httpError(from:)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateIpRestrictionInput, UpdateIpRestrictionOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Performs the `UpdateKeyRegistration` operation on the `QuickSight_20180401` service.
+    ///
+    /// Updates a customer managed key in a Amazon QuickSight account.
+    ///
+    /// - Parameter UpdateKeyRegistrationInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateKeyRegistrationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `InternalFailureException` : An internal failure occurred.
+    /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
+    /// - `ThrottlingException` : Access is throttled.
+    public func updateKeyRegistration(input: UpdateKeyRegistrationInput) async throws -> UpdateKeyRegistrationOutput {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateKeyRegistration")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "quicksight")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<UpdateKeyRegistrationInput, UpdateKeyRegistrationOutput>(id: "updateKeyRegistration")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateKeyRegistrationInput, UpdateKeyRegistrationOutput>(UpdateKeyRegistrationInput.urlPathProvider(_:)))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateKeyRegistrationInput, UpdateKeyRegistrationOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateKeyRegistrationOutput>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<UpdateKeyRegistrationInput, UpdateKeyRegistrationOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<UpdateKeyRegistrationOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateKeyRegistrationInput, UpdateKeyRegistrationOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateKeyRegistrationInput, UpdateKeyRegistrationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateKeyRegistrationInput.write(value:to:)))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<UpdateKeyRegistrationInput, UpdateKeyRegistrationOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateKeyRegistrationOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<UpdateKeyRegistrationOutput>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateKeyRegistrationOutput>(UpdateKeyRegistrationOutput.httpOutput(from:), UpdateKeyRegistrationOutputError.httpError(from:)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateKeyRegistrationInput, UpdateKeyRegistrationOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }

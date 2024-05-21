@@ -1468,6 +1468,72 @@ extension PaginatorSequence where OperationStackInput == SearchAvailablePhoneNum
     }
 }
 extension ConnectClient {
+    /// Paginate over `[SearchContactFlowModulesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[SearchContactFlowModulesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `SearchContactFlowModulesOutput`
+    public func searchContactFlowModulesPaginated(input: SearchContactFlowModulesInput) -> ClientRuntime.PaginatorSequence<SearchContactFlowModulesInput, SearchContactFlowModulesOutput> {
+        return ClientRuntime.PaginatorSequence<SearchContactFlowModulesInput, SearchContactFlowModulesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.searchContactFlowModules(input:))
+    }
+}
+
+extension SearchContactFlowModulesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> SearchContactFlowModulesInput {
+        return SearchContactFlowModulesInput(
+            instanceId: self.instanceId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            searchCriteria: self.searchCriteria,
+            searchFilter: self.searchFilter
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == SearchContactFlowModulesInput, OperationStackOutput == SearchContactFlowModulesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `searchContactFlowModulesPaginated`
+    /// to access the nested member `[ConnectClientTypes.ContactFlowModule]`
+    /// - Returns: `[ConnectClientTypes.ContactFlowModule]`
+    public func contactFlowModules() async throws -> [ConnectClientTypes.ContactFlowModule] {
+        return try await self.asyncCompactMap { item in item.contactFlowModules }
+    }
+}
+extension ConnectClient {
+    /// Paginate over `[SearchContactFlowsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[SearchContactFlowsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `SearchContactFlowsOutput`
+    public func searchContactFlowsPaginated(input: SearchContactFlowsInput) -> ClientRuntime.PaginatorSequence<SearchContactFlowsInput, SearchContactFlowsOutput> {
+        return ClientRuntime.PaginatorSequence<SearchContactFlowsInput, SearchContactFlowsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.searchContactFlows(input:))
+    }
+}
+
+extension SearchContactFlowsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> SearchContactFlowsInput {
+        return SearchContactFlowsInput(
+            instanceId: self.instanceId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            searchCriteria: self.searchCriteria,
+            searchFilter: self.searchFilter
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == SearchContactFlowsInput, OperationStackOutput == SearchContactFlowsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `searchContactFlowsPaginated`
+    /// to access the nested member `[ConnectClientTypes.ContactFlow]`
+    /// - Returns: `[ConnectClientTypes.ContactFlow]`
+    public func contactFlows() async throws -> [ConnectClientTypes.ContactFlow] {
+        return try await self.asyncCompactMap { item in item.contactFlows }
+    }
+}
+extension ConnectClient {
     /// Paginate over `[SearchContactsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

@@ -341,28 +341,7 @@ extension GreengrassV2Client {
     ///
     /// * Create components from recipes Create a component from a recipe, which is a file that defines the component's metadata, parameters, dependencies, lifecycle, artifacts, and platform capability. For more information, see [IoT Greengrass component recipe reference](https://docs.aws.amazon.com/greengrass/v2/developerguide/component-recipe-reference.html) in the IoT Greengrass V2 Developer Guide. To create a component from a recipe, specify inlineRecipe when you call this operation.
     ///
-    /// * Create components from Lambda functions Create a component from an Lambda function that runs on IoT Greengrass. This creates a recipe and artifacts from the Lambda function's deployment package. You can use this operation to migrate Lambda functions from IoT Greengrass V1 to IoT Greengrass V2. This function only accepts Lambda functions that use the following runtimes:
-    ///
-    /// * Python 2.7 – python2.7
-    ///
-    /// * Python 3.7 – python3.7
-    ///
-    /// * Python 3.8 – python3.8
-    ///
-    /// * Python 3.9 – python3.9
-    ///
-    /// * Java 8 – java8
-    ///
-    /// * Java 11 – java11
-    ///
-    /// * Node.js 10 – nodejs10.x
-    ///
-    /// * Node.js 12 – nodejs12.x
-    ///
-    /// * Node.js 14 – nodejs14.x
-    ///
-    ///
-    /// To create a component from a Lambda function, specify lambdaFunction when you call this operation. IoT Greengrass currently supports Lambda functions on only Linux core devices.
+    /// * Create components from Lambda functions Create a component from an Lambda function that runs on IoT Greengrass. This creates a recipe and artifacts from the Lambda function's deployment package. You can use this operation to migrate Lambda functions from IoT Greengrass V1 to IoT Greengrass V2. This function accepts Lambda functions in all supported versions of Python, Node.js, and Java runtimes. IoT Greengrass doesn't apply any additional restrictions on deprecated Lambda runtime versions. To create a component from a Lambda function, specify lambdaFunction when you call this operation. IoT Greengrass currently supports Lambda functions on only Linux core devices.
     ///
     /// - Parameter CreateComponentVersionInput : [no documentation found]
     ///
@@ -805,6 +784,8 @@ extension GreengrassV2Client {
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetComponentVersionArtifactOutput>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<GetComponentVersionArtifactInput, GetComponentVersionArtifactOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetComponentVersionArtifactOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetComponentVersionArtifactInput, GetComponentVersionArtifactOutput>(GetComponentVersionArtifactInput.headerProvider(_:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetComponentVersionArtifactInput, GetComponentVersionArtifactOutput>(GetComponentVersionArtifactInput.queryItemProvider(_:)))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetComponentVersionArtifactOutput>(options: config.retryStrategyOptions))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetComponentVersionArtifactOutput>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetComponentVersionArtifactOutput>(GetComponentVersionArtifactOutput.httpOutput(from:), GetComponentVersionArtifactOutputError.httpError(from:)))

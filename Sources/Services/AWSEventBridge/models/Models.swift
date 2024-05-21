@@ -1889,15 +1889,33 @@ extension CreateEventBusInput {
 
     static func write(value: CreateEventBusInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["DeadLetterConfig"].write(value.deadLetterConfig, with: EventBridgeClientTypes.DeadLetterConfig.write(value:to:))
+        try writer["Description"].write(value.description)
         try writer["EventSourceName"].write(value.eventSourceName)
+        try writer["KmsKeyIdentifier"].write(value.kmsKeyIdentifier)
         try writer["Name"].write(value.name)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: EventBridgeClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
 public struct CreateEventBusInput {
+    /// Configuration details of the Amazon SQS queue for EventBridge to use as a dead-letter queue (DLQ). For more information, see [Event retry policy and using dead-letter queues] in the EventBridge User Guide.
+    public var deadLetterConfig: EventBridgeClientTypes.DeadLetterConfig?
+    /// The event bus description.
+    public var description: Swift.String?
     /// If you are creating a partner event bus, this specifies the partner event source that the new event bus will be matched with.
     public var eventSourceName: Swift.String?
+    /// The identifier of the KMS customer managed key for EventBridge to use, if you choose to use a customer managed key to encrypt events on this event bus. The identifier can be the key Amazon Resource Name (ARN), KeyId, key alias, or key alias ARN. If you do not specify a customer managed key identifier, EventBridge uses an Amazon Web Services owned key to encrypt events on the event bus. For more information, see [Managing keys](https://docs.aws.amazon.com/kms/latest/developerguide/getting-started.html) in the Key Management Service Developer Guide. Archives and schema discovery are not supported for event buses encrypted using a customer managed key. EventBridge returns an error if:
+    ///
+    /// * You call [CreateArchive](https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_CreateArchive.html) on an event bus set to use a customer managed key for encryption.
+    ///
+    /// * You call [CreateDiscoverer](https://docs.aws.amazon.com/eventbridge/latest/schema-reference/v1-discoverers.html#CreateDiscoverer) on an event bus set to use a customer managed key for encryption.
+    ///
+    /// * You call [UpdatedEventBus](https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_UpdatedEventBus.html) to set a customer managed key on an event bus with an archives or schema discovery enabled.
+    ///
+    ///
+    /// To enable archives or schema discovery on an event bus, choose to use an Amazon Web Services owned key. For more information, see [Data encryption in EventBridge](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-encryption.html) in the Amazon EventBridge User Guide.
+    public var kmsKeyIdentifier: Swift.String?
     /// The name of the new event bus. Custom event bus names can't contain the / character, but you can use the / character in partner event bus names. In addition, for partner event buses, the name must exactly match the name of the partner event source that this event bus is matched to. You can't use the name default for a custom event bus, as this name is already used for your account's default event bus.
     /// This member is required.
     public var name: Swift.String?
@@ -1905,12 +1923,18 @@ public struct CreateEventBusInput {
     public var tags: [EventBridgeClientTypes.Tag]?
 
     public init(
+        deadLetterConfig: EventBridgeClientTypes.DeadLetterConfig? = nil,
+        description: Swift.String? = nil,
         eventSourceName: Swift.String? = nil,
+        kmsKeyIdentifier: Swift.String? = nil,
         name: Swift.String? = nil,
         tags: [EventBridgeClientTypes.Tag]? = nil
     )
     {
+        self.deadLetterConfig = deadLetterConfig
+        self.description = description
         self.eventSourceName = eventSourceName
+        self.kmsKeyIdentifier = kmsKeyIdentifier
         self.name = name
         self.tags = tags
     }
@@ -1923,20 +1947,35 @@ extension CreateEventBusOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateEventBusOutput()
+        value.deadLetterConfig = try reader["DeadLetterConfig"].readIfPresent(with: EventBridgeClientTypes.DeadLetterConfig.read(from:))
+        value.description = try reader["Description"].readIfPresent()
         value.eventBusArn = try reader["EventBusArn"].readIfPresent()
+        value.kmsKeyIdentifier = try reader["KmsKeyIdentifier"].readIfPresent()
         return value
     }
 }
 
 public struct CreateEventBusOutput {
+    /// Configuration details of the Amazon SQS queue for EventBridge to use as a dead-letter queue (DLQ). For more information, see [Event retry policy and using dead-letter queues] in the EventBridge User Guide.
+    public var deadLetterConfig: EventBridgeClientTypes.DeadLetterConfig?
+    /// The event bus description.
+    public var description: Swift.String?
     /// The ARN of the new event bus.
     public var eventBusArn: Swift.String?
+    /// The identifier of the KMS customer managed key for EventBridge to use to encrypt events on this event bus, if one has been specified. For more information, see [Data encryption in EventBridge](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-encryption.html) in the Amazon EventBridge User Guide.
+    public var kmsKeyIdentifier: Swift.String?
 
     public init(
-        eventBusArn: Swift.String? = nil
+        deadLetterConfig: EventBridgeClientTypes.DeadLetterConfig? = nil,
+        description: Swift.String? = nil,
+        eventBusArn: Swift.String? = nil,
+        kmsKeyIdentifier: Swift.String? = nil
     )
     {
+        self.deadLetterConfig = deadLetterConfig
+        self.description = description
         self.eventBusArn = eventBusArn
+        self.kmsKeyIdentifier = kmsKeyIdentifier
     }
 }
 
@@ -2110,7 +2149,7 @@ extension EventBridgeClientTypes.DeadLetterConfig {
 }
 
 extension EventBridgeClientTypes {
-    /// A DeadLetterConfig object that contains information about a dead-letter queue configuration.
+    /// Configuration details of the Amazon SQS queue for EventBridge to use as a dead-letter queue (DLQ). For more information, see [Event retry policy and using dead-letter queues] in the EventBridge User Guide.
     public struct DeadLetterConfig {
         /// The ARN of the SQS queue specified as the target for the dead-letter queue.
         public var arn: Swift.String?
@@ -3167,6 +3206,11 @@ extension DescribeEventBusOutput {
         let reader = responseReader
         var value = DescribeEventBusOutput()
         value.arn = try reader["Arn"].readIfPresent()
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: .epochSeconds)
+        value.deadLetterConfig = try reader["DeadLetterConfig"].readIfPresent(with: EventBridgeClientTypes.DeadLetterConfig.read(from:))
+        value.description = try reader["Description"].readIfPresent()
+        value.kmsKeyIdentifier = try reader["KmsKeyIdentifier"].readIfPresent()
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: .epochSeconds)
         value.name = try reader["Name"].readIfPresent()
         value.policy = try reader["Policy"].readIfPresent()
         return value
@@ -3176,6 +3220,16 @@ extension DescribeEventBusOutput {
 public struct DescribeEventBusOutput {
     /// The Amazon Resource Name (ARN) of the account permitted to write events to the current account.
     public var arn: Swift.String?
+    /// The time the event bus was created.
+    public var creationTime: ClientRuntime.Date?
+    /// Configuration details of the Amazon SQS queue for EventBridge to use as a dead-letter queue (DLQ). For more information, see [Event retry policy and using dead-letter queues] in the EventBridge User Guide.
+    public var deadLetterConfig: EventBridgeClientTypes.DeadLetterConfig?
+    /// The event bus description.
+    public var description: Swift.String?
+    /// The identifier of the KMS customer managed key for EventBridge to use to encrypt events on this event bus, if one has been specified. For more information, see [Data encryption in EventBridge](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-encryption.html) in the Amazon EventBridge User Guide.
+    public var kmsKeyIdentifier: Swift.String?
+    /// The time the event bus was last modified.
+    public var lastModifiedTime: ClientRuntime.Date?
     /// The name of the event bus. Currently, this is always default.
     public var name: Swift.String?
     /// The policy that enables the external account to send events to your account.
@@ -3183,11 +3237,21 @@ public struct DescribeEventBusOutput {
 
     public init(
         arn: Swift.String? = nil,
+        creationTime: ClientRuntime.Date? = nil,
+        deadLetterConfig: EventBridgeClientTypes.DeadLetterConfig? = nil,
+        description: Swift.String? = nil,
+        kmsKeyIdentifier: Swift.String? = nil,
+        lastModifiedTime: ClientRuntime.Date? = nil,
         name: Swift.String? = nil,
         policy: Swift.String? = nil
     )
     {
         self.arn = arn
+        self.creationTime = creationTime
+        self.deadLetterConfig = deadLetterConfig
+        self.description = description
+        self.kmsKeyIdentifier = kmsKeyIdentifier
+        self.lastModifiedTime = lastModifiedTime
         self.name = name
         self.policy = policy
     }
@@ -3559,7 +3623,7 @@ public struct DescribeRuleOutput {
     public var description: Swift.String?
     /// The name of the event bus associated with the rule.
     public var eventBusName: Swift.String?
-    /// The event pattern. For more information, see [Events and Event Patterns](https://docs.aws.amazon.com/eventbridge/latest/userguide/eventbridge-and-event-patterns.html) in the Amazon EventBridge User Guide.
+    /// The event pattern. For more information, see [Events and Event Patterns](https://docs.aws.amazon.com/eventbridge/latest/userguide/eventbridge-and-event-patterns.html) in the Amazon EventBridge User Guide .
     public var eventPattern: Swift.String?
     /// If this is a managed rule, created by an Amazon Web Services service on your behalf, this field displays the principal name of the Amazon Web Services service that created the rule.
     public var managedBy: Swift.String?
@@ -3870,7 +3934,7 @@ extension EventBridgeClientTypes.Endpoint {
 }
 
 extension EventBridgeClientTypes {
-    /// A global endpoint used to improve your application's availability by making it regional-fault tolerant. For more information about global endpoints, see [Making applications Regional-fault tolerant with global endpoints and event replication](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-global-endpoints.html) in the Amazon EventBridge User Guide.
+    /// A global endpoint used to improve your application's availability by making it regional-fault tolerant. For more information about global endpoints, see [Making applications Regional-fault tolerant with global endpoints and event replication](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-global-endpoints.html) in the Amazon EventBridge User Guide .
     public struct Endpoint {
         /// The ARN of the endpoint.
         public var arn: Swift.String?
@@ -4019,7 +4083,10 @@ extension EventBridgeClientTypes.EventBus {
         var value = EventBridgeClientTypes.EventBus()
         value.name = try reader["Name"].readIfPresent()
         value.arn = try reader["Arn"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
         value.policy = try reader["Policy"].readIfPresent()
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: .epochSeconds)
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: .epochSeconds)
         return value
     }
 }
@@ -4029,6 +4096,12 @@ extension EventBridgeClientTypes {
     public struct EventBus {
         /// The ARN of the event bus.
         public var arn: Swift.String?
+        /// The time the event bus was created.
+        public var creationTime: ClientRuntime.Date?
+        /// The event bus description.
+        public var description: Swift.String?
+        /// The time the event bus was last modified.
+        public var lastModifiedTime: ClientRuntime.Date?
         /// The name of the event bus.
         public var name: Swift.String?
         /// The permissions policy of the event bus, describing which other Amazon Web Services accounts can write events to this event bus.
@@ -4036,11 +4109,17 @@ extension EventBridgeClientTypes {
 
         public init(
             arn: Swift.String? = nil,
+            creationTime: ClientRuntime.Date? = nil,
+            description: Swift.String? = nil,
+            lastModifiedTime: ClientRuntime.Date? = nil,
             name: Swift.String? = nil,
             policy: Swift.String? = nil
         )
         {
             self.arn = arn
+            self.creationTime = creationTime
+            self.description = description
+            self.lastModifiedTime = lastModifiedTime
             self.name = name
             self.policy = policy
         }
@@ -6482,7 +6561,7 @@ public struct PutRuleInput {
     public var description: Swift.String?
     /// The name or ARN of the event bus to associate with this rule. If you omit this, the default event bus is used.
     public var eventBusName: Swift.String?
-    /// The event pattern. For more information, see [Amazon EventBridge event patterns](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-event-patterns.html) in the Amazon EventBridge User Guide.
+    /// The event pattern. For more information, see [Amazon EventBridge event patterns](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-event-patterns.html) in the Amazon EventBridge User Guide .
     public var eventPattern: Swift.String?
     /// The name of the rule that you are creating or updating.
     /// This member is required.
@@ -6491,7 +6570,13 @@ public struct PutRuleInput {
     public var roleArn: Swift.String?
     /// The scheduling expression. For example, "cron(0 20 * * ? *)" or "rate(5 minutes)".
     public var scheduleExpression: Swift.String?
-    /// Indicates whether the rule is enabled or disabled.
+    /// The state of the rule. Valid values include:
+    ///
+    /// * DISABLED: The rule is disabled. EventBridge does not match any events against the rule.
+    ///
+    /// * ENABLED: The rule is enabled. EventBridge matches events against the rule, except for Amazon Web Services management events delivered through CloudTrail.
+    ///
+    /// * ENABLED_WITH_ALL_CLOUDTRAIL_MANAGEMENT_EVENTS: The rule is enabled for all events, including Amazon Web Services management events delivered through CloudTrail. Management events provide visibility into management operations that are performed on resources in your Amazon Web Services account. These are also known as control plane operations. For more information, see [Logging management events](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-management-events-with-cloudtrail.html#logging-management-events) in the CloudTrail User Guide, and [Filtering management events from Amazon Web Services services](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-service-event.html#eb-service-event-cloudtrail) in the Amazon EventBridge User Guide . This value is only valid for rules on the [default](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-what-is-how-it-works-concepts.html#eb-bus-concepts-buses) event bus or [custom event buses](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-create-event-bus.html). It does not apply to [partner event buses](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-saas.html).
     public var state: EventBridgeClientTypes.RuleState?
     /// The list of key-value pairs to associate with the rule.
     public var tags: [EventBridgeClientTypes.Tag]?
@@ -7325,7 +7410,7 @@ extension EventBridgeClientTypes {
         public var description: Swift.String?
         /// The name or ARN of the event bus associated with the rule. If you omit this, the default event bus is used.
         public var eventBusName: Swift.String?
-        /// The event pattern of the rule. For more information, see [Events and Event Patterns](https://docs.aws.amazon.com/eventbridge/latest/userguide/eventbridge-and-event-patterns.html) in the Amazon EventBridge User Guide.
+        /// The event pattern of the rule. For more information, see [Events and Event Patterns](https://docs.aws.amazon.com/eventbridge/latest/userguide/eventbridge-and-event-patterns.html) in the Amazon EventBridge User Guide .
         public var eventPattern: Swift.String?
         /// If the rule was created on behalf of your account by an Amazon Web Services service, this field displays the principal name of the service that created the rule.
         public var managedBy: Swift.String?
@@ -7335,7 +7420,13 @@ extension EventBridgeClientTypes {
         public var roleArn: Swift.String?
         /// The scheduling expression. For example, "cron(0 20 * * ? *)", "rate(5 minutes)". For more information, see [Creating an Amazon EventBridge rule that runs on a schedule](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-create-rule-schedule.html).
         public var scheduleExpression: Swift.String?
-        /// The state of the rule.
+        /// The state of the rule. Valid values include:
+        ///
+        /// * DISABLED: The rule is disabled. EventBridge does not match any events against the rule.
+        ///
+        /// * ENABLED: The rule is enabled. EventBridge matches events against the rule, except for Amazon Web Services management events delivered through CloudTrail.
+        ///
+        /// * ENABLED_WITH_ALL_CLOUDTRAIL_MANAGEMENT_EVENTS: The rule is enabled for all events, including Amazon Web Services management events delivered through CloudTrail. Management events provide visibility into management operations that are performed on resources in your Amazon Web Services account. These are also known as control plane operations. For more information, see [Logging management events](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-management-events-with-cloudtrail.html#logging-management-events) in the CloudTrail User Guide, and [Filtering management events from Amazon Web Services services](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-service-event.html#eb-service-event-cloudtrail) in the Amazon EventBridge User Guide . This value is only valid for rules on the [default](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-what-is-how-it-works-concepts.html#eb-bus-concepts-buses) event bus or [custom event buses](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-create-event-bus.html). It does not apply to [partner event buses](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-saas.html).
         public var state: EventBridgeClientTypes.RuleState?
 
         public init(
@@ -7980,7 +8071,7 @@ public struct TestEventPatternInput {
     /// * detail-type
     /// This member is required.
     public var event: Swift.String?
-    /// The event pattern. For more information, see [Events and Event Patterns](https://docs.aws.amazon.com/eventbridge/latest/userguide/eventbridge-and-event-patterns.html) in the Amazon EventBridge User Guide.
+    /// The event pattern. For more information, see [Events and Event Patterns](https://docs.aws.amazon.com/eventbridge/latest/userguide/eventbridge-and-event-patterns.html) in the Amazon EventBridge User Guide .
     /// This member is required.
     public var eventPattern: Swift.String?
 
@@ -8716,6 +8807,118 @@ enum UpdateEndpointOutputError {
         switch baseError.code {
             case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
             case "InternalException": return try InternalException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+extension UpdateEventBusInput {
+
+    static func urlPathProvider(_ value: UpdateEventBusInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension UpdateEventBusInput {
+
+    static func write(value: UpdateEventBusInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DeadLetterConfig"].write(value.deadLetterConfig, with: EventBridgeClientTypes.DeadLetterConfig.write(value:to:))
+        try writer["Description"].write(value.description)
+        try writer["KmsKeyIdentifier"].write(value.kmsKeyIdentifier)
+        try writer["Name"].write(value.name)
+    }
+}
+
+public struct UpdateEventBusInput {
+    /// Configuration details of the Amazon SQS queue for EventBridge to use as a dead-letter queue (DLQ). For more information, see [Event retry policy and using dead-letter queues] in the EventBridge User Guide.
+    public var deadLetterConfig: EventBridgeClientTypes.DeadLetterConfig?
+    /// The event bus description.
+    public var description: Swift.String?
+    /// The identifier of the KMS customer managed key for EventBridge to use, if you choose to use a customer managed key to encrypt events on this event bus. The identifier can be the key Amazon Resource Name (ARN), KeyId, key alias, or key alias ARN. If you do not specify a customer managed key identifier, EventBridge uses an Amazon Web Services owned key to encrypt events on the event bus. For more information, see [Managing keys](https://docs.aws.amazon.com/kms/latest/developerguide/getting-started.html) in the Key Management Service Developer Guide. Archives and schema discovery are not supported for event buses encrypted using a customer managed key. EventBridge returns an error if:
+    ///
+    /// * You call [CreateArchive](https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_CreateArchive.html) on an event bus set to use a customer managed key for encryption.
+    ///
+    /// * You call [CreateDiscoverer](https://docs.aws.amazon.com/eventbridge/latest/schema-reference/v1-discoverers.html#CreateDiscoverer) on an event bus set to use a customer managed key for encryption.
+    ///
+    /// * You call [UpdatedEventBus](https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_UpdatedEventBus.html) to set a customer managed key on an event bus with an archives or schema discovery enabled.
+    ///
+    ///
+    /// To enable archives or schema discovery on an event bus, choose to use an Amazon Web Services owned key. For more information, see [Data encryption in EventBridge](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-encryption.html) in the Amazon EventBridge User Guide.
+    public var kmsKeyIdentifier: Swift.String?
+    /// The name of the event bus.
+    public var name: Swift.String?
+
+    public init(
+        deadLetterConfig: EventBridgeClientTypes.DeadLetterConfig? = nil,
+        description: Swift.String? = nil,
+        kmsKeyIdentifier: Swift.String? = nil,
+        name: Swift.String? = nil
+    )
+    {
+        self.deadLetterConfig = deadLetterConfig
+        self.description = description
+        self.kmsKeyIdentifier = kmsKeyIdentifier
+        self.name = name
+    }
+}
+
+extension UpdateEventBusOutput {
+
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateEventBusOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateEventBusOutput()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.deadLetterConfig = try reader["DeadLetterConfig"].readIfPresent(with: EventBridgeClientTypes.DeadLetterConfig.read(from:))
+        value.description = try reader["Description"].readIfPresent()
+        value.kmsKeyIdentifier = try reader["KmsKeyIdentifier"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        return value
+    }
+}
+
+public struct UpdateEventBusOutput {
+    /// The event bus Amazon Resource Name (ARN).
+    public var arn: Swift.String?
+    /// Configuration details of the Amazon SQS queue for EventBridge to use as a dead-letter queue (DLQ). For more information, see [Event retry policy and using dead-letter queues] in the EventBridge User Guide.
+    public var deadLetterConfig: EventBridgeClientTypes.DeadLetterConfig?
+    /// The event bus description.
+    public var description: Swift.String?
+    /// The identifier of the KMS customer managed key for EventBridge to use to encrypt events on this event bus, if one has been specified. For more information, see [Data encryption in EventBridge](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-encryption.html) in the Amazon EventBridge User Guide.
+    public var kmsKeyIdentifier: Swift.String?
+    /// The event bus name.
+    public var name: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil,
+        deadLetterConfig: EventBridgeClientTypes.DeadLetterConfig? = nil,
+        description: Swift.String? = nil,
+        kmsKeyIdentifier: Swift.String? = nil,
+        name: Swift.String? = nil
+    )
+    {
+        self.arn = arn
+        self.deadLetterConfig = deadLetterConfig
+        self.description = description
+        self.kmsKeyIdentifier = kmsKeyIdentifier
+        self.name = name
+    }
+}
+
+enum UpdateEventBusOutputError {
+
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
+            case "InternalException": return try InternalException.makeError(baseError: baseError)
+            case "OperationDisabledException": return try OperationDisabledException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }

@@ -327,7 +327,7 @@ extension SecurityHubClientTypes {
     public struct ActionLocalPortDetails {
         /// The number of the port.
         public var port: Swift.Int?
-        /// The port name of the local connection.
+        /// The port name of the local connection. Length Constraints: 128.
         public var portName: Swift.String?
 
         public init(
@@ -419,7 +419,7 @@ extension SecurityHubClientTypes {
     public struct ActionRemotePortDetails {
         /// The number of the port.
         public var port: Swift.Int?
-        /// The port name of the remote connection.
+        /// The port name of the remote connection. Length Constraints: 128.
         public var portName: Swift.String?
 
         public init(
@@ -1965,7 +1965,7 @@ extension SecurityHubClientTypes {
     public struct AwsApiCallAction {
         /// Identifies the resources that were affected by the API call.
         public var affectedResources: [Swift.String:Swift.String]?
-        /// The name of the API method that was issued.
+        /// The name of the API method that was issued. Length Constraints: 128.
         public var api: Swift.String?
         /// Indicates whether the API call originated from a remote IP address (remoteip) or from a DNS domain (domain).
         public var callerType: Swift.String?
@@ -1997,7 +1997,7 @@ extension SecurityHubClientTypes {
         public var lastSeen: Swift.String?
         /// Provided if CallerType is remoteIp. Provides information about the remote IP address that the API call originated from.
         public var remoteIpDetails: SecurityHubClientTypes.ActionRemoteIpDetails?
-        /// The name of the Amazon Web Services service that the API method belongs to.
+        /// The name of the Amazon Web Services service that the API method belongs to. Length Constraints: 128.
         public var serviceName: Swift.String?
 
         public init(
@@ -2042,7 +2042,7 @@ extension SecurityHubClientTypes.AwsApiCallActionDomainDetails {
 extension SecurityHubClientTypes {
     /// Provided if CallerType is domain. It provides information about the DNS domain that issued the API call.
     public struct AwsApiCallActionDomainDetails {
-        /// The name of the DNS domain that issued the API call.
+        /// The name of the DNS domain that issued the API call. Length Constraints: 128.
         public var domain: Swift.String?
 
         public init(
@@ -26519,12 +26519,12 @@ extension SecurityHubClientTypes {
     public struct AwsSecurityFinding {
         /// Provides details about an action that affects or that was taken on a resource.
         public var action: SecurityHubClientTypes.Action?
-        /// The Amazon Web Services account ID that a finding is generated in.
+        /// The Amazon Web Services account ID that a finding is generated in. Length Constraints: 12.
         /// This member is required.
         public var awsAccountId: Swift.String?
-        /// The name of the Amazon Web Services account from which a finding was generated.
+        /// The name of the Amazon Web Services account from which a finding was generated. Length Constraints: Minimum length of 1. Maximum length of 50.
         public var awsAccountName: Swift.String?
-        /// The name of the company for the product that generated the finding. Security Hub populates this attribute automatically for each finding. You cannot update this attribute with BatchImportFindings or BatchUpdateFindings. The exception to this is a custom integration. When you use the Security Hub console or API to filter findings by company name, you use this attribute.
+        /// The name of the company for the product that generated the finding. Security Hub populates this attribute automatically for each finding. You cannot update this attribute with BatchImportFindings or BatchUpdateFindings. The exception to this is a custom integration. When you use the Security Hub console or API to filter findings by company name, you use this attribute. Length Constraints: Minimum length of 1. Maximum length of 128.
         public var companyName: Swift.String?
         /// This data type is exclusive to findings that are generated as the result of a check run against a specific rule in a supported security standard, such as CIS Amazon Web Services Foundations. Contains security standard-related finding details.
         public var compliance: SecurityHubClientTypes.Compliance?
@@ -26545,7 +26545,7 @@ extension SecurityHubClientTypes {
         public var createdAt: Swift.String?
         /// The level of importance assigned to the resources associated with the finding. A score of 0 means that the underlying resources have no criticality, and a score of 100 is reserved for the most critical resources.
         public var criticality: Swift.Int?
-        /// A finding's description. In this release, Description is a required property.
+        /// A finding's description. Description is a required property. Length Constraints: Minimum length of 1. Maximum length of 1024.
         /// This member is required.
         public var description: Swift.String?
         /// In a BatchImportFindings request, finding providers use FindingProviderFields to provide and update their own values for confidence, criticality, related findings, severity, and types.
@@ -26564,10 +26564,10 @@ extension SecurityHubClientTypes {
         public var firstObservedAt: Swift.String?
         /// Provides metadata for the Amazon CodeGuru detector associated with a finding. This field pertains to findings that relate to Lambda functions. Amazon Inspector identifies policy violations and vulnerabilities in Lambda function code based on internal detectors developed in collaboration with Amazon CodeGuru. Security Hub receives those findings.
         public var generatorDetails: SecurityHubClientTypes.GeneratorDetails?
-        /// The identifier for the solution-specific component (a discrete unit of logic) that generated a finding. In various security findings providers' solutions, this generator can be called a rule, a check, a detector, a plugin, etc.
+        /// The identifier for the solution-specific component (a discrete unit of logic) that generated a finding. In various security findings providers' solutions, this generator can be called a rule, a check, a detector, a plugin, or something else. Length Constraints: Minimum length of 1. Maximum length of 512.
         /// This member is required.
         public var generatorId: Swift.String?
-        /// The security findings provider-specific identifier for a finding.
+        /// The security findings provider-specific identifier for a finding. Length Constraints: Minimum length of 1. Maximum length of 512.
         /// This member is required.
         public var id: Swift.String?
         /// Indicates when the security findings provider most recently observed the potential security issue that a finding captured. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
@@ -26582,7 +26582,7 @@ extension SecurityHubClientTypes {
         ///
         /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
         public var lastObservedAt: Swift.String?
-        /// A list of malware related to a finding.
+        /// A list of malware related to a finding. Array Members: Maximum number of 5 items.
         public var malware: [SecurityHubClientTypes.Malware]?
         /// The details of network-related information about a finding.
         public var network: SecurityHubClientTypes.Network?
@@ -26594,7 +26594,7 @@ extension SecurityHubClientTypes {
         public var patchSummary: SecurityHubClientTypes.PatchSummary?
         /// The details of process-related information about a finding.
         public var process: SecurityHubClientTypes.ProcessDetails?
-        /// A imestamp that indicates when Security Hub received a finding and begins to process it. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
+        /// A timestamp that indicates when Security Hub received a finding and begins to process it. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
         ///
         /// * YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)
         ///
@@ -26606,41 +26606,41 @@ extension SecurityHubClientTypes {
         ///
         /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
         public var processedAt: Swift.String?
-        /// The ARN generated by Security Hub that uniquely identifies a product that generates findings. This can be the ARN for a third-party product that is integrated with Security Hub, or the ARN for a custom integration.
+        /// The ARN generated by Security Hub that uniquely identifies a product that generates findings. This can be the ARN for a third-party product that is integrated with Security Hub, or the ARN for a custom integration. Length Constraints: Minimum length of 12. Maximum length of 2048.
         /// This member is required.
         public var productArn: Swift.String?
         /// A data type where security findings providers can include additional solution-specific details that aren't part of the defined AwsSecurityFinding format. Can contain up to 50 key-value pairs. For each key-value pair, the key can contain up to 128 characters, and the value can contain up to 2048 characters.
         public var productFields: [Swift.String:Swift.String]?
-        /// The name of the product that generated the finding. Security Hub populates this attribute automatically for each finding. You cannot update this attribute with BatchImportFindings or BatchUpdateFindings. The exception to this is a custom integration. When you use the Security Hub console or API to filter findings by product name, you use this attribute.
+        /// The name of the product that generated the finding. Security Hub populates this attribute automatically for each finding. You cannot update this attribute with BatchImportFindings or BatchUpdateFindings. The exception to this is a custom integration. When you use the Security Hub console or API to filter findings by product name, you use this attribute. Length Constraints: Minimum length of 1. Maximum length of 128.
         public var productName: Swift.String?
         /// The record state of a finding.
         public var recordState: SecurityHubClientTypes.RecordState?
-        /// The Region from which the finding was generated. Security Hub populates this attribute automatically for each finding. You cannot update it using BatchImportFindings or BatchUpdateFindings.
+        /// The Region from which the finding was generated. Security Hub populates this attribute automatically for each finding. You cannot update it using BatchImportFindings or BatchUpdateFindings. Length Constraints: Minimum length of 1. Maximum length of 16.
         public var region: Swift.String?
-        /// A list of related findings.
+        /// A list of related findings. Array Members: Minimum number of 1 item. Maximum number of 10 items.
         public var relatedFindings: [SecurityHubClientTypes.RelatedFinding]?
         /// A data type that describes the remediation options for a finding.
         public var remediation: SecurityHubClientTypes.Remediation?
-        /// A set of resource data types that describe the resources that the finding refers to.
+        /// A set of resource data types that describe the resources that the finding refers to. Array Members: Minimum number of 1 item. Maximum number of 32 items.
         /// This member is required.
         public var resources: [SecurityHubClientTypes.Resource]?
         /// Indicates whether the finding is a sample finding.
         public var sample: Swift.Bool?
-        /// The schema version that a finding is formatted for.
+        /// The schema version that a finding is formatted for. The value is 2018-10-08.
         /// This member is required.
         public var schemaVersion: Swift.String?
         /// A finding's severity.
         public var severity: SecurityHubClientTypes.Severity?
         /// A URL that links to a page about the current finding in the security findings provider's solution.
         public var sourceUrl: Swift.String?
-        /// Threat intelligence details related to a finding.
+        /// Threat intelligence details related to a finding. Array Members: Minimum number of 1 item. Maximum number of 5 items.
         public var threatIntelIndicators: [SecurityHubClientTypes.ThreatIntelIndicator]?
-        /// Details about the threat detected in a security finding and the file paths that were affected by the threat.
+        /// Details about the threat detected in a security finding and the file paths that were affected by the threat. Array Members: Minimum number of 1 item. Maximum number of 32 items.
         public var threats: [SecurityHubClientTypes.Threat]?
-        /// A finding's title. In this release, Title is a required property.
+        /// A finding's title. Title is a required property. Length Constraints: Minimum length of 1. Maximum length of 256.
         /// This member is required.
         public var title: Swift.String?
-        /// One or more finding types in the format of namespace/category/classifier that classify a finding. Valid namespace values are: Software and Configuration Checks | TTPs | Effects | Unusual Behaviors | Sensitive Data Identifications
+        /// One or more finding types in the format of namespace/category/classifier that classify a finding. Valid namespace values are: Software and Configuration Checks | TTPs | Effects | Unusual Behaviors | Sensitive Data Identifications Array Members: Maximum number of 50 items.
         public var types: [Swift.String]?
         /// Indicates when the security findings provider last updated the finding record. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
         ///
@@ -26655,7 +26655,7 @@ extension SecurityHubClientTypes {
         /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
         /// This member is required.
         public var updatedAt: Swift.String?
-        /// A list of name/value string pairs associated with the finding. These are custom, user-defined fields added to a finding.
+        /// A list of name/value string pairs associated with the finding. These are custom, user-defined fields added to a finding. Can contain up to 50 key-value pairs. For each key-value pair, the key can contain up to 128 characters, and the value can contain up to 1024 characters.
         public var userDefinedFields: [Swift.String:Swift.String]?
         /// Indicates the veracity of a finding.
         public var verificationState: SecurityHubClientTypes.VerificationState?
@@ -31140,7 +31140,7 @@ extension SecurityHubClientTypes {
     public struct Compliance {
         /// The enabled security standards in which a security control is currently enabled.
         public var associatedStandards: [SecurityHubClientTypes.AssociatedStandard]?
-        /// For a control, the industry or regulatory framework requirements that are related to the control. The check for that control is aligned with these requirements.
+        /// For a control, the industry or regulatory framework requirements that are related to the control. The check for that control is aligned with these requirements. Array Members: Maximum number of 32 items.
         public var relatedRequirements: [Swift.String]?
         /// The unique identifier of a control across standards. Values for this field typically consist of an Amazon Web Service and a number, such as APIGateway.5.
         public var securityControlId: Swift.String?
@@ -31155,7 +31155,7 @@ extension SecurityHubClientTypes {
         ///
         /// * FAILED - Standards check failed for at least one evaluated resource.
         ///
-        /// * NOT_AVAILABLE - Check could not be performed due to a service outage, API error, or because the result of the Config evaluation was NOT_APPLICABLE. If the Config evaluation result was NOT_APPLICABLE, then after 3 days, Security Hub automatically archives the finding.
+        /// * NOT_AVAILABLE - Check could not be performed due to a service outage, API error, or because the result of the Config evaluation was NOT_APPLICABLE. If the Config evaluation result was NOT_APPLICABLE for a Security Hub control, Security Hub automatically archives the finding after 3 days.
         public var status: SecurityHubClientTypes.ComplianceStatus?
         /// For findings generated from controls, a list of reasons behind the value of Status. For the list of status reason codes and their meanings, see [Standards-related information in the ASFF](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards-results.html#securityhub-standards-results-asff) in the Security Hub User Guide.
         public var statusReasons: [SecurityHubClientTypes.StatusReason]?
@@ -33757,9 +33757,9 @@ extension SecurityHubClientTypes {
     public struct DnsRequestAction {
         /// Indicates whether the DNS request was blocked.
         public var blocked: Swift.Bool?
-        /// The DNS domain that is associated with the DNS request.
+        /// The DNS domain that is associated with the DNS request. Length Constraints: 128.
         public var domain: Swift.String?
-        /// The protocol that was used for the DNS request.
+        /// The protocol that was used for the DNS request. Length Constraints: Minimum length of 1. Maximum length of 64.
         public var `protocol`: Swift.String?
 
         public init(
@@ -34098,13 +34098,13 @@ extension SecurityHubClientTypes.FilePaths {
 extension SecurityHubClientTypes {
     /// Provides information about the file paths that were affected by the threat.
     public struct FilePaths {
-        /// The name of the infected or suspicious file corresponding to the hash.
+        /// The name of the infected or suspicious file corresponding to the hash. Length Constraints: Minimum of 1 length. Maximum of 128 length.
         public var fileName: Swift.String?
-        /// Path to the infected or suspicious file on the resource it was detected on.
+        /// Path to the infected or suspicious file on the resource it was detected on. Length Constraints: Minimum of 1 length. Maximum of 128 length.
         public var filePath: Swift.String?
-        /// The hash value for the infected or suspicious file.
+        /// The hash value for the infected or suspicious file. Length Constraints: Minimum of 1 length. Maximum of 128 length.
         public var hash: Swift.String?
-        /// The Amazon Resource Name (ARN) of the resource on which the threat was detected.
+        /// The Amazon Resource Name (ARN) of the resource on which the threat was detected. Length Constraints: Minimum of 1 length. Maximum of 128 length.
         public var resourceId: Swift.String?
 
         public init(
@@ -34384,7 +34384,7 @@ extension SecurityHubClientTypes {
     public struct FindingProviderSeverity {
         /// The severity label assigned to the finding by the finding provider.
         public var label: SecurityHubClientTypes.SeverityLabel?
-        /// The finding provider's original value for the severity.
+        /// The finding provider's original value for the severity. Length Constraints: Minimum length of 1. Maximum length of 64.
         public var original: Swift.String?
 
         public init(
@@ -34583,7 +34583,7 @@ extension SecurityHubClientTypes {
     public struct GeneratorDetails {
         /// The description of the detector used to identify the code vulnerability.
         public var description: Swift.String?
-        /// An array of tags used to identify the detector associated with the finding.
+        /// An array of tags used to identify the detector associated with the finding. Array Members: Minimum number of 0 items. Maximum number of 10 items.
         public var labels: [Swift.String]?
         /// The name of the detector used to identify the code vulnerability.
         public var name: Swift.String?
@@ -37415,10 +37415,10 @@ extension SecurityHubClientTypes.Malware {
 extension SecurityHubClientTypes {
     /// A list of malware related to a finding.
     public struct Malware {
-        /// The name of the malware that was observed.
+        /// The name of the malware that was observed. Length Constraints: Minimum of 1. Maximum of 64.
         /// This member is required.
         public var name: Swift.String?
-        /// The file system path of the malware that was observed.
+        /// The file system path of the malware that was observed. Length Constraints: Minimum of 1. Maximum of 512.
         public var path: Swift.String?
         /// The state of the malware that was observed.
         public var state: SecurityHubClientTypes.MalwareState?
@@ -37747,7 +37747,7 @@ extension SecurityHubClientTypes.Network {
 extension SecurityHubClientTypes {
     /// The details of network-related information about a finding.
     public struct Network {
-        /// The destination domain of network-related information about a finding.
+        /// The destination domain of network-related information about a finding. Length Constraints: Minimum of 1. Maximum of 128.
         public var destinationDomain: Swift.String?
         /// The destination IPv4 address of network-related information about a finding.
         public var destinationIpV4: Swift.String?
@@ -37759,9 +37759,9 @@ extension SecurityHubClientTypes {
         public var direction: SecurityHubClientTypes.NetworkDirection?
         /// The range of open ports that is present on the network.
         public var openPortRange: SecurityHubClientTypes.PortRange?
-        /// The protocol of network-related information about a finding.
+        /// The protocol of network-related information about a finding. Length Constraints: Minimum of 1. Maximum of 16.
         public var `protocol`: Swift.String?
-        /// The source domain of network-related information about a finding.
+        /// The source domain of network-related information about a finding. Length Constraints: Minimum of 1. Maximum of 128.
         public var sourceDomain: Swift.String?
         /// The source IPv4 address of network-related information about a finding.
         public var sourceIpV4: Swift.String?
@@ -37838,7 +37838,7 @@ extension SecurityHubClientTypes {
         public var connectionDirection: Swift.String?
         /// Information about the port on the EC2 instance.
         public var localPortDetails: SecurityHubClientTypes.ActionLocalPortDetails?
-        /// The protocol used to make the network connection request.
+        /// The protocol used to make the network connection request. Length Constraints: Minimum length of 1. Maximum length of 64.
         public var `protocol`: Swift.String?
         /// Information about the remote IP address that issued the network connection request.
         public var remoteIpDetails: SecurityHubClientTypes.ActionRemoteIpDetails?
@@ -37919,7 +37919,7 @@ extension SecurityHubClientTypes {
     public struct NetworkHeader {
         /// Information about the destination of the component.
         public var destination: SecurityHubClientTypes.NetworkPathComponentDetails?
-        /// The protocol used for the component.
+        /// The protocol used for the component. Length Constraints: Minimum of 1. Maximum of 16.
         public var `protocol`: Swift.String?
         /// Information about the origin of the component.
         public var source: SecurityHubClientTypes.NetworkPathComponentDetails?
@@ -37962,9 +37962,9 @@ extension SecurityHubClientTypes.NetworkPathComponent {
 extension SecurityHubClientTypes {
     /// Information about a network path component.
     public struct NetworkPathComponent {
-        /// The identifier of a component in the network path.
+        /// The identifier of a component in the network path. Length Constraints: Minimum of 1. Maximum of 32.
         public var componentId: Swift.String?
-        /// The type of component.
+        /// The type of component. Length Constraints: Minimum of 1. Maximum of 32.
         public var componentType: Swift.String?
         /// Information about the component that comes after the current component in the network path.
         public var egress: SecurityHubClientTypes.NetworkHeader?
@@ -38046,7 +38046,7 @@ extension SecurityHubClientTypes.Note {
 extension SecurityHubClientTypes {
     /// A user-defined note added to a finding.
     public struct Note {
-        /// The text of a note.
+        /// The text of a note. Length Constraints: Minimum of 1. Maximum of 512.
         /// This member is required.
         public var text: Swift.String?
         /// A timestamp that indicates when the note was updated. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
@@ -38626,22 +38626,22 @@ extension SecurityHubClientTypes.PatchSummary {
 extension SecurityHubClientTypes {
     /// Provides an overview of the patch compliance status for an instance against a selected compliance standard.
     public struct PatchSummary {
-        /// The number of patches from the compliance standard that failed to install.
+        /// The number of patches from the compliance standard that failed to install. The value can be an integer from 0 to 100000.
         public var failedCount: Swift.Int?
-        /// The identifier of the compliance standard that was used to determine the patch compliance status.
+        /// The identifier of the compliance standard that was used to determine the patch compliance status. Length Constraints: Minimum length of 1. Maximum length of 256.
         /// This member is required.
         public var id: Swift.String?
-        /// The number of patches from the compliance standard that were installed successfully.
+        /// The number of patches from the compliance standard that were installed successfully. The value can be an integer from 0 to 100000.
         public var installedCount: Swift.Int?
-        /// The number of installed patches that are not part of the compliance standard.
+        /// The number of installed patches that are not part of the compliance standard. The value can be an integer from 0 to 100000.
         public var installedOtherCount: Swift.Int?
-        /// The number of patches that were applied, but that require the instance to be rebooted in order to be marked as installed.
+        /// The number of patches that were applied, but that require the instance to be rebooted in order to be marked as installed. The value can be an integer from 0 to 100000.
         public var installedPendingReboot: Swift.Int?
-        /// The number of patches that are installed but are also on a list of patches that the customer rejected.
+        /// The number of patches that are installed but are also on a list of patches that the customer rejected. The value can be an integer from 0 to 100000.
         public var installedRejectedCount: Swift.Int?
-        /// The number of patches that are part of the compliance standard but are not installed. The count includes patches that failed to install.
+        /// The number of patches that are part of the compliance standard but are not installed. The count includes patches that failed to install. The value can be an integer from 0 to 100000.
         public var missingCount: Swift.Int?
-        /// The type of patch operation performed. For Patch Manager, the values are SCAN and INSTALL.
+        /// The type of patch operation performed. For Patch Manager, the values are SCAN and INSTALL. Length Constraints: Minimum length of 1. Maximum length of 256.
         public var operation: Swift.String?
         /// Indicates when the operation completed. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
         ///
@@ -38667,7 +38667,7 @@ extension SecurityHubClientTypes {
         ///
         /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
         public var operationStartTime: Swift.String?
-        /// The reboot option specified for the instance.
+        /// The reboot option specified for the instance. Length Constraints: Minimum length of 1. Maximum length of 256.
         public var rebootOption: Swift.String?
 
         public init(
@@ -38928,11 +38928,11 @@ extension SecurityHubClientTypes {
         ///
         /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
         public var launchedAt: Swift.String?
-        /// The name of the process.
+        /// The name of the process. Length Constraints: Minimum of 1. Maximum of 64.
         public var name: Swift.String?
         /// The parent process ID. This field accepts positive integers between O and 2147483647.
         public var parentPid: Swift.Int?
-        /// The path to the process executable.
+        /// The path to the process executable. Length Constraints: Minimum of 1. Maximum of 512.
         public var path: Swift.String?
         /// The process ID.
         public var pid: Swift.Int?
@@ -39136,7 +39136,7 @@ extension SecurityHubClientTypes.Recommendation {
 extension SecurityHubClientTypes {
     /// A recommendation on how to remediate the issue identified in a finding.
     public struct Recommendation {
-        /// Describes the recommended steps to take to remediate an issue identified in a finding.
+        /// Describes the recommended steps to take to remediate an issue identified in a finding. Length Constraints: Minimum of 1 length. Maximum of 512 length.
         public var text: Swift.String?
         /// A URL to a page or site that contains information about how to remediate a finding.
         public var url: Swift.String?
@@ -39369,13 +39369,13 @@ extension SecurityHubClientTypes {
         public var id: Swift.String?
         /// The canonical Amazon Web Services partition name that the Region is assigned to.
         public var partition: SecurityHubClientTypes.Partition?
-        /// The canonical Amazon Web Services external Region name where this resource is located.
+        /// The canonical Amazon Web Services external Region name where this resource is located. Length Constraints: Minimum length of 1. Maximum length of 16.
         public var region: Swift.String?
         /// Identifies the role of the resource in the finding. A resource is either the actor or target of the finding activity,
         public var resourceRole: Swift.String?
-        /// A list of Amazon Web Services tags associated with a resource at the time the finding was processed.
+        /// A list of Amazon Web Services tags associated with a resource at the time the finding was processed. Tags must follow [Amazon Web Services tag naming limits and requirements](https://docs.aws.amazon.com/tag-editor/latest/userguide/tagging.html#tag-conventions).
         public var tags: [Swift.String:Swift.String]?
-        /// The type of the resource that details are provided for. If possible, set Type to one of the supported resource types. For example, if the resource is an EC2 instance, then set Type to AwsEc2Instance. If the resource does not match any of the provided types, then set Type to Other.
+        /// The type of the resource that details are provided for. If possible, set Type to one of the supported resource types. For example, if the resource is an EC2 instance, then set Type to AwsEc2Instance. If the resource does not match any of the provided types, then set Type to Other. Length Constraints: Minimum length of 1. Maximum length of 256.
         /// This member is required.
         public var type: Swift.String?
 
@@ -41555,7 +41555,7 @@ extension SecurityHubClientTypes {
         ///
         /// * 90–100 - CRITICAL
         public var label: SecurityHubClientTypes.SeverityLabel?
-        /// Deprecated. The normalized severity of a finding. Instead of providing Normalized, provide Label. If you provide Label and do not provide Normalized, then Normalized is set automatically as follows.
+        /// Deprecated. The normalized severity of a finding. Instead of providing Normalized, provide Label. The value of Normalized can be an integer between 0 and 100. If you provide Label and do not provide Normalized, then Normalized is set automatically as follows.
         ///
         /// * INFORMATIONAL - 0
         ///
@@ -41567,7 +41567,7 @@ extension SecurityHubClientTypes {
         ///
         /// * CRITICAL - 90
         public var normalized: Swift.Int?
-        /// The native severity from the finding product that generated the finding.
+        /// The native severity from the finding product that generated the finding. Length Constraints: Minimum length of 1. Maximum length of 64.
         public var original: Swift.String?
         /// Deprecated. This attribute isn't included in findings. Instead of providing Product, provide Original. The native severity as defined by the Amazon Web Services service or integrated partner product that generated the finding.
         public var product: Swift.Double?
@@ -43097,13 +43097,13 @@ extension SecurityHubClientTypes.Threat {
 extension SecurityHubClientTypes {
     /// Provides information about the threat detected in a security finding and the file paths that were affected by the threat.
     public struct Threat {
-        /// Provides information about the file paths that were affected by the threat.
+        /// Provides information about the file paths that were affected by the threat. Array Members: Minimum number of 1 item. Maximum number of 5 items.
         public var filePaths: [SecurityHubClientTypes.FilePaths]?
         /// This total number of items in which the threat has been detected.
         public var itemCount: Swift.Int?
-        /// The name of the threat.
+        /// The name of the threat. Length Constraints: Minimum of 1 length. Maximum of 128 length.
         public var name: Swift.String?
-        /// The severity of the threat.
+        /// The severity of the threat. Length Constraints: Minimum of 1 length. Maximum of 128 length.
         public var severity: Swift.String?
 
         public init(
@@ -43164,13 +43164,13 @@ extension SecurityHubClientTypes {
         ///
         /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
         public var lastObservedAt: Swift.String?
-        /// The source of the threat intelligence indicator.
+        /// The source of the threat intelligence indicator. Length Constraints: Minimum of 1 length. Maximum of 64 length.
         public var source: Swift.String?
         /// The URL to the page or site where you can get more information about the threat intelligence indicator.
         public var sourceUrl: Swift.String?
         /// The type of threat intelligence indicator.
         public var type: SecurityHubClientTypes.ThreatIntelIndicatorType?
-        /// The value of a threat intelligence indicator.
+        /// The value of a threat intelligence indicator. Length Constraints: Minimum of 1 length. Maximum of 512 length.
         public var value: Swift.String?
 
         public init(

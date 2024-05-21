@@ -248,7 +248,7 @@ func addResolvedTargets() {
 // MARK: - Generated
 
 addDependencies(
-    clientRuntimeVersion: "0.48.0",
+    clientRuntimeVersion: "0.49.0",
     crtVersion: "0.30.0"
 )
 
@@ -262,7 +262,6 @@ let serviceTargets: [String] = [
     "AWSARCZonalShift",
     "AWSAccessAnalyzer",
     "AWSAccount",
-    "AWSAlexaForBusiness",
     "AWSAmp",
     "AWSAmplify",
     "AWSAmplifyBackend",
@@ -417,7 +416,6 @@ let serviceTargets: [String] = [
     "AWSGuardDuty",
     "AWSHealth",
     "AWSHealthLake",
-    "AWSHoneycode",
     "AWSIAM",
     "AWSIVSRealTime",
     "AWSIdentitystore",
