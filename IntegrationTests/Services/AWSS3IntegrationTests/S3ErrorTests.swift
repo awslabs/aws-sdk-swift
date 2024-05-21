@@ -85,4 +85,10 @@ class S3ErrorTests: S3XCTestCase {
             XCTFail("Unexpected error thrown: \(error)")
         }
     }
+
+    func xtest_repeat() async throws {
+        for _ in 1...100 {
+            try await test_requestID_hasARequestIDAndRequestID2()
+        }
+    }
 }

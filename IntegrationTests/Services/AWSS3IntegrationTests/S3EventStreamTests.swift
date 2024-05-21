@@ -10,7 +10,7 @@ import AWSS3
 import XCTest
 
 class S3EventStreamTests: S3XCTestCase {
-    private let objectKey = "integ-test-json-object"
+    private let objectKey = UUID().uuidString
 
     override func setUp() async throws {
         // Create S3 client & unique bucket with UUID.
@@ -58,5 +58,16 @@ class S3EventStreamTests: S3XCTestCase {
         // Check returned record event's payload was successfully received.
         let expectedOutput = "{\"id\":\"1\"}\n{\"id\":\"2\"}\n"
         XCTAssertEqual(expectedOutput, actualOutput)
+    }
+
+    func xtest_multi() async throws {
+        try await withThrowingTaskGroup(of: Void.self) { group in
+            for _ in 1...100 {
+                group.addTask {
+                    try await self.testEventStreamOutput()
+                }
+            }
+            try await group.waitForAll()
+        }
     }
 }

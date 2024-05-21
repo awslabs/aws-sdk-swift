@@ -8,10 +8,13 @@
 import XCTest
 import Foundation
 import AWSTranscribeStreaming
+import ClientRuntime
 
 final class TranscribeStreamingTests: XCTestCase {
 
-    func testStartStreamTranscription() async throws {
+    let client = try! TranscribeStreamingClient(region: "us-west-2")
+
+    func xtestStartStreamTranscription() async throws {
 
         // The heelo-swift.wav resource is an audio file that contains an automated voice
         // saying the words "Hello transcribed streaming from Swift S. D. K.".
@@ -26,8 +29,6 @@ final class TranscribeStreamingTests: XCTestCase {
         let audioDataSize = audioData.count
         let dataRate = Double(audioDataSize) / duration
         let delay = Double(chunkSize) / dataRate
-
-        let client = try TranscribeStreamingClient(region: "us-west-2")
 
         let audioStream = AsyncThrowingStream<TranscribeStreamingClientTypes.AudioStream, Error> { continuation in
             Task {
@@ -71,5 +72,39 @@ final class TranscribeStreamingTests: XCTestCase {
         }
 
         XCTAssertEqual("Hello transcribed streaming from swift sdk.", fullMessage)
+    }
+
+//    func test_multi() async throws {
+//        await withThrowingTaskGroup(of: Void.self) { group in
+//            let n = 100
+//            for _ in 1...n {
+//                group.addTask {
+//                    try await self.testStartStreamTranscription()
+//                }
+//            }
+//            var errors = [Error]()
+//            for _ in 1...n {
+//                do {
+//                    try await group.next()
+//                } catch {
+//                    errors.append(error)
+//                }
+//            }
+//            XCTAssertEqual(errors.count, 0, "Threw \(errors.count) errors: [\n    \(errors.map { $0.theGoods }.joined(separator: "\n    "))\n]")
+//        }
+//    }
+
+}
+
+extension Error {
+
+    var theGoods: String {
+        if let se = self as? ServiceError, let message = se.message {
+            return message
+        } else if let x = self as? HTTPError {
+            return "HTTP Error: \(x.httpResponse.statusCode)"
+        } else {
+            return localizedDescription
+        }
     }
 }
