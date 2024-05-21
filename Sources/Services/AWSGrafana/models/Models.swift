@@ -160,7 +160,7 @@ extension AssociateLicenseInput {
 }
 
 public struct AssociateLicenseInput {
-    /// A token from Grafana Labs that ties your Amazon Web Services account with a Grafana Labs account. For more information, see [Register with Grafana Labs](https://docs.aws.amazon.com/grafana/latest/userguide/upgrade-to-Grafana-Enterprise.html#AMG-workspace-register-enterprise).
+    /// A token from Grafana Labs that ties your Amazon Web Services account with a Grafana Labs account. For more information, see [Link your account with Grafana Labs](https://docs.aws.amazon.com/grafana/latest/userguide/upgrade-to-Grafana-Enterprise.html#AMG-workspace-register-enterprise).
     public var grafanaToken: Swift.String?
     /// The type of license to associate with the workspace. Amazon Managed Grafana workspaces no longer support Grafana Enterprise free trials.
     /// This member is required.
@@ -426,7 +426,7 @@ public struct CreateWorkspaceApiKeyInput {
     /// Specifies the name of the key. Keynames must be unique to the workspace.
     /// This member is required.
     public var keyName: Swift.String?
-    /// Specifies the permission level of the key. Valid values: VIEWER|EDITOR|ADMIN
+    /// Specifies the permission level of the key. Valid values: ADMIN|EDITOR|VIEWER
     /// This member is required.
     public var keyRole: Swift.String?
     /// Specifies the time in seconds until the key expires. Keys can be valid for up to 30 days.
@@ -559,7 +559,7 @@ public struct CreateWorkspaceInput {
     public var clientToken: Swift.String?
     /// The configuration string for the workspace that you create. For more information about the format and configuration options available, see [Working in your Grafana workspace](https://docs.aws.amazon.com/grafana/latest/userguide/AMG-configure-workspace.html).
     public var configuration: Swift.String?
-    /// Specifies the version of Grafana to support in the new workspace. If not specified, defaults to the latest version (for example, 9.4). To get a list of supported versions, use the ListVersions operation.
+    /// Specifies the version of Grafana to support in the new workspace. If not specified, defaults to the latest version (for example, 10.4). To get a list of supported versions, use the ListVersions operation.
     public var grafanaVersion: Swift.String?
     /// Configuration for network access to your workspace. When this is configured, only listed IP addresses and VPC endpoints will be able to access your workspace. Standard Grafana authentication and authorization will still be required. If this is not configured, or is removed, then all IP addresses and VPC endpoints will be allowed. Standard Grafana authentication and authorization will still be required.
     public var networkAccessControl: GrafanaClientTypes.NetworkAccessConfiguration?
@@ -663,6 +663,218 @@ enum CreateWorkspaceOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+extension CreateWorkspaceServiceAccountInput {
+
+    static func urlPathProvider(_ value: CreateWorkspaceServiceAccountInput) -> Swift.String? {
+        guard let workspaceId = value.workspaceId else {
+            return nil
+        }
+        return "/workspaces/\(workspaceId.urlPercentEncoding())/serviceaccounts"
+    }
+}
+
+extension CreateWorkspaceServiceAccountInput {
+
+    static func write(value: CreateWorkspaceServiceAccountInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["grafanaRole"].write(value.grafanaRole)
+        try writer["name"].write(value.name)
+    }
+}
+
+public struct CreateWorkspaceServiceAccountInput {
+    /// The permission level to use for this service account. For more information about the roles and the permissions each has, see [User roles](https://docs.aws.amazon.com/grafana/latest/userguide/Grafana-user-roles.html) in the Amazon Managed Grafana User Guide.
+    /// This member is required.
+    public var grafanaRole: GrafanaClientTypes.Role?
+    /// A name for the service account. The name must be unique within the workspace, as it determines the ID associated with the service account.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The ID of the workspace within which to create the service account.
+    /// This member is required.
+    public var workspaceId: Swift.String?
+
+    public init(
+        grafanaRole: GrafanaClientTypes.Role? = nil,
+        name: Swift.String? = nil,
+        workspaceId: Swift.String? = nil
+    )
+    {
+        self.grafanaRole = grafanaRole
+        self.name = name
+        self.workspaceId = workspaceId
+    }
+}
+
+extension CreateWorkspaceServiceAccountOutput {
+
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateWorkspaceServiceAccountOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateWorkspaceServiceAccountOutput()
+        value.grafanaRole = try reader["grafanaRole"].readIfPresent()
+        value.id = try reader["id"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.workspaceId = try reader["workspaceId"].readIfPresent()
+        return value
+    }
+}
+
+public struct CreateWorkspaceServiceAccountOutput {
+    /// The permission level given to the service account.
+    /// This member is required.
+    public var grafanaRole: GrafanaClientTypes.Role?
+    /// The ID of the service account.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The name of the service account.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The workspace with which the service account is associated.
+    /// This member is required.
+    public var workspaceId: Swift.String?
+
+    public init(
+        grafanaRole: GrafanaClientTypes.Role? = nil,
+        id: Swift.String? = nil,
+        name: Swift.String? = nil,
+        workspaceId: Swift.String? = nil
+    )
+    {
+        self.grafanaRole = grafanaRole
+        self.id = id
+        self.name = name
+        self.workspaceId = workspaceId
+    }
+}
+
+enum CreateWorkspaceServiceAccountOutputError {
+
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+extension CreateWorkspaceServiceAccountTokenInput {
+
+    static func urlPathProvider(_ value: CreateWorkspaceServiceAccountTokenInput) -> Swift.String? {
+        guard let workspaceId = value.workspaceId else {
+            return nil
+        }
+        guard let serviceAccountId = value.serviceAccountId else {
+            return nil
+        }
+        return "/workspaces/\(workspaceId.urlPercentEncoding())/serviceaccounts/\(serviceAccountId.urlPercentEncoding())/tokens"
+    }
+}
+
+extension CreateWorkspaceServiceAccountTokenInput {
+
+    static func write(value: CreateWorkspaceServiceAccountTokenInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["secondsToLive"].write(value.secondsToLive)
+    }
+}
+
+public struct CreateWorkspaceServiceAccountTokenInput {
+    /// A name for the token to create.
+    /// This member is required.
+    public var name: Swift.String?
+    /// Sets how long the token will be valid, in seconds. You can set the time up to 30 days in the future.
+    /// This member is required.
+    public var secondsToLive: Swift.Int?
+    /// The ID of the service account for which to create a token.
+    /// This member is required.
+    public var serviceAccountId: Swift.String?
+    /// The ID of the workspace the service account resides within.
+    /// This member is required.
+    public var workspaceId: Swift.String?
+
+    public init(
+        name: Swift.String? = nil,
+        secondsToLive: Swift.Int? = nil,
+        serviceAccountId: Swift.String? = nil,
+        workspaceId: Swift.String? = nil
+    )
+    {
+        self.name = name
+        self.secondsToLive = secondsToLive
+        self.serviceAccountId = serviceAccountId
+        self.workspaceId = workspaceId
+    }
+}
+
+extension CreateWorkspaceServiceAccountTokenOutput {
+
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateWorkspaceServiceAccountTokenOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateWorkspaceServiceAccountTokenOutput()
+        value.serviceAccountId = try reader["serviceAccountId"].readIfPresent()
+        value.serviceAccountToken = try reader["serviceAccountToken"].readIfPresent(with: GrafanaClientTypes.ServiceAccountTokenSummaryWithKey.read(from:))
+        value.workspaceId = try reader["workspaceId"].readIfPresent()
+        return value
+    }
+}
+
+public struct CreateWorkspaceServiceAccountTokenOutput {
+    /// The ID of the service account where the token was created.
+    /// This member is required.
+    public var serviceAccountId: Swift.String?
+    /// Information about the created token, including the key. Be sure to store the key securely.
+    /// This member is required.
+    public var serviceAccountToken: GrafanaClientTypes.ServiceAccountTokenSummaryWithKey?
+    /// The ID of the workspace where the token was created.
+    /// This member is required.
+    public var workspaceId: Swift.String?
+
+    public init(
+        serviceAccountId: Swift.String? = nil,
+        serviceAccountToken: GrafanaClientTypes.ServiceAccountTokenSummaryWithKey? = nil,
+        workspaceId: Swift.String? = nil
+    )
+    {
+        self.serviceAccountId = serviceAccountId
+        self.serviceAccountToken = serviceAccountToken
+        self.workspaceId = workspaceId
+    }
+}
+
+enum CreateWorkspaceServiceAccountTokenOutputError {
+
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
@@ -879,6 +1091,182 @@ enum DeleteWorkspaceOutputError {
     }
 }
 
+extension DeleteWorkspaceServiceAccountInput {
+
+    static func urlPathProvider(_ value: DeleteWorkspaceServiceAccountInput) -> Swift.String? {
+        guard let workspaceId = value.workspaceId else {
+            return nil
+        }
+        guard let serviceAccountId = value.serviceAccountId else {
+            return nil
+        }
+        return "/workspaces/\(workspaceId.urlPercentEncoding())/serviceaccounts/\(serviceAccountId.urlPercentEncoding())"
+    }
+}
+
+public struct DeleteWorkspaceServiceAccountInput {
+    /// The ID of the service account to delete.
+    /// This member is required.
+    public var serviceAccountId: Swift.String?
+    /// The ID of the workspace where the service account resides.
+    /// This member is required.
+    public var workspaceId: Swift.String?
+
+    public init(
+        serviceAccountId: Swift.String? = nil,
+        workspaceId: Swift.String? = nil
+    )
+    {
+        self.serviceAccountId = serviceAccountId
+        self.workspaceId = workspaceId
+    }
+}
+
+extension DeleteWorkspaceServiceAccountOutput {
+
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteWorkspaceServiceAccountOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteWorkspaceServiceAccountOutput()
+        value.serviceAccountId = try reader["serviceAccountId"].readIfPresent()
+        value.workspaceId = try reader["workspaceId"].readIfPresent()
+        return value
+    }
+}
+
+public struct DeleteWorkspaceServiceAccountOutput {
+    /// The ID of the service account deleted.
+    /// This member is required.
+    public var serviceAccountId: Swift.String?
+    /// The ID of the workspace where the service account was deleted.
+    /// This member is required.
+    public var workspaceId: Swift.String?
+
+    public init(
+        serviceAccountId: Swift.String? = nil,
+        workspaceId: Swift.String? = nil
+    )
+    {
+        self.serviceAccountId = serviceAccountId
+        self.workspaceId = workspaceId
+    }
+}
+
+enum DeleteWorkspaceServiceAccountOutputError {
+
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+extension DeleteWorkspaceServiceAccountTokenInput {
+
+    static func urlPathProvider(_ value: DeleteWorkspaceServiceAccountTokenInput) -> Swift.String? {
+        guard let workspaceId = value.workspaceId else {
+            return nil
+        }
+        guard let serviceAccountId = value.serviceAccountId else {
+            return nil
+        }
+        guard let tokenId = value.tokenId else {
+            return nil
+        }
+        return "/workspaces/\(workspaceId.urlPercentEncoding())/serviceaccounts/\(serviceAccountId.urlPercentEncoding())/tokens/\(tokenId.urlPercentEncoding())"
+    }
+}
+
+public struct DeleteWorkspaceServiceAccountTokenInput {
+    /// The ID of the service account from which to delete the token.
+    /// This member is required.
+    public var serviceAccountId: Swift.String?
+    /// The ID of the token to delete.
+    /// This member is required.
+    public var tokenId: Swift.String?
+    /// The ID of the workspace from which to delete the token.
+    /// This member is required.
+    public var workspaceId: Swift.String?
+
+    public init(
+        serviceAccountId: Swift.String? = nil,
+        tokenId: Swift.String? = nil,
+        workspaceId: Swift.String? = nil
+    )
+    {
+        self.serviceAccountId = serviceAccountId
+        self.tokenId = tokenId
+        self.workspaceId = workspaceId
+    }
+}
+
+extension DeleteWorkspaceServiceAccountTokenOutput {
+
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteWorkspaceServiceAccountTokenOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteWorkspaceServiceAccountTokenOutput()
+        value.serviceAccountId = try reader["serviceAccountId"].readIfPresent()
+        value.tokenId = try reader["tokenId"].readIfPresent()
+        value.workspaceId = try reader["workspaceId"].readIfPresent()
+        return value
+    }
+}
+
+public struct DeleteWorkspaceServiceAccountTokenOutput {
+    /// The ID of the service account where the token was deleted.
+    /// This member is required.
+    public var serviceAccountId: Swift.String?
+    /// The ID of the token that was deleted.
+    /// This member is required.
+    public var tokenId: Swift.String?
+    /// The ID of the workspace where the token was deleted.
+    /// This member is required.
+    public var workspaceId: Swift.String?
+
+    public init(
+        serviceAccountId: Swift.String? = nil,
+        tokenId: Swift.String? = nil,
+        workspaceId: Swift.String? = nil
+    )
+    {
+        self.serviceAccountId = serviceAccountId
+        self.tokenId = tokenId
+        self.workspaceId = workspaceId
+    }
+}
+
+enum DeleteWorkspaceServiceAccountTokenOutputError {
+
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 extension DescribeWorkspaceAuthenticationInput {
 
     static func urlPathProvider(_ value: DescribeWorkspaceAuthenticationInput) -> Swift.String? {
@@ -936,6 +1324,7 @@ enum DescribeWorkspaceAuthenticationOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
@@ -1554,6 +1943,224 @@ enum ListVersionsOutputError {
     }
 }
 
+extension ListWorkspaceServiceAccountTokensInput {
+
+    static func queryItemProvider(_ value: ListWorkspaceServiceAccountTokensInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListWorkspaceServiceAccountTokensInput {
+
+    static func urlPathProvider(_ value: ListWorkspaceServiceAccountTokensInput) -> Swift.String? {
+        guard let workspaceId = value.workspaceId else {
+            return nil
+        }
+        guard let serviceAccountId = value.serviceAccountId else {
+            return nil
+        }
+        return "/workspaces/\(workspaceId.urlPercentEncoding())/serviceaccounts/\(serviceAccountId.urlPercentEncoding())/tokens"
+    }
+}
+
+public struct ListWorkspaceServiceAccountTokensInput {
+    /// The maximum number of tokens to include in the results.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of service accounts to return. (You receive this token from a previous ListWorkspaceServiceAccountTokens operation.)
+    public var nextToken: Swift.String?
+    /// The ID of the service account for which to return tokens.
+    /// This member is required.
+    public var serviceAccountId: Swift.String?
+    /// The ID of the workspace for which to return tokens.
+    /// This member is required.
+    public var workspaceId: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        serviceAccountId: Swift.String? = nil,
+        workspaceId: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.serviceAccountId = serviceAccountId
+        self.workspaceId = workspaceId
+    }
+}
+
+extension ListWorkspaceServiceAccountTokensOutput {
+
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListWorkspaceServiceAccountTokensOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListWorkspaceServiceAccountTokensOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.serviceAccountId = try reader["serviceAccountId"].readIfPresent()
+        value.serviceAccountTokens = try reader["serviceAccountTokens"].readListIfPresent(memberReadingClosure: GrafanaClientTypes.ServiceAccountTokenSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.workspaceId = try reader["workspaceId"].readIfPresent()
+        return value
+    }
+}
+
+public struct ListWorkspaceServiceAccountTokensOutput {
+    /// The token to use when requesting the next set of service accounts.
+    public var nextToken: Swift.String?
+    /// The ID of the service account where the tokens reside.
+    /// This member is required.
+    public var serviceAccountId: Swift.String?
+    /// An array of structures containing information about the tokens.
+    /// This member is required.
+    public var serviceAccountTokens: [GrafanaClientTypes.ServiceAccountTokenSummary]?
+    /// The ID of the workspace where the tokens reside.
+    /// This member is required.
+    public var workspaceId: Swift.String?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        serviceAccountId: Swift.String? = nil,
+        serviceAccountTokens: [GrafanaClientTypes.ServiceAccountTokenSummary]? = nil,
+        workspaceId: Swift.String? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.serviceAccountId = serviceAccountId
+        self.serviceAccountTokens = serviceAccountTokens
+        self.workspaceId = workspaceId
+    }
+}
+
+enum ListWorkspaceServiceAccountTokensOutputError {
+
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+extension ListWorkspaceServiceAccountsInput {
+
+    static func queryItemProvider(_ value: ListWorkspaceServiceAccountsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListWorkspaceServiceAccountsInput {
+
+    static func urlPathProvider(_ value: ListWorkspaceServiceAccountsInput) -> Swift.String? {
+        guard let workspaceId = value.workspaceId else {
+            return nil
+        }
+        return "/workspaces/\(workspaceId.urlPercentEncoding())/serviceaccounts"
+    }
+}
+
+public struct ListWorkspaceServiceAccountsInput {
+    /// The maximum number of service accounts to include in the results.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of service accounts to return. (You receive this token from a previous ListWorkspaceServiceAccounts operation.)
+    public var nextToken: Swift.String?
+    /// The workspace for which to list service accounts.
+    /// This member is required.
+    public var workspaceId: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        workspaceId: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.workspaceId = workspaceId
+    }
+}
+
+extension ListWorkspaceServiceAccountsOutput {
+
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListWorkspaceServiceAccountsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListWorkspaceServiceAccountsOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.serviceAccounts = try reader["serviceAccounts"].readListIfPresent(memberReadingClosure: GrafanaClientTypes.ServiceAccountSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.workspaceId = try reader["workspaceId"].readIfPresent()
+        return value
+    }
+}
+
+public struct ListWorkspaceServiceAccountsOutput {
+    /// The token to use when requesting the next set of service accounts.
+    public var nextToken: Swift.String?
+    /// An array of structures containing information about the service accounts.
+    /// This member is required.
+    public var serviceAccounts: [GrafanaClientTypes.ServiceAccountSummary]?
+    /// The workspace to which the service accounts are associated.
+    /// This member is required.
+    public var workspaceId: Swift.String?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        serviceAccounts: [GrafanaClientTypes.ServiceAccountSummary]? = nil,
+        workspaceId: Swift.String? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.serviceAccounts = serviceAccounts
+        self.workspaceId = workspaceId
+    }
+}
+
+enum ListWorkspaceServiceAccountsOutputError {
+
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 extension ListWorkspacesInput {
 
     static func queryItemProvider(_ value: ListWorkspacesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
@@ -2018,6 +2625,145 @@ extension GrafanaClientTypes {
             }
         }
     }
+}
+
+extension GrafanaClientTypes.ServiceAccountSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GrafanaClientTypes.ServiceAccountSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GrafanaClientTypes.ServiceAccountSummary()
+        value.id = try reader["id"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.isDisabled = try reader["isDisabled"].readIfPresent()
+        value.grafanaRole = try reader["grafanaRole"].readIfPresent()
+        return value
+    }
+}
+
+extension GrafanaClientTypes {
+    /// A structure that contains the information about one service account.
+    public struct ServiceAccountSummary {
+        /// The role of the service account, which sets the permission level used when calling Grafana APIs.
+        /// This member is required.
+        public var grafanaRole: GrafanaClientTypes.Role?
+        /// The unique ID of the service account.
+        /// This member is required.
+        public var id: Swift.String?
+        /// Returns true if the service account is disabled. Service accounts can be disabled and enabled in the Amazon Managed Grafana console.
+        /// This member is required.
+        public var isDisabled: Swift.String?
+        /// The name of the service account.
+        /// This member is required.
+        public var name: Swift.String?
+
+        public init(
+            grafanaRole: GrafanaClientTypes.Role? = nil,
+            id: Swift.String? = nil,
+            isDisabled: Swift.String? = nil,
+            name: Swift.String? = nil
+        )
+        {
+            self.grafanaRole = grafanaRole
+            self.id = id
+            self.isDisabled = isDisabled
+            self.name = name
+        }
+    }
+
+}
+
+extension GrafanaClientTypes.ServiceAccountTokenSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GrafanaClientTypes.ServiceAccountTokenSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GrafanaClientTypes.ServiceAccountTokenSummary()
+        value.id = try reader["id"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: .epochSeconds)
+        value.expiresAt = try reader["expiresAt"].readTimestampIfPresent(format: .epochSeconds)
+        value.lastUsedAt = try reader["lastUsedAt"].readTimestampIfPresent(format: .epochSeconds)
+        return value
+    }
+}
+
+extension GrafanaClientTypes {
+    /// A structure that contains the information about a service account token.
+    public struct ServiceAccountTokenSummary {
+        /// When the service account token was created.
+        /// This member is required.
+        public var createdAt: ClientRuntime.Date?
+        /// When the service account token will expire.
+        /// This member is required.
+        public var expiresAt: ClientRuntime.Date?
+        /// The unique ID of the service account token.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The last time the token was used to authorize a Grafana HTTP API.
+        public var lastUsedAt: ClientRuntime.Date?
+        /// The name of the service account token.
+        /// This member is required.
+        public var name: Swift.String?
+
+        public init(
+            createdAt: ClientRuntime.Date? = nil,
+            expiresAt: ClientRuntime.Date? = nil,
+            id: Swift.String? = nil,
+            lastUsedAt: ClientRuntime.Date? = nil,
+            name: Swift.String? = nil
+        )
+        {
+            self.createdAt = createdAt
+            self.expiresAt = expiresAt
+            self.id = id
+            self.lastUsedAt = lastUsedAt
+            self.name = name
+        }
+    }
+
+}
+
+extension GrafanaClientTypes.ServiceAccountTokenSummaryWithKey: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ServiceAccountTokenSummaryWithKey(id: \(Swift.String(describing: id)), name: \(Swift.String(describing: name)), key: \"CONTENT_REDACTED\")"}
+}
+
+extension GrafanaClientTypes.ServiceAccountTokenSummaryWithKey {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GrafanaClientTypes.ServiceAccountTokenSummaryWithKey {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GrafanaClientTypes.ServiceAccountTokenSummaryWithKey()
+        value.id = try reader["id"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.key = try reader["key"].readIfPresent()
+        return value
+    }
+}
+
+extension GrafanaClientTypes {
+    /// A structure that contains the information about a service account token. This structure is returned when creating the token. It is important to store the key that is returned, as it is not retrievable at a later time. If you lose the key, you can delete and recreate the token, which will create a new key.
+    public struct ServiceAccountTokenSummaryWithKey {
+        /// The unique ID of the service account token.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The key for the service account token. Used when making calls to the Grafana HTTP APIs to authenticate and authorize the requests.
+        /// This member is required.
+        public var key: Swift.String?
+        /// The name of the service account token.
+        /// This member is required.
+        public var name: Swift.String?
+
+        public init(
+            id: Swift.String? = nil,
+            key: Swift.String? = nil,
+            name: Swift.String? = nil
+        )
+        {
+            self.id = id
+            self.key = key
+            self.name = name
+        }
+    }
+
 }
 
 extension ServiceQuotaExceededException {
@@ -3073,7 +3819,7 @@ extension GrafanaClientTypes {
         public var freeTrialConsumed: Swift.Bool?
         /// If this workspace is currently in the free trial period for Grafana Enterprise, this value specifies when that free trial ends. Amazon Managed Grafana workspaces no longer support Grafana Enterprise free trials.
         public var freeTrialExpiration: ClientRuntime.Date?
-        /// The token that ties this workspace to a Grafana Labs account. For more information, see [Register with Grafana Labs](https://docs.aws.amazon.com/grafana/latest/userguide/upgrade-to-Grafana-Enterprise.html#AMG-workspace-register-enterprise).
+        /// The token that ties this workspace to a Grafana Labs account. For more information, see [Link your account with Grafana Labs](https://docs.aws.amazon.com/grafana/latest/userguide/upgrade-to-Grafana-Enterprise.html#AMG-workspace-register-enterprise).
         public var grafanaToken: Swift.String?
         /// The version of Grafana supported in this workspace.
         /// This member is required.
@@ -3287,7 +4033,7 @@ extension GrafanaClientTypes {
         /// The URL endpoint to use to access the Grafana console in the workspace.
         /// This member is required.
         public var endpoint: Swift.String?
-        /// The token that ties this workspace to a Grafana Labs account. For more information, see [Register with Grafana Labs](https://docs.aws.amazon.com/grafana/latest/userguide/upgrade-to-Grafana-Enterprise.html#AMG-workspace-register-enterprise).
+        /// The token that ties this workspace to a Grafana Labs account. For more information, see [Link your account with Grafana Labs](https://docs.aws.amazon.com/grafana/latest/userguide/upgrade-to-Grafana-Enterprise.html#AMG-workspace-register-enterprise).
         public var grafanaToken: Swift.String?
         /// The Grafana version that the workspace is running.
         /// This member is required.

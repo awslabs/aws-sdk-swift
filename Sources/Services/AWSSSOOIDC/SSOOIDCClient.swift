@@ -190,7 +190,7 @@ extension SSOOIDCClient {
 
     /// Performs the `CreateTokenWithIAM` operation on the `AWSSSOOIDCService` service.
     ///
-    /// Creates and returns access and refresh tokens for clients and applications that are authenticated using IAM entities. The access token can be used to fetch short-term credentials for the assigned AWS accounts or to access application APIs using bearer authentication.
+    /// Creates and returns access and refresh tokens for clients and applications that are authenticated using IAM entities. The access token can be used to fetch short-term credentials for the assigned Amazon Web Services accounts or to access application APIs using bearer authentication.
     ///
     /// - Parameter CreateTokenWithIAMInput : [no documentation found]
     ///
@@ -261,8 +261,10 @@ extension SSOOIDCClient {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : Indicates that an error from the service occurred while trying to process a request.
     /// - `InvalidClientMetadataException` : Indicates that the client information sent in the request during registration is invalid.
+    /// - `InvalidRedirectUriException` : Indicates that one or more redirect URI in the request is not supported for this operation.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter might be missing or out of range.
     /// - `InvalidScopeException` : Indicates that the scope provided in the request is invalid.
+    /// - `UnsupportedGrantTypeException` : Indicates that the grant type in the request is not supported by the service.
     public func registerClient(input: RegisterClientInput) async throws -> RegisterClientOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withMethod(value: .post)

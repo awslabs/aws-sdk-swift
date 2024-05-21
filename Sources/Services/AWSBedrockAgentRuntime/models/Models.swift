@@ -160,7 +160,7 @@ extension BedrockAgentRuntimeClientTypes.ApiInvocationInput {
 extension BedrockAgentRuntimeClientTypes {
     /// Contains information about the API operation that the agent predicts should be called. This data type is used in the following API operations:
     ///
-    /// * In the returnControl field of the [Retrieve response](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_Retrieve.html#API_agent-runtime_Retrieve_ResponseSyntax)
+    /// * In the returnControl field of the [InvokeAgent response](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_InvokeAgent.html#API_agent-runtime_InvokeAgent_ResponseSyntax)
     public struct ApiInvocationInput {
         /// The action group that the API operation belongs to.
         /// This member is required.
@@ -207,7 +207,7 @@ extension BedrockAgentRuntimeClientTypes.ApiParameter {
 extension BedrockAgentRuntimeClientTypes {
     /// Information about a parameter to provide to the API request. This data type is used in the following API operations:
     ///
-    /// * [Retrieve response](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_Retrieve.html#API_agent-runtime_Retrieve_ResponseSyntax)
+    /// * [InvokeAgent response](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_InvokeAgent.html#API_agent-runtime_InvokeAgent_ResponseSyntax)
     public struct ApiParameter {
         /// The name of the parameter.
         public var name: Swift.String?
@@ -243,7 +243,7 @@ extension BedrockAgentRuntimeClientTypes.ApiRequestBody {
 extension BedrockAgentRuntimeClientTypes {
     /// The request body to provide for the API request, as the agent elicited from the user. This data type is used in the following API operations:
     ///
-    /// * [Retrieve response](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_Retrieve.html#API_agent-runtime_Retrieve_ResponseSyntax)
+    /// * [InvokeAgent response](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_InvokeAgent.html#API_agent-runtime_InvokeAgent_ResponseSyntax)
     public struct ApiRequestBody {
         /// The content of the request body. The key of the object in this field is a media type defining the format of the request body.
         public var content: [Swift.String:BedrockAgentRuntimeClientTypes.PropertyParameters]?
@@ -279,7 +279,7 @@ extension BedrockAgentRuntimeClientTypes.ApiResult {
 extension BedrockAgentRuntimeClientTypes {
     /// Contains information about the API operation that was called from the action group and the response body that was returned. This data type is used in the following API operations:
     ///
-    /// * In the returnControlInvocationResults of the [Retrieve request](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_Retrieve.html#API_agent-runtime_Retrieve_RequestSyntax)
+    /// * In the returnControlInvocationResults of the [InvokeAgent request](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_InvokeAgent.html#API_agent-runtime_InvokeAgent_RequestSyntax)
     public struct ApiResult {
         /// The action group that the API operation belongs to.
         /// This member is required.
@@ -290,7 +290,7 @@ extension BedrockAgentRuntimeClientTypes {
         public var httpMethod: Swift.String?
         /// http status code from API execution response (for example: 200, 400, 500).
         public var httpStatusCode: Swift.Int?
-        /// The response body from the API operation. The key of the object is the content type. The response may be returned directly or from the Lambda function.
+        /// The response body from the API operation. The key of the object is the content type (currently, only TEXT is supported). The response may be returned directly or from the Lambda function.
         public var responseBody: [Swift.String:BedrockAgentRuntimeClientTypes.ContentBody]?
         /// Controls the final response state returned to end user when API/Function execution failed. When this state is FAILURE, the request would fail with dependency failure exception. When this state is REPROMPT, the API/function response will be sent to model for re-prompt
         public var responseState: BedrockAgentRuntimeClientTypes.ResponseState?
@@ -452,7 +452,7 @@ extension BedrockAgentRuntimeClientTypes.Citation {
 extension BedrockAgentRuntimeClientTypes {
     /// An object containing a segment of the generated response that is based on a source in the knowledge base, alongside information about the source. This data type is used in the following API operations:
     ///
-    /// * [Retrieve response](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_Retrieve.html#API_agent-runtime_Retrieve_ResponseSyntax) – in the citations field
+    /// * [InvokeAgent response](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_InvokeAgent.html#API_agent-runtime_InvokeAgent_ResponseSyntax) – in the citations field
     ///
     /// * [RetrieveAndGenerate response](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_RetrieveAndGenerate.html#API_agent-runtime_RetrieveAndGenerate_ResponseSyntax) – in the citations field
     public struct Citation {
@@ -531,7 +531,7 @@ extension BedrockAgentRuntimeClientTypes.ContentBody {
 extension BedrockAgentRuntimeClientTypes {
     /// Contains the body of the API response. This data type is used in the following API operations:
     ///
-    /// * In the returnControlInvocationResults field of the [Retrieve request](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_Retrieve.html#API_agent-runtime_Retrieve_RequestSyntax)
+    /// * In the returnControlInvocationResults field of the [InvokeAgent request](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_InvokeAgent.html#API_agent-runtime_InvokeAgent_RequestSyntax)
     public struct ContentBody {
         /// The body of the API response.
         public var body: Swift.String?
@@ -698,6 +698,9 @@ extension BedrockAgentRuntimeClientTypes.ExternalSourcesGenerationConfiguration 
 
     static func write(value: BedrockAgentRuntimeClientTypes.ExternalSourcesGenerationConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["additionalModelRequestFields"].writeMap(value.additionalModelRequestFields, valueWritingClosure: SmithyReadWrite.Document.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["guardrailConfiguration"].write(value.guardrailConfiguration, with: BedrockAgentRuntimeClientTypes.GuardrailConfiguration.write(value:to:))
+        try writer["inferenceConfig"].write(value.inferenceConfig, with: BedrockAgentRuntimeClientTypes.InferenceConfig.write(value:to:))
         try writer["promptTemplate"].write(value.promptTemplate, with: BedrockAgentRuntimeClientTypes.PromptTemplate.write(value:to:))
     }
 }
@@ -705,13 +708,25 @@ extension BedrockAgentRuntimeClientTypes.ExternalSourcesGenerationConfiguration 
 extension BedrockAgentRuntimeClientTypes {
     /// Contains the generation configuration of the external source wrapper object.
     public struct ExternalSourcesGenerationConfiguration {
+        /// Additional model parameters and their corresponding values not included in the textInferenceConfig structure for an external source. Takes in custom model parameters specific to the language model being used.
+        public var additionalModelRequestFields: [Swift.String:SmithyReadWrite.Document]?
+        /// The configuration details for the guardrail.
+        public var guardrailConfiguration: BedrockAgentRuntimeClientTypes.GuardrailConfiguration?
+        /// Configuration settings for inference when using RetrieveAndGenerate to generate responses while using an external source.
+        public var inferenceConfig: BedrockAgentRuntimeClientTypes.InferenceConfig?
         /// Contain the textPromptTemplate string for the external source wrapper object.
         public var promptTemplate: BedrockAgentRuntimeClientTypes.PromptTemplate?
 
         public init(
+            additionalModelRequestFields: [Swift.String:SmithyReadWrite.Document]? = nil,
+            guardrailConfiguration: BedrockAgentRuntimeClientTypes.GuardrailConfiguration? = nil,
+            inferenceConfig: BedrockAgentRuntimeClientTypes.InferenceConfig? = nil,
             promptTemplate: BedrockAgentRuntimeClientTypes.PromptTemplate? = nil
         )
         {
+            self.additionalModelRequestFields = additionalModelRequestFields
+            self.guardrailConfiguration = guardrailConfiguration
+            self.inferenceConfig = inferenceConfig
             self.promptTemplate = promptTemplate
         }
     }
@@ -870,7 +885,7 @@ extension BedrockAgentRuntimeClientTypes.FunctionInvocationInput {
 extension BedrockAgentRuntimeClientTypes {
     /// Contains information about the function that the agent predicts should be called. This data type is used in the following API operations:
     ///
-    /// * In the returnControl field of the [Retrieve response](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_Retrieve.html#API_agent-runtime_Retrieve_ResponseSyntax)
+    /// * In the returnControl field of the [InvokeAgent response](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_InvokeAgent.html#API_agent-runtime_InvokeAgent_ResponseSyntax)
     public struct FunctionInvocationInput {
         /// The action group that the function belongs to.
         /// This member is required.
@@ -909,7 +924,7 @@ extension BedrockAgentRuntimeClientTypes.FunctionParameter {
 extension BedrockAgentRuntimeClientTypes {
     /// Contains information about a parameter of the function. This data type is used in the following API operations:
     ///
-    /// * In the returnControl field of the [Retrieve response](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_Retrieve.html#API_agent-runtime_Retrieve_ResponseSyntax)
+    /// * In the returnControl field of the [InvokeAgent response](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_InvokeAgent.html#API_agent-runtime_InvokeAgent_ResponseSyntax)
     public struct FunctionParameter {
         /// The name of the parameter.
         public var name: Swift.String?
@@ -946,14 +961,14 @@ extension BedrockAgentRuntimeClientTypes.FunctionResult {
 extension BedrockAgentRuntimeClientTypes {
     /// Contains information about the function that was called from the action group and the response that was returned. This data type is used in the following API operations:
     ///
-    /// * In the returnControlInvocationResults of the [Retrieve request](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_Retrieve.html#API_agent-runtime_Retrieve_RequestSyntax)
+    /// * In the returnControlInvocationResults of the [InvokeAgent request](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_InvokeAgent.html#API_agent-runtime_InvokeAgent_RequestSyntax)
     public struct FunctionResult {
         /// The action group that the function belongs to.
         /// This member is required.
         public var actionGroup: Swift.String?
         /// The name of the function that was called.
         public var function: Swift.String?
-        /// The response from the function call using the parameters. The response may be returned directly or from the Lambda function.
+        /// The response from the function call using the parameters. The key of the object is the content type (currently, only TEXT is supported). The response may be returned directly or from the Lambda function.
         public var responseBody: [Swift.String:BedrockAgentRuntimeClientTypes.ContentBody]?
         /// Controls the final response state returned to end user when API/Function execution failed. When this state is FAILURE, the request would fail with dependency failure exception. When this state is REPROMPT, the API/function response will be sent to model for re-prompt
         public var responseState: BedrockAgentRuntimeClientTypes.ResponseState?
@@ -992,7 +1007,7 @@ extension BedrockAgentRuntimeClientTypes.GeneratedResponsePart {
 extension BedrockAgentRuntimeClientTypes {
     /// Contains metadata about a part of the generated response that is accompanied by a citation. This data type is used in the following API operations:
     ///
-    /// * [Retrieve response](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_Retrieve.html#API_agent-runtime_Retrieve_ResponseSyntax) – in the generatedResponsePart field
+    /// * [InvokeAgent response](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_InvokeAgent.html#API_agent-runtime_InvokeAgent_ResponseSyntax) – in the generatedResponsePart field
     ///
     /// * [RetrieveAndGenerate response](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_RetrieveAndGenerate.html#API_agent-runtime_RetrieveAndGenerate_ResponseSyntax) – in the generatedResponsePart field
     public struct GeneratedResponsePart {
@@ -1013,6 +1028,9 @@ extension BedrockAgentRuntimeClientTypes.GenerationConfiguration {
 
     static func write(value: BedrockAgentRuntimeClientTypes.GenerationConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["additionalModelRequestFields"].writeMap(value.additionalModelRequestFields, valueWritingClosure: SmithyReadWrite.Document.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["guardrailConfiguration"].write(value.guardrailConfiguration, with: BedrockAgentRuntimeClientTypes.GuardrailConfiguration.write(value:to:))
+        try writer["inferenceConfig"].write(value.inferenceConfig, with: BedrockAgentRuntimeClientTypes.InferenceConfig.write(value:to:))
         try writer["promptTemplate"].write(value.promptTemplate, with: BedrockAgentRuntimeClientTypes.PromptTemplate.write(value:to:))
     }
 }
@@ -1022,14 +1040,985 @@ extension BedrockAgentRuntimeClientTypes {
     ///
     /// * [RetrieveAndGenerate request](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_RetrieveAndGenerate.html#API_agent-runtime_RetrieveAndGenerate_RequestSyntax)
     public struct GenerationConfiguration {
+        /// Additional model parameters and corresponding values not included in the textInferenceConfig structure for a knowledge base. This allows users to provide custom model parameters specific to the language model being used.
+        public var additionalModelRequestFields: [Swift.String:SmithyReadWrite.Document]?
+        /// The configuration details for the guardrail.
+        public var guardrailConfiguration: BedrockAgentRuntimeClientTypes.GuardrailConfiguration?
+        /// Configuration settings for inference when using RetrieveAndGenerate to generate responses while using a knowledge base as a source.
+        public var inferenceConfig: BedrockAgentRuntimeClientTypes.InferenceConfig?
         /// Contains the template for the prompt that's sent to the model for response generation.
         public var promptTemplate: BedrockAgentRuntimeClientTypes.PromptTemplate?
 
         public init(
+            additionalModelRequestFields: [Swift.String:SmithyReadWrite.Document]? = nil,
+            guardrailConfiguration: BedrockAgentRuntimeClientTypes.GuardrailConfiguration? = nil,
+            inferenceConfig: BedrockAgentRuntimeClientTypes.InferenceConfig? = nil,
             promptTemplate: BedrockAgentRuntimeClientTypes.PromptTemplate? = nil
         )
         {
+            self.additionalModelRequestFields = additionalModelRequestFields
+            self.guardrailConfiguration = guardrailConfiguration
+            self.inferenceConfig = inferenceConfig
             self.promptTemplate = promptTemplate
+        }
+    }
+
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
+    public enum GuadrailAction: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case intervened
+        case `none`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GuadrailAction] {
+            return [
+                .intervened,
+                .none,
+                .sdkUnknown("")
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .intervened: return "INTERVENED"
+            case .none: return "NONE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
+    public enum GuardrailAction: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case intervened
+        case `none`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GuardrailAction] {
+            return [
+                .intervened,
+                .none,
+                .sdkUnknown("")
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .intervened: return "INTERVENED"
+            case .none: return "NONE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.GuardrailAssessment: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.GuardrailAssessment {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentRuntimeClientTypes.GuardrailAssessment {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentRuntimeClientTypes.GuardrailAssessment()
+        value.topicPolicy = try reader["topicPolicy"].readIfPresent(with: BedrockAgentRuntimeClientTypes.GuardrailTopicPolicyAssessment.read(from:))
+        value.contentPolicy = try reader["contentPolicy"].readIfPresent(with: BedrockAgentRuntimeClientTypes.GuardrailContentPolicyAssessment.read(from:))
+        value.wordPolicy = try reader["wordPolicy"].readIfPresent(with: BedrockAgentRuntimeClientTypes.GuardrailWordPolicyAssessment.read(from:))
+        value.sensitiveInformationPolicy = try reader["sensitiveInformationPolicy"].readIfPresent(with: BedrockAgentRuntimeClientTypes.GuardrailSensitiveInformationPolicyAssessment.read(from:))
+        return value
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+    /// Assessment details of the content analyzed by Guardrails.
+    public struct GuardrailAssessment {
+        /// Content policy details of the Guardrail.
+        public var contentPolicy: BedrockAgentRuntimeClientTypes.GuardrailContentPolicyAssessment?
+        /// Sensitive Information policy details of Guardrail.
+        public var sensitiveInformationPolicy: BedrockAgentRuntimeClientTypes.GuardrailSensitiveInformationPolicyAssessment?
+        /// Topic policy details of the Guardrail.
+        public var topicPolicy: BedrockAgentRuntimeClientTypes.GuardrailTopicPolicyAssessment?
+        /// Word policy details of the Guardrail.
+        public var wordPolicy: BedrockAgentRuntimeClientTypes.GuardrailWordPolicyAssessment?
+
+        public init(
+            contentPolicy: BedrockAgentRuntimeClientTypes.GuardrailContentPolicyAssessment? = nil,
+            sensitiveInformationPolicy: BedrockAgentRuntimeClientTypes.GuardrailSensitiveInformationPolicyAssessment? = nil,
+            topicPolicy: BedrockAgentRuntimeClientTypes.GuardrailTopicPolicyAssessment? = nil,
+            wordPolicy: BedrockAgentRuntimeClientTypes.GuardrailWordPolicyAssessment? = nil
+        )
+        {
+            self.contentPolicy = contentPolicy
+            self.sensitiveInformationPolicy = sensitiveInformationPolicy
+            self.topicPolicy = topicPolicy
+            self.wordPolicy = wordPolicy
+        }
+    }
+
+}
+
+extension BedrockAgentRuntimeClientTypes.GuardrailConfiguration {
+
+    static func write(value: BedrockAgentRuntimeClientTypes.GuardrailConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["guardrailId"].write(value.guardrailId)
+        try writer["guardrailVersion"].write(value.guardrailVersion)
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+    /// The configuration details for the guardrail.
+    public struct GuardrailConfiguration {
+        /// The unique identifier for the guardrail.
+        /// This member is required.
+        public var guardrailId: Swift.String?
+        /// The version of the guardrail.
+        /// This member is required.
+        public var guardrailVersion: Swift.String?
+
+        public init(
+            guardrailId: Swift.String? = nil,
+            guardrailVersion: Swift.String? = nil
+        )
+        {
+            self.guardrailId = guardrailId
+            self.guardrailVersion = guardrailVersion
+        }
+    }
+
+}
+
+extension BedrockAgentRuntimeClientTypes.GuardrailContentFilter: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.GuardrailContentFilter {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentRuntimeClientTypes.GuardrailContentFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentRuntimeClientTypes.GuardrailContentFilter()
+        value.type = try reader["type"].readIfPresent()
+        value.confidence = try reader["confidence"].readIfPresent()
+        value.action = try reader["action"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+    /// Details of the content filter used in the Guardrail.
+    public struct GuardrailContentFilter {
+        /// The action placed on the content by the Guardrail filter.
+        public var action: BedrockAgentRuntimeClientTypes.GuardrailContentPolicyAction?
+        /// The confidence level regarding the content detected in the filter by the Guardrail.
+        public var confidence: BedrockAgentRuntimeClientTypes.GuardrailContentFilterConfidence?
+        /// The type of content detected in the filter by the Guardrail.
+        public var type: BedrockAgentRuntimeClientTypes.GuardrailContentFilterType?
+
+        public init(
+            action: BedrockAgentRuntimeClientTypes.GuardrailContentPolicyAction? = nil,
+            confidence: BedrockAgentRuntimeClientTypes.GuardrailContentFilterConfidence? = nil,
+            type: BedrockAgentRuntimeClientTypes.GuardrailContentFilterType? = nil
+        )
+        {
+            self.action = action
+            self.confidence = confidence
+            self.type = type
+        }
+    }
+
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
+    public enum GuardrailContentFilterConfidence: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case high
+        case low
+        case medium
+        case `none`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GuardrailContentFilterConfidence] {
+            return [
+                .high,
+                .low,
+                .medium,
+                .none,
+                .sdkUnknown("")
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .high: return "HIGH"
+            case .low: return "LOW"
+            case .medium: return "MEDIUM"
+            case .none: return "NONE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
+    public enum GuardrailContentFilterType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case hate
+        case insults
+        case misconduct
+        case promptAttack
+        case sexual
+        case violence
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GuardrailContentFilterType] {
+            return [
+                .hate,
+                .insults,
+                .misconduct,
+                .promptAttack,
+                .sexual,
+                .violence,
+                .sdkUnknown("")
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .hate: return "HATE"
+            case .insults: return "INSULTS"
+            case .misconduct: return "MISCONDUCT"
+            case .promptAttack: return "PROMPT_ATTACK"
+            case .sexual: return "SEXUAL"
+            case .violence: return "VIOLENCE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
+    public enum GuardrailContentPolicyAction: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case blocked
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GuardrailContentPolicyAction] {
+            return [
+                .blocked,
+                .sdkUnknown("")
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .blocked: return "BLOCKED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.GuardrailContentPolicyAssessment: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.GuardrailContentPolicyAssessment {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentRuntimeClientTypes.GuardrailContentPolicyAssessment {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentRuntimeClientTypes.GuardrailContentPolicyAssessment()
+        value.filters = try reader["filters"].readListIfPresent(memberReadingClosure: BedrockAgentRuntimeClientTypes.GuardrailContentFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+    /// The details of the policy assessment in the Guardrails filter.
+    public struct GuardrailContentPolicyAssessment {
+        /// The filter details of the policy assessment used in the Guardrails filter.
+        public var filters: [BedrockAgentRuntimeClientTypes.GuardrailContentFilter]?
+
+        public init(
+            filters: [BedrockAgentRuntimeClientTypes.GuardrailContentFilter]? = nil
+        )
+        {
+            self.filters = filters
+        }
+    }
+
+}
+
+extension BedrockAgentRuntimeClientTypes.GuardrailCustomWord: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.GuardrailCustomWord {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentRuntimeClientTypes.GuardrailCustomWord {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentRuntimeClientTypes.GuardrailCustomWord()
+        value.match = try reader["match"].readIfPresent()
+        value.action = try reader["action"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+    /// The custom word details for the filter in the Guardrail.
+    public struct GuardrailCustomWord {
+        /// The action details for the custom word filter in the Guardrail.
+        public var action: BedrockAgentRuntimeClientTypes.GuardrailWordPolicyAction?
+        /// The match details for the custom word filter in the Guardrail.
+        public var match: Swift.String?
+
+        public init(
+            action: BedrockAgentRuntimeClientTypes.GuardrailWordPolicyAction? = nil,
+            match: Swift.String? = nil
+        )
+        {
+            self.action = action
+            self.match = match
+        }
+    }
+
+}
+
+extension BedrockAgentRuntimeClientTypes.GuardrailManagedWord: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.GuardrailManagedWord {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentRuntimeClientTypes.GuardrailManagedWord {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentRuntimeClientTypes.GuardrailManagedWord()
+        value.match = try reader["match"].readIfPresent()
+        value.type = try reader["type"].readIfPresent()
+        value.action = try reader["action"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+    /// The managed word details for the filter in the Guardrail.
+    public struct GuardrailManagedWord {
+        /// The action details for the managed word filter in the Guardrail.
+        public var action: BedrockAgentRuntimeClientTypes.GuardrailWordPolicyAction?
+        /// The match details for the managed word filter in the Guardrail.
+        public var match: Swift.String?
+        /// The type details for the managed word filter in the Guardrail.
+        public var type: BedrockAgentRuntimeClientTypes.GuardrailManagedWordType?
+
+        public init(
+            action: BedrockAgentRuntimeClientTypes.GuardrailWordPolicyAction? = nil,
+            match: Swift.String? = nil,
+            type: BedrockAgentRuntimeClientTypes.GuardrailManagedWordType? = nil
+        )
+        {
+            self.action = action
+            self.match = match
+            self.type = type
+        }
+    }
+
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
+    public enum GuardrailManagedWordType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case profanity
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GuardrailManagedWordType] {
+            return [
+                .profanity,
+                .sdkUnknown("")
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .profanity: return "PROFANITY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.GuardrailPiiEntityFilter: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.GuardrailPiiEntityFilter {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentRuntimeClientTypes.GuardrailPiiEntityFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentRuntimeClientTypes.GuardrailPiiEntityFilter()
+        value.type = try reader["type"].readIfPresent()
+        value.match = try reader["match"].readIfPresent()
+        value.action = try reader["action"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+    /// The Guardrail filter to identify and remove personally identifiable information (PII).
+    public struct GuardrailPiiEntityFilter {
+        /// The action of the Guardrail filter to identify and remove PII.
+        public var action: BedrockAgentRuntimeClientTypes.GuardrailSensitiveInformationPolicyAction?
+        /// The match to settings in the Guardrail filter to identify and remove PII.
+        public var match: Swift.String?
+        /// The type of PII the Guardrail filter has identified and removed.
+        public var type: BedrockAgentRuntimeClientTypes.GuardrailPiiEntityType?
+
+        public init(
+            action: BedrockAgentRuntimeClientTypes.GuardrailSensitiveInformationPolicyAction? = nil,
+            match: Swift.String? = nil,
+            type: BedrockAgentRuntimeClientTypes.GuardrailPiiEntityType? = nil
+        )
+        {
+            self.action = action
+            self.match = match
+            self.type = type
+        }
+    }
+
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
+    public enum GuardrailPiiEntityType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case address
+        case age
+        case awsAccessKey
+        case awsSecretKey
+        case caHealthNumber
+        case caSocialInsuranceNumber
+        case creditDebitCardCvv
+        case creditDebitCardExpiry
+        case creditDebitCardNumber
+        case driverId
+        case email
+        case internationalBankAccountNumber
+        case ipAddress
+        case licensePlate
+        case macAddress
+        case name
+        case password
+        case phone
+        case pin
+        case swiftCode
+        case ukNationalHealthServiceNumber
+        case ukNationalInsuranceNumber
+        case ukUniqueTaxpayerReferenceNumber
+        case url
+        case username
+        case usBankAccountNumber
+        case usBankRoutingNumber
+        case usIndividualTaxIdentificationNumber
+        case usPassportNumber
+        case usSocialSecurityNumber
+        case vehicleIdentificationNumber
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GuardrailPiiEntityType] {
+            return [
+                .address,
+                .age,
+                .awsAccessKey,
+                .awsSecretKey,
+                .caHealthNumber,
+                .caSocialInsuranceNumber,
+                .creditDebitCardCvv,
+                .creditDebitCardExpiry,
+                .creditDebitCardNumber,
+                .driverId,
+                .email,
+                .internationalBankAccountNumber,
+                .ipAddress,
+                .licensePlate,
+                .macAddress,
+                .name,
+                .password,
+                .phone,
+                .pin,
+                .swiftCode,
+                .ukNationalHealthServiceNumber,
+                .ukNationalInsuranceNumber,
+                .ukUniqueTaxpayerReferenceNumber,
+                .url,
+                .username,
+                .usBankAccountNumber,
+                .usBankRoutingNumber,
+                .usIndividualTaxIdentificationNumber,
+                .usPassportNumber,
+                .usSocialSecurityNumber,
+                .vehicleIdentificationNumber,
+                .sdkUnknown("")
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .address: return "ADDRESS"
+            case .age: return "AGE"
+            case .awsAccessKey: return "AWS_ACCESS_KEY"
+            case .awsSecretKey: return "AWS_SECRET_KEY"
+            case .caHealthNumber: return "CA_HEALTH_NUMBER"
+            case .caSocialInsuranceNumber: return "CA_SOCIAL_INSURANCE_NUMBER"
+            case .creditDebitCardCvv: return "CREDIT_DEBIT_CARD_CVV"
+            case .creditDebitCardExpiry: return "CREDIT_DEBIT_CARD_EXPIRY"
+            case .creditDebitCardNumber: return "CREDIT_DEBIT_CARD_NUMBER"
+            case .driverId: return "DRIVER_ID"
+            case .email: return "EMAIL"
+            case .internationalBankAccountNumber: return "INTERNATIONAL_BANK_ACCOUNT_NUMBER"
+            case .ipAddress: return "IP_ADDRESS"
+            case .licensePlate: return "LICENSE_PLATE"
+            case .macAddress: return "MAC_ADDRESS"
+            case .name: return "NAME"
+            case .password: return "PASSWORD"
+            case .phone: return "PHONE"
+            case .pin: return "PIN"
+            case .swiftCode: return "SWIFT_CODE"
+            case .ukNationalHealthServiceNumber: return "UK_NATIONAL_HEALTH_SERVICE_NUMBER"
+            case .ukNationalInsuranceNumber: return "UK_NATIONAL_INSURANCE_NUMBER"
+            case .ukUniqueTaxpayerReferenceNumber: return "UK_UNIQUE_TAXPAYER_REFERENCE_NUMBER"
+            case .url: return "URL"
+            case .username: return "USERNAME"
+            case .usBankAccountNumber: return "US_BANK_ACCOUNT_NUMBER"
+            case .usBankRoutingNumber: return "US_BANK_ROUTING_NUMBER"
+            case .usIndividualTaxIdentificationNumber: return "US_INDIVIDUAL_TAX_IDENTIFICATION_NUMBER"
+            case .usPassportNumber: return "US_PASSPORT_NUMBER"
+            case .usSocialSecurityNumber: return "US_SOCIAL_SECURITY_NUMBER"
+            case .vehicleIdentificationNumber: return "VEHICLE_IDENTIFICATION_NUMBER"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.GuardrailRegexFilter: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.GuardrailRegexFilter {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentRuntimeClientTypes.GuardrailRegexFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentRuntimeClientTypes.GuardrailRegexFilter()
+        value.name = try reader["name"].readIfPresent()
+        value.regex = try reader["regex"].readIfPresent()
+        value.match = try reader["match"].readIfPresent()
+        value.action = try reader["action"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+    /// The details for the regex filter used in the Guardrail.
+    public struct GuardrailRegexFilter {
+        /// The action details for the regex filter used in the Guardrail.
+        public var action: BedrockAgentRuntimeClientTypes.GuardrailSensitiveInformationPolicyAction?
+        /// The match details for the regex filter used in the Guardrail.
+        public var match: Swift.String?
+        /// The name details for the regex filter used in the Guardrail.
+        public var name: Swift.String?
+        /// The regex details for the regex filter used in the Guardrail.
+        public var regex: Swift.String?
+
+        public init(
+            action: BedrockAgentRuntimeClientTypes.GuardrailSensitiveInformationPolicyAction? = nil,
+            match: Swift.String? = nil,
+            name: Swift.String? = nil,
+            regex: Swift.String? = nil
+        )
+        {
+            self.action = action
+            self.match = match
+            self.name = name
+            self.regex = regex
+        }
+    }
+
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
+    public enum GuardrailSensitiveInformationPolicyAction: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case anonymized
+        case blocked
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GuardrailSensitiveInformationPolicyAction] {
+            return [
+                .anonymized,
+                .blocked,
+                .sdkUnknown("")
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .anonymized: return "ANONYMIZED"
+            case .blocked: return "BLOCKED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.GuardrailSensitiveInformationPolicyAssessment: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.GuardrailSensitiveInformationPolicyAssessment {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentRuntimeClientTypes.GuardrailSensitiveInformationPolicyAssessment {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentRuntimeClientTypes.GuardrailSensitiveInformationPolicyAssessment()
+        value.piiEntities = try reader["piiEntities"].readListIfPresent(memberReadingClosure: BedrockAgentRuntimeClientTypes.GuardrailPiiEntityFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.regexes = try reader["regexes"].readListIfPresent(memberReadingClosure: BedrockAgentRuntimeClientTypes.GuardrailRegexFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+    /// The details of the sensitive policy assessment used in the Guardrail.
+    public struct GuardrailSensitiveInformationPolicyAssessment {
+        /// The details of the PII entities used in the sensitive policy assessment for the Guardrail.
+        public var piiEntities: [BedrockAgentRuntimeClientTypes.GuardrailPiiEntityFilter]?
+        /// The details of the regexes used in the sensitive policy assessment for the Guardrail.
+        public var regexes: [BedrockAgentRuntimeClientTypes.GuardrailRegexFilter]?
+
+        public init(
+            piiEntities: [BedrockAgentRuntimeClientTypes.GuardrailPiiEntityFilter]? = nil,
+            regexes: [BedrockAgentRuntimeClientTypes.GuardrailRegexFilter]? = nil
+        )
+        {
+            self.piiEntities = piiEntities
+            self.regexes = regexes
+        }
+    }
+
+}
+
+extension BedrockAgentRuntimeClientTypes.GuardrailTopic: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.GuardrailTopic {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentRuntimeClientTypes.GuardrailTopic {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentRuntimeClientTypes.GuardrailTopic()
+        value.name = try reader["name"].readIfPresent()
+        value.type = try reader["type"].readIfPresent()
+        value.action = try reader["action"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+    /// The details for a specific topic defined in the Guardrail.
+    public struct GuardrailTopic {
+        /// The action details on a specific topic in the Guardrail.
+        public var action: BedrockAgentRuntimeClientTypes.GuardrailTopicPolicyAction?
+        /// The name details on a specific topic in the Guardrail.
+        public var name: Swift.String?
+        /// The type details on a specific topic in the Guardrail.
+        public var type: BedrockAgentRuntimeClientTypes.GuardrailTopicType?
+
+        public init(
+            action: BedrockAgentRuntimeClientTypes.GuardrailTopicPolicyAction? = nil,
+            name: Swift.String? = nil,
+            type: BedrockAgentRuntimeClientTypes.GuardrailTopicType? = nil
+        )
+        {
+            self.action = action
+            self.name = name
+            self.type = type
+        }
+    }
+
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
+    public enum GuardrailTopicPolicyAction: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case blocked
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GuardrailTopicPolicyAction] {
+            return [
+                .blocked,
+                .sdkUnknown("")
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .blocked: return "BLOCKED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.GuardrailTopicPolicyAssessment: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.GuardrailTopicPolicyAssessment {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentRuntimeClientTypes.GuardrailTopicPolicyAssessment {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentRuntimeClientTypes.GuardrailTopicPolicyAssessment()
+        value.topics = try reader["topics"].readListIfPresent(memberReadingClosure: BedrockAgentRuntimeClientTypes.GuardrailTopic.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+    /// The details of the policy assessment used in the Guardrail.
+    public struct GuardrailTopicPolicyAssessment {
+        /// The topic details of the policy assessment used in the Guardrail.
+        public var topics: [BedrockAgentRuntimeClientTypes.GuardrailTopic]?
+
+        public init(
+            topics: [BedrockAgentRuntimeClientTypes.GuardrailTopic]? = nil
+        )
+        {
+            self.topics = topics
+        }
+    }
+
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
+    public enum GuardrailTopicType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case deny
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GuardrailTopicType] {
+            return [
+                .deny,
+                .sdkUnknown("")
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .deny: return "DENY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.GuardrailTrace: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.GuardrailTrace {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentRuntimeClientTypes.GuardrailTrace {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentRuntimeClientTypes.GuardrailTrace()
+        value.action = try reader["action"].readIfPresent()
+        value.traceId = try reader["traceId"].readIfPresent()
+        value.inputAssessments = try reader["inputAssessments"].readListIfPresent(memberReadingClosure: BedrockAgentRuntimeClientTypes.GuardrailAssessment.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.outputAssessments = try reader["outputAssessments"].readListIfPresent(memberReadingClosure: BedrockAgentRuntimeClientTypes.GuardrailAssessment.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+    /// The trace details used in the Guardrail.
+    public struct GuardrailTrace {
+        /// The trace action details used with the Guardrail.
+        public var action: BedrockAgentRuntimeClientTypes.GuardrailAction?
+        /// The details of the input assessments used in the Guardrail Trace.
+        public var inputAssessments: [BedrockAgentRuntimeClientTypes.GuardrailAssessment]?
+        /// The details of the output assessments used in the Guardrail Trace.
+        public var outputAssessments: [BedrockAgentRuntimeClientTypes.GuardrailAssessment]?
+        /// The details of the trace Id used in the Guardrail Trace.
+        public var traceId: Swift.String?
+
+        public init(
+            action: BedrockAgentRuntimeClientTypes.GuardrailAction? = nil,
+            inputAssessments: [BedrockAgentRuntimeClientTypes.GuardrailAssessment]? = nil,
+            outputAssessments: [BedrockAgentRuntimeClientTypes.GuardrailAssessment]? = nil,
+            traceId: Swift.String? = nil
+        )
+        {
+            self.action = action
+            self.inputAssessments = inputAssessments
+            self.outputAssessments = outputAssessments
+            self.traceId = traceId
+        }
+    }
+
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
+    public enum GuardrailWordPolicyAction: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case blocked
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GuardrailWordPolicyAction] {
+            return [
+                .blocked,
+                .sdkUnknown("")
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .blocked: return "BLOCKED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.GuardrailWordPolicyAssessment: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.GuardrailWordPolicyAssessment {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentRuntimeClientTypes.GuardrailWordPolicyAssessment {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentRuntimeClientTypes.GuardrailWordPolicyAssessment()
+        value.customWords = try reader["customWords"].readListIfPresent(memberReadingClosure: BedrockAgentRuntimeClientTypes.GuardrailCustomWord.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.managedWordLists = try reader["managedWordLists"].readListIfPresent(memberReadingClosure: BedrockAgentRuntimeClientTypes.GuardrailManagedWord.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+    /// The assessment details for words defined in the Guardrail filter.
+    public struct GuardrailWordPolicyAssessment {
+        /// The custom word details for words defined in the Guardrail filter.
+        public var customWords: [BedrockAgentRuntimeClientTypes.GuardrailCustomWord]?
+        /// The managed word lists for words defined in the Guardrail filter.
+        public var managedWordLists: [BedrockAgentRuntimeClientTypes.GuardrailManagedWord]?
+
+        public init(
+            customWords: [BedrockAgentRuntimeClientTypes.GuardrailCustomWord]? = nil,
+            managedWordLists: [BedrockAgentRuntimeClientTypes.GuardrailManagedWord]? = nil
+        )
+        {
+            self.customWords = customWords
+            self.managedWordLists = managedWordLists
+        }
+    }
+
+}
+
+extension BedrockAgentRuntimeClientTypes.InferenceConfig {
+
+    static func write(value: BedrockAgentRuntimeClientTypes.InferenceConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["textInferenceConfig"].write(value.textInferenceConfig, with: BedrockAgentRuntimeClientTypes.TextInferenceConfig.write(value:to:))
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+    /// The configuration for inference settings when generating responses using RetrieveAndGenerate.
+    public struct InferenceConfig {
+        /// Configuration settings specific to text generation while generating responses using RetrieveAndGenerate.
+        public var textInferenceConfig: BedrockAgentRuntimeClientTypes.TextInferenceConfig?
+
+        public init(
+            textInferenceConfig: BedrockAgentRuntimeClientTypes.TextInferenceConfig? = nil
+        )
+        {
+            self.textInferenceConfig = textInferenceConfig
         }
     }
 
@@ -1194,7 +2183,7 @@ extension BedrockAgentRuntimeClientTypes.InvocationInputMember {
 extension BedrockAgentRuntimeClientTypes {
     /// Contains details about the API operation or function that the agent predicts should be called. This data type is used in the following API operations:
     ///
-    /// * In the returnControl field of the [Retrieve response](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_Retrieve.html#API_agent-runtime_Retrieve_ResponseSyntax)
+    /// * In the returnControl field of the [InvokeAgent response](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_InvokeAgent.html#API_agent-runtime_InvokeAgent_ResponseSyntax)
     public enum InvocationInputMember {
         /// Contains information about the API operation that the agent predicts should be called.
         case apiinvocationinput(BedrockAgentRuntimeClientTypes.ApiInvocationInput)
@@ -1221,9 +2210,9 @@ extension BedrockAgentRuntimeClientTypes.InvocationResultMember {
 }
 
 extension BedrockAgentRuntimeClientTypes {
-    /// A result from the action group invocation. This data type is used in the following API operations:
+    /// A result from the invocation of an action. For more information, see [Return control to the agent developer](https://docs.aws.amazon.com/bedrock/latest/userguide/agents-returncontrol.html) and [Control session context](https://docs.aws.amazon.com/bedrock/latest/userguide/agents-session-state.html). This data type is used in the following API operations:
     ///
-    /// * [Retrieve request](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_Retrieve.html#API_agent-runtime_Retrieve_RequestSyntax)
+    /// * [InvokeAgent request](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_InvokeAgent.html#API_agent-runtime_InvokeAgent_RequestSyntax)
     public enum InvocationResultMember {
         /// The result from the API response from the action group invocation.
         case apiresult(BedrockAgentRuntimeClientTypes.ApiResult)
@@ -1310,12 +2299,12 @@ public struct InvokeAgentInput {
     public var enableTrace: Swift.Bool?
     /// Specifies whether to end the session with the agent or not.
     public var endSession: Swift.Bool?
-    /// The prompt text to send the agent.
+    /// The prompt text to send the agent. If you include returnControlInvocationResults in the sessionState field, the inputText field will be ignored.
     public var inputText: Swift.String?
     /// The unique identifier of the session. Use the same value across requests to continue the same conversation.
     /// This member is required.
     public var sessionId: Swift.String?
-    /// Contains parameters that specify various attributes of the session. For more information, see [Control session context](https://docs.aws.amazon.com/bedrock/latest/userguide/agents-session-state.html).
+    /// Contains parameters that specify various attributes of the session. For more information, see [Control session context](https://docs.aws.amazon.com/bedrock/latest/userguide/agents-session-state.html). If you include returnControlInvocationResults in the sessionState field, the inputText field will be ignored.
     public var sessionState: BedrockAgentRuntimeClientTypes.SessionState?
 
     public init(
@@ -2496,6 +3485,8 @@ extension BedrockAgentRuntimeClientTypes.RetrievalFilter {
                 try writer["lessThan"].write(lessthan, with: BedrockAgentRuntimeClientTypes.FilterAttribute.write(value:to:))
             case let .lessthanorequals(lessthanorequals):
                 try writer["lessThanOrEquals"].write(lessthanorequals, with: BedrockAgentRuntimeClientTypes.FilterAttribute.write(value:to:))
+            case let .listcontains(listcontains):
+                try writer["listContains"].write(listcontains, with: BedrockAgentRuntimeClientTypes.FilterAttribute.write(value:to:))
             case let .notequals(notequals):
                 try writer["notEquals"].write(notequals, with: BedrockAgentRuntimeClientTypes.FilterAttribute.write(value:to:))
             case let .notin(notin):
@@ -2504,6 +3495,8 @@ extension BedrockAgentRuntimeClientTypes.RetrievalFilter {
                 try writer["orAll"].writeList(orall, memberWritingClosure: BedrockAgentRuntimeClientTypes.RetrievalFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
             case let .startswith(startswith):
                 try writer["startsWith"].write(startswith, with: BedrockAgentRuntimeClientTypes.FilterAttribute.write(value:to:))
+            case let .stringcontains(stringcontains):
+                try writer["stringContains"].write(stringcontains, with: BedrockAgentRuntimeClientTypes.FilterAttribute.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
@@ -2511,33 +3504,41 @@ extension BedrockAgentRuntimeClientTypes.RetrievalFilter {
 }
 
 extension BedrockAgentRuntimeClientTypes {
-    /// Specifies the filters to use on the metadata attributes in the knowledge base data sources before returning results. For more information, see [Query configurations](https://docs.aws.amazon.com/bedrock/latest/userguide/kb-test-config.html). This data type is used in the following API operations:
+    /// Specifies the filters to use on the metadata attributes in the knowledge base data sources before returning results. For more information, see [Query configurations](https://docs.aws.amazon.com/bedrock/latest/userguide/kb-test-config.html). See the examples below to see how to use these filters. This data type is used in the following API operations:
     ///
     /// * [Retrieve request](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_Retrieve.html#API_agent-runtime_Retrieve_RequestSyntax) – in the filter field
     ///
     /// * [RetrieveAndGenerate request](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_RetrieveAndGenerate.html#API_agent-runtime_RetrieveAndGenerate_RequestSyntax) – in the filter field
     public indirect enum RetrievalFilter {
-        /// Knowledge base data sources that contain a metadata attribute whose name matches the key and whose value matches the value in this object are returned.
+        /// Knowledge base data sources are returned if they contain a metadata attribute whose name matches the key and whose value matches the value in this object. The following example would return data sources with an animal attribute whose value is cat: "equals": { "key": "animal", "value": "cat" }
         case equals(BedrockAgentRuntimeClientTypes.FilterAttribute)
-        /// Knowledge base data sources that contain a metadata attribute whose name matches the key and whose value doesn't match the value in this object are returned.
+        /// Knowledge base data sources that contain a metadata attribute whose name matches the key and whose value doesn't match the value in this object are returned. The following example would return data sources that don't contain an animal attribute whose value is cat. "notEquals": { "key": "animal", "value": "cat" }
         case notequals(BedrockAgentRuntimeClientTypes.FilterAttribute)
-        /// Knowledge base data sources that contain a metadata attribute whose name matches the key and whose value is greater than the value in this object are returned.
+        /// Knowledge base data sources are returned if they contain a metadata attribute whose name matches the key and whose value is greater than the value in this object. The following example would return data sources with an year attribute whose value is greater than 1989: "greaterThan": { "key": "year", "value": 1989 }
         case greaterthan(BedrockAgentRuntimeClientTypes.FilterAttribute)
-        /// Knowledge base data sources that contain a metadata attribute whose name matches the key and whose value is greater than or equal to the value in this object are returned.
+        /// Knowledge base data sources are returned if they contain a metadata attribute whose name matches the key and whose value is greater than or equal to the value in this object. The following example would return data sources with an year attribute whose value is greater than or equal to 1989: "greaterThanOrEquals": { "key": "year", "value": 1989 }
         case greaterthanorequals(BedrockAgentRuntimeClientTypes.FilterAttribute)
-        /// Knowledge base data sources that contain a metadata attribute whose name matches the key and whose value is less than the value in this object are returned.
+        /// Knowledge base data sources are returned if they contain a metadata attribute whose name matches the key and whose value is less than the value in this object. The following example would return data sources with an year attribute whose value is less than to 1989. "lessThan": { "key": "year", "value": 1989 }
         case lessthan(BedrockAgentRuntimeClientTypes.FilterAttribute)
-        /// Knowledge base data sources that contain a metadata attribute whose name matches the key and whose value is less than or equal to the value in this object are returned.
+        /// Knowledge base data sources are returned if they contain a metadata attribute whose name matches the key and whose value is less than or equal to the value in this object. The following example would return data sources with an year attribute whose value is less than or equal to 1989. "lessThanOrEquals": { "key": "year", "value": 1989 }
         case lessthanorequals(BedrockAgentRuntimeClientTypes.FilterAttribute)
-        /// Knowledge base data sources that contain a metadata attribute whose name matches the key and whose value is in the list specified in the value in this object are returned.
+        /// Knowledge base data sources are returned if they contain a metadata attribute whose name matches the key and whose value is in the list specified in the value in this object. The following example would return data sources with an animal attribute that is either cat or dog: "in": { "key": "animal", "value": ["cat", "dog"] }
         case `in`(BedrockAgentRuntimeClientTypes.FilterAttribute)
-        /// Knowledge base data sources that contain a metadata attribute whose name matches the key and whose value isn't in the list specified in the value in this object are returned.
+        /// Knowledge base data sources are returned if they contain a metadata attribute whose name matches the key and whose value isn't in the list specified in the value in this object. The following example would return data sources whose animal attribute is neither cat nor dog. "notIn": { "key": "animal", "value": ["cat", "dog"] }
         case notin(BedrockAgentRuntimeClientTypes.FilterAttribute)
-        /// Knowledge base data sources that contain a metadata attribute whose name matches the key and whose value starts with the value in this object are returned. This filter is currently only supported for Amazon OpenSearch Serverless vector stores.
+        /// Knowledge base data sources are returned if they contain a metadata attribute whose name matches the key and whose value starts with the value in this object. This filter is currently only supported for Amazon OpenSearch Serverless vector stores. The following example would return data sources with an animal attribute starts with ca (for example, cat or camel). "startsWith": { "key": "animal", "value": "ca" }
         case startswith(BedrockAgentRuntimeClientTypes.FilterAttribute)
-        /// Knowledge base data sources whose metadata attributes fulfill all the filter conditions inside this list are returned.
+        /// Knowledge base data sources are returned if they contain a metadata attribute whose name matches the key and whose value is a list that contains the value as one of its members. The following example would return data sources with an animals attribute that is a list containing a cat member (for example ["dog", "cat"]). "listContains": { "key": "animals", "value": "cat" }
+        case listcontains(BedrockAgentRuntimeClientTypes.FilterAttribute)
+        /// Knowledge base data sources are returned if they contain a metadata attribute whose name matches the key and whose value is one of the following:
+        ///
+        /// * A string that contains the value as a substring. The following example would return data sources with an animal attribute that contains the substring at (for example cat). "stringContains": { "key": "animal", "value": "at" }
+        ///
+        /// * A list with a member that contains the value as a substring. The following example would return data sources with an animals attribute that is a list containing a member that contains the substring at (for example ["dog", "cat"]). "stringContains": { "key": "animals", "value": "at" }
+        case stringcontains(BedrockAgentRuntimeClientTypes.FilterAttribute)
+        /// Knowledge base data sources are returned if their metadata attributes fulfill all the filter conditions inside this list.
         case andall([BedrockAgentRuntimeClientTypes.RetrievalFilter])
-        /// Knowledge base data sources whose metadata attributes fulfill at least one of the filter conditions inside this list are returned.
+        /// Knowledge base data sources are returned if their metadata attributes fulfill at least one of the filter conditions inside this list.
         case orall([BedrockAgentRuntimeClientTypes.RetrievalFilter])
         case sdkUnknown(Swift.String)
     }
@@ -2567,7 +3568,7 @@ extension BedrockAgentRuntimeClientTypes {
     ///
     /// * [RetrieveAndGenerate response](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_RetrieveAndGenerate.html#API_agent-runtime_RetrieveAndGenerate_ResponseSyntax) – in the content field
     ///
-    /// * [Retrieve response](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_Retrieve.html#API_agent-runtime_Retrieve_ResponseSyntax) – in the content field
+    /// * [InvokeAgent response](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_InvokeAgent.html#API_agent-runtime_InvokeAgent_ResponseSyntax) – in the content field
     public struct RetrievalResultContent {
         /// The cited text from the data source.
         /// This member is required.
@@ -2607,7 +3608,7 @@ extension BedrockAgentRuntimeClientTypes {
     ///
     /// * [RetrieveAndGenerate response](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_RetrieveAndGenerate.html#API_agent-runtime_RetrieveAndGenerate_ResponseSyntax) – in the location field
     ///
-    /// * [Retrieve response](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_Retrieve.html#API_agent-runtime_Retrieve_ResponseSyntax) – in the locatino field
+    /// * [InvokeAgent response](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_InvokeAgent.html#API_agent-runtime_InvokeAgent_ResponseSyntax) – in the locatino field
     public struct RetrievalResultLocation {
         /// Contains the S3 location of the data source.
         public var s3Location: BedrockAgentRuntimeClientTypes.RetrievalResultS3Location?
@@ -2671,7 +3672,7 @@ extension BedrockAgentRuntimeClientTypes {
     ///
     /// * [RetrieveAndGenerate response](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_RetrieveAndGenerate.html#API_agent-runtime_RetrieveAndGenerate_ResponseSyntax) – in the s3Location field
     ///
-    /// * [Retrieve response](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_Retrieve.html#API_agent-runtime_Retrieve_ResponseSyntax) – in the s3Location field
+    /// * [InvokeAgent response](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_InvokeAgent.html#API_agent-runtime_InvokeAgent_ResponseSyntax) – in the s3Location field
     public struct RetrievalResultS3Location {
         /// The S3 URI of the data source.
         public var uri: Swift.String?
@@ -2812,7 +3813,7 @@ extension BedrockAgentRuntimeClientTypes.RetrieveAndGenerateOutput: Swift.Custom
 
 extension RetrieveAndGenerateOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "RetrieveAndGenerateOutput(citations: \(Swift.String(describing: citations)), sessionId: \(Swift.String(describing: sessionId)), output: \"CONTENT_REDACTED\")"}
+        "RetrieveAndGenerateOutput(citations: \(Swift.String(describing: citations)), guardrailAction: \(Swift.String(describing: guardrailAction)), sessionId: \(Swift.String(describing: sessionId)), output: \"CONTENT_REDACTED\")"}
 }
 
 extension RetrieveAndGenerateOutput {
@@ -2823,6 +3824,7 @@ extension RetrieveAndGenerateOutput {
         let reader = responseReader
         var value = RetrieveAndGenerateOutput()
         value.citations = try reader["citations"].readListIfPresent(memberReadingClosure: BedrockAgentRuntimeClientTypes.Citation.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.guardrailAction = try reader["guardrailAction"].readIfPresent()
         value.output = try reader["output"].readIfPresent(with: BedrockAgentRuntimeClientTypes.RetrieveAndGenerateOutput.read(from:))
         value.sessionId = try reader["sessionId"].readIfPresent()
         return value
@@ -2861,6 +3863,8 @@ extension BedrockAgentRuntimeClientTypes {
 public struct RetrieveAndGenerateOutput {
     /// A list of segments of the generated response that are based on sources in the knowledge base, alongside information about the sources.
     public var citations: [BedrockAgentRuntimeClientTypes.Citation]?
+    /// Specifies if there is a guardrail intervention in the response.
+    public var guardrailAction: BedrockAgentRuntimeClientTypes.GuadrailAction?
     /// Contains the response generated from querying the knowledge base.
     /// This member is required.
     public var output: BedrockAgentRuntimeClientTypes.RetrieveAndGenerateOutput?
@@ -2870,11 +3874,13 @@ public struct RetrieveAndGenerateOutput {
 
     public init(
         citations: [BedrockAgentRuntimeClientTypes.Citation]? = nil,
+        guardrailAction: BedrockAgentRuntimeClientTypes.GuadrailAction? = nil,
         output: BedrockAgentRuntimeClientTypes.RetrieveAndGenerateOutput? = nil,
         sessionId: Swift.String? = nil
     )
     {
         self.citations = citations
+        self.guardrailAction = guardrailAction
         self.output = output
         self.sessionId = sessionId
     }
@@ -3089,7 +4095,7 @@ extension BedrockAgentRuntimeClientTypes {
     ///
     /// * [RetrieveAndGenerate response](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_RetrieveAndGenerate.html#API_agent-runtime_RetrieveAndGenerate_ResponseSyntax) – in the retrievedReferences field
     ///
-    /// * [Retrieve response](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_Retrieve.html#API_agent-runtime_Retrieve_ResponseSyntax) – in the retrievedReferences field
+    /// * [InvokeAgent response](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_InvokeAgent.html#API_agent-runtime_InvokeAgent_ResponseSyntax) – in the retrievedReferences field
     public struct RetrievedReference {
         /// Contains the cited text from the data source.
         public var content: BedrockAgentRuntimeClientTypes.RetrievalResultContent?
@@ -3132,7 +4138,7 @@ extension BedrockAgentRuntimeClientTypes.ReturnControlPayload {
 extension BedrockAgentRuntimeClientTypes {
     /// Contains information to return from the action group that the agent has predicted to invoke. This data type is used in the following API operations:
     ///
-    /// * [Retrieve response](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_Retrieve.html#API_agent-runtime_Retrieve_ResponseSyntax)
+    /// * [InvokeAgent response](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_InvokeAgent.html#API_agent-runtime_InvokeAgent_ResponseSyntax)
     public struct ReturnControlPayload {
         /// The identifier of the action group invocation.
         public var invocationId: Swift.String?
@@ -3267,11 +4273,11 @@ extension BedrockAgentRuntimeClientTypes.SessionState {
 extension BedrockAgentRuntimeClientTypes {
     /// Contains parameters that specify various attributes that persist across a session or prompt. You can define session state attributes as key-value pairs when writing a [Lambda function](https://docs.aws.amazon.com/bedrock/latest/userguide/agents-lambda.html) for an action group or pass them when making an [InvokeAgent](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_InvokeAgent.html) request. Use session state attributes to control and provide conversational context for your agent and to help customize your agent's behavior. For more information, see [Control session context](https://docs.aws.amazon.com/bedrock/latest/userguide/agents-session-state.html).
     public struct SessionState {
-        /// The identifier of the invocation.
+        /// The identifier of the invocation of an action. This value must match the invocationId returned in the InvokeAgent response for the action whose results are provided in the returnControlInvocationResults field. For more information, see [Return control to the agent developer](https://docs.aws.amazon.com/bedrock/latest/userguide/agents-returncontrol.html) and [Control session context](https://docs.aws.amazon.com/bedrock/latest/userguide/agents-session-state.html).
         public var invocationId: Swift.String?
         /// Contains attributes that persist across a prompt and the values of those attributes. These attributes replace the $prompt_session_attributes$ placeholder variable in the orchestration prompt template. For more information, see [Prompt template placeholder variables](https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-placeholders.html).
         public var promptSessionAttributes: [Swift.String:Swift.String]?
-        /// Contains information about the results from the action group invocation.
+        /// Contains information about the results from the action group invocation. For more information, see [Return control to the agent developer](https://docs.aws.amazon.com/bedrock/latest/userguide/agents-returncontrol.html) and [Control session context](https://docs.aws.amazon.com/bedrock/latest/userguide/agents-session-state.html). If you include this field, the inputText field will be ignored.
         public var returnControlInvocationResults: [BedrockAgentRuntimeClientTypes.InvocationResultMember]?
         /// Contains attributes that persist across a session and the values of those attributes.
         public var sessionAttributes: [Swift.String:Swift.String]?
@@ -3341,7 +4347,7 @@ extension BedrockAgentRuntimeClientTypes {
     ///
     /// * [RetrieveAndGenerate response](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_RetrieveAndGenerate.html#API_agent-runtime_RetrieveAndGenerate_ResponseSyntax) – in the span field
     ///
-    /// * [Retrieve response](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_Retrieve.html#API_agent-runtime_Retrieve_ResponseSyntax) – in the span field
+    /// * [InvokeAgent response](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_InvokeAgent.html#API_agent-runtime_InvokeAgent_ResponseSyntax) – in the span field
     public struct Span {
         /// Where the text with a citation ends in the generated output.
         public var end: Swift.Int?
@@ -3355,6 +4361,45 @@ extension BedrockAgentRuntimeClientTypes {
         {
             self.end = end
             self.start = start
+        }
+    }
+
+}
+
+extension BedrockAgentRuntimeClientTypes.TextInferenceConfig {
+
+    static func write(value: BedrockAgentRuntimeClientTypes.TextInferenceConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["maxTokens"].write(value.maxTokens)
+        try writer["stopSequences"].writeList(value.stopSequences, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["temperature"].write(value.temperature)
+        try writer["topP"].write(value.topp)
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+    /// Configuration settings for text generation using a language model via the RetrieveAndGenerate operation. Includes parameters like temperature, top-p, maximum token count, and stop sequences. The valid range of maxTokens depends on the accepted values for your chosen model's inference parameters. To see the inference parameters for your model, see [Inference parameters for foundation models.](https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters.html)
+    public struct TextInferenceConfig {
+        /// The maximum number of tokens to generate in the output text. Do not use the minimum of 0 or the maximum of 65536. The limit values described here are arbitary values, for actual values consult the limits defined by your specific model.
+        public var maxTokens: Swift.Int?
+        /// A list of sequences of characters that, if generated, will cause the model to stop generating further tokens. Do not use a minimum length of 1 or a maximum length of 1000. The limit values described here are arbitary values, for actual values consult the limits defined by your specific model.
+        public var stopSequences: [Swift.String]?
+        /// Controls the random-ness of text generated by the language model, influencing how much the model sticks to the most predictable next words versus exploring more surprising options. A lower temperature value (e.g. 0.2 or 0.3) makes model outputs more deterministic or predictable, while a higher temperature (e.g. 0.8 or 0.9) makes the outputs more creative or unpredictable.
+        public var temperature: Swift.Float?
+        /// A probability distribution threshold which controls what the model considers for the set of possible next tokens. The model will only consider the top p% of the probability distribution when generating the next token.
+        public var topp: Swift.Float?
+
+        public init(
+            maxTokens: Swift.Int? = nil,
+            stopSequences: [Swift.String]? = nil,
+            temperature: Swift.Float? = nil,
+            topp: Swift.Float? = nil
+        )
+        {
+            self.maxTokens = maxTokens
+            self.stopSequences = stopSequences
+            self.temperature = temperature
+            self.topp = topp
         }
     }
 
@@ -3382,7 +4427,7 @@ extension BedrockAgentRuntimeClientTypes {
     ///
     /// * [RetrieveAndGenerate response](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_RetrieveAndGenerate.html#API_agent-runtime_RetrieveAndGenerate_ResponseSyntax) – in the textResponsePart field
     ///
-    /// * [Retrieve response](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_Retrieve.html#API_agent-runtime_Retrieve_ResponseSyntax) – in the textResponsePart field
+    /// * [InvokeAgent response](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_InvokeAgent.html#API_agent-runtime_InvokeAgent_ResponseSyntax) – in the textResponsePart field
     public struct TextResponsePart {
         /// Contains information about where the text with a citation begins and ends in the generated output.
         public var span: BedrockAgentRuntimeClientTypes.Span?
@@ -3454,6 +4499,8 @@ extension BedrockAgentRuntimeClientTypes.Trace {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
         switch name {
+            case "guardrailTrace":
+                return .guardrailtrace(try reader["guardrailTrace"].read(with: BedrockAgentRuntimeClientTypes.GuardrailTrace.read(from:)))
             case "preProcessingTrace":
                 return .preprocessingtrace(try reader["preProcessingTrace"].read(with: BedrockAgentRuntimeClientTypes.PreProcessingTrace.read(from:)))
             case "orchestrationTrace":
@@ -3471,6 +4518,8 @@ extension BedrockAgentRuntimeClientTypes.Trace {
 extension BedrockAgentRuntimeClientTypes {
     /// Contains one part of the agent's reasoning process and results from calling API actions and querying knowledge bases. You can use the trace to understand how the agent arrived at the response it provided the customer. For more information, see [Trace enablement](https://docs.aws.amazon.com/bedrock/latest/userguide/agents-test.html#trace-enablement).
     public enum Trace {
+        /// The trace details for a trace defined in the Guardrail filter.
+        case guardrailtrace(BedrockAgentRuntimeClientTypes.GuardrailTrace)
         /// Details about the pre-processing step, in which the agent contextualizes and categorizes user inputs.
         case preprocessingtrace(BedrockAgentRuntimeClientTypes.PreProcessingTrace)
         /// Details about the orchestration step, in which the agent determines the order in which actions are executed and which knowledge bases are retrieved.

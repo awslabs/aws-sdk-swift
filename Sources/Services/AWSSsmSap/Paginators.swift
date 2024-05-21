@@ -97,6 +97,38 @@ extension PaginatorSequence where OperationStackInput == ListDatabasesInput, Ope
     }
 }
 extension SsmSapClient {
+    /// Paginate over `[ListOperationEventsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListOperationEventsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListOperationEventsOutput`
+    public func listOperationEventsPaginated(input: ListOperationEventsInput) -> ClientRuntime.PaginatorSequence<ListOperationEventsInput, ListOperationEventsOutput> {
+        return ClientRuntime.PaginatorSequence<ListOperationEventsInput, ListOperationEventsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listOperationEvents(input:))
+    }
+}
+
+extension ListOperationEventsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListOperationEventsInput {
+        return ListOperationEventsInput(
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token,
+            operationId: self.operationId
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListOperationEventsInput, OperationStackOutput == ListOperationEventsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listOperationEventsPaginated`
+    /// to access the nested member `[SsmSapClientTypes.OperationEvent]`
+    /// - Returns: `[SsmSapClientTypes.OperationEvent]`
+    public func operationEvents() async throws -> [SsmSapClientTypes.OperationEvent] {
+        return try await self.asyncCompactMap { item in item.operationEvents }
+    }
+}
+extension SsmSapClient {
     /// Paginate over `[ListOperationsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

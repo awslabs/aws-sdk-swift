@@ -279,6 +279,37 @@ extension KafkaClientTypes {
     }
 }
 
+extension KafkaClientTypes.BrokerCountUpdateInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.BrokerCountUpdateInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.BrokerCountUpdateInfo()
+        value.createdBrokerIds = try reader["createdBrokerIds"].readListIfPresent(memberReadingClosure: Swift.Double.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.deletedBrokerIds = try reader["deletedBrokerIds"].readListIfPresent(memberReadingClosure: Swift.Double.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension KafkaClientTypes {
+    /// Information regarding UpdateBrokerCount.
+    public struct BrokerCountUpdateInfo {
+        /// Kafka Broker IDs of brokers being created.
+        public var createdBrokerIds: [Swift.Double]?
+        /// Kafka Broker IDs of brokers being deleted.
+        public var deletedBrokerIds: [Swift.Double]?
+
+        public init(
+            createdBrokerIds: [Swift.Double]? = nil,
+            deletedBrokerIds: [Swift.Double]? = nil
+        )
+        {
+            self.createdBrokerIds = createdBrokerIds
+            self.deletedBrokerIds = deletedBrokerIds
+        }
+    }
+
+}
+
 extension KafkaClientTypes.BrokerEBSVolumeInfo {
 
     static func write(value: KafkaClientTypes.BrokerEBSVolumeInfo?, to writer: SmithyJSON.Writer) throws {
@@ -5434,6 +5465,7 @@ extension KafkaClientTypes.MutableClusterInfo {
         value.encryptionInfo = try reader["encryptionInfo"].readIfPresent(with: KafkaClientTypes.EncryptionInfo.read(from:))
         value.connectivityInfo = try reader["connectivityInfo"].readIfPresent(with: KafkaClientTypes.ConnectivityInfo.read(from:))
         value.storageMode = try reader["storageMode"].readIfPresent()
+        value.brokerCountUpdateInfo = try reader["brokerCountUpdateInfo"].readIfPresent(with: KafkaClientTypes.BrokerCountUpdateInfo.read(from:))
         return value
     }
 }
@@ -5441,6 +5473,8 @@ extension KafkaClientTypes.MutableClusterInfo {
 extension KafkaClientTypes {
     /// Information about cluster attributes that can be updated via update APIs.
     public struct MutableClusterInfo {
+        /// Describes brokers being changed during a broker count update.
+        public var brokerCountUpdateInfo: KafkaClientTypes.BrokerCountUpdateInfo?
         /// Specifies the size of the EBS volume and the ID of the associated broker.
         public var brokerEBSVolumeInfo: [KafkaClientTypes.BrokerEBSVolumeInfo]?
         /// Includes all client authentication information.
@@ -5467,6 +5501,7 @@ extension KafkaClientTypes {
         public var storageMode: KafkaClientTypes.StorageMode?
 
         public init(
+            brokerCountUpdateInfo: KafkaClientTypes.BrokerCountUpdateInfo? = nil,
             brokerEBSVolumeInfo: [KafkaClientTypes.BrokerEBSVolumeInfo]? = nil,
             clientAuthentication: KafkaClientTypes.ClientAuthentication? = nil,
             configurationInfo: KafkaClientTypes.ConfigurationInfo? = nil,
@@ -5481,6 +5516,7 @@ extension KafkaClientTypes {
             storageMode: KafkaClientTypes.StorageMode? = nil
         )
         {
+            self.brokerCountUpdateInfo = brokerCountUpdateInfo
             self.brokerEBSVolumeInfo = brokerEBSVolumeInfo
             self.clientAuthentication = clientAuthentication
             self.configurationInfo = configurationInfo

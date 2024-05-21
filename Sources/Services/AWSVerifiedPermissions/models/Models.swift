@@ -528,7 +528,7 @@ extension VerifiedPermissionsClientTypes.CognitoGroupConfiguration {
 }
 
 extension VerifiedPermissionsClientTypes {
-    /// A list of user groups and entities from an Amazon Cognito user pool identity source. This data type is part of a [CognitoUserPoolConfiguration](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_CognitoUserPoolConfiguration.html) structure and is a request parameter in [CreateIdentitySource](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_CreateIdentitySource.html).
+    /// The type of entity that a policy store maps to groups from an Amazon Cognito user pool identity source. This data type is part of a [CognitoUserPoolConfiguration](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_CognitoUserPoolConfiguration.html) structure and is a request parameter in [CreateIdentitySource](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_CreateIdentitySource.html).
     public struct CognitoGroupConfiguration {
         /// The name of the schema entity type that's mapped to the user pool group. Defaults to AWS::CognitoGroup.
         /// This member is required.
@@ -560,7 +560,7 @@ extension VerifiedPermissionsClientTypes.CognitoGroupConfigurationDetail {
 }
 
 extension VerifiedPermissionsClientTypes {
-    /// A list of user groups and entities from an Amazon Cognito user pool identity source. This data type is part of an [CognitoUserPoolConfigurationDetail](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_CognitoUserPoolConfigurationItem.html) structure and is a response parameter to [GetIdentitySource](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_GetIdentitySource.html).
+    /// The type of entity that a policy store maps to groups from an Amazon Cognito user pool identity source. This data type is part of an [CognitoUserPoolConfigurationDetail](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_CognitoUserPoolConfigurationItem.html) structure and is a response parameter to [GetIdentitySource](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_GetIdentitySource.html).
     public struct CognitoGroupConfigurationDetail {
         /// The name of the schema entity type that's mapped to the user pool group. Defaults to AWS::CognitoGroup.
         public var groupEntityType: Swift.String?
@@ -591,7 +591,7 @@ extension VerifiedPermissionsClientTypes.CognitoGroupConfigurationItem {
 }
 
 extension VerifiedPermissionsClientTypes {
-    /// A list of user groups and entities from an Amazon Cognito user pool identity source. This data type is part of an [CognitoUserPoolConfigurationItem](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_CognitoUserPoolConfigurationDetail.html) structure and is a response parameter to [ListIdentitySources](http://forums.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListIdentitySources.html).
+    /// The type of entity that a policy store maps to groups from an Amazon Cognito user pool identity source. This data type is part of an [CognitoUserPoolConfigurationItem](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_CognitoUserPoolConfigurationDetail.html) structure and is a response parameter to [ListIdentitySources](http://forums.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListIdentitySources.html).
     public struct CognitoGroupConfigurationItem {
         /// The name of the schema entity type that's mapped to the user pool group. Defaults to AWS::CognitoGroup.
         public var groupEntityType: Swift.String?
@@ -617,11 +617,11 @@ extension VerifiedPermissionsClientTypes.CognitoUserPoolConfiguration {
 }
 
 extension VerifiedPermissionsClientTypes {
-    /// The configuration for an identity source that represents a connection to an Amazon Cognito user pool used as an identity provider for Verified Permissions. This data type is used as a field that is part of an [Configuration](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_Configuration.html) structure that is used as a parameter to [CreateIdentitySource](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_CreateIdentitySource.html). Example:"CognitoUserPoolConfiguration":{"UserPoolArn":"arn:aws:cognito-idp:us-east-1:123456789012:userpool/us-east-1_1a2b3c4d5","ClientIds": ["a1b2c3d4e5f6g7h8i9j0kalbmc"]}
+    /// The configuration for an identity source that represents a connection to an Amazon Cognito user pool used as an identity provider for Verified Permissions. This data type is used as a field that is part of an [Configuration](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_Configuration.html) structure that is used as a parameter to [CreateIdentitySource](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_CreateIdentitySource.html). Example:"CognitoUserPoolConfiguration":{"UserPoolArn":"arn:aws:cognito-idp:us-east-1:123456789012:userpool/us-east-1_1a2b3c4d5","ClientIds": ["a1b2c3d4e5f6g7h8i9j0kalbmc"],"groupConfiguration": {"groupEntityType": "MyCorp::Group"}}
     public struct CognitoUserPoolConfiguration {
         /// The unique application client IDs that are associated with the specified Amazon Cognito user pool. Example: "ClientIds": ["&ExampleCogClientId;"]
         public var clientIds: [Swift.String]?
-        /// The configuration of the user groups from an Amazon Cognito user pool identity source.
+        /// The type of entity that a policy store maps to groups from an Amazon Cognito user pool identity source.
         public var groupConfiguration: VerifiedPermissionsClientTypes.CognitoGroupConfiguration?
         /// The [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the Amazon Cognito user pool that contains the identities to be authorized. Example: "UserPoolArn": "arn:aws:cognito-idp:us-east-1:123456789012:userpool/us-east-1_1a2b3c4d5"
         /// This member is required.
@@ -655,12 +655,12 @@ extension VerifiedPermissionsClientTypes.CognitoUserPoolConfigurationDetail {
 }
 
 extension VerifiedPermissionsClientTypes {
-    /// The configuration for an identity source that represents a connection to an Amazon Cognito user pool used as an identity provider for Verified Permissions. This data type is used as a field that is part of an [ConfigurationDetail](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ConfigurationDetail.html) structure that is part of the response to [GetIdentitySource](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_GetIdentitySource.html). Example:"CognitoUserPoolConfiguration":{"UserPoolArn":"arn:aws:cognito-idp:us-east-1:123456789012:userpool/us-east-1_1a2b3c4d5","ClientIds": ["a1b2c3d4e5f6g7h8i9j0kalbmc"]}
+    /// The configuration for an identity source that represents a connection to an Amazon Cognito user pool used as an identity provider for Verified Permissions. This data type is used as a field that is part of an [ConfigurationDetail](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ConfigurationDetail.html) structure that is part of the response to [GetIdentitySource](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_GetIdentitySource.html). Example:"CognitoUserPoolConfiguration":{"UserPoolArn":"arn:aws:cognito-idp:us-east-1:123456789012:userpool/us-east-1_1a2b3c4d5","ClientIds": ["a1b2c3d4e5f6g7h8i9j0kalbmc"],"groupConfiguration": {"groupEntityType": "MyCorp::Group"}}
     public struct CognitoUserPoolConfigurationDetail {
         /// The unique application client IDs that are associated with the specified Amazon Cognito user pool. Example: "clientIds": ["&ExampleCogClientId;"]
         /// This member is required.
         public var clientIds: [Swift.String]?
-        /// The configuration of the user groups from an Amazon Cognito user pool identity source.
+        /// The type of entity that a policy store maps to groups from an Amazon Cognito user pool identity source.
         public var groupConfiguration: VerifiedPermissionsClientTypes.CognitoGroupConfigurationDetail?
         /// The OpenID Connect (OIDC) issuer ID of the Amazon Cognito user pool that contains the identities to be authorized. Example: "issuer": "https://cognito-idp.us-east-1.amazonaws.com/us-east-1_1a2b3c4d5"
         /// This member is required.
@@ -699,12 +699,12 @@ extension VerifiedPermissionsClientTypes.CognitoUserPoolConfigurationItem {
 }
 
 extension VerifiedPermissionsClientTypes {
-    /// The configuration for an identity source that represents a connection to an Amazon Cognito user pool used as an identity provider for Verified Permissions. This data type is used as a field that is part of the [ConfigurationItem](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ConfigurationItem.html) structure that is part of the response to [ListIdentitySources](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListIdentitySources.html). Example:"CognitoUserPoolConfiguration":{"UserPoolArn":"arn:aws:cognito-idp:us-east-1:123456789012:userpool/us-east-1_1a2b3c4d5","ClientIds": ["a1b2c3d4e5f6g7h8i9j0kalbmc"]}
+    /// The configuration for an identity source that represents a connection to an Amazon Cognito user pool used as an identity provider for Verified Permissions. This data type is used as a field that is part of the [ConfigurationItem](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ConfigurationItem.html) structure that is part of the response to [ListIdentitySources](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListIdentitySources.html). Example:"CognitoUserPoolConfiguration":{"UserPoolArn":"arn:aws:cognito-idp:us-east-1:123456789012:userpool/us-east-1_1a2b3c4d5","ClientIds": ["a1b2c3d4e5f6g7h8i9j0kalbmc"],"groupConfiguration": {"groupEntityType": "MyCorp::Group"}}
     public struct CognitoUserPoolConfigurationItem {
         /// The unique application client IDs that are associated with the specified Amazon Cognito user pool. Example: "clientIds": ["&ExampleCogClientId;"]
         /// This member is required.
         public var clientIds: [Swift.String]?
-        /// The configuration of the user groups from an Amazon Cognito user pool identity source.
+        /// The type of entity that a policy store maps to groups from an Amazon Cognito user pool identity source.
         public var groupConfiguration: VerifiedPermissionsClientTypes.CognitoGroupConfigurationItem?
         /// The OpenID Connect (OIDC) issuer ID of the Amazon Cognito user pool that contains the identities to be authorized. Example: "issuer": "https://cognito-idp.us-east-1.amazonaws.com/us-east-1_1a2b3c4d5"
         /// This member is required.
@@ -743,7 +743,7 @@ extension VerifiedPermissionsClientTypes.Configuration {
 }
 
 extension VerifiedPermissionsClientTypes {
-    /// Contains configuration information used when creating a new identity source. At this time, the only valid member of this structure is a Amazon Cognito user pool configuration. You must specify a userPoolArn, and optionally, a ClientId. This data type is used as a request parameter for the [CreateIdentitySource](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_CreateIdentitySource.html) operation.
+    /// Contains configuration information used when creating a new identity source. At this time, the only valid member of this structure is a Amazon Cognito user pool configuration. Specifies a userPoolArn, a groupConfiguration, and a ClientId. This data type is used as a request parameter for the [CreateIdentitySource](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_CreateIdentitySource.html) operation.
     public enum Configuration {
         /// Contains configuration details of a Amazon Cognito user pool that Verified Permissions can use as a source of authenticated identities as entities. It specifies the [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of a Amazon Cognito user pool and one or more application client IDs. Example: "configuration":{"cognitoUserPoolConfiguration":{"userPoolArn":"arn:aws:cognito-idp:us-east-1:123456789012:userpool/us-east-1_1a2b3c4d5","clientIds": ["a1b2c3d4e5f6g7h8i9j0kalbmc"],"groupConfiguration": {"groupEntityType": "MyCorp::Group"}}}
         case cognitouserpoolconfiguration(VerifiedPermissionsClientTypes.CognitoUserPoolConfiguration)
@@ -769,7 +769,7 @@ extension VerifiedPermissionsClientTypes.ConfigurationDetail {
 extension VerifiedPermissionsClientTypes {
     /// Contains configuration information about an identity source. This data type is a response parameter to the [GetIdentitySource](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_GetIdentitySource.html) operation.
     public enum ConfigurationDetail {
-        /// Contains configuration details of a Amazon Cognito user pool that Verified Permissions can use as a source of authenticated identities as entities. It specifies the [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of a Amazon Cognito user pool and one or more application client IDs. Example: "configuration":{"cognitoUserPoolConfiguration":{"userPoolArn":"arn:aws:cognito-idp:us-east-1:123456789012:userpool/us-east-1_1a2b3c4d5","clientIds": ["a1b2c3d4e5f6g7h8i9j0kalbmc"],"groupConfiguration": {"groupEntityType": "MyCorp::Group"}}}
+        /// Contains configuration details of a Amazon Cognito user pool that Verified Permissions can use as a source of authenticated identities as entities. It specifies the [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of a Amazon Cognito user pool, the policy store entity that you want to assign to user groups, and one or more application client IDs. Example: "configuration":{"cognitoUserPoolConfiguration":{"userPoolArn":"arn:aws:cognito-idp:us-east-1:123456789012:userpool/us-east-1_1a2b3c4d5","clientIds": ["a1b2c3d4e5f6g7h8i9j0kalbmc"],"groupConfiguration": {"groupEntityType": "MyCorp::Group"}}}
         case cognitouserpoolconfiguration(VerifiedPermissionsClientTypes.CognitoUserPoolConfigurationDetail)
         case sdkUnknown(Swift.String)
     }
@@ -793,7 +793,7 @@ extension VerifiedPermissionsClientTypes.ConfigurationItem {
 extension VerifiedPermissionsClientTypes {
     /// Contains configuration information about an identity source. This data type is a response parameter to the [ListIdentitySources](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListIdentitySources.html) operation.
     public enum ConfigurationItem {
-        /// Contains configuration details of a Amazon Cognito user pool that Verified Permissions can use as a source of authenticated identities as entities. It specifies the [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of a Amazon Cognito user pool and one or more application client IDs. Example: "configuration":{"cognitoUserPoolConfiguration":{"userPoolArn":"arn:aws:cognito-idp:us-east-1:123456789012:userpool/us-east-1_1a2b3c4d5","clientIds": ["a1b2c3d4e5f6g7h8i9j0kalbmc"],"groupConfiguration": {"groupEntityType": "MyCorp::Group"}}}
+        /// Contains configuration details of a Amazon Cognito user pool that Verified Permissions can use as a source of authenticated identities as entities. It specifies the [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of a Amazon Cognito user pool, the policy store entity that you want to assign to user groups, and one or more application client IDs. Example: "configuration":{"cognitoUserPoolConfiguration":{"userPoolArn":"arn:aws:cognito-idp:us-east-1:123456789012:userpool/us-east-1_1a2b3c4d5","clientIds": ["a1b2c3d4e5f6g7h8i9j0kalbmc"],"groupConfiguration": {"groupEntityType": "MyCorp::Group"}}}
         case cognitouserpoolconfiguration(VerifiedPermissionsClientTypes.CognitoUserPoolConfigurationItem)
         case sdkUnknown(Swift.String)
     }
@@ -1033,7 +1033,9 @@ extension CreatePolicyOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreatePolicyOutput()
+        value.actions = try reader["actions"].readListIfPresent(memberReadingClosure: VerifiedPermissionsClientTypes.ActionIdentifier.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.createdDate = try reader["createdDate"].readTimestampIfPresent(format: .dateTime)
+        value.effect = try reader["effect"].readIfPresent()
         value.lastUpdatedDate = try reader["lastUpdatedDate"].readTimestampIfPresent(format: .dateTime)
         value.policyId = try reader["policyId"].readIfPresent()
         value.policyStoreId = try reader["policyStoreId"].readIfPresent()
@@ -1045,9 +1047,13 @@ extension CreatePolicyOutput {
 }
 
 public struct CreatePolicyOutput {
+    /// The action that a policy permits or forbids. For example, {"actions": [{"actionId": "ViewPhoto", "actionType": "PhotoFlash::Action"}, {"entityID": "SharePhoto", "entityType": "PhotoFlash::Action"}]}.
+    public var actions: [VerifiedPermissionsClientTypes.ActionIdentifier]?
     /// The date and time the policy was originally created.
     /// This member is required.
     public var createdDate: ClientRuntime.Date?
+    /// The effect of the decision that a policy returns to an authorization request. For example, "effect": "Permit".
+    public var effect: VerifiedPermissionsClientTypes.PolicyEffect?
     /// The date and time the policy was last updated.
     /// This member is required.
     public var lastUpdatedDate: ClientRuntime.Date?
@@ -1066,7 +1072,9 @@ public struct CreatePolicyOutput {
     public var resource: VerifiedPermissionsClientTypes.EntityIdentifier?
 
     public init(
+        actions: [VerifiedPermissionsClientTypes.ActionIdentifier]? = nil,
         createdDate: ClientRuntime.Date? = nil,
+        effect: VerifiedPermissionsClientTypes.PolicyEffect? = nil,
         lastUpdatedDate: ClientRuntime.Date? = nil,
         policyId: Swift.String? = nil,
         policyStoreId: Swift.String? = nil,
@@ -1075,7 +1083,9 @@ public struct CreatePolicyOutput {
         resource: VerifiedPermissionsClientTypes.EntityIdentifier? = nil
     )
     {
+        self.actions = actions
         self.createdDate = createdDate
+        self.effect = effect
         self.lastUpdatedDate = lastUpdatedDate
         self.policyId = policyId
         self.policyStoreId = policyStoreId
@@ -1927,8 +1937,10 @@ extension GetPolicyOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetPolicyOutput()
+        value.actions = try reader["actions"].readListIfPresent(memberReadingClosure: VerifiedPermissionsClientTypes.ActionIdentifier.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.createdDate = try reader["createdDate"].readTimestampIfPresent(format: .dateTime)
         value.definition = try reader["definition"].readIfPresent(with: VerifiedPermissionsClientTypes.PolicyDefinitionDetail.read(from:))
+        value.effect = try reader["effect"].readIfPresent()
         value.lastUpdatedDate = try reader["lastUpdatedDate"].readTimestampIfPresent(format: .dateTime)
         value.policyId = try reader["policyId"].readIfPresent()
         value.policyStoreId = try reader["policyStoreId"].readIfPresent()
@@ -1940,12 +1952,16 @@ extension GetPolicyOutput {
 }
 
 public struct GetPolicyOutput {
+    /// The action that a policy permits or forbids. For example, {"actions": [{"actionId": "ViewPhoto", "actionType": "PhotoFlash::Action"}, {"entityID": "SharePhoto", "entityType": "PhotoFlash::Action"}]}.
+    public var actions: [VerifiedPermissionsClientTypes.ActionIdentifier]?
     /// The date and time that the policy was originally created.
     /// This member is required.
     public var createdDate: ClientRuntime.Date?
     /// The definition of the requested policy.
     /// This member is required.
     public var definition: VerifiedPermissionsClientTypes.PolicyDefinitionDetail?
+    /// The effect of the decision that a policy returns to an authorization request. For example, "effect": "Permit".
+    public var effect: VerifiedPermissionsClientTypes.PolicyEffect?
     /// The date and time that the policy was last updated.
     /// This member is required.
     public var lastUpdatedDate: ClientRuntime.Date?
@@ -1964,8 +1980,10 @@ public struct GetPolicyOutput {
     public var resource: VerifiedPermissionsClientTypes.EntityIdentifier?
 
     public init(
+        actions: [VerifiedPermissionsClientTypes.ActionIdentifier]? = nil,
         createdDate: ClientRuntime.Date? = nil,
         definition: VerifiedPermissionsClientTypes.PolicyDefinitionDetail? = nil,
+        effect: VerifiedPermissionsClientTypes.PolicyEffect? = nil,
         lastUpdatedDate: ClientRuntime.Date? = nil,
         policyId: Swift.String? = nil,
         policyStoreId: Swift.String? = nil,
@@ -1974,8 +1992,10 @@ public struct GetPolicyOutput {
         resource: VerifiedPermissionsClientTypes.EntityIdentifier? = nil
     )
     {
+        self.actions = actions
         self.createdDate = createdDate
         self.definition = definition
+        self.effect = effect
         self.lastUpdatedDate = lastUpdatedDate
         self.policyId = policyId
         self.policyStoreId = policyStoreId
@@ -2782,7 +2802,7 @@ extension ListIdentitySourcesInput {
 public struct ListIdentitySourcesInput {
     /// Specifies characteristics of an identity source that you can use to limit the output to matching identity sources.
     public var filters: [VerifiedPermissionsClientTypes.IdentitySourceFilter]?
-    /// Specifies the total number of results that you want included in each response. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next set of results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results. If you do not specify this parameter, the operation defaults to 10 identity sources per response. You can specify a maximum of 200 identity sources per response.
+    /// Specifies the total number of results that you want included in each response. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next set of results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results. If you do not specify this parameter, the operation defaults to 10 identity sources per response. You can specify a maximum of 50 identity sources per response.
     public var maxResults: Swift.Int?
     /// Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's NextToken response to request the next page of results.
     public var nextToken: Swift.String?
@@ -3206,6 +3226,36 @@ extension VerifiedPermissionsClientTypes {
 
 }
 
+extension VerifiedPermissionsClientTypes {
+
+    public enum PolicyEffect: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case forbid
+        case permit
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PolicyEffect] {
+            return [
+                .forbid,
+                .permit,
+                .sdkUnknown("")
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .forbid: return "Forbid"
+            case .permit: return "Permit"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 extension VerifiedPermissionsClientTypes.PolicyFilter {
 
     static func write(value: VerifiedPermissionsClientTypes.PolicyFilter?, to writer: SmithyJSON.Writer) throws {
@@ -3255,9 +3305,11 @@ extension VerifiedPermissionsClientTypes.PolicyItem {
         value.policyType = try reader["policyType"].readIfPresent()
         value.principal = try reader["principal"].readIfPresent(with: VerifiedPermissionsClientTypes.EntityIdentifier.read(from:))
         value.resource = try reader["resource"].readIfPresent(with: VerifiedPermissionsClientTypes.EntityIdentifier.read(from:))
+        value.actions = try reader["actions"].readListIfPresent(memberReadingClosure: VerifiedPermissionsClientTypes.ActionIdentifier.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.definition = try reader["definition"].readIfPresent(with: VerifiedPermissionsClientTypes.PolicyDefinitionItem.read(from:))
         value.createdDate = try reader["createdDate"].readTimestampIfPresent(format: .dateTime)
         value.lastUpdatedDate = try reader["lastUpdatedDate"].readTimestampIfPresent(format: .dateTime)
+        value.effect = try reader["effect"].readIfPresent()
         return value
     }
 }
@@ -3265,12 +3317,16 @@ extension VerifiedPermissionsClientTypes.PolicyItem {
 extension VerifiedPermissionsClientTypes {
     /// Contains information about a policy. This data type is used as a response parameter for the [ListPolicies](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListPolicies.html) operation.
     public struct PolicyItem {
+        /// The action that a policy permits or forbids. For example, {"actions": [{"actionId": "ViewPhoto", "actionType": "PhotoFlash::Action"}, {"entityID": "SharePhoto", "entityType": "PhotoFlash::Action"}]}.
+        public var actions: [VerifiedPermissionsClientTypes.ActionIdentifier]?
         /// The date and time the policy was created.
         /// This member is required.
         public var createdDate: ClientRuntime.Date?
         /// The policy definition of an item in the list of policies returned.
         /// This member is required.
         public var definition: VerifiedPermissionsClientTypes.PolicyDefinitionItem?
+        /// The effect of the decision that a policy returns to an authorization request. For example, "effect": "Permit".
+        public var effect: VerifiedPermissionsClientTypes.PolicyEffect?
         /// The date and time the policy was most recently updated.
         /// This member is required.
         public var lastUpdatedDate: ClientRuntime.Date?
@@ -3293,8 +3349,10 @@ extension VerifiedPermissionsClientTypes {
         public var resource: VerifiedPermissionsClientTypes.EntityIdentifier?
 
         public init(
+            actions: [VerifiedPermissionsClientTypes.ActionIdentifier]? = nil,
             createdDate: ClientRuntime.Date? = nil,
             definition: VerifiedPermissionsClientTypes.PolicyDefinitionItem? = nil,
+            effect: VerifiedPermissionsClientTypes.PolicyEffect? = nil,
             lastUpdatedDate: ClientRuntime.Date? = nil,
             policyId: Swift.String? = nil,
             policyStoreId: Swift.String? = nil,
@@ -3303,8 +3361,10 @@ extension VerifiedPermissionsClientTypes {
             resource: VerifiedPermissionsClientTypes.EntityIdentifier? = nil
         )
         {
+            self.actions = actions
             self.createdDate = createdDate
             self.definition = definition
+            self.effect = effect
             self.lastUpdatedDate = lastUpdatedDate
             self.policyId = policyId
             self.policyStoreId = policyStoreId
@@ -4027,7 +4087,7 @@ extension VerifiedPermissionsClientTypes.UpdateCognitoGroupConfiguration {
 }
 
 extension VerifiedPermissionsClientTypes {
-    /// A list of user groups and entities from an Amazon Cognito user pool identity source.
+    /// The user group entities from an Amazon Cognito user pool identity source.
     public struct UpdateCognitoGroupConfiguration {
         /// The name of the schema entity type that's mapped to the user pool group. Defaults to AWS::CognitoGroup.
         /// This member is required.
@@ -4295,7 +4355,9 @@ extension UpdatePolicyOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdatePolicyOutput()
+        value.actions = try reader["actions"].readListIfPresent(memberReadingClosure: VerifiedPermissionsClientTypes.ActionIdentifier.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.createdDate = try reader["createdDate"].readTimestampIfPresent(format: .dateTime)
+        value.effect = try reader["effect"].readIfPresent()
         value.lastUpdatedDate = try reader["lastUpdatedDate"].readTimestampIfPresent(format: .dateTime)
         value.policyId = try reader["policyId"].readIfPresent()
         value.policyStoreId = try reader["policyStoreId"].readIfPresent()
@@ -4307,9 +4369,13 @@ extension UpdatePolicyOutput {
 }
 
 public struct UpdatePolicyOutput {
+    /// The action that a policy permits or forbids. For example, {"actions": [{"actionId": "ViewPhoto", "actionType": "PhotoFlash::Action"}, {"entityID": "SharePhoto", "entityType": "PhotoFlash::Action"}]}.
+    public var actions: [VerifiedPermissionsClientTypes.ActionIdentifier]?
     /// The date and time that the policy was originally created.
     /// This member is required.
     public var createdDate: ClientRuntime.Date?
+    /// The effect of the decision that a policy returns to an authorization request. For example, "effect": "Permit".
+    public var effect: VerifiedPermissionsClientTypes.PolicyEffect?
     /// The date and time that the policy was most recently updated.
     /// This member is required.
     public var lastUpdatedDate: ClientRuntime.Date?
@@ -4328,7 +4394,9 @@ public struct UpdatePolicyOutput {
     public var resource: VerifiedPermissionsClientTypes.EntityIdentifier?
 
     public init(
+        actions: [VerifiedPermissionsClientTypes.ActionIdentifier]? = nil,
         createdDate: ClientRuntime.Date? = nil,
+        effect: VerifiedPermissionsClientTypes.PolicyEffect? = nil,
         lastUpdatedDate: ClientRuntime.Date? = nil,
         policyId: Swift.String? = nil,
         policyStoreId: Swift.String? = nil,
@@ -4337,7 +4405,9 @@ public struct UpdatePolicyOutput {
         resource: VerifiedPermissionsClientTypes.EntityIdentifier? = nil
     )
     {
+        self.actions = actions
         self.createdDate = createdDate
+        self.effect = effect
         self.lastUpdatedDate = lastUpdatedDate
         self.policyId = policyId
         self.policyStoreId = policyStoreId

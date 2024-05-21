@@ -57,7 +57,7 @@ extension OSISClientTypes.BufferOptions {
 }
 
 extension OSISClientTypes {
-    /// Options that specify the configuration of a persistent buffer. To configure how OpenSearch Ingestion encrypts this data, set the EncryptionAtRestOptions.
+    /// Options that specify the configuration of a persistent buffer. To configure how OpenSearch Ingestion encrypts this data, set the EncryptionAtRestOptions. For more information, see [Persistent buffering](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/osis-features-overview.html#persistent-buffering).
     public struct BufferOptions {
         /// Whether persistent buffering should be enabled.
         /// This member is required.
@@ -245,7 +245,7 @@ extension OSISClientTypes.CloudWatchLogDestination {
 extension OSISClientTypes {
     /// The destination for OpenSearch Ingestion logs sent to Amazon CloudWatch.
     public struct CloudWatchLogDestination {
-        /// The name of the CloudWatch Logs group to send pipeline logs to. You can specify an existing log group or create a new one. For example, /aws/OpenSearchService/IngestionService/my-pipeline.
+        /// The name of the CloudWatch Logs group to send pipeline logs to. You can specify an existing log group or create a new one. For example, /aws/vendedlogs/OpenSearchService/pipelines.
         /// This member is required.
         public var logGroup: Swift.String?
 
@@ -400,6 +400,7 @@ enum CreatePipelineOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
             case "InternalException": return try InternalException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
             case "ResourceAlreadyExistsException": return try ResourceAlreadyExistsException.makeError(baseError: baseError)
@@ -455,11 +456,49 @@ enum DeletePipelineOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
             case "InternalException": return try InternalException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
+    }
+}
+
+extension DisabledOperationException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> DisabledOperationException {
+        let reader = baseError.errorBodyReader
+        var value = DisabledOperationException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+/// Exception is thrown when an operation has been disabled.
+public struct DisabledOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "DisabledOperationException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
     }
 }
 
@@ -479,9 +518,9 @@ extension OSISClientTypes.EncryptionAtRestOptions {
 }
 
 extension OSISClientTypes {
-    /// Options to control how OpenSearch encrypts all data-at-rest.
+    /// Options to control how OpenSearch encrypts buffer data.
     public struct EncryptionAtRestOptions {
-        /// The ARN of the KMS key used to encrypt data-at-rest in OpenSearch Ingestion. By default, data is encrypted using an AWS owned key.
+        /// The ARN of the KMS key used to encrypt buffer data. By default, data is encrypted using an Amazon Web Services owned key.
         /// This member is required.
         public var kmsKeyArn: Swift.String?
 
@@ -493,6 +532,18 @@ extension OSISClientTypes {
         }
     }
 
+}
+
+extension GetPipelineBlueprintInput {
+
+    static func queryItemProvider(_ value: GetPipelineBlueprintInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let format = value.format {
+            let formatQueryItem = ClientRuntime.SDKURLQueryItem(name: "format".urlPercentEncoding(), value: Swift.String(format).urlPercentEncoding())
+            items.append(formatQueryItem)
+        }
+        return items
+    }
 }
 
 extension GetPipelineBlueprintInput {
@@ -509,12 +560,16 @@ public struct GetPipelineBlueprintInput {
     /// The name of the blueprint to retrieve.
     /// This member is required.
     public var blueprintName: Swift.String?
+    /// The format format of the blueprint to retrieve.
+    public var format: Swift.String?
 
     public init(
-        blueprintName: Swift.String? = nil
+        blueprintName: Swift.String? = nil,
+        format: Swift.String? = nil
     )
     {
         self.blueprintName = blueprintName
+        self.format = format
     }
 }
 
@@ -526,6 +581,7 @@ extension GetPipelineBlueprintOutput {
         let reader = responseReader
         var value = GetPipelineBlueprintOutput()
         value.blueprint = try reader["Blueprint"].readIfPresent(with: OSISClientTypes.PipelineBlueprint.read(from:))
+        value.format = try reader["Format"].readIfPresent()
         return value
     }
 }
@@ -533,12 +589,16 @@ extension GetPipelineBlueprintOutput {
 public struct GetPipelineBlueprintOutput {
     /// The requested blueprint in YAML format.
     public var blueprint: OSISClientTypes.PipelineBlueprint?
+    /// The format of the blueprint.
+    public var format: Swift.String?
 
     public init(
-        blueprint: OSISClientTypes.PipelineBlueprint? = nil
+        blueprint: OSISClientTypes.PipelineBlueprint? = nil,
+        format: Swift.String? = nil
     )
     {
         self.blueprint = blueprint
+        self.format = format
     }
 }
 
@@ -551,6 +611,7 @@ enum GetPipelineBlueprintOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
             case "InternalException": return try InternalException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
@@ -615,6 +676,7 @@ enum GetPipelineChangeProgressOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
             case "InternalException": return try InternalException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
@@ -634,7 +696,7 @@ extension GetPipelineInput {
 }
 
 public struct GetPipelineInput {
-    /// The name of the pipeline to get information about.
+    /// The name of the pipeline.
     /// This member is required.
     public var pipelineName: Swift.String?
 
@@ -679,6 +741,7 @@ enum GetPipelineOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
             case "InternalException": return try InternalException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
@@ -843,6 +906,7 @@ enum ListPipelineBlueprintsOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
             case "InternalException": return try InternalException.makeError(baseError: baseError)
             case "InvalidPaginationTokenException": return try InvalidPaginationTokenException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
@@ -928,6 +992,7 @@ enum ListPipelinesOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
             case "InternalException": return try InternalException.makeError(baseError: baseError)
             case "InvalidPaginationTokenException": return try InvalidPaginationTokenException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
@@ -1003,6 +1068,7 @@ enum ListTagsForResourceOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
             case "InternalException": return try InternalException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
@@ -1070,6 +1136,7 @@ extension OSISClientTypes.Pipeline {
         value.bufferOptions = try reader["BufferOptions"].readIfPresent(with: OSISClientTypes.BufferOptions.read(from:))
         value.encryptionAtRestOptions = try reader["EncryptionAtRestOptions"].readIfPresent(with: OSISClientTypes.EncryptionAtRestOptions.read(from:))
         value.serviceVpcEndpoints = try reader["ServiceVpcEndpoints"].readListIfPresent(memberReadingClosure: OSISClientTypes.ServiceVpcEndpoint.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.destinations = try reader["Destinations"].readListIfPresent(memberReadingClosure: OSISClientTypes.PipelineDestination.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: OSISClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -1078,11 +1145,13 @@ extension OSISClientTypes.Pipeline {
 extension OSISClientTypes {
     /// Information about an existing OpenSearch Ingestion pipeline.
     public struct Pipeline {
-        /// Options that specify the configuration of a persistent buffer. To configure how OpenSearch Ingestion encrypts this data, set the EncryptionAtRestOptions.
+        /// Options that specify the configuration of a persistent buffer. To configure how OpenSearch Ingestion encrypts this data, set the EncryptionAtRestOptions. For more information, see [Persistent buffering](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/osis-features-overview.html#persistent-buffering).
         public var bufferOptions: OSISClientTypes.BufferOptions?
         /// The date and time when the pipeline was created.
         public var createdAt: ClientRuntime.Date?
-        /// Options to control how OpenSearch encrypts all data-at-rest.
+        /// Destinations to which the pipeline writes data.
+        public var destinations: [OSISClientTypes.PipelineDestination]?
+        /// Options to control how OpenSearch encrypts buffer data.
         public var encryptionAtRestOptions: OSISClientTypes.EncryptionAtRestOptions?
         /// The ingestion endpoints for the pipeline, which you can send data to.
         public var ingestEndpointUrls: [Swift.String]?
@@ -1100,7 +1169,7 @@ extension OSISClientTypes {
         public var pipelineConfigurationBody: Swift.String?
         /// The name of the pipeline.
         public var pipelineName: Swift.String?
-        /// A list of VPC endpoints that OpenSearch Ingestion has created to other AWS services.
+        /// A list of VPC endpoints that OpenSearch Ingestion has created to other Amazon Web Services services.
         public var serviceVpcEndpoints: [OSISClientTypes.ServiceVpcEndpoint]?
         /// The current status of the pipeline.
         public var status: OSISClientTypes.PipelineStatus?
@@ -1114,6 +1183,7 @@ extension OSISClientTypes {
         public init(
             bufferOptions: OSISClientTypes.BufferOptions? = nil,
             createdAt: ClientRuntime.Date? = nil,
+            destinations: [OSISClientTypes.PipelineDestination]? = nil,
             encryptionAtRestOptions: OSISClientTypes.EncryptionAtRestOptions? = nil,
             ingestEndpointUrls: [Swift.String]? = nil,
             lastUpdatedAt: ClientRuntime.Date? = nil,
@@ -1132,6 +1202,7 @@ extension OSISClientTypes {
         {
             self.bufferOptions = bufferOptions
             self.createdAt = createdAt
+            self.destinations = destinations
             self.encryptionAtRestOptions = encryptionAtRestOptions
             self.ingestEndpointUrls = ingestEndpointUrls
             self.lastUpdatedAt = lastUpdatedAt
@@ -1158,6 +1229,10 @@ extension OSISClientTypes.PipelineBlueprint {
         var value = OSISClientTypes.PipelineBlueprint()
         value.blueprintName = try reader["BlueprintName"].readIfPresent()
         value.pipelineConfigurationBody = try reader["PipelineConfigurationBody"].readIfPresent()
+        value.displayName = try reader["DisplayName"].readIfPresent()
+        value.displayDescription = try reader["DisplayDescription"].readIfPresent()
+        value.service = try reader["Service"].readIfPresent()
+        value.useCase = try reader["UseCase"].readIfPresent()
         return value
     }
 }
@@ -1167,16 +1242,32 @@ extension OSISClientTypes {
     public struct PipelineBlueprint {
         /// The name of the blueprint.
         public var blueprintName: Swift.String?
+        /// A description of the blueprint.
+        public var displayDescription: Swift.String?
+        /// The display name of the blueprint.
+        public var displayName: Swift.String?
         /// The YAML configuration of the blueprint.
         public var pipelineConfigurationBody: Swift.String?
+        /// The name of the service that the blueprint is associated with.
+        public var service: Swift.String?
+        /// The use case that the blueprint relates to.
+        public var useCase: Swift.String?
 
         public init(
             blueprintName: Swift.String? = nil,
-            pipelineConfigurationBody: Swift.String? = nil
+            displayDescription: Swift.String? = nil,
+            displayName: Swift.String? = nil,
+            pipelineConfigurationBody: Swift.String? = nil,
+            service: Swift.String? = nil,
+            useCase: Swift.String? = nil
         )
         {
             self.blueprintName = blueprintName
+            self.displayDescription = displayDescription
+            self.displayName = displayName
             self.pipelineConfigurationBody = pipelineConfigurationBody
+            self.service = service
+            self.useCase = useCase
         }
     }
 
@@ -1188,6 +1279,10 @@ extension OSISClientTypes.PipelineBlueprintSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OSISClientTypes.PipelineBlueprintSummary()
         value.blueprintName = try reader["BlueprintName"].readIfPresent()
+        value.displayName = try reader["DisplayName"].readIfPresent()
+        value.displayDescription = try reader["DisplayDescription"].readIfPresent()
+        value.service = try reader["Service"].readIfPresent()
+        value.useCase = try reader["UseCase"].readIfPresent()
         return value
     }
 }
@@ -1197,12 +1292,59 @@ extension OSISClientTypes {
     public struct PipelineBlueprintSummary {
         /// The name of the blueprint.
         public var blueprintName: Swift.String?
+        /// A description of the blueprint.
+        public var displayDescription: Swift.String?
+        /// The display name of the blueprint.
+        public var displayName: Swift.String?
+        /// The name of the service that the blueprint is associated with.
+        public var service: Swift.String?
+        /// The use case that the blueprint relates to.
+        public var useCase: Swift.String?
 
         public init(
-            blueprintName: Swift.String? = nil
+            blueprintName: Swift.String? = nil,
+            displayDescription: Swift.String? = nil,
+            displayName: Swift.String? = nil,
+            service: Swift.String? = nil,
+            useCase: Swift.String? = nil
         )
         {
             self.blueprintName = blueprintName
+            self.displayDescription = displayDescription
+            self.displayName = displayName
+            self.service = service
+            self.useCase = useCase
+        }
+    }
+
+}
+
+extension OSISClientTypes.PipelineDestination {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OSISClientTypes.PipelineDestination {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OSISClientTypes.PipelineDestination()
+        value.serviceName = try reader["ServiceName"].readIfPresent()
+        value.endpoint = try reader["Endpoint"].readIfPresent()
+        return value
+    }
+}
+
+extension OSISClientTypes {
+    /// An object representing the destination of a pipeline.
+    public struct PipelineDestination {
+        /// The endpoint receiving data from the pipeline.
+        public var endpoint: Swift.String?
+        /// The name of the service receiving data from the pipeline.
+        public var serviceName: Swift.String?
+
+        public init(
+            endpoint: Swift.String? = nil,
+            serviceName: Swift.String? = nil
+        )
+        {
+            self.endpoint = endpoint
+            self.serviceName = serviceName
         }
     }
 
@@ -1301,6 +1443,7 @@ extension OSISClientTypes.PipelineSummary {
         value.maxUnits = try reader["MaxUnits"].readIfPresent()
         value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: .epochSeconds)
         value.lastUpdatedAt = try reader["LastUpdatedAt"].readTimestampIfPresent(format: .epochSeconds)
+        value.destinations = try reader["Destinations"].readListIfPresent(memberReadingClosure: OSISClientTypes.PipelineDestination.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: OSISClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -1311,6 +1454,8 @@ extension OSISClientTypes {
     public struct PipelineSummary {
         /// The date and time when the pipeline was created.
         public var createdAt: ClientRuntime.Date?
+        /// A list of destinations to which the pipeline writes data.
+        public var destinations: [OSISClientTypes.PipelineDestination]?
         /// The date and time when the pipeline was last updated.
         public var lastUpdatedAt: ClientRuntime.Date?
         /// The maximum pipeline capacity, in Ingestion Compute Units (ICUs).
@@ -1330,6 +1475,7 @@ extension OSISClientTypes {
 
         public init(
             createdAt: ClientRuntime.Date? = nil,
+            destinations: [OSISClientTypes.PipelineDestination]? = nil,
             lastUpdatedAt: ClientRuntime.Date? = nil,
             maxUnits: Swift.Int? = nil,
             minUnits: Swift.Int? = nil,
@@ -1341,6 +1487,7 @@ extension OSISClientTypes {
         )
         {
             self.createdAt = createdAt
+            self.destinations = destinations
             self.lastUpdatedAt = lastUpdatedAt
             self.maxUnits = maxUnits
             self.minUnits = minUnits
@@ -1444,7 +1591,7 @@ extension OSISClientTypes {
     public struct ServiceVpcEndpoint {
         /// The name of the service for which a VPC endpoint was created.
         public var serviceName: OSISClientTypes.VpcEndpointServiceName?
-        /// The ID of the VPC endpoint that was created.
+        /// The unique identifier of the VPC endpoint that was created.
         public var vpcEndpointId: Swift.String?
 
         public init(
@@ -1516,6 +1663,7 @@ enum StartPipelineOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
             case "InternalException": return try InternalException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
@@ -1581,6 +1729,7 @@ enum StopPipelineOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
             case "InternalException": return try InternalException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
@@ -1696,6 +1845,7 @@ enum TagResourceOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
             case "InternalException": return try InternalException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -1773,6 +1923,7 @@ enum UntagResourceOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
             case "InternalException": return try InternalException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
@@ -1875,6 +2026,7 @@ enum UpdatePipelineOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
             case "InternalException": return try InternalException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
@@ -1949,6 +2101,7 @@ enum ValidatePipelineOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
             case "InternalException": return try InternalException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -2014,6 +2167,44 @@ extension OSISClientTypes {
         )
         {
             self.message = message
+        }
+    }
+
+}
+
+extension OSISClientTypes.VpcAttachmentOptions {
+
+    static func write(value: OSISClientTypes.VpcAttachmentOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AttachToVpc"].write(value.attachToVpc)
+        try writer["CidrBlock"].write(value.cidrBlock)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OSISClientTypes.VpcAttachmentOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OSISClientTypes.VpcAttachmentOptions()
+        value.attachToVpc = try reader["AttachToVpc"].readIfPresent()
+        value.cidrBlock = try reader["CidrBlock"].readIfPresent()
+        return value
+    }
+}
+
+extension OSISClientTypes {
+    /// Options for attaching a VPC to pipeline.
+    public struct VpcAttachmentOptions {
+        /// Whether a VPC is attached to the pipeline.
+        /// This member is required.
+        public var attachToVpc: Swift.Bool?
+        /// The CIDR block to be reserved for OpenSearch Ingestion to create elastic network interfaces (ENIs).
+        public var cidrBlock: Swift.String?
+
+        public init(
+            attachToVpc: Swift.Bool? = nil,
+            cidrBlock: Swift.String? = nil
+        )
+        {
+            self.attachToVpc = attachToVpc
+            self.cidrBlock = cidrBlock
         }
     }
 
@@ -2088,6 +2279,7 @@ extension OSISClientTypes.VpcOptions {
         guard let value else { return }
         try writer["SecurityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["SubnetIds"].writeList(value.subnetIds, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["VpcAttachmentOptions"].write(value.vpcAttachmentOptions, with: OSISClientTypes.VpcAttachmentOptions.write(value:to:))
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> OSISClientTypes.VpcOptions {
@@ -2095,6 +2287,7 @@ extension OSISClientTypes.VpcOptions {
         var value = OSISClientTypes.VpcOptions()
         value.subnetIds = try reader["SubnetIds"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.securityGroupIds = try reader["SecurityGroupIds"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.vpcAttachmentOptions = try reader["VpcAttachmentOptions"].readIfPresent(with: OSISClientTypes.VpcAttachmentOptions.read(from:))
         return value
     }
 }
@@ -2107,14 +2300,18 @@ extension OSISClientTypes {
         /// A list of subnet IDs associated with the VPC endpoint.
         /// This member is required.
         public var subnetIds: [Swift.String]?
+        /// Options for attaching a VPC to a pipeline.
+        public var vpcAttachmentOptions: OSISClientTypes.VpcAttachmentOptions?
 
         public init(
             securityGroupIds: [Swift.String]? = nil,
-            subnetIds: [Swift.String]? = nil
+            subnetIds: [Swift.String]? = nil,
+            vpcAttachmentOptions: OSISClientTypes.VpcAttachmentOptions? = nil
         )
         {
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
+            self.vpcAttachmentOptions = vpcAttachmentOptions
         }
     }
 

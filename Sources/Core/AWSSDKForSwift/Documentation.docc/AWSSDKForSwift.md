@@ -23,8 +23,6 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSAccount](../../../../../swift/api/awsaccount/latest)
 
-[AWSAlexaForBusiness](../../../../../swift/api/awsalexaforbusiness/latest)
-
 [AWSAmp](../../../../../swift/api/awsamp/latest)
 
 [AWSAmplify](../../../../../swift/api/awsamplify/latest)
@@ -332,8 +330,6 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 [AWSHealth](../../../../../swift/api/awshealth/latest)
 
 [AWSHealthLake](../../../../../swift/api/awshealthlake/latest)
-
-[AWSHoneycode](../../../../../swift/api/awshoneycode/latest)
 
 [AWSIAM](../../../../../swift/api/awsiam/latest)
 

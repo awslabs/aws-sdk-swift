@@ -145,6 +145,7 @@ extension VerifiedPermissionsClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have sufficient access to perform this action.
     /// - `InternalServerException` : The request failed because of an internal error. Try your request again later
+    /// - `ResourceNotFoundException` : The request failed because it references a resource that doesn't exist.
     /// - `ThrottlingException` : The request failed because it exceeded a throttling quota.
     /// - `ValidationException` : The request failed because one or more input parameters don't satisfy their constraint requirements. The output is provided as a list of fields and a reason for each field that isn't valid. The possible reasons include the following:
     ///
@@ -167,7 +168,6 @@ extension VerifiedPermissionsClient {
     /// * WrongNumberArguments The policy references an extension type with the wrong number of arguments.
     ///
     /// * FunctionArgumentValidationError Cedar couldn't parse the argument passed to an extension type. For example, a string that is to be parsed as an IPv4 address can contain only digits and the period character.
-    /// - `ResourceNotFoundException` : The request failed because it references a resource that doesn't exist.
     public func batchIsAuthorized(input: BatchIsAuthorizedInput) async throws -> BatchIsAuthorizedOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withMethod(value: .post)
@@ -218,6 +218,7 @@ extension VerifiedPermissionsClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have sufficient access to perform this action.
     /// - `InternalServerException` : The request failed because of an internal error. Try your request again later
+    /// - `ResourceNotFoundException` : The request failed because it references a resource that doesn't exist.
     /// - `ThrottlingException` : The request failed because it exceeded a throttling quota.
     /// - `ValidationException` : The request failed because one or more input parameters don't satisfy their constraint requirements. The output is provided as a list of fields and a reason for each field that isn't valid. The possible reasons include the following:
     ///
@@ -240,7 +241,6 @@ extension VerifiedPermissionsClient {
     /// * WrongNumberArguments The policy references an extension type with the wrong number of arguments.
     ///
     /// * FunctionArgumentValidationError Cedar couldn't parse the argument passed to an extension type. For example, a string that is to be parsed as an IPv4 address can contain only digits and the period character.
-    /// - `ResourceNotFoundException` : The request failed because it references a resource that doesn't exist.
     public func batchIsAuthorizedWithToken(input: BatchIsAuthorizedWithTokenInput) async throws -> BatchIsAuthorizedWithTokenOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withMethod(value: .post)
@@ -290,7 +290,10 @@ extension VerifiedPermissionsClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have sufficient access to perform this action.
+    /// - `ConflictException` : The request failed because another request to modify a resource occurred at the same.
     /// - `InternalServerException` : The request failed because of an internal error. Try your request again later
+    /// - `ResourceNotFoundException` : The request failed because it references a resource that doesn't exist.
+    /// - `ServiceQuotaExceededException` : The request failed because it would cause a service quota to be exceeded.
     /// - `ThrottlingException` : The request failed because it exceeded a throttling quota.
     /// - `ValidationException` : The request failed because one or more input parameters don't satisfy their constraint requirements. The output is provided as a list of fields and a reason for each field that isn't valid. The possible reasons include the following:
     ///
@@ -313,9 +316,6 @@ extension VerifiedPermissionsClient {
     /// * WrongNumberArguments The policy references an extension type with the wrong number of arguments.
     ///
     /// * FunctionArgumentValidationError Cedar couldn't parse the argument passed to an extension type. For example, a string that is to be parsed as an IPv4 address can contain only digits and the period character.
-    /// - `ConflictException` : The request failed because another request to modify a resource occurred at the same.
-    /// - `ResourceNotFoundException` : The request failed because it references a resource that doesn't exist.
-    /// - `ServiceQuotaExceededException` : The request failed because it would cause a service quota to be exceeded.
     public func createIdentitySource(input: CreateIdentitySourceInput) async throws -> CreateIdentitySourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withMethod(value: .post)
@@ -373,7 +373,10 @@ extension VerifiedPermissionsClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have sufficient access to perform this action.
+    /// - `ConflictException` : The request failed because another request to modify a resource occurred at the same.
     /// - `InternalServerException` : The request failed because of an internal error. Try your request again later
+    /// - `ResourceNotFoundException` : The request failed because it references a resource that doesn't exist.
+    /// - `ServiceQuotaExceededException` : The request failed because it would cause a service quota to be exceeded.
     /// - `ThrottlingException` : The request failed because it exceeded a throttling quota.
     /// - `ValidationException` : The request failed because one or more input parameters don't satisfy their constraint requirements. The output is provided as a list of fields and a reason for each field that isn't valid. The possible reasons include the following:
     ///
@@ -396,9 +399,6 @@ extension VerifiedPermissionsClient {
     /// * WrongNumberArguments The policy references an extension type with the wrong number of arguments.
     ///
     /// * FunctionArgumentValidationError Cedar couldn't parse the argument passed to an extension type. For example, a string that is to be parsed as an IPv4 address can contain only digits and the period character.
-    /// - `ConflictException` : The request failed because another request to modify a resource occurred at the same.
-    /// - `ResourceNotFoundException` : The request failed because it references a resource that doesn't exist.
-    /// - `ServiceQuotaExceededException` : The request failed because it would cause a service quota to be exceeded.
     public func createPolicy(input: CreatePolicyInput) async throws -> CreatePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withMethod(value: .post)
@@ -449,7 +449,9 @@ extension VerifiedPermissionsClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have sufficient access to perform this action.
+    /// - `ConflictException` : The request failed because another request to modify a resource occurred at the same.
     /// - `InternalServerException` : The request failed because of an internal error. Try your request again later
+    /// - `ServiceQuotaExceededException` : The request failed because it would cause a service quota to be exceeded.
     /// - `ThrottlingException` : The request failed because it exceeded a throttling quota.
     /// - `ValidationException` : The request failed because one or more input parameters don't satisfy their constraint requirements. The output is provided as a list of fields and a reason for each field that isn't valid. The possible reasons include the following:
     ///
@@ -472,8 +474,6 @@ extension VerifiedPermissionsClient {
     /// * WrongNumberArguments The policy references an extension type with the wrong number of arguments.
     ///
     /// * FunctionArgumentValidationError Cedar couldn't parse the argument passed to an extension type. For example, a string that is to be parsed as an IPv4 address can contain only digits and the period character.
-    /// - `ConflictException` : The request failed because another request to modify a resource occurred at the same.
-    /// - `ServiceQuotaExceededException` : The request failed because it would cause a service quota to be exceeded.
     public func createPolicyStore(input: CreatePolicyStoreInput) async throws -> CreatePolicyStoreOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withMethod(value: .post)
@@ -524,7 +524,10 @@ extension VerifiedPermissionsClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have sufficient access to perform this action.
+    /// - `ConflictException` : The request failed because another request to modify a resource occurred at the same.
     /// - `InternalServerException` : The request failed because of an internal error. Try your request again later
+    /// - `ResourceNotFoundException` : The request failed because it references a resource that doesn't exist.
+    /// - `ServiceQuotaExceededException` : The request failed because it would cause a service quota to be exceeded.
     /// - `ThrottlingException` : The request failed because it exceeded a throttling quota.
     /// - `ValidationException` : The request failed because one or more input parameters don't satisfy their constraint requirements. The output is provided as a list of fields and a reason for each field that isn't valid. The possible reasons include the following:
     ///
@@ -547,9 +550,6 @@ extension VerifiedPermissionsClient {
     /// * WrongNumberArguments The policy references an extension type with the wrong number of arguments.
     ///
     /// * FunctionArgumentValidationError Cedar couldn't parse the argument passed to an extension type. For example, a string that is to be parsed as an IPv4 address can contain only digits and the period character.
-    /// - `ConflictException` : The request failed because another request to modify a resource occurred at the same.
-    /// - `ResourceNotFoundException` : The request failed because it references a resource that doesn't exist.
-    /// - `ServiceQuotaExceededException` : The request failed because it would cause a service quota to be exceeded.
     public func createPolicyTemplate(input: CreatePolicyTemplateInput) async throws -> CreatePolicyTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withMethod(value: .post)
@@ -600,7 +600,9 @@ extension VerifiedPermissionsClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have sufficient access to perform this action.
+    /// - `ConflictException` : The request failed because another request to modify a resource occurred at the same.
     /// - `InternalServerException` : The request failed because of an internal error. Try your request again later
+    /// - `ResourceNotFoundException` : The request failed because it references a resource that doesn't exist.
     /// - `ThrottlingException` : The request failed because it exceeded a throttling quota.
     /// - `ValidationException` : The request failed because one or more input parameters don't satisfy their constraint requirements. The output is provided as a list of fields and a reason for each field that isn't valid. The possible reasons include the following:
     ///
@@ -623,8 +625,6 @@ extension VerifiedPermissionsClient {
     /// * WrongNumberArguments The policy references an extension type with the wrong number of arguments.
     ///
     /// * FunctionArgumentValidationError Cedar couldn't parse the argument passed to an extension type. For example, a string that is to be parsed as an IPv4 address can contain only digits and the period character.
-    /// - `ConflictException` : The request failed because another request to modify a resource occurred at the same.
-    /// - `ResourceNotFoundException` : The request failed because it references a resource that doesn't exist.
     public func deleteIdentitySource(input: DeleteIdentitySourceInput) async throws -> DeleteIdentitySourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withMethod(value: .post)
@@ -674,7 +674,9 @@ extension VerifiedPermissionsClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have sufficient access to perform this action.
+    /// - `ConflictException` : The request failed because another request to modify a resource occurred at the same.
     /// - `InternalServerException` : The request failed because of an internal error. Try your request again later
+    /// - `ResourceNotFoundException` : The request failed because it references a resource that doesn't exist.
     /// - `ThrottlingException` : The request failed because it exceeded a throttling quota.
     /// - `ValidationException` : The request failed because one or more input parameters don't satisfy their constraint requirements. The output is provided as a list of fields and a reason for each field that isn't valid. The possible reasons include the following:
     ///
@@ -697,8 +699,6 @@ extension VerifiedPermissionsClient {
     /// * WrongNumberArguments The policy references an extension type with the wrong number of arguments.
     ///
     /// * FunctionArgumentValidationError Cedar couldn't parse the argument passed to an extension type. For example, a string that is to be parsed as an IPv4 address can contain only digits and the period character.
-    /// - `ConflictException` : The request failed because another request to modify a resource occurred at the same.
-    /// - `ResourceNotFoundException` : The request failed because it references a resource that doesn't exist.
     public func deletePolicy(input: DeletePolicyInput) async throws -> DeletePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withMethod(value: .post)
@@ -820,7 +820,9 @@ extension VerifiedPermissionsClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have sufficient access to perform this action.
+    /// - `ConflictException` : The request failed because another request to modify a resource occurred at the same.
     /// - `InternalServerException` : The request failed because of an internal error. Try your request again later
+    /// - `ResourceNotFoundException` : The request failed because it references a resource that doesn't exist.
     /// - `ThrottlingException` : The request failed because it exceeded a throttling quota.
     /// - `ValidationException` : The request failed because one or more input parameters don't satisfy their constraint requirements. The output is provided as a list of fields and a reason for each field that isn't valid. The possible reasons include the following:
     ///
@@ -843,8 +845,6 @@ extension VerifiedPermissionsClient {
     /// * WrongNumberArguments The policy references an extension type with the wrong number of arguments.
     ///
     /// * FunctionArgumentValidationError Cedar couldn't parse the argument passed to an extension type. For example, a string that is to be parsed as an IPv4 address can contain only digits and the period character.
-    /// - `ConflictException` : The request failed because another request to modify a resource occurred at the same.
-    /// - `ResourceNotFoundException` : The request failed because it references a resource that doesn't exist.
     public func deletePolicyTemplate(input: DeletePolicyTemplateInput) async throws -> DeletePolicyTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withMethod(value: .post)
@@ -895,6 +895,7 @@ extension VerifiedPermissionsClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have sufficient access to perform this action.
     /// - `InternalServerException` : The request failed because of an internal error. Try your request again later
+    /// - `ResourceNotFoundException` : The request failed because it references a resource that doesn't exist.
     /// - `ThrottlingException` : The request failed because it exceeded a throttling quota.
     /// - `ValidationException` : The request failed because one or more input parameters don't satisfy their constraint requirements. The output is provided as a list of fields and a reason for each field that isn't valid. The possible reasons include the following:
     ///
@@ -917,7 +918,6 @@ extension VerifiedPermissionsClient {
     /// * WrongNumberArguments The policy references an extension type with the wrong number of arguments.
     ///
     /// * FunctionArgumentValidationError Cedar couldn't parse the argument passed to an extension type. For example, a string that is to be parsed as an IPv4 address can contain only digits and the period character.
-    /// - `ResourceNotFoundException` : The request failed because it references a resource that doesn't exist.
     public func getIdentitySource(input: GetIdentitySourceInput) async throws -> GetIdentitySourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withMethod(value: .post)
@@ -968,6 +968,7 @@ extension VerifiedPermissionsClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have sufficient access to perform this action.
     /// - `InternalServerException` : The request failed because of an internal error. Try your request again later
+    /// - `ResourceNotFoundException` : The request failed because it references a resource that doesn't exist.
     /// - `ThrottlingException` : The request failed because it exceeded a throttling quota.
     /// - `ValidationException` : The request failed because one or more input parameters don't satisfy their constraint requirements. The output is provided as a list of fields and a reason for each field that isn't valid. The possible reasons include the following:
     ///
@@ -990,7 +991,6 @@ extension VerifiedPermissionsClient {
     /// * WrongNumberArguments The policy references an extension type with the wrong number of arguments.
     ///
     /// * FunctionArgumentValidationError Cedar couldn't parse the argument passed to an extension type. For example, a string that is to be parsed as an IPv4 address can contain only digits and the period character.
-    /// - `ResourceNotFoundException` : The request failed because it references a resource that doesn't exist.
     public func getPolicy(input: GetPolicyInput) async throws -> GetPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withMethod(value: .post)
@@ -1041,6 +1041,7 @@ extension VerifiedPermissionsClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have sufficient access to perform this action.
     /// - `InternalServerException` : The request failed because of an internal error. Try your request again later
+    /// - `ResourceNotFoundException` : The request failed because it references a resource that doesn't exist.
     /// - `ThrottlingException` : The request failed because it exceeded a throttling quota.
     /// - `ValidationException` : The request failed because one or more input parameters don't satisfy their constraint requirements. The output is provided as a list of fields and a reason for each field that isn't valid. The possible reasons include the following:
     ///
@@ -1063,7 +1064,6 @@ extension VerifiedPermissionsClient {
     /// * WrongNumberArguments The policy references an extension type with the wrong number of arguments.
     ///
     /// * FunctionArgumentValidationError Cedar couldn't parse the argument passed to an extension type. For example, a string that is to be parsed as an IPv4 address can contain only digits and the period character.
-    /// - `ResourceNotFoundException` : The request failed because it references a resource that doesn't exist.
     public func getPolicyStore(input: GetPolicyStoreInput) async throws -> GetPolicyStoreOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withMethod(value: .post)
@@ -1114,6 +1114,7 @@ extension VerifiedPermissionsClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have sufficient access to perform this action.
     /// - `InternalServerException` : The request failed because of an internal error. Try your request again later
+    /// - `ResourceNotFoundException` : The request failed because it references a resource that doesn't exist.
     /// - `ThrottlingException` : The request failed because it exceeded a throttling quota.
     /// - `ValidationException` : The request failed because one or more input parameters don't satisfy their constraint requirements. The output is provided as a list of fields and a reason for each field that isn't valid. The possible reasons include the following:
     ///
@@ -1136,7 +1137,6 @@ extension VerifiedPermissionsClient {
     /// * WrongNumberArguments The policy references an extension type with the wrong number of arguments.
     ///
     /// * FunctionArgumentValidationError Cedar couldn't parse the argument passed to an extension type. For example, a string that is to be parsed as an IPv4 address can contain only digits and the period character.
-    /// - `ResourceNotFoundException` : The request failed because it references a resource that doesn't exist.
     public func getPolicyTemplate(input: GetPolicyTemplateInput) async throws -> GetPolicyTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withMethod(value: .post)
@@ -1187,6 +1187,7 @@ extension VerifiedPermissionsClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have sufficient access to perform this action.
     /// - `InternalServerException` : The request failed because of an internal error. Try your request again later
+    /// - `ResourceNotFoundException` : The request failed because it references a resource that doesn't exist.
     /// - `ThrottlingException` : The request failed because it exceeded a throttling quota.
     /// - `ValidationException` : The request failed because one or more input parameters don't satisfy their constraint requirements. The output is provided as a list of fields and a reason for each field that isn't valid. The possible reasons include the following:
     ///
@@ -1209,7 +1210,6 @@ extension VerifiedPermissionsClient {
     /// * WrongNumberArguments The policy references an extension type with the wrong number of arguments.
     ///
     /// * FunctionArgumentValidationError Cedar couldn't parse the argument passed to an extension type. For example, a string that is to be parsed as an IPv4 address can contain only digits and the period character.
-    /// - `ResourceNotFoundException` : The request failed because it references a resource that doesn't exist.
     public func getSchema(input: GetSchemaInput) async throws -> GetSchemaOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withMethod(value: .post)
@@ -1260,6 +1260,7 @@ extension VerifiedPermissionsClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have sufficient access to perform this action.
     /// - `InternalServerException` : The request failed because of an internal error. Try your request again later
+    /// - `ResourceNotFoundException` : The request failed because it references a resource that doesn't exist.
     /// - `ThrottlingException` : The request failed because it exceeded a throttling quota.
     /// - `ValidationException` : The request failed because one or more input parameters don't satisfy their constraint requirements. The output is provided as a list of fields and a reason for each field that isn't valid. The possible reasons include the following:
     ///
@@ -1282,7 +1283,6 @@ extension VerifiedPermissionsClient {
     /// * WrongNumberArguments The policy references an extension type with the wrong number of arguments.
     ///
     /// * FunctionArgumentValidationError Cedar couldn't parse the argument passed to an extension type. For example, a string that is to be parsed as an IPv4 address can contain only digits and the period character.
-    /// - `ResourceNotFoundException` : The request failed because it references a resource that doesn't exist.
     public func isAuthorized(input: IsAuthorizedInput) async throws -> IsAuthorizedOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withMethod(value: .post)
@@ -1333,6 +1333,7 @@ extension VerifiedPermissionsClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have sufficient access to perform this action.
     /// - `InternalServerException` : The request failed because of an internal error. Try your request again later
+    /// - `ResourceNotFoundException` : The request failed because it references a resource that doesn't exist.
     /// - `ThrottlingException` : The request failed because it exceeded a throttling quota.
     /// - `ValidationException` : The request failed because one or more input parameters don't satisfy their constraint requirements. The output is provided as a list of fields and a reason for each field that isn't valid. The possible reasons include the following:
     ///
@@ -1355,7 +1356,6 @@ extension VerifiedPermissionsClient {
     /// * WrongNumberArguments The policy references an extension type with the wrong number of arguments.
     ///
     /// * FunctionArgumentValidationError Cedar couldn't parse the argument passed to an extension type. For example, a string that is to be parsed as an IPv4 address can contain only digits and the period character.
-    /// - `ResourceNotFoundException` : The request failed because it references a resource that doesn't exist.
     public func isAuthorizedWithToken(input: IsAuthorizedWithTokenInput) async throws -> IsAuthorizedWithTokenOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withMethod(value: .post)
@@ -1406,6 +1406,7 @@ extension VerifiedPermissionsClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have sufficient access to perform this action.
     /// - `InternalServerException` : The request failed because of an internal error. Try your request again later
+    /// - `ResourceNotFoundException` : The request failed because it references a resource that doesn't exist.
     /// - `ThrottlingException` : The request failed because it exceeded a throttling quota.
     /// - `ValidationException` : The request failed because one or more input parameters don't satisfy their constraint requirements. The output is provided as a list of fields and a reason for each field that isn't valid. The possible reasons include the following:
     ///
@@ -1428,7 +1429,6 @@ extension VerifiedPermissionsClient {
     /// * WrongNumberArguments The policy references an extension type with the wrong number of arguments.
     ///
     /// * FunctionArgumentValidationError Cedar couldn't parse the argument passed to an extension type. For example, a string that is to be parsed as an IPv4 address can contain only digits and the period character.
-    /// - `ResourceNotFoundException` : The request failed because it references a resource that doesn't exist.
     public func listIdentitySources(input: ListIdentitySourcesInput) async throws -> ListIdentitySourcesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withMethod(value: .post)
@@ -1479,6 +1479,7 @@ extension VerifiedPermissionsClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have sufficient access to perform this action.
     /// - `InternalServerException` : The request failed because of an internal error. Try your request again later
+    /// - `ResourceNotFoundException` : The request failed because it references a resource that doesn't exist.
     /// - `ThrottlingException` : The request failed because it exceeded a throttling quota.
     /// - `ValidationException` : The request failed because one or more input parameters don't satisfy their constraint requirements. The output is provided as a list of fields and a reason for each field that isn't valid. The possible reasons include the following:
     ///
@@ -1501,7 +1502,6 @@ extension VerifiedPermissionsClient {
     /// * WrongNumberArguments The policy references an extension type with the wrong number of arguments.
     ///
     /// * FunctionArgumentValidationError Cedar couldn't parse the argument passed to an extension type. For example, a string that is to be parsed as an IPv4 address can contain only digits and the period character.
-    /// - `ResourceNotFoundException` : The request failed because it references a resource that doesn't exist.
     public func listPolicies(input: ListPoliciesInput) async throws -> ListPoliciesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withMethod(value: .post)
@@ -1624,6 +1624,7 @@ extension VerifiedPermissionsClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have sufficient access to perform this action.
     /// - `InternalServerException` : The request failed because of an internal error. Try your request again later
+    /// - `ResourceNotFoundException` : The request failed because it references a resource that doesn't exist.
     /// - `ThrottlingException` : The request failed because it exceeded a throttling quota.
     /// - `ValidationException` : The request failed because one or more input parameters don't satisfy their constraint requirements. The output is provided as a list of fields and a reason for each field that isn't valid. The possible reasons include the following:
     ///
@@ -1646,7 +1647,6 @@ extension VerifiedPermissionsClient {
     /// * WrongNumberArguments The policy references an extension type with the wrong number of arguments.
     ///
     /// * FunctionArgumentValidationError Cedar couldn't parse the argument passed to an extension type. For example, a string that is to be parsed as an IPv4 address can contain only digits and the period character.
-    /// - `ResourceNotFoundException` : The request failed because it references a resource that doesn't exist.
     public func listPolicyTemplates(input: ListPolicyTemplatesInput) async throws -> ListPolicyTemplatesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withMethod(value: .post)
@@ -1696,7 +1696,10 @@ extension VerifiedPermissionsClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have sufficient access to perform this action.
+    /// - `ConflictException` : The request failed because another request to modify a resource occurred at the same.
     /// - `InternalServerException` : The request failed because of an internal error. Try your request again later
+    /// - `ResourceNotFoundException` : The request failed because it references a resource that doesn't exist.
+    /// - `ServiceQuotaExceededException` : The request failed because it would cause a service quota to be exceeded.
     /// - `ThrottlingException` : The request failed because it exceeded a throttling quota.
     /// - `ValidationException` : The request failed because one or more input parameters don't satisfy their constraint requirements. The output is provided as a list of fields and a reason for each field that isn't valid. The possible reasons include the following:
     ///
@@ -1719,9 +1722,6 @@ extension VerifiedPermissionsClient {
     /// * WrongNumberArguments The policy references an extension type with the wrong number of arguments.
     ///
     /// * FunctionArgumentValidationError Cedar couldn't parse the argument passed to an extension type. For example, a string that is to be parsed as an IPv4 address can contain only digits and the period character.
-    /// - `ConflictException` : The request failed because another request to modify a resource occurred at the same.
-    /// - `ResourceNotFoundException` : The request failed because it references a resource that doesn't exist.
-    /// - `ServiceQuotaExceededException` : The request failed because it would cause a service quota to be exceeded.
     public func putSchema(input: PutSchemaInput) async throws -> PutSchemaOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withMethod(value: .post)
@@ -1771,7 +1771,9 @@ extension VerifiedPermissionsClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have sufficient access to perform this action.
+    /// - `ConflictException` : The request failed because another request to modify a resource occurred at the same.
     /// - `InternalServerException` : The request failed because of an internal error. Try your request again later
+    /// - `ResourceNotFoundException` : The request failed because it references a resource that doesn't exist.
     /// - `ThrottlingException` : The request failed because it exceeded a throttling quota.
     /// - `ValidationException` : The request failed because one or more input parameters don't satisfy their constraint requirements. The output is provided as a list of fields and a reason for each field that isn't valid. The possible reasons include the following:
     ///
@@ -1794,8 +1796,6 @@ extension VerifiedPermissionsClient {
     /// * WrongNumberArguments The policy references an extension type with the wrong number of arguments.
     ///
     /// * FunctionArgumentValidationError Cedar couldn't parse the argument passed to an extension type. For example, a string that is to be parsed as an IPv4 address can contain only digits and the period character.
-    /// - `ConflictException` : The request failed because another request to modify a resource occurred at the same.
-    /// - `ResourceNotFoundException` : The request failed because it references a resource that doesn't exist.
     public func updateIdentitySource(input: UpdateIdentitySourceInput) async throws -> UpdateIdentitySourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withMethod(value: .post)
@@ -1872,7 +1872,10 @@ extension VerifiedPermissionsClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have sufficient access to perform this action.
+    /// - `ConflictException` : The request failed because another request to modify a resource occurred at the same.
     /// - `InternalServerException` : The request failed because of an internal error. Try your request again later
+    /// - `ResourceNotFoundException` : The request failed because it references a resource that doesn't exist.
+    /// - `ServiceQuotaExceededException` : The request failed because it would cause a service quota to be exceeded.
     /// - `ThrottlingException` : The request failed because it exceeded a throttling quota.
     /// - `ValidationException` : The request failed because one or more input parameters don't satisfy their constraint requirements. The output is provided as a list of fields and a reason for each field that isn't valid. The possible reasons include the following:
     ///
@@ -1895,9 +1898,6 @@ extension VerifiedPermissionsClient {
     /// * WrongNumberArguments The policy references an extension type with the wrong number of arguments.
     ///
     /// * FunctionArgumentValidationError Cedar couldn't parse the argument passed to an extension type. For example, a string that is to be parsed as an IPv4 address can contain only digits and the period character.
-    /// - `ConflictException` : The request failed because another request to modify a resource occurred at the same.
-    /// - `ResourceNotFoundException` : The request failed because it references a resource that doesn't exist.
-    /// - `ServiceQuotaExceededException` : The request failed because it would cause a service quota to be exceeded.
     public func updatePolicy(input: UpdatePolicyInput) async throws -> UpdatePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withMethod(value: .post)
@@ -1947,7 +1947,9 @@ extension VerifiedPermissionsClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have sufficient access to perform this action.
+    /// - `ConflictException` : The request failed because another request to modify a resource occurred at the same.
     /// - `InternalServerException` : The request failed because of an internal error. Try your request again later
+    /// - `ResourceNotFoundException` : The request failed because it references a resource that doesn't exist.
     /// - `ThrottlingException` : The request failed because it exceeded a throttling quota.
     /// - `ValidationException` : The request failed because one or more input parameters don't satisfy their constraint requirements. The output is provided as a list of fields and a reason for each field that isn't valid. The possible reasons include the following:
     ///
@@ -1970,8 +1972,6 @@ extension VerifiedPermissionsClient {
     /// * WrongNumberArguments The policy references an extension type with the wrong number of arguments.
     ///
     /// * FunctionArgumentValidationError Cedar couldn't parse the argument passed to an extension type. For example, a string that is to be parsed as an IPv4 address can contain only digits and the period character.
-    /// - `ConflictException` : The request failed because another request to modify a resource occurred at the same.
-    /// - `ResourceNotFoundException` : The request failed because it references a resource that doesn't exist.
     public func updatePolicyStore(input: UpdatePolicyStoreInput) async throws -> UpdatePolicyStoreOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withMethod(value: .post)
@@ -2021,7 +2021,9 @@ extension VerifiedPermissionsClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have sufficient access to perform this action.
+    /// - `ConflictException` : The request failed because another request to modify a resource occurred at the same.
     /// - `InternalServerException` : The request failed because of an internal error. Try your request again later
+    /// - `ResourceNotFoundException` : The request failed because it references a resource that doesn't exist.
     /// - `ThrottlingException` : The request failed because it exceeded a throttling quota.
     /// - `ValidationException` : The request failed because one or more input parameters don't satisfy their constraint requirements. The output is provided as a list of fields and a reason for each field that isn't valid. The possible reasons include the following:
     ///
@@ -2044,8 +2046,6 @@ extension VerifiedPermissionsClient {
     /// * WrongNumberArguments The policy references an extension type with the wrong number of arguments.
     ///
     /// * FunctionArgumentValidationError Cedar couldn't parse the argument passed to an extension type. For example, a string that is to be parsed as an IPv4 address can contain only digits and the period character.
-    /// - `ConflictException` : The request failed because another request to modify a resource occurred at the same.
-    /// - `ResourceNotFoundException` : The request failed because it references a resource that doesn't exist.
     public func updatePolicyTemplate(input: UpdatePolicyTemplateInput) async throws -> UpdatePolicyTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withMethod(value: .post)

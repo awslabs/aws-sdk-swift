@@ -1944,7 +1944,7 @@ extension SQSClientTypes {
     public struct ListMessageMoveTasksResultEntry {
         /// The approximate number of messages already moved to the destination queue.
         public var approximateNumberOfMessagesMoved: Swift.Int
-        /// The number of messages to be moved from the source queue. This number is obtained at the time of starting the message movement task.
+        /// The number of messages to be moved from the source queue. This number is obtained at the time of starting the message movement task and is only included after the message movement task is selected to start.
         public var approximateNumberOfMessagesToMove: Swift.Int?
         /// The ARN of the destination queue if it has been specified in the StartMessageMoveTask request. If a DestinationArn has not been specified in the StartMessageMoveTask request, this field value will be NULL.
         public var destinationArn: Swift.String?
@@ -2299,6 +2299,7 @@ extension SQSClientTypes {
 
     public enum MessageSystemAttributeName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case awstraceheader
+        case all
         case approximatefirstreceivetimestamp
         case approximatereceivecount
         case deadletterqueuesourcearn
@@ -2312,6 +2313,7 @@ extension SQSClientTypes {
         public static var allCases: [MessageSystemAttributeName] {
             return [
                 .awstraceheader,
+                .all,
                 .approximatefirstreceivetimestamp,
                 .approximatereceivecount,
                 .deadletterqueuesourcearn,
@@ -2332,6 +2334,7 @@ extension SQSClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .awstraceheader: return "AWSTraceHeader"
+            case .all: return "All"
             case .approximatefirstreceivetimestamp: return "ApproximateFirstReceiveTimestamp"
             case .approximatereceivecount: return "ApproximateReceiveCount"
             case .deadletterqueuesourcearn: return "DeadLetterQueueSourceArn"
@@ -2804,6 +2807,7 @@ extension ReceiveMessageInput {
         try writer["AttributeNames"].writeList(value.attributeNames, memberWritingClosure: SQSClientTypes.QueueAttributeName.write(value:to:), memberNodeInfo: "member", isFlattened: true)
         try writer["MaxNumberOfMessages"].write(value.maxNumberOfMessages)
         try writer["MessageAttributeNames"].writeList(value.messageAttributeNames, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: true)
+        try writer["MessageSystemAttributeNames"].writeList(value.messageSystemAttributeNames, memberWritingClosure: SQSClientTypes.MessageSystemAttributeName.write(value:to:), memberNodeInfo: "member", isFlattened: true)
         try writer["QueueUrl"].write(value.queueUrl)
         try writer["ReceiveRequestAttemptId"].write(value.receiveRequestAttemptId)
         try writer["VisibilityTimeout"].write(value.visibilityTimeout)
@@ -2813,6 +2817,53 @@ extension ReceiveMessageInput {
 
 ///
 public struct ReceiveMessageInput {
+    /// This parameter has been deprecated but will be supported for backward compatibility. To provide attribute names, you are encouraged to use MessageSystemAttributeNames. A list of attributes that need to be returned along with each message. These attributes include:
+    ///
+    /// * All – Returns all values.
+    ///
+    /// * ApproximateFirstReceiveTimestamp – Returns the time the message was first received from the queue ([epoch time](http://en.wikipedia.org/wiki/Unix_time) in milliseconds).
+    ///
+    /// * ApproximateReceiveCount – Returns the number of times a message has been received across all queues but not deleted.
+    ///
+    /// * AWSTraceHeader – Returns the X-Ray trace header string.
+    ///
+    /// * SenderId
+    ///
+    /// * For a user, returns the user ID, for example ABCDEFGHI1JKLMNOPQ23R.
+    ///
+    /// * For an IAM role, returns the IAM role ID, for example ABCDE1F2GH3I4JK5LMNOP:i-a123b456.
+    ///
+    ///
+    ///
+    ///
+    /// * SentTimestamp – Returns the time the message was sent to the queue ([epoch time](http://en.wikipedia.org/wiki/Unix_time) in milliseconds).
+    ///
+    /// * SqsManagedSseEnabled – Enables server-side queue encryption using SQS owned encryption keys. Only one server-side encryption option is supported per queue (for example, [SSE-KMS](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-configure-sse-existing-queue.html) or [SSE-SQS](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-configure-sqs-sse-queue.html)).
+    ///
+    /// * MessageDeduplicationId – Returns the value provided by the producer that calls the [SendMessage] action.
+    ///
+    /// * MessageGroupId – Returns the value provided by the producer that calls the [SendMessage] action. Messages with the same MessageGroupId are returned in sequence.
+    ///
+    /// * SequenceNumber – Returns the value provided by Amazon SQS.
+    @available(*, deprecated, message: "AttributeNames has been replaced by MessageSystemAttributeNames")
+    public var attributeNames: [SQSClientTypes.QueueAttributeName]?
+    /// The maximum number of messages to return. Amazon SQS never returns more messages than this value (however, fewer messages might be returned). Valid values: 1 to 10. Default: 1.
+    public var maxNumberOfMessages: Swift.Int?
+    /// The name of the message attribute, where N is the index.
+    ///
+    /// * The name can contain alphanumeric characters and the underscore (_), hyphen (-), and period (.).
+    ///
+    /// * The name is case-sensitive and must be unique among all attribute names for the message.
+    ///
+    /// * The name must not start with AWS-reserved prefixes such as AWS. or Amazon. (or any casing variants).
+    ///
+    /// * The name must not start or end with a period (.), and it should not have periods in succession (..).
+    ///
+    /// * The name can be up to 256 characters long.
+    ///
+    ///
+    /// When using ReceiveMessage, you can send a list of attribute names to receive, or you can return all of the attributes by specifying All or .* in your request. You can also use all message attributes starting with a prefix, for example bar.*.
+    public var messageAttributeNames: [Swift.String]?
     /// A list of attributes that need to be returned along with each message. These attributes include:
     ///
     /// * All – Returns all values.
@@ -2841,24 +2892,7 @@ public struct ReceiveMessageInput {
     /// * MessageGroupId – Returns the value provided by the producer that calls the [SendMessage] action. Messages with the same MessageGroupId are returned in sequence.
     ///
     /// * SequenceNumber – Returns the value provided by Amazon SQS.
-    public var attributeNames: [SQSClientTypes.QueueAttributeName]?
-    /// The maximum number of messages to return. Amazon SQS never returns more messages than this value (however, fewer messages might be returned). Valid values: 1 to 10. Default: 1.
-    public var maxNumberOfMessages: Swift.Int?
-    /// The name of the message attribute, where N is the index.
-    ///
-    /// * The name can contain alphanumeric characters and the underscore (_), hyphen (-), and period (.).
-    ///
-    /// * The name is case-sensitive and must be unique among all attribute names for the message.
-    ///
-    /// * The name must not start with AWS-reserved prefixes such as AWS. or Amazon. (or any casing variants).
-    ///
-    /// * The name must not start or end with a period (.), and it should not have periods in succession (..).
-    ///
-    /// * The name can be up to 256 characters long.
-    ///
-    ///
-    /// When using ReceiveMessage, you can send a list of attribute names to receive, or you can return all of the attributes by specifying All or .* in your request. You can also use all message attributes starting with a prefix, for example bar.*.
-    public var messageAttributeNames: [Swift.String]?
+    public var messageSystemAttributeNames: [SQSClientTypes.MessageSystemAttributeName]?
     /// The URL of the Amazon SQS queue from which messages are received. Queue URLs and names are case-sensitive.
     /// This member is required.
     public var queueUrl: Swift.String?
@@ -2867,8 +2901,6 @@ public struct ReceiveMessageInput {
     /// * You can use ReceiveRequestAttemptId only for 5 minutes after a ReceiveMessage action.
     ///
     /// * When you set FifoQueue, a caller of the ReceiveMessage action can provide a ReceiveRequestAttemptId explicitly.
-    ///
-    /// * If a caller of the ReceiveMessage action doesn't provide a ReceiveRequestAttemptId, Amazon SQS generates a ReceiveRequestAttemptId.
     ///
     /// * It is possible to retry the ReceiveMessage action with the same ReceiveRequestAttemptId if none of the messages have been modified (deleted or had their visibility changes).
     ///
@@ -2883,13 +2915,14 @@ public struct ReceiveMessageInput {
     public var receiveRequestAttemptId: Swift.String?
     /// The duration (in seconds) that the received messages are hidden from subsequent retrieve requests after being retrieved by a ReceiveMessage request.
     public var visibilityTimeout: Swift.Int?
-    /// The duration (in seconds) for which the call waits for a message to arrive in the queue before returning. If a message is available, the call returns sooner than WaitTimeSeconds. If no messages are available and the wait time expires, the call returns successfully with an empty list of messages. To avoid HTTP errors, ensure that the HTTP response timeout for ReceiveMessage requests is longer than the WaitTimeSeconds parameter. For example, with the Java SDK, you can set HTTP transport settings using the [ NettyNioAsyncHttpClient](https://sdk.amazonaws.com/java/api/latest/software/amazon/awssdk/http/nio/netty/NettyNioAsyncHttpClient.html) for asynchronous clients, or the [ ApacheHttpClient](https://sdk.amazonaws.com/java/api/latest/software/amazon/awssdk/http/apache/ApacheHttpClient.html) for synchronous clients.
+    /// The duration (in seconds) for which the call waits for a message to arrive in the queue before returning. If a message is available, the call returns sooner than WaitTimeSeconds. If no messages are available and the wait time expires, the call does not return a message list. To avoid HTTP errors, ensure that the HTTP response timeout for ReceiveMessage requests is longer than the WaitTimeSeconds parameter. For example, with the Java SDK, you can set HTTP transport settings using the [ NettyNioAsyncHttpClient](https://sdk.amazonaws.com/java/api/latest/software/amazon/awssdk/http/nio/netty/NettyNioAsyncHttpClient.html) for asynchronous clients, or the [ ApacheHttpClient](https://sdk.amazonaws.com/java/api/latest/software/amazon/awssdk/http/apache/ApacheHttpClient.html) for synchronous clients.
     public var waitTimeSeconds: Swift.Int?
 
     public init(
         attributeNames: [SQSClientTypes.QueueAttributeName]? = nil,
         maxNumberOfMessages: Swift.Int? = nil,
         messageAttributeNames: [Swift.String]? = nil,
+        messageSystemAttributeNames: [SQSClientTypes.MessageSystemAttributeName]? = nil,
         queueUrl: Swift.String? = nil,
         receiveRequestAttemptId: Swift.String? = nil,
         visibilityTimeout: Swift.Int? = nil,
@@ -2899,6 +2932,7 @@ public struct ReceiveMessageInput {
         self.attributeNames = attributeNames
         self.maxNumberOfMessages = maxNumberOfMessages
         self.messageAttributeNames = messageAttributeNames
+        self.messageSystemAttributeNames = messageSystemAttributeNames
         self.queueUrl = queueUrl
         self.receiveRequestAttemptId = receiveRequestAttemptId
         self.visibilityTimeout = visibilityTimeout
@@ -3401,7 +3435,7 @@ public struct SendMessageInput {
     /// * ReceiveMessage might return messages with multiple MessageGroupId values. For each MessageGroupId, the messages are sorted by time sent. The caller can't specify a MessageGroupId.
     ///
     ///
-    /// The length of MessageGroupId is 128 characters. Valid values: alphanumeric characters and punctuation (!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~). For best practices of using MessageGroupId, see [Using the MessageGroupId Property](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/using-messagegroupid-property.html) in the Amazon SQS Developer Guide. MessageGroupId is required for FIFO queues. You can't use it for Standard queues.
+    /// The maximum length of MessageGroupId is 128 characters. Valid values: alphanumeric characters and punctuation (!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~). For best practices of using MessageGroupId, see [Using the MessageGroupId Property](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/using-messagegroupid-property.html) in the Amazon SQS Developer Guide. MessageGroupId is required for FIFO queues. You can't use it for Standard queues.
     public var messageGroupId: Swift.String?
     /// The message system attribute to send. Each message system attribute consists of a Name, Type, and Value.
     ///
