@@ -82,16 +82,6 @@ jobs:
           path: smithy-swift
       - name: Move smithy-swift into place
         run: mv smithy-swift ..
-      - name: Cache Swift
-        uses: actions/cache@v3
-        with:
-          path: |
-            ~/Library/Caches/org.swift.swiftpm
-            ~/.cache/org.swift.swiftpm
-          key: 1-${{ runner.os }}-${{ matrix.xcode }}-${{ hashFiles('Package.swift', 'AWSSDKSwiftCLI/Package.swift') }}
-          restore-keys: |
-            1-${{ runner.os }}-${{ matrix.xcode }}-${{ hashFiles('Package.swift', 'AWSSDKSwiftCLI/Package.swift') }}
-            1-${{ runner.os }}-${{ matrix.xcode }}-
       - name: Tools Versions
         run: ./scripts/ci_steps/log_tool_versions.sh
       - name: Add Credentials to Test Plan
