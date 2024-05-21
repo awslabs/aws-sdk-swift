@@ -644,17 +644,7 @@ let serviceTargets: [String] = [
 // addAllServices()
 
 let servicesWithIntegrationTests: [String] = [
-    "AWSCloudFrontKeyValueStore",
-    "AWSEC2",
-    "AWSECS",
-    "AWSEventBridge",
-    "AWSKinesis",
-    "AWSMediaConvert",
-    "AWSRoute53",
     "AWSS3",
-    "AWSSQS",
-    "AWSSTS",
-    "AWSTranscribeStreaming",
 ]
 
 // Uncomment this line to enable integration tests
