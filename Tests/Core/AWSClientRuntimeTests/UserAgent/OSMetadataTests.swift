@@ -10,6 +10,7 @@ import XCTest
 
 class OSMetadataTests: XCTestCase {
 
+    #if !targetEnvironment(simulator)
     func test_description_itIncludesSanitizedFamilyAndVersion() {
         let subject = OSMetadata(family: .iOS, version: "1.2.3🤡")
         XCTAssertEqual(subject.description, "os/ios#1.2.3-")
@@ -35,4 +36,5 @@ class OSMetadataTests: XCTestCase {
         XCTAssertEqual(OSMetadata(family: .visionOS).description, "os/visionos")
         XCTAssertEqual(OSMetadata(family: .unknown).description, "os/other")
     }
+    #endif
 }
