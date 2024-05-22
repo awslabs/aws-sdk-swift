@@ -11,7 +11,7 @@ import XCTest
 class ExecutionEnvMetadataTests: XCTestCase {
     #if targetEnvironment(simulator)
     func test_simulatorExecEnv() {
-        XCTAssertEqual(ExecutionEnvMetadata.detectExecEnv(), "exec-env/simulator")
+        XCTAssertEqual(ExecutionEnvMetadata.detectExecEnv()?.description, "exec-env/simulator")
     }
     #else
     func test_detectExecEnv_returnsNilWhenExecutionEnvIsUnset() {
