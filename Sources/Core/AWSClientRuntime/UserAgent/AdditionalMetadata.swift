@@ -9,12 +9,21 @@ import Foundation
 
 struct AdditionalMetadata {
     let name: String
-    let value: String
+    let value: String?
+
+    init(name: String, value: String? = nil) {
+        self.name = name
+        self.value = value
+    }
 }
 
 extension AdditionalMetadata: CustomStringConvertible {
 
     var description: String {
-        "md/\(name.userAgentTokenNoHash)#\(value.userAgentToken)"
+        if let value {
+            "md/\(name.userAgentTokenNoHash)#\(value.userAgentToken)"
+        } else {
+            "md/\(name.userAgentTokenNoHash)"
+        }
     }
 }

@@ -9,11 +9,6 @@
 import XCTest
 
 class ExecutionEnvMetadataTests: XCTestCase {
-    #if targetEnvironment(simulator)
-    func test_simulatorExecEnv() {
-        XCTAssertEqual(ExecutionEnvMetadata.detectExecEnv()?.description, "exec-env/simulator")
-    }
-    #else
     func test_detectExecEnv_returnsNilWhenExecutionEnvIsUnset() {
         unsetenv("AWS_EXECUTION_ENV")
         XCTAssertNil(ExecutionEnvMetadata.detectExecEnv())
@@ -29,5 +24,4 @@ class ExecutionEnvMetadataTests: XCTestCase {
         let subject = try XCTUnwrap(ExecutionEnvMetadata.detectExecEnv())
         XCTAssertEqual(subject.description, "exec-env/Elastic---Service")
     }
-    #endif
 }

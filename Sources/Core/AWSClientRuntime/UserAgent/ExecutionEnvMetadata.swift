@@ -18,9 +18,6 @@ extension ExecutionEnvMetadata: CustomStringConvertible {
     }
 
     static func detectExecEnv() -> ExecutionEnvMetadata? {
-        #if targetEnvironment(simulator)
-        return ExecutionEnvMetadata(name: "simulator")
-        #endif
         guard let execEnv = ProcessInfo.processInfo.environment["AWS_EXECUTION_ENV"], !execEnv.isEmpty else {
             return nil
         }
