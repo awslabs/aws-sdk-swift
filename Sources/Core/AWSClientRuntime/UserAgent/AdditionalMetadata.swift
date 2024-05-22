@@ -21,9 +21,9 @@ extension AdditionalMetadata: CustomStringConvertible {
 
     var description: String {
         if let value {
-            "md/\(name.userAgentTokenNoHash)#\(value.userAgentToken)"
+            return "md/\(name.userAgentTokenNoHash)#\(value.userAgentToken)"
         } else {
-            "md/\(name.userAgentTokenNoHash)"
+            return "md/\(name.userAgentTokenNoHash)"
         }
     }
 }

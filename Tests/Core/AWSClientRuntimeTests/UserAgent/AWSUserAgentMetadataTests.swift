@@ -17,6 +17,15 @@ class AWSUseragentMetadataTests: XCTestCase {
     let executionEnvMetadata = ExecutionEnvMetadata(name: "e123")
     let frameworkMetadata = [FrameworkMetadata(name: "aws-amplify", version: "2.0.1")]
 
+    #if targetEnvironment(simulator)
+    func testSimulatorMetadata() {
+        let sut = AWSUserAgentMetadata(sdkMetadata: sdkMetadata,
+                                       apiMetadata: apiMetadata,
+                                       osMetadata: osMetadata,
+                                       languageMetadata: languageMetadata)
+        XCTAssertEqual("aws-sdk-swift/0.0.1 ua/2.0 api/meow#1.1 os/ios#13.1 md/simulator lang/swift#5.0", sut.userAgent)
+    }
+    #else
     func testHappyPathMinimum() {
         let sut = AWSUserAgentMetadata(sdkMetadata: sdkMetadata,
                                        apiMetadata: apiMetadata,
@@ -118,4 +127,5 @@ class AWSUseragentMetadataTests: XCTestCase {
         }
         XCTAssertEqual(awsUserAgent.userAgent, expected)
     }
+    #endif
 }
