@@ -6,6 +6,7 @@
 package software.amazon.smithy.aws.swift.codegen.middleware
 
 import software.amazon.smithy.codegen.core.Symbol
+import software.amazon.smithy.model.node.Node
 import software.amazon.smithy.model.shapes.MemberShape
 import software.amazon.smithy.model.shapes.OperationShape
 import software.amazon.smithy.rulesengine.language.EndpointRuleSet
@@ -115,15 +116,7 @@ class OperationEndpointResolverMiddleware(
     ): String? {
         return when {
             staticContextParam != null -> {
-                return when (param.type) {
-                    ParameterType.STRING -> {
-                        "\"${staticContextParam.value}\""
-                    }
-
-                    ParameterType.BOOLEAN -> {
-                        staticContextParam.value.toString()
-                    }
-                }
+                swiftParam(param.type, staticContextParam.value)
             }
             contextParam != null -> {
                 return "input.${contextParam.memberName.toLowerCamelCase()}"
@@ -171,9 +164,12 @@ class OperationEndpointResolverMiddleware(
 }
 
 private val Parameter.defaultValueLiteral: String
-    get() {
-        return when (type) {
-            ParameterType.BOOLEAN -> default.get().toString()
-            ParameterType.STRING -> "\"${default.get()}\""
-        }
+    get() = swiftParam(type, default.get().toNode())
+
+private fun swiftParam(parameterType: ParameterType, node: Node): String {
+    return when (parameterType) {
+        ParameterType.STRING -> "\"${node}\""
+        ParameterType.BOOLEAN -> node.toString()
+        ParameterType.STRING_ARRAY -> "[${node.expectArrayNode().map { "\"$it\"" }.joinToString(", ")}]"
     }
+}

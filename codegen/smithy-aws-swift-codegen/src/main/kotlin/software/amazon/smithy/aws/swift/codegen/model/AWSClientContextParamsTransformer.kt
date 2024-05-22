@@ -61,6 +61,6 @@ fun ParameterType.toShapeType(): ShapeType? {
     return when (this) {
         ParameterType.STRING -> ShapeType.STRING
         ParameterType.BOOLEAN -> ShapeType.BOOLEAN
-        else -> null
+        ParameterType.STRING_ARRAY -> ShapeType.LIST
     }
 }
