@@ -85,4 +85,23 @@ class S3ErrorTests: S3XCTestCase {
             XCTFail("Unexpected error thrown: \(error)")
         }
     }
+
+    func test_multi() async throws {
+        var errors = [Error]()
+        let n = 100
+        for _ in 1...n {
+            do {
+                try await test_noSuchKey_throwsNoSuchKeyWhenUnknownKeyIsUsed()
+                try await test_noSuchBucket_throwsNoSuchBucketWhenUnknownBucketIsUsed()
+                try await test_requestID_hasARequestIDAndRequestID2()
+                try await test_InvalidObjectState_hasReadableProperties()
+                try await test_InvalidAccessKeyID_isThrownWhenAppropriate()
+            } catch {
+                errors.append(error)
+            }
+        }
+        if !errors.isEmpty {
+            XCTFail("Errors failed \(errors.count)/\(n) times: \(errors)")
+        }
+    }
 }
